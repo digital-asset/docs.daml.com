@@ -159,7 +159,7 @@ can't.
 Once you have installed direnv and nix, you can clone the repo and switch to it:
 
 ```
-git clone git@github.com:DACH-NY/assembly.git
+git clone git@github.com:digital-asset/assembly.git
 cd assembly
 ```
 
