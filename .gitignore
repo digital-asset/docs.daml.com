@@ -1,3 +1,4 @@
 .envrc.private
 .stack-work/
 docs/build
+*.gz

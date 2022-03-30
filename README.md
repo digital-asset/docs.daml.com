@@ -34,6 +34,27 @@ documentation root.
 Documentation itself is still mostly hosted in the daml and canton repos. We
 seem to have a green light on moving the daml one, so that should happen soon.
 
+## Making changes to the documentation
+
+### Making changes to the next, unreleased version
+1. Make the changes to the docs files in the [damlRepo] or the [Canton] repo, include in a PR and merge into main
+2. Take a snapshot that the PR is included in (snapshots are created each night so the first snapshot that PR is included in will likely be the next day)
+3. In the [damlDocs] repo, update the LATEST file to include the snapshot version which includes the changed PR & make sure that the 'prefix' value points to the release that you want to target e.g. '2.1.0' or 2.2.0' etc.
+4. Create a PR to update the LATEST file & merge it into the main branch.
+5. When the new version ('2.1.0' or 2.2.0' etc.) is built it will pull all of the docs changes submitted for that prefix.
+
+### Making changes to the current version, or past versions *from 2.0.0 onwards*
+1. Branch the version of the release that you want to change in the Daml or Canton repo (link to each will be included), include in a PR and merge back into that version release
+2. Ask on the #team-daml Slack channel, mentioning @gary, for someone to help you manually create a snapshot
+3. In the [damlDocs] repo, update the LATEST file to include the snapshot version which includes the changed PR & make sure that the 'prefix' value points to the release that you want to target e.g. '2.0.0'
+4. Create a PR to update the LATEST file & merge it into the branch for that release (branches do not exist yet as of 30th March 2022)
+5. The pages will update automatically once that snapshot is created
+
+[damlRepo]: https://github.com/digital-asset/daml
+[damlDocs]: https://github.com/digital-asset/docs.daml.com
+[Canton]: https://github.com/DACH-NY/canton
+
+
 ## Making a release
 
 Changes to `main` are immediately reflected on the live (versioned) website.
@@ -159,7 +180,7 @@ can't.
 Once you have installed direnv and nix, you can clone the repo and switch to it:
 
 ```
-git clone git@github.com:digital-asset/assembly.git
+git clone git@github.com:digital-asset/docs.daml.com.git
 cd assembly
 ```
 
