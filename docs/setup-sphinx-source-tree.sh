@@ -2,6 +2,8 @@
 
 set -eou pipefail
 
+DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
 RELEASE_TAG=$1
 CANTON_RELEASE_TAG=$2
 DOWNLOAD_DIR=$3
@@ -28,3 +30,6 @@ declare -A sphinx_targets=( [html]=html [pdf]=latex )
 
 sed -i "s/'sphinx.ext.extlinks',$/'sphinx.ext.extlinks','canton_enterprise_only','sphinx.ext.todo',/g" $SPHINX_DIR/configs/html/conf.py
 sed -i "s/'sphinx.ext.extlinks'$/'sphinx.ext.extlinks','canton_enterprise_only','sphinx.ext.todo'/g" $SPHINX_DIR/configs/pdf/conf.py
+
+# We rename the PDF so need to update the link.
+sed -i "s/DigitalAssetSDK\\.pdf/DamlEnterprise$(jq -r '.prefix' $DIR/../LATEST).pdf/" $SPHINX_DIR/theme/da_theme/layout.html
