@@ -38,7 +38,7 @@ mv $BUILD_DIR/sphinx-target/pdf/DigitalAssetSDK.pdf $TARGET_DIR/pdf-docs-$RELEAS
 # Merge HTML docs
 tar xf $SOURCE_DIR/non-sphinx-html-docs-$RELEASE_TAG.tar.gz -C $BUILD_DIR/sphinx-target/html --strip-components=1
 DATE=$(date --rfc-3339=date)
-cp $TARGET_DIR/pdf-docs-$RELEASE_TAG.pdf $BUILD_DIR/sphinx-target/html/_downloads/DigitalAssetSDK.pdf
+cp $TARGET_DIR/pdf-docs-$RELEASE_TAG.pdf $BUILD_DIR/sphinx-target/html/_downloads/DamlEnterprise$(jq -r '.prefix' $DIR/../LATEST).pdf
 mkdir $BUILD_DIR/sphinx-target/html/canton/scaladoc
 tar xf $SOURCE_DIR/canton-scaladoc-$CANTON_RELEASE_TAG.tar.gz  -C $BUILD_DIR/sphinx-target/html/canton/scaladoc  --strip-components=1
 rm -r $BUILD_DIR/sphinx-target/html/.buildinfo $BUILD_DIR/sphinx-target/html/.doctrees $BUILD_DIR/sphinx-target/html/objects.inv
