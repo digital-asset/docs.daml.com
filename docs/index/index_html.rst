@@ -84,4 +84,5 @@ Daml Documentation
    tools/visual
    concepts/interoperability
    tools/non-repudiation
-   ops/connect/index
+   ops/connect/helm
+   ops/connect/auth0
