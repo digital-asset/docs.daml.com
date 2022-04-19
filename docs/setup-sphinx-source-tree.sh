@@ -31,5 +31,14 @@ declare -A sphinx_targets=( [html]=html [pdf]=latex )
 sed -i "s/'sphinx.ext.extlinks',$/'sphinx.ext.extlinks','canton_enterprise_only','sphinx.ext.todo',/g" $SPHINX_DIR/configs/html/conf.py
 sed -i "s/'sphinx.ext.extlinks'$/'sphinx.ext.extlinks','canton_enterprise_only','sphinx.ext.todo'/g" $SPHINX_DIR/configs/pdf/conf.py
 
+prefix=$(jq -r '.prefix' $DIR/../LATEST)
+
 # We rename the PDF so need to update the link.
-sed -i "s/DigitalAssetSDK\\.pdf/DamlEnterprise$(jq -r '.prefix' $DIR/../LATEST).pdf/" $SPHINX_DIR/theme/da_theme/layout.html
+sed -i "s/DigitalAssetSDK\\.pdf/DamlEnterprise$prefix.pdf/" $SPHINX_DIR/theme/da_theme/layout.html
+
+# Setting version number
+for file in pdf html; do
+    for var in version release; do
+        sed -i "s|$var = u'.*'|$var = u'$prefix'|" $SPHINX_DIR/configs/$file/conf.py
+    done
+done
