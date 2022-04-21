@@ -5,17 +5,22 @@
 set -eou pipefail
 
 
-cd "$( dirname -- "${BASH_SOURCE[0]}" )"
-BUILD_DIR=$PWD/build
+DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-RELEASE_TAG=$1
-CANTON_RELEASE_TAG=$2
-DOWNLOAD_DIR=$3
+cd "$DIR"
+
+BUILD_DIR=workdir/build
+rm -rf $BUILD_DIR
+mkdir -p $BUILD_DIR
+
+RELEASE_TAG=$(jq -r '.daml' ../LATEST)
+CANTON_RELEASE_TAG=$(jq -r '.canton' ../LATEST)
+DOWNLOAD_DIR=workdir/downloads
 
 
 mkdir -p $BUILD_DIR/gen
 
-./setup-sphinx-source-tree.sh $RELEASE_TAG $CANTON_RELEASE_TAG $DOWNLOAD_DIR $BUILD_DIR/source
+./setup-sphinx-source-tree.sh
 
 DATE=$(date +"%Y-%m-%d")
 echo { \"$DATE\" : \"$DATE\" } >  $BUILD_DIR/gen/versions.json
