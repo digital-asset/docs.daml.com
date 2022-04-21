@@ -25,7 +25,7 @@ published using their existing release process.
 
 Every commit to `main` publishes to a versioned prefix on the S3 repo (e.g.
 `/2.1.0`). How to handle `/` and multiple versions are still up for debate, and
-thus are still following the preexisting process: the daml repo [cron] copies
+thus still follow the preexisting process: the daml repo [cron] copies
 over a versioned folder to root on stable release publication.
 
 [cron]: https://github.com/digital-asset/daml/blob/main/ci/cron/src/Docs.hs
@@ -103,7 +103,7 @@ For local development, use the `live-preview.sh` script. The files for the
 unified documentation will be in the `docs/workdir/build` folder; changes to
 those files should be immediately reflected.
 
-Do remember, though, that once you are happy with your changes, you have to
+Remember that once you are happy with your changes, you have to
 mirror them as PRs on the daml/canton repositories.
 
 Only changes to the top-level `index.rst` files can be made directly in this
@@ -115,7 +115,7 @@ repository.
 
 ## Full build
 
-If you want to view the PDF docs or the exact HTML files that we publish to
+To view the PDF docs or the exact HTML files that we publish to
 [docs.daml.com](https://docs.daml.com), you can also run the full build
 locally:
 
