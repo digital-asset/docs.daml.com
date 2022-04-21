@@ -21,13 +21,12 @@ Long-term:
 This repo is explicitly ignoring any pre-2.0.0 docs; those will still be
 published using their existing release process.
 
-## Current state (2022-03-18)
+## Current state (2022-04-21)
 
 Every commit to `main` publishes to a versioned prefix on the S3 repo (e.g.
-`/2.1.0`). How to handle `/` and multiple versions are still up for debate.
-
-The digital-asset/daml [cron] is still responsible for updating the
-documentation root.
+`/2.1.0`). How to handle `/` and multiple versions are still up for debate, and
+thus are still following the preexisting process: the daml repo [cron] copies
+over a versioned folder to root on stable release publication.
 
 [cron]: https://github.com/digital-asset/daml/blob/main/ci/cron/src/Docs.hs
 
@@ -92,47 +91,43 @@ To do that, switch to the `docs` directory in the repository:
 cd docs
 ```
 
-To build the docs you need to know the corresponding Daml SDK Canton
-releases you want to build the documentation for. You can find the
-version used by CI in the `LATEST` file.
-
-With that version, you can then download the docs of Canton and the
-Daml repo using the following commands:
+Download the documentation tarballs from the daml and canton repos:
 
 ```
-mkdir download
-./download.sh <sdkversion> <cantonversion> download
+./download.sh
 ```
 
 ## Preview
 
-For local development, you usually are best served with the live
-preview script. This will generate a `build` directory and any changes
-in that directory will be picked up directly without having to restart
-the web server. Do keep in mind though that you have to mirror the
-changes you make to the Daml & Canton repos once you are happy with
-them. Only changes to the top-level `index.rst` files can be made
-directly in this repository.
+For local development, use the `live-preview.sh` script. The files for the
+unified documentation will be in the `docs/workdir/build` folder; changes to
+those files should be immediately reflected.
+
+Do remember, though, that once you are happy with your changes, you have to
+mirror them as PRs on the daml/canton repositories.
+
+Only changes to the top-level `index.rst` files can be made directly in this
+repository.
 
 ```
-./live-preview.sh <sdkversion> <cantonversion> download
+./live-preview.sh
 ```
 
 ## Full build
 
-If you want to view the PDF docs or the exact HTML files that we
-publish to https://docs.daml.com, you can also run the full build
+If you want to view the PDF docs or the exact HTML files that we publish to
+[docs.daml.com](https://docs.daml.com), you can also run the full build
 locally:
 
 ```
 mkdir docs_output
-./build.sh <sdkversion> <cantonversion> download docs_output
+./build.sh
 ```
 
 This leaves you with two files:
 
 ```
-$ ls docs_output
+$ ls docs/workdir/target
 html-docs-2.0.0-snapshot.20211220.8736.0.040f1a93.tar.gz
 pdf-docs-2.0.0-snapshot.20211220.8736.0.040f1a93.pdf
 $
@@ -142,7 +137,7 @@ To view the html docs, extract them and launch a webserver, e.g. via Python and
 point your browser at `http://localhost:8000`
 
 ```
-tar xf docs_output/html-docs-2.0.0-snapshot.20211220.8736.0.040f1a93.tar.gz
+tar xf docs/workdir/target/html-docs-$(jq -r '.daml' LATEST).tar.gz
 cd html
 python3 -m http.server 8000 --bind 127.0.0.1
 ```

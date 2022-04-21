@@ -1,9 +1,16 @@
 #!/usr/bin/env bash
+# Copyright (c) 2022 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+
 set -eou pipefail
 
-RELEASE_TAG=$1
-CANTON_RELEASE_TAG=$2
-TARGET_DIR=$3
+DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+cd "$DIR"
+
+RELEASE_TAG=$(jq -r '.daml' ../LATEST)
+CANTON_RELEASE_TAG=$(jq -r '.canton' ../LATEST)
+TARGET_DIR=workdir/downloads
 
 mkdir -p "$TARGET_DIR"
 

@@ -1,15 +1,19 @@
 #!/usr/bin/env bash
+# Copyright (c) 2022 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
 
 set -eou pipefail
 
 DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-RELEASE_TAG=$1
-CANTON_RELEASE_TAG=$2
-DOWNLOAD_DIR=$3
-SPHINX_DIR=$4
+cd "$DIR"
 
-prefix=$(jq -r '.prefix' $DIR/../LATEST)
+RELEASE_TAG=$(jq -r '.daml' ../LATEST)
+CANTON_RELEASE_TAG=$(jq -r '.canton' ../LATEST)
+DOWNLOAD_DIR=workdir/downloads
+SPHINX_DIR=workdir/build/source
+
+prefix=$(jq -r '.prefix' ../LATEST)
 
 mkdir -p $SPHINX_DIR/source/canton
 tar xf $DOWNLOAD_DIR/sphinx-source-tree-$RELEASE_TAG.tar.gz -C $SPHINX_DIR --strip-components=1

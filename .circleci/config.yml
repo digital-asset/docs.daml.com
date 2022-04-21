@@ -73,7 +73,12 @@ jobs:
              --pure \
              --keep ARTIFACTORY_USERNAME \
              --keep ARTIFACTORY_PASSWORD \
-             --run "./ci/build_docs.sh /tmp/workspace"
+             --run bash \<<'EOF'
+             set -euo pipefail
+             docs/download.sh
+             docs/build.sh
+             mv docs/workdir/target/html-docs-*.tar.gz /tmp/workspace/
+           EOF
       - store_artifacts:
          path: /tmp/workspace
       - persist_to_workspace:
@@ -107,12 +112,9 @@ jobs:
              prefix=$(jq -r '.prefix' LATEST)
              sdk_version=$(jq -r '.daml' LATEST)
 
-             workdir=$(mktemp -d)
-             mkdir $workdir/upload
-             trap "rm -rf $workdir" EXIT
-             tar xf /tmp/workspace/html-docs-$sdk_version.tar.gz -C $workdir/upload --strip-components=1
-             aws s3 cp $workdir/upload s3://docs-daml-com/$prefix --recursive --acl public-read --region us-east-1
-             echo "invalidating cache"
+             upload=$(mktemp -d)
+             tar xf /tmp/workspace/html-docs-$sdk_version.tar.gz -C $upload --strip-components=1
+             aws s3 cp $upload s3://docs-daml-com/$prefix --recursive --acl public-read --region us-east-1
              aws cloudfront create-invalidation --distribution-id E1U753I56ERH55 --paths "/$prefix/*"
            EOF
 
