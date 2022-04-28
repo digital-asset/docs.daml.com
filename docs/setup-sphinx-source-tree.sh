@@ -46,3 +46,6 @@ for file in pdf html; do
         sed -i "s|$var = u'.*'|$var = u'$prefix'|" $SPHINX_DIR/configs/$file/conf.py
     done
 done
+
+# Title page on the PDF
+sed -i "s|Version : .*|Version : $prefix|" $SPHINX_DIR/configs/pdf/conf.py
