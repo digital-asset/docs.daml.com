@@ -68,6 +68,7 @@ Reference
    concepts/identity-and-package-management
    concepts/time
    concepts/local-ledger
+   concepts/test-evidence
    support/overview
    support/releases
 

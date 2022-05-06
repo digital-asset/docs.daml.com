@@ -1,5 +1,5 @@
 {
-  "daml": "2.2.0-snapshot.20220412.9721.0.b7c4bdab",
-  "canton": "2.1.1",
-  "prefix": "2.1.1"
+  "daml": "2.3.0-snapshot.20220505.9861.0.5d8ebd7a",
+  "canton": "2.2.0-rc1",
+  "prefix": "2.2.0"
 }

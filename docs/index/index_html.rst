@@ -41,12 +41,12 @@ Daml Documentation
    :maxdepth: 2
    :hidden:
    :caption: Platform operations
-   
+
    Introduction <canton/about>
    Tutorials <canton/tutorials/tutorials>
    User Manual <canton/usermanual/usermanual>
    Architecture-In-Depth <canton/architecture/architecture>
-   
+
 .. toctree::
    :titlesonly:
    :maxdepth: 2
@@ -71,6 +71,7 @@ Daml Documentation
    concepts/identity-and-package-management
    concepts/time
    concepts/local-ledger
+   concepts/test-evidence
    support/overview
    support/releases
 
