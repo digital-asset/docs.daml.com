@@ -26,7 +26,7 @@ Daml Guide
 
    Writing Daml <writing-daml>
    Building Applications <building-applications>
-   Deploying to Daml Ledgers <deploying>
+   Deploying to Daml Ledgers <deploy/generic_ledger>
    Operating Daml <operating-daml>
    Developer Tools <tools>
 
