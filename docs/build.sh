@@ -10,6 +10,7 @@ cd "$DIR"
 
 RELEASE_TAG=$(jq -r '.daml' ../LATEST)
 CANTON_RELEASE_TAG=$(jq -r '.canton' ../LATEST)
+PREFIX=$(jq -r '.prefix' ../LATEST)
 SOURCE_DIR=workdir/downloads
 TARGET_DIR=workdir/target
 rm -rf $TARGET_DIR
@@ -26,14 +27,21 @@ mkdir -p $BUILD_DIR/source $BUILD_DIR/sphinx-target
 
 ./setup-sphinx-source-tree.sh
 
-declare -A sphinx_targets=( [html]=html [pdf]=latex )
-declare -A sphinx_flags=( [html]=-W [pdf]=-W )
-
-for name in "${!sphinx_targets[@]}"; do
-    target=${sphinx_targets[$name]}
+build() (
+    name=$1
+    target=$2
     cp index/index_$name.rst $BUILD_DIR/source/source/index.rst
-    sphinx-build ${sphinx_flags[$name]} --color -b $target -c $BUILD_DIR/source/configs/$name $BUILD_DIR/source/source $BUILD_DIR/sphinx-target/$name
+    sphinx-build -W --color -b $target -c $BUILD_DIR/source/configs/$name $BUILD_DIR/source/source $BUILD_DIR/sphinx-target/$name
+)
+
+build html html
+
+for ts_lib in types ledger react; do
+    sed -i \
+        "s|<|<https://docs.daml.com/$PREFIX/app-dev/bindings-ts/|" \
+        $BUILD_DIR/source/source/app-dev/bindings-ts/daml-$ts_lib.rst
 done
+build pdf latex
 
 # Build PDF docs
 tar xf $SOURCE_DIR/pdf-fonts-$RELEASE_TAG.tar.gz -C $BUILD_DIR/sphinx-target/pdf
