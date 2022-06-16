@@ -36,11 +36,9 @@ build() (
 
 build html html
 
-for ts_lib in types ledger react; do
-    sed -i \
-        "s|<|<https://docs.daml.com/$PREFIX/app-dev/bindings-ts/|" \
-        $BUILD_DIR/source/source/app-dev/bindings-ts/daml-$ts_lib.rst
-done
+sed -i \
+    "s|<|<https://docs.daml.com/$PREFIX/app-dev/bindings-ts/|" \
+    $BUILD_DIR/source/source/app-dev/bindings-ts/daml-*.rst
 build pdf latex
 
 # Build PDF docs
