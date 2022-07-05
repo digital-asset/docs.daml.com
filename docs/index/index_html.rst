@@ -31,7 +31,7 @@ Daml Documentation
 
    Writing Daml <writing-daml>
    Building Applications <building-applications>
-   Deploying to Daml Ledgers <deploying>
+   Deploying to Daml Ledgers <deploy/generic_ledger>
    Operating Daml <operating-daml>
    Developer Tools <tools>
 
@@ -46,6 +46,7 @@ Daml Documentation
    Tutorials <canton/tutorials/tutorials>
    User Manual <canton/usermanual/usermanual>
    Architecture-In-Depth <canton/architecture/architecture>
+   canton/reference/reference
 
 .. toctree::
    :titlesonly:
@@ -54,7 +55,6 @@ Daml Documentation
    :caption: Help
 
    daml/troubleshooting
-   canton/usermanual/error_codes
    support/support
    support/compatibility
 
