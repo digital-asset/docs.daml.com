@@ -13,6 +13,17 @@ Daml Documentation
 
 .. toctree::
    :titlesonly:
+   :maxdepth: 0
+   :includehidden:
+   :caption: Set Up Your Developer Environment
+
+   Installation </getting-started/installation>
+   System Requirements </ops/requirements>
+   Set JAVA_HOME and PATH Variables </getting-started/path-variables>
+   Manual installation </getting-started/manual-download>
+
+.. toctree::
+   :titlesonly:
    :maxdepth: 2
    :hidden:
    :caption: Getting started
