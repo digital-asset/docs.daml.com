@@ -11,6 +11,12 @@ Daml Documentation
 
    self
 
+ .. toctree::
+   :titlesonly:
+   :maxdepth: 2
+   :hidden:
+   :caption: Home
+
 .. toctree::
    :titlesonly:
    :maxdepth: 0
@@ -26,38 +32,33 @@ Daml Documentation
    :titlesonly:
    :maxdepth: 2
    :hidden:
-   :caption: Getting started
+   :caption: Tutorial: Write Your First Daml App
 
-   getting-started/installation
-   Building Your App <getting-started/index>
-   getting-started/app-architecture
-   getting-started/first-feature
-   getting-started/testing
-
-.. toctree::
-   :titlesonly:
-   :maxdepth: 2
-   :hidden:
-   :caption: Application development
-
-   Writing Daml <writing-daml>
-   Building Applications <building-applications>
-   Deploying to Daml Ledgers <deploy/generic_ledger>
-   Operating Daml <operating-daml>
-   Developer Tools <tools>
-
+   Getting Started </getting-started/index>
+   App Architecture </getting-started/app-architecture>
+   Your First Feature </getting-started/first-feature>
+   Test Your App </getting-started/testing>
 
 .. toctree::
    :titlesonly:
    :maxdepth: 2
    :hidden:
-   :caption: Platform operations
+   :caption: Create Daml Apps
 
-   Introduction <canton/about>
-   Tutorials <canton/tutorials/tutorials>
-   User Manual <canton/usermanual/usermanual>
-   Architecture-In-Depth <canton/architecture/architecture>
-   canton/reference/reference
+   Daml Standard Library </index/create-daml-apps/standard-library/index>
+   Integrate Daml with Off-Ledger Services </index/create-daml-apps/off-ledger/index>
+   Developer Tools </index/create-daml-apps/developer-tools/index>
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 2
+   :hidden:
+   :caption: Deploy Daml
+
+   Intro </index/deploy-daml/intro/index>
+   Plan a Deployment </index/deploy-daml/plan-a-deployment/index>
+   Download the Components </index/deploy-daml/download/index>
 
 .. toctree::
    :titlesonly:
@@ -85,16 +86,3 @@ Daml Documentation
    concepts/test-evidence
    support/overview
    support/releases
-
-.. toctree::
-   :titlesonly:
-   :maxdepth: 2
-   :hidden:
-   :caption: Early access
-
-   tools/export/index
-   tools/visual
-   concepts/interoperability
-   tools/non-repudiation
-   ops/connect/helm
-   ops/connect/auth0
