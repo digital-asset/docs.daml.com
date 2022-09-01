@@ -26,12 +26,15 @@ mkdir -p $BUILD_DIR/source $BUILD_DIR/sphinx-target
 
 ./setup-sphinx-source-tree.sh
 
+cp index/index.rst $BUILD_DIR/source/source/index.rst
+mkdir $BUILD_DIR/source/source/index
+cp -r index/create-daml-apps index/deploy-daml $BUILD_DIR/source/source/index/
+
 declare -A sphinx_targets=( [html]=html [pdf]=latex )
 declare -A sphinx_flags=( [html]=-W [pdf]=-W )
 
 for name in "${!sphinx_targets[@]}"; do
     target=${sphinx_targets[$name]}
-    cp index/index_$name.rst $BUILD_DIR/source/source/index.rst
     sphinx-build ${sphinx_flags[$name]} --color -b $target -c $BUILD_DIR/source/configs/$name $BUILD_DIR/source/source $BUILD_DIR/sphinx-target/$name
 done
 
