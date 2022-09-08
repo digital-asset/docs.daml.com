@@ -11,7 +11,7 @@ Daml Documentation
 
    self
 
- .. toctree::
+.. toctree::
    :titlesonly:
    :maxdepth: 2
    :hidden:
