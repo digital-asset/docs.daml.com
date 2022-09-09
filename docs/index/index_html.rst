@@ -60,6 +60,19 @@ Daml Documentation
    Plan a Deployment </index/deploy-daml/plan-a-deployment/index>
    Download the Components </index/deploy-daml/download/index>
 
+   .. toctree::
+   :titlesonly:
+   :maxdepth: 2
+   :hidden:
+   :caption: Operate a Daml Ledger
+   
+   Administration Introduction </index/operate-a-daml-ledger/administration-introduction/index>
+   Canton Administration Quick Start </index/operate-a-daml-ledger/canton-administration-quickstart/index>
+   Monitoring Best Practices <https://www.canton.io/docs/dev/user-manual/usermanual/monitoring.html#status>
+   Common Tasks </index/operate-a-daml-ledger/common-tasks/index>
+   Infrastructure Automation (Node and Domain) </index/operate-a-daml-ledger/infrastructure-administration/index>
+   Advanced Operations </index/operate-a-daml-ledger/advanced operations/index>
+
 .. toctree::
    :titlesonly:
    :maxdepth: 2
