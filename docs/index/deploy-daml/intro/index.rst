@@ -1,5 +1,6 @@
 .. Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
+
 Intro
 #####
 
@@ -14,4 +15,5 @@ Intro
    Canton Demos 4 </canton/tutorials/composability>
    Compatibility Matrix and Supported Dependencies </canton/usermanual/versioning>
    Choosing open-source or enterprise edition </canton/usermanual/downloading>
+
 ..
