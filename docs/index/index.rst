@@ -70,7 +70,7 @@ Daml Documentation
    Canton Administration Quick Start </index/operate-a-daml-ledger/canton-administration-quickstart/index>
    Monitoring Best Practices <https://www.canton.io/docs/dev/user-manual/usermanual/monitoring.html#status>
    Common Tasks </index/operate-a-daml-ledger/common-tasks/index>
-   Infrastructure Automation (Node and Domain) </index/operate-a-daml-ledger/infrastructure-administration/index>
+   Infrastructure Automation (Node and Domain) </index/operate-a-daml-ledger/infrastructure-automation/index>
    Advanced Operations </index/operate-a-daml-ledger/advanced operations/index>
    
 .. toctree::
