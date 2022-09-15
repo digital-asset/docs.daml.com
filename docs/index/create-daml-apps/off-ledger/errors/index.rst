@@ -8,8 +8,4 @@ Errors
    :titlesonly:
 
    Error Codes </app-dev/grpc/error-codes>
-<<<<<<< HEAD
    Command Deduplication </app-dev/command-deduplication>
-=======
-   Command Deduplication </app-dev/command-deduplication>
->>>>>>> main
