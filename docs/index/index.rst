@@ -26,7 +26,7 @@ Daml Documentation
    Installation </getting-started/installation>
    System Requirements </ops/requirements>
    Set JAVA_HOME and PATH Variables </getting-started/path-variables>
-   Manual installation </getting-started/manual-download>
+   Manual Installation </getting-started/manual-download>
 
 .. toctree::
    :titlesonly:
@@ -86,3 +86,24 @@ Daml Documentation
    concepts/test-evidence
    support/overview
    support/releases
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 2
+   :hidden:
+   :caption: Orphan Pages
+
+   canton/architecture/architecture
+   canton/reference/reference
+   canton/tutorials/tutorials
+   canton/usermanual/usermanual
+   concepts/interoperability
+   deploy/generic_ledger
+   operating-daml
+   ops/connect/auth0
+   ops/connect/helm
+   tools
+   tools/export/index
+   tools/non-repudiation
+   tools/visual
+   writing-daml
