@@ -9,4 +9,4 @@ Ledger Administration Introduction
 
    The Canton Command Line <https://www.canton.io/docs/dev/user-manual/usermanual/command_line.html#run-modes>
    Use the Canton Command Line and Remote Console <https://www.canton.io/docs/dev/user-manual/usermanual/console.html#remote-administration>
-   Canton Command Line Options <</index/administration-introduction/command-line-options/index>
+   Canton Command Line Options </index/operate-a-daml-ledger/administration-introduction/command-line-options/index>
