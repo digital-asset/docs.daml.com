@@ -26,10 +26,6 @@ mkdir -p $BUILD_DIR/source $BUILD_DIR/sphinx-target
 
 ./setup-sphinx-source-tree.sh
 
-cp index/index.rst $BUILD_DIR/source/source/index.rst
-mkdir $BUILD_DIR/source/source/index
-cp -r index/create-daml-apps index/deploy-daml $BUILD_DIR/source/source/index/
-
 declare -A sphinx_targets=( [html]=html [pdf]=latex )
 declare -A sphinx_flags=( [html]=-W [pdf]=-W )
 

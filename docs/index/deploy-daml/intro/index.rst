@@ -15,4 +15,5 @@ Intro
    Canton Demos 4 </canton/tutorials/composability>
    Compatibility Matrix and Supported Dependencies </canton/usermanual/versioning>
    Choosing open-source or enterprise edition </canton/usermanual/downloading>
+
 ..
