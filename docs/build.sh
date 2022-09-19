@@ -26,9 +26,6 @@ mkdir -p $BUILD_DIR/source $BUILD_DIR/sphinx-target
 
 ./setup-sphinx-source-tree.sh
 
-cp -r index $BUILD_DIR/source/source/index
-mv $BUILD_DIR/source/source/index/index.rst $BUILD_DIR/source/source/index.rst
-
 declare -A sphinx_targets=( [html]=html [pdf]=latex )
 declare -A sphinx_flags=( [html]=-W [pdf]=-W )
 
