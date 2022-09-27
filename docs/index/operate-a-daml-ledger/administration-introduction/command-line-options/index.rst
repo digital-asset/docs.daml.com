@@ -7,6 +7,6 @@ Command Line Options
 .. toctree::
    :titlesonly:
 
-   Flush Logs <https://www.canton.io/docs/dev/user-manual/usermanual/command_line.html#flush-log-files-immediately>
-   Java Virtual Machine Arguments <https://www.canton.io/docs/dev/user-manual/usermanual/command_line.html#java-virtual-machine-arguments>
+   Flush Logs </canton/usermanual/command_line.html#flush-log-files-immediately>
+   Java Virtual Machine Arguments </canton/usermanual/command_line.html#java-virtual-machine-arguments>
    

@@ -7,7 +7,7 @@ Infrastructure Automation (Node and Domain)
 .. toctree::
    :titlesonly:
 
-   Bootstrap Scripts <https://www.canton.io/docs/dev/user-manual/tutorials/getting_started.html#automation-using-bootstrap-scripts>
-   Java Language Bindings <https://www.canton.io/docs/dev/user-manual/usermanual/console.html#code-generation-in-console>
-   Administration APIs <https://www.canton.io/docs/dev/user-manual/usermanual/administration.html>
+   Bootstrap Scripts </canton/tutorials/getting_started.html#automation-using-bootstrap-scripts>
+   Java Language Bindings </canton/usermanual/console.html#code-generation-in-console>
+   Administration APIs </canton/usermanual/administration.html>
    
