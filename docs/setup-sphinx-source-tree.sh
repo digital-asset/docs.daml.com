@@ -47,8 +47,5 @@ for file in pdf html; do
     done
 done
 
-cp -r index $SPHINX_DIR/source/index
-mv $SPHINX_DIR/source/index/index.rst $SPHINX_DIR/source/index.rst
-
 # Title page on the PDF
 sed -i "s|Version : .*|Version : $prefix|" $SPHINX_DIR/configs/pdf/conf.py
