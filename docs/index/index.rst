@@ -118,14 +118,14 @@ Daml Documentation
    writing-daml
 
 
-toctree::
+.. toctree::
    :titlesonly:
    :maxdepth: 2
    :hidden:
    :caption: Pages To Be Removed
 
-   https://docs.daml.com/canton/architecture/architecture
-   https://docs.daml.com/canton/reference/reference
-   https://docs.daml.com/canton/tutorials/tutorials
-   https://docs.daml.com/canton/usermanual/usermanual
+   canton/architecture/architecture
+   canton/reference/reference
+   canton/tutorials/tutorials
+   canton/usermanual/usermanual
    deploy/generic_ledger
