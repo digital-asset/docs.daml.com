@@ -124,8 +124,8 @@ toctree::
    :hidden:
    :caption: Pages To Be Removed
 
-   canton/architecture/architecture
-   canton/reference/reference
-   canton/tutorials/tutorials
-   canton/usermanual/usermanual
+   https://docs.daml.com/canton/architecture/architecture
+   https://docs.daml.com/canton/reference/reference
+   https://docs.daml.com/canton/tutorials/tutorials
+   https://docs.daml.com/canton/usermanual/usermanual
    deploy/generic_ledger
