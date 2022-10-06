@@ -9,5 +9,5 @@ Infrastructure Automation (Node and Domain)
 
    Bootstrap Scripts <https://docs.daml.com/canton/tutorials/getting_started.html#automation-using-bootstrap-scripts>
    Java Language Bindings <https://docs.daml.com/canton/usermanual/console.html#code-generation-in-console>
-   Administration APIs </canton/reference/admin_apis.html>
+   Administration APIs <https://docs.daml.com/canton/reference/admin_apis.html>
    
