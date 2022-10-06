@@ -68,7 +68,7 @@ Daml Documentation
 
    Administration Introduction </index/operate-a-daml-ledger/administration-introduction/index>
    Canton Administration Quick Start </index/operate-a-daml-ledger/canton-administration-quickstart/index>
-   Monitoring Best Practices <canton/usermanual/monitoring.html#status>
+   Monitoring Best Practices <https://docs.daml.comcanton/usermanual/monitoring.html#status>
    Common Tasks </index/operate-a-daml-ledger/common-tasks/index>
    Infrastructure Automation (Node and Domain) </index/operate-a-daml-ledger/infrastructure-automation/index>
    Advanced Operations </index/operate-a-daml-ledger/advanced-operations/index>
