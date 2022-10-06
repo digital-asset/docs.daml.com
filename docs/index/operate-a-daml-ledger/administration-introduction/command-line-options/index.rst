@@ -7,6 +7,6 @@ Command Line Options
 .. toctree::
    :titlesonly:
 
-   Flush Logs </canton/usermanual/command_line.html#flush-log-files-immediately>
-   Java Virtual Machine Arguments </canton/usermanual/command_line.html#java-virtual-machine-arguments>
+   Flush Logs <https://docs.daml.com/canton/usermanual/command_line.html#flush-log-files-immediately>
+   Java Virtual Machine Arguments <https://docs.daml.com/canton/usermanual/command_line.html#java-virtual-machine-arguments>
    

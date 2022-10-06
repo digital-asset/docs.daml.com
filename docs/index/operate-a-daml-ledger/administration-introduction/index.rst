@@ -7,6 +7,6 @@ Ledger Administration Introduction
 .. toctree::
    :titlesonly:
 
-   The Canton Command Line </canton/usermanual/command_line.html#run-modes>
-   Use the Canton Command Line and Remote Console </canton/usermanual/console.html#remote-administration>
+   The Canton Command Line <https://docs.daml.com/canton/usermanual/command_line.html#run-modes>
+   Use the Canton Command Line and Remote Console <https://docs.daml.com/canton/usermanual/console.html#remote-administration>
    Canton Command Line Options </index/operate-a-daml-ledger/administration-introduction/command-line-options/index>
