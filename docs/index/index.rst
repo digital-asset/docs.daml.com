@@ -121,13 +121,13 @@ Daml Documentation
    canton/architecture/research
    canton/architecture/security
 
-
 .. toctree::
    :titlesonly:
    :maxdepth: 2
    :hidden:
    :caption: Early Access
 
+   Daml Finance </daml-finance/index>
    concepts/interoperability
    operating-daml
    tools
