@@ -10,6 +10,7 @@ cd "$DIR"
 
 RELEASE_TAG=$(jq -r '.daml' ../LATEST)
 CANTON_RELEASE_TAG=$(jq -r '.canton' ../LATEST)
+DAML_FINANCE_RELEASE_TAG=$(jq -r '.daml_finance' ../LATEST)
 TARGET_DIR=workdir/downloads
 
 mkdir -p "$TARGET_DIR"
@@ -42,3 +43,8 @@ curl -u $ARTIFACTORY_USERNAME:$ARTIFACTORY_PASSWORD \
     --location \
     https://digitalasset.jfrog.io/artifactory/assembly/canton/$CANTON_RELEASE_TAG/canton-scaladoc-$CANTON_RELEASE_TAG.tar.gz \
     > "$TARGET_DIR/canton-scaladoc-$CANTON_RELEASE_TAG.tar.gz"
+curl -u $ARTIFACTORY_USERNAME:$ARTIFACTORY_PASSWORD \
+    --fail \
+    --location \
+    https://digitalasset.jfrog.io/artifactory/assembly/daml-finance/$DAML_FINANCE_RELEASE_TAG/daml-finance-doc-sources-$DAML_FINANCE_RELEASE_TAG.tar.gz \
+    > "$TARGET_DIR/daml-finance-docs-$DAML_FINANCE_RELEASE_TAG.tar.gz"

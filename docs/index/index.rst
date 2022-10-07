@@ -49,7 +49,6 @@ Daml Documentation
    Integrate Daml with Off-Ledger Services </index/create-daml-apps/off-ledger/index>
    Developer Tools </index/create-daml-apps/developer-tools/index>
 
-
 .. toctree::
    :titlesonly:
    :maxdepth: 2
@@ -99,7 +98,7 @@ Daml Documentation
    concepts/time
    concepts/local-ledger
    concepts/test-evidence
-   
+
 
 .. toctree::
    :titlesonly:
@@ -107,6 +106,7 @@ Daml Documentation
    :hidden:
    :caption: Early Access
 
+   Daml Finance </daml-finance/index>
    concepts/interoperability
    operating-daml
    ops/connect/auth0
