@@ -7,6 +7,6 @@ Canton Administration Quickstart
 .. toctree::
    :titlesonly:
 
-   Console Quickstart <https://www.canton.io/docs/dev/user-manual/usermanual/console.html#remote-administration>
+   Console Quickstart <https://docs.daml.com/canton/usermanual/console.html#remote-administration>
 
 ..

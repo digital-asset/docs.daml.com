@@ -68,7 +68,7 @@ Daml Documentation
 
    Administration Introduction </index/operate-a-daml-ledger/administration-introduction/index>
    Canton Administration Quick Start </index/operate-a-daml-ledger/canton-administration-quickstart/index>
-   Monitoring Best Practices <https://www.canton.io/docs/dev/user-manual/usermanual/monitoring.html#status>
+   Monitoring Best Practices <https://docs.daml.com/canton/usermanual/monitoring.html#status>
    Common Tasks </index/operate-a-daml-ledger/common-tasks/index>
    Infrastructure Automation (Node and Domain) </index/operate-a-daml-ledger/infrastructure-automation/index>
    Advanced Operations </index/operate-a-daml-ledger/advanced-operations/index>
@@ -82,6 +82,8 @@ Daml Documentation
    daml/troubleshooting
    support/support
    support/compatibility
+   support/overview
+   support/releases
 
 .. toctree::
    :titlesonly:
@@ -97,21 +99,15 @@ Daml Documentation
    concepts/time
    concepts/local-ledger
    concepts/test-evidence
-   support/overview
-   support/releases
+   
 
 .. toctree::
    :titlesonly:
    :maxdepth: 2
    :hidden:
-   :caption: Orphan Pages
+   :caption: Early Access
 
-   canton/architecture/architecture
-   canton/reference/reference
-   canton/tutorials/tutorials
-   canton/usermanual/usermanual
    concepts/interoperability
-   deploy/generic_ledger
    operating-daml
    ops/connect/auth0
    ops/connect/helm
@@ -120,3 +116,16 @@ Daml Documentation
    tools/non-repudiation
    tools/visual
    writing-daml
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 2
+   :hidden:
+   :caption: Pages To Be Removed
+
+   canton/architecture/architecture
+   canton/reference/reference
+   canton/tutorials/tutorials
+   canton/usermanual/usermanual
+   deploy/generic_ledger
