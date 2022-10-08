@@ -158,9 +158,16 @@ used to set the following environment variables:
   page][artifactory] and copying the name that follows the "User Profile:" marker
   in the top left (usually firstname.lastname).
 - `ARTIFACTORY_PASSWORD`: Required to access intermediate build artifacts.
-  Despite the name, this is actually your API key, **not** your password. You
-  can find your API key on [your Artifactory profile page][artifactory], as the
+  Despite the name, this is actually your Identity Token, **not** your password. You
+  can generate your Identity Token on [your Artifactory profile page][artifactory], as the
   first field under "Authentication Settings".
+
+Create .envrc.private file at the root (make sure it is ignored in .gitignore), it should look like:
+
+```
+export ARTIFACTORY_USERNAME=fist.last
+export ARTIFACTORY_PASSWORD=Reference Token of Identity Token
+```
 
 If you have any trouble with Artifactory authentication, please ask on Slack in
 `#org-security`. Every employee should have a working Artifactory account, with
