@@ -128,4 +128,3 @@ Daml Documentation
    canton/reference/reference
    canton/tutorials/tutorials
    canton/usermanual/usermanual
-   deploy/generic_ledger
