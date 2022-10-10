@@ -8,6 +8,7 @@ Developer Tools
    :titlesonly:
 
    Daml Assistant </tools/assistant>
+   Deploy to Generic Daml Ledger <deploy/generic_ledger.html>
    Experiment: Daml REPL </daml-repl/index>
    Write: Daml Studio </daml/daml-studio>
    Test: Daml Sandbox </tools/sandbox>
