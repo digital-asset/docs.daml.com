@@ -7,7 +7,7 @@ Canton Administration Quickstart
 .. toctree::
    :titlesonly:
 
-   Console Quickstart <canton/usermanual/console>
-   Console Commands <canton/reference/console>
+   Console Quickstart </canton/usermanual/console>
+   Console Commands </canton/reference/console>
 
 ..
