@@ -122,9 +122,35 @@ Daml Documentation
    :titlesonly:
    :maxdepth: 2
    :hidden:
-   :caption: Pages To Be Removed
+   :caption: To Sort
 
-   canton/architecture/architecture
-   canton/reference/reference
-   canton/tutorials/tutorials
-   canton/usermanual/usermanual
+   canton/architecture/domains/domains
+   canton/architecture/ha
+   canton/architecture/identity
+   canton/architecture/requirements/requirements
+   canton/architecture/research
+   canton/architecture/security
+   canton/reference/admin_apis
+   canton/reference/console
+   canton/reference/error_codes
+   canton/usermanual/FAQ
+   canton/usermanual/apis
+   canton/usermanual/command_line
+   canton/usermanual/connectivity
+   canton/usermanual/console
+   canton/usermanual/contract_keys
+   canton/usermanual/docker
+   canton/usermanual/domains/domains
+   canton/usermanual/ha
+   canton/usermanual/identity_management
+   canton/usermanual/manage_domain_entities
+   canton/usermanual/manage_domains
+   canton/usermanual/monitoring
+   canton/usermanual/packagemanagement
+   canton/usermanual/performance
+   canton/usermanual/persistence
+   canton/usermanual/pruning
+   canton/usermanual/repairing
+   canton/usermanual/security
+   canton/usermanual/static_conf
+   canton/usermanual/upgrading
