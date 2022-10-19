@@ -15,4 +15,4 @@ Advanced Ledger Operations
    Recover From a Lost Domain <https://docs.daml.com/canton/usermanual/operational_processes.html#recovering-from-a-lost-domain>
    Repair the Topology Information </canton/usermanual/repairing>
    Api Configuration </canton/usermanual/apis>
-   Sequencer Connections </canton/usermanual/connectivity.html>
+   Sequencer Connections </canton/usermanual/connectivity>

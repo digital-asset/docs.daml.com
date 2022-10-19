@@ -7,7 +7,7 @@ Download the Components
 .. toctree::
    :titlesonly:
 
-   Downloading <>
-   Installing </canton/usermanual/installation>
+   Download Components </canton/usermanual/downloading>
+   Install </canton/usermanual/installation>
 
 ..
