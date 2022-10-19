@@ -58,7 +58,7 @@ Daml Documentation
    Intro </index/deploy-daml/intro/index>
    Plan a Deployment </index/deploy-daml/plan-a-deployment/index>
    Download the Components </index/deploy-daml/download/index>
-   Install a Daml Ledger </index/deploy-daml/indtall-ledger/index>
+   Install a Daml Ledger </index/deploy-daml/install-ledger/index>
 
 .. toctree::
    :titlesonly:
