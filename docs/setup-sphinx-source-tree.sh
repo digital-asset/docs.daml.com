@@ -29,7 +29,6 @@ do
     sed -i 's|include:: /substitution.hrst|include:: /canton/substitution.hrst|g ; s|image:: /images|image:: /canton/images|g' $file
     sed -i "s|__VERSION__|$prefix|g" $file
 done
-sed -i '/^  concepts$/d' $SPHINX_DIR/source/canton/tutorials/tutorials.rst
 
 # Rewrite Daml-Finance's references to the quickstart template provided by the `daml` assembly.
 find $SPHINX_DIR/source/daml-finance -type f -name '*.rst' -print0 | while IFS= read -r -d '' file
