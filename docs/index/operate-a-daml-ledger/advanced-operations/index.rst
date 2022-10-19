@@ -13,6 +13,5 @@ Advanced Ledger Operations
    Import Existing Contracts <https://docs.daml.com/canton/usermanual/operational_processes.html#importing-existing-contracts>
    /canton/usermanual/pruning
    Recover From a Lost Domain <https://docs.daml.com/canton/usermanual/operational_processes.html#recovering-from-a-lost-domain>
-   Repair the Topology Information </canton/usermanual/repairing>
    Api Configuration </canton/usermanual/apis>
    Sequencer Connections </canton/usermanual/connectivity>

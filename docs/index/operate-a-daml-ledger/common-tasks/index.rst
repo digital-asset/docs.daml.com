@@ -8,7 +8,7 @@ Common Operational Tasks
    :titlesonly:
 
    Add a Party <https://docs.daml.com/canton/usermanual/identity_management.html#adding-a-new-party-to-a-participant>
-   Operational Processes (Add a Sequencer, Back Up and Restore a Node) </canton/usermanual/operational_processes>
+   Repair the Topology Information </canton/usermanual/repairing>
    Manage DARs and Packages </canton/usermanual/packagemanagement>
    /canton/usermanual/manage_domains
    /canton/usermanual/manage_domain_entities
