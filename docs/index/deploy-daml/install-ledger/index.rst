@@ -12,3 +12,4 @@ Install a Ledger
    Set Up A Daml Domain With Enterprise Drivers </canton/usermanual/domains/domains>
    Installation </canton/usermanual/installation>
    High Availability </canton/usermanual/ha>
+   Persistence </usermanual/persistence>
