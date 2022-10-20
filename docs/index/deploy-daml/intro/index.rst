@@ -14,6 +14,6 @@ Intro
    Canton Demos 3 </canton/tutorials/use_daml_sdk>
    Canton Demos 4 </canton/tutorials/composability>
    Compatibility Matrix and Supported Dependencies </canton/usermanual/versioning>
-   Choosing Open-source or Enterprise Edition </canton/usermanual/downloading>
+   Choosing Open-Source or Enterprise Edition </canton/usermanual/downloading>
 
 ..

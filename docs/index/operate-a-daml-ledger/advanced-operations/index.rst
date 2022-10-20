@@ -7,11 +7,8 @@ Advanced Ledger Operations
 .. toctree::
    :titlesonly:
 
-   Run Time Changes to Domain Configuration <https://docs.daml.com/canton/usermanual/operational_processes.html#dynamic-domain-parameters>
-   Manually Initializing a Node <https://docs.daml.com/canton/usermanual/identity_management.html#manually-initializing-a-node>
-   The Same Party On Two Nodes <https://docs.daml.com/canton/usermanual/identity_management.html#party-on-two-nodes>
-   Import Existing Contracts <https://docs.daml.com/canton/usermanual/operational_processes.html#importing-existing-contracts>
-   /canton/usermanual/pruning
-   Recover From a Lost Domain <https://docs.daml.com/canton/usermanual/operational_processes.html#recovering-from-a-lost-domain>
-   Api Configuration </canton/usermanual/apis>
-   Sequencer Connections </canton/usermanual/connectivity>
+    Manage Domains </canton/usermanual/manage_domains>
+    Manage Domain Entities </canton/usermanual/manage_domain_entities>
+    Pruning </canton/usermanual/pruning>
+    Api Configuration </canton/usermanual/apis>
+    Sequencer Connections </canton/usermanual/connectivity>
