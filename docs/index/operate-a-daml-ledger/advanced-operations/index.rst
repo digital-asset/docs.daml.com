@@ -11,6 +11,7 @@ Advanced Ledger Operations
    Manually Initializing a Node <https://docs.daml.com/canton/usermanual/identity_management.html#manually-initializing-a-node>
    The Same Party On Two Nodes <https://docs.daml.com/canton/usermanual/identity_management.html#party-on-two-nodes>
    Import Existing Contracts <https://docs.daml.com/canton/usermanual/operational_processes.html#importing-existing-contracts>
-   Ledger Pruning <https://docs.daml.com/canton/usermanual/operational_processes.html#ledger-pruning>
+   /canton/usermanual/pruning
    Recover From a Lost Domain <https://docs.daml.com/canton/usermanual/operational_processes.html#recovering-from-a-lost-domain>
-   Repair the Topology Information <https://docs.daml.com/canton/usermanual/operational_processes.html#repairing-an-actual-topology>
+   Api Configuration </canton/usermanual/apis>
+   Sequencer Connections </canton/usermanual/connectivity>

@@ -58,6 +58,7 @@ Daml Documentation
    Intro </index/deploy-daml/intro/index>
    Plan a Deployment </index/deploy-daml/plan-a-deployment/index>
    Download the Components </index/deploy-daml/download/index>
+   Install a Daml Ledger </index/deploy-daml/install-ledger/index>
 
 .. toctree::
    :titlesonly:
@@ -67,9 +68,11 @@ Daml Documentation
 
    Administration Introduction </index/operate-a-daml-ledger/administration-introduction/index>
    Canton Administration Quick Start </index/operate-a-daml-ledger/canton-administration-quickstart/index>
-   Monitoring Best Practices <https://docs.daml.com/canton/usermanual/monitoring.html#status>
+   Identity Management </canton/usermanual/identity_management>
+   Monitoring Best Practices </canton/usermanual/monitoring>
    Common Tasks </index/operate-a-daml-ledger/common-tasks/index>
    Infrastructure Automation (Node and Domain) </index/operate-a-daml-ledger/infrastructure-automation/index>
+   Scaling and Performance </canton/usermanual/performance>
    Advanced Operations </index/operate-a-daml-ledger/advanced-operations/index>
 
 .. toctree::
@@ -93,11 +96,21 @@ Daml Documentation
    Cheat Sheet <https://docs.daml.com/cheat-sheet>
    concepts/glossary
    Examples <https://daml.com/examples>
+   canton/usermanual/FAQ
+   canton/reference/error_codes
+   canton/reference/admin_apis
    concepts/ledger-model/index
    concepts/identity-and-package-management
    concepts/time
    concepts/local-ledger
    concepts/test-evidence
+   canton/usermanual/contract_keys
+   canton/architecture/domains/domains
+   canton/architecture/ha
+   canton/architecture/identity
+   canton/architecture/requirements/requirements
+   canton/architecture/research
+   canton/architecture/security
 
 
 .. toctree::
@@ -117,40 +130,3 @@ Daml Documentation
    tools/visual
    writing-daml
 
-
-.. toctree::
-   :titlesonly:
-   :maxdepth: 2
-   :hidden:
-   :caption: To Sort
-
-   canton/architecture/domains/domains
-   canton/architecture/ha
-   canton/architecture/identity
-   canton/architecture/requirements/requirements
-   canton/architecture/research
-   canton/architecture/security
-   canton/reference/admin_apis
-   canton/reference/console
-   canton/reference/error_codes
-   canton/usermanual/FAQ
-   canton/usermanual/apis
-   canton/usermanual/command_line
-   canton/usermanual/connectivity
-   canton/usermanual/console
-   canton/usermanual/contract_keys
-   canton/usermanual/docker
-   canton/usermanual/domains/domains
-   canton/usermanual/ha
-   canton/usermanual/identity_management
-   canton/usermanual/manage_domain_entities
-   canton/usermanual/manage_domains
-   canton/usermanual/monitoring
-   canton/usermanual/packagemanagement
-   canton/usermanual/performance
-   canton/usermanual/persistence
-   canton/usermanual/pruning
-   canton/usermanual/repairing
-   canton/usermanual/security
-   canton/usermanual/static_conf
-   canton/usermanual/upgrading

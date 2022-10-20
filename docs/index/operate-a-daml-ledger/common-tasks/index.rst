@@ -7,13 +7,14 @@ Common Operational Tasks
 .. toctree::
    :titlesonly:
 
-   Add a Sequencer <https://docs.daml.com/canton/usermanual/operational_processes.html#adding-new-sequencers-to-distributed-domain>
    Add a Party <https://docs.daml.com/canton/usermanual/identity_management.html#adding-a-new-party-to-a-participant>
-   Remove a Package or DAR <https://docs.daml.com/canton/usermanual/operational_processes.html#removing-packages-and-dars>
-   Back Up and Restore a Node <https://docs.daml.com/canton/usermanual/operational_processes.html#backup-and-restore>
-   Upgrade To a New Release <https://docs.daml.com/canton/usermanual/upgrading.html>
-   Configure Auth0 Middleware (With Example Configuration) <https://docs.daml.com/tools/trigger-service/auth0_example.html>
-   Move the Namespace Secret Key to Offline Stoarge <https://docs.daml.com/canton/usermanual/security.html#moving-the-namespace-secret-key-to-offline-storage>
+   Repair the Topology Information </canton/usermanual/repairing>
+   Manage DARs and Packages </canton/usermanual/packagemanagement>
+   /canton/usermanual/manage_domains
+   /canton/usermanual/manage_domain_entities
+   Upgrade To a New Release </canton/usermanual/upgrading>
+   Configure Auth0 Middleware (With Example Configuration) </tools/trigger-service/auth0_example>
+   Move the Namespace Secret Key to Offline Stoarge (In Cryptographic Key Management) </canton/usermanual/security>
 
    
 

@@ -7,5 +7,7 @@ Download the Components
 .. toctree::
    :titlesonly:
 
-   Daml Enterprise </canton/usermanual/installation>
+   Download Components </canton/usermanual/downloading>
+   Install </canton/usermanual/installation>
+
 ..
