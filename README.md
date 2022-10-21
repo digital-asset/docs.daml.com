@@ -120,7 +120,6 @@ To view the PDF docs or the exact HTML files that we publish to
 locally:
 
 ```
-mkdir docs_output
 ./build.sh
 ```
 
