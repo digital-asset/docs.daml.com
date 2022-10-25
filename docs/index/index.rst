@@ -122,8 +122,6 @@ Daml Documentation
    Daml Finance </daml-finance/index>
    concepts/interoperability
    operating-daml
-   ops/connect/auth0
-   ops/connect/helm
    tools
    tools/export/index
    tools/non-repudiation
