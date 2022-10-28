@@ -8,6 +8,4 @@ Daml Standard Library
    :titlesonly:
    :maxdepth: 2
 
-   Introduction </daml/intro/11_StdLib>
-   Testing </daml/intro/12_Testing>
    Good Design Patterns </daml/patterns>
