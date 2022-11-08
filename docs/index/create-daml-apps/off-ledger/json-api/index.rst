@@ -11,7 +11,7 @@ JSON API
    Daml-LF JSON Encoding </json-api/lf-value-specification>
    Query Language </json-api/search-query-language>
    Javascript Client Libraries </app-dev/bindings-ts/index>
+   Production Setup <production-setup/index>
 
 ..
-   - remove toc in /json-api/index
    - only keep app-dev/bindings-ts/daml2js in toc of app-dev/bindings-ts/index
