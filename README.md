@@ -161,6 +161,13 @@ used to set the following environment variables:
   can find your API key on [your Artifactory profile page][artifactory], as the
   first field under "Authentication Settings".
 
+Here is a made-up example to show the structure:
+
+```plaintext
+export ARTIFACTORY_USERNAME=john.smith
+export ARTIFACTORY_PASSWORD=Long_string_of_gibberish_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUV
+```
+
 If you have any trouble with Artifactory authentication, please ask on Slack in
 `#org-security`. Every employee should have a working Artifactory account, with
 read access to the appropriate repos. Specifically, do check that you can see
@@ -175,7 +182,7 @@ Once you have installed direnv and nix, you can clone the repo and switch to it:
 
 ```
 git clone git@github.com:digital-asset/docs.daml.com.git
-cd assembly
+cd docs.daml.com
 ```
 
 If you setup direnv correctly, the first time you do this you will be
@@ -187,7 +194,11 @@ After that every time you switch to the repository, you will see output similar 
 $ cd daml-projects/docs.daml.com
 direnv: loading ~/daml-projects/docs.daml.com/.envrc
 direnv: using nix
-direnv: export +AR +AR_FOR_TARGET +AS +AS_FOR_TARGET +CC +CC_FOR_TARGET +CONFIG_SHELL +CXX +CXX_FOR_TARGET +DETERMINISTIC_BUILD +HOST_PATH +IN_NIX_SHELL +JAVA_HOME +LD +LD_FOR_TARGET +LOCALE_ARCHIVE_2_27 +NIX_BINTOOLS +NIX_BINTOOLS_FOR_TARGET +NIX_BINTOOLS_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu +NIX_BINTOOLS_WRAPPER_TARGET_TARGET_x86_64_unknown_linux_gnu +NIX_BUILD_CORES +NIX_BUILD_TOP +NIX_CC +NIX_CC_FOR_TARGET +NIX_CC_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu +NIX_CC_WRAPPER_TARGET_TARGET_x86_64_unknown_linux_gnu +NIX_CFLAGS_COMPILE +NIX_CFLAGS_COMPILE_FOR_TARGET +NIX_ENFORCE_NO_NATIVE +NIX_HARDENING_ENABLE +NIX_INDENT_MAKE +NIX_LDFLAGS +NIX_LDFLAGS_FOR_TARGET +NIX_STORE +NM +NM_FOR_TARGET +OBJCOPY +OBJCOPY_FOR_TARGET +OBJDUMP +OBJDUMP_FOR_TARGET +PYTHONHASHSEED +PYTHONNOUSERSITE +PYTHONPATH +RANLIB +RANLIB_FOR_TARGET +READELF +READELF_FOR_TARGET +SIZE +SIZE_FOR_TARGET +SOURCE_DATE_EPOCH +SSL_CERT_FILE +STRINGS +STRINGS_FOR_TARGET +STRIP +STRIP_FOR_TARGET +TEMP +TEMPDIR +TMP +TMPDIR +_PYTHON_HOST_PLATFORM +_PYTHON_SYSCONFIGDATA_NAME +buildInputs +builder +configureFlags +depsBuildBuild +depsBuildBuildPropagated +depsBuildTarget +depsBuildTargetPropagated +depsHostHost +depsHostHostPropagated +depsTargetTarget +depsTargetTargetPropagated +doCheck +doInstallCheck +name +nativeBuildInputs +nobuildPhase +out +outputs +patches +phases +propagatedBuildInputs +propagatedNativeBuildInputs +shell +shellHook +stdenv +strictDeps +system ~PATH ~XDG_DATA_DIRS
+direnv: export +AR +AR_FOR_TARGET +ARTIFACTORY_USERNAME +ARTIFACTORY_PASSWORD ...
 ```
+
+The list will be longer, but it is importan that it includes
+`ARTIFACTORY_USERNAME` and `ARTIFACTORY_PASSWORD`. If it doesn't, that means
+your `.envrc.private` file does not properly set those values.
 
 If you encounter any issues ask in #team-daml on Slack.
