@@ -20,6 +20,14 @@ Daml Documentation
 .. toctree::
    :titlesonly:
    :maxdepth: 0
+   :hidden:
+   :caption: Daml Finance
+
+   Daml Finance <https://digital-asset.github.io/daml-finance/>
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 0
    :includehidden:
    :caption: Set Up Your Developer Environment
 
@@ -49,7 +57,6 @@ Daml Documentation
    Daml Standard Library </index/create-daml-apps/standard-library/index>
    Integrate Daml with Off-Ledger Services </index/create-daml-apps/off-ledger/index>
    Developer Tools </index/create-daml-apps/developer-tools/index>
-   Daml Finance <https://digital-asset.github.io/daml-finance/>
 
 .. toctree::
    :titlesonly:
