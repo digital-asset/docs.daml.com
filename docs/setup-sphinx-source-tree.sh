@@ -19,7 +19,6 @@ prefix=$(jq -r '.prefix' ../LATEST)
 mkdir -p $SPHINX_DIR/source/canton $SPHINX_DIR/source/daml-finance
 tar xf $DOWNLOAD_DIR/sphinx-source-tree-$RELEASE_TAG.tar.gz -C $SPHINX_DIR --strip-components=1
 tar xf $DOWNLOAD_DIR/canton-docs-$CANTON_RELEASE_TAG.tar.gz -C $SPHINX_DIR/source/canton
-tar xf $DOWNLOAD_DIR/daml-finance-docs-$DAML_FINANCE_RELEASE_TAG.tar.gz -C $SPHINX_DIR/source/daml-finance
 
 cp $SPHINX_DIR/source/canton/exts/canton_enterprise_only.py $SPHINX_DIR/configs/static/
 
@@ -28,12 +27,6 @@ find $SPHINX_DIR/source/canton -type f -print0 | while IFS= read -r -d '' file
 do
     sed -i 's|include:: /substitution.hrst|include:: /canton/substitution.hrst|g ; s|image:: /images|image:: /canton/images|g' $file
     sed -i "s|__VERSION__|$prefix|g" $file
-done
-
-# Rewrite Daml-Finance's references to the quickstart template provided by the `daml` assembly.
-find $SPHINX_DIR/source/daml-finance -type f -name '*.rst' -print0 | while IFS= read -r -d '' file
-do
-    sed -i 's|.. literalinclude:: ../code-samples/getting-started|.. literalinclude:: /_templates/quickstart-finance/|g' $file
 done
 
 # Drop Canton’s index in favor of our own.
