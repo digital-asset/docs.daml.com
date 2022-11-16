@@ -11,7 +11,7 @@ The process for updating the docs has some potential pitfalls. Follow the instru
 - [Build and view the docs locally](https://github.com/digital-asset/docs.daml.com#build-and-view-the-docs-locally)
 - [How to commit changes to the docs](https://github.com/digital-asset/docs.daml.com#how-to-update-the-docs)
 
-> :info: If you encounter any issues, reach out to #team-daml on Slack.
+> :note: If you encounter any issues, reach out to #team-daml on Slack.
 
 ## Setting up the docs locally
 
@@ -83,9 +83,9 @@ Run the following script to download the documentation tarballs from the Daml an
 
 Run the `live-preview.sh` script to render a local view of the site. The html files are in `docs/workdir/build`. Edits should be immediately reflected.
 
-> :danger: If you make changes to docs managed by the other repos, you have to commit them there. You can only make changes to the top-level `index.rst` files, containing the master TOC, that live in this repository. 
+> :warning: If you make changes to docs managed by the other repos, you have to commit them there. You can only make changes to the top-level `index.rst` files, containing the master TOC, that live in this repository. 
 
-> :danger: If you do make a change to the TOCs in this repo, you then have to duplicate the change in the relevant satellite repo.
+> :warning: If you do make a change to the TOCs in this repo, you then have to duplicate the change in the relevant satellite repo.
 
 ```zsh
 ./live-preview.sh
