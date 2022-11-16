@@ -55,7 +55,7 @@ Daml Documentation
    :hidden:
    :caption: Create Daml Apps
 
-   Introduction <index/create-daml-apps/considerations>
+   Introduction <considerations>
    Write Smart Contracts With Daml </index/create-daml-apps/intro/index>
    Daml Standard Library </index/create-daml-apps/standard-library/index>
    Integrate Daml with Off-Ledger Services </index/create-daml-apps/off-ledger/index>
