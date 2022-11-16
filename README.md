@@ -11,7 +11,7 @@ The process for updating the docs has some potential pitfalls. Follow the instru
 - [Build and view the docs locally](https://github.com/digital-asset/docs.daml.com#build-and-view-the-docs-locally)
 - [How to commit changes to the docs](https://github.com/digital-asset/docs.daml.com#how-to-update-the-docs)
 
-> :note: If you encounter any issues, reach out to #team-daml on Slack.
+> **Note** If you encounter any issues, reach out to #team-daml on Slack.
 
 ## Setting up the docs locally
 
