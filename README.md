@@ -81,7 +81,7 @@ Run the following script to download the documentation tarballs from the Daml an
 
 ### Live preview
 
-Run the `live-preview.sh` script to render a local view of the site. The html files are in `docs/workdir/build`. Edits should be immediately reflected.
+Run the `live-preview.sh` script to render a local view of the site. The html files are in `docs/workdir/build`. Edits to `docs/index/` files should be immediately reflected.
 
 :warning: If you make changes to docs managed by the other repos, you have to commit them there. You can only make changes to the top-level `index.rst` files, containing the master TOC, that live in this repository. 
 
