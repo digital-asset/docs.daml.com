@@ -23,7 +23,7 @@ Daml Documentation
    :hidden:
    :caption: Daml Finance
 
-   Daml Finance <https://digital-asset.github.io/daml-finance/>
+   Introduction <index/daml-finance/intro>
 
 .. toctree::
    :titlesonly:
