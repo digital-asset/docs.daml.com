@@ -5,15 +5,17 @@ This repo manages the full build of technical documentation into https://docs.da
 * Daml docs: https://github.com/digital-asset/daml/tree/main/docs
 * Canton docs: https://github.com/DACH-NY/canton/tree/main/docs
 
-The process for updating the docs has some potential pitfalls. Follow the instructions in this README *carefully* and in order.
+:bulb: Docs in this repo build the main TOC with pointers to pages from the above repos.
 
-- [Setting up the docs locally](https://github.com/digital-asset/docs.daml.com#setting-up-the-docs-locally)
+The process for updating the docs TOCs has some potential pitfalls. Follow the instructions in this README *carefully* and in order.
+
+- [Setting up this repo locally](https://github.com/digital-asset/docs.daml.com#setting-up-this-repo-locally)
 - [Build and view the docs locally](https://github.com/digital-asset/docs.daml.com#build-and-view-the-docs-locally)
 - [How to commit changes to the docs](https://github.com/digital-asset/docs.daml.com#how-to-update-the-docs)
 
 :arrow_right: If you encounter any issues, reach out to #team-daml on Slack.
 
-## Setting up the docs locally
+## Setting up this repo locally
 
 ### Prerequisites
 
@@ -43,7 +45,7 @@ direnv: using nix
 direnv: export +AR +AR_FOR_TARGET +ARTIFACTORY_USERNAME +ARTIFACTORY_PASSWORD ...
 ```
 
-The bottom list is longer, but it is important that you see `ARTIFACTORY_USERNAME` and `ARTIFACTORY_PASSWORD`.
+The bottom list is longer, but it is important that you see `ARTIFACTORY_USERNAME` and `ARTIFACTORY_PASSWORD` in it.
 
 :warning: The first time you do this, you won't see these variables, as you won't have had added them yet.
 
@@ -118,13 +120,16 @@ python3 -m http.server 8000 --bind 127.0.0.1
 
 ## How to commit changes to the docs
 
-:warning: This repo ignores any pre-2.0.0 docs; those will still be published using their existing release process: tbc what that is!
+:warning: This repo ignores any pre-2.0.0 docs; those will still be published using their existing release process. It is unlikely you will come across this. If you do, reach out to #team-daml.
 
 Every commit to `main` in this repo publishes to a versioned prefix on the S3 repo (e.g. `/2.1.0`).
 
 ### Making changes to the next, unreleased version
 
 1. Make the changes to docs in the Daml or Canton repo, create a PR, and merge into main.
+
+:warning: You will have to set up and build the repo you are working on before making changes and viewing locally. Make sure you follow the build instructions carefully as they may differ to here.
+
 2. A snapshot is generated every 24 hours that includes the PR.
 3. To get the snapshot details, run the `deps` tool from the root.
 
