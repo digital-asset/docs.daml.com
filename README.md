@@ -45,9 +45,9 @@ direnv: export +AR +AR_FOR_TARGET +ARTIFACTORY_USERNAME +ARTIFACTORY_PASSWORD ..
 
 The bottom list is longer, but it is important that you see `ARTIFACTORY_USERNAME` and `ARTIFACTORY_PASSWORD`.
 
-> :tip: The first time you do this, you won't see these variables, as you won't have had added them yet.
+> :warning: The first time you do this, you won't see these variables, as you won't have had added them yet.
 
-> :warning: don't be tempted to give up when direnv tells you it's taking a while. Be patient.
+> :warning: Don't be tempted to give up when `direnv` tells you it's taking a while. Be patient.
 
 ### Environment variables
 
@@ -118,7 +118,7 @@ python3 -m http.server 8000 --bind 127.0.0.1
 
 ## How to commit changes to the docs
 
-> :important: This repo ignores any pre-2.0.0 docs; those will still be published using their existing release process: tbc what that is!
+> :warning: This repo ignores any pre-2.0.0 docs; those will still be published using their existing release process: tbc what that is!
 
 Every commit to `main` in this repo publishes to a versioned prefix on the S3 repo (e.g. `/2.1.0`).
 
