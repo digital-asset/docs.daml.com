@@ -126,7 +126,7 @@ Every commit to `main` in this repo publishes to a versioned prefix on the S3 re
 
 1. Make the changes to docs in the Daml or Canton repo, create a PR, and merge into main.
 2. A snapshot is generated every 24 hours that includes the PR.
-3. To get the snapshot details, run the `dep` tool from the root.
+3. To get the snapshot details, run the `deps` tool from the root.
 
 ```zsh
 deps list daml # lists daml snapshots
