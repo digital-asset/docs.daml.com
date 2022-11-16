@@ -20,7 +20,7 @@ The process for updating the docs has some potential pitfalls. Follow the instru
 * Install [direnv](https://github.com/direnv/direnv/blob/master/docs/installation.md) for the environment variables.
 * Install the [Nix](https://nixos.org/download.html) package manager, multi-user option. 
 
-> :warning: make sure you select Mac OS on the left menu for the correct Nix installation command.
+:warning: make sure you select Mac OS on the left menu for the correct Nix installation command.
   
 * [JFrog access](https://digitalasset.jfrog.io/ui/admin/artifactory/user_profile)
   You need a JFrog account for accessing the build artifacts. Check you can see the `assembly` directory in the list of Artifacts. If you don't have it, ask `#org-security` for `readers` access.
@@ -45,9 +45,9 @@ direnv: export +AR +AR_FOR_TARGET +ARTIFACTORY_USERNAME +ARTIFACTORY_PASSWORD ..
 
 The bottom list is longer, but it is important that you see `ARTIFACTORY_USERNAME` and `ARTIFACTORY_PASSWORD`.
 
-> :warning: The first time you do this, you won't see these variables, as you won't have had added them yet.
+:warning: The first time you do this, you won't see these variables, as you won't have had added them yet.
 
-> :warning: Don't be tempted to give up when `direnv` tells you it's taking a while. Be patient.
+:warning: Don't be tempted to give up when `direnv` tells you it's taking a while. Be patient.
 
 ### Environment variables
 
@@ -83,9 +83,9 @@ Run the following script to download the documentation tarballs from the Daml an
 
 Run the `live-preview.sh` script to render a local view of the site. The html files are in `docs/workdir/build`. Edits should be immediately reflected.
 
-> :warning: If you make changes to docs managed by the other repos, you have to commit them there. You can only make changes to the top-level `index.rst` files, containing the master TOC, that live in this repository. 
+:warning: If you make changes to docs managed by the other repos, you have to commit them there. You can only make changes to the top-level `index.rst` files, containing the master TOC, that live in this repository. 
 
-> :warning: If you do make a change to the TOCs in this repo, you then have to duplicate the change in the relevant satellite repo.
+:warning: If you do make a change to the TOCs in this repo, you then have to duplicate the change in the relevant satellite repo.
 
 ```zsh
 ./live-preview.sh
@@ -118,7 +118,7 @@ python3 -m http.server 8000 --bind 127.0.0.1
 
 ## How to commit changes to the docs
 
-> :warning: This repo ignores any pre-2.0.0 docs; those will still be published using their existing release process: tbc what that is!
+:warning: This repo ignores any pre-2.0.0 docs; those will still be published using their existing release process: tbc what that is!
 
 Every commit to `main` in this repo publishes to a versioned prefix on the S3 repo (e.g. `/2.1.0`).
 
@@ -167,7 +167,7 @@ For example:
 
 6. Changes to `main` are reflected immediately on the live (versioned) website. When a new or updated version is built it pulls all of the docs changes submitted for that prefix. For example, the url resulting from building the documentation based on the `LATEST` file above is https://docs.daml.com/2.1.0.
 
-> :warning: The release process pushes new files, overwriting existing ones, but does not at the moment delete anything; i.e. if a file no longer exists in a new version, there will still be a copy of the old version of that file.
+:warning: The release process pushes new files, overwriting existing ones, but does not at the moment delete anything; i.e. if a file no longer exists in a new version, there will still be a copy of the old version of that file.
 
 ### Making changes to current or past versions *from 2.0.0 onwards*
 
