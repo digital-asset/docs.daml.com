@@ -179,3 +179,9 @@ For example:
 1. Follow step 1 as above.
 2. You will have to ask on the #team-daml Slack channel, mentioning @gary, for someone to help you manually create a snapshot.
 3. Follow the rest of the steps as above.
+
+## Questions
+
+If you have any questions or comments about these instructions, please reach out to the #product-docs team/@katharine on Slack.
+
+Thank you :blush:
