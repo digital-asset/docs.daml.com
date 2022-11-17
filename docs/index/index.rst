@@ -20,6 +20,14 @@ Daml Documentation
 .. toctree::
    :titlesonly:
    :maxdepth: 0
+   :hidden:
+   :caption: Daml Finance
+
+   Introduction <index/daml-finance/intro>
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 0
    :includehidden:
    :caption: Set Up Your Developer Environment
 
@@ -120,7 +128,6 @@ Daml Documentation
    :hidden:
    :caption: Early Access
 
-   Daml Finance </daml-finance/index>
    concepts/interoperability
    operating-daml
    tools
