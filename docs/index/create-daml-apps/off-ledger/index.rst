@@ -10,12 +10,12 @@ Integrate Daml with Off-Ledger Services
    Introduction </building-applications>
    Architectural Patterns </app-dev/app-arch>
    Access Active Contracts with the HTTP JSON API Service <json-api/index>
+   Build Integration with the Ledger API <app-dev/ledger-api>
    Write Off-Ledger Automation Using Daml <daml-off-ledger/index>
    Handle Errors <errors/index>
    Authorization </app-dev/authorization>
 ..
    Design Patterns (MISSING)
-   Build Integrations with the Ledger API (MISSING)
 
 ..
    - Add /tools/auth-middleware/index to toc of /app-dev/authorization
