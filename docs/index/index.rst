@@ -82,7 +82,7 @@ Daml Documentation
    :hidden:
    :caption: Daml Finance
 
-   Introduction <index/daml-finance/intro>
+   Introduction </daml-finance/index>
 
 .. toctree::
    :titlesonly:
@@ -127,7 +127,6 @@ Daml Documentation
    :hidden:
    :caption: Early Access
 
-   Daml Finance </daml-finance/index>
    concepts/interoperability
    operating-daml
    tools
