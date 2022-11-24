@@ -22,7 +22,7 @@ The process for updating the docs TOCs has some potential pitfalls. Follow the i
 * Install [direnv](https://github.com/direnv/direnv/blob/master/docs/installation.md) for the environment variables.
 * Install the [Nix](https://nixos.org/download.html) package manager, multi-user option. 
 
-:warning: make sure you select Mac OS on the left menu for the correct Nix installation command.
+:warning: Make sure you select Mac OS on the left menu for the correct Nix installation command.
   
 * [JFrog access](https://digitalasset.jfrog.io/ui/admin/artifactory/user_profile)
   You need a JFrog account for accessing the build artifacts. Check you can see the `assembly` directory in the list of Artifacts. If you don't have it, ask `#org-security` for `readers` access.
@@ -83,7 +83,7 @@ Run the following script to download the documentation tarballs from the Daml an
 
 ### Live preview
 
-Run the `live-preview.sh` script to render a local view of the site. The html files are in `docs/workdir/build`. Edits to `docs/index/` files should be immediately reflected.
+Run the `live-preview.sh` script to render a local view of the site. The html files are in `docs/workdir/build`. Rerun the script to view any edits to `docs/index/` files.
 
 :warning: If you make changes to docs managed by the other repos, you have to commit them there. You can only make changes to the top-level `index.rst` files, containing the master TOC, that live in this repository. 
 
@@ -113,7 +113,7 @@ $
 To view the html docs, extract them and launch a webserver, e.g. via Python, and point your browser at `http://localhost:8000`.
 
 ```zsh
-tar xf docs/workdir/target/html-docs-$(jq -r '.daml' LATEST).tar.gz
+tar xf docs/workdir/target/html-docs- # then tab to pick up the file name
 cd html
 python3 -m http.server 8000 --bind 127.0.0.1
 ```
