@@ -17,13 +17,7 @@ Daml Documentation
    :hidden:
    :caption: Home
 
-.. toctree::
-   :titlesonly:
-   :maxdepth: 0
-   :hidden:
-   :caption: Daml Finance
-
-   Introduction <index/daml-finance/intro>
+   Introduction to Multi-Party Applications </high-level-intro>
 
 .. toctree::
    :titlesonly:
@@ -53,8 +47,8 @@ Daml Documentation
    :hidden:
    :caption: Create Daml Apps
 
+   Introduction </daml/considerations>
    Write Smart Contracts With Daml </index/create-daml-apps/intro/index>
-   Daml Standard Library </index/create-daml-apps/standard-library/index>
    Integrate Daml with Off-Ledger Services </index/create-daml-apps/off-ledger/index>
    Developer Tools </index/create-daml-apps/developer-tools/index>
 
@@ -86,6 +80,14 @@ Daml Documentation
 
 .. toctree::
    :titlesonly:
+   :maxdepth: 0
+   :hidden:
+   :caption: Daml Finance
+
+   Introduction <index/daml-finance/intro>
+
+.. toctree::
+   :titlesonly:
    :maxdepth: 2
    :hidden:
    :caption: Help
@@ -102,9 +104,11 @@ Daml Documentation
    :hidden:
    :caption: Reference
 
+   writing-daml
    Cheat Sheet <https://docs.daml.com/cheat-sheet>
    concepts/glossary
    Examples <https://daml.com/examples>
+   daml/stdlib/index
    canton/usermanual/FAQ
    canton/reference/error_codes
    canton/reference/admin_apis
@@ -134,5 +138,5 @@ Daml Documentation
    tools/export/index
    tools/non-repudiation
    tools/visual
-   writing-daml
+
 
