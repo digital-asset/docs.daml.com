@@ -204,11 +204,13 @@ jobs:
                             | grep canton \
                             | head -1 \
                             | sed 's/canton-open-source-\(.*\)\.tar\.gz/\1/')
-                     echo "-> Building daml $version with canton $canton."
+                     finance=$(git show origin/main:LATEST | jq -r '.daml_finance')
+                     echo "-> Building daml $version with canton $canton & finance $finance."
                      jq -n \
                         --arg daml $version \
                         --arg canton $canton \
-                        '{daml: $daml, canton: $canton, prefix: $daml}' \
+                        --arg finance $finance \
+                        '{daml: $daml, canton: $canton, prefix: $daml, daml_finance: $finance}' \
                         > LATEST
 
                      docs/download.sh
