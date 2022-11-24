@@ -84,7 +84,7 @@ Daml Documentation
    :hidden:
    :caption: Daml Finance
 
-   Introduction <index/daml-finance/intro>
+   Introduction </daml-finance/index>
 
 .. toctree::
    :titlesonly:
@@ -124,7 +124,6 @@ Daml Documentation
    canton/architecture/requirements/requirements
    canton/architecture/research
    canton/architecture/security
-
 
 .. toctree::
    :titlesonly:
