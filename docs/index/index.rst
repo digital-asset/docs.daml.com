@@ -22,14 +22,6 @@ Daml Documentation
 .. toctree::
    :titlesonly:
    :maxdepth: 0
-   :hidden:
-   :caption: Daml Finance
-
-   Introduction <index/daml-finance/intro>
-
-.. toctree::
-   :titlesonly:
-   :maxdepth: 0
    :includehidden:
    :caption: Set Up Your Developer Environment
 
@@ -86,6 +78,14 @@ Daml Documentation
    Infrastructure Automation (Node and Domain) </index/operate-a-daml-ledger/infrastructure-automation/index>
    Scaling and Performance </canton/usermanual/performance>
    Advanced Operations </index/operate-a-daml-ledger/advanced-operations/index>
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 0
+   :hidden:
+   :caption: Daml Finance
+
+   Introduction <index/daml-finance/intro>
 
 .. toctree::
    :titlesonly:
