@@ -17,6 +17,8 @@ Daml Documentation
    :hidden:
    :caption: Home
 
+   Introduction to Multi-Party Applications </high-level-intro>
+
 .. toctree::
    :titlesonly:
    :maxdepth: 0
@@ -45,6 +47,7 @@ Daml Documentation
    :hidden:
    :caption: Create Daml Apps
 
+   Introduction </daml/considerations>
    Write Smart Contracts With Daml </index/create-daml-apps/intro/index>
    Daml Standard Library </index/create-daml-apps/standard-library/index>
    Integrate Daml with Off-Ledger Services </index/create-daml-apps/off-ledger/index>
