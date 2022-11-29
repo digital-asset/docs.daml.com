@@ -105,7 +105,6 @@ Daml Documentation
    :hidden:
    :caption: Reference
 
-   writing-daml
    Cheat Sheet <https://docs.daml.com/cheat-sheet>
    concepts/glossary
    Examples <https://daml.com/examples>
