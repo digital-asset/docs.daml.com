@@ -1,14 +1,14 @@
 .. Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-  
+
 Write Smart Contracts With Daml
 ###############################
 
-  
+
 .. toctree::
    :titlesonly:
-   
+
    Introduction </daml/intro/0_Intro>
    Basic Contracts </daml/intro/1_Token>
    Test Templates With Daml Script </daml/intro/2_DamlScript>
@@ -22,4 +22,5 @@ Write Smart Contracts With Daml
    Functional Programming 101 </daml/intro/10_Functional101>
    Introduction </daml/intro/11_StdLib>
    Testing </daml/intro/12_Testing>
+   /daml/intro/99_NextSteps
    Good Design Patterns </daml/patterns>
