@@ -138,5 +138,6 @@ Daml Documentation
    tools/export/index
    tools/non-repudiation
    tools/visual
+   app-dev/custom-views/index
 
 
