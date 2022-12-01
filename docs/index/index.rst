@@ -134,7 +134,6 @@ Daml Documentation
 
    concepts/interoperability
    operating-daml
-   tools
    tools/export/index
    tools/non-repudiation
    tools/visual
