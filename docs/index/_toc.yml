@@ -1,6 +1,9 @@
 root: index
-title: "Daml Documentation"
 subtrees:
+- entries:
+  - url: "https://docs.daml.com/"
+    title: "Daml Documentation"
+
 - caption: "Home"
   entries:
 
