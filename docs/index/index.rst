@@ -73,6 +73,7 @@ Daml Documentation
    Canton Administration Quick Start </index/operate-a-daml-ledger/canton-administration-quickstart/index>
    Identity Management </canton/usermanual/identity_management>
    Monitoring Best Practices </canton/usermanual/monitoring>
+   Common Metrics </ops/common-metrics>
    /canton/usermanual/example_monitoring_setup.rst
    Common Tasks </index/operate-a-daml-ledger/common-tasks/index>
    Infrastructure Automation (Node and Domain) </index/operate-a-daml-ledger/infrastructure-automation/index>
@@ -110,6 +111,7 @@ Daml Documentation
    concepts/glossary
    Examples <https://daml.com/examples>
    daml/stdlib/index
+   daml/reference/index
    canton/usermanual/FAQ
    canton/reference/error_codes
    canton/reference/admin_apis
