@@ -111,6 +111,7 @@ Daml Documentation
    concepts/glossary
    Examples <https://daml.com/examples>
    daml/stdlib/index
+   daml/reference/index
    canton/usermanual/FAQ
    canton/reference/error_codes
    canton/reference/admin_apis
