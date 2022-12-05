@@ -1,0 +1,1084 @@
+root: index
+title: "Daml Documentation"
+subtrees:
+- caption: "Home"
+  entries:
+
+  - file: high-level-intro
+    title: "Introduction to Multi-Party Applications"
+
+- caption: "Set Up Your Developer Environment"
+  entries:
+
+  - file: getting-started/installation
+    title: "Installation"
+  - file: ops/requirements
+    title: "System Requirements"
+  - file: getting-started/path-variables
+    title: "Set JAVA_HOME and PATH Variables"
+  - file: getting-started/manual-download
+    title: "Manual Installation"
+
+- caption: "Tutorial: Write Your First Daml App"
+  entries:
+
+  - file: getting-started/index
+    title: "Getting Started"
+  - file: getting-started/app-architecture
+    title: "App Architecture"
+  - file: getting-started/first-feature
+    title: "Your First Feature"
+  - file: getting-started/testing
+    title: "Test Your App"
+
+- caption: "Create Daml Apps"
+  entries:
+
+  - file: daml/considerations
+    title: "Introduction"
+  - file: index/create-daml-apps/intro/index
+    title: "Write Smart Contracts With Daml"
+    entries:
+    - file: daml/intro/0_Intro
+      title: "Introduction"
+    - file: daml/intro/1_Token
+      title: "Basic Contracts"
+    - file: daml/intro/2_DamlScript
+      title: "Test Templates With Daml Script"
+    - file: daml/intro/3_Data
+      title: "Data Types"
+    - file: daml/intro/4_Transformations
+      title: "Transform Data Using Choices"
+    - file: daml/intro/5_Restrictions
+      title: "Add Constraints to a Contract"
+    - file: daml/intro/6_Parties
+      title: "Parties and Authority"
+    - file: daml/intro/7_Composing
+      title: "Composing Choices"
+    - file: daml/intro/8_Exceptions
+      title: "Exception Handling"
+    - file: daml/intro/9_Dependencies
+      title: "Work With Dependencies"
+    - file: daml/intro/10_Functional101
+      title: "Functional Programming 101"
+    - file: daml/intro/11_StdLib
+      title: "Introduction"
+    - file: daml/intro/12_Testing
+      title: "Testing"
+    - file: daml/intro/99_NextSteps
+      title: "Next Steps"
+    - file: daml/patterns
+      title: "Good Design Patterns"
+      entries:
+      - file: daml/patterns/initaccept
+        title: "The Initiate and Accept Pattern"
+      - file: daml/patterns/multiparty-agreement
+        title: "The Multiple Party Agreement Pattern"
+      - file: daml/patterns/delegation
+        title: "The Delegation Pattern"
+      - file: daml/patterns/authorization
+        title: "The Authorization Pattern"
+      - file: daml/patterns/locking
+        title: "The Locking Pattern"
+        entries:
+        - file: daml/patterns/locking/locking-by-archiving
+          title: "Lock by Archiving"
+        - file: daml/patterns/locking/locking-by-state
+          title: "Lock by State"
+        - file: daml/patterns/locking/locking-by-safekeeping
+          title: "Lock by Safekeeping"
+      - file: daml/patterns/legends
+        title: "Diagram Legends"
+  - file: index/create-daml-apps/off-ledger/index
+    title: "Integrate Daml with Off-Ledger Services"
+    entries:
+    - file: building-applications
+      title: "Introduction"
+      entries:
+      - file: app-dev/app-arch
+        title: "Daml Application Architecture"
+# DUP      - file: app-dev/bindings-ts/index
+# DUP        title: "Using JavaScript Client Libraries with Daml"
+# DUP        entries:
+# DUP        - file: app-dev/bindings-ts/daml2js
+# DUP          title: "Use the JavaScript Code Generator"
+# DUP        - file: app-dev/bindings-ts/daml-react
+# DUP          title: "@daml/react"
+# DUP        - file: app-dev/bindings-ts/daml-ledger
+# DUP          title: "@daml/ledger"
+# DUP        - file: app-dev/bindings-ts/daml-types
+# DUP          title: "@daml/types"
+# DUP      - file: json-api/index
+# DUP        title: "HTTP JSON API Service"
+      - file: app-dev/bindings-java/index
+        title: "Java Bindings"
+        entries:
+        - file: app-dev/bindings-java/codegen
+          title: "Generate Java Code from Daml"
+        - file: app-dev/bindings-java/example
+          title: "Ping Pong Example"
+        - file: app-dev/bindings-java/quickstart
+          title: "Iou Quickstart Tutorial"
+      - file: app-dev/bindings-python
+        title: "Python Bindings"
+# DUP      - file: daml-script/index
+# DUP        title: "Daml Script"
+# DUP        entries:
+# DUP        - file: daml-script/api/index
+# DUP          title: "Daml Script Library"
+# DUP      - file: daml-repl/index
+# DUP        title: "Daml REPL"
+      - file: upgrade/index
+        title: "Upgrading and Extending Daml Applications"
+        entries:
+        - file: upgrade/extend
+          title: "Extending Daml Applications"
+        - file: upgrade/upgrade
+          title: "Upgrading Daml Applications"
+        - file: upgrade/automation
+          title: "Automating the Upgrade Process"
+# DUP      - file: app-dev/authorization
+# DUP        title: "Authorization"
+# DUP      - file: app-dev/ledger-api
+# DUP        title: "The Ledger API"
+# DUP        entries:
+# DUP        - file: app-dev/services
+# DUP          title: "The Ledger API Services"
+# DUP        - file: app-dev/parties-users
+# DUP          title: "Parties and Users On a Daml Ledger"
+# DUP        - file: app-dev/grpc/index
+# DUP          title: "Use the Ledger API With gRPC"
+# DUP        - file: app-dev/grpc/error-codes
+# DUP          title: "Error Codes"
+# DUP        - file: app-dev/grpc/proto-docs
+# DUP          title: "Ledger API Reference"
+# DUP        - file: app-dev/grpc/daml-to-ledger-api
+# DUP          title: "How Daml Types are Translated to Protobuf"
+# DUP        - file: app-dev/daml-lf-translation
+# DUP          title: "How Daml Types are Translated to Daml-LF"
+# DUP        - file: app-dev/bindings-x-lang/index
+# DUP          title: "Create Your Own Bindings"
+# DUP      - file: app-dev/command-deduplication
+# DUP        title: "Command Deduplication"
+# DUP      - file: triggers/index
+# DUP        title: "Daml Triggers - file: Off-Ledger Automation in Daml"
+# DUP        entries:
+# DUP        - file: triggers/api/index
+# DUP          title: "Daml Trigger Library"
+      - file: tools/trigger-service/index
+        title: "Trigger Service"
+        entries:
+        - file: tools/trigger-service/authorization
+          title: "Authorization"
+# DUP        - file: tools/trigger-service/auth0_example
+# DUP          title: "Auth0 Example Configuration"
+      - file: tools/auth-middleware/index
+        title: "Auth Middleware"
+        entries:
+        - file: tools/auth-middleware/oauth2
+          title: "OAuth 2.0 Auth Middleware"
+# DUP    - file: app-dev/app-arch
+# DUP     title: "Architectural Patterns"
+    - file: index/create-daml-apps/off-ledger/json-api/index
+      title: "Access Active Contracts with the HTTP JSON API Service"
+      entries:
+      - file: json-api/index
+        title: "Overview"
+      - file: json-api/lf-value-specification
+        title: "Daml-LF JSON Encoding"
+      - file: json-api/search-query-language
+        title: "Query Language"
+      - file: app-dev/bindings-ts/index
+        title: "Javascript Client Libraries"
+        entries:
+        - file: app-dev/bindings-ts/daml2js
+          title: "Use the JavaScript Code Generator"
+        - file: app-dev/bindings-ts/daml-react
+          title: "@daml/react"
+        - file: app-dev/bindings-ts/daml-ledger
+          title: "@daml/ledger"
+        - file: app-dev/bindings-ts/daml-types
+          title: "@daml/types"
+      - file: index/create-daml-apps/off-ledger/json-api/production-setup/index
+        title: "Production Setup"
+        entries:
+        - file: json-api/production-setup
+          title: "Overview"
+        - file: json-api/production-setup/query-store
+          title: "Query Store"
+        - file: json-api/production-setup/security-and-privacy
+          title: "Security and Privacy"
+        - file: json-api/production-setup/architecture
+          title: "Architecture"
+        - file: json-api/production-setup/scaling-and-redundancy
+          title: "Scaling and Redundancy"
+        - file: json-api/production-setup/logging
+          title: "Logging"
+        - file: json-api/production-setup/metrics
+          title: "Metrics"
+    - file: app-dev/ledger-api
+      title: "Build Integration with the Ledger API"
+      entries:
+      - file: app-dev/services
+        title: "The Ledger API Services"
+      - file: app-dev/parties-users
+        title: "Parties and Users On a Daml Ledger"
+      - file: app-dev/grpc/index
+        title: "Use the Ledger API With gRPC"
+# DUP      - file: app-dev/grpc/error-codes
+# DUP        title: "Error Codes"
+      - file: app-dev/grpc/proto-docs
+        title: "Ledger API Reference"
+      - file: app-dev/grpc/daml-to-ledger-api
+        title: "How Daml Types are Translated to Protobuf"
+      - file: app-dev/daml-lf-translation
+        title: "How Daml Types are Translated to Daml-LF"
+      - file: app-dev/bindings-x-lang/index
+        title: "Create Your Own Bindings"
+    - file: index/create-daml-apps/off-ledger/daml-off-ledger/index
+      title: "Write Off-Ledger Automation Using Daml"
+      entries:
+      - file: daml-off-ledger
+        title: "Overview"
+      - file: daml-script/index
+        title: "React to Off-Ledger Events: Daml Script"
+        entries:
+        - file: daml-script/api/index
+          title: "Daml Script Library"
+          # MANUAL
+          entries:
+            - file: daml-script/api/Daml-Script
+      - file: triggers/index
+        title: "React to On-Ledger Events: Daml Triggers"
+        entries:
+        - file: triggers/api/index
+          title: "Daml Trigger Library"
+          # MANUAL
+          entries:
+            - file: triggers/api/Daml-Trigger
+            - file: triggers/api/Daml-Trigger-Assert
+            - file: triggers/api/Daml-Trigger-LowLevel
+    - file: index/create-daml-apps/off-ledger/errors/index
+      title: "Handle Errors"
+      entries:
+      - file: app-dev/grpc/error-codes
+        title: "Error Codes"
+      - file: app-dev/command-deduplication
+        title: "Command Deduplication"
+    - file: app-dev/authorization
+      title: "Authorization"
+  - file: index/create-daml-apps/developer-tools/index
+    title: "Developer Tools"
+    entries:
+    - file: tools/assistant
+      title: "Daml Assistant"
+    - file: tools/canton-console
+      title: "Canton Console"
+    - file: deploy/generic_ledger
+      title: "Deploy to Generic Daml Ledger"
+    - file: daml-repl/index
+      title: "Experiment: Daml REPL"
+    - file: daml/daml-studio
+      title: "Write: Daml Studio"
+    - file: tools/sandbox
+      title: "Test: Daml Sandbox"
+    - file: tools/navigator/index
+      title: "Visualize: Daml Navigator"
+    - file: tools/profiler
+      title: "Measure: Daml Profiler"
+    # MANUAL
+    - file: tools/codegen
+
+- caption: "Deploy Daml"
+  entries:
+
+  - file: index/deploy-daml/intro/index
+    title: "Intro"
+    entries:
+    - file: index/deploy-daml/intro/components/index
+      title: "Components of a Daml Ledger"
+      entries:
+      - file: canton/about
+        title: "Introducing Canton"
+# DUP      - file: canton/architecture/overview
+# DUP        title: "Domain Entities"
+    - file: canton/architecture/overview
+      title: "Canton 101"
+    - file: canton/tutorials/demo
+      title: "Canton Demo"
+    - file: canton/tutorials/getting_started
+      title: "Getting Started"
+    - file: canton/tutorials/use_daml_sdk
+      title: "Daml SDK and Canton"
+    - file: canton/tutorials/composability
+      title: "Composability"
+    - file: canton/usermanual/versioning
+      title: "Compatibility Matrix and Supported Dependencies"
+# DUP    - file: canton/usermanual/downloading
+# DUP      title: "Choosing Open-Source or Enterprise Edition"
+  - file: index/deploy-daml/plan-a-deployment/index
+    title: "Plan a Deployment"
+# DUP    entries:
+# DUP    - file: canton/usermanual/installation
+# DUP      title: "Selecting a Sequencer Back End"
+  - file: index/deploy-daml/download/index
+    title: "Download the Components"
+    entries:
+    - file: canton/usermanual/downloading
+      title: "Download Components"
+# DUP    - file: canton/usermanual/installation
+# DUP      title: "Install"
+  - file: index/deploy-daml/install-ledger/index
+    title: "Install a Daml Ledger"
+    entries:
+    - file: canton/usermanual/docker
+      title: "Work With the Docker Containers"
+    - file: canton/usermanual/static_conf
+      title: "Set Configuration Options"
+    - file: canton/usermanual/domains/domains
+      title: "Set Up A Daml Domain With Enterprise Drivers"
+      entries:
+      - file: canton/usermanual/domains/oracle
+        title: "Oracle Domain"
+      - file: canton/usermanual/domains/ccf
+        title: "Trusted Enclave Domain (CCF)"
+      - file: canton/usermanual/domains/fabric
+        title: "Fabric Domain"
+      - file: canton/usermanual/domains/ethereum
+        title: "Ethereum Domain"
+    - file: canton/usermanual/installation
+      title: "Installation"
+    - file: canton/usermanual/ha
+      title: "High Availability"
+    - file: canton/usermanual/persistence
+      title: "Persistence"
+
+- caption: "Operate a Daml Ledger"
+  entries:
+
+  - file: index/operate-a-daml-ledger/administration-introduction/index
+    title: "Administration Introduction"
+    entries:
+    - file: canton/usermanual/command_line
+      title: "The Canton Command Line"
+    - url: https://docs.daml.com/canton/usermanual/console.html#remote-administration
+      title: "Use the Canton Command Line and Remote Console"
+    - file: index/operate-a-daml-ledger/administration-introduction/command-line-options/index
+      title: "Canton Command Line Options"
+      entries:
+      - url: https://docs.daml.com/canton/usermanual/command_line.html#flush-log-files-immediately
+        title: "Flush Logs"
+      - url: https://docs.daml.com/canton/usermanual/command_line.html#java-virtual-machine-arguments
+        title: "Java Virtual Machine Arguments"
+  - file: index/operate-a-daml-ledger/canton-administration-quickstart/index
+    title: "Canton Administration Quick Start"
+    entries:
+    - file: canton/usermanual/console
+      title: "Console Quickstart"
+    - file: canton/reference/console
+      title: "Console Commands"
+  - file: canton/usermanual/identity_management
+    title: "Identity Management"
+  - file: canton/usermanual/monitoring
+    title: "Monitoring Best Practices"
+  - file: ops/common-metrics
+    title: "Common Metrics"
+  - file: canton/usermanual/example_monitoring_setup
+    title: "Example Monitoring Setup"
+  - file: index/operate-a-daml-ledger/common-tasks/index
+    title: "Common Tasks"
+    entries:
+    - url: https://docs.daml.com/canton/usermanual/identity_management.html#adding-a-new-party-to-a-participant
+      title: "Add a Party"
+    - file: canton/usermanual/repairing
+      title: "Repair the Topology Information"
+    - file: canton/usermanual/packagemanagement
+      title: "Manage DARs and Packages"
+    - file: canton/usermanual/upgrading
+      title: "Upgrade To a New Release"
+    - file: tools/trigger-service/auth0_example
+      title: "Configure Auth0 Middleware (With Example Configuration)"
+    - file: canton/usermanual/security
+      title: "Move the Namespace Secret Key to Offline Stoarge (In Cryptographic Key Management)"
+  - file: index/operate-a-daml-ledger/infrastructure-automation/index
+    title: "Infrastructure Automation (Node and Domain)"
+    entries:
+    - url: https://docs.daml.com/canton/tutorials/getting_started.html#automation-using-bootstrap-scripts
+      title: "Bootstrap Scripts"
+    - url: https://docs.daml.com/canton/usermanual/console.html#code-generation-in-console
+      title: "Java Language Bindings"
+    - url: https://docs.daml.com/canton/reference/admin_apis.html
+      title: "Administration APIs"
+  - file: canton/usermanual/performance
+    title: "Scaling and Performance"
+  - file: index/operate-a-daml-ledger/advanced-operations/index
+    title: "Advanced Operations"
+    entries:
+    - file: canton/usermanual/manage_domains
+      title: " Manage Domains"
+    - file: canton/usermanual/manage_domain_entities
+      title: " Manage Domain Entities"
+    - file: canton/usermanual/pruning
+      title: " Pruning"
+    - file: canton/usermanual/apis
+      title: " Api Configuration"
+    - file: canton/usermanual/connectivity
+      title: " Sequencer Connections"
+
+- caption: "Daml Finance"
+  entries:
+
+  - file: daml-finance/index
+    title: "Introduction"
+    entries:
+    - file: daml-finance/overview/index
+      title: "Overview"
+      entries:
+      - file: daml-finance/overview/intro
+        title: "Introduction"
+      - file: daml-finance/overview/architecture
+        title: "Architecture"
+      - file: daml-finance/overview/building-applications
+        title: "Building Applications"
+      - file: daml-finance/overview/extending-daml-finance
+        title: "Extending Daml Finance"
+    - file: daml-finance/concepts/index
+      title: "Concepts"
+      entries:
+      - file: daml-finance/concepts/asset-model
+        title: "Asset Model"
+      - file: daml-finance/concepts/settlement
+        title: "Settlement"
+      - file: daml-finance/concepts/lifecycling
+        title: "Lifecycling"
+      - file: daml-finance/concepts/contingent-claims
+        title: "Contingent Claims"
+    - file: daml-finance/packages/index
+      title: "Packages"
+      entries:
+      - file: daml-finance/packages/interfaces/index
+        title: "Interface Packages"
+        entries:
+        - file: daml-finance/packages/interfaces/daml-finance-interface-holding
+          title: "Daml.Finance.Interface.Holding"
+        - file: daml-finance/packages/interfaces/daml-finance-interface-account
+          title: "Daml.Finance.Interface.Account"
+        - file: daml-finance/packages/interfaces/daml-finance-interface-settlement
+          title: "Daml.Finance.Interface.Settlement"
+        - file: daml-finance/packages/interfaces/daml-finance-interface-lifecycle
+          title: "Daml.Finance.Interface.Lifecycle"
+        - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-base
+          title: "Daml.Finance.Interface.Instrument.Base"
+        - file: daml-finance/packages/interfaces/daml-finance-interface-claims
+          title: "Daml.Finance.Interface.Claims"
+        - file: daml-finance/packages/interfaces/daml-finance-interface-data
+          title: "Daml.Finance.Interface.Data"
+        - file: daml-finance/packages/interfaces/daml-finance-interface-types
+          title: "Daml.Finance.Interface.Types"
+        - file: daml-finance/packages/interfaces/daml-finance-interface-util
+          title: "Daml.Finance.Interface.Util"
+        - file: daml-finance/packages/interfaces/contingent-claims-core
+          title: "ContingentClaims.Core"
+        - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-bond
+          title: "Daml.Finance.Interface.Instrument.Bond"
+        - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-equity
+          title: "Daml.Finance.Interface.Instrument.Equity"
+        - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-generic
+          title: "Daml.Finance.Interface.Instrument.Generic"
+        - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-swap
+          title: "Daml.Finance.Interface.Instrument.Swap"
+        - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-token
+          title: "Daml.Finance.Interface.Instrument.Token"
+      - file: daml-finance/packages/implementations/index
+        title: "Implementation Packages"
+        entries:
+        - file: daml-finance/packages/implementations/daml-finance-holding
+          title: "Daml.Finance.Holding"
+        - file: daml-finance/packages/implementations/daml-finance-account
+          title: "Daml.Finance.Account"
+        - file: daml-finance/packages/implementations/daml-finance-settlement
+          title: "Daml.Finance.Settlement"
+        - file: daml-finance/packages/implementations/daml-finance-lifecycle
+          title: "Daml.Finance.Lifecycle"
+        - file: daml-finance/packages/implementations/daml-finance-data
+          title: "Daml.Finance.Data"
+        - file: daml-finance/packages/implementations/daml-finance-claims
+          title: "Daml.Finance.Claims"
+        - file: daml-finance/packages/implementations/daml-finance-util
+          title: "Daml.Finance.Util"
+        - file: daml-finance/packages/implementations/contingent-claims-lifecycle
+          title: "ContingentClaims.Lifecycle"
+        - file: daml-finance/packages/implementations/contingent-claims-valuation
+          title: "ContingentClaims.Valuation"
+        - file: daml-finance/packages/implementations/daml-finance-instrument-bond
+          title: "Daml.Finance.Instrument.Bond"
+        - file: daml-finance/packages/implementations/daml-finance-instrument-equity
+          title: "Daml.Finance.Instrument.Equity"
+        - file: daml-finance/packages/implementations/daml-finance-instrument-generic
+          title: "Daml.Finance.Instrument.Generic"
+        - file: daml-finance/packages/implementations/daml-finance-instrument-swap
+          title: "Daml.Finance.Instrument.Swap"
+        - file: daml-finance/packages/implementations/daml-finance-instrument-token
+          title: "Daml.Finance.Instrument.Token"
+    - file: daml-finance/tutorials/index
+      title: "Tutorials"
+      entries:
+      - file: daml-finance/tutorials/getting-started/intro
+        title: "Getting Started"
+        entries:
+        - file: daml-finance/tutorials/getting-started/transfer
+          title: "Transfer"
+        - file: daml-finance/tutorials/getting-started/settlement
+          title: "Settlement"
+        - file: daml-finance/tutorials/getting-started/lifecycling
+          title: "Lifecycling"
+      - file: daml-finance/tutorials/instrument-modeling/intro
+        title: "Instrument Modeling"
+        entries:
+        - file: daml-finance/tutorials/instrument-modeling/bond-extension
+          title: "How to Use the Bond Extension Package"
+        - file: daml-finance/tutorials/instrument-modeling/bond-lifecycling
+          title: "How to Lifecycle a Bond Instrument"
+        - file: daml-finance/tutorials/instrument-modeling/swap-extension
+          title: "How To Use the Swap Extension Package"
+        - file: daml-finance/tutorials/instrument-modeling/generic-extension
+          title: "How To Model and Lifecycle Generic Instruments"
+        - file: daml-finance/tutorials/instrument-modeling/contingent-claims-instrument
+          title: "How to Implement a Contingent Claims-Based Instrument"
+        - file: daml-finance/tutorials/instrument-modeling/contingent-claims-on-ledger-vs-on-the-fly
+          title: "Contingent Claims Tree on Ledger vs On-the-Fly Creation"
+    - file: daml-finance/reference/index
+      title: "Reference"
+      entries:
+      - file: daml-finance/reference/glossary
+        title: "Glossary"
+      - file: daml-finance/reference/code-documentation/daml-finance-rst/index
+        title: "Daml Finance"
+        entries:
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/ContingentClaims-Core-Builders
+          title: "ContingentClaims.Core.Builders"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/ContingentClaims-Core-Claim
+          title: "ContingentClaims.Core.Claim"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/ContingentClaims-Core-Internal-Claim
+          title: "ContingentClaims.Core.Internal.Claim"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/ContingentClaims-Core-Observation
+          title: "ContingentClaims.Core.Observation"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/ContingentClaims-Core-Util-Recursion
+          title: "ContingentClaims.Core.Util.Recursion"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/ContingentClaims-Lifecycle-Lifecycle
+          title: "ContingentClaims.Lifecycle.Lifecycle"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/ContingentClaims-Lifecycle-Util
+          title: "ContingentClaims.Lifecycle.Util"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/ContingentClaims-Valuation-MathML
+          title: "ContingentClaims.Valuation.MathML"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/ContingentClaims-Valuation-Stochastic
+          title: "ContingentClaims.Valuation.Stochastic"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Account-Account
+          title: "Daml.Finance.Account.Account"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Claims-Lifecycle-Rule
+          title: "Daml.Finance.Claims.Lifecycle.Rule"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Claims-Util
+          title: "Daml.Finance.Claims.Util"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Claims-Util-Builders
+          title: "Daml.Finance.Claims.Util.Builders"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Claims-Util-Lifecycle
+          title: "Daml.Finance.Claims.Util.Lifecycle"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-Observable-Observation
+          title: "Daml.Finance.Data.Observable.Observation"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-Reference-HolidayCalendar
+          title: "Daml.Finance.Data.Reference.HolidayCalendar"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-Time-DateClock
+          title: "Daml.Finance.Data.Time.DateClock"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-Time-DateClock-Types
+          title: "Daml.Finance.Data.Time.DateClock.Types"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Holding-Fungible
+          title: "Daml.Finance.Holding.Fungible"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Holding-NonFungible
+          title: "Daml.Finance.Holding.NonFungible"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Holding-NonTransferable
+          title: "Daml.Finance.Holding.NonTransferable"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Holding-Util
+          title: "Daml.Finance.Holding.Util"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-FixedRate-Factory
+          title: "Daml.Finance.Instrument.Bond.FixedRate.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-FixedRate-Instrument
+          title: "Daml.Finance.Instrument.Bond.FixedRate.Instrument"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-FloatingRate-Factory
+          title: "Daml.Finance.Instrument.Bond.FloatingRate.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-FloatingRate-Instrument
+          title: "Daml.Finance.Instrument.Bond.FloatingRate.Instrument"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-InflationLinked-Factory
+          title: "Daml.Finance.Instrument.Bond.InflationLinked.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-InflationLinked-Instrument
+          title: "Daml.Finance.Instrument.Bond.InflationLinked.Instrument"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-ZeroCoupon-Factory
+          title: "Daml.Finance.Instrument.Bond.ZeroCoupon.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-ZeroCoupon-Instrument
+          title: "Daml.Finance.Instrument.Bond.ZeroCoupon.Instrument"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Equity-Factory
+          title: "Daml.Finance.Instrument.Equity.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Equity-Instrument
+          title: "Daml.Finance.Instrument.Equity.Instrument"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Generic-Election
+          title: "Daml.Finance.Instrument.Generic.Election"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Generic-Factory
+          title: "Daml.Finance.Instrument.Generic.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Generic-Instrument
+          title: "Daml.Finance.Instrument.Generic.Instrument"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Generic-Lifecycle-Rule
+          title: "Daml.Finance.Instrument.Generic.Lifecycle.Rule"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Asset-Factory
+          title: "Daml.Finance.Instrument.Swap.Asset.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Asset-Instrument
+          title: "Daml.Finance.Instrument.Swap.Asset.Instrument"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-CreditDefault-Factory
+          title: "Daml.Finance.Instrument.Swap.CreditDefault.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-CreditDefault-Instrument
+          title: "Daml.Finance.Instrument.Swap.CreditDefault.Instrument"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Currency-Factory
+          title: "Daml.Finance.Instrument.Swap.Currency.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Currency-Instrument
+          title: "Daml.Finance.Instrument.Swap.Currency.Instrument"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-ForeignExchange-Factory
+          title: "Daml.Finance.Instrument.Swap.ForeignExchange.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-ForeignExchange-Instrument
+          title: "Daml.Finance.Instrument.Swap.ForeignExchange.Instrument"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Fpml-Factory
+          title: "Daml.Finance.Instrument.Swap.Fpml.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Fpml-Instrument
+          title: "Daml.Finance.Instrument.Swap.Fpml.Instrument"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Fpml-Util
+          title: "Daml.Finance.Instrument.Swap.Fpml.Util"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-InterestRate-Factory
+          title: "Daml.Finance.Instrument.Swap.InterestRate.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-InterestRate-Instrument
+          title: "Daml.Finance.Instrument.Swap.InterestRate.Instrument"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Token-Factory
+          title: "Daml.Finance.Instrument.Token.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Token-Instrument
+          title: "Daml.Finance.Instrument.Token.Instrument"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Account-Account
+          title: "Daml.Finance.Interface.Account.Account"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Account-Factory
+          title: "Daml.Finance.Interface.Account.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Account-Util
+          title: "Daml.Finance.Interface.Account.Util"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Claims-Claim
+          title: "Daml.Finance.Interface.Claims.Claim"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Claims-Dynamic-Instrument
+          title: "Daml.Finance.Interface.Claims.Dynamic.Instrument"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Claims-Types
+          title: "Daml.Finance.Interface.Claims.Types"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Data-NumericObservable
+          title: "Daml.Finance.Interface.Data.NumericObservable"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Data-TimeObservable
+          title: "Daml.Finance.Interface.Data.TimeObservable"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Holding-Base
+          title: "Daml.Finance.Interface.Holding.Base"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Holding-Factory
+          title: "Daml.Finance.Interface.Holding.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Holding-Fungible
+          title: "Daml.Finance.Interface.Holding.Fungible"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Holding-Transferable
+          title: "Daml.Finance.Interface.Holding.Transferable"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Holding-Util
+          title: "Daml.Finance.Interface.Holding.Util"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Base-Instrument
+          title: "Daml.Finance.Interface.Instrument.Base.Instrument"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-FixedRate-Factory
+          title: "Daml.Finance.Interface.Instrument.Bond.FixedRate.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-FixedRate-Instrument
+          title: "Daml.Finance.Interface.Instrument.Bond.FixedRate.Instrument"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-FixedRate-Types
+          title: "Daml.Finance.Interface.Instrument.Bond.FixedRate.Types"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-FloatingRate-Factory
+          title: "Daml.Finance.Interface.Instrument.Bond.FloatingRate.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-FloatingRate-Instrument
+          title: "Daml.Finance.Interface.Instrument.Bond.FloatingRate.Instrument"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-FloatingRate-Types
+          title: "Daml.Finance.Interface.Instrument.Bond.FloatingRate.Types"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-InflationLinked-Factory
+          title: "Daml.Finance.Interface.Instrument.Bond.InflationLinked.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-InflationLinked-Instrument
+          title: "Daml.Finance.Interface.Instrument.Bond.InflationLinked.Instrument"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-InflationLinked-Types
+          title: "Daml.Finance.Interface.Instrument.Bond.InflationLinked.Types"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-ZeroCoupon-Factory
+          title: "Daml.Finance.Interface.Instrument.Bond.ZeroCoupon.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-ZeroCoupon-Instrument
+          title: "Daml.Finance.Interface.Instrument.Bond.ZeroCoupon.Instrument"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-ZeroCoupon-Types
+          title: "Daml.Finance.Interface.Instrument.Bond.ZeroCoupon.Types"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Equity-Factory
+          title: "Daml.Finance.Interface.Instrument.Equity.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Equity-Instrument
+          title: "Daml.Finance.Interface.Instrument.Equity.Instrument"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Generic-Election
+          title: "Daml.Finance.Interface.Instrument.Generic.Election"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Generic-Factory
+          title: "Daml.Finance.Interface.Instrument.Generic.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Generic-Instrument
+          title: "Daml.Finance.Interface.Instrument.Generic.Instrument"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Asset-Factory
+          title: "Daml.Finance.Interface.Instrument.Swap.Asset.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Asset-Instrument
+          title: "Daml.Finance.Interface.Instrument.Swap.Asset.Instrument"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Asset-Types
+          title: "Daml.Finance.Interface.Instrument.Swap.Asset.Types"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-CreditDefault-Factory
+          title: "Daml.Finance.Interface.Instrument.Swap.CreditDefault.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-CreditDefault-Instrument
+          title: "Daml.Finance.Interface.Instrument.Swap.CreditDefault.Instrument"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-CreditDefault-Types
+          title: "Daml.Finance.Interface.Instrument.Swap.CreditDefault.Types"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Currency-Factory
+          title: "Daml.Finance.Interface.Instrument.Swap.Currency.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Currency-Instrument
+          title: "Daml.Finance.Interface.Instrument.Swap.Currency.Instrument"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Currency-Types
+          title: "Daml.Finance.Interface.Instrument.Swap.Currency.Types"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-ForeignExchange-Factory
+          title: "Daml.Finance.Interface.Instrument.Swap.ForeignExchange.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-ForeignExchange-Instrument
+          title: "Daml.Finance.Interface.Instrument.Swap.ForeignExchange.Instrument"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-ForeignExchange-Types
+          title: "Daml.Finance.Interface.Instrument.Swap.ForeignExchange.Types"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Fpml-Factory
+          title: "Daml.Finance.Interface.Instrument.Swap.Fpml.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Fpml-FpmlTypes
+          title: "Daml.Finance.Interface.Instrument.Swap.Fpml.FpmlTypes"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Fpml-Instrument
+          title: "Daml.Finance.Interface.Instrument.Swap.Fpml.Instrument"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Fpml-Types
+          title: "Daml.Finance.Interface.Instrument.Swap.Fpml.Types"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-InterestRate-Factory
+          title: "Daml.Finance.Interface.Instrument.Swap.InterestRate.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-InterestRate-Instrument
+          title: "Daml.Finance.Interface.Instrument.Swap.InterestRate.Instrument"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-InterestRate-Types
+          title: "Daml.Finance.Interface.Instrument.Swap.InterestRate.Types"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Token-Factory
+          title: "Daml.Finance.Interface.Instrument.Token.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Token-Instrument
+          title: "Daml.Finance.Interface.Instrument.Token.Instrument"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Token-Types
+          title: "Daml.Finance.Interface.Instrument.Token.Types"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Effect
+          title: "Daml.Finance.Interface.Lifecycle.Effect"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Event
+          title: "Daml.Finance.Interface.Lifecycle.Event"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Event-Distribution
+          title: "Daml.Finance.Interface.Lifecycle.Event.Distribution"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Event-Replacement
+          title: "Daml.Finance.Interface.Lifecycle.Event.Replacement"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Event-Time
+          title: "Daml.Finance.Interface.Lifecycle.Event.Time"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Rule-Claim
+          title: "Daml.Finance.Interface.Lifecycle.Rule.Claim"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Rule-Lifecycle
+          title: "Daml.Finance.Interface.Lifecycle.Rule.Lifecycle"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Settlement-Batch
+          title: "Daml.Finance.Interface.Settlement.Batch"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Settlement-Factory
+          title: "Daml.Finance.Interface.Settlement.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Settlement-Instruction
+          title: "Daml.Finance.Interface.Settlement.Instruction"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Settlement-RouteProvider
+          title: "Daml.Finance.Interface.Settlement.RouteProvider"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Settlement-Types
+          title: "Daml.Finance.Interface.Settlement.Types"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Common
+          title: "Daml.Finance.Interface.Types.Common"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Date-Calendar
+          title: "Daml.Finance.Interface.Types.Date.Calendar"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Date-Classes
+          title: "Daml.Finance.Interface.Types.Date.Classes"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Date-DayCount
+          title: "Daml.Finance.Interface.Types.Date.DayCount"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Date-RollConvention
+          title: "Daml.Finance.Interface.Types.Date.RollConvention"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Date-Schedule
+          title: "Daml.Finance.Interface.Types.Date.Schedule"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Util-Common
+          title: "Daml.Finance.Interface.Util.Common"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Util-Disclosure
+          title: "Daml.Finance.Interface.Util.Disclosure"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Effect
+          title: "Daml.Finance.Lifecycle.Effect"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-ElectionEffect
+          title: "Daml.Finance.Lifecycle.ElectionEffect"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Event-DateClockUpdate
+          title: "Daml.Finance.Lifecycle.Event.DateClockUpdate"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Event-Distribution
+          title: "Daml.Finance.Lifecycle.Event.Distribution"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Event-Replacement
+          title: "Daml.Finance.Lifecycle.Event.Replacement"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Rule-Claim
+          title: "Daml.Finance.Lifecycle.Rule.Claim"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Rule-Distribution
+          title: "Daml.Finance.Lifecycle.Rule.Distribution"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Rule-Replacement
+          title: "Daml.Finance.Lifecycle.Rule.Replacement"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Rule-Util
+          title: "Daml.Finance.Lifecycle.Rule.Util"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Settlement-Batch
+          title: "Daml.Finance.Settlement.Batch"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Settlement-Factory
+          title: "Daml.Finance.Settlement.Factory"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Settlement-Hierarchy
+          title: "Daml.Finance.Settlement.Hierarchy"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Settlement-Instruction
+          title: "Daml.Finance.Settlement.Instruction"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Settlement-RouteProvider-IntermediatedStatic
+          title: "Daml.Finance.Settlement.RouteProvider.IntermediatedStatic"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Settlement-RouteProvider-SingleCustodian
+          title: "Daml.Finance.Settlement.RouteProvider.SingleCustodian"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Util-Common
+          title: "Daml.Finance.Util.Common"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Util-Date-Calendar
+          title: "Daml.Finance.Util.Date.Calendar"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Util-Date-DayCount
+          title: "Daml.Finance.Util.Date.DayCount"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Util-Date-RollConvention
+          title: "Daml.Finance.Util.Date.RollConvention"
+        - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Util-Date-Schedule
+          title: "Daml.Finance.Util.Date.Schedule"
+
+- caption: "Help"
+  entries:
+
+  - file: daml/troubleshooting
+    title: "Troubleshooting"
+  - file: support/support
+    title: "Getting Help"
+  - file: support/compatibility
+    title: "Portability, Compatibility, and Support Durations"
+  - file: support/overview
+    title: "Daml Ecosystem Overview"
+    entries:
+    - file: support/status-definitions
+      title: "Status Definitions"
+    - file: support/component-statuses
+      title: "Feature and Component Statuses"
+  - file: support/releases
+    title: "Releases and Versioning"
+
+- caption: "Reference"
+  entries:
+
+  - file: writing-daml
+    title: "Writing Daml"
+  - url: https://docs.daml.com/cheat-sheet
+    title: "Cheat Sheet"
+  - file: concepts/glossary
+    title: "Glossary of concepts"
+  - url: https://daml.com/examples
+    title: "Examples"
+  - file: daml/stdlib/index
+    title: "The standard library"
+    entries:
+    - file: daml/stdlib/Prelude
+      title: "Prelude"
+    - file: daml/stdlib/DA-Action
+      title: "DA.Action"
+    - file: daml/stdlib/DA-Action-State
+      title: "DA.Action.State"
+    - file: daml/stdlib/DA-Action-State-Class
+      title: "DA.Action.State.Class"
+    - file: daml/stdlib/DA-Assert
+      title: "DA.Assert"
+    - file: daml/stdlib/DA-Bifunctor
+      title: "DA.Bifunctor"
+    - file: daml/stdlib/DA-BigNumeric
+      title: "DA.BigNumeric"
+    - file: daml/stdlib/DA-Date
+      title: "DA.Date"
+    - file: daml/stdlib/DA-Either
+      title: "DA.Either"
+    - file: daml/stdlib/DA-Exception
+      title: "DA.Exception"
+    - file: daml/stdlib/DA-Foldable
+      title: "DA.Foldable"
+    - file: daml/stdlib/DA-Functor
+      title: "DA.Functor"
+    - file: daml/stdlib/DA-Internal-Interface-AnyView
+      title: "DA.Internal.Interface.AnyView"
+    - file: daml/stdlib/DA-Internal-Interface-AnyView-Types
+      title: "DA.Internal.Interface.AnyView.Types"
+    - file: daml/stdlib/DA-List
+      title: "DA.List"
+    - file: daml/stdlib/DA-List-BuiltinOrder
+      title: "DA.List.BuiltinOrder"
+    - file: daml/stdlib/DA-List-Total
+      title: "DA.List.Total"
+    - file: daml/stdlib/DA-Logic
+      title: "DA.Logic"
+    - file: daml/stdlib/DA-Map
+      title: "DA.Map"
+    - file: daml/stdlib/DA-Math
+      title: "DA.Math"
+    - file: daml/stdlib/DA-Monoid
+      title: "DA.Monoid"
+    - file: daml/stdlib/DA-NonEmpty
+      title: "DA.NonEmpty"
+    - file: daml/stdlib/DA-NonEmpty-Types
+      title: "DA.NonEmpty.Types"
+    - file: daml/stdlib/DA-Numeric
+      title: "DA.Numeric"
+    - file: daml/stdlib/DA-Optional
+      title: "DA.Optional"
+    - file: daml/stdlib/DA-Record
+      title: "DA.Record"
+    - file: daml/stdlib/DA-Semigroup
+      title: "DA.Semigroup"
+    - file: daml/stdlib/DA-Set
+      title: "DA.Set"
+    - file: daml/stdlib/DA-Stack
+      title: "DA.Stack"
+    - file: daml/stdlib/DA-Text
+      title: "DA.Text"
+    - file: daml/stdlib/DA-TextMap
+      title: "DA.TextMap"
+    - file: daml/stdlib/DA-Time
+      title: "DA.Time"
+    - file: daml/stdlib/DA-Traversable
+      title: "DA.Traversable"
+    - file: daml/stdlib/DA-Tuple
+      title: "DA.Tuple"
+    - file: daml/stdlib/DA-Validation
+      title: "DA.Validation"
+    - file: daml/stdlib/GHC-Show-Text
+      title: "GHC.Show.Text"
+    - file: daml/stdlib/GHC-Tuple-Check
+      title: "GHC.Tuple.Check"
+  - file: daml/reference/index
+    title: "Language Reference"
+    entries:
+    - file: daml/reference/structure
+      title: "Overview: Template Structure"
+    - file: daml/reference/templates
+      title: "Templates"
+    - file: daml/reference/choices
+      title: "Choices"
+    - file: daml/reference/updates
+      title: "Updates"
+    - file: daml/reference/data-types
+      title: "Data types"
+    - file: daml/reference/working-with
+      title: "Built-in functions"
+    - file: daml/reference/expressions
+      title: "Expressions"
+    - file: daml/reference/functions
+      title: "Functions"
+    - file: daml/reference/file-structure
+      title: "File structure"
+    - file: daml/reference/packages
+      title: "Packages"
+    - file: daml/reference/contract-keys
+      title: "Contract keys"
+    - file: daml/reference/exceptions
+      title: "Exceptions"
+    - file: daml/reference/interfaces
+      title: "Interfaces"
+  - file: canton/usermanual/FAQ
+    title: "Frequently Asked Questions"
+  - file: canton/reference/error_codes
+    title: "Error codes"
+  - file: canton/reference/admin_apis
+    title: "Canton Administration APIs"
+  - file: concepts/ledger-model/index
+    title: "Daml Ledger Model"
+    entries:
+    - file: concepts/ledger-model/ledger-structure
+      title: "Structure"
+    - file: concepts/ledger-model/ledger-integrity
+      title: "Integrity"
+    - file: concepts/ledger-model/ledger-privacy
+      title: "Privacy"
+    - file: concepts/ledger-model/ledger-daml
+      title: "Daml: Define Contract Models Compactly"
+    - file: concepts/ledger-model/ledger-exceptions
+      title: "Exceptions"
+  - file: concepts/identity-and-package-management
+    title: "Identity and Package Management"
+  - file: concepts/time
+    title: "Time on Daml Ledgers"
+  - file: concepts/local-ledger
+    title: "Causality and Local Daml Ledgers"
+  - file: concepts/test-evidence
+    title: "Test Evidence"
+  - file: canton/usermanual/contract_keys
+    title: "Contract Keys in Canton"
+  - file: canton/architecture/domains/domains
+    title: "Domain Architecture and Integrations"
+    entries:
+    - file: canton/architecture/domains/ethereum
+      title: "Canton Domain on Ethereum"
+    - file: canton/architecture/domains/fabric
+      title: "Canton Domain on Fabric"
+  - file: canton/architecture/ha
+    title: "High Availability"
+    entries:
+    - file: canton/architecture/ha/overview
+      title: "Canton High Availability: Overview and Principles"
+    - file: canton/architecture/ha/participant
+      title: "Replicated Participant Node Architecture"
+    - file: canton/architecture/ha/domain
+      title: "Domain HA"
+  - file: canton/architecture/identity
+    title: "Identity Management"
+  - file: canton/architecture/requirements/requirements
+    title: "High-Level Requirements"
+  - file: canton/architecture/research
+    title: "Research Publications"
+  - file: canton/architecture/security
+    title: "Security"
+
+- caption: "Early Access"
+  entries:
+
+  - file: concepts/interoperability
+    title: "Daml Ledger Interoperability"
+  - file: operating-daml
+    title: "Operating Daml"
+    entries:
+    - file: ops/pruning
+      title: "Participant Pruning"
+    - file: ops/metering
+      title: "Participant Metering"
+# DUP    - file: ops/requirements
+# DUP      title: "System Requirements"
+    - file: ops/system_architecture_faq
+      title: "System Architecture FAQ"
+# DUP  - file: tools
+# DUP    title: "Developer Tools"
+# DUP    entries:
+# DUP    - file: tools/assistant
+# DUP      title: Daml Assistant (daml)
+# DUP    - file: daml/daml-studio
+# DUP      title: "Daml Studio"
+# DUP    - file: tools/sandbox
+# DUP      title: "Daml Sandbox"
+# DUP    - file: tools/navigator/index
+# DUP      title: "Navigator"
+# DUP    - file: tools/codegen
+# DUP      title: "Daml Codegen"
+# DUP    - file: tools/profiler
+# DUP      title: "Daml Profiler"
+  - file: tools/export/index
+    title: "Ledger Export"
+  - file: tools/non-repudiation
+    title: "Non-repudiation"
+  - file: tools/visual
+    title: "Visualizing Daml Contracts"
+  - file: app-dev/custom-views/index
+    title: "Custom Views"
+
+# MANUAL - NEEDS SORTING
+- caption: "DANGLING"
+  entries:
+  - file: tools
+  - file: canton/architecture/domains/enclave/intro
+    entries:
+    - file: canton/architecture/domains/enclave/arch
+    - file: canton/architecture/domains/enclave/idm
