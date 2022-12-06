@@ -4,6 +4,8 @@
 Canton Administration Quickstart
 ################################
 
+.. _ledger-administration-introduction:
+
 .. toctree::
    :titlesonly:
 
