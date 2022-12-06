@@ -44,6 +44,10 @@ declare -A sphinx_targets=( [html]=html [pdf]=latex )
 sed -i "s/'sphinx.ext.extlinks',$/'sphinx.ext.extlinks','canton_enterprise_only','sphinx.ext.todo','sphinx_external_toc',/g" $SPHINX_DIR/configs/html/conf.py
 sed -i "s/'sphinx.ext.extlinks'$/'sphinx.ext.extlinks','canton_enterprise_only','sphinx.ext.todo','sphinx_external_toc'/g" $SPHINX_DIR/configs/pdf/conf.py
 
+#Override Max navigation depth
+#sed -i "s/  'pdf_download': True$/  'pdf_download': True,\n  'navigation_depth': 5/g" $SPHINX_DIR/configs/html/conf.py
+
+
 # We rename the PDF so need to update the link.
 sed -i "s/DigitalAssetSDK\\.pdf/DamlEnterprise$prefix.pdf/" $SPHINX_DIR/theme/da_theme/layout.html
 

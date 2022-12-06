@@ -5,14 +5,12 @@ subtrees:
     title: "Daml Documentation"
 
 - caption: "Home"
-  maxdepth: 5
   entries:
 
   - file: high-level-intro
     title: "Introduction to Multi-Party Applications"
 
 - caption: "Set Up Your Developer Environment"
-  maxdepth: 5
   entries:
 
   - file: getting-started/installation
@@ -25,7 +23,6 @@ subtrees:
     title: "Manual Installation"
 
 - caption: "Tutorial: Write Your First Daml App"
-  maxdepth: 5
   entries:
 
   - file: getting-started/index
@@ -38,7 +35,6 @@ subtrees:
     title: "Test Your App"
 
 - caption: "Create Daml Apps"
-  maxdepth: 5
   entries:
 
   - file: daml/considerations
@@ -175,22 +171,9 @@ subtrees:
         title: "Overview"
       - file: daml-script/index
         title: "React to Off-Ledger Events: Daml Script"
-        entries:
-        - file: daml-script/api/index
-          title: "Daml Script Library"
-          # MANUAL
-          entries:
-            - file: daml-script/api/Daml-Script
       - file: triggers/index
         title: "React to On-Ledger Events: Daml Triggers"
         entries:
-        - file: triggers/api/index
-          title: "Daml Trigger Library"
-          # MANUAL
-          entries:
-            - file: triggers/api/Daml-Trigger
-            - file: triggers/api/Daml-Trigger-Assert
-            - file: triggers/api/Daml-Trigger-LowLevel
         - file: tools/trigger-service/index
           title: "Trigger Service"
           entries:
@@ -243,7 +226,6 @@ subtrees:
     - file: tools/codegen
 
 - caption: "Deploy Daml"
-  maxdepth: 5
   entries:
 
   - file: index/deploy-daml/intro/index
@@ -308,7 +290,6 @@ subtrees:
       title: "Persistence"
 
 - caption: "Operate a Daml Ledger"
-  maxdepth: 5
   entries:
 
   - file: index/operate-a-daml-ledger/administration-introduction/index
@@ -381,7 +362,6 @@ subtrees:
       title: " Sequencer Connections"
 
 - caption: "Daml Finance"
-  maxdepth: 5
   entries:
 
   - file: daml-finance/index
@@ -801,7 +781,6 @@ subtrees:
           title: "Daml.Finance.Util.Date.Schedule"
 
 - caption: "Help"
-  maxdepth: 5
   entries:
 
   - file: daml/troubleshooting
@@ -821,7 +800,6 @@ subtrees:
     title: "Releases and Versioning"
 
 - caption: "Reference"
-  maxdepth: 5
   entries:
 
   - file: writing-daml
@@ -832,6 +810,35 @@ subtrees:
     title: "Glossary of concepts"
   - url: https://daml.com/examples
     title: "Examples"
+  - file: daml/reference/index
+    title: "Language Reference"
+    entries:
+    - file: daml/reference/structure
+      title: "Overview: Template Structure"
+    - file: daml/reference/templates
+      title: "Templates"
+    - file: daml/reference/choices
+      title: "Choices"
+    - file: daml/reference/updates
+      title: "Updates"
+    - file: daml/reference/data-types
+      title: "Data types"
+    - file: daml/reference/working-with
+      title: "Built-in functions"
+    - file: daml/reference/expressions
+      title: "Expressions"
+    - file: daml/reference/functions
+      title: "Functions"
+    - file: daml/reference/file-structure
+      title: "File structure"
+    - file: daml/reference/packages
+      title: "Packages"
+    - file: daml/reference/contract-keys
+      title: "Contract keys"
+    - file: daml/reference/exceptions
+      title: "Exceptions"
+    - file: daml/reference/interfaces
+      title: "Interfaces"
   - file: daml/stdlib/index
     title: "The standard library"
     entries:
@@ -909,35 +916,17 @@ subtrees:
       title: "GHC.Show.Text"
     - file: daml/stdlib/GHC-Tuple-Check
       title: "GHC.Tuple.Check"
-  - file: daml/reference/index
-    title: "Language Reference"
+  - file: daml-script/api/index
+    title: "Daml Script Library"
     entries:
-    - file: daml/reference/structure
-      title: "Overview: Template Structure"
-    - file: daml/reference/templates
-      title: "Templates"
-    - file: daml/reference/choices
-      title: "Choices"
-    - file: daml/reference/updates
-      title: "Updates"
-    - file: daml/reference/data-types
-      title: "Data types"
-    - file: daml/reference/working-with
-      title: "Built-in functions"
-    - file: daml/reference/expressions
-      title: "Expressions"
-    - file: daml/reference/functions
-      title: "Functions"
-    - file: daml/reference/file-structure
-      title: "File structure"
-    - file: daml/reference/packages
-      title: "Packages"
-    - file: daml/reference/contract-keys
-      title: "Contract keys"
-    - file: daml/reference/exceptions
-      title: "Exceptions"
-    - file: daml/reference/interfaces
-      title: "Interfaces"
+      - file: daml-script/api/Daml-Script
+  - file: triggers/api/index
+    title: "Daml Trigger Library"
+    # MANUAL
+    entries:
+      - file: triggers/api/Daml-Trigger
+      - file: triggers/api/Daml-Trigger-Assert
+      - file: triggers/api/Daml-Trigger-LowLevel
   - file: canton/usermanual/FAQ
     title: "Frequently Asked Questions"
   - file: canton/reference/error_codes
@@ -993,7 +982,6 @@ subtrees:
     title: "Security"
 
 - caption: "Early Access"
-  maxdepth: 5
   entries:
 
   - file: concepts/interoperability
@@ -1005,25 +993,8 @@ subtrees:
       title: "Participant Pruning"
     - file: ops/metering
       title: "Participant Metering"
-# DUP    - file: ops/requirements
-# DUP      title: "System Requirements"
     - file: ops/system_architecture_faq
       title: "System Architecture FAQ"
-# DUP  - file: tools
-# DUP    title: "Developer Tools"
-# DUP    entries:
-# DUP    - file: tools/assistant
-# DUP      title: Daml Assistant (daml)
-# DUP    - file: daml/daml-studio
-# DUP      title: "Daml Studio"
-# DUP    - file: tools/sandbox
-# DUP      title: "Daml Sandbox"
-# DUP    - file: tools/navigator/index
-# DUP      title: "Navigator"
-# DUP    - file: tools/codegen
-# DUP      title: "Daml Codegen"
-# DUP    - file: tools/profiler
-# DUP      title: "Daml Profiler"
   - file: tools/export/index
     title: "Ledger Export"
   - file: tools/non-repudiation
