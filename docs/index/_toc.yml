@@ -222,7 +222,6 @@ subtrees:
       title: "Visualize: Daml Navigator"
     - file: tools/profiler
       title: "Measure: Daml Profiler"
-    # MANUAL
     - file: tools/codegen
 
 - caption: "Deploy Daml"
