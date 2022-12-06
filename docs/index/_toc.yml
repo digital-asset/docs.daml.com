@@ -315,15 +315,19 @@ subtrees:
     title: "Advanced Operations"
     entries:
     - file: canton/usermanual/manage_domains
-      title: " Manage Domains"
+      title: "Manage Domains"
     - file: canton/usermanual/manage_domain_entities
-      title: " Manage Domain Entities"
+      title: "Manage Domain Entities"
     - file: canton/usermanual/pruning
-      title: " Pruning"
+      title: "Ledger Pruning"
+    - file: ops/pruning
+      title: "Participant Pruning"
+    - file: ops/metering
+      title: "Participant Metering"
     - file: canton/usermanual/apis
-      title: " Api Configuration"
+      title: "Api Configuration"
     - file: canton/usermanual/connectivity
-      title: " Sequencer Connections"
+      title: "Sequencer Connections"
     - file: canton/usermanual/repairing
       title: "Repair the Topology Information"
 
@@ -952,10 +956,6 @@ subtrees:
   - file: operating-daml
     title: "Operating Daml"
     entries:
-    - file: ops/pruning
-      title: "Participant Pruning"
-    - file: ops/metering
-      title: "Participant Metering"
     - file: ops/system_architecture_faq
       title: "System Architecture FAQ"
   - file: tools/export/index
