@@ -5,12 +5,14 @@ subtrees:
     title: "Daml Documentation"
 
 - caption: "Home"
+  maxdepth: 5
   entries:
 
   - file: high-level-intro
     title: "Introduction to Multi-Party Applications"
 
 - caption: "Set Up Your Developer Environment"
+  maxdepth: 5
   entries:
 
   - file: getting-started/installation
@@ -23,6 +25,7 @@ subtrees:
     title: "Manual Installation"
 
 - caption: "Tutorial: Write Your First Daml App"
+  maxdepth: 5
   entries:
 
   - file: getting-started/index
@@ -35,6 +38,7 @@ subtrees:
     title: "Test Your App"
 
 - caption: "Create Daml Apps"
+  maxdepth: 5
   entries:
 
   - file: daml/considerations
@@ -97,91 +101,10 @@ subtrees:
     entries:
     - file: building-applications
       title: "Introduction"
-      entries:
-      - file: app-dev/app-arch
-        title: "Daml Application Architecture"
-# DUP      - file: app-dev/bindings-ts/index
-# DUP        title: "Using JavaScript Client Libraries with Daml"
-# DUP        entries:
-# DUP        - file: app-dev/bindings-ts/daml2js
-# DUP          title: "Use the JavaScript Code Generator"
-# DUP        - file: app-dev/bindings-ts/daml-react
-# DUP          title: "@daml/react"
-# DUP        - file: app-dev/bindings-ts/daml-ledger
-# DUP          title: "@daml/ledger"
-# DUP        - file: app-dev/bindings-ts/daml-types
-# DUP          title: "@daml/types"
-# DUP      - file: json-api/index
-# DUP        title: "HTTP JSON API Service"
-      - file: app-dev/bindings-java/index
-        title: "Java Bindings"
-        entries:
-        - file: app-dev/bindings-java/codegen
-          title: "Generate Java Code from Daml"
-        - file: app-dev/bindings-java/example
-          title: "Ping Pong Example"
-        - file: app-dev/bindings-java/quickstart
-          title: "Iou Quickstart Tutorial"
-      - file: app-dev/bindings-python
-        title: "Python Bindings"
-# DUP      - file: daml-script/index
-# DUP        title: "Daml Script"
-# DUP        entries:
-# DUP        - file: daml-script/api/index
-# DUP          title: "Daml Script Library"
-# DUP      - file: daml-repl/index
-# DUP        title: "Daml REPL"
-      - file: upgrade/index
-        title: "Upgrading and Extending Daml Applications"
-        entries:
-        - file: upgrade/extend
-          title: "Extending Daml Applications"
-        - file: upgrade/upgrade
-          title: "Upgrading Daml Applications"
-        - file: upgrade/automation
-          title: "Automating the Upgrade Process"
-# DUP      - file: app-dev/authorization
-# DUP        title: "Authorization"
-# DUP      - file: app-dev/ledger-api
-# DUP        title: "The Ledger API"
-# DUP        entries:
-# DUP        - file: app-dev/services
-# DUP          title: "The Ledger API Services"
-# DUP        - file: app-dev/parties-users
-# DUP          title: "Parties and Users On a Daml Ledger"
-# DUP        - file: app-dev/grpc/index
-# DUP          title: "Use the Ledger API With gRPC"
-# DUP        - file: app-dev/grpc/error-codes
-# DUP          title: "Error Codes"
-# DUP        - file: app-dev/grpc/proto-docs
-# DUP          title: "Ledger API Reference"
-# DUP        - file: app-dev/grpc/daml-to-ledger-api
-# DUP          title: "How Daml Types are Translated to Protobuf"
-# DUP        - file: app-dev/daml-lf-translation
-# DUP          title: "How Daml Types are Translated to Daml-LF"
-# DUP        - file: app-dev/bindings-x-lang/index
-# DUP          title: "Create Your Own Bindings"
-# DUP      - file: app-dev/command-deduplication
-# DUP        title: "Command Deduplication"
-# DUP      - file: triggers/index
-# DUP        title: "Daml Triggers - file: Off-Ledger Automation in Daml"
-# DUP        entries:
-# DUP        - file: triggers/api/index
-# DUP          title: "Daml Trigger Library"
-      - file: tools/trigger-service/index
-        title: "Trigger Service"
-        entries:
-        - file: tools/trigger-service/authorization
-          title: "Authorization"
-# DUP        - file: tools/trigger-service/auth0_example
-# DUP          title: "Auth0 Example Configuration"
-      - file: tools/auth-middleware/index
-        title: "Auth Middleware"
-        entries:
-        - file: tools/auth-middleware/oauth2
-          title: "OAuth 2.0 Auth Middleware"
-# DUP    - file: app-dev/app-arch
-# DUP     title: "Architectural Patterns"
+    - file: app-dev/app-arch
+      title: "Architectural Patterns"
+    - file: app-dev/parties-users
+      title: "Parties and Users On a Daml Ledger"
     - file: index/create-daml-apps/off-ledger/json-api/index
       title: "Access Active Contracts with the HTTP JSON API Service"
       entries:
@@ -224,12 +147,19 @@ subtrees:
       entries:
       - file: app-dev/services
         title: "The Ledger API Services"
-      - file: app-dev/parties-users
-        title: "Parties and Users On a Daml Ledger"
+      - file: app-dev/bindings-java/index
+        title: "Java Bindings"
+        entries:
+        - file: app-dev/bindings-java/codegen
+          title: "Generate Java Code from Daml"
+        - file: app-dev/bindings-java/example
+          title: "Ping Pong Example"
+        - file: app-dev/bindings-java/quickstart
+          title: "Iou Quickstart Tutorial"
+      - file: app-dev/bindings-python
+        title: "Python Bindings"
       - file: app-dev/grpc/index
         title: "Use the Ledger API With gRPC"
-# DUP      - file: app-dev/grpc/error-codes
-# DUP        title: "Error Codes"
       - file: app-dev/grpc/proto-docs
         title: "Ledger API Reference"
       - file: app-dev/grpc/daml-to-ledger-api
@@ -261,6 +191,16 @@ subtrees:
             - file: triggers/api/Daml-Trigger
             - file: triggers/api/Daml-Trigger-Assert
             - file: triggers/api/Daml-Trigger-LowLevel
+        - file: tools/trigger-service/index
+          title: "Trigger Service"
+          entries:
+          - file: tools/trigger-service/authorization
+            title: "Authorization"
+        - file: tools/auth-middleware/index
+          title: "Auth Middleware"
+          entries:
+          - file: tools/auth-middleware/oauth2
+            title: "OAuth 2.0 Auth Middleware"
     - file: index/create-daml-apps/off-ledger/errors/index
       title: "Handle Errors"
       entries:
@@ -270,6 +210,16 @@ subtrees:
         title: "Command Deduplication"
     - file: app-dev/authorization
       title: "Authorization"
+    - file: upgrade/index
+      title: "Upgrading and Extending Daml Applications"
+      entries:
+      - file: upgrade/extend
+        title: "Extending Daml Applications"
+      - file: upgrade/upgrade
+        title: "Upgrading Daml Applications"
+      - file: upgrade/automation
+        title: "Automating the Upgrade Process"
+
   - file: index/create-daml-apps/developer-tools/index
     title: "Developer Tools"
     entries:
@@ -293,6 +243,7 @@ subtrees:
     - file: tools/codegen
 
 - caption: "Deploy Daml"
+  maxdepth: 5
   entries:
 
   - file: index/deploy-daml/intro/index
@@ -357,6 +308,7 @@ subtrees:
       title: "Persistence"
 
 - caption: "Operate a Daml Ledger"
+  maxdepth: 5
   entries:
 
   - file: index/operate-a-daml-ledger/administration-introduction/index
@@ -429,6 +381,7 @@ subtrees:
       title: " Sequencer Connections"
 
 - caption: "Daml Finance"
+  maxdepth: 5
   entries:
 
   - file: daml-finance/index
@@ -848,6 +801,7 @@ subtrees:
           title: "Daml.Finance.Util.Date.Schedule"
 
 - caption: "Help"
+  maxdepth: 5
   entries:
 
   - file: daml/troubleshooting
@@ -867,6 +821,7 @@ subtrees:
     title: "Releases and Versioning"
 
 - caption: "Reference"
+  maxdepth: 5
   entries:
 
   - file: writing-daml
@@ -1038,6 +993,7 @@ subtrees:
     title: "Security"
 
 - caption: "Early Access"
+  maxdepth: 5
   entries:
 
   - file: concepts/interoperability
