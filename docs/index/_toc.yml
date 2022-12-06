@@ -777,6 +777,35 @@ subtrees:
     title: "Glossary of concepts"
   - url: https://daml.com/examples
     title: "Examples"
+  - file: index/advanced-architecture
+    title: "Advanced Architecture"
+    entries:
+    - file: canton/usermanual/contract_keys
+      title: "Contract Keys in Canton"
+    - file: canton/architecture/domains/domains
+      title: "Domain Architecture and Integrations"
+      entries:
+      - file: canton/architecture/domains/ethereum
+        title: "Canton Domain on Ethereum"
+      - file: canton/architecture/domains/fabric
+        title: "Canton Domain on Fabric"
+    - file: canton/architecture/ha
+      title: "High Availability"
+      entries:
+      - file: canton/architecture/ha/overview
+        title: "Canton High Availability: Overview and Principles"
+      - file: canton/architecture/ha/participant
+        title: "Replicated Participant Node Architecture"
+      - file: canton/architecture/ha/domain
+        title: "Domain HA"
+    - file: canton/architecture/identity
+      title: "Identity Management"
+    - file: canton/architecture/requirements/requirements
+      title: "Canton High-Level Requirements"
+    - file: canton/architecture/research
+      title: "Research Publications"
+    - file: canton/architecture/security
+      title: "Security"
   - file: daml/reference/index
     title: "Language Reference"
     entries:
@@ -918,32 +947,7 @@ subtrees:
     title: "Causality and Local Daml Ledgers"
   - file: concepts/test-evidence
     title: "Test Evidence"
-  - file: canton/usermanual/contract_keys
-    title: "Contract Keys in Canton"
-  - file: canton/architecture/domains/domains
-    title: "Domain Architecture and Integrations"
-    entries:
-    - file: canton/architecture/domains/ethereum
-      title: "Canton Domain on Ethereum"
-    - file: canton/architecture/domains/fabric
-      title: "Canton Domain on Fabric"
-  - file: canton/architecture/ha
-    title: "High Availability"
-    entries:
-    - file: canton/architecture/ha/overview
-      title: "Canton High Availability: Overview and Principles"
-    - file: canton/architecture/ha/participant
-      title: "Replicated Participant Node Architecture"
-    - file: canton/architecture/ha/domain
-      title: "Domain HA"
-  - file: canton/architecture/identity
-    title: "Identity Management"
-  - file: canton/architecture/requirements/requirements
-    title: "Canton High-Level Requirements"
-  - file: canton/architecture/research
-    title: "Research Publications"
-  - file: canton/architecture/security
-    title: "Security"
+  
 
 - caption: "Early Access"
   entries:
