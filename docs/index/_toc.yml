@@ -275,42 +275,27 @@ subtrees:
 - caption: "Operate a Daml Ledger"
   entries:
 
-  - file: index/operate-a-daml-ledger/administration-introduction/index
-    title: "Administration Introduction"
-    entries:
-    - file: canton/usermanual/command_line
-      title: "The Canton Command Line"
-    - url: https://docs.daml.com/canton/usermanual/console.html#remote-administration
-      title: "Use the Canton Command Line and Remote Console"
-    - file: index/operate-a-daml-ledger/administration-introduction/command-line-options/index
-      title: "Canton Command Line Options"
-      entries:
-      - url: https://docs.daml.com/canton/usermanual/command_line.html#flush-log-files-immediately
-        title: "Flush Logs"
-      - url: https://docs.daml.com/canton/usermanual/command_line.html#java-virtual-machine-arguments
-        title: "Java Virtual Machine Arguments"
   - file: index/operate-a-daml-ledger/canton-administration-quickstart/index
     title: "Canton Administration Quick Start"
     entries:
+    - file: canton/usermanual/command_line
+      title: "Use the Canton Command Line"
     - file: canton/usermanual/console
       title: "Console Quickstart"
     - file: canton/reference/console
       title: "Console Commands"
-  - file: canton/usermanual/identity_management
-    title: "Identity Management"
   - file: canton/usermanual/monitoring
     title: "Monitoring Best Practices"
-  - file: ops/common-metrics
-    title: "Common Metrics"
-  - file: canton/usermanual/example_monitoring_setup
-    title: "Example Monitoring Setup"
+    entries:
+    - file: ops/common-metrics
+      title: "Common Metrics"
+    - file: canton/usermanual/example_monitoring_setup
+      title: "Example Monitoring Setup"
+  - file: canton/usermanual/identity_management
+    title: "Identity Management"
   - file: index/operate-a-daml-ledger/common-tasks/index
     title: "Common Tasks"
     entries:
-    - url: https://docs.daml.com/canton/usermanual/identity_management.html#adding-a-new-party-to-a-participant
-      title: "Add a Party"
-    - file: canton/usermanual/repairing
-      title: "Repair the Topology Information"
     - file: canton/usermanual/packagemanagement
       title: "Manage DARs and Packages"
     - file: canton/usermanual/upgrading
@@ -318,15 +303,11 @@ subtrees:
     - file: tools/trigger-service/auth0_example
       title: "Configure Auth0 Middleware (With Example Configuration)"
     - file: canton/usermanual/security
-      title: "Move the Namespace Secret Key to Offline Stoarge (In Cryptographic Key Management)"
+      title: "Security & Key Management"
   - file: index/operate-a-daml-ledger/infrastructure-automation/index
     title: "Infrastructure Automation (Node and Domain)"
     entries:
-    - url: https://docs.daml.com/canton/tutorials/getting_started.html#automation-using-bootstrap-scripts
-      title: "Bootstrap Scripts"
-    - url: https://docs.daml.com/canton/usermanual/console.html#code-generation-in-console
-      title: "Java Language Bindings"
-    - url: https://docs.daml.com/canton/reference/admin_apis.html
+    - file: canton/reference/admin_apis
       title: "Administration APIs"
   - file: canton/usermanual/performance
     title: "Scaling and Performance"
@@ -343,6 +324,8 @@ subtrees:
       title: " Api Configuration"
     - file: canton/usermanual/connectivity
       title: " Sequencer Connections"
+    - file: canton/usermanual/repairing
+      title: "Repair the Topology Information"
 
 - caption: "Daml Finance"
   entries:
@@ -913,8 +896,6 @@ subtrees:
     title: "Frequently Asked Questions"
   - file: canton/reference/error_codes
     title: "Error codes"
-  - file: canton/reference/admin_apis
-    title: "Canton Administration APIs"
   - file: concepts/ledger-model/index
     title: "Daml Ledger Model"
     entries:
