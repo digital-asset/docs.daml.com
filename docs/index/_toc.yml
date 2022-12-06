@@ -261,8 +261,6 @@ subtrees:
       entries:
       - file: canton/usermanual/domains/oracle
         title: "Oracle Domain"
-      - file: canton/usermanual/domains/ccf
-        title: "Trusted Enclave Domain (CCF)"
       - file: canton/usermanual/domains/fabric
         title: "Fabric Domain"
       - file: canton/usermanual/domains/ethereum
@@ -772,8 +770,6 @@ subtrees:
 - caption: "Reference"
   entries:
 
-  - file: writing-daml
-    title: "Writing Daml"
   - url: https://docs.daml.com/cheat-sheet
     title: "Cheat Sheet"
   - file: concepts/glossary
@@ -942,7 +938,7 @@ subtrees:
   - file: canton/architecture/identity
     title: "Identity Management"
   - file: canton/architecture/requirements/requirements
-    title: "High-Level Requirements"
+    title: "Canton High-Level Requirements"
   - file: canton/architecture/research
     title: "Research Publications"
   - file: canton/architecture/security
@@ -953,11 +949,6 @@ subtrees:
 
   - file: concepts/interoperability
     title: "Daml Ledger Interoperability"
-  - file: operating-daml
-    title: "Operating Daml"
-    entries:
-    - file: ops/system_architecture_faq
-      title: "System Architecture FAQ"
   - file: tools/export/index
     title: "Ledger Export"
   - file: tools/non-repudiation
@@ -975,3 +966,12 @@ subtrees:
     entries:
     - file: canton/architecture/domains/enclave/arch
     - file: canton/architecture/domains/enclave/idm
+  - file: canton/usermanual/domains/ccf
+    title: "Trusted Enclave Domain (CCF)"
+  - file: writing-daml
+    title: "Writing Daml"
+  - file: operating-daml
+    title: "Operating Daml"
+    entries:
+    - file: ops/system_architecture_faq
+      title: "System Architecture FAQ"
