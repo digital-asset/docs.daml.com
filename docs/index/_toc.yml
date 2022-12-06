@@ -231,15 +231,10 @@ subtrees:
   - file: index/deploy-daml/intro/index
     title: "Intro"
     entries:
-    - file: index/deploy-daml/intro/components/index
-      title: "Components of a Daml Ledger"
-      entries:
-      - file: canton/about
-        title: "Introducing Canton"
-# DUP      - file: canton/architecture/overview
-# DUP        title: "Domain Entities"
+    - file: canton/about
+      title: "Introducing Canton"
     - file: canton/architecture/overview
-      title: "Canton 101"
+      title: "Canton Overview"
     - file: canton/tutorials/demo
       title: "Canton Demo"
     - file: canton/tutorials/getting_started
@@ -250,23 +245,13 @@ subtrees:
       title: "Composability"
     - file: canton/usermanual/versioning
       title: "Compatibility Matrix and Supported Dependencies"
-# DUP    - file: canton/usermanual/downloading
-# DUP      title: "Choosing Open-Source or Enterprise Edition"
-  - file: index/deploy-daml/plan-a-deployment/index
-    title: "Plan a Deployment"
-# DUP    entries:
-# DUP    - file: canton/usermanual/installation
-# DUP      title: "Selecting a Sequencer Back End"
-  - file: index/deploy-daml/download/index
+  - file: canton/usermanual/downloading
     title: "Download the Components"
-    entries:
-    - file: canton/usermanual/downloading
-      title: "Download Components"
-# DUP    - file: canton/usermanual/installation
-# DUP      title: "Install"
   - file: index/deploy-daml/install-ledger/index
     title: "Install a Daml Ledger"
     entries:
+    - file: canton/usermanual/installation
+      title: "Installation"
     - file: canton/usermanual/docker
       title: "Work With the Docker Containers"
     - file: canton/usermanual/static_conf
@@ -282,12 +267,10 @@ subtrees:
         title: "Fabric Domain"
       - file: canton/usermanual/domains/ethereum
         title: "Ethereum Domain"
-    - file: canton/usermanual/installation
-      title: "Installation"
-    - file: canton/usermanual/ha
-      title: "High Availability"
-    - file: canton/usermanual/persistence
-      title: "Persistence"
+  - file: canton/usermanual/ha
+    title: "High Availability"
+  - file: canton/usermanual/persistence
+    title: "Persistence"
 
 - caption: "Operate a Daml Ledger"
   entries:
@@ -922,7 +905,6 @@ subtrees:
       - file: daml-script/api/Daml-Script
   - file: triggers/api/index
     title: "Daml Trigger Library"
-    # MANUAL
     entries:
       - file: triggers/api/Daml-Trigger
       - file: triggers/api/Daml-Trigger-Assert
