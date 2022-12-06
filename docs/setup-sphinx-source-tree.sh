@@ -76,3 +76,11 @@ sed -i "s|Version : .*|Version : $prefix|" $SPHINX_DIR/configs/pdf/conf.py
 
 # Copy ToC
 ln index/_toc.yml $SPHINX_DIR/source/_toc.yml
+
+# Workaround https://github.com/DACH-NY/canton/pull/10873/files
+## This direct link to canton.io is now dead, but we do have that image.
+sed -i 's|https://www.canton.io/docs/stable/user-manual/_images|../../images/overview|' $SPHINX_DIR/source/canton/architecture/domains/enclave/arch.rst
+# This is now also dead, but we don't have the image. For some reason getting
+# the raw file from GitHub displeases Sphinx and I don't want to spend too long
+# looking into it.
+sed -i 's|.. figure:: https://microsoft.github.io/CCF/ccf-0.11.7/_images/ccf_concepts.svg|.. .. figure|' $SPHINX_DIR/source/canton/architecture/domains/enclave/arch.rst
