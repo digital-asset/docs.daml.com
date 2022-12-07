@@ -327,6 +327,8 @@ subtrees:
       title: "Sequencer Connections"
     - file: canton/usermanual/repairing
       title: "Repair the Topology Information"
+  - file: ops/system_architecture_faq
+    title: "System Architecture FAQ"
 
 - caption: "Daml Finance"
   entries:
@@ -956,21 +958,3 @@ subtrees:
     title: "Visualizing Daml Contracts"
   - file: app-dev/custom-views/index
     title: "Custom Views"
-
-# MANUAL - NEEDS SORTING
-- caption: "DANGLING"
-  entries:
-  - file: tools
-  - file: canton/architecture/domains/enclave/intro
-    entries:
-    - file: canton/architecture/domains/enclave/arch
-    - file: canton/architecture/domains/enclave/idm
-  - file: canton/usermanual/domains/ccf
-    title: "Trusted Enclave Domain (CCF)"
-  - file: writing-daml
-    title: "Writing Daml"
-  - file: operating-daml
-    title: "Operating Daml"
-    entries:
-    - file: ops/system_architecture_faq
-      title: "System Architecture FAQ"
