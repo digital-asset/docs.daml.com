@@ -65,7 +65,7 @@ subtrees:
     - file: daml/intro/10_Functional101
       title: "Functional Programming 101"
     - file: daml/intro/11_StdLib
-      title: "Introduction"
+      title: "The Daml Standard Library"
     - file: daml/intro/12_Testing
       title: "Testing"
     - file: daml/intro/99_NextSteps
