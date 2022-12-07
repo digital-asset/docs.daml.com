@@ -836,7 +836,7 @@ subtrees:
     - file: daml/reference/interfaces
       title: "Interfaces"
   - file: daml/stdlib/index
-    title: "The standard library"
+    title: "The Standard Library"
     entries:
     - file: daml/stdlib/Prelude
       title: "Prelude"
