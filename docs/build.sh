@@ -10,7 +10,6 @@ cd "$DIR"
 
 RELEASE_TAG=$(jq -r '.daml' ../LATEST)
 CANTON_RELEASE_TAG=$(jq -r '.canton' ../LATEST)
-DAML_FINANCE_RELEASE_TAG=$(jq -r '.daml_finance' ../LATEST)
 SOURCE_DIR=workdir/downloads
 TARGET_DIR=workdir/target
 rm -rf $TARGET_DIR
@@ -18,7 +17,7 @@ mkdir -p $TARGET_DIR
 
 prefix=$(jq -r '.prefix' ../LATEST)
 
-echo "Building docs for $prefix (daml: $RELEASE_TAG, canton: $CANTON_RELEASE_TAG, daml-finance: $DAML_FINANCE_RELEASE_TAG)"
+echo "Building docs for $prefix (daml: $RELEASE_TAG, canton: $CANTON_RELEASE_TAG)"
 
 BUILD_DIR=workdir/build
 rm -rf $BUILD_DIR
@@ -32,6 +31,7 @@ declare -A sphinx_flags=( [html]=-W [pdf]=-W )
 
 for name in "${!sphinx_targets[@]}"; do
     target=${sphinx_targets[$name]}
+    cp index/index_$name.rst $BUILD_DIR/source/source/index.rst
     sphinx-build ${sphinx_flags[$name]} --color -b $target -c $BUILD_DIR/source/configs/$name $BUILD_DIR/source/source $BUILD_DIR/sphinx-target/$name
 done
 
