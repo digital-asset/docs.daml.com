@@ -36,7 +36,7 @@ subtrees:
 
 - caption: "Create Daml Apps"
   entries:
-  
+
   - file: daml/considerations
     title: "Introduction"
   - file: index/create-daml-apps/intro/index
@@ -439,8 +439,10 @@ subtrees:
             title: "Daml.Finance.Interface.Claims"
           - file: daml-finance/packages/interfaces/daml-finance-interface-data
             title: "Daml.Finance.Interface.Data"
-          - file: daml-finance/packages/interfaces/daml-finance-interface-types
-            title: "Daml.Finance.Interface.Types"
+          - file: daml-finance/packages/interfaces/daml-finance-interface-types-common
+            title: "Daml.Finance.Interface.Types.Common"
+          - file: daml-finance/packages/interfaces/daml-finance-interface-types-date
+            title: "Daml.Finance.Interface.Types.Date"
           - file: daml-finance/packages/interfaces/daml-finance-interface-util
             title: "Daml.Finance.Interface.Util"
           - file: daml-finance/packages/interfaces/contingent-claims-core
@@ -511,8 +513,8 @@ subtrees:
         entries:
         - file: daml-finance/tutorials/instrument-modeling/bond-extension
           title: "How to Use the Bond Extension Package"
-        - file: daml-finance/tutorials/instrument-modeling/bond-lifecycling
-          title: "How to Lifecycle a Bond Instrument"
+        - file: daml-finance/tutorials/instrument-modeling/intermediated-lifecycling
+          title: "Intermediated Lifecycling of a Generic Instrument"
         - file: daml-finance/tutorials/instrument-modeling/swap-extension
           title: "How To Use the Swap Extension Package"
         - file: daml-finance/tutorials/instrument-modeling/generic-extension
@@ -564,14 +566,16 @@ subtrees:
             title: "Daml.Finance.Claims.Util.Builders"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Claims-Util-Lifecycle
             title: "Daml.Finance.Claims.Util.Lifecycle"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-Observable-Observation
-            title: "Daml.Finance.Data.Observable.Observation"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-Numeric-Observation
+            title: "Daml.Finance.Data.Numeric.Observation"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-Reference-HolidayCalendar
             title: "Daml.Finance.Data.Reference.HolidayCalendar"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-Time-DateClock
             title: "Daml.Finance.Data.Time.DateClock"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-Time-DateClock-Types
             title: "Daml.Finance.Data.Time.DateClock.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-Time-LedgerTime
+            title: "Daml.Finance.Data.Time.LedgerTime"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Holding-Fungible
             title: "Daml.Finance.Holding.Fungible"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Holding-NonFungible
@@ -650,6 +654,10 @@ subtrees:
             title: "Daml.Finance.Interface.Claims.Dynamic.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Claims-Types
             title: "Daml.Finance.Interface.Claims.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Data-Reference-HolidayCalendar
+            title: "Daml.Finance.Interface.Data.Reference.HolidayCalendar"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Data-Reference-HolidayCalendar-Factory
+            title: "Daml.Finance.Interface.Data.Reference.HolidayCalendar.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Data-NumericObservable
             title: "Daml.Finance.Interface.Data.NumericObservable"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Data-TimeObservable
@@ -768,8 +776,8 @@ subtrees:
             title: "Daml.Finance.Interface.Settlement.RouteProvider"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Settlement-Types
             title: "Daml.Finance.Interface.Settlement.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Common
-            title: "Daml.Finance.Interface.Types.Common"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Common-Types
+            title: "Daml.Finance.Interface.Types.Common.Types"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Date-Calendar
             title: "Daml.Finance.Interface.Types.Date.Calendar"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Date-Classes
@@ -1041,7 +1049,6 @@ subtrees:
     title: "Causality and Local Daml Ledgers"
   - file: concepts/test-evidence
     title: "Test Evidence"
-  
 
 - caption: "Early Access"
   entries:
