@@ -11,8 +11,20 @@ let
       doCheck = false;
       buildInputs = [pkgs.python3Packages.sphinx];
   };
+  sphinx-external-toc = pkgs.python3Packages.buildPythonPackage rec {
+      pname = "sphinx_external_toc";
+      version = "0.3.1";
+
+      src = pkgs.python3Packages.fetchPypi {
+        inherit pname version;
+        sha256 = "sha256-nI6pmA6g5Xvzzpj2pAD5tp6x34CPfdeWycjMGHPYs1U=";
+      };
+      doCheck = false;
+      buildInputs = with pkgs.python3Packages; [sphinx flit-core click pyyaml];
+      format = "pyproject";
+  };
   sphinx-exts = pkgs.python3Packages.sphinx.overridePythonAttrs (attrs: rec {
-    propagatedBuildInputs = attrs.propagatedBuildInputs ++ [sphinx-copybutton];
+    propagatedBuildInputs = attrs.propagatedBuildInputs ++ [sphinx-copybutton sphinx-external-toc];
   });
   texlive = pkgs.texlive.combine {
     inherit (pkgs.texlive)
