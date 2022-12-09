@@ -76,3 +76,7 @@ sed -i "s|Version : .*|Version : $prefix|" $SPHINX_DIR/configs/pdf/conf.py
 
 # Copy ToC
 ln index/_toc.yml $SPHINX_DIR/source/_toc.yml
+
+## TEMP just for this snapshot
+rm $SPHINX_DIR/source/operating-daml.rst
+rm $SPHINX_DIR/source/writing-daml.rst
