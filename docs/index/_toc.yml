@@ -372,8 +372,6 @@ subtrees:
         title: "Sequencer Connections"
       - file: canton/usermanual/repairing
         title: "Repair the Topology Information"
-  - file: ops/system_architecture_faq
-    title: "System Architecture FAQ"
 
 - caption: "Daml Finance"
   titlesonly: True
@@ -862,7 +860,7 @@ subtrees:
   - url: https://daml.com/examples
     title: "Examples"
   - file: index/advanced-architecture
-    title: "Advanced Architecture"
+    title: "Canton Advanced Architecture"
     entries:
     - file: canton/usermanual/contract_keys
       title: "Contract Keys in Canton"
@@ -894,6 +892,8 @@ subtrees:
       title: "Research Publications"
     - file: canton/architecture/security
       title: "Security"
+    - file: ops/system_architecture_faq
+      title: "System Architecture FAQ"
   - file: daml/reference/index
     title: "Language Reference"
     subtrees:
@@ -1023,7 +1023,7 @@ subtrees:
         - file: triggers/api/Daml-Trigger-Assert
         - file: triggers/api/Daml-Trigger-LowLevel
   - file: canton/usermanual/FAQ
-    title: "Frequently Asked Questions"
+    title: "Canton Frequently Asked Questions"
   - file: canton/reference/error_codes
     title: "Error codes"
   - file: concepts/ledger-model/index
