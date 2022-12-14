@@ -75,6 +75,11 @@ jobs:
              --keep ARTIFACTORY_PASSWORD \
              --run bash \<<'EOF'
              set -euo pipefail
+             prefix=$(jq -r '.prefix' LATEST)
+             if [[ ${#prefix} -lt 5 ]]; then
+               echo "Pushhing to $prefix is not currently supported."
+               exit 1
+             fi
              docs/download.sh
              docs/build.sh
              mv docs/workdir/target/html-docs-*.tar.gz /tmp/workspace/
@@ -111,9 +116,14 @@ jobs:
 
              prefix=$(jq -r '.prefix' LATEST)
              sdk_version=$(jq -r '.daml' LATEST)
+             if [[ ${#prefix} -lt 5 ]]; then
+               echo "Pushhing to $prefix is not currently supported."
+               exit 1
+             fi
 
              upload=$(mktemp -d)
              tar xf /tmp/workspace/html-docs-$sdk_version.tar.gz -C $upload --strip-components=1
+             aws s3 rm s3://docs-daml-com/$prefix --recursive --region us-east-1
              aws s3 cp $upload s3://docs-daml-com/$prefix --recursive --acl public-read --region us-east-1
              aws cloudfront create-invalidation --distribution-id E1U753I56ERH55 --paths "/$prefix/*"
            EOF
