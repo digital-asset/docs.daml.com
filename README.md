@@ -174,14 +174,29 @@ For example:
 
 :warning: The release process pushes new files, overwriting existing ones, but does not at the moment delete anything; i.e. if a file no longer exists in a new version, there will still be a copy of the old version of that file.
 
+:loudspeaker: Although `LATEST` should reflect the latest unreleased doc versions, around release time it may not. At these times, make sure you know which release you want your change to go into; i.e. the current unreleased (staging) version or the current unreleased (non-staging-yet) future version, it is probably the former which means going through the backporting exercise described in the next section.
+
 ### Making changes to current or past versions *from 2.0.0 onwards*
 
-1. Follow step 1 as above.
-2. You will have to ask on the #team-daml Slack channel, mentioning @gary, for someone to help you manually create a snapshot.
-3. Follow the rest of the steps as above.
+1. Follow step 1 as above; unless there is a good reason to *only* make the change in the older version.
+
+2. Once you have pushed to main, look at the end of the PR for the resulting short commit hash. For example, in the case of `katmurp merged commit b3efb02 into main`, the short commit reference is `b3efb02`.
+
+3. Get the release branch name you want to target from the relevant docs repo. For example, `release/2.5.x`.
+
+4. Check there are no local changes with `git status`, then:
+
+```zsh
+git checkout release/2.5.x
+git checkout -b backport-docs-fix
+git cherry-pick b3efb02
+git push
+```
+
+5. Ask on the `#team-daml` Slack channel, mentioning @gary, for someone to help you manually create a snapshot. They will take it from there.
 
 ## Questions
 
-If you have any questions or comments about these instructions, please reach out to the #product-docs team/@katharine on Slack.
+If you have any questions or comments about these instructions, please reach out to the`#product-docs team/@katharine/@gary on Slack.
 
 Thank you :blush:
