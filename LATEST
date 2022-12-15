@@ -1,6 +1,6 @@
 {
-  "daml": "2.6.0-snapshot.20221213.11139.0.5ab3fd7c",
-  "canton": "20221213",
+  "daml": "2.5.0-snapshot.20221208.11077.0.53b7db71",
+  "canton": "20221207-01-docs",
   "daml_finance": "1.0.2",
-  "prefix": "2.6.0"
+  "prefix": "2.5.0"
 }
