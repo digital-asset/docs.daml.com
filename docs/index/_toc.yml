@@ -712,6 +712,8 @@ subtrees:
             title: "Daml.Finance.Interface.Instrument.Equity.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Generic-Election
             title: "Daml.Finance.Interface.Instrument.Generic.Election"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Generic-Election-Factory
+            title: "Daml.Finance.Interface.Instrument.Generic.Election.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Generic-Factory
             title: "Daml.Finance.Interface.Instrument.Generic.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Generic-Instrument
