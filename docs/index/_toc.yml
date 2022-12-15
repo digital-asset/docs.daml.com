@@ -511,12 +511,14 @@ subtrees:
         entries:
         - file: daml-finance/tutorials/instrument-modeling/bond-extension
           title: "How to Use the Bond Extension Package"
-        - file: daml-finance/tutorials/instrument-modeling/intermediated-lifecycling
-          title: "Intermediated Lifecycling of a Generic Instrument"
         - file: daml-finance/tutorials/instrument-modeling/swap-extension
           title: "How To Use the Swap Extension Package"
+        - file: daml-finance/tutorials/instrument-modeling/equity-extension
+          title: "How To Model and Lifecycle Equity Instruments"
         - file: daml-finance/tutorials/instrument-modeling/generic-extension
           title: "How To Model and Lifecycle Generic Instruments"
+        - file: daml-finance/tutorials/instrument-modeling/intermediated-lifecycling
+          title: "Intermediated Lifecycling of a Generic Instrument"
         - file: daml-finance/tutorials/instrument-modeling/contingent-claims-instrument
           title: "How to Implement a Contingent Claims-Based Instrument"
         - file: daml-finance/tutorials/instrument-modeling/contingent-claims-on-ledger-vs-on-the-fly
@@ -572,6 +574,8 @@ subtrees:
             title: "Daml.Finance.Data.Time.DateClock"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-Time-DateClock-Types
             title: "Daml.Finance.Data.Time.DateClock.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-Time-DateClockUpdate
+            title: "Daml.Finance.Data.Time.DateClockUpdate"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-Time-LedgerTime
             title: "Daml.Finance.Data.Time.LedgerTime"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Holding-Fungible
@@ -594,6 +598,8 @@ subtrees:
             title: "Daml.Finance.Instrument.Bond.InflationLinked.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-InflationLinked-Instrument
             title: "Daml.Finance.Instrument.Bond.InflationLinked.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-Util
+            title: "Daml.Finance.Instrument.Bond.Util"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-ZeroCoupon-Factory
             title: "Daml.Finance.Instrument.Bond.ZeroCoupon.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-ZeroCoupon-Instrument
@@ -636,6 +642,8 @@ subtrees:
             title: "Daml.Finance.Instrument.Swap.InterestRate.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-InterestRate-Instrument
             title: "Daml.Finance.Instrument.Swap.InterestRate.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Util
+            title: "Daml.Finance.Instrument.Swap.Util"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Token-Factory
             title: "Daml.Finance.Instrument.Token.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Token-Instrument
@@ -652,14 +660,16 @@ subtrees:
             title: "Daml.Finance.Interface.Claims.Dynamic.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Claims-Types
             title: "Daml.Finance.Interface.Claims.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Data-Numeric-Observation
+            title: "Daml.Finance.Interface.Data.Numeric.Observation"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Data-Numeric-Observation-Factory
+            title: "Daml.Finance.Interface.Data.Numeric.Observation.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Data-Reference-HolidayCalendar
             title: "Daml.Finance.Interface.Data.Reference.HolidayCalendar"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Data-Reference-HolidayCalendar-Factory
             title: "Daml.Finance.Interface.Data.Reference.HolidayCalendar.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Data-NumericObservable
-            title: "Daml.Finance.Interface.Data.NumericObservable"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Data-TimeObservable
-            title: "Daml.Finance.Interface.Data.TimeObservable"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Data-Reference-Time
+            title: "Daml.Finance.Interface.Data.Reference.Time"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Holding-Base
             title: "Daml.Finance.Interface.Holding.Base"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Holding-Factory
@@ -702,6 +712,8 @@ subtrees:
             title: "Daml.Finance.Interface.Instrument.Equity.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Generic-Election
             title: "Daml.Finance.Interface.Instrument.Generic.Election"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Generic-Election-Factory
+            title: "Daml.Finance.Interface.Instrument.Generic.Election.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Generic-Factory
             title: "Daml.Finance.Interface.Instrument.Generic.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Generic-Instrument
@@ -760,6 +772,10 @@ subtrees:
             title: "Daml.Finance.Interface.Lifecycle.Event.Replacement"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Event-Time
             title: "Daml.Finance.Interface.Lifecycle.Event.Time"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Observable-NumericObservable
+            title: "Daml.Finance.Interface.Lifecycle.Observable.NumericObservable"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Observable-TimeObservable
+            title: "Daml.Finance.Interface.Lifecycle.Observable.TimeObservable"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Rule-Claim
             title: "Daml.Finance.Interface.Lifecycle.Rule.Claim"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Rule-Lifecycle
@@ -794,8 +810,6 @@ subtrees:
             title: "Daml.Finance.Lifecycle.Effect"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-ElectionEffect
             title: "Daml.Finance.Lifecycle.ElectionEffect"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Event-DateClockUpdate
-            title: "Daml.Finance.Lifecycle.Event.DateClockUpdate"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Event-Distribution
             title: "Daml.Finance.Lifecycle.Event.Distribution"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Event-Replacement
@@ -830,6 +844,8 @@ subtrees:
             title: "Daml.Finance.Util.Date.RollConvention"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Util-Date-Schedule
             title: "Daml.Finance.Util.Date.Schedule"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Util-Disclosure
+            title: "Daml.Finance.Util.Disclosure"
 
 - caption: "Help"
   entries:
