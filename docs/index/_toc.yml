@@ -515,6 +515,8 @@ subtrees:
           title: "Intermediated Lifecycling of a Generic Instrument"
         - file: daml-finance/tutorials/instrument-modeling/swap-extension
           title: "How To Use the Swap Extension Package"
+        - file: daml-finance/tutorials/instrument-modeling/equity-extension
+          title: "How To Model and Lifecycle Equity Instruments"
         - file: daml-finance/tutorials/instrument-modeling/generic-extension
           title: "How To Model and Lifecycle Generic Instruments"
         - file: daml-finance/tutorials/instrument-modeling/contingent-claims-instrument
