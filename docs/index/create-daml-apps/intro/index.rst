@@ -22,5 +22,6 @@ Write Smart Contracts With Daml
    Functional Programming 101 </daml/intro/10_Functional101>
    Introduction </daml/intro/11_StdLib>
    Testing </daml/intro/12_Testing>
-   /daml/intro/99_NextSteps
    Good Design Patterns </daml/patterns>
+   /daml/intro/99_NextSteps
+
