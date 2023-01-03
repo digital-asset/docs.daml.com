@@ -1,66 +1,164 @@
 # docs.daml.com
 
-First time here? Look at the [Setup](#setup) section below.
+This repo manages the full build of technical documentation into https://docs.daml.com from the following repos:
 
-## Aspiration
+* Daml docs: https://github.com/digital-asset/daml/tree/main/docs
+* Canton docs: https://github.com/DACH-NY/canton/tree/main/docs
 
-This repo should be in charge of everything that appears on
-https://docs.daml.com.
+:bulb: Docs in this repo build the main TOC with pointers to pages from the above repos.
 
-Long-term:
+The process for updating the docs TOCs has some potential pitfalls. Follow the instructions in this README *carefully* and in order.
 
-- Most human-written documentation should be in this repo, to ease its
-  maintenance and development.
-- This repo should, to the extent possible, test code snippets & samples _using
-  the corresponding published artifacts_ (e.g. the 2.0.0 compiler for the 2.0.0
-  docs).
-- It is not yet clear exactly how we want to manage multiple versions of the
-  docs (that is, how to maintain the ability to change and evolve past
-  versions). This will mostly depend on team preferences.
+- [Setting up this repo locally](https://github.com/digital-asset/docs.daml.com#setting-up-this-repo-locally)
+- [Build and view the docs locally](https://github.com/digital-asset/docs.daml.com#build-and-view-the-docs-locally)
+- [How to commit changes to the docs](https://github.com/digital-asset/docs.daml.com#how-to-update-the-docs)
 
-This repo is explicitly ignoring any pre-2.0.0 docs; those will still be
-published using their existing release process.
+:arrow_right: If you encounter any issues, reach out to #team-daml on Slack.
 
-## Current state (2022-04-21)
+## Setting up this repo locally
 
-Every commit to `main` publishes to a versioned prefix on the S3 repo (e.g.
-`/2.1.0`). How to handle `/` and multiple versions are still up for debate, and
-thus still follow the preexisting process: the daml repo [cron] copies
-over a versioned folder to root on stable release publication.
+### Prerequisites
 
-[cron]: https://github.com/digital-asset/daml/blob/main/ci/cron/src/Docs.hs
+* Install [direnv](https://github.com/direnv/direnv/blob/master/docs/installation.md) for the environment variables.
+* Install the [Nix](https://nixos.org/download.html) package manager, multi-user option. 
 
-Documentation itself is still mostly hosted in the daml and canton repos. We
-seem to have a green light on moving the daml one, so that should happen soon.
+:warning: Make sure you select Mac OS on the left menu for the correct Nix installation command.
+  
+* [JFrog access](https://digitalasset.jfrog.io/ui/admin/artifactory/user_profile)
+  You need a JFrog account for accessing the build artifacts. Check you can see the `assembly` directory in the list of Artifacts. If you don't have it, ask `#org-security` for `readers` access.
 
-## Making changes to the documentation
+### Clone the repo
+
+Clone this repo and `cd` into it:
+
+```zsh
+git clone git@github.com:digital-asset/docs.daml.com.git
+cd docs.daml.com
+```
+
+The first time you access the repo, run `direnv allow` as instructed. After that, and once your environment variables are set up properly, every time you switch to this repository - and, incidentally, all the others too - you will see output similar to the following:
+
+```zsh
+$ cd daml-projects/docs.daml.com
+direnv: loading ~/daml-projects/docs.daml.com/.envrc
+direnv: using nix
+direnv: export +AR +AR_FOR_TARGET +ARTIFACTORY_USERNAME +ARTIFACTORY_PASSWORD ...
+```
+
+The bottom list is longer, but it is important that you see `ARTIFACTORY_USERNAME` and `ARTIFACTORY_PASSWORD` in it.
+
+:warning: The first time you do this, you won't see these variables, as you won't have had added them yet.
+
+:warning: Don't be tempted to give up when `direnv` tells you it's taking a while. Be patient.
+
+### Environment variables
+
+Create or edit the `.envrc.private` file in the root directory to contain the following:
+
+```plaintext
+export ARTIFACTORY_USERNAME=firstname.lastname
+export ARTIFACTORY_PASSWORD=Long_string_of_gibberish_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUV
+```
+
+- `ARTIFACTORY_USERNAME`: 
+  Find your username in [JFrog](https://digitalasset.jfrog.io/ui/admin/artifactory/user_profile); usually `firstname.lastname`.
+- `ARTIFACTORY_PASSWORD`: 
+  This is your **API Key**, *NOT* your password. Find your API key at the bottom of **Authentication Settings** in your profile.
+
+## Build and view the docs locally
+
+`cd` to the `docs` directory in the repository:
+
+```zsh
+cd docs
+```
+
+### Download docs
+
+Run the following script to download the documentation tarballs from the Daml and Canton repos:
+
+```zsh
+./download.sh
+```
+
+### Live preview
+
+Run the `live-preview.sh` script to render a local view of the site. The html files are in `docs/workdir/build`. Rerun the script to view any edits to `docs/index/` files.
+
+:warning: If you make changes to docs managed by the other repos, you have to commit them there. You can only make changes to the top-level `index.rst` files, containing the master TOC, that live in this repository. 
+
+:warning: If you do make a change to the TOCs in this repo, you then have to duplicate the change in the relevant satellite repo.
+
+```zsh
+./live-preview.sh
+```
+
+### Full build
+
+To build the PDF docs or the exact HTML files that we publish to [docs.daml.com](https://docs.daml.com), run the full build locally:
+
+```zsh
+./build.sh
+```
+
+This produces the following:
+
+```zsh
+$ ls docs/workdir/target
+html-docs-2.0.0-snapshot.20211220.8736.0.040f1a93.tar.gz
+pdf-docs-2.0.0-snapshot.20211220.8736.0.040f1a93.pdf
+$
+```
+
+To view the html docs, extract them and launch a webserver, e.g. via Python, and point your browser at `http://localhost:8000`.
+
+```zsh
+tar xf docs/workdir/target/html-docs- # then tab to pick up the file name
+cd html
+python3 -m http.server 8000 --bind 127.0.0.1
+```
+
+## How to commit changes to the docs
+
+:warning: This repo ignores any pre-2.0.0 docs; those will still be published using their existing release process. It is unlikely you will come across this. If you do, reach out to #team-daml.
+
+Every commit to `main` in this repo publishes to a versioned prefix on the S3 repo (e.g. `/2.1.0`).
 
 ### Making changes to the next, unreleased version
-1. Make the changes to the docs files in the [damlRepo] or the [Canton] repo, include in a PR and merge into main
-2. Take a snapshot that the PR is included in (snapshots are created each night so the first snapshot that PR is included in will likely be the next day)
-3. In the [damlDocs] repo, update the LATEST file to include the snapshot version which includes the changed PR & make sure that the 'prefix' value points to the release that you want to target e.g. '2.1.0' or 2.2.0' etc.
-4. Create a PR to update the LATEST file & merge it into the main branch.
-5. When the new version ('2.1.0' or 2.2.0' etc.) is built it will pull all of the docs changes submitted for that prefix.
 
-### Making changes to the current version, or past versions *from 2.0.0 onwards*
-1. Branch the version of the release that you want to change in the Daml or Canton repo (link to each will be included), include in a PR and merge back into that version release
-2. Ask on the #team-daml Slack channel, mentioning @gary, for someone to help you manually create a snapshot
-3. In the [damlDocs] repo, update the LATEST file to include the snapshot version which includes the changed PR & make sure that the 'prefix' value points to the release that you want to target e.g. '2.0.0'
-4. Create a PR to update the LATEST file & merge it into the branch for that release (branches do not exist yet as of 30th March 2022)
-5. The pages will update automatically once that snapshot is created
+1. Make the changes to docs in the Daml or Canton repo, create a PR, and merge into main.
 
-[damlRepo]: https://github.com/digital-asset/daml
-[damlDocs]: https://github.com/digital-asset/docs.daml.com
-[Canton]: https://github.com/DACH-NY/canton
+:warning: You will have to set up and build the repo you are working on before making changes and viewing locally. Make sure you follow the build instructions carefully as they may differ to here.
 
+2. A snapshot is generated every 24 hours that includes the PR.
+3. To get the snapshot details, run the `deps` tool from the root.
 
-## Making a release
+```zsh
+deps list daml # lists daml snapshots
+deps list canton # lists canton snapshots
+deps use <canton-version> # tells you about the dependency between canton and daml
+```
 
-Changes to `main` are immediately reflected on the live (versioned) website.
-The `LATEST` file contains a `prefix` entry, and the result of building `main`
-is automatically pushed under that prefix.
+For example:
 
-For example, if `LATEST` looks like:
+```zsh
+% deps list daml
+2.0.0
+2.0.0-snapshot.20220117.8897.0.36a93ef0
+2.0.0-snapshot.20220119.8939.0.ebd3827c
+2.0.0-snapshot.20220124.8981.0.a150737d
+```
+
+```zsh
+% deps list canton
+1.0.0-20220207
+1.0.0-rc7
+1.0.0-rc8
+1.0.0-snapshot.20220126
+1.0.0-snapshot.20220128
+```
+
+4. Update the `LATEST` file to include the snapshot version containing the changed PR. 
 
 ```json
 {
@@ -70,125 +168,35 @@ For example, if `LATEST` looks like:
 }
 ```
 
-then the result of building the documentation based on SDK
-`2.1.0-snapshot.20220311.9514.0.ab6e085f` and Canton `20220315` will be pushed
-to https://docs.daml.com/2.1.0, and should be live "immediately" (the build &
-push process takes about 10 minutes).
+5. Create a PR to update the `LATEST` file and merge it into the main branch.
 
-Note that at this point the release process pushes the new files, overwriting
-existing ones, but does not at the moment delete anything (i.e. if a file no
-longer exists in a new version, there will still be a copy of the old version
-of that file).
+6. Changes to `main` are reflected immediately on the live (versioned) website. When a new or updated version is built it pulls all of the docs changes submitted for that prefix. For example, the url resulting from building the documentation based on the `LATEST` file above is https://docs.daml.com/2.1.0.
 
-## Building locally
+:warning: The release process pushes new files, overwriting existing ones, but does not at the moment delete anything; i.e. if a file no longer exists in a new version, there will still be a copy of the old version of that file.
 
-When working on the documentation, you'll want to see the results of your work
-locally before opening a pull request.
+:loudspeaker: Although `LATEST` should reflect the latest unreleased doc versions, around release time it may not. At these times, make sure you know which release you want your change to go into; i.e. the current unreleased (staging) version or the current unreleased (non-staging-yet) future version, it is probably the former which means going through the backporting exercise described in the next section.
 
-To do that, switch to the `docs` directory in the repository:
+### Making changes to current or past versions *from 2.0.0 onwards*
 
-```
-cd docs
-```
+1. Follow step 1 as above; unless there is a good reason to *only* make the change in the older version.
 
-Download the documentation tarballs from the daml and canton repos:
+2. Once you have pushed to main, look at the end of the PR for the resulting short commit hash. For example, in the case of `katmurp merged commit b3efb02 into main`, the short commit reference is `b3efb02`.
 
-```
-./download.sh
+3. Get the release branch name you want to target from the relevant docs repo. For example, `release/2.5.x`.
+
+4. Check there are no local changes with `git status`, then:
+
+```zsh
+git checkout release/2.5.x
+git checkout -b backport-docs-fix
+git cherry-pick b3efb02
+git push
 ```
 
-## Preview
+5. Ask on the `#team-daml` Slack channel, mentioning @gary, for someone to help you manually create a snapshot. They will take it from there.
 
-For local development, use the `live-preview.sh` script. The files for the
-unified documentation will be in the `docs/workdir/build` folder; changes to
-those files should be immediately reflected.
+## Questions
 
-Remember that once you are happy with your changes, you have to
-mirror them as PRs on the daml/canton repositories.
+If you have any questions or comments about these instructions, please reach out to the`#product-docs team/@katharine/@gary on Slack.
 
-Only changes to the top-level `index.rst` files can be made directly in this
-repository.
-
-```
-./live-preview.sh
-```
-
-## Full build
-
-To view the PDF docs or the exact HTML files that we publish to
-[docs.daml.com](https://docs.daml.com), you can also run the full build
-locally:
-
-```
-mkdir docs_output
-./build.sh
-```
-
-This leaves you with two files:
-
-```
-$ ls docs/workdir/target
-html-docs-2.0.0-snapshot.20211220.8736.0.040f1a93.tar.gz
-pdf-docs-2.0.0-snapshot.20211220.8736.0.040f1a93.pdf
-$
-```
-
-To view the html docs, extract them and launch a webserver, e.g. via Python and
-point your browser at `http://localhost:8000`
-
-```
-tar xf docs/workdir/target/html-docs-$(jq -r '.daml' LATEST).tar.gz
-cd html
-python3 -m http.server 8000 --bind 127.0.0.1
-```
-
-## Setup
-
-### direnv
-
-This repo assumes the use of [direnv] for local development, along with a
-working [Nix] installation. In particular, the `.envrc.private` file can be
-used to set the following environment variables:
-
-[direnv]: https://github.com/direnv/direnv
-[Nix]: https://nixos.org/download.html
-
-- `ARTIFACTORY_USERNAME`: Required to access intermediate build artifacts. You
-  can find your username by navigating to [your Artifactory profile
-  page][artifactory] and copying the name that follows the "User Profile:" marker
-  in the top left (usually firstname.lastname).
-- `ARTIFACTORY_PASSWORD`: Required to access intermediate build artifacts.
-  Despite the name, this is actually your API key, **not** your password. You
-  can find your API key on [your Artifactory profile page][artifactory], as the
-  first field under "Authentication Settings".
-
-If you have any trouble with Artifactory authentication, please ask on Slack in
-`#org-security`. Every employee should have a working Artifactory account, with
-read access to the appropriate repos. Specifically, do check that you can see
-the `assembly` repo in the Artifactory UI, and ask for `readers` access if you
-can't.
-
-[artifactory]: https://digitalasset.jfrog.io/ui/admin/artifactory/user_profile
-
-### Cloning the repo
-
-Once you have installed direnv and nix, you can clone the repo and switch to it:
-
-```
-git clone git@github.com:digital-asset/docs.daml.com.git
-cd assembly
-```
-
-If you setup direnv correctly, the first time you do this you will be
-asked to run `direnv allow` so do exactly that.
-
-After that every time you switch to the repository, you will see output similar to the following:
-
-```
-$ cd daml-projects/docs.daml.com
-direnv: loading ~/daml-projects/docs.daml.com/.envrc
-direnv: using nix
-direnv: export +AR +AR_FOR_TARGET +AS +AS_FOR_TARGET +CC +CC_FOR_TARGET +CONFIG_SHELL +CXX +CXX_FOR_TARGET +DETERMINISTIC_BUILD +HOST_PATH +IN_NIX_SHELL +JAVA_HOME +LD +LD_FOR_TARGET +LOCALE_ARCHIVE_2_27 +NIX_BINTOOLS +NIX_BINTOOLS_FOR_TARGET +NIX_BINTOOLS_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu +NIX_BINTOOLS_WRAPPER_TARGET_TARGET_x86_64_unknown_linux_gnu +NIX_BUILD_CORES +NIX_BUILD_TOP +NIX_CC +NIX_CC_FOR_TARGET +NIX_CC_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu +NIX_CC_WRAPPER_TARGET_TARGET_x86_64_unknown_linux_gnu +NIX_CFLAGS_COMPILE +NIX_CFLAGS_COMPILE_FOR_TARGET +NIX_ENFORCE_NO_NATIVE +NIX_HARDENING_ENABLE +NIX_INDENT_MAKE +NIX_LDFLAGS +NIX_LDFLAGS_FOR_TARGET +NIX_STORE +NM +NM_FOR_TARGET +OBJCOPY +OBJCOPY_FOR_TARGET +OBJDUMP +OBJDUMP_FOR_TARGET +PYTHONHASHSEED +PYTHONNOUSERSITE +PYTHONPATH +RANLIB +RANLIB_FOR_TARGET +READELF +READELF_FOR_TARGET +SIZE +SIZE_FOR_TARGET +SOURCE_DATE_EPOCH +SSL_CERT_FILE +STRINGS +STRINGS_FOR_TARGET +STRIP +STRIP_FOR_TARGET +TEMP +TEMPDIR +TMP +TMPDIR +_PYTHON_HOST_PLATFORM +_PYTHON_SYSCONFIGDATA_NAME +buildInputs +builder +configureFlags +depsBuildBuild +depsBuildBuildPropagated +depsBuildTarget +depsBuildTargetPropagated +depsHostHost +depsHostHostPropagated +depsTargetTarget +depsTargetTargetPropagated +doCheck +doInstallCheck +name +nativeBuildInputs +nobuildPhase +out +outputs +patches +phases +propagatedBuildInputs +propagatedNativeBuildInputs +shell +shellHook +stdenv +strictDeps +system ~PATH ~XDG_DATA_DIRS
-```
-
-If you encounter any issues ask in #team-daml on Slack.
+Thank you :blush:
