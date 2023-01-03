@@ -348,6 +348,12 @@ subtrees:
     entries:
     - file: canton/reference/admin_apis
       title: "Administration APIs"
+  - file: daml/resource-management/index
+    subtrees:
+    - hidden: False
+      titlesonly: True
+      entries:
+      - file: daml/resource-management/acs
   - file: canton/usermanual/performance
     title: "Scaling and Performance"
   - file: index/operate-a-daml-ledger/advanced-operations/index
