@@ -21,7 +21,7 @@ Write Smart Contracts With Daml
    Work With Dependencies </daml/intro/9_Dependencies>
    Functional Programming 101 </daml/intro/10_Functional101>
    Introduction </daml/intro/11_StdLib>
-   Testing </daml/intro/12_Testing>
    Good Design Patterns </daml/patterns>
+   Testing </daml/intro/12_Testing>
    /daml/intro/99_NextSteps
 
