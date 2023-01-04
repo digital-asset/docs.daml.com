@@ -378,6 +378,7 @@ subtrees:
         title: "Sequencer Connections"
       - file: canton/usermanual/repairing
         title: "Repair the Topology Information"
+  - file: canton/usermanual/troubleshooting_guide
 
 - caption: "Daml Finance"
   titlesonly: True
