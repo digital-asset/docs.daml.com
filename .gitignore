@@ -1,2 +1,4 @@
 .envrc.private
 .DS_Store
+
+scripts/workdir/*

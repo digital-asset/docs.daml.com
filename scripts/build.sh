@@ -11,8 +11,8 @@ cd "$DIR"
 RELEASE_TAG=$(jq -r '.daml' ../LATEST)
 CANTON_RELEASE_TAG=$(jq -r '.canton' ../LATEST)
 DAML_FINANCE_RELEASE_TAG=$(jq -r '.daml_finance' ../LATEST)
-SOURCE_DIR=workdir/downloads
-TARGET_DIR=workdir/target
+SOURCE_DIR=../workdir/downloads
+TARGET_DIR=../workdir/target
 rm -rf $TARGET_DIR
 mkdir -p $TARGET_DIR
 
@@ -20,7 +20,7 @@ prefix=$(jq -r '.prefix' ../LATEST)
 
 echo "Building docs for $prefix (daml: $RELEASE_TAG, canton: $CANTON_RELEASE_TAG, daml-finance: $DAML_FINANCE_RELEASE_TAG)"
 
-BUILD_DIR=workdir/build
+BUILD_DIR=../workdir/build
 rm -rf $BUILD_DIR
 
 mkdir -p $BUILD_DIR/source $BUILD_DIR/sphinx-target
