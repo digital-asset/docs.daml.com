@@ -58,7 +58,7 @@ for file in pdf html; do
     done
 done
 
-#rm -rf $SPHINX_DIR/source/index{,.rst}
+rm -rf $SPHINX_DIR/source/index.rst
 for f in $(find ../docs -type f); do
     mkdir -p $SPHINX_DIR/source/$(dirname $f)
     ln $f $SPHINX_DIR/source/$f
