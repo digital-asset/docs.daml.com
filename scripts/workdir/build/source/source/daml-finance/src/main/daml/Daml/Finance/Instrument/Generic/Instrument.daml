@@ -1,0 +1,76 @@
+-- Copyright (c) 2022 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+module Daml.Finance.Instrument.Generic.Instrument where
+
+import DA.Set (singleton)
+import Daml.Finance.Interface.Claims.Claim qualified as Claim (I, View(..))
+import Daml.Finance.Interface.Claims.Types (C, TaggedClaim(..))
+import Daml.Finance.Interface.Instrument.Base.Instrument qualified as BaseInstrument (I, View(..), disclosureUpdateReference)
+import Daml.Finance.Interface.Instrument.Generic.Instrument qualified as GenericInstrument (HasImplementation, I, View(..))
+import Daml.Finance.Interface.Types.Common.Types (Id, InstrumentKey(..), PartiesMap)
+import Daml.Finance.Interface.Util.Disclosure qualified as Disclosure (I, View(..), flattenObservers)
+import Daml.Finance.Util.Disclosure (addObserversImpl, removeObserversImpl, setObserversImpl)
+import Prelude hiding (exercise, key)
+
+-- | Type synonym for `Instrument`.
+type T = Instrument
+
+instance GenericInstrument.HasImplementation T
+
+-- | An instrument representing a generic payoff, modelled using the Contingent Claims library.
+-- The responsibility for processing lifecycle events as well as elections is delegated to the
+-- issuer, who is hence responsible for providing the correct `Observable`\s.
+template Instrument
+  with
+    depository : Party
+      -- ^ The instrument depository.
+    issuer : Party
+      -- ^ The instrument issuer.
+    id : Id
+      -- ^ The identifier with corresponding version.
+    version : Text
+      -- ^ The instrument's version.
+    description : Text
+      -- ^ A human readable description of the instrument.
+    claims : C
+      -- ^ The claim tree.
+    acquisitionTime : Time
+      -- ^ The claim's acquisition time. This usually corresponds to the start date of the contract.
+    observers : PartiesMap
+      -- ^ Observers.
+    lastEventTimestamp : Time
+      -- ^ (Market) time of the last recorded lifecycle event. If no event has occurred yet, the
+      --   time of creation should be used.
+  where
+    signatory depository, issuer
+    observer Disclosure.flattenObservers observers
+
+    let
+      instrument = InstrumentKey with depository; issuer; id; version
+      lifecycler = issuer
+
+    interface instance Claim.I for Instrument where
+      view = Claim.View with acquisitionTime
+      asBaseInstrument = toInterface @BaseInstrument.I this
+      getClaims _ = pure [TaggedClaim with tag = "Generic"; claim = this.claims]
+
+    interface instance BaseInstrument.I for Instrument where
+      asDisclosure = toInterface @Disclosure.I this
+      view = BaseInstrument.View with
+        depository; issuer; id; version; description; validAsOf = lastEventTimestamp
+      getKey = instrument
+
+    interface instance GenericInstrument.I for Instrument where
+      asBaseInstrument = toInterface @BaseInstrument.I this
+      asClaim = toInterface @Claim.I this
+      view = GenericInstrument.View with instrument; claims
+
+    interface instance Disclosure.I for Instrument where
+      view = Disclosure.View with disclosureControllers = singleton issuer; observers
+      setObservers = setObserversImpl this $
+        Some (BaseInstrument.disclosureUpdateReference instrument)
+      addObservers = addObserversImpl this $
+        Some (BaseInstrument.disclosureUpdateReference instrument)
+      removeObservers = removeObserversImpl this $
+        Some (BaseInstrument.disclosureUpdateReference instrument)

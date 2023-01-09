@@ -1,0 +1,331 @@
+..
+     Copyright (c) 2022 Digital Asset (Switzerland) GmbH and/or its affiliates
+..
+    
+..
+     Proprietary code. All rights reserved.
+
+Manage Domains
+==============
+
+.. _permissioned-domains:
+
+Permissioned Domains
+--------------------
+
+.. enterprise-only::
+
+Canton as a network is an open virtual shared ledger. Whoever runs a Canton participant node is part of the same
+virtual shared ledger. However, the network itself is made up of domains that are used by participants to run the Canton
+protocol and communicate to their peers. Such domains can be `open`, allowing any participant with access to
+a sequencer node to enter and participate in the network. But domains can also be ``permissioned``, where the operator
+of the domain topology managers needs to explicitly add the participant to the allow-list before the participant
+can register with a domain.
+
+While the Canton architecture is designed to be resilient against malicious participants, there can never be a
+guarantee that the implementation of said architecture is absolutely secure. Therefore, it makes sense for most
+networks to impose control on which participant can be part of the network.
+
+The first layer of control is given by securing access to the public api of the sequencers in the network. This
+can be done using standard network tools such as firewalls and virtual private networks.
+
+The second layer of control is given by setting the appropriate configuration flag of the domain manager (or domain):
+
+.. code-block:: none
+
+    canton.domain-managers.domainManager1.topology.open = false
+
+Assuming we have set up a domain with this flag turned off, the config for that particular domain would read:
+
+    
+.. code-block:: none
+
+    @ val config = DomainConnectionConfig("mydomain", sequencer1.sequencerConnection)
+    config : DomainConnectionConfig = DomainConnectionConfig(
+      domain = Domain 'mydomain',
+      sequencerConnection = GrpcSequencerConnection(
+        endpoints = http://127.0.0.1:15001,
+        transportSecurity = false,
+    ..
+
+When a participant attempts to join the domain, it will be rejected:
+
+.. code-block:: none
+
+    @ participant1.domains.register(config)
+    ERROR com.digitalasset.canton.integration.EnterpriseEnvironmentDefinition$$anon$3 - Request failed for participant1.
+      GrpcRequestRefusedByServer: FAILED_PRECONDITION/PARTICIPANT_IS_NOT_ACTIVE(9,c125ac51): The participant is not yet active
+      Request: RegisterDomain(DomainConnectionConfig(
+      domain = Domain 'mydomain',
+      sequencerConnection = GrpcSequencerConnection(endpoints = http://127.0.0.1:15001, transportSecurity = false, customTrustCertificates = None()),
+      manualConnect = false,
+      domainId ...
+      CorrelationId: c125ac51a23a96bf1fbe6ba800d6b44f
+      Context: HashMap(participant -> participant1, test -> ManagePermissionedDomainsDocumentationManual, serverResponse -> Domain Domain 'mydomain' has rejected our on-boarding attempt, domain -> mydomain)
+      Command ParticipantAdministration$domains$.register invoked from cmd10000006.sc:1
+    
+
+In order to allow the participant to join the domain, we must first actively enable it on the topology
+manager. We assume now that the operator of the participant :ref:`extracts its id <getting-started-extracting-ids>`
+into a string:
+
+.. code-block:: none
+
+    @ val participantAsString = participant1.id.toProtoPrimitive
+    participantAsString : String = "PAR::participant1::12204d838c6efcceafa0f8e1dd858d7d106f372ba5921804c90f848603ff131677f8"
+
+and communicates this string to the operator of the domain topology manager:
+
+.. code-block:: none
+
+    @ val participantIdFromString = ParticipantId.tryFromProtoPrimitive(participantAsString)
+    participantIdFromString : ParticipantId = PAR::participant1::12204d838c6e...
+
+This topology manager can now add the participant by enabling it:
+
+.. code-block:: none
+
+    @ domainManager1.participants.set_state(participantIdFromString, ParticipantPermission.Submission, TrustLevel.Ordinary)
+    
+
+Note that the participant is not active yet:
+
+.. code-block:: none
+
+    @ domainManager1.participants.active(participantIdFromString)
+    res5: Boolean = false
+    
+
+So far, what we've done with setting the state is to issue a "domain trust certificate", where the domain
+topology manager declares that it trusts the participant enough to become a participant of the domain.
+We can inspect this certificate using:
+
+.. code-block:: none
+
+    @ domainManager1.topology.participant_domain_states.list(filterStore="Authorized").map(_.item)
+    res6: Seq[ParticipantState] = Vector(
+      ParticipantState(
+        From,
+        domainManager1::12204ce1246a...,
+        PAR::participant1::12204d838c6e...,
+        Submission,
+        Ordinary
+      )
+    )
+    
+
+In order to have the participant become active on the domain, we need to register the signing keys and
+the "domain trust certificate" of the participant. The certificate is generated by the participant
+automatically and sent to the domain during the initial handshake.
+
+We can trigger that handshake again by attempting to reconnect to the domain again:
+
+.. code-block:: none
+
+    @ participant1.domains.reconnect_all()
+    
+    
+
+Now, we can check that the participant is active:
+
+.. code-block:: none
+
+    @ domainManager1.participants.active(participantIdFromString)
+    res8: Boolean = true
+    
+
+We can also observe that we now have both sides of the domain trust certificate, the ``From`` and the ``To``:
+
+.. code-block:: none
+
+    @ domainManager1.topology.participant_domain_states.list(filterStore="Authorized").map(_.item)
+    res9: Seq[ParticipantState] = Vector(
+      ParticipantState(
+        From,
+        domainManager1::12204ce1246a...,
+        PAR::participant1::12204d838c6e...,
+        Submission,
+        Ordinary
+      ),
+      ParticipantState(
+        To,
+        domainManager1::12204ce1246a...,
+        PAR::participant1::12204d838c6e...,
+        Submission,
+        Ordinary
+      )
+    )
+    
+
+Finally, the participant is healthy and can use the domain:
+
+.. code-block:: none
+
+    @ participant1.health.ping(participant1)
+    res10: Duration = 2842 milliseconds
+
+
+Domain Rules
+------------
+Every domain has its own rules in terms of what parameters are used by the participants while
+running the protocol. The participants obtain these parameters before connecting to the domain.
+They can be configured using the specific parameter section. An example would be:
+
+.. code-block:: none
+
+    init.domain-parameters {
+      // example setting
+      unique-contract-keys = yes
+    }
+
+
+The full set of available parameters can be found in the `scala reference documentation <https://docs.daml.com/2.6.0/canton/scaladoc/com/digitalasset/canton/domain/config/DomainParametersConfig.html>`_.
+
+Dynamic domain parameters
+-------------------------
+
+.. _dynamic_domain_parameters:
+
+In addition to the parameters that are specified in the configuration, some parameters can be changed at runtime (i.e.,
+while the domain is running); these are called **dynamic domain parameters**. When the domain is bootstrapped, default
+values are used for the dynamic domain parameters. They can be changed subsequently using the console commands described
+below.
+
+A participant can get the current parameters on a domain it is connected to using the following command:
+
+.. code-block:: scala
+
+            mydomain.service.get_dynamic_domain_parameters
+
+
+Parameters that were transitioned from static to dynamic with protocol version 4 need to be retrieved individually:
+
+.. code-block:: scala
+
+            mydomain.service.get_reconciliation_interval
+            mydomain.service.get_max_rate_per_participant
+            mydomain.service.get_max_request_size
+            mydomain.service.get_mediator_deduplication_timeout
+
+
+Dynamic parameters can bet set individually using:
+
+.. code-block:: scala
+
+            mydomain.service.set_reconciliation_interval(5.seconds)
+            mydomain.service.set_max_rate_per_participant(100)
+            mydomain.service.set_max_request_size(100000)
+            mydomain.service.set_mediator_deduplication_timeout(2.minutes)
+
+
+Alternatively, several can be set at the same time:
+
+.. code-block:: scala
+
+            mydomain.service.update_dynamic_domain_parameters(
+              _.update(
+                participantResponseTimeout = 10.seconds,
+                topologyChangeDelay = 1.second,
+              )
+            )
+
+
+.. note::
+
+    When increasing `max request size`, the sequencer nodes need to be restarted
+    for the new value to be taken into account. If the domain is not distributed,
+    it means that the domain node needs to be restarted.
+
+Recover From a Small Max Request Size
+-------------------------------------
+`MaxRequestSize` is a dynamic parameter starting from protocol version 4. This parameter configures both
+the grpc channel size on the sequencer node and the maximum size that a sequencer client is allowed to transfer.
+
+If the parameter is set to a very small value (roughly under `30kb`), Canton can crash because all messages are rejected by the sequencer client or
+by the sequencer node. This cannot be corrected by setting a higher value within the console, because this change request needs to be send via the sequencer and will
+also be rejected.
+
+To recover from this crash, you need to configure `override-max-request-size` on both the sequencer node and the sequencer clients.
+
+On a non-distributed deployment, this means modifying both the domain and the participants configuration as follows:
+
+.. code-block:: none
+
+    domains {
+      da {
+        # overrides the maxRequestSize in bytes on the sequencer node
+        public-api.override-max-request-size = 30000
+        sequencer-client.override-max-request-size = 30000
+      }
+    }
+    participants {
+      participant1 {
+        sequencer-client.override-max-request-size = 30000
+      }
+      participant2 {
+        sequencer-client.override-max-request-size = 30000
+      }
+    }
+
+On a distributed deployment, for each domain entity deployed on its own node,
+you will need to override the `max-request-size` as follows:
+
+.. code-block:: none
+
+    domain-managers {
+      domainManager1 {
+        sequencer-client.override-max-request-size = 30000
+      }
+    }
+    participants {
+      participant1 {
+        sequencer-client.override-max-request-size = 30000
+      }
+      participant2 {
+        sequencer-client.override-max-request-size = 30000
+      }
+    }
+    mediators {
+      mediator1 {
+        sequencer-client.override-max-request-size = 30000
+      }
+    }
+    sequencers {
+      sequencer1 {
+        # overrides the maxRequestSize in bytes on the sequencer node
+        public-api.override-max-request-size = 30000
+        sequencer-client.override-max-request-size = 30000
+      }
+    }
+
+
+After the configuration is modified, disconnect all the participants from the domain and then restart all nodes.
+
+On a non-distributed deployment, you can stop Canton by following these steps:
+
+.. code-block:: scala
+
+        participants.all.domains.disconnect(da.name)
+        nodes.local.stop()
+
+
+
+On a distributed deployment, you can stop Canton by following these steps:
+
+.. code-block:: scala
+
+        participants.all.domains.disconnect(sequencer1.name)
+        nodes.local.stop()
+
+
+
+Then perform the restart:
+
+.. code-block:: scala
+
+        nodes.local.start()
+        participants.all.domains.reconnect_all()
+
+
+Once Canton has recovered, use the admin command to set the `maxRequestSize` value, then delete the added configuration
+in the previous step, and finally perform the restart again.
