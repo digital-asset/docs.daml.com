@@ -1,4 +1,4 @@
-root: .
+root: index
 subtrees:
 - entries:
   - url: "https://docs.daml.com/"
