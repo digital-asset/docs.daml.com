@@ -2,8 +2,9 @@
 
 This repo manages the full build of technical documentation into https://docs.daml.com from the following repos:
 
-* Daml docs: https://github.com/digital-asset/daml/tree/main/docs
-* Canton docs: https://github.com/DACH-NY/canton/tree/main/docs
+* [Daml docs](https://github.com/digital-asset/daml/tree/main/docs)
+* [Canton docs](https://github.com/DACH-NY/canton/tree/main/docs)
+* [Daml-Finance docs](https://github.com/digital-asset/daml-finance/tree/main/docs)
 
 :bulb: Docs in this repo build the main TOC with pointers to pages from the above repos.
 
@@ -13,17 +14,17 @@ The process for updating the docs TOCs has some potential pitfalls. Follow the i
 - [Build and view the docs locally](https://github.com/digital-asset/docs.daml.com#build-and-view-the-docs-locally)
 - [How to commit changes to the docs](https://github.com/digital-asset/docs.daml.com#how-to-update-the-docs)
 
-:arrow_right: If you encounter any issues, reach out to #team-daml on Slack.
+:arrow_right: If you encounter any issues, reach out to #product-docs on Slack.
 
 ## Setting up this repo locally
 
 ### Prerequisites
 
 * Install [direnv](https://github.com/direnv/direnv/blob/master/docs/installation.md) for the environment variables.
-* Install the [Nix](https://nixos.org/download.html) package manager, multi-user option. 
+* Install the [Nix](https://nixos.org/download.html) package manager, multi-user option.
 
 :warning: Make sure you select Mac OS on the left menu for the correct Nix installation command.
-  
+
 * [JFrog access](https://digitalasset.jfrog.io/ui/admin/artifactory/user_profile)
   You need a JFrog account for accessing the build artifacts. Check you can see the `assembly` directory in the list of Artifacts. If you don't have it, ask `#org-security` for `readers` access.
 
@@ -60,77 +61,66 @@ export ARTIFACTORY_USERNAME=firstname.lastname
 export ARTIFACTORY_PASSWORD=Long_string_of_gibberish_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUV
 ```
 
-- `ARTIFACTORY_USERNAME`: 
+- `ARTIFACTORY_USERNAME`:
   Find your username in [JFrog](https://digitalasset.jfrog.io/ui/admin/artifactory/user_profile); usually `firstname.lastname`.
-- `ARTIFACTORY_PASSWORD`: 
+- `ARTIFACTORY_PASSWORD`:
   This is your **API Key**, *NOT* your password. Find your API key at the bottom of **Authentication Settings** in your profile.
-
-## Build and view the docs locally
-
-`cd` to the `docs` directory in the repository:
-
-```zsh
-cd docs
-```
 
 ### Download docs
 
 Run the following script to download the documentation tarballs from the Daml and Canton repos:
 
 ```zsh
-./download.sh
+download
 ```
 
 ### Live preview
 
-Run the `live-preview.sh` script to render a local view of the site. The html files are in `docs/workdir/build`. Rerun the script to view any edits to `docs/index/` files.
-
-:warning: If you make changes to docs managed by the other repos, you have to commit them there. You can only make changes to the top-level `index.rst` files, containing the master TOC, that live in this repository. 
-
-:warning: If you do make a change to the TOCs in this repo, you then have to duplicate the change in the relevant satellite repo.
+Run the `live-preview` script to render a local view of the site.
 
 ```zsh
-./live-preview.sh
+live-preview
 ```
+
+The html files are in `workdir/build/gen`. Rerun the script to view any edits to `docs/` files or the top-level ToC (`_toc.yml`).
+
+:warning: If you make changes to docs managed by the other repos, you have to commit them there. In this repository, you can only make changes to the top-level ToC (`_toc.yml`) or some section introduction pages in the `docs` folder.
+
+:warning: If you do make a change to the TOCs in this repo, you then have to duplicate the change in the relevant satellite repo (except for the daml repo, which does not have a local ToC).
 
 ### Full build
 
 To build the PDF docs or the exact HTML files that we publish to [docs.daml.com](https://docs.daml.com), run the full build locally:
 
 ```zsh
-./build.sh
+build
 ```
 
-This produces the following:
+The HTML files will be in `workdir/build/sphinx-target/html`; you can view them
+by doing something like:
 
 ```zsh
-$ ls docs/workdir/target
-html-docs-2.0.0-snapshot.20211220.8736.0.040f1a93.tar.gz
-pdf-docs-2.0.0-snapshot.20211220.8736.0.040f1a93.pdf
-$
+$ cd workdir/build/sphinx-target/html
+$ python -m http.server 8000 --bind 127.0.0.1
 ```
 
-To view the html docs, extract them and launch a webserver, e.g. via Python, and point your browser at `http://localhost:8000`.
+Then pointing your web browser to [http://localhost:8000](http://localhost:8000).
 
-```zsh
-tar xf docs/workdir/target/html-docs- # then tab to pick up the file name
-cd html
-python3 -m http.server 8000 --bind 127.0.0.1
-```
+It also produces a PDF, and a tarball containing all of the HTML, under `workdir/target`.
 
 ## How to commit changes to the docs
 
 :warning: This repo ignores any pre-2.0.0 docs; those will still be published using their existing release process. It is unlikely you will come across this. If you do, reach out to #team-daml.
 
-Every commit to `main` in this repo publishes to a versioned prefix on the S3 repo (e.g. `/2.1.0`).
+Every commit to `main` in this repo publishes to a versioned prefix on the S3 repo (e.g. `/2.1.0`), specified under the `prefix` key in the `LATEST` file.
 
 ### Making changes to the next, unreleased version
 
-1. Make the changes to docs in the Daml or Canton repo, create a PR, and merge into main.
+1. Make the changes to docs in the Daml, Daml Finance, or Canton repo, create a PR, and merge into main.
 
 :warning: You will have to set up and build the repo you are working on before making changes and viewing locally. Make sure you follow the build instructions carefully as they may differ to here.
 
-2. A snapshot is generated every 24 hours that includes the PR.
+2. For Daml and Canton, a snapshot is generated every 24 hours that includes the PR.
 3. To get the snapshot details, run the `deps` tool from the root.
 
 ```zsh
@@ -158,12 +148,13 @@ For example:
 1.0.0-snapshot.20220128
 ```
 
-4. Update the `LATEST` file to include the snapshot version containing the changed PR. 
+4. Update the `LATEST` file to include the snapshot version containing the changed PR.
 
 ```json
 {
   "daml": "2.1.0-snapshot.20220311.9514.0.ab6e085f",
   "canton": "20220315",
+  "daml_finance": "1.0.4",
   "prefix": "2.1.0"
 }
 ```
@@ -171,8 +162,6 @@ For example:
 5. Create a PR to update the `LATEST` file and merge it into the main branch.
 
 6. Changes to `main` are reflected immediately on the live (versioned) website. When a new or updated version is built it pulls all of the docs changes submitted for that prefix. For example, the url resulting from building the documentation based on the `LATEST` file above is https://docs.daml.com/2.1.0.
-
-:warning: The release process pushes new files, overwriting existing ones, but does not at the moment delete anything; i.e. if a file no longer exists in a new version, there will still be a copy of the old version of that file.
 
 :loudspeaker: Although `LATEST` should reflect the latest unreleased doc versions, around release time it may not. At these times, make sure you know which release you want your change to go into; i.e. the current unreleased (staging) version or the current unreleased (non-staging-yet) future version, it is probably the former which means going through the backporting exercise described in the next section.
 
@@ -197,6 +186,6 @@ git push
 
 ## Questions
 
-If you have any questions or comments about these instructions, please reach out to the`#product-docs team/@katharine/@gary on Slack.
+If you have any questions or comments about these instructions, please reach out to the `#product-docs` channel and/or @katharine/@gary on Slack.
 
 Thank you :blush:

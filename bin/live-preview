@@ -18,7 +18,7 @@ DOWNLOAD_DIR=$DIR/../workdir/downloads
 
 mkdir -p $BUILD_DIR/gen
 
-$DIR/setup-sphinx-source-tree.sh
+$DIR/setup-sphinx-source-tree
 
 DATE=$(date +"%Y-%m-%d")
 echo { \"$DATE\" : \"$DATE\" } >  $BUILD_DIR/gen/versions.json

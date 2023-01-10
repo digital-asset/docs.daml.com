@@ -23,7 +23,7 @@ rm -rf $BUILD_DIR
 
 mkdir -p $BUILD_DIR/source $BUILD_DIR/sphinx-target
 
-$DIR/setup-sphinx-source-tree.sh
+$DIR/setup-sphinx-source-tree
 
 declare -A sphinx_targets=( [html]=html [pdf]=latex )
 declare -A sphinx_flags=( [html]=-W [pdf]=-W )
