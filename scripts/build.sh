@@ -6,26 +6,24 @@ set -eou pipefail
 
 DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-cd "$DIR"
-
-RELEASE_TAG=$(jq -r '.daml' ../LATEST)
-CANTON_RELEASE_TAG=$(jq -r '.canton' ../LATEST)
-DAML_FINANCE_RELEASE_TAG=$(jq -r '.daml_finance' ../LATEST)
-SOURCE_DIR=workdir/downloads
-TARGET_DIR=workdir/target
+RELEASE_TAG=$(jq -r '.daml' $DIR/../LATEST)
+CANTON_RELEASE_TAG=$(jq -r '.canton' $DIR/../LATEST)
+DAML_FINANCE_RELEASE_TAG=$(jq -r '.daml_finance' $DIR/../LATEST)
+SOURCE_DIR=$DIR/../workdir/downloads
+TARGET_DIR=$DIR/../workdir/target
 rm -rf $TARGET_DIR
 mkdir -p $TARGET_DIR
 
-prefix=$(jq -r '.prefix' ../LATEST)
+prefix=$(jq -r '.prefix' $DIR/../LATEST)
 
 echo "Building docs for $prefix (daml: $RELEASE_TAG, canton: $CANTON_RELEASE_TAG, daml-finance: $DAML_FINANCE_RELEASE_TAG)"
 
-BUILD_DIR=workdir/build
+BUILD_DIR=$DIR/../workdir/build
 rm -rf $BUILD_DIR
 
 mkdir -p $BUILD_DIR/source $BUILD_DIR/sphinx-target
 
-./setup-sphinx-source-tree.sh
+$DIR/setup-sphinx-source-tree.sh
 
 declare -A sphinx_targets=( [html]=html [pdf]=latex )
 declare -A sphinx_flags=( [html]=-W [pdf]=-W )

@@ -80,9 +80,9 @@ jobs:
                echo "Pushhing to $prefix is not currently supported."
                exit 1
              fi
-             docs/download.sh
-             docs/build.sh
-             mv docs/workdir/target/html-docs-*.tar.gz /tmp/workspace/
+             scripts/download.sh
+             scripts/build.sh
+             mv workdir/target/html-docs-*.tar.gz /tmp/workspace/
            EOF
       - store_artifacts:
          path: /tmp/workspace

@@ -39,7 +39,7 @@ subtrees:
 
   - file: daml/considerations
     title: "Introduction"
-  - file: index/create-daml-apps/intro/index
+  - file: create-daml-apps/intro/index
     title: "Write Smart Contracts With Daml"
     subtrees:
     - hidden: False
@@ -97,7 +97,7 @@ subtrees:
               title: "Lock by Safekeeping"
         - file: daml/patterns/legends
           title: "Diagram Legends"
-  - file: index/create-daml-apps/off-ledger/index
+  - file: create-daml-apps/off-ledger/index
     title: "Integrate Daml with Off-Ledger Services"
     subtrees:
     - hidden: False
@@ -109,7 +109,7 @@ subtrees:
         title: "Architectural Patterns"
       - file: app-dev/parties-users
         title: "Parties and Users On a Daml Ledger"
-      - file: index/create-daml-apps/off-ledger/json-api/index
+      - file: create-daml-apps/off-ledger/json-api/index
         title: "Access Active Contracts with the HTTP JSON API Service"
         subtrees:
         - hidden: False
@@ -135,7 +135,7 @@ subtrees:
                 title: "@daml/ledger"
               - file: app-dev/bindings-ts/daml-types
                 title: "@daml/types"
-          - file: index/create-daml-apps/off-ledger/json-api/production-setup/index
+          - file: create-daml-apps/off-ledger/json-api/production-setup/index
             title: "Production Setup"
             subtrees:
             - hidden: False
@@ -183,7 +183,7 @@ subtrees:
             title: "How Daml Types are Translated to Daml-LF"
           - file: app-dev/bindings-x-lang/index
             title: "Create Your Own Bindings"
-      - file: index/create-daml-apps/off-ledger/daml-off-ledger/index
+      - file: create-daml-apps/off-ledger/daml-off-ledger/index
         title: "Write Off-Ledger Automation Using Daml"
         subtrees:
         - hidden: False
@@ -206,7 +206,7 @@ subtrees:
               entries:
               - file: tools/auth-middleware/oauth2
                 title: "OAuth 2.0 Auth Middleware"
-      - file: index/create-daml-apps/off-ledger/errors/index
+      - file: create-daml-apps/off-ledger/errors/index
         title: "Handle Errors"
         subtrees:
         - hidden: False
@@ -228,7 +228,7 @@ subtrees:
         - file: upgrade/automation
           title: "Automating the Upgrade Process"
 
-  - file: index/create-daml-apps/developer-tools/index
+  - file: create-daml-apps/developer-tools/index
     title: "Developer Tools"
     subtrees:
     - hidden: False
@@ -255,7 +255,7 @@ subtrees:
 - caption: "Deploy Daml"
   entries:
 
-  - file: index/deploy-daml/intro/index
+  - file: deploy-daml/intro/index
     title: "Intro"
     subtrees:
     - hidden: False
@@ -277,7 +277,7 @@ subtrees:
         title: "Compatibility Matrix and Supported Dependencies"
   - file: canton/usermanual/downloading
     title: "Download the Components"
-  - file: index/deploy-daml/install-ledger/index
+  - file: deploy-daml/install-ledger/index
     title: "Install a Daml Ledger"
     subtrees:
     - hidden: False
@@ -308,7 +308,7 @@ subtrees:
 - caption: "Operate a Daml Ledger"
   entries:
 
-  - file: index/operate-a-daml-ledger/canton-administration-quickstart/index
+  - file: operate-a-daml-ledger/canton-administration-quickstart/index
     title: "Canton Administration Quick Start"
     subtrees:
     - hidden: False
@@ -329,7 +329,7 @@ subtrees:
       title: "Example Monitoring Setup"
   - file: canton/usermanual/identity_management
     title: "Identity Management"
-  - file: index/operate-a-daml-ledger/common-tasks/index
+  - file: operate-a-daml-ledger/common-tasks/index
     title: "Common Tasks"
     subtrees:
     - hidden: False
@@ -343,7 +343,7 @@ subtrees:
         title: "Configure Auth0 Middleware (With Example Configuration)"
       - file: canton/usermanual/security
         title: "Security & Key Management"
-  - file: index/operate-a-daml-ledger/infrastructure-automation/index
+  - file: operate-a-daml-ledger/infrastructure-automation/index
     title: "Infrastructure Automation (Node and Domain)"
     entries:
     - file: canton/reference/admin_apis
@@ -356,7 +356,7 @@ subtrees:
       - file: daml/resource-management/acs
   - file: canton/usermanual/performance
     title: "Scaling and Performance"
-  - file: index/operate-a-daml-ledger/advanced-operations/index
+  - file: operate-a-daml-ledger/advanced-operations/index
     title: "Advanced Operations"
     subtrees:
     - hidden: False
@@ -882,7 +882,7 @@ subtrees:
     title: "Glossary of concepts"
   - url: https://daml.com/examples
     title: "Examples"
-  - file: index/advanced-architecture
+  - file: advanced-architecture
     title: "Canton Advanced Architecture"
     entries:
     - file: canton/usermanual/contract_keys

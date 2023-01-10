@@ -6,15 +6,13 @@ set -eou pipefail
 
 DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-cd "$DIR"
+RELEASE_TAG=$(jq -r '.daml' $DIR/../LATEST)
+CANTON_RELEASE_TAG=$(jq -r '.canton' $DIR/../LATEST)
+DAML_FINANCE_RELEASE_TAG=$(jq -r '.daml_finance' $DIR/../LATEST)
+DOWNLOAD_DIR=$DIR/../workdir/downloads
+SPHINX_DIR=$DIR/../workdir/build/source
 
-RELEASE_TAG=$(jq -r '.daml' ../LATEST)
-CANTON_RELEASE_TAG=$(jq -r '.canton' ../LATEST)
-DAML_FINANCE_RELEASE_TAG=$(jq -r '.daml_finance' ../LATEST)
-DOWNLOAD_DIR=workdir/downloads
-SPHINX_DIR=workdir/build/source
-
-prefix=$(jq -r '.prefix' ../LATEST)
+prefix=$(jq -r '.prefix' $DIR/../LATEST)
 
 mkdir -p $SPHINX_DIR/source/canton $SPHINX_DIR/source/daml-finance
 tar xf $DOWNLOAD_DIR/sphinx-source-tree-$RELEASE_TAG.tar.gz -C $SPHINX_DIR --strip-components=1
@@ -58,12 +56,11 @@ for file in pdf html; do
     done
 done
 
-rm -rf $SPHINX_DIR/source/index{,.rst}
-for f in $(find index -type f); do
+for f in $(cd $DIR/../docs; find . -type f); do
     mkdir -p $SPHINX_DIR/source/$(dirname $f)
-    ln $f $SPHINX_DIR/source/$f
+    rm -f $SPHINX_DIR/source/$f
+    ln $DIR/../docs/$f $SPHINX_DIR/source/$f
 done
-mv $SPHINX_DIR/source/index/index.rst $SPHINX_DIR/source/index.rst
 
 # Disable all ToCs
 find $SPHINX_DIR/source -type f -name '*.rst' -print0 | while IFS= read -r -d '' file
@@ -75,4 +72,5 @@ done
 sed -i "s|Version : .*|Version : $prefix|" $SPHINX_DIR/configs/pdf/conf.py
 
 # Copy ToC
-ln index/_toc.yml $SPHINX_DIR/source/_toc.yml
+rm -f $SPHINX_DIR/source/_toc.yml
+ln $DIR/../_toc.yml $SPHINX_DIR/source/_toc.yml
