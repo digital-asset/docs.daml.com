@@ -80,8 +80,8 @@ jobs:
                echo "Pushhing to $prefix is not currently supported."
                exit 1
              fi
-             scripts/download.sh
-             scripts/build.sh
+             bin/download
+             bin/build
              mv workdir/target/html-docs-*.tar.gz /tmp/workspace/
            EOF
       - store_artifacts:
@@ -223,8 +223,8 @@ jobs:
                         '{daml: $daml, canton: $canton, prefix: $daml, daml_finance: $finance}' \
                         > LATEST
 
-                     docs/download.sh
-                     docs/build.sh
+                     bin/download
+                     bin/build
                      upload=$(mktemp -d)
                      tar xf docs/workdir/target/html-docs-$version.tar.gz -C $upload --strip-components=1
                      aws s3 cp $upload s3://docs-daml-com/$version --recursive --acl public-read --region us-east-1
