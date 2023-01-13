@@ -71,6 +71,8 @@ subtrees:
         title: "The Daml Standard Library"
       - file: daml/intro/12_Testing
         title: "Testing"
+      - file: daml/intro/13_Interfaces
+        title: "Interfaces"
       - file: daml/intro/99_NextSteps
         title: "Next Steps"
       - file: daml/patterns
