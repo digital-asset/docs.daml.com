@@ -3,13 +3,3 @@
 
 Install a Ledger
 ################
-
-.. toctree::
-   :titlesonly:
-
-   Work With the Docker Containers </canton/usermanual/docker>
-   Set Configuration Options </canton/usermanual/static_conf>
-   Set Up A Daml Domain With Enterprise Drivers </canton/usermanual/domains/domains>
-   Installation </canton/usermanual/installation>
-   High Availability </canton/usermanual/ha>
-   Persistence </canton/usermanual/persistence>

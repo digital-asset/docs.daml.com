@@ -3,13 +3,3 @@
 
 Canton Administration Quickstart
 ################################
-
-.. _ledger-administration-introduction:
-
-.. toctree::
-   :titlesonly:
-
-   Console Quickstart </canton/usermanual/console>
-   Console Commands </canton/reference/console>
-
-..
