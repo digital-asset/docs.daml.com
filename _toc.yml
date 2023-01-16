@@ -99,7 +99,13 @@ subtrees:
         title: "Testing"
       - file: daml/intro/99_NextSteps
         title: "Next Steps"
-
+  - file: daml/resource-management/index
+    subtrees:
+    - hidden: False
+      titlesonly: True
+      entries:
+      - file: daml/resource-management/latency-and-throughput
+      - file: daml/resource-management/active-contract-set
 
 
   - file: create-daml-apps/off-ledger/index
@@ -830,12 +836,6 @@ subtrees:
     entries:
     - file: canton/reference/admin_apis
       title: "Administration APIs"
-  - file: daml/resource-management/index
-    subtrees:
-    - hidden: False
-      titlesonly: True
-      entries:
-      - file: daml/resource-management/acs
   - file: canton/usermanual/performance
     title: "Scaling and Performance"
   - file: operate-a-daml-ledger/advanced-operations/index
