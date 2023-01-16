@@ -40,7 +40,7 @@ subtrees:
   - file: daml/considerations
     title: "Introduction"
   - file: create-daml-apps/intro/index
-    title: "Write Smart Contracts With Daml"
+    title: "Write Smart Contracts with Daml"
     subtrees:
     - hidden: False
       titlesonly: True
@@ -61,6 +61,8 @@ subtrees:
         title: "Parties and Authority"
       - file: daml/intro/7_Composing
         title: "Composing Choices"
+      - file: daml/intro/13_Interfaces
+        title: "Interfaces"
       - file: daml/intro/8_Exceptions
         title: "Exception Handling"
       - file: daml/intro/9_Dependencies
@@ -69,12 +71,6 @@ subtrees:
         title: "Functional Programming 101"
       - file: daml/intro/11_StdLib
         title: "The Daml Standard Library"
-      - file: daml/intro/12_Testing
-        title: "Testing"
-      - file: daml/intro/13_Interfaces
-        title: "Interfaces"
-      - file: daml/intro/99_NextSteps
-        title: "Next Steps"
       - file: daml/patterns
         title: "Good Design Patterns"
         entries:
@@ -99,6 +95,13 @@ subtrees:
               title: "Lock by Safekeeping"
         - file: daml/patterns/legends
           title: "Diagram Legends"
+      - file: daml/intro/12_Testing
+        title: "Testing"
+      - file: daml/intro/99_NextSteps
+        title: "Next Steps"
+
+
+
   - file: create-daml-apps/off-ledger/index
     title: "Integrate Daml with Off-Ledger Services"
     subtrees:
@@ -254,133 +257,6 @@ subtrees:
         title: "Measure: Daml Profiler"
       - file: tools/codegen
 
-- caption: "Deploy Daml"
-  entries:
-
-  - file: deploy-daml/intro/index
-    title: "Intro"
-    subtrees:
-    - hidden: False
-      titlesonly: True
-      entries:
-      - file: canton/about
-        title: "Introducing Canton"
-      - file: canton/architecture/overview
-        title: "Canton Overview"
-      - file: canton/tutorials/demo
-        title: "Canton Demo"
-      - file: canton/tutorials/getting_started
-        title: "Getting Started"
-      - file: canton/tutorials/use_daml_sdk
-        title: "Daml SDK and Canton"
-      - file: canton/tutorials/composability
-        title: "Composability"
-      - file: canton/usermanual/versioning
-        title: "Compatibility Matrix and Supported Dependencies"
-  - file: canton/usermanual/downloading
-    title: "Download the Components"
-  - file: deploy-daml/install-ledger/index
-    title: "Install a Daml Ledger"
-    subtrees:
-    - hidden: False
-      titlesonly: True
-      entries:
-      - file: canton/usermanual/installation
-        title: "Installation"
-      - file: canton/usermanual/docker
-        title: "Work With the Docker Containers"
-      - file: canton/usermanual/static_conf
-        title: "Set Configuration Options"
-      - file: canton/usermanual/domains/domains
-        title: "Set Up A Daml Domain With Enterprise Drivers"
-        subtrees:
-        - hidden: False
-          entries:
-          - file: canton/usermanual/domains/oracle
-            title: "Oracle Domain"
-          - file: canton/usermanual/domains/fabric
-            title: "Fabric Domain"
-          - file: canton/usermanual/domains/ethereum
-            title: "Ethereum Domain"
-  - file: canton/usermanual/ha
-    title: "High Availability"
-  - file: canton/usermanual/persistence
-    title: "Persistence"
-
-- caption: "Operate a Daml Ledger"
-  entries:
-
-  - file: operate-a-daml-ledger/canton-administration-quickstart/index
-    title: "Canton Administration Quick Start"
-    subtrees:
-    - hidden: False
-      titlesonly: True
-      entries:
-      - file: canton/usermanual/command_line
-        title: "Use the Canton Command Line"
-      - file: canton/usermanual/console
-        title: "Console Quickstart"
-      - file: canton/reference/console
-        title: "Console Commands"
-  - file: canton/usermanual/monitoring
-    title: "Monitoring Best Practices"
-    entries:
-    - file: ops/common-metrics
-      title: "Common Metrics"
-    - file: canton/usermanual/example_monitoring_setup
-      title: "Example Monitoring Setup"
-  - file: canton/usermanual/identity_management
-    title: "Identity Management"
-  - file: operate-a-daml-ledger/common-tasks/index
-    title: "Common Tasks"
-    subtrees:
-    - hidden: False
-      titlesonly: True
-      entries:
-      - file: canton/usermanual/packagemanagement
-        title: "Manage DARs and Packages"
-      - file: canton/usermanual/upgrading
-        title: "Upgrade To a New Release"
-      - file: tools/trigger-service/auth0_example
-        title: "Configure Auth0 Middleware (With Example Configuration)"
-      - file: canton/usermanual/security
-        title: "Security & Key Management"
-  - file: operate-a-daml-ledger/infrastructure-automation/index
-    title: "Infrastructure Automation (Node and Domain)"
-    entries:
-    - file: canton/reference/admin_apis
-      title: "Administration APIs"
-  - file: daml/resource-management/index
-    subtrees:
-    - hidden: False
-      titlesonly: True
-      entries:
-      - file: daml/resource-management/acs
-  - file: canton/usermanual/performance
-    title: "Scaling and Performance"
-  - file: operate-a-daml-ledger/advanced-operations/index
-    title: "Advanced Operations"
-    subtrees:
-    - hidden: False
-      titlesonly: True
-      entries:
-      - file: canton/usermanual/manage_domains
-        title: "Manage Domains"
-      - file: canton/usermanual/manage_domain_entities
-        title: "Manage Domain Entities"
-      - file: canton/usermanual/pruning
-        title: "Ledger Pruning"
-      - file: ops/pruning
-        title: "Participant Pruning"
-      - file: ops/metering
-        title: "Participant Metering"
-      - file: canton/usermanual/apis
-        title: "Api Configuration"
-      - file: canton/usermanual/connectivity
-        title: "Sequencer Connections"
-      - file: canton/usermanual/repairing
-        title: "Repair the Topology Information"
-  - file: canton/usermanual/troubleshooting_guide
 
 - caption: "Daml Finance"
   titlesonly: True
@@ -855,6 +731,137 @@ subtrees:
             title: "Daml.Finance.Util.Date.Schedule"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Util-Disclosure
             title: "Daml.Finance.Util.Disclosure"
+
+
+
+- caption: "Deploy Daml"
+  entries:
+
+  - file: deploy-daml/intro/index
+    title: "Intro"
+    subtrees:
+    - hidden: False
+      titlesonly: True
+      entries:
+      - file: canton/about
+        title: "Introducing Canton"
+      - file: canton/architecture/overview
+        title: "Canton Overview"
+      - file: canton/tutorials/demo
+        title: "Canton Demo"
+      - file: canton/tutorials/getting_started
+        title: "Getting Started"
+      - file: canton/tutorials/use_daml_sdk
+        title: "Daml SDK and Canton"
+      - file: canton/tutorials/composability
+        title: "Composability"
+      - file: canton/usermanual/versioning
+        title: "Compatibility Matrix and Supported Dependencies"
+  - file: canton/usermanual/downloading
+    title: "Download the Components"
+  - file: deploy-daml/install-ledger/index
+    title: "Install a Daml Ledger"
+    subtrees:
+    - hidden: False
+      titlesonly: True
+      entries:
+      - file: canton/usermanual/installation
+        title: "Installation"
+      - file: canton/usermanual/docker
+        title: "Work With the Docker Containers"
+      - file: canton/usermanual/static_conf
+        title: "Set Configuration Options"
+      - file: canton/usermanual/domains/domains
+        title: "Set Up A Daml Domain With Enterprise Drivers"
+        subtrees:
+        - hidden: False
+          entries:
+          - file: canton/usermanual/domains/oracle
+            title: "Oracle Domain"
+          - file: canton/usermanual/domains/fabric
+            title: "Fabric Domain"
+          - file: canton/usermanual/domains/ethereum
+            title: "Ethereum Domain"
+  - file: canton/usermanual/ha
+    title: "High Availability"
+  - file: canton/usermanual/persistence
+    title: "Persistence"
+
+- caption: "Operate a Daml Ledger"
+  entries:
+
+  - file: operate-a-daml-ledger/canton-administration-quickstart/index
+    title: "Canton Administration Quick Start"
+    subtrees:
+    - hidden: False
+      titlesonly: True
+      entries:
+      - file: canton/usermanual/command_line
+        title: "Use the Canton Command Line"
+      - file: canton/usermanual/console
+        title: "Console Quickstart"
+      - file: canton/reference/console
+        title: "Console Commands"
+  - file: canton/usermanual/monitoring
+    title: "Monitoring Best Practices"
+    entries:
+    - file: ops/common-metrics
+      title: "Common Metrics"
+    - file: canton/usermanual/example_monitoring_setup
+      title: "Example Monitoring Setup"
+  - file: canton/usermanual/identity_management
+    title: "Identity Management"
+  - file: operate-a-daml-ledger/common-tasks/index
+    title: "Common Tasks"
+    subtrees:
+    - hidden: False
+      titlesonly: True
+      entries:
+      - file: canton/usermanual/packagemanagement
+        title: "Manage DARs and Packages"
+      - file: canton/usermanual/upgrading
+        title: "Upgrade To a New Release"
+      - file: tools/trigger-service/auth0_example
+        title: "Configure Auth0 Middleware (With Example Configuration)"
+      - file: canton/usermanual/security
+        title: "Security & Key Management"
+  - file: operate-a-daml-ledger/infrastructure-automation/index
+    title: "Infrastructure Automation (Node and Domain)"
+    entries:
+    - file: canton/reference/admin_apis
+      title: "Administration APIs"
+  - file: daml/resource-management/index
+    subtrees:
+    - hidden: False
+      titlesonly: True
+      entries:
+      - file: daml/resource-management/acs
+  - file: canton/usermanual/performance
+    title: "Scaling and Performance"
+  - file: operate-a-daml-ledger/advanced-operations/index
+    title: "Advanced Operations"
+    subtrees:
+    - hidden: False
+      titlesonly: True
+      entries:
+      - file: canton/usermanual/manage_domains
+        title: "Manage Domains"
+      - file: canton/usermanual/manage_domain_entities
+        title: "Manage Domain Entities"
+      - file: canton/usermanual/pruning
+        title: "Ledger Pruning"
+      - file: ops/pruning
+        title: "Participant Pruning"
+      - file: ops/metering
+        title: "Participant Metering"
+      - file: canton/usermanual/apis
+        title: "Api Configuration"
+      - file: canton/usermanual/connectivity
+        title: "Sequencer Connections"
+      - file: canton/usermanual/repairing
+        title: "Repair the Topology Information"
+  - file: canton/usermanual/troubleshooting_guide
+
 
 - caption: "Help"
   entries:
