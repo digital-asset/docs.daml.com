@@ -879,200 +879,210 @@ subtrees:
 - caption: "Reference"
   entries:
 
-  - url: https://docs.daml.com/cheat-sheet
-    title: "Cheat Sheet"
   - file: concepts/glossary
-    title: "Glossary of concepts"
-  - url: https://daml.com/examples
-    title: "Examples"
-  - file: advanced-architecture
-    title: "Canton Advanced Architecture"
-    entries:
-    - file: canton/usermanual/contract_keys
-      title: "Contract Keys in Canton"
-    - file: canton/architecture/domains/domains
-      title: "Domain Architecture and Integrations"
-      subtrees:
-      - hidden: False
+    title: "Glossary of Concepts"
+  - file: reference/example-applications
+    title: "Example Applications"
+  - file: reference/daml-language-references
+    title: "Daml Language"
+    subtrees:
+    - hidden: False
+      entries:
+      - file: reference/cheat-sheet
+        title: "Cheat Sheet"
+      - file: daml/reference/index
+        title: "Language Reference"
+        subtrees:
+        - hidden: False
+          entries:
+          - file: daml/reference/structure
+            title: "Overview: Template Structure"
+          - file: daml/reference/templates
+            title: "Templates"
+          - file: daml/reference/choices
+            title: "Choices"
+          - file: daml/reference/updates
+            title: "Updates"
+          - file: daml/reference/data-types
+            title: "Data types"
+          - file: daml/reference/working-with
+            title: "Built-in functions"
+          - file: daml/reference/expressions
+            title: "Expressions"
+          - file: daml/reference/functions
+            title: "Functions"
+          - file: daml/reference/file-structure
+            title: "File structure"
+          - file: daml/reference/packages
+            title: "Packages"
+          - file: daml/reference/contract-keys
+            title: "Contract keys"
+          - file: daml/reference/exceptions
+            title: "Exceptions"
+          - file: daml/reference/interfaces
+            title: "Interfaces"
+      - file: daml/stdlib/index
+        title: "The Standard Library"
+        subtrees:
+        - hidden: False
+          titlesonly: True
+          entries:
+          - file: daml/stdlib/Prelude
+            title: "Prelude"
+          - file: daml/stdlib/DA-Action
+            title: "DA.Action"
+          - file: daml/stdlib/DA-Action-State
+            title: "DA.Action.State"
+          - file: daml/stdlib/DA-Action-State-Class
+            title: "DA.Action.State.Class"
+          - file: daml/stdlib/DA-Assert
+            title: "DA.Assert"
+          - file: daml/stdlib/DA-Bifunctor
+            title: "DA.Bifunctor"
+          - file: daml/stdlib/DA-BigNumeric
+            title: "DA.BigNumeric"
+          - file: daml/stdlib/DA-Date
+            title: "DA.Date"
+          - file: daml/stdlib/DA-Either
+            title: "DA.Either"
+          - file: daml/stdlib/DA-Exception
+            title: "DA.Exception"
+          - file: daml/stdlib/DA-Foldable
+            title: "DA.Foldable"
+          - file: daml/stdlib/DA-Functor
+            title: "DA.Functor"
+          - file: daml/stdlib/DA-Internal-Interface-AnyView
+            title: "DA.Internal.Interface.AnyView"
+          - file: daml/stdlib/DA-Internal-Interface-AnyView-Types
+            title: "DA.Internal.Interface.AnyView.Types"
+          - file: daml/stdlib/DA-List
+            title: "DA.List"
+          - file: daml/stdlib/DA-List-BuiltinOrder
+            title: "DA.List.BuiltinOrder"
+          - file: daml/stdlib/DA-List-Total
+            title: "DA.List.Total"
+          - file: daml/stdlib/DA-Logic
+            title: "DA.Logic"
+          - file: daml/stdlib/DA-Map
+            title: "DA.Map"
+          - file: daml/stdlib/DA-Math
+            title: "DA.Math"
+          - file: daml/stdlib/DA-Monoid
+            title: "DA.Monoid"
+          - file: daml/stdlib/DA-NonEmpty
+            title: "DA.NonEmpty"
+          - file: daml/stdlib/DA-NonEmpty-Types
+            title: "DA.NonEmpty.Types"
+          - file: daml/stdlib/DA-Numeric
+            title: "DA.Numeric"
+          - file: daml/stdlib/DA-Optional
+            title: "DA.Optional"
+          - file: daml/stdlib/DA-Record
+            title: "DA.Record"
+          - file: daml/stdlib/DA-Semigroup
+            title: "DA.Semigroup"
+          - file: daml/stdlib/DA-Set
+            title: "DA.Set"
+          - file: daml/stdlib/DA-Stack
+            title: "DA.Stack"
+          - file: daml/stdlib/DA-Text
+            title: "DA.Text"
+          - file: daml/stdlib/DA-TextMap
+            title: "DA.TextMap"
+          - file: daml/stdlib/DA-Time
+            title: "DA.Time"
+          - file: daml/stdlib/DA-Traversable
+            title: "DA.Traversable"
+          - file: daml/stdlib/DA-Tuple
+            title: "DA.Tuple"
+          - file: daml/stdlib/DA-Validation
+            title: "DA.Validation"
+          - file: daml/stdlib/GHC-Show-Text
+            title: "GHC.Show.Text"
+          - file: daml/stdlib/GHC-Tuple-Check
+            title: "GHC.Tuple.Check"
+      - file: daml-script/api/index
+        title: "Script Library"
+        subtrees:
+        - hidden: False
+          titlesonly: True
+          entries:
+            - file: daml-script/api/Daml-Script
+      - file: triggers/api/index
+        title: "Trigger Library"
+        subtrees:
+        - hidden: False
+          titlesonly: True
+          maxdepth: 3
+          entries:
+            - file: triggers/api/Daml-Trigger
+            - file: triggers/api/Daml-Trigger-Assert
+            - file: triggers/api/Daml-Trigger-LowLevel
+  - file: reference/daml-ledger-references
+    title: "Daml Ledger"
+    subtrees:
+    - hidden: False
+      entries: 
+      - file: concepts/ledger-model/index
+        title: "Daml Ledger Model Concepts"
+        subtrees:
+        - hidden: False
+          entries:
+          - file: concepts/ledger-model/ledger-structure
+            title: "Structure"
+          - file: concepts/ledger-model/ledger-integrity
+            title: "Integrity"
+          - file: concepts/local-ledger
+            title: "Causality and Local Daml Ledgers"
+          - file: concepts/ledger-model/ledger-privacy
+            title: "Privacy"
+          - file: concepts/ledger-model/ledger-daml
+            title: "Daml: Define Contract Models Compactly"
+          - file: concepts/ledger-model/ledger-exceptions
+            title: "Exceptions"
+          - file: concepts/identity-and-package-management
+            title: "Identity and Package Management"
+          - file: concepts/time
+            title: "Time on Daml Ledgers"
+      - file: reference/canton-advanced-architecture
+        title: "Canton Advanced Architecture"
         entries:
-        - file: canton/architecture/domains/ethereum
-          title: "Canton Domain on Ethereum"
-        - file: canton/architecture/domains/fabric
-          title: "Canton Domain on Fabric"
-    - file: canton/architecture/ha
-      title: "High Availability"
-      subtrees:
-      - hidden: False
-        entries:
-        - file: canton/architecture/ha/overview
-          title: "Canton High Availability: Overview and Principles"
-        - file: canton/architecture/ha/participant
-          title: "Replicated Participant Node Architecture"
-        - file: canton/architecture/ha/domain
-          title: "Domain HA"
-    - file: canton/architecture/identity
-      title: "Identity Management"
-    - file: canton/architecture/requirements/requirements
-      title: "Canton High-Level Requirements"
-    - file: canton/architecture/research
-      title: "Research Publications"
-    - file: canton/architecture/security
-      title: "Security"
-    - file: ops/system_architecture_faq
-      title: "System Architecture FAQ"
-  - file: daml/reference/index
-    title: "Language Reference"
-    subtrees:
-    - hidden: False
-      entries:
-      - file: daml/reference/structure
-        title: "Overview: Template Structure"
-      - file: daml/reference/templates
-        title: "Templates"
-      - file: daml/reference/choices
-        title: "Choices"
-      - file: daml/reference/updates
-        title: "Updates"
-      - file: daml/reference/data-types
-        title: "Data types"
-      - file: daml/reference/working-with
-        title: "Built-in functions"
-      - file: daml/reference/expressions
-        title: "Expressions"
-      - file: daml/reference/functions
-        title: "Functions"
-      - file: daml/reference/file-structure
-        title: "File structure"
-      - file: daml/reference/packages
-        title: "Packages"
-      - file: daml/reference/contract-keys
-        title: "Contract keys"
-      - file: daml/reference/exceptions
-        title: "Exceptions"
-      - file: daml/reference/interfaces
-        title: "Interfaces"
-  - file: daml/stdlib/index
-    title: "The Standard Library"
-    subtrees:
-    - hidden: False
-      titlesonly: True
-      entries:
-      - file: daml/stdlib/Prelude
-        title: "Prelude"
-      - file: daml/stdlib/DA-Action
-        title: "DA.Action"
-      - file: daml/stdlib/DA-Action-State
-        title: "DA.Action.State"
-      - file: daml/stdlib/DA-Action-State-Class
-        title: "DA.Action.State.Class"
-      - file: daml/stdlib/DA-Assert
-        title: "DA.Assert"
-      - file: daml/stdlib/DA-Bifunctor
-        title: "DA.Bifunctor"
-      - file: daml/stdlib/DA-BigNumeric
-        title: "DA.BigNumeric"
-      - file: daml/stdlib/DA-Date
-        title: "DA.Date"
-      - file: daml/stdlib/DA-Either
-        title: "DA.Either"
-      - file: daml/stdlib/DA-Exception
-        title: "DA.Exception"
-      - file: daml/stdlib/DA-Foldable
-        title: "DA.Foldable"
-      - file: daml/stdlib/DA-Functor
-        title: "DA.Functor"
-      - file: daml/stdlib/DA-Internal-Interface-AnyView
-        title: "DA.Internal.Interface.AnyView"
-      - file: daml/stdlib/DA-Internal-Interface-AnyView-Types
-        title: "DA.Internal.Interface.AnyView.Types"
-      - file: daml/stdlib/DA-List
-        title: "DA.List"
-      - file: daml/stdlib/DA-List-BuiltinOrder
-        title: "DA.List.BuiltinOrder"
-      - file: daml/stdlib/DA-List-Total
-        title: "DA.List.Total"
-      - file: daml/stdlib/DA-Logic
-        title: "DA.Logic"
-      - file: daml/stdlib/DA-Map
-        title: "DA.Map"
-      - file: daml/stdlib/DA-Math
-        title: "DA.Math"
-      - file: daml/stdlib/DA-Monoid
-        title: "DA.Monoid"
-      - file: daml/stdlib/DA-NonEmpty
-        title: "DA.NonEmpty"
-      - file: daml/stdlib/DA-NonEmpty-Types
-        title: "DA.NonEmpty.Types"
-      - file: daml/stdlib/DA-Numeric
-        title: "DA.Numeric"
-      - file: daml/stdlib/DA-Optional
-        title: "DA.Optional"
-      - file: daml/stdlib/DA-Record
-        title: "DA.Record"
-      - file: daml/stdlib/DA-Semigroup
-        title: "DA.Semigroup"
-      - file: daml/stdlib/DA-Set
-        title: "DA.Set"
-      - file: daml/stdlib/DA-Stack
-        title: "DA.Stack"
-      - file: daml/stdlib/DA-Text
-        title: "DA.Text"
-      - file: daml/stdlib/DA-TextMap
-        title: "DA.TextMap"
-      - file: daml/stdlib/DA-Time
-        title: "DA.Time"
-      - file: daml/stdlib/DA-Traversable
-        title: "DA.Traversable"
-      - file: daml/stdlib/DA-Tuple
-        title: "DA.Tuple"
-      - file: daml/stdlib/DA-Validation
-        title: "DA.Validation"
-      - file: daml/stdlib/GHC-Show-Text
-        title: "GHC.Show.Text"
-      - file: daml/stdlib/GHC-Tuple-Check
-        title: "GHC.Tuple.Check"
-  - file: daml-script/api/index
-    title: "Daml Script Library"
-    subtrees:
-    - hidden: False
-      titlesonly: True
-      entries:
-        - file: daml-script/api/Daml-Script
-  - file: triggers/api/index
-    title: "Daml Trigger Library"
-    subtrees:
-    - hidden: False
-      titlesonly: True
-      maxdepth: 3
-      entries:
-        - file: triggers/api/Daml-Trigger
-        - file: triggers/api/Daml-Trigger-Assert
-        - file: triggers/api/Daml-Trigger-LowLevel
-  - file: canton/usermanual/FAQ
-    title: "Canton Frequently Asked Questions"
-  - file: canton/reference/error_codes
-    title: "Error codes"
-  - file: concepts/ledger-model/index
-    title: "Daml Ledger Model"
-    subtrees:
-    - hidden: False
-      entries:
-      - file: concepts/ledger-model/ledger-structure
-        title: "Structure"
-      - file: concepts/ledger-model/ledger-integrity
-        title: "Integrity"
-      - file: concepts/ledger-model/ledger-privacy
-        title: "Privacy"
-      - file: concepts/ledger-model/ledger-daml
-        title: "Daml: Define Contract Models Compactly"
-      - file: concepts/ledger-model/ledger-exceptions
-        title: "Exceptions"
-  - file: concepts/identity-and-package-management
-    title: "Identity and Package Management"
-  - file: concepts/time
-    title: "Time on Daml Ledgers"
-  - file: concepts/local-ledger
-    title: "Causality and Local Daml Ledgers"
+        - file: canton/usermanual/contract_keys
+          title: "Contract Keys in Canton"
+        - file: canton/architecture/domains/domains
+          title: "Domain Architecture and Integrations"
+          subtrees:
+          - hidden: False
+            entries:
+            - file: canton/architecture/domains/ethereum
+              title: "Canton Domain on Ethereum"
+            - file: canton/architecture/domains/fabric
+              title: "Canton Domain on Fabric"
+        - file: canton/architecture/ha
+          title: "High Availability"
+          subtrees:
+          - hidden: False
+            entries:
+            - file: canton/architecture/ha/overview
+              title: "Canton High Availability: Overview and Principles"
+            - file: canton/architecture/ha/participant
+              title: "Replicated Participant Node Architecture"
+            - file: canton/architecture/ha/domain
+              title: "Domain HA"
+        - file: canton/architecture/identity
+          title: "Identity Management"
+        - file: canton/architecture/requirements/requirements
+          title: "Canton High-Level Requirements"
+        - file: canton/architecture/research
+          title: "Research Publications"
+        - file: canton/architecture/security
+          title: "Security"
+        - file: ops/system_architecture_faq
+          title: "System Architecture FAQ"
+      - file: canton/reference/error_codes
+        title: "Canton Error Codes"
+      - file: canton/usermanual/FAQ
+        title: "Canton Frequently Asked Questions"
   - file: concepts/test-evidence
     title: "Test Evidence"
 
