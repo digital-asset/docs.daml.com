@@ -4,10 +4,4 @@
 Daml Off-Ledger Automation
 ##########################
 
-.. toctree::
-   :titlesonly:
-   :caption: Write Off-Ledger Automation using Daml
 
-   Overview </daml-off-ledger>
-   React to Off-Ledger Events: Daml Script </daml-script/index>
-   React to On-Ledger Events: Daml Triggers </triggers/index>

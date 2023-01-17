@@ -4,8 +4,3 @@
 Errors
 ######
 
-.. toctree::
-   :titlesonly:
-
-   Error Codes </app-dev/grpc/error-codes>
-   Command Deduplication </app-dev/command-deduplication>

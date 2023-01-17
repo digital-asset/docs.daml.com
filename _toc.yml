@@ -40,7 +40,7 @@ subtrees:
   - file: daml/considerations
     title: "Introduction"
   - file: create-daml-apps/intro/index
-    title: "Write Smart Contracts With Daml"
+    title: "Write Smart Contracts with Daml"
     subtrees:
     - hidden: False
       titlesonly: True
@@ -61,6 +61,8 @@ subtrees:
         title: "Parties and Authority"
       - file: daml/intro/7_Composing
         title: "Composing Choices"
+      - file: daml/intro/13_Interfaces
+        title: "Interfaces"
       - file: daml/intro/8_Exceptions
         title: "Exception Handling"
       - file: daml/intro/9_Dependencies
@@ -73,8 +75,6 @@ subtrees:
         title: "Good Design Patterns"
       - file: daml/intro/12_Testing
         title: "Testing"
-      - file: daml/intro/13_Interfaces
-        title: "Interfaces"
       - file: daml/intro/99_NextSteps
         title: "Next Steps"
         entries:
@@ -829,7 +829,8 @@ subtrees:
     - hidden: False
       titlesonly: True
       entries:
-      - file: daml/resource-management/acs
+      - file: daml/resource-management/latency-and-throughput
+      - file: daml/resource-management/active-contract-set
   - file: canton/usermanual/performance
     title: "Scaling and Performance"
   - file: operate-a-daml-ledger/advanced-operations/index
