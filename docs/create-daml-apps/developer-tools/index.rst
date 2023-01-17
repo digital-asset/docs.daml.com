@@ -3,15 +3,3 @@
 
 Developer Tools
 ###############
-
-.. toctree::
-   :titlesonly:
-
-   Daml Assistant </tools/assistant>
-   /tools/canton-console
-   Deploy to Generic Daml Ledger </deploy/generic_ledger>
-   Experiment: Daml REPL </daml-repl/index>
-   Write: Daml Studio </daml/daml-studio>
-   Test: Daml Sandbox </tools/sandbox>
-   Visualize: Daml Navigator </tools/navigator/index>
-   Measure: Daml Profiler </tools/profiler>
