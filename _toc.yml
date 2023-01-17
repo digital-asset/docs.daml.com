@@ -73,10 +73,6 @@ subtrees:
         title: "The Daml Standard Library"
       - file: daml/patterns
         title: "Good Design Patterns"
-      - file: daml/intro/12_Testing
-        title: "Testing"
-      - file: daml/intro/99_NextSteps
-        title: "Next Steps"
         entries:
         - file: daml/patterns/initaccept
           title: "The Initiate and Accept Pattern"
@@ -99,6 +95,10 @@ subtrees:
               title: "Lock by Safekeeping"
         - file: daml/patterns/legends
           title: "Diagram Legends"
+      - file: daml/intro/12_Testing
+        title: "Testing"
+      - file: daml/intro/99_NextSteps
+        title: "Next Steps"
   - file: create-daml-apps/off-ledger/index
     title: "Integrate Daml with Off-Ledger Services"
     subtrees:
