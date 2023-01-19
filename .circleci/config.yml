@@ -204,6 +204,54 @@ jobs:
                  then echo "-> Skipping, known broken."
                  else
                      echo "-> Getting Canton version"
+                     echo "DEBUG1: $(graphql $version)"
+                     echo "DEBUG2: curl -H "Authorization: bearer GITHUB_TOKEN" \
+                                       --fail \
+                                       --silent \
+                                       https://api.github.com/graphql \
+                                       -XPOST \
+                                       -d\"$(jq -n --arg q "$(graphql $version)" '{query: $q}')\""
+                     echo "DEBUG3: $(curl -H "Authorization: bearer $GITHUB_TOKEN" \
+                                       --fail \
+                                       --silent \
+                                       https://api.github.com/graphql \
+                                       -XPOST \
+                                       -d"$(jq -n --arg q "$(graphql $version)" '{query: $q}')")
+                     echo "DEBUG4: $(curl -H "Authorization: bearer $GITHUB_TOKEN" \
+                                       --fail \
+                                       --silent \
+                                       https://api.github.com/graphql \
+                                       -XPOST \
+                                       -d"$(jq -n --arg q "$(graphql $version)" '{query: $q}')" \
+                                | jq -r '.data.repository.release.releaseAssets.nodes[].name')"
+                     echo "DEBUG5: $(curl -H "Authorization: bearer $GITHUB_TOKEN" \
+                                       --fail \
+                                       --silent \
+                                       https://api.github.com/graphql \
+                                       -XPOST \
+                                       -d"$(jq -n --arg q "$(graphql $version)" '{query: $q}')" \
+                                | jq -r '.data.repository.release.releaseAssets.nodes[].name' \
+                                | grep canton)"
+                     echo "DEBUG6: $(curl -H "Authorization: bearer $GITHUB_TOKEN" \
+                                       --fail \
+                                       --silent \
+                                       https://api.github.com/graphql \
+                                       -XPOST \
+                                       -d"$(jq -n --arg q "$(graphql $version)" '{query: $q}')" \
+                                | jq -r '.data.repository.release.releaseAssets.nodes[].name' \
+                                | grep canton \
+                                | head -1)"
+                     echo "DEBUG7: $(curl -H "Authorization: bearer $GITHUB_TOKEN" \
+                                       --fail \
+                                       --silent \
+                                       https://api.github.com/graphql \
+                                       -XPOST \
+                                       -d"$(jq -n --arg q "$(graphql $version)" '{query: $q}')" \
+                                | jq -r '.data.repository.release.releaseAssets.nodes[].name' \
+                                | grep canton \
+                                | head -1 \
+                                | sed 's/canton-open-source-\(.*\)\.tar\.gz/\1/')"
+
                      canton=$(curl -H "Authorization: bearer $GITHUB_TOKEN" \
                                    --fail \
                                    --silent \
