@@ -19,30 +19,24 @@ if [ -z "${ARTIFACTORY_USERNAME:-}" ] || [ -z "${ARTIFACTORY_PASSWORD:-}" ]; the
     exit 1
 fi
 
-echo "Downloading docs for $RELEASE_TAG"
+download() (
+    path=$1
+    file=$2
+    if [ -f "$TARGET_DIR/$file" ]; then
+        echo "$file is already there, skipping."
+    else
+        echo "Downloading $file..."
+        curl -u $ARTIFACTORY_USERNAME:$ARTIFACTORY_PASSWORD \
+             --fail \
+             --location \
+             https://digitalasset.jfrog.io/artifactory/assembly/$path/$file \
+             > "$TARGET_DIR/$file"
+    fi
+)
 
-source_tree=sphinx-source-tree-$RELEASE_TAG.tar.gz
-non_sphinx_docs=non-sphinx-html-docs-$RELEASE_TAG.tar.gz
-pdf_fonts=pdf-fonts-$RELEASE_TAG.tar.gz
-for FILE in $source_tree $non_sphinx_docs $pdf_fonts; do
-    curl -u $ARTIFACTORY_USERNAME:$ARTIFACTORY_PASSWORD \
-         --fail \
-         --location \
-         https://digitalasset.jfrog.io/artifactory/assembly/daml/$RELEASE_TAG/docs/$FILE \
-         > "$TARGET_DIR/$FILE"
-done
-curl -u $ARTIFACTORY_USERNAME:$ARTIFACTORY_PASSWORD \
-    --fail \
-    --location \
-    https://digitalasset.jfrog.io/artifactory/assembly/canton/$CANTON_RELEASE_TAG/canton-doc-sources-$CANTON_RELEASE_TAG.tar.gz \
-    > "$TARGET_DIR/canton-docs-$CANTON_RELEASE_TAG.tar.gz"
-curl -u $ARTIFACTORY_USERNAME:$ARTIFACTORY_PASSWORD \
-    --fail \
-    --location \
-    https://digitalasset.jfrog.io/artifactory/assembly/canton/$CANTON_RELEASE_TAG/canton-scaladoc-$CANTON_RELEASE_TAG.tar.gz \
-    > "$TARGET_DIR/canton-scaladoc-$CANTON_RELEASE_TAG.tar.gz"
-curl -u $ARTIFACTORY_USERNAME:$ARTIFACTORY_PASSWORD \
-    --fail \
-    --location \
-    https://digitalasset.jfrog.io/artifactory/assembly/daml-finance/$DAML_FINANCE_RELEASE_TAG/daml-finance-doc-sources-$DAML_FINANCE_RELEASE_TAG.tar.gz \
-    > "$TARGET_DIR/daml-finance-docs-$DAML_FINANCE_RELEASE_TAG.tar.gz"
+download daml/$RELEASE_TAG/docs sphinx-source-tree-$RELEASE_TAG.tar.gz
+download daml/$RELEASE_TAG/docs non-sphinx-html-docs-$RELEASE_TAG.tar.gz
+download daml/$RELEASE_TAG/docs pdf-fonts-$RELEASE_TAG.tar.gz
+download canton/$CANTON_RELEASE_TAG canton-doc-sources-$CANTON_RELEASE_TAG.tar.gz
+download canton/$CANTON_RELEASE_TAG canton-scaladoc-$CANTON_RELEASE_TAG.tar.gz
+download daml-finance/$DAML_FINANCE_RELEASE_TAG daml-finance-doc-sources-$DAML_FINANCE_RELEASE_TAG.tar.gz

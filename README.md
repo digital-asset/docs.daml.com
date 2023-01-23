@@ -66,14 +66,6 @@ export ARTIFACTORY_PASSWORD=Long_string_of_gibberish_abcdefghijklmnopqrstuvwxyzA
 - `ARTIFACTORY_PASSWORD`:
   This is your **API Key**, *NOT* your password. Find your API key at the bottom of **Authentication Settings** in your profile.
 
-### Download docs
-
-Run the following script to download the documentation tarballs from the Daml and Canton repos:
-
-```zsh
-download
-```
-
 ### Live preview
 
 Run the `live-preview` script to render a local view of the site.
