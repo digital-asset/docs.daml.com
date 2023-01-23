@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+daml=$($DIR/deps list daml | tail -1)
+canton=$($DIR/deps list canton | tail -1)
+
+tmp=$(mktemp)
+
+jq --arg daml $daml \
+   --arg canton $canton \
+   '. | .daml |= $daml | .canton |= $canton' \
+   $DIR/../LATEST \
+   > $tmp
+
+mv $tmp $DIR/../LATEST
