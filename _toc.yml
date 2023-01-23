@@ -792,13 +792,10 @@ subtrees:
         title: "Architectural Overview"
       - file: deploy-daml/infrastructure-architecture/overview/usage
         title: "Usage"
-        subtrees:
-        - hidden: True
-          entries:
-          - file: deploy-daml/infrastructure-architecture/overview/replicated-participant-node
-            title: "Replicated Partipant Node Architecture"
-          - file: deploy-daml/infrastructure-architecture/overview/domain
-            title: "Domain Architecture"
+      - file: deploy-daml/infrastructure-architecture/overview/replicated-participant-node
+        title: "Replicated Partipant Node Architecture"
+      - file: deploy-daml/infrastructure-architecture/overview/domain
+        title: "Domain Architecture"
   - file: canton/usermanual/persistence
     title: "Persistence"
 
