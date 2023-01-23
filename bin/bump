@@ -12,7 +12,7 @@ tmp=$(mktemp)
 jq --arg daml $daml \
    --arg canton $canton \
    '. | .daml |= $daml | .canton |= $canton' \
-   $DIR/../LATEST \
+   $DIR/../versions.json \
    > $tmp
 
-mv $tmp $DIR/../LATEST
+mv $tmp $DIR/../versions.json
