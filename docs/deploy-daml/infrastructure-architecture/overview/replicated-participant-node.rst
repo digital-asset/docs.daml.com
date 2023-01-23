@@ -25,7 +25,7 @@ The replicas of a replicated participant node share the same database for two re
 2. To obtain consistent ledger offsets across the replicas, without which the application could not seamlessly failover to another replica. The database defines ledger offsets based on the insertion order of publishing events in the multi-domain event log, i.e. the ledger offset derivation is not deterministic.
 
 Replica Monitoring and Failover
--------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Operating a participant node in a replicated active-passive configuration with a
 shared database requires to establish the active replica, i.e., perform a leader
@@ -67,7 +67,7 @@ are configured with the same storage configuration, e.g., for Oracle using the
 same username to allocate the lock IDs with the same scope.
 
 Enforce a Passive Replica
--------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The replicas that do not hold the exclusive lock are passive and cannot write to
 the shared database. To avoid any attempts to write to the database, which would
@@ -99,7 +99,7 @@ other hand, the former active replica that is now passive will reject any
 incoming requests as the replica can no longer write to the shared database.
 
 Ledger API Client Fail-Over via Load Balancer
----------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To hide the fact that a participant is replicated and to offer a single ledger
 API endpoint towards applications, we recommend the usage of layer 4 (=TCP

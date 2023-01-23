@@ -790,6 +790,8 @@ subtrees:
       entries:
       - file: deploy-daml/infrastructure-architecture/overview/index
         title: "Architectural Overview"
+      - file: deploy-daml/infrastructure-architecture/overview/usage
+        title: "Usage"
         subtrees:
         - hidden: True
           entries:
