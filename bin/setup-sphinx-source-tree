@@ -31,7 +31,7 @@ done
 # Rewrite Daml-Finance's references to the quickstart template provided by the `daml` assembly.
 find $SPHINX_DIR/source/daml-finance -type f -name '*.rst' -print0 | while IFS= read -r -d '' file
 do
-    sed -i 's|.. rli:: https://github.com/digital-asset/daml-finance/tree/main/docs/code-samples/getting-started|.. literalinclude:: /_templates/quickstart-finance|g' $file
+    sed -i "s|.. literalinclude:: ../code-samples/getting-started|.. rli:: https://raw.githubusercontent.com/digital-asset/daml-finance/assembly/${DAML_FINANCE_RELEASE_TAG}/docs/code-samples/getting-started|g" $file
 done
 
 # Drop Canton’s index in favor of our own.
