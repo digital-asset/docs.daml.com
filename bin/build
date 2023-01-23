@@ -6,6 +6,8 @@ set -eou pipefail
 
 DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
+$DIR/download
+
 RELEASE_TAG=$(jq -r '.daml' $DIR/../LATEST)
 CANTON_RELEASE_TAG=$(jq -r '.canton' $DIR/../LATEST)
 DAML_FINANCE_RELEASE_TAG=$(jq -r '.daml_finance' $DIR/../LATEST)

@@ -4,8 +4,9 @@
 
 set -eou pipefail
 
-
 DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+$DIR/download
 
 BUILD_DIR=$DIR/../workdir/build
 rm -rf $BUILD_DIR
