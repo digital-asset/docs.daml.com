@@ -13,10 +13,9 @@ subtrees:
 - caption: "Set Up Your Developer Environment"
   entries:
 
+  - file: ops/requirements
   - file: getting-started/installation
     title: "Installation"
-  - file: ops/requirements
-    title: "System Requirements"
   - file: getting-started/path-variables
     title: "Set JAVA_HOME and PATH Variables"
   - file: getting-started/manual-download
@@ -40,7 +39,7 @@ subtrees:
   - file: daml/considerations
     title: "Introduction"
   - file: create-daml-apps/intro/index
-    title: "Write Smart Contracts with Daml"
+    title: "Write Smart Contracts with Damls"
     subtrees:
     - hidden: False
       titlesonly: True
@@ -732,7 +731,7 @@ subtrees:
   entries:
 
   - file: deploy-daml/intro/index
-    title: "Intro"
+    title: "Introducing Canton"
     subtrees:
     - hidden: False
       titlesonly: True
@@ -777,7 +776,9 @@ subtrees:
           - file: canton/usermanual/domains/ethereum
             title: "Ethereum Domain"
   - file: canton/usermanual/ha
-    title: "High Availability"
+    title: "High Availability DECPRECATING"
+  - file: deploy-daml/infrastructure-architecture/ha_and_scaling/introduction
+    title: "High Availability and Scaling"
   - file: canton/usermanual/persistence
     title: "Persistence"
 
