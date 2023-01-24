@@ -104,7 +104,7 @@ It also produces a PDF, and a tarball containing all of the HTML, under `workdir
 
 :warning: This repo ignores any pre-2.0.0 docs; those will still be published using their existing release process. It is unlikely you will come across this. If you do, reach out to #team-daml.
 
-Every commit to `main` in this repo publishes to a versioned prefix on the S3 repo (e.g. `/2.1.0`), specified under the `prefix` key in the `LATEST` file.
+Every commit to `main` in this repo publishes to a versioned prefix on the S3 repo (e.g. `/2.1.0`), specified under the `prefix` key in the `versions.json` file.
 
 ### Making changes to the next, unreleased version
 
@@ -140,7 +140,7 @@ For example:
 1.0.0-snapshot.20220128
 ```
 
-4. Update the `LATEST` file to include the snapshot version containing the changed PR.
+4. Update the `versions.json` file to include the snapshot version containing the changed PR.
 
 ```json
 {
@@ -151,11 +151,11 @@ For example:
 }
 ```
 
-5. Create a PR to update the `LATEST` file and merge it into the main branch.
+5. Create a PR to update the `versions.json` file and merge it into the main branch.
 
-6. Changes to `main` are reflected immediately on the live (versioned) website. When a new or updated version is built it pulls all of the docs changes submitted for that prefix. For example, the url resulting from building the documentation based on the `LATEST` file above is https://docs.daml.com/2.1.0.
+6. Changes to `main` are reflected immediately on the live (versioned) website. When a new or updated version is built it pulls all of the docs changes submitted for that prefix. For example, the url resulting from building the documentation based on the `versions.json` file above is https://docs.daml.com/2.1.0.
 
-:loudspeaker: Although `LATEST` should reflect the latest unreleased doc versions, around release time it may not. At these times, make sure you know which release you want your change to go into; i.e. the current unreleased (staging) version or the current unreleased (non-staging-yet) future version, it is probably the former which means going through the backporting exercise described in the next section.
+:loudspeaker: Although `versions.json` should reflect the latest unreleased doc versions, around release time it may not. At these times, make sure you know which release you want your change to go into; i.e. the current unreleased (staging) version or the current unreleased (non-staging-yet) future version, it is probably the former which means going through the backporting exercise described in the next section.
 
 ### Making changes to current or past versions *from 2.0.0 onwards*
 
