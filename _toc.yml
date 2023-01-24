@@ -39,7 +39,7 @@ subtrees:
   - file: daml/considerations
     title: "Introduction"
   - file: create-daml-apps/intro/index
-    title: "Write Smart Contracts with Damls"
+    title: "Write Smart Contracts with Daml"
     subtrees:
     - hidden: False
       titlesonly: True
