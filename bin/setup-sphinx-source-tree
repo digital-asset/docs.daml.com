@@ -6,18 +6,18 @@ set -eou pipefail
 
 DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-RELEASE_TAG=$(jq -r '.daml' $DIR/../LATEST)
-CANTON_RELEASE_TAG=$(jq -r '.canton' $DIR/../LATEST)
-DAML_FINANCE_RELEASE_TAG=$(jq -r '.daml_finance' $DIR/../LATEST)
+RELEASE_TAG=$(jq -r '.daml' $DIR/../versions.json)
+CANTON_RELEASE_TAG=$(jq -r '.canton' $DIR/../versions.json)
+DAML_FINANCE_RELEASE_TAG=$(jq -r '.daml_finance' $DIR/../versions.json)
 DOWNLOAD_DIR=$DIR/../workdir/downloads
 SPHINX_DIR=$DIR/../workdir/build/source
 
-prefix=$(jq -r '.prefix' $DIR/../LATEST)
+prefix=$(jq -r '.prefix' $DIR/../versions.json)
 
 mkdir -p $SPHINX_DIR/source/canton $SPHINX_DIR/source/daml-finance
 tar xf $DOWNLOAD_DIR/sphinx-source-tree-$RELEASE_TAG.tar.gz -C $SPHINX_DIR --strip-components=1
-tar xf $DOWNLOAD_DIR/canton-docs-$CANTON_RELEASE_TAG.tar.gz -C $SPHINX_DIR/source/canton
-tar xf $DOWNLOAD_DIR/daml-finance-docs-$DAML_FINANCE_RELEASE_TAG.tar.gz -C $SPHINX_DIR/source/daml-finance
+tar xf $DOWNLOAD_DIR/canton-doc-sources-$CANTON_RELEASE_TAG.tar.gz -C $SPHINX_DIR/source/canton
+tar xf $DOWNLOAD_DIR/daml-finance-doc-sources-$DAML_FINANCE_RELEASE_TAG.tar.gz -C $SPHINX_DIR/source/daml-finance
 
 cp $SPHINX_DIR/source/canton/exts/canton_enterprise_only.py $SPHINX_DIR/configs/static/
 
@@ -56,12 +56,6 @@ for file in pdf html; do
     done
 done
 
-for f in $(cd $DIR/../docs; find . -type f); do
-    mkdir -p $SPHINX_DIR/source/$(dirname $f)
-    rm -f $SPHINX_DIR/source/$f
-    ln $DIR/../docs/$f $SPHINX_DIR/source/$f
-done
-
 # Disable all ToCs
 find $SPHINX_DIR/source -type f -name '*.rst' -print0 | while IFS= read -r -d '' file
 do
@@ -70,6 +64,12 @@ done
 
 # Title page on the PDF
 sed -i "s|Version : .*|Version : $prefix|" $SPHINX_DIR/configs/pdf/conf.py
+
+for f in $(cd $DIR/../docs; find . -type f); do
+    mkdir -p $SPHINX_DIR/source/$(dirname $f)
+    rm -f $SPHINX_DIR/source/$f
+    ln $DIR/../docs/$f $SPHINX_DIR/source/$f
+done
 
 # Copy ToC
 rm -f $SPHINX_DIR/source/_toc.yml

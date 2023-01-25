@@ -4,15 +4,16 @@
 
 set -eou pipefail
 
-
 DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+$DIR/download
 
 BUILD_DIR=$DIR/../workdir/build
 rm -rf $BUILD_DIR
 mkdir -p $BUILD_DIR
 
-RELEASE_TAG=$(jq -r '.daml' $DIR/../LATEST)
-CANTON_RELEASE_TAG=$(jq -r '.canton' $DIR/../LATEST)
+RELEASE_TAG=$(jq -r '.daml' $DIR/../versions.json)
+CANTON_RELEASE_TAG=$(jq -r '.canton' $DIR/../versions.json)
 DOWNLOAD_DIR=$DIR/../workdir/downloads
 
 

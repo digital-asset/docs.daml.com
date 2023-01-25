@@ -13,10 +13,9 @@ subtrees:
 - caption: "Set Up Your Developer Environment"
   entries:
 
+  - file: ops/requirements
   - file: getting-started/installation
     title: "Installation"
-  - file: ops/requirements
-    title: "System Requirements"
   - file: getting-started/path-variables
     title: "Set JAVA_HOME and PATH Variables"
   - file: getting-started/manual-download
@@ -157,6 +156,13 @@ subtrees:
                 title: "Logging"
               - file: json-api/production-setup/metrics
                 title: "Metrics"
+      - file: daml/resource-management/index
+        subtrees:
+        - hidden: False
+          titlesonly: True
+          entries:
+          - file: daml/resource-management/latency-and-throughput
+          - file: daml/resource-management/active-contract-set
       - file: app-dev/ledger-api
         title: "Build Integration with the Ledger API"
         subtrees:
@@ -732,7 +738,7 @@ subtrees:
   entries:
 
   - file: deploy-daml/intro/index
-    title: "Intro"
+    title: "Introducing Canton"
     subtrees:
     - hidden: False
       titlesonly: True
@@ -824,13 +830,6 @@ subtrees:
     entries:
     - file: canton/reference/admin_apis
       title: "Administration APIs"
-  - file: daml/resource-management/index
-    subtrees:
-    - hidden: False
-      titlesonly: True
-      entries:
-      - file: daml/resource-management/latency-and-throughput
-      - file: daml/resource-management/active-contract-set
   - file: canton/usermanual/performance
     title: "Scaling and Performance"
   - file: operate-a-daml-ledger/advanced-operations/index
