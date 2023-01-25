@@ -113,34 +113,7 @@ Every commit to `main` in this repo publishes to a versioned prefix on the S3 re
 :warning: You will have to set up and build the repo you are working on before making changes and viewing locally. Make sure you follow the build instructions carefully as they may differ to here.
 
 2. For Daml and Canton, a snapshot is generated every 24 hours that includes the PR.
-3. To get the snapshot details, run the `deps` tool from the root.
-
-```zsh
-deps list daml # lists daml snapshots
-deps list canton # lists canton snapshots
-deps use <canton-version> # tells you about the dependency between canton and daml
-```
-
-For example:
-
-```zsh
-% deps list daml
-2.0.0
-2.0.0-snapshot.20220117.8897.0.36a93ef0
-2.0.0-snapshot.20220119.8939.0.ebd3827c
-2.0.0-snapshot.20220124.8981.0.a150737d
-```
-
-```zsh
-% deps list canton
-1.0.0-20220207
-1.0.0-rc7
-1.0.0-rc8
-1.0.0-snapshot.20220126
-1.0.0-snapshot.20220128
-```
-
-4. Update the `versions.json` file to include the snapshot version containing the changed PR.
+3. The `versions.json` file in the root defines the current snapshot rendering on live.
 
 ```json
 {
@@ -151,9 +124,15 @@ For example:
 }
 ```
 
-5. Create a PR to update the `versions.json` file and merge it into the main branch.
+4. To update the `versions.json` file to the latest snapshots, run the following:
 
-6. Changes to `main` are reflected immediately on the live (versioned) website. When a new or updated version is built it pulls all of the docs changes submitted for that prefix. For example, the url resulting from building the documentation based on the `versions.json` file above is https://docs.daml.com/2.1.0.
+```sh
+bump
+```
+
+:information_desk_person: DEPRECATED: For interested parties, the `deps` function renders a list of recent snapshot updates with the latest at the end of the list. Run `deps list daml` or `deps list canton` to see them.
+
+5. Changes to `main` are reflected immediately on the live (versioned) website. When a new or updated version is built it pulls all of the docs changes submitted for that prefix. For example, the url resulting from building the documentation based on the `versions.json` file above is https://docs.daml.com/2.1.0.
 
 :loudspeaker: Although `versions.json` should reflect the latest unreleased doc versions, around release time it may not. At these times, make sure you know which release you want your change to go into; i.e. the current unreleased (staging) version or the current unreleased (non-staging-yet) future version, it is probably the former which means going through the backporting exercise described in the next section.
 
