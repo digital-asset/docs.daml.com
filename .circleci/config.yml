@@ -50,23 +50,6 @@ commands:
         - /home/circleci/.nix-channels
         - /home/circleci/.nix-defexpr
         - /home/circleci/.config/nix
-  setup_python:
-    description: Set up Python
-    steps:
-    - run:
-        name: setup_python
-        command: |
-          set -euo pipefail
-          . /home/circleci/.nix-profile/etc/profile.d/nix.sh
-          nix-shell shell.nix \
-            --pure \
-            --run bash \<<'EOF'
-            set -euo pipefail
-
-            python3 -m venv .python-env
-            source .python-env/bin/activate
-            python -m pip install -r requirements.txt
-          EOF
 
 jobs:
   build_docs:
@@ -77,11 +60,11 @@ jobs:
     steps:
       - checkout
       - setup_nix
-      - setup_python
       - run:
          name: build
          command: |
            set -euo pipefail
+
            . /home/circleci/.nix-profile/etc/profile.d/nix.sh
 
            mkdir -p /tmp/workspace
@@ -92,15 +75,9 @@ jobs:
              --keep ARTIFACTORY_PASSWORD \
              --run bash \<<'EOF'
              set -euo pipefail
-             source .python-env/bin/activate
-             PATH="$(pwd)/.python-env/bin:$PATH"
-             prefix=$(jq -r '.prefix' versions.json)
-             if [[ ${#prefix} -lt 5 ]]; then
-               echo "Pushhing to $prefix is not currently supported."
-               exit 1
-             fi
-             bin/build
-             mv workdir/target/html-docs-*.tar.gz /tmp/workspace/
+             docs/download.sh
+             docs/build.sh
+             mv docs/workdir/target/html-docs-*.tar.gz /tmp/workspace/
            EOF
       - store_artifacts:
          path: /tmp/workspace
@@ -132,16 +109,11 @@ jobs:
              --run bash \<<'EOF'
              set -euo pipefail
 
-             prefix=$(jq -r '.prefix' versions.json)
-             sdk_version=$(jq -r '.daml' versions.json)
-             if [[ ${#prefix} -lt 5 ]]; then
-               echo "Pushhing to $prefix is not currently supported."
-               exit 1
-             fi
+             prefix=$(jq -r '.prefix' LATEST)
+             sdk_version=$(jq -r '.daml' LATEST)
 
              upload=$(mktemp -d)
              tar xf /tmp/workspace/html-docs-$sdk_version.tar.gz -C $upload --strip-components=1
-             aws s3 rm s3://docs-daml-com/$prefix --recursive --region us-east-1
              aws s3 cp $upload s3://docs-daml-com/$prefix --recursive --acl public-read --region us-east-1
              aws cloudfront create-invalidation --distribution-id E1U753I56ERH55 --paths "/$prefix/*"
            EOF
@@ -154,7 +126,6 @@ jobs:
     steps:
       - checkout
       - setup_nix
-      - setup_python
       - run:
          name: push
          command: |
@@ -170,8 +141,6 @@ jobs:
              --keep AWS_SECRET_ACCESS_KEY \
              --run bash \<<'EOF'
              set -euo pipefail
-             source .python-env/bin/activate
-             PATH="$(pwd)/.python-env/bin:$PATH"
 
              snapshots=$(curl -sf https://docs.daml.com/snapshots.json \
                         | jq -r '
@@ -220,8 +189,7 @@ jobs:
                  if curl -Ifs https://docs.daml.com/$version/index.html &> /dev/null
                  then echo "-> Nothing to do."
                  elif [ "$version" = "2.0.1-snapshot.20220419.9374.0.44df8f12" ] \
-                   || [ "$version" = "2.1.0-snapshot.20220411.9707.0.f6fed6ea" ] \
-                   || [ "$version" = "2.5.0-snapshot.20221010.10736.0.2f453a14" ]
+                   || [ "$version" = "2.1.0-snapshot.20220411.9707.0.f6fed6ea" ]
                  then echo "-> Skipping, known broken."
                  else
                      echo "-> Getting Canton version"
@@ -235,21 +203,20 @@ jobs:
                             | grep canton \
                             | head -1 \
                             | sed 's/canton-open-source-\(.*\)\.tar\.gz/\1/')
-                     finance=$(git show origin/main:versions.json | jq -r '.daml_finance')
-                     echo "-> Building daml $version with canton $canton & finance $finance."
+                     echo "-> Building daml $version with canton $canton."
                      jq -n \
                         --arg daml $version \
                         --arg canton $canton \
-                        --arg finance $finance \
-                        '{daml: $daml, canton: $canton, prefix: $daml, daml_finance: $finance}' \
-                        > versions.json
+                        '{daml: $daml, canton: $canton, prefix: $daml}' \
+                        > LATEST
 
-                     bin/clean
-                     bin/build
+                     docs/download.sh
+                     docs/build.sh
                      upload=$(mktemp -d)
-                     tar xf workdir/target/html-docs-$version.tar.gz -C $upload --strip-components=1
+                     tar xf docs/workdir/target/html-docs-$version.tar.gz -C $upload --strip-components=1
                      aws s3 cp $upload s3://docs-daml-com/$version --recursive --acl public-read --region us-east-1
                      aws cloudfront create-invalidation --distribution-id E1U753I56ERH55 --paths "/$version/*"
+                     rm -rf docs/workdir
                      echo "-> Done."
                  fi
                  echo
