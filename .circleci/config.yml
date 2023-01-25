@@ -66,6 +66,12 @@ commands:
             python3 -m venv .python-env
             source .python-env/bin/activate
             python -m pip install -r requirements.txt
+            git clone git@github.com:bame-da/sphinx-external-toc.git
+            cd sphinx-external-toc
+            git checkout 8a33082711c7ccf3472a9381f9c9eee474f71a2d
+            flit install
+            cd ..
+            rm -rf sphinx-external-toc
             python -m pip install sphinx_external_toc-0.3.1-py3-none-any.whl
           EOF
 
