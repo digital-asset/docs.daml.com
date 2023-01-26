@@ -16,7 +16,7 @@ TARGET_DIR=$DIR/../workdir/target
 rm -rf $TARGET_DIR
 mkdir -p $TARGET_DIR
 
-prefix=$(jq -r '.prefix' $DIR/../versions.json)
+prefix=$(basename $(realpath $DIR/..))
 
 echo "Building docs for $prefix (daml: $RELEASE_TAG, canton: $CANTON_RELEASE_TAG, daml-finance: $DAML_FINANCE_RELEASE_TAG)"
 
@@ -61,4 +61,4 @@ rm -r $BUILD_DIR/sphinx-target/html/.buildinfo $BUILD_DIR/sphinx-target/html/.do
     done < <(find . -name '*.html' | sort | sed -e 's,^\./,https://docs.daml.com/,')
     echo $SMFOOT >> sitemap.xml
 )
-tar cfz $TARGET_DIR/html-docs-$RELEASE_TAG.tar.gz  -C $BUILD_DIR/sphinx-target html
+tar cfz $TARGET_DIR/html-$prefix.tar.gz -C $BUILD_DIR/sphinx-target html

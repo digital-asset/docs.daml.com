@@ -12,7 +12,7 @@ DAML_FINANCE_RELEASE_TAG=$(jq -r '.daml_finance' $DIR/../versions.json)
 DOWNLOAD_DIR=$DIR/../workdir/downloads
 SPHINX_DIR=$DIR/../workdir/build/source
 
-prefix=$(jq -r '.prefix' $DIR/../versions.json)
+prefix=$(basename $(realpath $DIR/..))
 
 mkdir -p $SPHINX_DIR/source/canton $SPHINX_DIR/source/daml-finance
 tar xf $DOWNLOAD_DIR/sphinx-source-tree-$RELEASE_TAG.tar.gz -C $SPHINX_DIR --strip-components=1
