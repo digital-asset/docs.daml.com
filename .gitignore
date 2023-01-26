@@ -4,3 +4,6 @@
 .python-env
 
 workdir/
+
+Pipfile
+Pipfile.lock
