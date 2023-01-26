@@ -1,6 +1,2 @@
 .envrc.private
 .DS_Store
-
-.python-env
-
-workdir/
