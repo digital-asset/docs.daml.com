@@ -152,6 +152,7 @@ jobs:
                      aws s3 rm s3://docs-daml-com/$v --recursive --region us-east-1
                      aws s3 cp $upload s3://docs-daml-com/$v --recursive --acl public-read --region us-east-1
                      aws cloudfront create-invalidation --distribution-id E1U753I56ERH55 --paths "/$v/*"
+                 fi
              done
            EOF
 
