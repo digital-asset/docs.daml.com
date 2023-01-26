@@ -50,6 +50,29 @@ commands:
         - /home/circleci/.nix-channels
         - /home/circleci/.nix-defexpr
         - /home/circleci/.config/nix
+  setup_python:
+    description: Set up Python
+    steps:
+    - run:
+        name: setup_python
+        command: |
+          set -euo pipefail
+          . /home/circleci/.nix-profile/etc/profile.d/nix.sh
+          nix-shell shell.nix \
+            --pure \
+            --run bash \<<'EOF'
+            set -euo pipefail
+
+            python3 -m venv .python-env
+            source .python-env/bin/activate
+            python -m pip install -r requirements.txt
+            git clone https://github.com/bame-da/sphinx-external-toc.git
+            cd sphinx-external-toc
+            git checkout 8a33082711c7ccf3472a9381f9c9eee474f71a2d
+            flit install
+            cd ..
+            rm -rf sphinx-external-toc
+          EOF
 
 jobs:
   build_docs:
@@ -60,11 +83,11 @@ jobs:
     steps:
       - checkout
       - setup_nix
+      - setup_python
       - run:
          name: build
          command: |
            set -euo pipefail
-
            . /home/circleci/.nix-profile/etc/profile.d/nix.sh
 
            mkdir -p /tmp/workspace
@@ -75,7 +98,9 @@ jobs:
              --keep ARTIFACTORY_PASSWORD \
              --run bash \<<'EOF'
              set -euo pipefail
-             prefix=$(jq -r '.prefix' LATEST)
+             source .python-env/bin/activate
+             PATH="$(pwd)/.python-env/bin:$PATH"
+             prefix=$(jq -r '.prefix' versions.json)
              if [[ ${#prefix} -lt 5 ]]; then
                echo "Pushhing to $prefix is not currently supported."
                exit 1
@@ -113,8 +138,8 @@ jobs:
              --run bash \<<'EOF'
              set -euo pipefail
 
-             prefix=$(jq -r '.prefix' LATEST)
-             sdk_version=$(jq -r '.daml' LATEST)
+             prefix=$(jq -r '.prefix' versions.json)
+             sdk_version=$(jq -r '.daml' versions.json)
              if [[ ${#prefix} -lt 5 ]]; then
                echo "Pushhing to $prefix is not currently supported."
                exit 1
@@ -135,6 +160,7 @@ jobs:
     steps:
       - checkout
       - setup_nix
+      - setup_python
       - run:
          name: push
          command: |
@@ -150,6 +176,8 @@ jobs:
              --keep AWS_SECRET_ACCESS_KEY \
              --run bash \<<'EOF'
              set -euo pipefail
+             source .python-env/bin/activate
+             PATH="$(pwd)/.python-env/bin:$PATH"
 
              snapshots=$(curl -sf https://docs.daml.com/snapshots.json \
                         | jq -r '
@@ -213,14 +241,14 @@ jobs:
                             | grep canton \
                             | head -1 \
                             | sed 's/canton-open-source-\(.*\)\.tar\.gz/\1/')
-                     finance=$(git show origin/main:LATEST | jq -r '.daml_finance')
+                     finance=$(git show origin/main:versions.json | jq -r '.daml_finance')
                      echo "-> Building daml $version with canton $canton & finance $finance."
                      jq -n \
                         --arg daml $version \
                         --arg canton $canton \
                         --arg finance $finance \
                         '{daml: $daml, canton: $canton, prefix: $daml, daml_finance: $finance}' \
-                        > LATEST
+                        > versions.json
 
                      bin/clean
                      bin/build

@@ -8,15 +8,15 @@ DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 $DIR/download
 
-RELEASE_TAG=$(jq -r '.daml' $DIR/../LATEST)
-CANTON_RELEASE_TAG=$(jq -r '.canton' $DIR/../LATEST)
-DAML_FINANCE_RELEASE_TAG=$(jq -r '.daml_finance' $DIR/../LATEST)
+RELEASE_TAG=$(jq -r '.daml' $DIR/../versions.json)
+CANTON_RELEASE_TAG=$(jq -r '.canton' $DIR/../versions.json)
+DAML_FINANCE_RELEASE_TAG=$(jq -r '.daml_finance' $DIR/../versions.json)
 SOURCE_DIR=$DIR/../workdir/downloads
 TARGET_DIR=$DIR/../workdir/target
 rm -rf $TARGET_DIR
 mkdir -p $TARGET_DIR
 
-prefix=$(jq -r '.prefix' $DIR/../LATEST)
+prefix=$(jq -r '.prefix' $DIR/../versions.json)
 
 echo "Building docs for $prefix (daml: $RELEASE_TAG, canton: $CANTON_RELEASE_TAG, daml-finance: $DAML_FINANCE_RELEASE_TAG)"
 
