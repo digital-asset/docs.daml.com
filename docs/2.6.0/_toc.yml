@@ -784,9 +784,10 @@ subtrees:
     title: "High Availability DECPRECATING"
   - file: deploy-daml/infrastructure-architecture/ha_and_scaling/introduction
     subtrees:
-    - hidden: False
+    - hidden: True
       titlesonly: True
       entries:
+      - file: deploy-daml/infrastructure-architecture/ha_and_scaling/daml-ha-overview
       - file: deploy-daml/infrastructure-architecture/ha_and_scaling/business-goals
       - file: deploy-daml/infrastructure-architecture/ha_and_scaling/deployment-solution
       - file: deploy-daml/infrastructure-architecture/ha_and_scaling/use-cases
