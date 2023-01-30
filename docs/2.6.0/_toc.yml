@@ -759,8 +759,6 @@ subtrees:
         title: "Compatibility Matrix and Supported Dependencies"
   - file: canton/usermanual/downloading
     title: "Download the Components"
-  - file: deploy-daml/install-ledger/index
-    title: "Install a Daml Ledger"
     subtrees:
     - hidden: False
       titlesonly: True
@@ -782,8 +780,19 @@ subtrees:
             title: "Fabric Domain"
           - file: canton/usermanual/domains/ethereum
             title: "Ethereum Domain"
-  - file: canton/usermanual/ha
-    title: "High Availability"
+  - file: deploy-daml/infrastructure-architecture/ha-and-scaling/introduction
+    subtrees:
+    - hidden: True
+      titlesonly: True
+      entries:
+      - file: deploy-daml/infrastructure-architecture/ha-and-scaling/daml-ha-overview
+      - file: deploy-daml/infrastructure-architecture/ha-and-scaling/understanding-ha
+      - file: deploy-daml/infrastructure-architecture/ha-and-scaling/deployment-solution
+      - file: deploy-daml/infrastructure-architecture/ha-and-scaling/use-cases
+      - file: deploy-daml/infrastructure-architecture/ha-and-scaling/implementing-ha
+      - file: deploy-daml/infrastructure-architecture/ha-and-scaling/ideal-deployment
+      - file: deploy-daml/infrastructure-architecture/ha-and-scaling/ha-in-the-cloud
+  - file: deploy-daml/infrastructure-architecture/disaster-recovery
   - file: canton/usermanual/persistence
     title: "Persistence"
 
