@@ -36,8 +36,8 @@ Daml solution design honors these principles by:
 * `What is an error budget—and why does it matter? <https://www.atlassian.com/incident-management/kpis/error-budget#:~:text=An%20error%20budget%20is%20the,can%20fail%20without%20contractual%20consequences.>`_.
 * `Available . . . or not? That is the question—CRE life lessons <https://cloud.google.com/blog/products/gcp/available-or-not-that-is-the-question-cre-life-lessons>`_.
 
-Defining Availability
-*********************
+Availability
+************
 
 Availability defines whether a system is able to fulfill its intended function over a period of time, i.e. the system works as intended 99.5% or 99.999% of the time. 
 
@@ -52,11 +52,11 @@ A refinement of this metric is *unplanned downtime*, i.e. the amount of time tha
 
 The general formula is: 
 
-    :math:`availability = uptime / (uptime + downtime)`.
+    :math:`availability = uptime / (uptime + downtime)`
 
 This formula calculates how many minutes of downtime are allowed in a given period. For example, a system with an availability target of 99.99% can be down for up to 52.56 minutes in an entire year and stay within its availability level. 
 
-The table below provides the estimated downtime for a number of given availability levels. 
+The table below shows estimated downtimes for a number of given availability levels. 
 
 .. list-table:: Availablility calculator table
    :widths: 14 14 14 14 14 14 16
@@ -127,7 +127,6 @@ The table below provides the estimated downtime for a number of given availabili
      * 0.04 seconds
 
 
-
 +---------------------+--------------------+-----------------------+---------------------+--------------------+-------------------+--------------------+
 | Availability level  | Downtime per year  | Downtime per quarter  | Downtime per month  | Downtime per week  | Downtime per day  | Downtime per hour  |
 +=====================+====================+=======================+=====================+====================+=====================+==================+
@@ -149,44 +148,67 @@ The table below provides the estimated downtime for a number of given availabili
 +---------------------+--------------------+-----------------------+---------------------+--------------------+-------------------+--------------------+
 
 
-
 .. NOTE::
     For a custom availability percentage, use the `availability calculator <https://availability.sre.xyz/>`_.
 
-The table helps to define an error budget which is “An error budget is the maximum amount of time that a technical system can fail without contractual consequences.” For example, a 30 day (43,200 minutes) window of time and an availability target of 99.9% (three nines), simple arithmetic shows that the system must not be down for more than 43.2 minutes over the 30 days. This 43.2 minute figure is a very concrete target to plan around, and is often referred to as the error budget. If you exceed 43.2 minutes of downtime over 30 days, you'll not meet your availability goal. An error budget becomes a KPI for the SREs.
+Data like this helps the business define an error budget or "the maximum amount of time that a technical system can fail without contractual consequences.”[#f2]_ which may also be a KPI for SREs.
+
+For example, over a 30 day (43,200 minutes) time-window, and an availability target of 99.9%, simple arithmetic shows that the system must not be down for more than 43.2 minutes over the 30 day period. This 43.2 minute figure is a concrete target to plan around, and is often referred to as the error budget. Consequently, if you exceed 43.2 minutes of downtime over 30 days, you fail to meet your availability goal. 
 
 Aggregate request availability
 ==============================
 
-Rather than consider the time that a system is fully available, a finer grained metric considers the number of failed requests. An aggregate request unavailability metric (i.e., "X% of all requests failed") is more useful than focusing on outage lengths for services that may be partially available, for services whose load varies over the course of a day or week rather than remaining constant, or to monitor specific, business critical endpoints. The formula is:.
+The fine-grained aggregate request availability metric instead considers the number of failed requests i.e. x% of total failed requests.
 
-Although not all requests have equal business value, this metric is often calculated over all requests made to the system. For example, a system that serves 2.5M requests in a day with a daily availability target of 99.99% can serve up to 250 errors and still hit its target for that given day.
+This metric is more useful for services that may be partially available or whose load varies over the course of a day or week rather than remaining constant, or to monitor specific, business-critical endpoints. 
 
-It should be noted that if a request is retried and succeeds then it is not considered a failed request since the end-user does not see a failure. 
+The general formula is: 
 
-The Related Metrics of RTO and RPO
+    :math:`availability = successfulRequests / totalRequests`
+
+Although not all requests have equal business value, this metric is often calculated over all requests made to the system. For example, a system that serves 2.5M requests per day, with a daily availability target of 99.99%, can serve up to 250 errors and still hit the target.
+
+.. NOTE::
+    If a failing request retries and succeeds, it is not considered failed since the end-user sees no failure. 
+
+Resiliency
+**********
+
+Resiliency is a related to availability. “Resiliency is the capability to handle partial failures while continuing to execute and not crash. In modern application architectures — whether it be microservices running in containers on-premises or applications running in the cloud — failures are going to occur. For example, applications that communicate over networks (like services talking to a database or an API) are subject to transient failures. These temporary faults cause lesser amounts of downtime due to timeouts, overloaded resources, networking hiccups, and other problems that come and go and are hard to reproduce. These failures are usually self-correcting.”
+[#f3]_
+
+Resiliency and availability are enhanced by best practice patterns, such as the retry pattern. When a customer submits a request and receives a success response, they expect that request to succeed. If they receive an error response instead, then the user does not expect it to succeed and will need to retry themselves.
+
+“Retries can be an effective way to handle transient failures that occur with cross-component communication in a system.”[#f3]_ A retry pattern is often coupled with the "Circuit Breaker pattern that effectively shuts down all retries on an operation after a set number of retries have failed. This allows the system to recover from failed retries after hitting a known limit and gives it a chance to react in another way, like falling back to a cached value or returning a message to the user to try again later."[#f3]_
+
+The key takeaway is that the Daml solution's client application needs to add this type of resiliency to increase availability of the overall system consisting of platform and application.
+
+Other Common Metrics / RTO and RPO
 **********************************
 
-Related metrics that are frequently cited are RTO and RPO:
-Recovery Time Objective (RTO) — RTO is the maximum acceptable delay between the interruption of service and restoration of service. This value determines an acceptable duration for which the service is impaired. This is a slice of the error budget but for a single instance of downtime.
-Recovery Point Objective (RPO) — RPO is the maximum acceptable amount of time since the last data recovery point. This determines what is considered an acceptable data loss between the latest recovery point and a service interruption. 
-Financial systems often need to support an RPO of zero. Once a customer commits a request and receives a response that it succeeded, they expect that request to fully succeed. If a request receives an error response then the user does not expect it to succeed and will need to retry themselves.
+**Recovery Time Objective** (RTO) is the maximum acceptable delay between the interruption of service and restoration of service. This value determines an acceptable duration over which the service is impaired. It is a slice of the error budget but for a single instance of downtime.
 
-As discussed here, resiliency is a related property to availability. “Resiliency is the capability to handle partial failures while continuing to execute and not crash. In modern application architectures — whether it be microservices running in containers on-premises or applications running in the cloud — failures are going to occur. For example, applications that communicate over networks (like services talking to a database or an API) are subject to transient failures. These temporary faults cause lesser amounts of downtime due to timeouts, overloaded resources, networking hiccups, and other problems that come and go and are hard to reproduce. These failures are usually self-correcting.”
+**Recovery Point Objective** (RPO) is the maximum acceptable amount of time since the last data recovery point. This determines the acceptable data loss between the latest recovery point and a service interruption. 
 
-Resiliency and availability are enhanced by the client application leveraging best practice patterns, such as the retry pattern. “Retries can be an effective way to handle transient failures that occur with cross-component communication in a system.” A retry pattern is often coupled with the circuit breaker pattern that effectively shuts down all retries on an operation after a set number of retries have failed. This allows the system to recover from failed retries after hitting a known limit and gives it a chance to react in another way, like falling back to a cached value or returning a message to the user to try again later.”
+Financial systems often require support for an RPO of zero. 
 
-The key takeaway is that the Daml solution’s client application needs to add this type of resiliency to increase availability of the overall system consisting of platform and application.
+HA Cost Trade-Offs
+******************
 
-High Availability Cost Trade-Offs
-*********************************
+High availability can be costly so trade-offs are required. 
 
-High availability can be costly so trade-offs are required. For illustration, if the goal is to remain running in all cases then extremely rare events, such as an asteroid strike that simultaneously wipes out all data centers in a continent, need to be taken into account. Some of these extreme events are highly improbable and may not need to be considered. This highlights that there is a trade-off between avoidance cost of an outage, the probability of a single failure (single component redundancy), and the probability of multiple simultaneous failures (multiple component, integrated redundancy). How can these trade-offs be analyzed?
+To illustrate, given that extreme events are highly improbable - such as an asteroid strike that wipes out a continent's data centers - they may not need consideration. This highlights the trade-off between the cost of avoiding an outage, the probability of a single failure (single component redundancy), and the probability of multiple simultaneous failures (multiple component, integrated redundancy). 
 
-Using unplanned downtime this can be calculated as: 
-Error budget x Revenue lost per minute of downtime 
-where the revenue lost per minute of downtime is a projected or measured statistic. Then the cost of loss of availability is easily derived. The formula can also be turned around to determine what availability is needed to attain a revenue target. Lastly, this formula can compare the cost to achieve higher availability, with associated increased revenue, with the increased investment cost. In this manner, the business goals drive the trade-offs for high availability. 
+We can analyze the trade-offs by deriving the cost of loss of availability using unplanned downtime as follows:
+
+    :math:`cost = errorBudget * revenueLostPerMinuteOfDowntime`
+
+where the revenue lost per minute of downtime is a projected or measured statistic. 
+
+Use this formula in different configurations to compare increasing cost against availablility to determine an appropriate trade-off for your business goals.
 
 .. rubric:: Footnotes
 
 .. [#f1] https://en.wikipedia.org/wiki/High_availability
+.. [#f2] https://www.atlassian.com/incident-management/kpis/error-budget
+.. [#f3] https://azure.microsoft.com/en-us/blog/using-the-retry-pattern-to-make-your-cloud-application-more-resilient/
