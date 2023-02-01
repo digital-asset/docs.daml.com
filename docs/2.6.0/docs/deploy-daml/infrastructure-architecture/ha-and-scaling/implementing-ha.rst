@@ -1,8 +1,13 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Implementing HA
-###############
+Implementing HA and Scaling
+###########################
+
+https://docs.daml.com/canton/architecture/ha/domain.html -> in this section, subsection Domain, edited.
+https://docs.daml.com/canton/architecture/ha/participant.html -> in this section, subsection Participant Node, edited.
+
+
 
 This section walks through each logical component that was displayed in the prior use cases and illustrates its highly available deployment. 
 
