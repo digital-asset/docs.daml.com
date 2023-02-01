@@ -25,5 +25,4 @@ DATE=$(date +"%Y-%m-%d")
 echo { \"$DATE\" : \"$DATE\" } >  $BUILD_DIR/gen/versions.json
 
 cd $DIR/..
-pipenv install
-pipenv run sphinx-autobuild -c $BUILD_DIR/source/configs/html $BUILD_DIR/source/source $BUILD_DIR/gen
+sphinx-autobuild -c $BUILD_DIR/source/configs/html $BUILD_DIR/source/source $BUILD_DIR/gen
