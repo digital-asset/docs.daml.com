@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+root=${1:-$(cat $DIR/../root)}
+
+if [[ ${#root} -lt 5 ]]; then
+    echo "root value ('$root') too small."
+    exit 1
+fi
+if ! [ -d $DIR/../docs/$root ]; then
+    echo "root ('$root') does not match a folder under docs."
+    exit 1
+fi
