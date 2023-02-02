@@ -1058,17 +1058,6 @@ subtrees:
               title: "Canton Domain on Ethereum"
             - file: canton/architecture/domains/fabric
               title: "Canton Domain on Fabric"
-        - file: canton/architecture/ha
-          title: "High Availability"
-          subtrees:
-          - hidden: False
-            entries:
-            - file: canton/architecture/ha/overview
-              title: "Canton High Availability: Overview and Principles"
-            - file: canton/architecture/ha/participant
-              title: "Replicated Participant Node Architecture"
-            - file: canton/architecture/ha/domain
-              title: "Domain HA"
         - file: canton/architecture/identity
           title: "Identity Management"
         - file: canton/architecture/requirements/requirements
