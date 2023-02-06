@@ -90,23 +90,31 @@ jobs:
            . /home/circleci/.nix-profile/etc/profile.d/nix.sh
 
            mkdir -p /tmp/workspace
+           touch /tmp/workspace/.keep
 
+           root=$(cat root)
            cd docs
            for v in *; do
+               sha=$(git log -n1 --format=%H $v)
                cd $v
-               nix-shell shell.nix \
-                 --pure \
-                 --keep ARTIFACTORY_USERNAME \
-                 --keep ARTIFACTORY_PASSWORD \
-                 --run bash \<<'EOF'
-                   set -euo pipefail
-                   if [ -f .python-env/bin/activate ]; then
-                       source .python-env/bin/activate
-                       PATH="$(pwd)/.python-env/bin:$PATH"
-                   fi
-                   bin/build
+               if ([ "$(curl -s https://docs.daml.com/$v/sha)" = "$sha" ] && [ "$v" != "$root" ]) \
+                 || ([ "$v" == "$root" ] && [ "$(curl -s https://docs.daml.com/sha)" == "$sha" ]); then
+                   echo "$v is up-to-date, nothing to do."
+               else
+                   nix-shell shell.nix \
+                     --pure \
+                     --keep ARTIFACTORY_USERNAME \
+                     --keep ARTIFACTORY_PASSWORD \
+                     --run bash \<<'EOF'
+                       set -euo pipefail
+                       if [ -f .python-env/bin/activate ]; then
+                           source .python-env/bin/activate
+                           PATH="$(pwd)/.python-env/bin:$PATH"
+                       fi
+                       bin/build
            EOF
-               mv workdir/target/html-$v.tar.gz /tmp/workspace
+                   mv workdir/target/html-$v.tar.gz /tmp/workspace
+               fi
                cd -
            done
            cd ..
@@ -147,8 +155,8 @@ jobs:
              cd docs
              for v in *; do
                  sha=$(git log -n1 --format=%H $v)
-                 if ([ "$(curl https://docs.daml.com/$v/sha)" = "$sha" ] && [ "$v" != "$root" ]) \
-                  || ([ "$v" == "$root" ] && [ "$(curl https://docs.daml.com/sha)" == "$sha" ]); then
+                 if ([ "$(curl -s https://docs.daml.com/$v/sha)" = "$sha" ] && [ "$v" != "$root" ]) \
+                  || ([ "$v" == "$root" ] && [ "$(curl -s https://docs.daml.com/sha)" == "$sha" ]); then
                      echo "$v is up-to-date, nothing to do."
                  else
                      echo "updating $v to $sha."
@@ -163,7 +171,7 @@ jobs:
              cd ..
              bin/check-root $root
              sha=$(git log -n1 --format=%H docs/$root)
-             if [ "$(curl https://docs.daml.com/sha)" = "$sha" ]; then
+             if [ "$(curl -s https://docs.daml.com/sha)" = "$sha" ]; then
                  echo "root is up-to-date ($root, $sha), nothing to do."
              else
                  echo "updating root to $root (sha: $sha)"
