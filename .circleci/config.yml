@@ -171,16 +171,27 @@ jobs:
              cd ..
              bin/check-root $root
              sha=$(git log -n1 --format=%H docs/$root)
+             upload=$(mktemp -d)
+             echo $sha > $upload/sha
+             cat dropdown_versions | sed 's/\(.*\)/"\1"/' | jq -sc '[.[] | {(.): .} ] | add' > $upload/versions.json
+             bin/list-hidden-versions | sed 's/\(.*\)/"\1"/' | jq -sc '[.[] | {(.): .} ] | add' > $upload/snapshots.json
              if [ "$(curl -s https://docs.daml.com/sha)" = "$sha" ]; then
-                 echo "root is up-to-date ($root, $sha), nothing to do."
+                 echo "root is up-to-date ($root, $sha)."
+                 for f in snapshots versions; do
+                     tmp=$(mktemp)
+                     curl -s https://docs.daml.com/$f.json > $tmp
+                     if ! diff $upload/$f.json $tmp > /dev/null; then
+                         echo "Updating $f.json."
+                         aws s3 cp $upload/$f.json s3://docs-daml-com/$f.json
+                         aws cloudfront create-invalidation --distribution-id E1U753I56ERH55 --paths "/$f.json"
+                     else
+                         echo "$f.json is up-to-date."
+                     fi
+                 done
              else
                  echo "updating root to $root (sha: $sha)"
                  echo " -> creating local folder"
-                 upload=$(mktemp -d)
                  tar xf /tmp/workspace/html-$root.tar.gz -C $upload --strip-components=1
-                 echo $sha > $upload/sha
-                 cat dropdown_versions | sed 's/\(.*\)/"\1"/' | jq -sc '[.[] | {(.): .} ] | add' > $upload/versions.json
-                 bin/list-hidden-versions > $upload/snapshots.json
                  cp root $upload/latest
                  echo " -> removing old version"
                  for f in $(aws s3 ls s3://docs-daml-com/ \
