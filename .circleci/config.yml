@@ -182,7 +182,7 @@ jobs:
                      curl -s https://docs.daml.com/$f.json > $tmp
                      if ! diff $upload/$f.json $tmp > /dev/null; then
                          echo "Updating $f.json."
-                         aws s3 cp $upload/$f.json s3://docs-daml-com/$f.json
+                         aws s3 cp $upload/$f.json s3://docs-daml-com/$f.json --acl public-read --region us-east-1 --no-progress
                          aws cloudfront create-invalidation --distribution-id E1U753I56ERH55 --paths "/$f.json"
                      else
                          echo "$f.json is up-to-date."
