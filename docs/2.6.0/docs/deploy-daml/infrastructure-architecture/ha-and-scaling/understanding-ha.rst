@@ -58,7 +58,7 @@ This formula calculates how many minutes of downtime are allowed in a given peri
 
 The table below shows estimated downtimes for a number of given availability levels. 
 
-.. list-table:: Availablility calculator table
+.. list-table:: Availability calculator table
    :widths: 14 14 14 14 14 14 16
    :header-rows: 1
 
@@ -205,7 +205,7 @@ We can analyze the trade-offs by deriving the cost of loss of availability using
 
 where the revenue lost per minute of downtime is a projected or measured statistic. 
 
-Use this formula in different configurations to compare increasing cost against availablility to determine an appropriate trade-off for your business goals.
+Use this formula in different configurations to compare increasing cost against availability to determine an appropriate trade-off for your business goals.
 
 .. rubric:: Footnotes
 

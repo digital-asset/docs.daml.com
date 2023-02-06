@@ -4,15 +4,13 @@
 Daml HA Overview
 ################
 
-To summarize, HA for Daml solutions focuses on the following components which should run in separate processes:
+To summarize, HA for Daml solutions focuses on the following components running in separate processes:
 
 * Participant nodes:
 
-    * gRPC server.
-
-    * Sync service.
-
-    * Indexer.
+    * Ledger API server.
+        * gRPC server.
+        * SQL indexer.
 
 * Domains:
 
@@ -65,7 +63,7 @@ In general, when a component is backed by a database/ledger, the component's HA 
 
 All database-backed components are designed to be tolerant to temporary database outages. During the database failover period, components halt processing until the database becomes available again, resuming thereafter.
 
-Transactions that involve these components may time out if the failover takes too long. Nevertheless, they can be safely resubmitted, as command deduplication provides idempotency.
+Transactions that involve these components may time out if the failover takes too long. Nevertheless, they can be safely resubmitted, as command deduplication is idempotent.
 
 Health Check
 ************
