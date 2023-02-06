@@ -139,6 +139,7 @@ jobs:
              --pure \
              --keep AWS_ACCESS_KEY_ID \
              --keep AWS_SECRET_ACCESS_KEY \
+             --keep GITHUB_TOKEN \
              --run bash \<<'EOF'
              set -euo pipefail
 
