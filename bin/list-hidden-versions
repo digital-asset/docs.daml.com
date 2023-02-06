@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+AUTH="Authorization: token $GITHUB_TOKEN"
+USER_AGENT="User-Agent: Daml docs cron (gary.verhaegen@digital-asset.com)"
+
+get_releases() (
+    url="https://api.github.com/repos/digital-asset/daml/releases"
+    tmp_dir=$(mktemp -d)
+    trap "cd; rm -rf $tmp_dir" EXIT
+    cd $tmp_dir
+    while [ "$url" != "" ]; do
+        curl $url \
+             --fail \
+             --silent \
+             -H "$AUTH" \
+             -H "$USER_AGENT" \
+             -o >(cat - | jq -cr '.[] | .tag_name[1:]' >> resp) \
+             -D headers
+        url=$(cat headers \
+              | tr -d '\r' \
+              | grep "link:" \
+              | grep -Po '(?<=<)([^>]*)(?=>; rel="next")' \
+              || true)
+    done
+    cat resp
+)
+
+for r in $(get_releases); do
+    if ! grep $r $DIR/../dropdown_versions >/dev/null; then
+        echo $r
+    fi
+done
