@@ -177,10 +177,7 @@ jobs:
                  for f in $(aws s3 ls s3://docs-daml-com/ \
                             | grep -oP '(?<=.{30} ).*' \
                             | grep -v '^[0-9]' \
-                            | grep -v '^daml-driver-for-postgresql/$' \
-                            | grep -v '^latest$' \
-                            | grep -v '^snapshots.json$' \
-                            | grep -v '^versions.json$'); do
+                            | grep -v '^daml-driver-for-postgresql/$'); do
                      aws s3 rm s3://docs-daml-com/$f --recursive --region us-east-1
                  done
                  echo " -> pushing new version"
