@@ -787,10 +787,9 @@ subtrees:
       entries:
       - file: deploy-daml/infrastructure-architecture/ha-and-scaling/daml-ha-overview
       - file: deploy-daml/infrastructure-architecture/ha-and-scaling/understanding-ha
-      - file: deploy-daml/infrastructure-architecture/ha-and-scaling/deployment-solution
       - file: deploy-daml/infrastructure-architecture/ha-and-scaling/use-cases
       - file: deploy-daml/infrastructure-architecture/ha-and-scaling/implementing-ha
-      - file: deploy-daml/infrastructure-architecture/ha-and-scaling/ideal-deployment
+      - file: deploy-daml/infrastructure-architecture/ha-and-scaling/deployment-solution
       - file: deploy-daml/infrastructure-architecture/ha-and-scaling/ha-in-the-cloud
   - file: deploy-daml/infrastructure-architecture/disaster-recovery
   - file: canton/usermanual/persistence
