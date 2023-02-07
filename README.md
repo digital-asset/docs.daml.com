@@ -80,3 +80,20 @@ export ARTIFACTORY_PASSWORD=Long_string_of_gibberish_abcdefghijklmnopqrstuvwxyzA
 
 These credentials will be used by every version under the `docs` folder. You
 only need to set them up once, at the top-level of the repo.
+
+## For each docs release
+
+When there is a change to the root website, the entire site needs to be reindexed for searching. This includes any time a new version of the docs is released. Until the reindexing is done, the site search engine may still bring up deleted and moved pages in search results. Then when a viewer clicks that search result, a 404 error is displayed. Google search will eventually catch up without intervention. Following are the steps to reindex the site search:
+
+1. Log into SiteSearch360 (https://www.sitesearch360.com/).
+2. At the bottom of the sidebar menu, select **Index**.
+3. Scroll down to see a blue button and a red button.
+4. Click the red button for **Empty Entire Index**. It take a couple of minutes to process.
+5. When that has completed, click the blue button for **Re-index All Configured Sources**. This may take about a half hour.
+6. When this has completed, the site search should work as expected.
+
+## Questions
+
+If you have any questions or comments about these instructions, please reach out to the `#product-docs` channel and/or @katharine/@gary on Slack.
+
+Thank you :blush:
