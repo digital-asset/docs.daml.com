@@ -24,7 +24,8 @@ To summarize, HA for Daml solutions focuses on the following components running 
 
 
 .. _components-for-ha:
-.. https://lucid.app/lucidchart/c6fc5988-ddcc-41e8-b7f0-c9d6db94f575/edit?invitationId=inv_b0ac9514-778a-426f-a61d-aa3f77d3b204
+.. https://lucid.app/lucidchart/3082d315-f7d9-4ed7-926f-bb98841b7b38/edit?page=0_0#
+.. EDIT REQUIRED
 .. image:: canton-components-for-ha.svg
    :align: center
    :width: 100%

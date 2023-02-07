@@ -791,7 +791,11 @@ subtrees:
       - file: deploy-daml/infrastructure-architecture/ha-and-scaling/implementing-ha
       - file: deploy-daml/infrastructure-architecture/ha-and-scaling/deployment-solution
       - file: deploy-daml/infrastructure-architecture/ha-and-scaling/ha-in-the-cloud
+      - file: canton/usermanual/ha
+        title: "Canton HA Specifics"
   - file: deploy-daml/infrastructure-architecture/disaster-recovery
+
+  
   - file: canton/usermanual/persistence
     title: "Persistence"
 
