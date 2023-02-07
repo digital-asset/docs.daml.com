@@ -2,11 +2,11 @@
 
 This repo manages the [docs.daml.com](https://docs.daml.com) website.
 
-In the `docs` folder you will find a folder for each version that is still
+In the `docs` folder you will find a folder for each version that is
 supported by the docs team. Making changes to versions that are not in the docs
 folder is not supported.
 
-Whenever a PR is merged into this repo, the docs website is brought up-to-date
+Whenever a PR is merged into this repo, the live docs website is updated
 with the repo. This means that:
 
 - Every version in the `docs` folder that has changed compared to what is

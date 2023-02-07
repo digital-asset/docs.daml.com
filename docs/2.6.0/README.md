@@ -8,15 +8,15 @@ This folder manages the full build of technical documentation from the following
 
 :bulb: Docs in this repo build the main TOC with pointers to pages from the above repos.
 
-The process for updating the docs TOCs has some potential pitfalls. Follow the instructions in this README *carefully* and in order.
+The process for updating the docs TOCs has some potential pitfalls. Follow the instructions in the main README *carefully* and in order.
 
 - [Setting up this repo locally](https://github.com/digital-asset/docs.daml.com#setting-up-this-repo-locally)
-- [Build and view the docs locally](https://github.com/digital-asset/docs.daml.com#build-and-view-the-docs-locally)
-- [How to commit changes to the docs](https://github.com/digital-asset/docs.daml.com#how-to-update-the-docs)
+- [Build and view the docs locally](https://github.com/digital-asset/docs/2.6.0/README.md#live-preview)
+- [How to commit changes to the docs](https://github.com/digital-asset/docs/2.6.0/README.md#how-to-commit-changes-to-the-docs)
 
 :arrow_right: If you encounter any issues, reach out to #product-docs on Slack.
 
-### Live preview
+## Live preview
 
 Run the `live-preview` script to render a local view of the site.
 
