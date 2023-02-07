@@ -306,7 +306,10 @@ jobs:
                                 versions.json \
                                 > $tmp
                              mv $tmp versions.json
-                             nix-shell shell.nix --pure --run bash \<<'NIX'
+                             nix-shell shell.nix --pure \
+                                                 --keep ARTIFACTORY_USERNAME \
+                                                 --keep ARTIFACTORY_PASSWORD \
+                                                 --run bash \<<'NIX'
                                  set euo pipefail
                                  if [ -f .python-env/bin/activate ]; then
                                      source .python-env/bin/activate
