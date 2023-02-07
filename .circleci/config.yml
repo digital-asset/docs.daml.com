@@ -297,6 +297,7 @@ jobs:
                                     | grep canton \
                                     | head -1 \
                                     | sed 's/canton-open-source-\(.*\)\.tar\.gz/\1/')
+                             finance=$(jq '.daml_finance' versions.json || jq '.daml_finance' LATEST)
                              echo "-> Building daml $version with canton $canton & finance $finance."
                              tmp=$(mktemp)
                              jq --arg daml $version \
