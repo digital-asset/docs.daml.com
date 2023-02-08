@@ -8,9 +8,57 @@ Implementing HA and Scaling Deployments
 .. https://docs.daml.com/canton/architecture/ha/domain.html -> in this section, subsection Domain, edited.
 .. https://docs.daml.com/canton/architecture/ha/participant.html -> in this section, subsection Participant Node, edited.
 
-This section walks through each logical component that was displayed in the prior use cases and illustrates its highly available deployment. 
+Basic Daml Deployment
+*********************
 
-As a production system becomes busier, it is necessary to scale up the components. Vertical scaling is the easiest way to handle more load but there are limits to the benefits of vertical scaling. Vertical scaling is not discussed since this is a well known technique. Instead, the focus here is on horizontal scaling where backup/redundant components are deployed to different availability zones as part of the HA configuration.
+The diagram below demonstrates the most basic, multi-party, Daml deployment possible. 
+
+Each logical box in the diagram contains multiple internal components in a HA production configuration. The following sections expand on each of these logical boxes to show how they are configured for production.  
+
+.. https://lucid.app/lucidchart/d3a7916c-acaa-419d-b7ef-9fcaaa040447/edit?invitationId=inv_b7a43920-f4af-4da9-88fc-5985f8083c95&page=0_0#
+.. image:: daml-deployment-solution-1.png
+   :align: center
+   :width: 80%
+
+The diagram shows the following components:
+
+* **Ledger client** that uses the Ledger API; the client entry point to execute business logic. 
+* **Participant** nodes which expose the public Ledger API. They execute the Daml business logic of the distributed application based on an API request or as part of the Canton transaction consensus protocol.
+* **Mediator** which acts as a transaction manager for the Canton consensus protocol. Ensures either all of the parts of a transaction succeed or there is no change.
+* **Domain manager** which manages the domain with transactions that update the topology and make public keys available.
+* **Sequencer** exposes the Canton API so that all clients see events as ordered by a guaranteed, multicast communication mechanism. It has a backend component that is hidden from its clients. Depending on the backend component, the solution supports either a SQL or blockchain domain.
+
+.. NOTE::
+    Please note that the term **node** may refer to a logical box with multiple components or as a single JVM process with the context determining how to interpret node.
+
+
+The distributed application **provider** deploys several components: the domain (domain manager [#f1]_, mediator, and sequencer) and their own participant node(s). 
+
+The distributed application **user** only has to deploy a participant node and connect that node (from their own private network) to the private network of the domain via communication with a sequencer. [#f2]_
+
+A typical Daml deployment has additional components which are shown in the figure below:
+
+.. https://lucid.app/lucidchart/d3a7916c-acaa-419d-b7ef-9fcaaa040447/edit?invitationId=inv_b7a43920-f4af-4da9-88fc-5985f8083c95&page=0_0#
+.. image:: daml-deployment-solution-2.png
+   :align: center
+   :width: 80%
+
+The diagram shows the following components:
+
+* An HTTP **JSON API server** which supplements the gRPC API endpoints of the participant node by providing an HTTP REST (HTTP JSON API) endpoint. It also has an internal cache so that it can be more responsive to queries.
+* **Trigger services** that listen to the ledger event stream for events that trigger business logic.
+* **OAuth2 middleware** that supports a refresh of the Trigger services JWT token and manages the background requests for a refresh token for the Trigger services.
+* The *Identity Provider (IDP)* is the authentication entity that provides the JWT token.. The IDP is outside of the Daml solution but nevertheless a necessary component. Different organizations may use different IDPs for their participant nodes.
+
+.. NOTE::
+    We expect the domain owner to implement additional business logic for managing the distributed application in both their participant node and trigger service nodes. 
+
+Architecture for HA and Scaling
+*******************************
+
+As a production system becomes busier, it is necessary to scale up the components. 
+
+Vertical scaling is the easiest way to handle more load but there are limits to the benefits of vertical scaling. Vertical scaling is not discussed since this is a well known technique. Instead, the focus here is on horizontal scaling where backup/redundant components are deployed to different availability zones as part of the HA configuration.
 
 .. NOTE::
     For clarity the diagrams follow these conventions:
@@ -33,12 +81,7 @@ Each component can scale using a stateless or stateful horizontal scaling patter
 HTTP JSON API and Participant Node Services
 *******************************************
 
-The HTTP JSON API and participant node services share a state dependency (the offset) so they must be deployed together.
-
-.. NOTE::
-    `command deduplication <../../../app-dev/command-deduplication.html>`__ does not work across participant services. 
-
-Users and related parties are configured on a participant node so they will be handled by a particular participant service. This means that the HTTP JSON API service that is connected to a participant service also serves those same users and parties. 
+The HTTP JSON API and participant services need to be considered together since there are some state dependencies between the two. In particular, users and related parties are configured on a participant node so they will be handled by a particular participant service. This means that the HTTP JSON API service that is connected to a participant service also serves those same users and parties. 
 
 The description above is true if there is only a single participant service (and corresponding HTTP JSON API service) that all the client requests will go to that service. However, if there is more than one participant service (e.g. with horizontal scaling) then it is the application's responsibility to understand which participant service to send a request to (and the corresponding HTTP JSON API service), based on the user(s) or parties of the request. Another way to describe this is that users and parties are sharded across the participant and HTTP JSON API services and the application is responsible for targeting the right instance.
 
@@ -62,7 +105,11 @@ There are a couple of important distinctions between the participant service and
    :align: center
    :width: 80%
      
-The deployment below shows the HA set up for ???
+The deployment below shows a single HTTP JSON API service and participant service. There are some hidden state dependencies that include:
+
+* A ledger offset that requires the HTTP JSON API server be associated with a single participant service. 
+* `Command deduplication <../../../app-dev/command-deduplication.html>`__ functions on a single participant service alone.
+* Shared users and parties for both the HTTP JSON API service and the participant service.
 
 .. https://lucid.app/lucidchart/d3a7916c-acaa-419d-b7ef-9fcaaa040447/edit?invitationId=inv_b7a43920-f4af-4da9-88fc-5985f8083c95&page=0_0#
 .. image:: implementing-4.png
@@ -104,7 +151,7 @@ See the Canton documentation on `connection to high availability sequencers <../
 Blockchain domains
 ==================
 
-A blockchain domain has a fully decentralized data path and is used when there is no trust between the distributed application providers and users. [#f1]_ Whereas the sequencer queries the PostgreSQL backend directly in a SQL domain, this cannot be done in a blockchain domain. Instead, a local database to the sequencer is added to speed things up. Then the blockchain is used by the sequencer backend to provide a guaranteed ordered multicast of events.
+A blockchain domain has a fully decentralized data path and is used when there is no trust between the distributed application providers and users. Whereas the sequencer queries the PostgreSQL backend directly in a SQL domain, this cannot be done in a blockchain domain. Instead, a local database to the sequencer is added to speed things up. Then the blockchain is used by the sequencer backend to provide a guaranteed ordered multicast of events.
 
 The figure below shows a HyperLedger Fabric blockchain example. Notice that each sequencer has an independent local cache running on a PostgreSQL database. This local cache ensures efficiency because the sequencer avoids having to scan the entire blockchain when it starts up or reconnects after a temporary interruption. It also reduces the performance load on the blockchain.
 
@@ -199,6 +246,9 @@ If access to more than a single OAuth provider is needed, distinct pairs of trig
    :align: center
    :width: 80%
 
+
 .. rubric:: Footnotes
 
-.. [#f1] The domain manager is not currently replicated and decentralized but it is not involved in the data path.
+.. [#f1] The domain manager can also be referred to as the 'topology manager'. For a production deployment, the domain manager can be thought of as containing the topology manager with some additional capabilities.
+.. [#f2] Although there are multiple sequencers shown, this is just for illustration purpose. As little as a single sequencer is needed. For example, Organization N's participant node could connect to Sequencer 1 and not Sequencer N.
+

@@ -758,7 +758,7 @@ subtrees:
       - file: canton/usermanual/versioning
         title: "Compatibility Matrix and Supported Dependencies"
   - file: canton/usermanual/downloading
-    title: "Download the Components"
+    title: "Download and Install Canton"
     subtrees:
     - hidden: False
       titlesonly: True
