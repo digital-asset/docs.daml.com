@@ -192,6 +192,7 @@ jobs:
                  echo "updating root to $root (sha: $sha)"
                  echo " -> creating local folder"
                  tar xf /tmp/workspace/html-$root.tar.gz -C $upload --strip-components=1
+                 cat dropdown_versions | sed 's/\(.*\)/"\1"/' | jq -sc '[.[] | {(.): .} ] | add' > $upload/versions.json
                  cp root $upload/latest
                  echo " -> removing old version"
                  for f in $(aws s3 ls s3://docs-daml-com/ \
