@@ -764,7 +764,7 @@ subtrees:
       titlesonly: True
       entries:
       - file: canton/usermanual/installation
-        title: "Installation"
+        title: "Basic Installation"
       - file: canton/usermanual/docker
         title: "Work With the Docker Containers"
       - file: canton/usermanual/static_conf
