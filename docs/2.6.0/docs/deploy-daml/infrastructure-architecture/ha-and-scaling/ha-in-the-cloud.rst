@@ -36,7 +36,7 @@ Although not shown in the figure above, the databases for each service may need 
    :align: center
    :width: 80%
 
-The initial block diagram in this section into the larger figure below ?? and shows all the services acting in an HA mode. The sequencer backend, participant, mediator, and domain manager nodes all have replicated databases ensuring no data loss. 
+The initial block diagram in this section expands into the larger figure below which shows all the services acting in an HA mode. The sequencer backend, participant, mediator, and domain manager nodes all have replicated databases ensuring no data loss. 
 
 By leveraging the elasticity of the cloud, the orchestration tool may provide possible cost reduction, at the expense of additional recovery time, by not running the passive node instances in the background. Instead, the orchestration tool starts a passive node when it detects the active node is unhealthy or has failed. In general, the node startup time is typically several seconds. However, additional time may be needed for additional data synchronization. Passive nodes can also be running in standby mode but this incurs the cost of running those nodes.
 
