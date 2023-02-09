@@ -18,13 +18,12 @@ The figure below shows a minimal, high-level, AWS-based, HA solution. The active
 
 Additional location resiliency is achieved by having redundant components in a different region. For example, in the figure above, an active participant node deployed in the USA EAST region and a passive participant node in the USA WEST region. The redundant, passive participant may not even be running depending on how the HA solution has been architected to satisfy the business requirements, such as:
 
-* The entire Daml solution stack may switch over to a different region all at once with a global load balancer redirecting the requests to the newly activated region. This can address the situation where a normally active region becomes unavailable.
-* Single components may be started in different regions for a finer grained HA approach. This introduces additional network latency for cross-region traffic. 
+* The entire Daml solution stack may switch over to a different region all at once with a global load balancer         redirecting the requests to the newly activated region. This can address the situation where a normally active region becomes unavailable.
+* Single components may be started in different regions for a finer grained HA approach. This introduces additional    network latency for cross-region traffic. 
 * Directing a switchover from one region to another is atypical and adds complexity so this may be manually initiated, or require manual approval, to avoid flapping from one region to another when a problem is intermittent.
-* The sequencer backend is a HA database that can work across regions. The options are discussed below.
-Sequencers in an availability zone can be running since they act in an active-active mode. A sequencer in a different region may be cold and need to be started if the PostgreSQL database it is connected to is read-only.  
+* The sequencer backend is a HA database that can work across regions. The options are discussed below. Sequencers in an availability zone can be running since they act in an active-active mode.  
 
-The sequencer backend database in the example is PostgreSQL operating in a highly available manner with a single write node and read-only replicas. However, the read-only replicas and write nodes use synchronous replication to avoid data loss – the sequencer backend can look like a ledger fork to participant nodes if there is data loss. 
+A sequencer in a different region may be cold and need to be started if the PostgreSQL database it is connected to is read-only. The sequencer backend database in the example is PostgreSQL operating in a highly available manner with a single write node and read-only replicas. However, the read-only replicas and write nodes use synchronous replication to avoid data loss - the sequencer backend can look like a ledger fork to participant nodes if there is data loss. 
 
     When writes involve synchronous replication across multiple Regions to meet strong consistency requirements, write latency increases by an order of magnitude. A higher write latency is not something that can typically be retro-fitted into an application without significant changes. [#f1]_
 
@@ -58,7 +57,7 @@ Each cloud vendor chooses from several PostgreSQL options. Selection is ultimate
 Although the examples presented here are for AWS, other cloud vendors have similar technologies that are compatible with PostgreSQL. Please consult the relevant cloud vendors documentation.
 
 Amazon RDS for PostgreSQL, Multi-AZ with two readable standbys [#f2]_
-==============================================================
+=====================================================================
 
 This is a self-managed option for deploying: 
 
@@ -67,7 +66,7 @@ This is a self-managed option for deploying:
     Amazon Aurora database provides RPO zero at the storage level by requiring at least four of the six storage nodes to acknowledge receipt before confirming the transaction. Aurora splits the six storage nodes across Availability Zones (AZs) in an AWS Region. Amazon Relational Database Service (Amazon RDS) Multi-AZ (except SQL Server) provides close to RPO zero at the storage level independently of the database. It writes each block synchronously to two Amazon Elastic Block Storage (Amazon EBS) volumes in two different AZs. [#f3]_
 
 Amazon Aurora DB cluster [#f4]_
-========================
+===============================
 
 This option:
 
@@ -78,7 +77,7 @@ Additionally,
     An Aurora Replica is an independent endpoint in an Aurora DB cluster, best used for scaling read operations and increasing availability. An Aurora DB cluster can include up to 15 Aurora Replicas located throughout the Availability Zones of the Aurora DB cluster's AWS Region. [#f5]_
 
 Aurora global database [#f6]_
-======================
+=============================
 
 This database:
 
