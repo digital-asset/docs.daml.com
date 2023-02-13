@@ -61,6 +61,8 @@ subtrees:
         title: "Parties and Authority"
       - file: daml/intro/7_Composing
         title: "Composing Choices"
+      - file: daml/intro/13_Interfaces
+        title: "Interfaces"
       - file: daml/intro/8_Exceptions
         title: "Exception Handling"
       - file: daml/intro/9_Dependencies

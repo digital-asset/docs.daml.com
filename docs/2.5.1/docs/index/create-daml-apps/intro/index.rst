@@ -17,6 +17,7 @@ Write Smart Contracts With Daml
    Add Constraints to a Contract </daml/intro/5_Restrictions>
    Parties and Authority </daml/intro/6_Parties>
    Composing Choices </daml/intro/7_Composing>
+   Interfaces </daml/intro/13_Interfaces>
    Exception Handling </daml/intro/8_Exceptions>
    Work With Dependencies </daml/intro/9_Dependencies>
    Functional Programming 101 </daml/intro/10_Functional101>
