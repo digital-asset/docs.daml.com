@@ -69,12 +69,3 @@ to the watermark table. However requests to the other Sequencer nodes should con
 written during this period will be available to read as soon as the pause has completed. Any send requests that were
 being processed by the failed Sequencer process will likely be lost, but can be safely retried once their max-sequencing-time
 has been exceeded without the risk of creating duplicate events.
-
-Mediator HA
-~~~~~~~~~~~
-
-The approach for mediator node HA follows the same principles as outlined for
-participant HA in :ref:`ha_participant_arch`. Namely a mediator node is
-replicated and only one replica is active. All replicas of the same mediator
-node share the same database, both for sharing the state as well as to
-coordinate the active mediator node replica.
