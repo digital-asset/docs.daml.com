@@ -1,5 +1,5 @@
 {
-  "daml": "2.5.3",
+  "daml": "2.5.3-snapshot.20230213.11090.0.907dccd7",
   "canton": "2.5.3",
   "daml_finance": "1.0.4",
   "prefix": "2.5.3"
