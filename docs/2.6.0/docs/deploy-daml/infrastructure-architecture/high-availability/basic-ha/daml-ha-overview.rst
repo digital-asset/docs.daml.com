@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Daml HA Overview
-################
+Overview
+########
 
 To summarize, HA for Daml solutions focuses on the following components running in separate processes:
 
@@ -30,12 +30,8 @@ To summarize, HA for Daml solutions focuses on the following components running 
    :align: center
    :width: 100%
 
-
-Architectural Considerations
-****************************
-
 Participant Nodes
-=================
+~~~~~~~~~~~~~~~~~
 
 The availability of a participant node shouldn't affect the availability of another participant node, except for the following workflows:
 
@@ -48,17 +44,17 @@ For example, if they both host the same party, transactions involving the party 
     An application operating on behalf of a party cannot transparently failover from one participant node to another due to the difference in offsets emitted on each participant.
 
 Domains
-=======
+~~~~~~~
 
 A participant node's availability is not affected by the availability of the domain, except for workflows that use the domain. This allows participant nodes and domains to take care of their HA separately.
 
 Replication
-===========
+~~~~~~~~~~~
 
 To achieve HA, components replicate. All replicas of the same component are assumed to have the same trust assumptions, i.e. the operators of one replica must trust the operators of the other replicas.
 
 Databases
-=========
+~~~~~~~~~
 
 In general, when a component is backed by a database/ledger, the component's HA relies on the HA of the database/ledger. Therefore, the component's operator must handle the HA of the database separately.
 
@@ -67,7 +63,7 @@ All database-backed components are designed to be tolerant to temporary database
 Transactions that involve these components may time out if the failover takes too long. Nevertheless, they can be safely resubmitted, as command deduplication is idempotent.
 
 Health Check
-************
+~~~~~~~~~~~~
 
 Canton components expose a :ref:`health endpoint <health-check>`, for checking the health of the components and their subcomponents.
 

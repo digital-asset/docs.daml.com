@@ -760,7 +760,7 @@ subtrees:
   - file: canton/usermanual/downloading
     title: "Download and Install Canton"
     subtrees:
-    - hidden: False
+    - hidden: True
       titlesonly: True
       entries:
       - file: canton/usermanual/installation
@@ -780,24 +780,33 @@ subtrees:
             title: "Fabric Domain"
           - file: canton/usermanual/domains/ethereum
             title: "Ethereum Domain"
-  - file: deploy-daml/infrastructure-architecture/ha-and-scaling/introduction
+  - file: deploy-daml/infrastructure-architecture/high-availability/main-menu
     subtrees:
     - hidden: True
       titlesonly: True
       entries:
-      - file: deploy-daml/infrastructure-architecture/ha-and-scaling/daml-ha-overview
-      - file: deploy-daml/infrastructure-architecture/ha-and-scaling/understanding-ha
-      - file: deploy-daml/infrastructure-architecture/ha-and-scaling/use-cases
-      - file: deploy-daml/infrastructure-architecture/ha-and-scaling/implementing-ha
-      - file: deploy-daml/infrastructure-architecture/ha-and-scaling/deployment-solution
-      - file: deploy-daml/infrastructure-architecture/ha-and-scaling/ha-in-the-cloud
-      - file: canton/usermanual/ha
-        title: "Canton HA Specifics"
+      - file: deploy-daml/infrastructure-architecture/high-availability/basic
+        subtrees:
+        - hidden: True
+          titlesonly: True
+          entries:
+          - file: deploy-daml/infrastructure-architecture/high-availability/basic-ha/daml-ha-overview
+          - file: deploy-daml/infrastructure-architecture/high-availability/basic-ha/participant
+          - file: deploy-daml/infrastructure-architecture/high-availability/basic-ha/domain
+          - file: canton/usermanual/ha
+      - file: deploy-daml/infrastructure-architecture/high-availability/production
+        subtrees:
+        - hidden: True
+          titlesonly: True
+          entries:
+          - file: deploy-daml/infrastructure-architecture/high-availability/ha-and-scaling/introduction
+          - file: deploy-daml/infrastructure-architecture/high-availability/ha-and-scaling/understanding-ha
+          - file: deploy-daml/infrastructure-architecture/high-availability/ha-and-scaling/use-cases
+          - file: deploy-daml/infrastructure-architecture/high-availability/ha-and-scaling/implementing-ha
+          - file: deploy-daml/infrastructure-architecture/high-availability/ha-and-scaling/deployment-solution
+          - file: deploy-daml/infrastructure-architecture/high-availability/ha-and-scaling/ha-in-the-cloud
   - file: deploy-daml/infrastructure-architecture/disaster-recovery
-  - file: canton/architecture/ha/participant
-  - file: canton/architecture/ha/domain
 
-  
   - file: canton/usermanual/persistence
     title: "Persistence"
 
