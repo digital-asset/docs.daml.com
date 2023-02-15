@@ -59,7 +59,7 @@ for file in pdf html; do
 done
 
 rm -rf $SPHINX_DIR/source/index{,.rst}
-for f in $(find index -type f) $(find canton -type f); do
+for f in $(find index -type f) $(find canton -type f) $(find app-dev -type f); do
     mkdir -p $SPHINX_DIR/source/$(dirname $f)
     rm -f $SPHINX_DIR/source/$f
     ln $f $SPHINX_DIR/source/$f
