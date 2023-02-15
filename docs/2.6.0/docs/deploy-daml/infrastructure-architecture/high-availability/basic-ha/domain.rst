@@ -27,7 +27,7 @@ Database Sequencer HA
 `````````````````````
 .. _components-for-ha:
 .. https://lucid.app/lucidchart/7b20b586-4d34-4787-ac68-72eda44e3ba1
-.. image:: images/sequencer-ha.svg
+.. image:: sequencer-ha.svg
    :align: center
    :width: 100%
 
