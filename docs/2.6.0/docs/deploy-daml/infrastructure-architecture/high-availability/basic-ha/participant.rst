@@ -28,7 +28,7 @@ balancer.
 
 .. _participant-ha-system-topology:
 .. https://lucid.app/lucidchart/cd96a3a6-e10b-4edc-bfb3-a70e484d7c06
-.. image:: images/participant-ha-system-topology.svg
+.. image:: participant-ha-system-topology.svg
    :align: center
    :width: 100%
 
