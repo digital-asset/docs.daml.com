@@ -12,9 +12,6 @@ Participant nodes are replicated in an active-passive configuration with a share
 
 The active node services requests while one or more passive replicas wait in warm-standby mode, ready to take over if the active replica fails.
 
-.. NOTE::
-  Replicas expose their active or passive status via a health endpoint.
-
 High-Level System Design
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -27,6 +24,15 @@ Each replica exposes its own Ledger API although these can be hidden by a single
 .. image:: participant-ha-system-topology.svg
    :align: center
    :width: 100%
+
+The load balancer configuration contains details of all Ledger API server addresses and the ports for the participant node replicas. Replicas expose their active or passive status via a health endpoint.
+
+Periodically polling the health API endpoint, the load balancer identifies a replica as offline if it is passive. Requests are then *only* sent to the active participant node.
+
+.. IMPORTANT::
+  The health endpoint polling frequency can affect the failover duration.
+
+During failover, requests may still go to the former active replica; which rejects them. The application retries until the requests are forwarded to the new active replica.
 
 Shared Database
 """""""""""""""
@@ -49,7 +55,7 @@ Exclusive, application-level database locks - tied to the database connection li
 Exclusive Lock Acquisition
 """"""""""""""""""""""""""
 
-A participant node replica acquires an exclusive application level lock (e.g. `Postgres advisory lock <https://www.postgresql.org/docs/11/explicit-locking.html#ADVISORY-LOCKS>`_) which is bound to a particular database connection. The active replica that acquires the lock becomes the leader. The replica then uses the same connection for all writes that are not idempotent. 
+A participant node replica acquires an exclusive application-level lock (e.g. `Postgres advisory lock <https://www.postgresql.org/docs/11/explicit-locking.html#ADVISORY-LOCKS>`_) which is bound to a particular database connection. The active replica that acquires the lock becomes the leader. The replica then uses the same connection for all writes that are not idempotent. 
 
 .. NOTE::
   Using the same connection for writes ensures that the lock is active while writes are performed.
@@ -86,18 +92,3 @@ The active replica has a grace period in which it may rebuild the connection and
 The passive replicas continuously attempt to acquire the lock within a configurable interval. Once the lock is acquired, the participant replication manager sets the state of the successful replica to active.
 
 When a passive replica becomes active, it connects to previously connected domains to resume event processing. The new active replica accepts incoming requests, e.g. on the Ledger API. The former active replica, that is now passive, rejects incoming requests as it can no longer write to the shared database.
-
-Ledger API Failover via Load Balancer
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. NOTE::
-  As mentioned previously, we recommend implementing a TCP level, highly available load balancer, running a single Ledger API endpoint. This serves as an abstraction for the multiple node replica architecture.
-
-The Load Balancer configuration contains details of all Ledger API server addresses and the ports for the participant node replicas. 
-
-Periodically checking the health API endpoint of the replicas for their status, the Load Balancer identifies a server as offline if the replica is passive. This means that the Load Balancer only sends requests to the active backend server. 
-
-.. IMPORTANT::
-  The polling frequency of the health endpoints can affect the failover time.
-
-During failover, requests may still go to the former active replica which rejects them. The application retries the submission of commands until they are forwarded to the new active replica.
