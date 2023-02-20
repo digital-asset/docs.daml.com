@@ -1,80 +1,79 @@
-..
-     Copyright (c) 2022 Digital Asset (Switzerland) GmbH and/or its affiliates
-..
-    
-..
-     Proprietary code. All rights reserved.
+.. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. SPDX-License-Identifier: Apache-2.0
 
-Domain HA
----------
+HA on the Domain
+----------------
 
-A domain is fully available only when all of its subcomponents are available.
-However, transaction processing can still run over the domain even if only the mediator and the sequencer are available.
-The domain services handle new connections to domains, and the topology manager handles the changes to the topology state; unavailability of these two components affects only the services they handle.
-As all of these components can run in separate processes, we handle the HA of each component separately.
+The diagram shows a domain containing topology manager, mediator, and sequencer components. 
 
-Sequencer HA
-~~~~~~~~~~~~
-
-The HA properties of the Sequencer depend on the chosen implementation.
-When the sequencer is based on a HA ledger, such as Hyperledger Fabric, the sequencer automatically becomes HA.
-The domain service can return multiple sequenced endpoints, any of which can be used to interact with the underlying ledger.
-
-For the database sequencer, we use an active-active setup over a shared database.
-The setup relies on the database for both HA and consistency.
-
-Database Sequencer HA
-`````````````````````
 .. _components-for-ha:
-.. https://lucid.app/lucidchart/7b20b586-4d34-4787-ac68-72eda44e3ba1
-.. image:: sequencer-ha.svg
+.. https://lucid.app/lucidchart/3082d315-f7d9-4ed7-926f-bb98841b7b38/edit?page=0_0#
+.. image:: canton-components-for-ha.svg
    :align: center
    :width: 100%
 
-The database Sequencer uses the database itself to ensure that events are sequenced with a consistent order.
-Many Sequencer nodes can be deployed where each node has a Sequencer reader and writer component, all of these
-components can concurrently read and write to the same database.
-A load balancer can be used to evenly distribute requests between these nodes.
-The canton health endpoint can be used to halt sending requests to a node that reports itself as unhealthy.
+A domain is fully available only when all components are available. However, transaction processing still runs even when only the mediator and the sequencer are available. 
 
-Sequencers nodes are statically configured with the total number of possible Sequencer nodes and each node
-is assigned a distinct index from this range. This index is used to partition available event timestamps to ensure
-two sequencer node will never use the same event id/timestamp.
+As all of the domain components run in separate processes, HA is architected per component.
 
-Events are written to the ``events`` table and can be read in ascending timestamp order. To provide a continuous monotonic
-stream of events, readers need to know the point at which events can be read without the risk of an earlier event being
-inserted by a writer process.
-To do this writers regularly update a ``watermark`` table where they publish their latest event timestamp.
-Readers take the minimum timestamp from this table as the point they can safely query events for.
+Sequencer
+~~~~~~~~~
 
-If a Sequencer node was to fail, it would stop updating its ``watermark`` value and when it becomes the minimum timestamp
-this will cause all readers to effectively pause at this point (at they cannot read beyond this point).
-Other Sequencers writers when updating their own watermark also check that the other sequencer watermarks are being updated in a timely manner.
-If it is noticed that a Sequencer node has not updated its watermark within a configurable interval then it will be
-marked as offline and this watermark will no longer be included in the query for the minimum event timestamp.
-This causes future events from the offline Sequencer to be ignored after this timestamp.
-For this process to operate optimally the clocks of the hosts of the Sequencer nodes are expected to be synchronized -
-this is considered reasonable for where all Sequencer hosts are co-located and NTP is used.
+Sequencer HA depends on the chosen implementation . For example, when using a ledger such as `Hyperledger Fabric <../../../../canton/usermanual/domains/fabric.html>`_, HA is already set up.
 
-If the failed Sequencer has recovered and would like to resume operation, it should delete all events past
-its last know watermark to avoid incorrectly re-inserting them into the events the readers will see, as readers may have
-read subsequent events by this time.
-This is safe to do without effecting events that have been read as any events written by the offline Sequencer after it
-is marked offline are ignored by readers.
-It should then replace its old watermark with a new timestamp for events it will start inserting then resume normal operation,
-ensuring that this is greater than any existing value.
+The domain returns multiple sequenced endpoints, any of which can be used to interact with the underlying ledger.
 
-When a Sequencer fails and resumes operation there will be short pause in reading from other Sequencers due to updates
-to the watermark table. However requests to the other Sequencer nodes should continue successfully, and any events
-written during this period will be available to read as soon as the pause has completed. Any send requests that were
-being processed by the failed Sequencer process will likely be lost, but can be safely retried once their max-sequencing-time
-has been exceeded without the risk of creating duplicate events.
+Database Sequencer
+``````````````````
 
-Mediator HA
-~~~~~~~~~~~
+The database sequencer has an active-active setup over a shared database. 
 
-The approach for mediator node HA follows the same principles as outlined for
-participant HA in :ref:`ha_participant_arch`. Namely a mediator node is
-replicated and only one replica is active. All replicas of the same mediator
-node share the same database, both for sharing the state as well as to
-coordinate the active mediator node replica.
+The sequencer relies on the database for both HA and consistency. The database ensures that events are sequenced in a consistent order.
+
+.. https://lucid.app/lucidchart/7b20b586-4d34-4787-ac68-72eda44e3ba1
+.. image:: sequencer-ha.svg
+   :align: center
+   :width: 60%
+
+Many sequencer nodes can be deployed. Each node has concurrent read and write components when accessing the database. The load balancer evenly distributes requests between sequencer nodes.
+
+.. NOTE::
+   The system halts requests to a node whose status is reported as unhealthy by the health endpoint.
+
+Ensuring Consistency
+````````````````````
+
+Each node is assigned a distinct index from the total number of sequencer nodes. The index is included in event timestamps to ensure that sequencer nodes never use duplicate event id/timestamps.
+
+Events are written to the ``events`` table in ascending timestamp order. Readers need to know the point at which events can be read without the risk of an earlier event being inserted by a write process.
+To do this, writers regularly update a ``watermark`` table into which they publish their latest event timestamp. Readers take the minimum timestamp from the table as the point they can safely query events from.
+
+Failing Sequencer Nodes
+```````````````````````
+
+If a sequencer node fails, it stops updating its ``watermark`` value and, when the value reaches the minimum timestamp, all readers pause as they cannot read beyond this point.
+
+When sequencer writers update their  ``watermark``, they also check that other sequencer watermarks are updating in a timely manner. If a sequencer node has not updated its watermark within a configurable interval, it is marked as offline and the watermark is no longer included in the query for the minimum event timestamp. Future events from the offline sequencer are ignored after this timestamp.
+
+.. NOTE::
+   For this process to operate optimally, the clocks of the hosts of the sequencer nodes should be synchronized. This is considered reasonable for co-located sequencer hosts which use NTP.
+
+Recovering Sequencer Nodes
+``````````````````````````
+
+When a failed sequencer recovers and resumes operation, it deletes all events that arrived past
+its last known watermark. This avoids incorrectly re-inserting them, as readers may have seen them already. 
+
+It is safe to do this, and does not affect events that have already been read. Any events written by the sequencer while it is offline are ignored by readers. The sequencer then replaces its old watermark with a new timestamp and resumes normal operation.
+
+After resuming operation, there is a short pause in reading from other sequencers due to updates
+to the watermark table. However, requests to the other sequencer nodes continue successfully, and any events written during this period are available for reading as soon as the pause is over. 
+
+The recovered sequencer has likely lost any send requests that in process during failure. These can be safely retried, without the risk of creating duplicate events, once their ``max-sequencing-time`` is exceeded.
+
+Mediator
+~~~~~~~~
+
+Like the :ref:`participant node <ha_participant_arch>`, the mediator is replicated and only one replica node is active. 
+
+All replicas of the same mediator node share the same database to access state and to coordinate with the active mediator node.

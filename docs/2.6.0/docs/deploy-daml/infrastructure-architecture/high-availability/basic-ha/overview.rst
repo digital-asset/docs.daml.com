@@ -4,7 +4,7 @@
 Overview
 ########
 
-To summarize, HA for Daml solutions focuses on the following components running in separate processes:
+To summarize, HA for Daml solutions focuses on the following Canton components running in separate processes:
 
 * Participant nodes:
 
@@ -12,15 +12,16 @@ To summarize, HA for Daml solutions focuses on the following components running 
         * gRPC server.
         * SQL indexer.
 
+    * Sync service.
+
 * Domains:
-
-    * Sequencer.
-
-    * Mediator.
 
     * Topology manager.
 
-    * Domain service.
+    * Mediator.
+
+    * Sequencer.
+
 
 
 .. _components-for-ha:
@@ -32,7 +33,7 @@ To summarize, HA for Daml solutions focuses on the following components running 
 Participant Nodes
 ~~~~~~~~~~~~~~~~~
 
-The availability of a participant node shouldn't affect the availability of another participant node, except for the following workflows:
+The unavailability of a participant should only affect the availability of another participant node in the following workflows:
 
   1. Where they are both involved. 
   2. When they have distinct visibility configurations, i.e. they manage different parties involved in the workflow.
@@ -45,7 +46,7 @@ For example, if they both host the same party, transactions involving the party 
 Domains
 ~~~~~~~
 
-A participant node's availability is not affected by the availability of the domain, except for workflows that use the domain. This allows participant nodes and domains to take care of their HA separately.
+A participant node's availability is only affected by the unavailability of the domain in workflows that use the domain. This allows participant nodes and domains to take care of their HA separately.
 
 Replication
 ~~~~~~~~~~~
@@ -55,7 +56,7 @@ To achieve HA, components replicate. All replicas of the same component are assu
 Databases
 ~~~~~~~~~
 
-In general, when a component is backed by a database/ledger, the component's HA relies on the HA of the database/ledger. Therefore, the component's operator must handle the HA of the database separately.
+In general, when a component is backed by a database/ledger, HA relies on the HA of the database/ledger. Therefore, the component's operator must handle the HA of the database separately.
 
 All database-backed components are designed to be tolerant to temporary database outages. During the database failover period, components halt processing until the database becomes available again, resuming thereafter.
 

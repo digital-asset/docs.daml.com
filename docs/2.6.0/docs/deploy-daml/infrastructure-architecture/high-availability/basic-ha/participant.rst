@@ -78,7 +78,7 @@ Prevent Passive Replica Activity
 .. IMPORTANT::
   Passive replicas do not hold the exclusive lock and cannot write to the shared database. 
 
-To avoid passive replicas attempting to write to the database which fails and produces an error, we use a coarse-grained guard on domain connectivity and API services.
+To avoid passive replicas attempting to write to the database - any such attempt fails and produces an error - we use a coarse-grained guard on domain connectivity and API services.
 
 To prevent the passive replica from processing domain events, and ensure it rejects incoming Ledger API requests, we keep the passive replica disconnected from the domains as a coarse-grained enforcement.
 
