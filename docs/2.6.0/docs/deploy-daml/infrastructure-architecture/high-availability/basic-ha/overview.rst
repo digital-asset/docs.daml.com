@@ -4,7 +4,10 @@
 Overview
 ########
 
-To summarize, HA for Daml solutions focuses on the following Canton components running in separate processes:
+.. NOTE::
+    **High Availability (HA)** is the elimination of single points of failure to ensure that applications continue to operate when a component they depend on, such as a server, fails.
+
+HA in Daml solutions focuses on the following Canton components running in separate processes:
 
 * Participant nodes:
 
@@ -21,8 +24,6 @@ To summarize, HA for Daml solutions focuses on the following Canton components r
     * Mediator.
 
     * Sequencer.
-
-
 
 .. _components-for-ha:
 .. https://lucid.app/lucidchart/3082d315-f7d9-4ed7-926f-bb98841b7b38/edit?page=0_0#
