@@ -351,6 +351,13 @@ subtrees:
           entries:
           - file: daml-finance/packages/implementations/daml-finance-holding
             title: "Daml.Finance.Holding"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/implementations/changelogs/daml-finance-holding.rst
+                title: "Changelog"
           - file: daml-finance/packages/implementations/daml-finance-account
             title: "Daml.Finance.Account"
           - file: daml-finance/packages/implementations/daml-finance-settlement
@@ -1045,7 +1052,7 @@ subtrees:
     title: "Daml Ledger"
     subtrees:
     - hidden: False
-      entries: 
+      entries:
       - file: concepts/ledger-model/index
         title: "Daml Ledger Model Concepts"
         subtrees:
