@@ -69,6 +69,7 @@ Vertical scaling is the easiest way to handle more load, but there are limits to
     * For simplicity, a blue dashed box with a name is shorthand for the HA variant of that component. 
     * Health signals are a dashed red line that point to the instance that is a recipient of that signal.
     * Communication channels that are passive but become active upon failover are bordered by a dashed green line.
+    
     Thus, in the figure below, the **Middle service** blue box encompasses all the components that make up that service. Middle services instances are in black boxes with solid lines. The blue box **Another** is short form for a service called Another. There is a load balancer between the middle and bottom services.
 
 .. https://lucid.app/lucidchart/d3a7916c-acaa-419d-b7ef-9fcaaa040447/edit?invitationId=inv_b7a43920-f4af-4da9-88fc-5985f8083c95&page=0_0#
