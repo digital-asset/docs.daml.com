@@ -416,6 +416,8 @@ subtrees:
         entries:
         - file: daml-finance/tutorials/instrument-modeling/bond-extension
           title: "How to Use the Bond Extension Package"
+        - file: daml-finance/tutorials/instrument-modeling/option-extension
+          title: "How To Use the Option Extension Package"
         - file: daml-finance/tutorials/instrument-modeling/swap-extension
           title: "How To Use the Swap Extension Package"
         - file: daml-finance/tutorials/instrument-modeling/equity-extension
@@ -521,6 +523,12 @@ subtrees:
             title: "Daml.Finance.Instrument.Generic.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Generic-Lifecycle-Rule
             title: "Daml.Finance.Instrument.Generic.Lifecycle.Rule"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-European-Factory
+            title: "Daml.Finance.Instrument.Option.European.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-European-Instrument
+            title: "Daml.Finance.Instrument.Option.European.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-Util
+            title: "Daml.Finance.Instrument.Option.Util"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Asset-Factory
             title: "Daml.Finance.Instrument.Swap.Asset.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Asset-Instrument
@@ -623,6 +631,12 @@ subtrees:
             title: "Daml.Finance.Interface.Instrument.Generic.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Generic-Instrument
             title: "Daml.Finance.Interface.Instrument.Generic.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-European-Factory
+            title: "Daml.Finance.Interface.Instrument.Option.European.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-European-Instrument
+            title: "Daml.Finance.Interface.Instrument.Option.European.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-European-Types
+            title: "Daml.Finance.Interface.Instrument.Option.European.Types"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Asset-Factory
             title: "Daml.Finance.Interface.Instrument.Swap.Asset.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Asset-Instrument
