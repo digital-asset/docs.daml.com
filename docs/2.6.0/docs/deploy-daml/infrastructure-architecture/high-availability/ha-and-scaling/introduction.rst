@@ -9,12 +9,9 @@ HA and Horizontal Scaling
 Introduction
 ************
 
-This section describes how to deploy a complete Daml solution in a High Availability (HA) configuration with horizontal scaling characteristics. 
+This section describes how to deploy a complete Daml solution in an HA configuration with horizontal scaling characteristics. 
 
-The distributed solution uses Daml v2.x Enterprise with Canton services, HTTP JSON API server, Trigger services, and OAuth 2.0 middleware components. We largely discuss a SQL domain that uses PostgreSQL as the synchronization mechanism for the sequencer backend. We also describe a blockchain domain. 
-
-.. NOTE::
-    **High Availability** (HA) is the elimination of single points of failure to ensure that applications continue to operate when a component they depend on, such as a server, fails. 
+The distributed solution uses Daml v2.x Enterprise with Canton services, HTTP JSON API server, Trigger services, and OAuth 2.0 middleware components. In this document we primarily discuss a SQL domain that uses PostgreSQL as the synchronization mechanism for the sequencer backend. We also describe a blockchain domain. 
 
 Information in this section is useful for the following:
 
@@ -24,7 +21,7 @@ Information in this section is useful for the following:
 * Building Kubernetes deployments.
 * HA/scalability deployments in the cloud or on-premises.
 
-Target Audience
+Target audience
 ===============
 
 1. A distributed application provider who runs a domain and their own participant service.
@@ -32,4 +29,4 @@ Target Audience
 3. Infrastructure operators or site reliability engineers (SREs).
 
 .. IMPORTANT::
-    A distributed application build engineer persona acts as a combination of all three as they need to validate that the distributed application works as part of the CI/CD activity. 
+    A distributed application build engineer persona acts as a combination of all three target audiences as they need to validate that the distributed application works as part of the CI/CD activity. 
