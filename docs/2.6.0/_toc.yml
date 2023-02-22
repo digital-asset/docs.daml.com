@@ -362,6 +362,13 @@ subtrees:
             title: "Daml.Finance.Account"
           - file: daml-finance/packages/implementations/daml-finance-settlement
             title: "Daml.Finance.Settlement"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/implementations/changelogs/daml-finance-settlement.rst
+                title: "Changelog"
           - file: daml-finance/packages/implementations/daml-finance-lifecycle
             title: "Daml.Finance.Lifecycle"
           - file: daml-finance/packages/implementations/daml-finance-data
