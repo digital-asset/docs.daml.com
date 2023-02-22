@@ -4,7 +4,9 @@
 Overview
 ########
 
-To summarize, HA for Daml solutions focuses on the following components running in separate processes:
+**High Availability** (HA) is the elimination of single points of failure to ensure that applications continue to operate when a component they depend on, such as a server, fails. 
+
+HA for Daml solutions focuses on the following components running in separate processes:
 
 * Participant nodes:
 
