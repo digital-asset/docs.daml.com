@@ -338,6 +338,8 @@ subtrees:
             title: "Daml.Finance.Interface.Instrument.Equity"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-generic
             title: "Daml.Finance.Interface.Instrument.Generic"
+          - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-option
+            title: "Daml.Finance.Interface.Instrument.Option"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-swap
             title: "Daml.Finance.Interface.Instrument.Swap"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-token
@@ -351,10 +353,24 @@ subtrees:
           entries:
           - file: daml-finance/packages/implementations/daml-finance-holding
             title: "Daml.Finance.Holding"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/implementations/changelogs/daml-finance-holding.rst
+                title: "Changelog"
           - file: daml-finance/packages/implementations/daml-finance-account
             title: "Daml.Finance.Account"
           - file: daml-finance/packages/implementations/daml-finance-settlement
             title: "Daml.Finance.Settlement"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/implementations/changelogs/daml-finance-settlement.rst
+                title: "Changelog"
           - file: daml-finance/packages/implementations/daml-finance-lifecycle
             title: "Daml.Finance.Lifecycle"
           - file: daml-finance/packages/implementations/daml-finance-data
@@ -373,6 +389,8 @@ subtrees:
             title: "Daml.Finance.Instrument.Equity"
           - file: daml-finance/packages/implementations/daml-finance-instrument-generic
             title: "Daml.Finance.Instrument.Generic"
+          - file: daml-finance/packages/implementations/daml-finance-instrument-option
+            title: "Daml.Finance.Instrument.Option"
           - file: daml-finance/packages/implementations/daml-finance-instrument-swap
             title: "Daml.Finance.Instrument.Swap"
           - file: daml-finance/packages/implementations/daml-finance-instrument-token
@@ -398,6 +416,8 @@ subtrees:
         entries:
         - file: daml-finance/tutorials/instrument-modeling/bond-extension
           title: "How to Use the Bond Extension Package"
+        - file: daml-finance/tutorials/instrument-modeling/option-extension
+          title: "How To Use the Option Extension Package"
         - file: daml-finance/tutorials/instrument-modeling/swap-extension
           title: "How To Use the Swap Extension Package"
         - file: daml-finance/tutorials/instrument-modeling/equity-extension
@@ -503,6 +523,12 @@ subtrees:
             title: "Daml.Finance.Instrument.Generic.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Generic-Lifecycle-Rule
             title: "Daml.Finance.Instrument.Generic.Lifecycle.Rule"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-European-Factory
+            title: "Daml.Finance.Instrument.Option.European.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-European-Instrument
+            title: "Daml.Finance.Instrument.Option.European.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-Util
+            title: "Daml.Finance.Instrument.Option.Util"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Asset-Factory
             title: "Daml.Finance.Instrument.Swap.Asset.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Asset-Instrument
@@ -605,6 +631,12 @@ subtrees:
             title: "Daml.Finance.Interface.Instrument.Generic.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Generic-Instrument
             title: "Daml.Finance.Interface.Instrument.Generic.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-European-Factory
+            title: "Daml.Finance.Interface.Instrument.Option.European.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-European-Instrument
+            title: "Daml.Finance.Interface.Instrument.Option.European.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-European-Types
+            title: "Daml.Finance.Interface.Instrument.Option.European.Types"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Asset-Factory
             title: "Daml.Finance.Interface.Instrument.Swap.Asset.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Asset-Instrument
@@ -1045,7 +1077,7 @@ subtrees:
     title: "Daml Ledger"
     subtrees:
     - hidden: False
-      entries: 
+      entries:
       - file: concepts/ledger-model/index
         title: "Daml Ledger Model Concepts"
         subtrees:

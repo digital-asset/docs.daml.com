@@ -953,12 +953,6 @@ Manageability
 Security
 ^^^^^^^^
 
-* **No resilience to dishonest submitters:**
-  We have not yet implemented all planned validations on incoming requests.
-  Therefore, compromise of a submitter participant may remain undetected and get the system into an inconsistent state.
-  Consequently, if Canton is run across organizations, these organizations need to mutually trust each other.
-  As part of our future roadmap, we will implement the missing validations.
-
 * **Denial of service attacks:** We have not yet implemented all countermeasures
   to denial of service attacks. However the domain already protects against
   faulty participants sending too many requests and message size limits protect
