@@ -338,6 +338,8 @@ subtrees:
             title: "Daml.Finance.Interface.Instrument.Equity"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-generic
             title: "Daml.Finance.Interface.Instrument.Generic"
+          - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-option
+            title: "Daml.Finance.Interface.Instrument.Option"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-swap
             title: "Daml.Finance.Interface.Instrument.Swap"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-token
@@ -387,6 +389,8 @@ subtrees:
             title: "Daml.Finance.Instrument.Equity"
           - file: daml-finance/packages/implementations/daml-finance-instrument-generic
             title: "Daml.Finance.Instrument.Generic"
+          - file: daml-finance/packages/implementations/daml-finance-instrument-option
+            title: "Daml.Finance.Instrument.Option"
           - file: daml-finance/packages/implementations/daml-finance-instrument-swap
             title: "Daml.Finance.Instrument.Swap"
           - file: daml-finance/packages/implementations/daml-finance-instrument-token
