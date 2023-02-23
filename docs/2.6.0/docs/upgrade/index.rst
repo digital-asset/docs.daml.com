@@ -4,7 +4,7 @@
 Upgrading and Extending Daml Applications
 #########################################
 
-.. toctree::
+.. .. toctree::
    :hidden:
 
    extend

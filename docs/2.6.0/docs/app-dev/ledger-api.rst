@@ -4,7 +4,7 @@
 The Ledger API
 ##############
 
-.. toctree::
+.. .. toctree::
    :hidden:
 
    services

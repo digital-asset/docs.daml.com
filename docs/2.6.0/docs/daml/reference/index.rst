@@ -6,7 +6,7 @@ Language Reference
 
 This section contains a reference to writing templates for Daml contracts. It includes:
 
-.. toctree::
+.. .. toctree::
    :maxdepth: 1
 
    structure

@@ -4,7 +4,7 @@
 Daml Ecosystem Overview
 #######################
 
-.. toctree::
+.. .. toctree::
    :hidden:
 
    status-definitions

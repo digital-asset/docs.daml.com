@@ -6,7 +6,7 @@
 Java Bindings
 #############
 
-.. toctree::
+.. .. toctree::
   :hidden:
 
   codegen

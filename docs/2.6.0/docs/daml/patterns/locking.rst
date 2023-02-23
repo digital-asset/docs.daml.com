@@ -16,7 +16,7 @@ Implementation
 
 There are three ways to achieve locking:
 
-.. toctree::
+.. .. toctree::
 
    locking/locking-by-archiving
    locking/locking-by-state

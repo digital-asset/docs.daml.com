@@ -6,7 +6,7 @@
 Upgrading Daml Applications
 ###########################
 
-.. toctree::
+.. .. toctree::
    :hidden:
 
 In applications backed by a centralized database controlled by a

@@ -24,7 +24,7 @@ The Daml ledger model defines:
 The below sections review these concepts of the ledger model in turn.
 They also briefly describe the link between Daml and the model.
 
-.. toctree::
+.. .. toctree::
    :maxdepth: 3
 
    ledger-structure

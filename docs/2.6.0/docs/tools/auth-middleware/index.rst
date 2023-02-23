@@ -4,7 +4,7 @@
 Auth Middleware
 ###############
 
-.. toctree::
+.. .. toctree::
    :hidden:
 
    ./oauth2

@@ -6,7 +6,7 @@
 Trigger Service
 ###############
 
-.. toctree::
+.. .. toctree::
    :hidden:
 
    ./authorization

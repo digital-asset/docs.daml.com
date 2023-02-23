@@ -19,7 +19,7 @@ You can checkout the examples locally via ``daml new daml-patterns --template da
 :doc:`patterns/locking`
     The Locking pattern exhibits how to achieve locking safely and efficiently in Daml. Only the specified locking party can lock the asset through an active and authorized action. When a contract is locked, some or all choices specified on that contract may not be exercised.
 
-.. toctree::
+.. .. toctree::
    :hidden:
    :maxdepth: 2
 

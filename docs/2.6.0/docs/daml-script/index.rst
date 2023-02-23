@@ -6,7 +6,7 @@
 Daml Script
 ###########
 
-.. toctree::
+.. .. toctree::
    :hidden:
 
    api/index

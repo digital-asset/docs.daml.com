@@ -4,7 +4,7 @@
 Daml Triggers - Off-Ledger Automation in Daml
 #############################################
 
-.. toctree::
+.. .. toctree::
    :hidden:
 
    api/index

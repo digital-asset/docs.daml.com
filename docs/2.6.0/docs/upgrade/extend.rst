@@ -4,7 +4,7 @@
 Extending Daml Applications
 ###########################
 
-.. toctree::
+.. .. toctree::
    :hidden:
 
 Consider the following simple Daml model for carbon certificates:
