@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Disaster Recovery (DR)
-######################
+Disaster Recovery
+#################
 
     Disaster recovery (DR) is the process of maintaining or reestablishing vital infrastructure and systems following a natural or human-induced disaster, such as a storm or battle. It employs policies, tools, and procedures. 
 
@@ -37,14 +37,14 @@ Alternatively, AWS says in Managing RPOs for Aurora PostgreSQL-based global data
 
     This parameter is supported by Aurora PostgreSQL. Valid values for ``rds.global_db_rpo`` range from 20 seconds to 2,147,483,647 seconds (68 years). [#f4]_
 
-Some additional AWS links of interest the reader may want to explore are: 
+Some additional AWS links of interest on this topic: 
 
 * `Fast failover with Amazon Aurora PostgreSQL <https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraPostgreSQL.BestPractices.FastFailover.html>`_.
 * `Fast recovery after failover with cluster cache management for Aurora PostgreSQL <https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraPostgreSQL.cluster-cache-mgmt.html>`_.
 
 .. rubric:: Footnotes
 
-.. [#f1] https://en.wikipedia.org/wiki/Disaster_recovery
+.. [#f1] https://en.wikipedia.org/wiki/Disaster_recovery as retrieved 02/22/2023
 .. [#f2] https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database-getting-started.html#aurora-global-database.use-snapshot
 .. [#f3] https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database-disaster-recovery.html#aurora-global-database-failover
 .. [#f4] https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database-disaster-recovery.html#aurora-global-database-manage-recovery

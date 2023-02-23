@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Understanding HA from a Business Perspective
-############################################
+High Availability From a Business Perspective
+#############################################
 
 .. NOTE::
     This section contains information for those unfamiliar with HA and how it is fundamental to operational efficiency. We look at how business goals drive the configuration and operational aspects of the HA deployment. 
@@ -46,9 +46,9 @@ The inverse is the percentage of time it is expected to fail, such as 0.5% or 0.
 Time-based availability
 =======================
 
-The most frequent availability metric is the whole system uptime percentage - rather than the separate components. 
+Availability is usually measured in whole system uptime percentage, rather than the uptime percentages of separate components. 
 
-A refinement of this metric is *unplanned downtime*, i.e. the amount of time that the system is unexpectedly unavailable. This is because well-published maintenance activities have no business impact whereas unplanned downtime does; e.g. lost revenue, reputational harm, customers switching to a competitor, etc.
+A refinement of this metric is *unplanned downtime*, i.e. the amount of time that the system is unexpectedly unavailable. This is because well-published maintenance activities have no business impact whereas unplanned downtime can cause lost revenue, reputational harm, customers switching to a competitor, etc.
 
 The general formula is: 
 
@@ -151,16 +151,16 @@ The table below shows estimated downtimes for a number of given availability lev
 .. NOTE::
     For a custom availability percentage, use the `availability calculator <https://availability.sre.xyz/>`_.
 
-Data like this helps the business define an error budget or "the maximum amount of time that a technical system can fail without contractual consequences.”[#f2]_ which may also be a KPI for SREs.
+Data like this helps a business define an error budget or "the maximum amount of time that a technical system can fail without contractual consequences.”[#f2]_ which may also be a KPI for SREs.
 
-For example, over a 30 day (43,200 minutes) time-window, and an availability target of 99.9%, simple arithmetic shows that the system must not be down for more than 43.2 minutes over the 30 day period. This 43.2 minute figure is a concrete target to plan around, and is often referred to as the error budget. Consequently, if you exceed 43.2 minutes of downtime over 30 days, you fail to meet your availability goal. 
+For example, over a 30 day (43,200 minutes) time-window, with an availability target of 99.9%, the system must not be down for more than 43.2 minutes. This 43.2 minute figure is a concrete target to plan around, and is often referred to as the error budget. If you exceed 43.2 minutes of downtime over 30 days, you fail to meet your availability goal. 
 
 Aggregate request availability
 ==============================
 
-The fine-grained aggregate request availability metric instead considers the number of failed requests i.e. x% of total failed requests.
+In contrast to time-based availabilty, the fine-grained aggregate request availability metric considers the number of failed requests i.e. x% of total failed requests.
 
-This metric is more useful for services that may be partially available or whose load varies over the course of a day or week rather than remaining constant, or to monitor specific, business-critical endpoints. 
+This metric is most useful for services that may be partially available or whose load varies over the course of a day or week rather than remaining constant, or to monitor specific, business-critical endpoints. 
 
 The general formula is: 
 
@@ -174,14 +174,14 @@ Although not all requests have equal business value, this metric is often calcul
 Resiliency
 **********
 
-Resiliency is a related to availability. “Resiliency is the capability to handle partial failures while continuing to execute and not crash. In modern application architectures — whether it be microservices running in containers on-premises or applications running in the cloud — failures are going to occur. For example, applications that communicate over networks (like services talking to a database or an API) are subject to transient failures. These temporary faults cause lesser amounts of downtime due to timeouts, overloaded resources, networking hiccups, and other problems that come and go and are hard to reproduce. These failures are usually self-correcting.”
+Resiliency is related to availability. “Resiliency is the capability to handle partial failures while continuing to execute and not crash. In modern application architectures — whether it be microservices running in containers on-premises or applications running in the cloud — failures are going to occur. For example, applications that communicate over networks (like services talking to a database or an API) are subject to transient failures. These temporary faults cause lesser amounts of downtime due to timeouts, overloaded resources, networking hiccups, and other problems that come and go and are hard to reproduce. These failures are usually self-correcting.”
 [#f3]_
 
-Resiliency and availability are enhanced by best practice patterns, such as the retry pattern. When a customer submits a request and receives a success response, they expect that request to succeed. If they receive an error response instead, then the user does not expect it to succeed and will need to retry themselves.
+Resiliency and availability are enhanced by best practice patterns, such as the retry pattern. When a customer submits a request and receives a success response, they expect that request to succeed. If they receive an error response instead, then the user does not expect it to succeed and knows that they need to retry the request.
 
-“Retries can be an effective way to handle transient failures that occur with cross-component communication in a system.”[#f3]_ A retry pattern is often coupled with the "Circuit Breaker pattern that effectively shuts down all retries on an operation after a set number of retries have failed. This allows the system to recover from failed retries after hitting a known limit and gives it a chance to react in another way, like falling back to a cached value or returning a message to the user to try again later."[#f3]_
+“Retries can be an effective way to handle transient failures that occur with cross-component communication in a system.”[#f3]_ A retry pattern is often coupled with the circuit breaker pattern, which "effectively shuts down all retries on an operation after a set number of retries have failed. This allows the system to recover from failed retries after hitting a known limit and gives it a chance to react in another way, like falling back to a cached value or returning a message to the user to try again later."[#f3]_
 
-The key takeaway is that the Daml solution's client application needs to add this type of resiliency to increase availability of the overall system consisting of platform and application.
+The Daml solution's client application needs to add this type of resiliency to increase availability of the overall system consisting of platform and application.
 
 Other Common Metrics / RTO and RPO
 **********************************
@@ -195,9 +195,9 @@ Financial systems often require support for an RPO of zero.
 HA Cost Trade-Offs
 ******************
 
-High availability can be costly so trade-offs are required. 
+High availability can be costly and thus require trade-offs. 
 
-To illustrate, given that extreme events are highly improbable - such as an asteroid strike that wipes out a continent's data centers - they may not need consideration. This highlights the trade-off between the cost of avoiding an outage, the probability of a single failure (single component redundancy), and the probability of multiple simultaneous failures (multiple component, integrated redundancy). 
+To illustrate, extreme events that are highly improbable and costly to guard against - such as an asteroid strike that wipes out a continent's data centers - may not need consideration. This highlights the trade-off between the cost of avoiding an outage, the probability of a single failure (single component redundancy), and the probability of multiple simultaneous failures (multiple component, integrated redundancy). 
 
 We can analyze the trade-offs by deriving the cost of loss of availability using unplanned downtime as follows:
 
@@ -209,6 +209,6 @@ Use this formula in different configurations to compare increasing cost against 
 
 .. rubric:: Footnotes
 
-.. [#f1] https://en.wikipedia.org/wiki/High_availability
+.. [#f1] https://en.wikipedia.org/wiki/High_availability as retrieved 02/22/2023
 .. [#f2] https://www.atlassian.com/incident-management/kpis/error-budget
 .. [#f3] https://azure.microsoft.com/en-us/blog/using-the-retry-pattern-to-make-your-cloud-application-more-resilient/
