@@ -58,73 +58,73 @@ This formula calculates how many minutes of downtime are allowed in a given peri
 
 The table below shows estimated downtimes for a number of given availability levels. 
 
-.. list-table:: Availability calculator table
-   :widths: 14 14 14 14 14 14 16
-   :header-rows: 1
+..  .. list-table:: Availability calculator table
+    :widths: 14 14 14 14 14 14 16
+    :header-rows: 1
 
-   - * Availability level
-     * Downtime per year
-     * Downtime per quarter
-     * Downtime per month 
-     * Downtime per week 
-     * Downtime per day 
-     * Downtime per hour
-   - * 90%
-     * 36.52 days
-     * 9.13 days
-     * 3.04 days
-     * 16.80 hours
-     * 2.40 hours
-     * 6.00 minutes
-   - * 95%
-     * 18.26 days
-     * 4.57 days
-     * 1.52 days
-     * 8.40 hours
-     * 1.20 hours
-     * 3.00 minutes
-   - * 99%
-     * 3.65 days
-     * 21.91 hours
-     * 7.30 hours
-     * 1.68 hours
-     * 14.40 minutes
-     * 36.00 seconds
-   - * 99.5%
-     * 1.83 days
-     * 10.96 hours
-     * 3.65 hours
-     * 50.40 minutes
-     * 7.20 minutes
-     * 18.00 seconds
-   - * 99.9%
-     * 8.77 hours
-     * 2.19 hours
-     * 43.83 minutes
-     * 10.08 minutes
-     * 1.44 minutes
-     * 3.60 seconds
-   - * 99.95%
-     * 4.38 hours
-     * 1.10 hours
-     * 21.91 minutes
-     * 5.04 minutes
-     * 43.20 seconds
-     * 1.80 seconds
-   - * 99.99%
-     * 52.59 minutes
-     * 13.15 minutes
-     * 4.38 minutes
-     * 1.01 minutes
-     * 8.64 seconds
-     * 0.36 seconds
-   - * 99.999%
-     * 5.26 minutes
-     * 1.31 minutes
-     * 26.30 seconds
-     * 6.05 seconds
-     * 0.86 seconds
-     * 0.04 seconds
+    - * Availability level
+      * Downtime per year
+      * Downtime per quarter
+      * Downtime per month 
+      * Downtime per week 
+      * Downtime per day 
+      * Downtime per hour
+    - * 90%
+      * 36.52 days
+      * 9.13 days
+      * 3.04 days
+      * 16.80 hours
+      * 2.40 hours
+      * 6.00 minutes
+    - * 95%
+      * 18.26 days
+      * 4.57 days
+      * 1.52 days
+      * 8.40 hours
+      * 1.20 hours
+      * 3.00 minutes
+    - * 99%
+      * 3.65 days
+      * 21.91 hours
+      * 7.30 hours
+      * 1.68 hours
+      * 14.40 minutes
+      * 36.00 seconds
+    - * 99.5%
+      * 1.83 days
+      * 10.96 hours
+      * 3.65 hours
+      * 50.40 minutes
+      * 7.20 minutes
+      * 18.00 seconds
+    - * 99.9%
+      * 8.77 hours
+      * 2.19 hours
+      * 43.83 minutes
+      * 10.08 minutes
+      * 1.44 minutes
+      * 3.60 seconds
+    - * 99.95%
+      * 4.38 hours
+      * 1.10 hours
+      * 21.91 minutes
+      * 5.04 minutes
+      * 43.20 seconds
+      * 1.80 seconds
+    - * 99.99%
+      * 52.59 minutes
+      * 13.15 minutes
+      * 4.38 minutes
+      * 1.01 minutes
+      * 8.64 seconds
+      * 0.36 seconds
+    - * 99.999%
+      * 5.26 minutes
+      * 1.31 minutes
+      * 26.30 seconds
+      * 6.05 seconds
+      * 0.86 seconds
+      * 0.04 seconds
 
 
 +---------------------+--------------------+-----------------------+---------------------+--------------------+-------------------+--------------------+
