@@ -3,3 +3,6 @@
 
 Intro to HA in Canton
 #####################
+
+.. warning::
+    The content in this section is out-of-date and in the process of being updated.
