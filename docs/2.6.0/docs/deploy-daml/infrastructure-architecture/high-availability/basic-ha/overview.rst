@@ -14,6 +14,8 @@ HA for Daml solutions focuses on the following components running in separate pr
         * gRPC server.
         * SQL indexer.
 
+    * Sync service.
+
 * Domains:
 
     * Sequencer.
@@ -68,4 +70,3 @@ Health Check
 ~~~~~~~~~~~~
 
 Canton components expose a :ref:`health endpoint <health-check>`, for checking the health of the components and their subcomponents.
-

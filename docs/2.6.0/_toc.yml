@@ -915,15 +915,14 @@ subtrees:
     - hidden: True
       titlesonly: True
       entries:
-      - file: deploy-daml/infrastructure-architecture/high-availability/basic
+      - file: deploy-daml/infrastructure-architecture/high-availability/basic-ha/intro
         subtrees:
         - hidden: True
           titlesonly: True
           entries:
-          - file: deploy-daml/infrastructure-architecture/high-availability/basic-ha/daml-ha-overview
+          - file: deploy-daml/infrastructure-architecture/high-availability/basic-ha/overview
           - file: deploy-daml/infrastructure-architecture/high-availability/basic-ha/participant
           - file: deploy-daml/infrastructure-architecture/high-availability/basic-ha/domain
-          - file: canton/usermanual/ha
       - file: deploy-daml/infrastructure-architecture/high-availability/production
         subtrees:
         - hidden: True
@@ -935,6 +934,7 @@ subtrees:
           - file: deploy-daml/infrastructure-architecture/high-availability/ha-and-scaling/implementing-ha
           - file: deploy-daml/infrastructure-architecture/high-availability/ha-and-scaling/deployment-solution
           - file: deploy-daml/infrastructure-architecture/high-availability/ha-and-scaling/ha-in-the-cloud
+      - file: canton/usermanual/ha
   - file: deploy-daml/infrastructure-architecture/disaster-recovery
 
   - file: canton/usermanual/persistence

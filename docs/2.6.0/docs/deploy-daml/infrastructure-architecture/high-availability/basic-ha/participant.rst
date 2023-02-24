@@ -1,30 +1,23 @@
-..
-     Copyright (c) 2022 Digital Asset (Switzerland) GmbH and/or its affiliates
-..
-    
-..
-     Proprietary code. All rights reserved.
+.. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. SPDX-License-Identifier: Apache-2.0
 
 .. enterprise-only::
 
 .. _ha_participant_arch:
 
-Replicated Participant Node Architecture
-----------------------------------------
+Replicating Participant Nodes
+-----------------------------
 
-High availability of a participant node is achieved with a replicated
-participant node in an active-passive configuration, where the active replica is
-serving requests and one or more passive replicas are in a warm stand-by mode
-ready to take over when the active replica fails.
+Participant nodes are replicated in an active-passive configuration with a shared database. 
+
+The active node services requests while one or more passive replicas wait in warm-standby mode, ready to take over if the active replica fails.
 
 High-Level System Design
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-A logical participant node can consist of multiple physical participant node replicas using a shared
-database and each replica exposing its own ledger API. However from an
-application point of view, the fact that multiple replicas exists can be hidden
-by exposing a single ledger API endpoint through a highly available load
-balancer.
+A logical participant node - shown below - contains multiple physical participant node replicas, all using a shared database. 
+
+Each replica exposes its own Ledger API although these can be hidden by a single Ledger API endpoint running on a highly available load balancer.
 
 .. _participant-ha-system-topology:
 .. https://lucid.app/lucidchart/cd96a3a6-e10b-4edc-bfb3-a70e484d7c06
@@ -32,111 +25,70 @@ balancer.
    :align: center
    :width: 100%
 
-Why a Shared Database?
-""""""""""""""""""""""
+The load balancer configuration contains details of all Ledger API server addresses and the ports for the participant node replicas. Replicas expose their active or passive status via a health endpoint.
 
-The replicas of a replicated participant node share the same database, which is
-required for two reasons:
+Periodically polling the health API endpoint, the load balancer identifies a replica as offline if it is passive. Requests are then *only* sent to the active participant node.
 
-- Share the command ID deduplication state of the ledger API command submission
-  service between replicas to prevent double submission of commands in case of
-  fail-over.
-- Obtain consistent ledger offsets across the replicas, otherwise the
-  application could not seamlessly fail-over to another replica. The ledger
-  offsets are decided by the database based on the insertion order of publishing
-  events in the multi-domain event log, i.e., the ledger offset derivation is
-  not deterministic.
+.. IMPORTANT::
+  The health endpoint polling frequency can affect the failover duration.
 
-Participant Node Replica Monitoring and Fail-Over
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+During failover, requests may still go to the former active replica; which rejects them. The application retries until the requests are forwarded to the new active replica.
 
-Operating a participant node in a replicated active-passive configuration with a
-shared database requires to establish the active replica, i.e., perform a leader
-election, and to enforce a single writer, i.e., the active replica, to the
-shared database.
+Shared Database
+"""""""""""""""
 
-We are using exclusive application-level database locks tied to the lifetime of
-the connection to the database to achieve leader election and a enforce single
-writer. Alternative existing approaches for leader election, such as using Raft,
-are not suitable because in between the leader check and the use of the shared
-resource, i.e., writing to the database, the leader status could have been lost
-and we cannot guarantee a single writer.
+The replicas require a shared database for the following reasons:
 
-Leader Election through Exclusive Lock Acquisition
-""""""""""""""""""""""""""""""""""""""""""""""""""
+1. To share the command ID deduplication state of the Ledger API command submission service. This prevents double submission of commands in case of failover.
+2. To obtain consistent ledger offsets without which the application cannot seamlessly failover to another replica. The database stores ledger offsets in a non-deterministic manner based on the insertion order of publishing events in the multi-domain event log.
 
-A participant node replica tries to acquire an exclusive application level lock
-(e.g. `Postgres advisory lock
-<https://www.postgresql.org/docs/11/explicit-locking.html#ADVISORY-LOCKS>`_)
-bound to a particular database connection and use that same connection for all
-writes that are not idempotent. The replica that has acquired the lock is the
-leader and the active replica. Using the same connection for writes ensures that
-the lock is held while writes are performed.
+Leader Election
+~~~~~~~~~~~~~~~
+
+A leader election establishes the active replica. The participant node sets the chosen active replica as single writer to the shared database. 
+
+Exclusive, application-level database locks - tied to the database connection lifetime - enforce the leader election and set the chosen replica as single writer. 
+
+.. NOTE::
+  Alternative approaches for leader election, such as Raft, are unsuitable because the leader status can be lost in between the leader check and the use of the shared resource, i.e. writing to the database. Therefore, we cannot guarantee a single writer.
+
+Exclusive Lock Acquisition
+""""""""""""""""""""""""""
+
+A participant node replica acquires an exclusive application-level lock (e.g. `Postgres advisory lock <https://www.postgresql.org/docs/11/explicit-locking.html#ADVISORY-LOCKS>`_) which is bound to a particular database connection. The active replica that acquires the lock becomes the leader. The replica then uses the same connection for all writes that are not idempotent. 
+
+.. NOTE::
+  Using the same connection for writes ensures that the lock is active while writes are performed.
 
 Lock ID Allocation
 """"""""""""""""""
 
-The exclusive application level locks are identified by a 30bit integer. The
-lock id is allocated based on the scope name of the lock and a lock counter. The
-lock counter differentiates locks used in Canton from each other, depending on
-their usage. The scope ensures the uniqueness of the lock id for a given lock
-counter. For the allocation the scope and counter are hashed and truncated to
-30bit to generate a unique lock id.
+Exclusive application level locks are identified by a 30 bit integer lock id which is allocated based on a scope name and counter. 
 
-On Oracle the lock scope is the schema name, i.e., the user name. On Postgres it
-is the name of the database. The participant replicas must allocate the same
-lock ids for the same lock counter, therefore it is crucial that the replicas
-are configured with the same storage configuration, e.g., for Oracle using the
-same username to allocate the lock ids with the same scope.
+The lock counter differentiates locks used in Canton from each other, depending on their usage. The scope name ensures the uniqueness of the lock id for a given lock counter. The allocation process generates a unique lock id by hashing and truncating the scope and counter to 30 bits.
 
-Enforce Passive Replica
-~~~~~~~~~~~~~~~~~~~~~~~
+.. NOTE::
+  On Oracle, the lock scope is the schema name, i.e. user name. On PostgreSQL, it is the name of the database. 
+  
+Participant replicas must allocate lock ids and counters consistently. It is, therefore, crucial that replicas are configured with the same storage configuration, e.g. for Oracle using the correct username to allocate the lock ids within the correct scope.
 
-The replicas that do not hold the exclusive lock are passive and cannot write to
-the shared database. To avoid any attempts to write to the database, which would
-fail and produce an error, we use a coarse-grained guard on domain connectivity
-and API services to enforce a passive replica.
+Prevent Passive Replica Activity
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To prevent the passive replica from processing any domain events and reject
-incoming ledger API requests, we keep the passive replica disconnected from the
-domains as a coarse-grained enforcement.
+.. IMPORTANT::
+  Passive replicas do not hold the exclusive lock and cannot write to the shared database. 
 
-Lock Loss and Fail-Over
-"""""""""""""""""""""""
+To avoid passive replicas attempting to write to the database - any such attempt fails and produces an error - we use a coarse-grained guard on domain connectivity and API services.
 
-If the active replica crashes or loses connection to the database, the lock will
-be released and a passive replica can claim the lock and become active. Any
-pending writes in the formerly active replica will fail as the underlying
-connection and the corresponding lock has been lost.
+To prevent the passive replica from processing domain events, and ensure it rejects incoming Ledger API requests, we keep the passive replica disconnected from the domains as a coarse-grained enforcement.
 
-There is a grace period for the active replica to rebuild the connection and
-reclaim the lock to avoid unnecessary fail-overs on short connection
-interruptions. The passive replicas continuously try to acquire the lock with a
-configurable interval. Once the lock is acquired, the participant replication
-manager sets the state of the replica to active and completes the fail-over.
+Lock Loss and Failover
+""""""""""""""""""""""
 
-As part of a passive replica becoming active, the replica is connected to
-previously connected domains to resume processing of events. Further the new
-active replica now accepts incoming requests, e.g., on the ledger API. On the
-other hand, the former active replica that is now passive needs to reject any
-incoming requests as the replica can no longer write to the shared database.
+If the active replica crashes or loses connection to the database, the lock is released and a passive replica can claim the lock and become active. Any pending writes in the formerly active replica fail due to losing the underlying connection and the corresponding lock.
 
-Ledger API Client Fail-Over via Load Balancer
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The active replica has a grace period in which it may rebuild the connection and reclaim the lock to avoid unnecessary failover on short connection interruptions. 
 
-To hide the fact that a participant is replicated and to offer a single ledger
-API endpoint towards applications, we recommend the usage of layer 4 (=TCP
-level), highly available load balancer.
+The passive replicas continuously attempt to acquire the lock within a configurable interval. Once the lock is acquired, the participant replication manager sets the state of the successful replica to active.
 
-The load balancer (LB) is configured with a pool of backend servers based on the
-ledger API server addresses and ports of the participant node replicas. The
-participant node replicas expose their status if they are the active or passive
-replica via a health endpoint. The LB periodically checks the health API
-endpoint of the replicas and marks a backend server offline if the replica is
-passive. Thus the load balancer only sends requests to the active backend
-server. The polling frequency of the health endpoints affect the fail-over
-times.
-
-During fail-over requests may still be send to the former active replica, which
-will be rejected and the application has to retry the submission of commands in
-that case until they are forwarded to the new active replica.
+When a passive replica becomes active, it connects to previously connected domains to resume event processing. The new active replica accepts incoming requests, e.g. on the Ledger API. The former active replica, that is now passive, rejects incoming requests as it can no longer write to the shared database.
