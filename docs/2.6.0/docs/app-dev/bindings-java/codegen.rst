@@ -312,42 +312,6 @@ The Java code generated for this variant is:
     public Variant toValue() { /* ... */ }
   }
 
-Parameterized Types
-^^^^^^^^^^^^^^^^^^^
-
-.. note::
-
-   This section is only included for completeness: we don't expect users to make use of the ``fromValue`` and ``toValue`` methods, because they would typically come from a template that doesn't have any unbound type parameters.
-
-The Java codegen uses Java Generic types to represent :ref:`Daml parameterized types <daml-ref-parameterized-types>`.
-
-This Daml fragment defines the parameterized type ``Attribute``, used by the ``BookAttribute`` type for modeling the characteristics of the book:
-
-.. literalinclude:: ./code-snippets/Com/Acme/ParameterizedTypes.daml
-   :language: daml
-   :start-after: -- start snippet: parameterized types example
-   :end-before: -- end snippet: parameterized types example
-   :caption: Com/Acme/ParametrizedTypes.daml
-
-The Java codegen generates a Java file with a generic class for  the ``Attribute a`` data type:
-
-.. code-block:: java
-  :caption: com/acme/parametrizedtypes/Attribute.java
-  :emphasize-lines: 3,8,10
-
-  package com.acme.parametrizedtypes;
-
-  public class Attribute<a> {
-    public final a value;
-
-    public Attribute(a value) { /* ... */  }
-
-    public DamlRecord toValue(Function<a, Value> toValuea) { /* ... */ }
-
-    public static <a> Attribute<a> fromValue(Value value$, Function<Value, a> fromValuea) { /* ... */ }
-  }
-
-
 Enums
 ^^^^^
 
@@ -369,36 +333,49 @@ The Java code generated for this variant is:
 
   package com.acme.enum;
 
-
   public enum Color implements DamlEnum<Color> {
     RED,
-
     GREEN,
-
     BLUE;
 
     /* ... */
-
     public static final Color fromValue(Value value$) { /* ... */ }
-
     public final DamlEnum toValue() { /* ... */ }
   }
 
+Parameterized Types
+^^^^^^^^^^^^^^^^^^^
 
+.. note::
+
+   This section is only included for completeness. The ``fromValue`` and ``toValue`` methods would typically come from a template that doesn't have any unbound type parameters.
+
+The Java codegen uses Java Generic types to represent :ref:`Daml parameterized types <daml-ref-parameterized-types>`.
+
+This Daml fragment defines the parameterized type ``Attribute``, used by the ``BookAttribute`` type for modeling the characteristics of the book:
+
+.. literalinclude:: ./code-snippets/Com/Acme/ParameterizedTypes.daml
+   :language: daml
+   :start-after: -- start snippet: parameterized types example
+   :end-before: -- end snippet: parameterized types example
+   :caption: Com/Acme/ParameterizedTypes.daml
+
+The Java codegen generates a Java file with a generic class for  the ``Attribute a`` data type:
 
 .. code-block:: java
-  :caption: com/acme/enum/bookattribute/Authors.java
+  :caption: com/acme/parameterizedtypes/Attribute.java
+  :emphasize-lines: 3,8,10
 
-  package com.acme.enum.bookattribute;
+  package com.acme.parameterizedtypes;
 
-  public class Authors extends BookAttribute {
-    public final List<String> listValue;
+  public class Attribute<a> {
+    public final a value;
 
-    public static Authors fromValue(Value value) { /* ... */ }
+    public Attribute(a value) { /* ... */  }
 
-    public Author(List<String> listValue) { /* ... */ }
-    public Value toValue() { /* ... */ }
+    public DamlRecord toValue(Function<a, Value> toValuea) { /* ... */ }
 
+    public static <a> Attribute<a> fromValue(Value value$, Function<Value, a> fromValuea) { /* ... */ }
   }
 
 
