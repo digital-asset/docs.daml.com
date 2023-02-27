@@ -4,10 +4,11 @@
 High Availability From a Business Perspective
 #############################################
 
-.. NOTE::
+.. IMPORTANT::
+    
     This section contains information for those unfamiliar with HA and how it is fundamental to operational efficiency. We look at how business goals drive the configuration and operational aspects of the HA deployment. 
     
-    Those familiar with these principles may skip this page.
+    **Those familiar with these principles may skip this page.**
 
 **Definition**
 [#f1]_
@@ -28,7 +29,7 @@ Daml solution design honors these principles by:
 2. Executing reliable crossover through networking best practices, in conjunction with the Canton transaction consensus protocol, to eliminate partially processed requests. 
 3. Ensuring automated failover when a single failure is detected. 
 
-**Useful Resources**
+**Useful External Resources**
 
 * `Multi-Region fundamental 1: Understanding the requirements <https://docs.aws.amazon.com/whitepapers/latest/aws-multi-region-fundamentals/multi-region-fundamental-1-understanding-the-requirements.html>`_.
 * `Availability Table <https://sre.google/sre-book/availability-table/>`_.
