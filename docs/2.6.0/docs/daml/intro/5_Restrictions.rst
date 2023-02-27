@@ -66,34 +66,36 @@ For example, the simple Iou in :ref:`simple_iou` allowed the no-op where the ``o
   :start-after: -- TRANSFER_TEST_BEGIN
   :end-before: -- TRANSFER_TEST_END
 
-Similarly, you can write a ``Redeem`` choice, which allows the ``owner`` to redeem an ``Iou`` during business hours on weekdays. The choice doesn't do anything other than archiving the ``SimpleIou``. (This assumes that actual cash changes hands off-ledger:)
+Similarly, you can write a ``Redeem`` choice, which allows the ``owner`` to redeem an ``Iou`` *during business hours on weekdays*. The ``Redeem`` choice implementation below confirms that ``getTime`` returns a value that is during business hours on weekdays. If all those checks pass, the choice does not do anything other than archive the ``SimpleIou``. (This assumes that actual cash changes hands off-ledger:)
 
 .. literalinclude:: daml/daml-intro-5/daml/Restrictions.daml
   :language: daml
   :start-after: -- REDEEM_CHOICE_BEGIN
   :end-before: -- REDEEM_CHOICE_END
 
+In the above example, the time is taken apart into day of week and hour of day using standard library functions from ``DA.Date`` and ``DA.Time``. The hour of the day is checked to be in the range from 8 to 18. The day of week is checked to not be Saturday or Sunday.
+
+The following example shows how the ``Redeem`` choice is exercised in a script:
+
 .. literalinclude:: daml/daml-intro-5/daml/Restrictions.daml
   :language: daml
   :start-after: -- REDEEM_TEST_BEGIN
   :end-before: -- REDEEM_TEST_END
 
-There are quite a few new time-related functions from the ``DA.Time`` and ``DA.Date`` libraries here. Their names should be reasonably descriptive so how they work won't be covered here, but given that Daml assumes it is run in a distributed setting, we will still discuss time in Daml.
-
-There's also quite a lot going on inside the ``do`` block of the ``Redeem`` choice, with several uses of the ``<-`` operator. ``do`` blocks and ``<-`` deserve a proper explanation at this point.
+For the purposes of testing the ``Redeem`` choice, the above code sets and advances the ledger time with the ``setTime`` and ``passTime`` functions respectively. Exercising the choice should fail or should not fail depending on the day of week and the time of day. While that is straightforward, the issue of time on a Daml ledger is worthy of more discussion.
 
 Time on Daml Ledgers
 --------------------
 
-Each transaction on a Daml ledger has two timestamps called the *ledger time (LT)* and the *record time (RT)*. The ledger time is set by the participant, the record time is set by the ledger.
+Each transaction on a Daml ledger has two timestamps:  the *ledger time (LT)* and the *record time (RT)*.
 
-Each Daml ledger has a policy on the allowed difference between LT and RT called the *skew*. The participant has to take a good guess at what the record time will be. If it's too far off, the transaction will be rejected.
+**Ledger time (LT)** is the time associated with a transaction in the ledger model, as determined by the participant. It is the time of a transaction from a business and application perspective. When you call ``getTime``, it is the LT that is returned. The LT is used when reasoning about related transactions and commits. The LT can be compared with other LTs to guarantee model consistency. For example, LTs are used to enforce that no transaction depends on a contract that does not exist. This is the requirement known as "causal monotonicity."
 
-``getTime`` is an action that gets the LT from the ledger. In the above example, that time is taken apart into day of week and hour of day using standard library functions from ``DA.Date`` and ``DA.Time``. The hour of the day is checked to be in the range from 8 to 18.
+**Record time (RT)** is the time assigned by the persistence layer. It represents the time that the transaction is “physically” recorded. For example, “The backing database ledger has assigned the timestamp of such-and-such time to this transaction.” The only purpose of the RT is to ensure that transactions are being recorded in a timely manner.
 
-Consider the following example: Suppose that the ledger had a skew of 10 seconds. At 17:59:55, Alice submits a transaction to redeem an Iou. One second later, the transaction is assigned a LT of 17:59:56, but then takes 10 seconds to commit and is recorded on the ledger at 18:00:06. Even though it was committed after business hours, it would be a valid transaction and be committed successfully as ``getTime`` will return 17:59:56 so ``hrs == 17``. Since the RT is 18:00:06, ``LT - RT <= 10 seconds`` and the transaction won't be rejected.
+Each Daml ledger has a policy on the allowed difference between LT and RT called the *skew*. A consistent zero-skew is not feasible because this is a distributed system. If it is too far off, the transaction will be rejected. This is the requirement known as “bounded skew.” The RT is not relevant beyond this determination of skew.
 
-Time therefore has to be considered slightly fuzzy in Daml, with the fuzziness depending on the skew parameter.
+Returning to the theme of *business hours*, consider the following example: Suppose that the ledger had a skew of 10 seconds. At 17:59:55, just before the end of business hours, Alice submits a transaction to redeem an Iou. One second later, the transaction is assigned an LT of 17:59:56. However, there still may be a few seconds before the transaction is persisted to the underlying storage. For example, the transaction might be written in the underlying backing store at 18:00:06, *after business hours*. Because LT is within business hours and LT - RT <= 10 seconds, the transaction will not be rejected.
 
 For details, see :ref:`Background concepts - time <time>`.
 
@@ -105,10 +107,9 @@ For tests, you can set time using the following functions:
 - ``setTime``, which sets the ledger time to the given time.
 - ``passTime``, which takes a ``RelTime`` (a relative time) and moves the ledger by that much.
 
-Time on Ledgers
-~~~~~~~~~~~~~~~~~
+On a distributed Daml ledger, there are no guarantees that LT or RT are strictly increasing. The only guarantee is that ledger time is increasing *with causality*. That is, if a transaction ``TX2`` depends on a transaction ``TX1``, then the ledger enforces that the LT of ``TX2`` is greater than or equal to that of ``TX1``.
 
-On a distributed Daml ledger, there are no guarantees that ledger time or record time are strictly increasing. The only guarantee is that ledger time is increasing with causality. That is, if a transaction ``TX2`` depends on a transaction ``TX1``, then the ledger enforces that the LT of ``TX2`` is greater than or equal to that of ``TX1``:
+The following script illustrates that idea by moving the logical time back by three days and then trying to exercise a choice on a contract *that hasn't been created yet*. That fails, as you would hope.
 
 .. literalinclude:: daml/daml-intro-5/daml/Restrictions.daml
   :language: daml
