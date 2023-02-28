@@ -8,12 +8,3 @@ This section describes the core concepts of the Daml Finance library. It also re
 where each of these concepts is implemented in the library.
 
 The most important definitions are also summarized in the :doc:`glossary <../reference/glossary>`.
-
-.. .. toctree::
-   :titlesonly:
-   :maxdepth: 1
-
-   asset-model
-   settlement
-   lifecycling
-   contingent-claims

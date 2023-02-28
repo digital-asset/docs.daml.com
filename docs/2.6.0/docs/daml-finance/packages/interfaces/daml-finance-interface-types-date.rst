@@ -19,9 +19,3 @@ This package contains types related to dates. They are defined in the following 
 
 Changelog
 *********
-
-.. .. toctree::
-   :titlesonly:
-   :maxdepth: 1
-
-   Changelog <changelogs/daml-finance-interface-types-date>

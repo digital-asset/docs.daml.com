@@ -21,9 +21,3 @@ actions like mergers and stock splits.
 
 Changelog
 *********
-
-.. .. toctree::
-   :titlesonly:
-   :maxdepth: 1
-
-   Changelog <changelogs/daml-finance-instrument-equity>

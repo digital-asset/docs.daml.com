@@ -14,9 +14,3 @@ This package contains the *implementation* of accounts. It has the following mod
 
 Changelog
 *********
-
-.. .. toctree::
-   :titlesonly:
-   :maxdepth: 1
-
-   Changelog <changelogs/daml-finance-account>

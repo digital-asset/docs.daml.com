@@ -20,9 +20,3 @@ contingent-claim-based instruments. It includes the following modules:
 
 Changelog
 *********
-
-.. .. toctree::
-   :titlesonly:
-   :maxdepth: 1
-
-   Changelog <changelogs/daml-finance-claims>

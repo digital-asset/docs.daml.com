@@ -200,15 +200,3 @@ Deprecated Packages
 +============================================+====================+========+
 | None                                                                     |
 +--------------------------------------------+--------------------+--------+
-
-
-.. .. toctree::
-   :maxdepth: 0
-   :hidden:
-
-   self
-   overview/index
-   concepts/index
-   packages/index
-   tutorials/index
-   reference/index

@@ -40,9 +40,3 @@ for a description of how to use the swap extension in practice.
 
 Changelog
 *********
-
-.. .. toctree::
-   :titlesonly:
-   :maxdepth: 1
-
-   Changelog <changelogs/daml-finance-instrument-swap>

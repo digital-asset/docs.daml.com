@@ -4,13 +4,6 @@
 Getting Started
 ###############
 
-.. .. toctree::
-   :hidden:
-
-   transfer
-   settlement
-   lifecycling
-
 Quickstart
 **********
 

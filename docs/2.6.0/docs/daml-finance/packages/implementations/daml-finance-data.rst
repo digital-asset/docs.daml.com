@@ -25,9 +25,3 @@ This package implements templates containing reference data. It includes the fol
 
 Changelog
 *********
-
-.. .. toctree::
-   :titlesonly:
-   :maxdepth: 1
-
-   Changelog <changelogs/daml-finance-data>

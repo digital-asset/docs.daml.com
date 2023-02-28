@@ -23,10 +23,3 @@ create a holding on an instrument and transfer it between accounts.
 
 Changelog
 *********
-
-.. .. toctree::
-   :titlesonly:
-   :maxdepth: 1
-
-   Changelog <changelogs/daml-finance-holding>
-

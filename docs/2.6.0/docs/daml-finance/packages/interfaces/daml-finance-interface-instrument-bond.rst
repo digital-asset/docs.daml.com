@@ -34,9 +34,3 @@ modules:
 
 Changelog
 *********
-
-.. .. toctree::
-   :titlesonly:
-   :maxdepth: 1
-
-   Changelog <changelogs/daml-finance-interface-instrument-bond>

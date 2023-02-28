@@ -6,10 +6,3 @@ Reference
 
 This reference section contains a glossary as well as code-level documentation for each Daml
 Finance package.
-
-.. .. toctree::
-   :titlesonly:
-   :maxdepth: 1
-
-   glossary
-   code-documentation/daml-finance-rst/index

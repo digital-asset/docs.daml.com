@@ -23,9 +23,3 @@ lifecycled in practice.
 
 Changelog
 *********
-
-.. .. toctree::
-   :titlesonly:
-   :maxdepth: 1
-
-   Changelog <changelogs/daml-finance-instrument-generic>

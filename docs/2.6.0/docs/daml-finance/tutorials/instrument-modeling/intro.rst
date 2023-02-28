@@ -4,18 +4,6 @@
 Instrument Modeling
 ###################
 
-.. .. toctree::
-   :hidden:
-
-   bond-extension
-   equity-extension
-   option-extension
-   swap-extension
-   generic-extension
-   intermediated-lifecycling
-   contingent-claims-instrument
-   contingent-claims-on-ledger-vs-on-the-fly
-
 This section explains different topics related to modeling instruments using Daml Finance. Each
 tutorial combines a step by step description of different workflows with supporting code.
 
