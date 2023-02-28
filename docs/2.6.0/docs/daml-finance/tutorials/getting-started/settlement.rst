@@ -80,7 +80,7 @@ proposal, we need to instantiate two contracts:
 
 1. :ref:`Route Provider <type-daml-finance-interface-settlement-routeprovider-routeprovider-53805>`
 
-   .. literalinclude:: ../code-samples/getting-started/daml/Scripts/Settlement.daml
+   .. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Settlement.daml
      :language: daml
      :start-after: -- ROUTE_PROVIDER_BEGIN
      :end-before: -- ROUTE_PROVIDER_END
@@ -92,7 +92,7 @@ proposal, we need to instantiate two contracts:
 
 2. :ref:`Settlement Factory <type-daml-finance-interface-settlement-factory-factory-31525>`
 
-   .. literalinclude:: ../code-samples/getting-started/daml/Scripts/Settlement.daml
+   .. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Settlement.daml
      :language: daml
      :start-after: -- SETTLEMENT_FACTORY_BEGIN
      :end-before: -- SETTLEMENT_FACTORY_END
@@ -102,14 +102,14 @@ proposal, we need to instantiate two contracts:
 
 Bob creates a ``Dvp.Proposal`` template to propose the exchange of the ``TOKEN`` against ``USD``.
 
-.. literalinclude:: ../code-samples/getting-started/daml/Scripts/Settlement.daml
+.. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Settlement.daml
   :language: daml
   :start-after: -- DVP_PROPOSE_BEGIN
   :end-before: -- DVP_PROPOSE_END
 
 Alice then accepts the proposal, agreeing to the terms of the trade.
 
-.. literalinclude:: ../code-samples/getting-started/daml/Scripts/Settlement.daml
+.. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Settlement.daml
   :language: daml
   :start-after: -- DVP_ACCEPT_BEGIN
   :end-before: -- DVP_ACCEPT_END
@@ -122,7 +122,7 @@ Once the proposal is accepted, three contracts are created:
 
 The workflow to create these contracts makes use of the route provider and the settlement factory.
 
-.. literalinclude:: ../code-samples/getting-started/daml/Workflow/DvP.daml
+.. literalinclude:: /_templates/quickstart-finance/daml/Workflow/DvP.daml
   :language: daml
   :start-after: -- INSTRUCT_BEGIN
   :end-before: -- INSTRUCT_END
@@ -130,7 +130,7 @@ The workflow to create these contracts makes use of the route provider and the s
 As a next step, Alice allocates her ``TOKEN`` holding to the corresponding instruction. Bob then
 approves the instruction specifying the receiving account.
 
-.. literalinclude:: ../code-samples/getting-started/daml/Scripts/Settlement.daml
+.. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Settlement.daml
   :language: daml
   :start-after: -- ALLOCATE_APPROVE_BEGIN
   :end-before: -- ALLOCATE_APPROVE_END
@@ -140,7 +140,7 @@ provides the receiving account).
 
 Now that all instructions are fully allocated and approved, they can finally be settled.
 
-.. literalinclude:: ../code-samples/getting-started/daml/Scripts/Settlement.daml
+.. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Settlement.daml
   :language: daml
   :start-after: -- SETTLE_BEGIN
   :end-before: -- SETTLE_END
