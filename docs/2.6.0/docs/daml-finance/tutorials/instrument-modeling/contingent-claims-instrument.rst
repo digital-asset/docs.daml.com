@@ -23,7 +23,7 @@ Template Definition
 We start by defining a new template for the instrument. Here are the first few lines of the fixed
 rate instrument:
 
-.. literalinclude:: ../../../../src/main/daml/Daml/Finance/Instrument/Bond/FixedRate/Instrument.daml
+.. literalinclude:: ../../src/main/daml/Daml/Finance/Instrument/Bond/FixedRate/Instrument.daml
   :language: daml
   :start-after: -- FIXED_RATE_BOND_TEMPLATE_BEGIN
   :end-before: -- FIXED_RATE_BOND_TEMPLATE_END
@@ -44,7 +44,7 @@ It will work in a similar way for all instrument types, regardless of their econ
 Here is a high level implementation of the
 :ref:`Claims interface <module-daml-finance-interface-claims-claim-82866>`:
 
-.. literalinclude:: ../../../../src/main/daml/Daml/Finance/Instrument/Bond/FixedRate/Instrument.daml
+.. literalinclude:: ../../src/main/daml/Daml/Finance/Instrument/Bond/FixedRate/Instrument.daml
   :language: daml
   :start-after: -- FIXED_RATE_BOND_CLAIMS_BEGIN
   :end-before: -- FIXED_RATE_BOND_CLAIMS_END
@@ -63,7 +63,7 @@ date.
 
 We will now create the actual redemption claim:
 
-.. literalinclude:: ../../../../src/main/daml/Daml/Finance/Claims/Util/Builders.daml
+.. literalinclude:: ../../src/main/daml/Daml/Finance/Claims/Util/Builders.daml
   :language: daml
   :start-after: -- FIXED_RATE_BOND_REDEMPTION_CLAIM_BEGIN
   :end-before: -- FIXED_RATE_BOND_REDEMPTION_CLAIM_END
@@ -84,7 +84,7 @@ We need to take a schedule of adjusted coupon dates and the day count convention
 
 Here is how we create the coupon claims:
 
-.. literalinclude:: ../../../../src/main/daml/Daml/Finance/Claims/Util/Builders.daml
+.. literalinclude:: ../../src/main/daml/Daml/Finance/Claims/Util/Builders.daml
   :language: daml
   :start-after: -- FIXED_RATE_BOND_COUPON_CLAIMS_BEGIN
   :end-before: -- FIXED_RATE_BOND_COUPON_CLAIMS_END
@@ -109,7 +109,7 @@ the lifecycle mechanism.
 This is all done in the :ref:`Lifecycle.Rule <module-daml-finance-claims-lifecycle-rule-53980>`. We will now break it apart to describe the
 steps in more detail:
 
-.. literalinclude:: ../../../../src/main/daml/Daml/Finance/Claims/Lifecycle/Rule.daml
+.. literalinclude:: ../../src/main/daml/Daml/Finance/Claims/Lifecycle/Rule.daml
   :language: daml
   :start-after: -- BOND_PROCESS_CLOCK_UPDATE_INITAL_CLAIMS_BEGIN
   :end-before: -- BOND_PROCESS_CLOCK_UPDATE_INITAL_CLAIMS_END
@@ -118,7 +118,7 @@ First, we retrieve the inital claims of the instrument. This represents the bond
 By keeping track of ``lastEventTimestamp`` (in our case: the last time a coupon was paid), we can
 "fast forward" to the remaining claims of the instrument:
 
-.. literalinclude:: ../../../../src/main/daml/Daml/Finance/Claims/Lifecycle/Rule.daml
+.. literalinclude:: ../../src/main/daml/Daml/Finance/Claims/Lifecycle/Rule.daml
   :language: daml
   :start-after: -- BOND_PROCESS_CLOCK_UPDATE_LIFECYCLE_FASTFORWARD_BEGIN
   :end-before: -- BOND_PROCESS_CLOCK_UPDATE_LIFECYCLE_FASTFORWARD_END
@@ -128,7 +128,7 @@ If there is a lifecycle effect (for example a coupon), we will create an
 :ref:`Effect <module-daml-finance-lifecycle-effect-1975>`
 for it, which can then be settled.
 
-.. literalinclude:: ../../../../src/main/daml/Daml/Finance/Claims/Lifecycle/Rule.daml
+.. literalinclude:: ../../src/main/daml/Daml/Finance/Claims/Lifecycle/Rule.daml
   :language: daml
   :start-after: -- BOND_PROCESS_CLOCK_UPDATE_LIFECYCLE_BEGIN
   :end-before: -- BOND_PROCESS_CLOCK_UPDATE_LIFECYCLE_END
@@ -145,7 +145,7 @@ introduce the concept of a
 
 In the instrument definition, we need an identifier for the reference rate:
 
-.. literalinclude:: ../../../../src/main/daml/Daml/Finance/Instrument/Bond/FloatingRate/Instrument.daml
+.. literalinclude:: ../../src/main/daml/Daml/Finance/Instrument/Bond/FloatingRate/Instrument.daml
   :language: daml
   :start-after: -- FLOATING_RATE_BOND_TEMPLATE_UNTIL_REFRATE_BEGIN
   :end-before: -- FLOATING_RATE_BOND_TEMPLATE_UNTIL_REFRATE_END
@@ -154,7 +154,7 @@ When we create the claims, we can then use
 :ref:`Observe <constr-contingentclaims-core-observation-observe-30391>`
 to refer to the value of the reference rate:
 
-.. literalinclude:: ../../../../src/main/daml/Daml/Finance/Claims/Util/Builders.daml
+.. literalinclude:: ../../src/main/daml/Daml/Finance/Claims/Util/Builders.daml
   :language: daml
   :start-after: -- FLOATING_RATE_BOND_COUPON_CLAIMS_BEGIN
   :end-before: -- FLOATING_RATE_BOND_COUPON_CLAIMS_END

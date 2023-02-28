@@ -32,14 +32,14 @@ available.
 
 You start by defining the terms:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Instrument/Option/Test/European.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Option/Test/European.daml
   :language: daml
   :start-after: -- CREATE_EUROPEAN_OPTION_VARIABLES_BEGIN
   :end-before: -- CREATE_EUROPEAN_OPTION_VARIABLES_END
 
 Now that the terms have been defined, you can create the option instrument:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Instrument/Option/Test/Util.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Option/Test/Util.daml
   :language: daml
   :start-after: -- CREATE_EUROPEAN_OPTION_INSTRUMENT_BEGIN
   :end-before: -- CREATE_EUROPEAN_OPTION_INSTRUMENT_END

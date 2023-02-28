@@ -24,7 +24,7 @@ Consider a fixed rate bond which pays a 4% p.a. coupon with a 6M coupon period. 
 coupons remaining until maturity: one today and one in 180 days. This could be modeled in the
 following way:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml
   :language: daml
   :start-after: -- CREATE_CC_INSTRUMENT_VARIABLES_BEGIN
   :end-before: -- CREATE_CC_INSTRUMENT_VARIABLES_END
@@ -38,7 +38,7 @@ are defined in the :doc:`Contingent Claims documentation <../../concepts/conting
 
 Now that we have specified the economic terms we can create a generic instrument:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml
   :language: daml
   :start-after: -- CREATE_CC_INSTRUMENT_BEGIN
   :end-before: -- CREATE_CC_INSTRUMENT_END
@@ -51,7 +51,7 @@ Define the Claim of a European Option
 
 Alternatively, if you want to model a European Option instead:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Instrument/Generic/Test/EuropeanOption.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Generic/Test/EuropeanOption.daml
   :language: daml
   :start-after: -- CREATE_CC_OPTION_INSTRUMENT_VARIABLES_BEGIN
   :end-before: -- CREATE_CC_OPTION_INSTRUMENT_VARIABLES_END

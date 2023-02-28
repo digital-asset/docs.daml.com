@@ -59,14 +59,14 @@ Then we create a new version of the *token* instrument, which is required for de
 distribution event. This is what the instrument holders will receive when processing the lifecycle
 event later in the tutorial.
 
-.. literalinclude:: ../../../code-samples/getting-started/daml/Scripts/Lifecycling.daml
+.. literalinclude:: ../code-samples/getting-started/daml/Scripts/Lifecycling.daml
   :language: daml
   :start-after: -- NEW_VERSION_BEGIN
   :end-before: -- NEW_VERSION_END
 
 Next, we create two lifecycle rules:
 
-.. literalinclude:: ../../../code-samples/getting-started/daml/Scripts/Lifecycling.daml
+.. literalinclude:: ../code-samples/getting-started/daml/Scripts/Lifecycling.daml
   :language: daml
   :start-after: -- LIFECYCLE_RULES_BEGIN
   :end-before: -- LIFECYCLE_RULES_END
@@ -80,14 +80,14 @@ Next, we create two lifecycle rules:
 
 We then create a distribution event describing the terms of the dividend to be paid.
 
-.. literalinclude:: ../../../code-samples/getting-started/daml/Scripts/Lifecycling.daml
+.. literalinclude:: ../code-samples/getting-started/daml/Scripts/Lifecycling.daml
   :language: daml
   :start-after: -- CREATE_EVENT_BEGIN
   :end-before: -- CREATE_EVENT_END
 
 Now we can process the distribution event using the distribution rule.
 
-.. literalinclude:: ../../../code-samples/getting-started/daml/Scripts/Lifecycling.daml
+.. literalinclude:: ../code-samples/getting-started/daml/Scripts/Lifecycling.daml
   :language: daml
   :start-after: -- LIFECYCLE_EVENT_BEGIN
   :end-before: -- LIFECYCLE_EVENT_END
@@ -96,7 +96,7 @@ The result of this is an effect describing the per-unit asset movements to be ex
 holders. Each holder can now present their holding to *claim* the effect and instruct settlement of
 the associated entitlements.
 
-.. literalinclude:: ../../../code-samples/getting-started/daml/Scripts/Lifecycling.daml
+.. literalinclude:: ../code-samples/getting-started/daml/Scripts/Lifecycling.daml
   :language: daml
   :start-after: -- CLAIM_EVENT_BEGIN
   :end-before: -- CLAIM_EVENT_END
@@ -108,7 +108,7 @@ In our example of a cash dividend, only a single instruction is generated: the m
 the bank to the token holder. This instruction along with its batch is settled the usual way, as
 described in the previous :doc:`Settlement <settlement>` tutorial.
 
-.. literalinclude:: ../../../code-samples/getting-started/daml/Scripts/Lifecycling.daml
+.. literalinclude:: ../code-samples/getting-started/daml/Scripts/Lifecycling.daml
   :language: daml
   :start-after: -- EFFECT_SETTLEMENT_BEGIN
   :end-before: -- EFFECT_SETTLEMENT_END

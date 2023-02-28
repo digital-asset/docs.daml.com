@@ -39,7 +39,7 @@ available.
 
 We start by defining the terms:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Instrument/Swap/Test/InterestRate.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Swap/Test/InterestRate.daml
   :language: daml
   :start-after: -- CREATE_INTEREST_RATE_SWAP_VARIABLES_BEGIN
   :end-before: -- CREATE_INTEREST_RATE_SWAP_VARIABLES_END
@@ -57,7 +57,7 @@ the holding owner receives the floating leg.
 Just as for bonds, we can use these variables to create a
 :ref:`PeriodicSchedule <constr-daml-finance-interface-types-date-schedule-periodicschedule-99705>`:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Test/Util/Time.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Test/Util/Time.daml
   :language: daml
   :start-after: -- CREATE_PERIODIC_SCHEDULE_BEGIN
   :end-before: -- CREATE_PERIODIC_SCHEDULE_END
@@ -73,7 +73,7 @@ e.g. after each calculation period or only after every second calculation period
 
 Now that we have defined the terms we can create the swap instrument:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Instrument/Swap/Test/Util.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Swap/Test/Util.daml
   :language: daml
   :start-after: -- CREATE_INTEREST_RATE_SWAP_INSTRUMENT_BEGIN
   :end-before: -- CREATE_INTEREST_RATE_SWAP_INSTRUMENT_END
@@ -89,7 +89,7 @@ Currency
 are quite similar to interest rate swaps, except that the two legs are in different
 currencies. Consequently, we need to create two cash instruments:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Instrument/Swap/Test/Currency.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Swap/Test/Currency.daml
   :language: daml
   :start-after: -- CREATE_CURRENCY_SWAP_CASH_INSTRUMENTS_BEGIN
   :end-before: -- CREATE_CURRENCY_SWAP_CASH_INSTRUMENTS_END
@@ -99,7 +99,7 @@ In the swap template they are referred to as *base currency* and *foreign curren
 Here is an example of a fix vs fix currency swap: 3% p.a. in USD vs 2% p.a. in EUR with payments
 every 3M:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Instrument/Swap/Test/Currency.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Swap/Test/Currency.daml
   :language: daml
   :start-after: -- CREATE_CURRENCY_SWAP_VARIABLES_BEGIN
   :end-before: -- CREATE_CURRENCY_SWAP_VARIABLES_END
@@ -116,7 +116,7 @@ If you need floating rates or exchange of notionals, please use the
 
 Here is how we create the currency swap instrument, using the two currencies defined above:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Instrument/Swap/Test/Util.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Swap/Test/Util.daml
   :language: daml
   :start-after: -- CREATE_CURRENCY_SWAP_INSTRUMENT_BEGIN
   :end-before: -- CREATE_CURRENCY_SWAP_INSTRUMENT_BEGIN
@@ -140,14 +140,14 @@ currency in the initial transaction (and pays it in the final transaction).
 
 Here is an example of an USD vs EUR FX swap. First, we define the two cash instruments:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Instrument/Swap/Test/ForeignExchange.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Swap/Test/ForeignExchange.daml
   :language: daml
   :start-after: -- CREATE_FX_SWAP_CASH_INSTRUMENTS_BEGIN
   :end-before: -- CREATE_FX_SWAP_CASH_INSTRUMENTS_END
 
 Then, we define the transaction dates and FX rates:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Instrument/Swap/Test/ForeignExchange.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Swap/Test/ForeignExchange.daml
   :language: daml
   :start-after: -- CREATE_FX_SWAP_VARIABLES_BEGIN
   :end-before: -- CREATE_FX_SWAP_VARIABLES_END
@@ -157,7 +157,7 @@ on the issue date or shortly afterwards.
 
 Finally, we create the FX swap instrument:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Instrument/Swap/Test/Util.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Swap/Test/Util.daml
   :language: daml
   :start-after: -- CREATE_FOREIGN_EXCHANGE_SWAP_INSTRUMENT_BEGIN
   :end-before: -- CREATE_FOREIGN_EXCHANGE_SWAP_INSTRUMENT_END
@@ -179,7 +179,7 @@ rate payments are required afterwards.
 
 Here is an example of a CDS that pays *1-recoveryRate* in the case of a default on TSLA bonds:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Instrument/Swap/Test/CreditDefault.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Swap/Test/CreditDefault.daml
   :language: daml
   :start-after: -- CREATE_CREDIT_DEFAULT_SWAP_VARIABLES_BEGIN
   :end-before: -- CREATE_CREDIT_DEFAULT_SWAP_VARIABLES_END
@@ -197,7 +197,7 @@ As you can see in this example, two observables are required for a CDS:
 
 Finally, we create the CDS instrument:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Instrument/Swap/Test/Util.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Swap/Test/Util.daml
   :language: daml
   :start-after: -- CREATE_CREDIT_DEFAULT_SWAP_INSTRUMENT_BEGIN
   :end-before: -- CREATE_CREDIT_DEFAULT_SWAP_INSTRUMENT_END
@@ -218,7 +218,7 @@ which pays the performance of an asset. It can be used to model:
 
 Here is an example of an asset swap that pays AAPL total return vs 2.01% fix p.a., payment every 3M:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Instrument/Swap/Test/Asset.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Swap/Test/Asset.daml
   :language: daml
   :start-after: -- CREATE_ASSET_SWAP_VARIABLES_BEGIN
   :end-before: -- CREATE_ASSET_SWAP_VARIABLES_END
@@ -235,7 +235,7 @@ fixings:
 
 Finally, we create the asset swap instrument:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Instrument/Swap/Test/Util.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Swap/Test/Util.daml
   :language: daml
   :start-after: -- CREATE_ASSET_SWAP_INSTRUMENT_BEGIN
   :end-before: -- CREATE_ASSET_SWAP_INSTRUMENT_END
@@ -261,7 +261,7 @@ object for each leg of the swap.
 
 We start by defining the general terms:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Instrument/Swap/Test/Fpml.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Swap/Test/Fpml.daml
   :language: daml
   :start-after: -- CREATE_FPML_SWAP_VARIABLES_BEGIN
   :end-before: -- CREATE_FPML_SWAP_VARIABLES_END
@@ -273,7 +273,7 @@ The fixed leg of the swap can now be defined using Daml data types that correspo
 `swapStream <https://www.fpml.org/spec/fpml-5-11-3-lcwd-1/html/confirmation/schemaDocumentation/schemas/fpml-ird-5-11_xsd/complexTypes/Swap/swapStream.html>`_
 schema:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Instrument/Swap/Test/Fpml.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Swap/Test/Fpml.daml
   :language: daml
   :start-after: -- CREATE_FPML_SWAP_FIX_LEG_BEGIN
   :end-before: -- CREATE_FPML_SWAP_FIX_LEG_END
@@ -286,7 +286,7 @@ implemented on the client side.
 
 Similarly, the floating leg of the swap is defined like this:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Instrument/Swap/Test/Fpml.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Swap/Test/Fpml.daml
   :language: daml
   :start-after: -- CREATE_FPML_SWAP_FLOAT_LEG_BEGIN
   :end-before: -- CREATE_FPML_SWAP_FLOAT_LEG_END
@@ -305,7 +305,7 @@ short, it depends on the content of
 
 Finally, we create the FpML swap instrument:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Instrument/Swap/Test/Util.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Swap/Test/Util.daml
   :language: daml
   :start-after: -- CREATE_FPML_SWAP_INSTRUMENT_BEGIN
   :end-before: -- CREATE_FPML_SWAP_INSTRUMENT_END

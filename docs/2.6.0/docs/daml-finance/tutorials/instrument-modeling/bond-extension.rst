@@ -43,7 +43,7 @@ where all the details are available.
 
 We start by defining the terms:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Instrument/Bond/Test/FixedRate.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/FixedRate.daml
   :language: daml
   :start-after: -- CREATE_FIXED_RATE_BOND_VARIABLES_BEGIN
   :end-before: -- CREATE_FIXED_RATE_BOND_VARIABLES_END
@@ -57,7 +57,7 @@ determines how a coupon date is adjusted if it falls on a non-business day.
 
 We can use these variables to create a :ref:`PeriodicSchedule <constr-daml-finance-interface-types-date-schedule-periodicschedule-99705>`:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Test/Util/Time.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Test/Util/Time.daml
   :language: daml
   :start-after: -- CREATE_PERIODIC_SCHEDULE_BEGIN
   :end-before: -- CREATE_PERIODIC_SCHEDULE_END
@@ -77,7 +77,7 @@ to note here:
 
 Now that we have defined the terms we can create the bond instrument:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Util.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Util.daml
   :language: daml
   :start-after: -- CREATE_FIXED_RATE_BOND_INSTRUMENT_BEGIN
   :end-before: -- CREATE_FIXED_RATE_BOND_INSTRUMENT_END
@@ -94,14 +94,14 @@ There is also a rate spread, which is paid in addition to the reference rate.
 
 Here is an example of a bond paying Euribor 3M + 1.1% p.a. with a 3M coupon period:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Instrument/Bond/Test/FloatingRate.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/FloatingRate.daml
   :language: daml
   :start-after: -- CREATE_FLOATING_RATE_BOND_VARIABLES_BEGIN
   :end-before: -- CREATE_FLOATING_RATE_BOND_VARIABLES_END
 
 Using these terms we can create the floating rate bond instrument:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Util.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Util.daml
   :language: daml
   :start-after: -- CREATE_FLOATING_RATE_BOND_INSTRUMENT_BEGIN
   :end-before: -- CREATE_FLOATING_RATE_BOND_INSTRUMENT_END
@@ -119,14 +119,14 @@ Consumer Price Index (CPI) in the U.S.
 
 Here is an example of a bond paying 1.1% p.a. (on a CPI adjusted principal) with a 3M coupon period:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Instrument/Bond/Test/InflationLinked.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/InflationLinked.daml
   :language: daml
   :start-after: -- CREATE_INFLATION_LINKED_BOND_VARIABLES_BEGIN
   :end-before: -- CREATE_INFLATION_LINKED_BOND_VARIABLES_END
 
 Based on these terms we can create the inflation linked bond instrument:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Util.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Util.daml
   :language: daml
   :start-after: -- CREATE_INFLATION_LINKED_BOND_INSTRUMENT_BEGIN
   :end-before: -- CREATE_INFLATION_LINKED_BOND_INSTRUMENT_END
@@ -144,14 +144,14 @@ does not pay any coupons at all. It only pays the redemption amount at maturity.
 
 Here is an example of a zero coupon bond:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Instrument/Bond/Test/ZeroCoupon.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/ZeroCoupon.daml
   :language: daml
   :start-after: -- CREATE_ZERO_COUPON_BOND_VARIABLES_BEGIN
   :end-before: -- CREATE_ZERO_COUPON_BOND_VARIABLES_END
 
 Based on this we create the zero coupon bond instrument:
 
-.. literalinclude:: ../../../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Util.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Util.daml
   :language: daml
   :start-after: -- CREATE_ZERO_COUPON_BOND_INSTRUMENT_BEGIN
   :end-before: -- CREATE_ZERO_COUPON_BOND_INSTRUMENT_END

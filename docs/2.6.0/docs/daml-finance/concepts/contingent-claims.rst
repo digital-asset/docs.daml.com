@@ -228,7 +228,7 @@ Let’s go back to our fixed-rate bond example, above. We want to process the co
 is a function in ```Lifecycle.daml`` <./daml/ContingentClaims/Lifecycle.daml>`__ for doing just
 this:
 
-.. literalinclude:: ../../../src/main/daml/ContingentClaims/Lifecycle/Lifecycle.daml
+.. literalinclude:: ../src/main/daml/ContingentClaims/Lifecycle/Lifecycle.daml
   :language: daml
   :start-after: -- CLAIMS_LIFECYCLE_BEGIN
   :end-before: -- CLAIMS_LIFECYCLE_END
@@ -237,7 +237,7 @@ This may look daunting, but let’s look at an example in
 ```ContingentClaims/Test/FinancialContract.daml``
 to see this in action:
 
-.. literalinclude:: ../../../src/test/daml/ContingentClaims/Test/FinancialContract.daml
+.. literalinclude:: ../src/test/daml/ContingentClaims/Test/FinancialContract.daml
   :language: daml
   :start-after: -- CLAIMS_LIFECYCLE_TEST_BEGIN
   :end-before: -- CLAIMS_LIFECYCLE_TEST_END
