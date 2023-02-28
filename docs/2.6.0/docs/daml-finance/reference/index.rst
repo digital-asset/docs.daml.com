@@ -7,7 +7,7 @@ Reference
 This reference section contains a glossary as well as code-level documentation for each Daml
 Finance package.
 
-.. toctree::
+.. .. toctree::
    :titlesonly:
    :maxdepth: 1
 

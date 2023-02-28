@@ -22,7 +22,7 @@ actions like mergers and stock splits.
 Changelog
 *********
 
-.. toctree::
+.. .. toctree::
    :titlesonly:
    :maxdepth: 1
 

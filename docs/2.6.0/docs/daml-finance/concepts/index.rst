@@ -9,7 +9,7 @@ where each of these concepts is implemented in the library.
 
 The most important definitions are also summarized in the :doc:`glossary <../reference/glossary>`.
 
-.. toctree::
+.. .. toctree::
    :titlesonly:
    :maxdepth: 1
 

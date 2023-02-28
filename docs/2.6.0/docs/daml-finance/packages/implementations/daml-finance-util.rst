@@ -23,7 +23,7 @@ are defined in the following modules:
 Changelog
 *********
 
-.. toctree::
+.. .. toctree::
    :titlesonly:
    :maxdepth: 1
 

@@ -49,7 +49,7 @@ following modules:
 Changelog
 *********
 
-.. toctree::
+.. .. toctree::
    :titlesonly:
    :maxdepth: 1
 

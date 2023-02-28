@@ -26,7 +26,7 @@ This package implements templates containing reference data. It includes the fol
 Changelog
 *********
 
-.. toctree::
+.. .. toctree::
    :titlesonly:
    :maxdepth: 1
 

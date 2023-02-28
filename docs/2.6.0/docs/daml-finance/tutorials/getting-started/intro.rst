@@ -4,7 +4,7 @@
 Getting Started
 ###############
 
-.. toctree::
+.. .. toctree::
    :hidden:
 
    transfer

@@ -24,7 +24,7 @@ create a holding on an instrument and transfer it between accounts.
 Changelog
 *********
 
-.. toctree::
+.. .. toctree::
    :titlesonly:
    :maxdepth: 1
 

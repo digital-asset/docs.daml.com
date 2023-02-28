@@ -28,7 +28,7 @@ implement the settlement workflow in practice.
 Changelog
 *********
 
-.. toctree::
+.. .. toctree::
    :titlesonly:
    :maxdepth: 1
 

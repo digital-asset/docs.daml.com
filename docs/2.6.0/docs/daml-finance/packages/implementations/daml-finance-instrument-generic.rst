@@ -24,7 +24,7 @@ lifecycled in practice.
 Changelog
 *********
 
-.. toctree::
+.. .. toctree::
    :titlesonly:
    :maxdepth: 1
 

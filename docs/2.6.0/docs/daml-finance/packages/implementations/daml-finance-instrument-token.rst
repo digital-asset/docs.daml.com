@@ -18,7 +18,7 @@ how to create a simple token instrument and use it for a transfer.
 Changelog
 *********
 
-.. toctree::
+.. .. toctree::
    :titlesonly:
    :maxdepth: 1
 

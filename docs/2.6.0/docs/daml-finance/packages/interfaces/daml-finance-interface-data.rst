@@ -21,7 +21,7 @@ in the context of lifecycling. It contains the following modules:
 Changelog
 *********
 
-.. toctree::
+.. .. toctree::
    :titlesonly:
    :maxdepth: 1
 

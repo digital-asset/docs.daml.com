@@ -41,7 +41,7 @@ for a description of how to use the swap extension in practice.
 Changelog
 *********
 
-.. toctree::
+.. .. toctree::
    :titlesonly:
    :maxdepth: 1
 

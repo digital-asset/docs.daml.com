@@ -20,7 +20,7 @@ This package contains types related to dates. They are defined in the following 
 Changelog
 *********
 
-.. toctree::
+.. .. toctree::
    :titlesonly:
    :maxdepth: 1
 

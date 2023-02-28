@@ -6,7 +6,7 @@ Interface Packages
 
 This section lists the interface packages contained within Daml Finance:
 
-.. toctree::
+.. .. toctree::
    :titlesonly:
    :maxdepth: 1
 

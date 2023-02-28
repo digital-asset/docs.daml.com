@@ -15,7 +15,7 @@ This package contains the *implementation* of accounts. It has the following mod
 Changelog
 *********
 
-.. toctree::
+.. .. toctree::
    :titlesonly:
    :maxdepth: 1
 

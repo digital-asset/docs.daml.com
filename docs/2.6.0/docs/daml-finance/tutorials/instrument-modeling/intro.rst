@@ -4,7 +4,7 @@
 Instrument Modeling
 ###################
 
-.. toctree::
+.. .. toctree::
    :hidden:
 
    bond-extension

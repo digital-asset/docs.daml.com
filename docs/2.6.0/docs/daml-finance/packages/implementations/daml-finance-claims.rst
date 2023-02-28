@@ -21,7 +21,7 @@ contingent-claim-based instruments. It includes the following modules:
 Changelog
 *********
 
-.. toctree::
+.. .. toctree::
    :titlesonly:
    :maxdepth: 1
 
