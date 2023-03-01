@@ -4,7 +4,9 @@
 Introduction to the Daml Standard Library
 =========================================
 
-In :doc:`3_Data` and :doc:`10_Functional101` you learned how to define your own data types and functions. But of course you don't have to implement everything from scratch. Daml comes with the Daml Standard Library, which contains types, functions and typeclasses that cover a large range of use-cases. In this chapter, you'll get an overview of the essentials, but also learn how to browse and search this library to find functions. Being proficient with the Standard Library will make you considerably more efficient writing Daml code. Specifically, this chapter covers:
+In :doc:`3_Data` and :doc:`10_Functional101` you learned how to define your own data types and functions. However, you don't have to implement everything from scratch. Daml comes with the Daml Standard Library, which contains types, functions, and typeclasses that cover a large range of use cases.
+
+In this chapter, you'll get an overview of the essentials and learn how to browse and search the library to find functions. Being proficient with the Standard Library will make you considerably more efficient writing Daml code. Specifically, this chapter covers:
 
 - The Prelude
 - Important types from the Standard Library, and associated functions and typeclasses
