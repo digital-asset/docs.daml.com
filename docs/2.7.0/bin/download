@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+# Copyright (c) 2022 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+set -eou pipefail
+
+DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+RELEASE_TAG=$(jq -r '.daml' $DIR/../versions.json)
+CANTON_RELEASE_TAG=$(jq -r '.canton' $DIR/../versions.json)
+DAML_FINANCE_RELEASE_TAG=$(jq -r '.daml_finance' $DIR/../versions.json)
+TARGET_DIR=$DIR/../workdir/downloads
+
+mkdir -p "$TARGET_DIR"
+
+if [ -z "${ARTIFACTORY_USERNAME:-}" ] || [ -z "${ARTIFACTORY_PASSWORD:-}" ]; then
+    echo "You need to set the ARTIFACTORY_USERNAME and ARTIFACTORY_PASSWORD env vars."
+    echo "You can use .envrc.private for that; see README.md."
+    exit 1
+fi
+
+download() (
+    path=$1
+    file=$2
+    if [ -f "$TARGET_DIR/$file" ]; then
+        echo "$file is already there, skipping."
+    else
+        echo "Downloading $file..."
+        curl -u $ARTIFACTORY_USERNAME:$ARTIFACTORY_PASSWORD \
+             --fail \
+             --location \
+             https://digitalasset.jfrog.io/artifactory/assembly/$path/$file \
+             > "$TARGET_DIR/$file"
+    fi
+)
+
+download daml/$RELEASE_TAG/docs sphinx-source-tree-$RELEASE_TAG.tar.gz
+download daml/$RELEASE_TAG/docs non-sphinx-html-docs-$RELEASE_TAG.tar.gz
+download daml/$RELEASE_TAG/docs pdf-fonts-$RELEASE_TAG.tar.gz
+download canton/$CANTON_RELEASE_TAG canton-doc-sources-$CANTON_RELEASE_TAG.tar.gz
+download canton/$CANTON_RELEASE_TAG canton-scaladoc-$CANTON_RELEASE_TAG.tar.gz
+download daml-finance/$DAML_FINANCE_RELEASE_TAG daml-finance-doc-sources-$DAML_FINANCE_RELEASE_TAG.tar.gz
