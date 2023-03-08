@@ -359,11 +359,6 @@ Interface Functions
 Required Interfaces
 *******************
 
-.. warning::
-  This feature is under active development and not officially supported in
-  production environments.
-  Required interfaces are only available when targeting Daml-LF 1.dev.
-
 .. literalinclude:: ../code-snippets-dev/Interfaces.daml
    :language: daml
    :start-after: -- INTERFACE_REQUIRES_BEGIN
