@@ -100,10 +100,10 @@ These metrics have the following common labels attached:
     fully qualified hostname of the HTTP endpoint (e.g. ``example.com``)
 
 - **path**:
-    path of the HTTP endpoint (e.g. ``/parties/create``)
+    path of the HTTP endpoint (e.g. ``/v1/parties/create``)
 
 - **service**:
-    Daml service's name (``json-api`` for the HTTP JSON API Service)
+    Daml service's name (``json_api`` for the HTTP JSON API Service)
 
 daml_http_requests_duration_seconds
 ===================================
