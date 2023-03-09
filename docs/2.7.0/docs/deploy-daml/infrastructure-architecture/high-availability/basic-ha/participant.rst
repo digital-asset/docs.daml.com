@@ -55,7 +55,7 @@ Exclusive, application-level database locks - tied to the database connection li
 Exclusive Lock Acquisition
 """"""""""""""""""""""""""
 
-A participant node replica uses a write connection pool that is tied to an exclusive lock on a main connection, and a shared lock on all pool connections. If the main lock is lost, the pool's connections are ramped down. The new active replica must wait until all the passive node's pool connections are closed, which is done by trying to acquire the shared lock in exclusive mode 
+A participant node replica uses a write connection pool that is tied to an exclusive lock on a main connection, and a shared lock on all pool connections. If the main lock is lost, the pool's connections are ramped down. The new active replica must wait until all the passive node's pool connections are closed, which is done by trying to acquire the shared lock in exclusive mode.
 
 .. NOTE::
   Using the same connection for writes ensures that the lock is active while writes are performed.
