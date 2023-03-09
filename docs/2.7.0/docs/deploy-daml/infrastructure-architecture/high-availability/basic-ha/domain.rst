@@ -14,12 +14,12 @@ The diagram shows a domain containing topology manager, mediator, and sequencer 
 
 A domain is fully available only when all components are available. However, transaction processing still runs even when only the mediator and the sequencer are available. 
 
-As all of the domain components run in separate processes, HA is architected per component.
+As all of the domain components run in separate processes, HA is architected per component. This means that in an HA deployment the domain is not deployed as a domain node, which would run the mediator, sequencer, and manager in a single process.
 
 Sequencer
 ~~~~~~~~~
 
-Sequencer HA depends on the chosen implementation . For example, when using a ledger such as `Hyperledger Fabric <../../../../canton/usermanual/domains/fabric.html>`_, HA is already set up.
+Sequencer HA depends on the chosen implementation . For example, when using a ledger such as `Hyperledger Fabric <../../../../canton/usermanual/domains/fabric.html>`_, HA is already set up. Multiple sequencer nodes must be deployed. 
 
 The domain returns multiple sequenced endpoints, any of which can be used to interact with the underlying ledger.
 
@@ -38,18 +38,18 @@ The sequencer relies on the database for both HA and consistency. The database e
 Many sequencer nodes can be deployed. Each node has concurrent read and write components when accessing the database. The load balancer evenly distributes requests between sequencer nodes.
 
 .. NOTE::
-   The system halts requests to a node whose status is reported as unhealthy by the health endpoint.
+   The system stops sending requests to an unhealthy node.
 
-Ensuring Consistency
-````````````````````
+Consistency and the Database Sequencer
+``````````````````````````````````````
 
 Each node is assigned a distinct index from the total number of sequencer nodes. The index is included in event timestamps to ensure that sequencer nodes never use duplicate event id/timestamps.
 
 Events are written to the ``events`` table in ascending timestamp order. Readers need to know the point at which events can be read without the risk of an earlier event being inserted by a write process.
 To do this, writers regularly update a ``watermark`` table into which they publish their latest event timestamp. Readers take the minimum timestamp from the table as the point they can safely query events from.
 
-Failing Sequencer Nodes
-```````````````````````
+Failing Sequencer Nodes and the Database Sequencer
+``````````````````````````````````````````````````
 
 If a sequencer node fails, it stops updating its ``watermark`` value and, when the value reaches the minimum timestamp, all readers pause as they cannot read beyond this point.
 

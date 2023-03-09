@@ -25,7 +25,7 @@ Each replica exposes its own Ledger API although these can be hidden by a single
    :align: center
    :width: 100%
 
-The load balancer configuration contains details of all Ledger API server addresses and the ports for the participant node replicas. Replicas expose their active or passive status via a health endpoint.
+The load balancer configuration contains details of all Ledger API server addresses and the ports for the participant node replicas. Replicas expose their active or passive status via a health endpoint. The load balancer can also detect when the backend port becomes unreachable, i.e. when the ledger API server is shut down as a node goes from active to passive.
 
 Periodically polling the health API endpoint, the load balancer identifies a replica as offline if it is passive. Requests are then *only* sent to the active participant node.
 
@@ -55,7 +55,7 @@ Exclusive, application-level database locks - tied to the database connection li
 Exclusive Lock Acquisition
 """"""""""""""""""""""""""
 
-A participant node replica acquires an exclusive application-level lock (e.g. `Postgres advisory lock <https://www.postgresql.org/docs/11/explicit-locking.html#ADVISORY-LOCKS>`_) which is bound to a particular database connection. The active replica that acquires the lock becomes the leader. The replica then uses the same connection for all writes that are not idempotent. 
+A participant node replica uses a write connection pool that is tied to an exclusive lock on a main connection, and a shared lock on all pool connections. If the main lock is lost, the pool's connections are ramped down. The new active replica must wait until all the passive node's pool connections are closed, which is done by trying to acquire the shared lock in exclusive mode 
 
 .. NOTE::
   Using the same connection for writes ensures that the lock is active while writes are performed.
@@ -87,8 +87,8 @@ Lock Loss and Failover
 
 If the active replica crashes or loses connection to the database, the lock is released and a passive replica can claim the lock and become active. Any pending writes in the formerly active replica fail due to losing the underlying connection and the corresponding lock.
 
-The active replica has a grace period in which it may rebuild the connection and reclaim the lock to avoid unnecessary failover on short connection interruptions. 
+The active replica has a grace period in which it may rebuild the connection and reclaim the lock, due to the higher frequency of health checks on the lock in the active replica vs. the passive replica trying to acquire the lock at a lower frequency. 
 
 The passive replicas continuously attempt to acquire the lock within a configurable interval. Once the lock is acquired, the participant replication manager sets the state of the successful replica to active.
 
-When a passive replica becomes active, it connects to previously connected domains to resume event processing. The new active replica accepts incoming requests, e.g. on the Ledger API. The former active replica, that is now passive, rejects incoming requests as it can no longer write to the shared database.
+When a passive replica becomes active, it connects to previously connected domains to resume event processing. The new active replica accepts incoming requests, e.g. on the Ledger API which starts when the node becomes active. The former active replica, which is now passive, shuts down its Ledger API to stop accepting incoming requests.
