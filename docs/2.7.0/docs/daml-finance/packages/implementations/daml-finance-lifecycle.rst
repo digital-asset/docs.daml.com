@@ -10,6 +10,8 @@ following modules:
 - :ref:`Effect <module-daml-finance-lifecycle-effect-1975>`:
   A contract encoding the *consequences of a lifecycle event* for one unit of the target
   instrument
+- :ref:`Election <module-daml-finance-lifecycle-election-53183>`:
+  Implementation of elections (e.g. the exercise of an option) for claim based instruments
 - :ref:`ElectionEffect <module-daml-finance-lifecycle-electioneffect-99924>`:
   A contract encoding the *consequences of an election* for one unit of the target instrument
 - :ref:`Rule.Claim <module-daml-finance-lifecycle-rule-claim-99318>`:

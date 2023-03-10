@@ -12,8 +12,6 @@ in the following modules:
   Instrument implementation for generic instruments
 - :ref:`Factory <module-daml-finance-instrument-generic-factory-42712>`:
   Factory implementation to instantiate generic instruments
-- :ref:`Election <module-daml-finance-instrument-generic-election-56972>`:
-  Implementation of elections (e.g. the exercise of an option) for generic instruments
 - :ref:`Lifecycle.Rule <module-daml-finance-instrument-generic-lifecycle-rule-68537>`:
   Rule to process a time update event for generic instruments
 

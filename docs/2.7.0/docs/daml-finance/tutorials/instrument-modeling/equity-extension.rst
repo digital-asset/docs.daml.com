@@ -138,14 +138,15 @@ more than one of the dividend options.
 Rights Issue
 ************
 
-In order to raise money, a company may decide to give current shareholders the right (but not the
-obligation) to purchase additional shares at a discounted price. This can be modeled using two
-components:
+In order to raise money, a company may decide to issue new shares and give current shareholders the
+right (but not the obligation) to purchase those additional shares at a discounted price. This can
+be modeled using two components:
 
 - An option instrument, which describes the economic term of the rights a shareholder receives.
   For example, this could be a European option with a strike price below the current spot price, and
   a maturity three weeks in the future.
-  The :doc:`Generic Tutorial <generic-extension>` describes how to create a European option.
+  The :doc:`Option Tutorial <option-extension>` describes how to create a physically settled
+  European option.
 - The ``DeclareDividend`` choice to distribute the above option instrument in the correct proportion
   (e.g. 3 option contracts for each 10 shares held). This can be done in the same way as the Bonus
   Issue example described earlier, just change the ``perUnitDistribution`` line to distribute the
@@ -153,13 +154,28 @@ components:
 
 When current shareholders receive the option instrument they can typically choose between:
 
-#. Exercising the option. The :doc:`Generic Tutorial <generic-extension>` describes how to elect to
-   exercise the option.
+#. Exercising the option. This corresponds to a Rights Subscription (described in more detail
+   in the next section below).
 #. Choosing not to exercise the option. The option will expire worthless.
 #. Selling the option. This is not always possible, it depends on the terms of the rights issue.
    :doc:`Getting Started: Settlement <../getting-started/settlement>` describes how this could be
    done.
 
+Rights Subscription
+*******************
+
+Investors that decide to purchase those additional shares (subscribe to the stock issuance) can
+elect to exercise their right (a call option), either in parts or in whole. Sometimes, it is also
+possible to to apply for excess subscription. For example, an investor would like to subscribe for
+150 shares but has regular rights for only 100 shares. In that case, the investor would:
+
+- Exercise the call option in whole to subscribe for the guaranteed part (100 shares).
+- Write a put option for the excess part (50 shares). The issuer could then exercise this in
+  part or in whole.
+
+More details on the Rights Issue and Subscription process are described in
+``src/test/daml/Daml/Finance/Instrument/Equity/Test/RightsIssue.daml``, in particular how to define
+and process an *Election*.
 
 Stock split
 ***********
