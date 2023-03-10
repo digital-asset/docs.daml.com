@@ -27,12 +27,12 @@ future.
 
 As an example, consider an option instrument that gives the holder the right to buy AAPL stock
 at a given price. This example is taken from
-``src/test/daml/Daml/Finance/Instrument/Option/Test/European.daml``, where all the details are
+``src/test/daml/Daml/Finance/Instrument/Option/Test/EuropeanCash.daml``, where all the details are
 available.
 
 You start by defining the terms:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Option/Test/European.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Option/Test/EuropeanCash.daml
   :language: daml
   :start-after: -- CREATE_EUROPEAN_OPTION_VARIABLES_BEGIN
   :end-before: -- CREATE_EUROPEAN_OPTION_VARIABLES_END
@@ -55,7 +55,7 @@ option currency after lifecycling.
 On the other hand, if the close price of AAPL is below the *strike* price, the option would expire
 worthless.
 
-This option instrument is autotomatically exercised. This means that the decision whether or not to
+This option instrument is automatically exercised. This means that the decision whether or not to
 exercise is done automatically by comparing the *strike* price to an observation of the close price.
 For this to work, you need to define an *Observation* as well:
 
@@ -63,6 +63,52 @@ For this to work, you need to define an *Observation* as well:
   :language: daml
   :start-after: -- CREATE_EUROPEAN_OPTION_OBSERVATIONS_BEGIN
   :end-before: -- CREATE_EUROPEAN_OPTION_OBSERVATIONS_END
+
+Since this option instrument is cash-settled, the underlying asset will not change hands. Instead,
+if the option expires in the money, the difference between the observed close price and the *strike*
+price is paid to the option holder.
+
+EuropeanPhysical
+================
+
+The
+:ref:`EuropeanPhysical option <module-daml-finance-instrument-option-europeanphysical-instrument-71708>`
+instrument models physically settled call or put options. They are similar to the
+:ref:`EuropeanCash options <module-daml-finance-instrument-option-europeancash-instrument-22074>`
+described above, but there are two important differences:
+
+#. *physical settlement*: option holders that choose to exercise will buy (in case of a *call*) or
+   sell (in case of a *put*) the underlying asset at the predetermined *strike* price. Since this
+  option instrument is physically settled, it means that the underlying asset will change hands.
+#. *manual exercise*: This option instrument is not automatically exercised. Instead, the option
+   holder must manually decide whether or not to exercise. This is done by making an *Election*.
+
+As an example, consider an option instrument that gives the holder the right to buy AAPL stock
+at a given price. This example is taken from
+``src/test/daml/Daml/Finance/Instrument/Option/Test/EuropeanPhysical.daml``, where all the details
+are available, in particular how to define and process an *Election*.
+
+You start by defining the terms:
+
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Option/Test/EuropeanPhysical.daml
+  :language: daml
+  :start-after: -- CREATE_EUROPEAN_PHYSICAL_OPTION_VARIABLES_BEGIN
+  :end-before: -- CREATE_EUROPEAN_PHYSICAL_OPTION_VARIABLES_END
+
+Now that the terms have been defined, you can create the option instrument:
+
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Option/Test/Util.daml
+  :language: daml
+  :start-after: -- CREATE_EUROPEAN_PHYSICAL_OPTION_INSTRUMENT_BEGIN
+  :end-before: -- CREATE_EUROPEAN_PHYSICAL_OPTION_INSTRUMENT_END
+
+Once this is done, you can create a holding on it using
+:ref:`Account.credit <module-daml-finance-interface-account-account-92922>`.
+
+Compared to the
+:ref:`EuropeanCash option <module-daml-finance-instrument-option-europeancash-instrument-22074>`
+this instrument does not require a reference asset identifier or *Observations*, because it is
+manually exercised.
 
 Frequently Asked Questions
 **************************
