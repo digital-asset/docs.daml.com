@@ -108,7 +108,7 @@ Once this is done, you can create a holding on it using
 Compared to the
 :ref:`EuropeanCash option <module-daml-finance-instrument-option-europeancash-instrument-22074>`
 this instrument does not require a reference asset identifier or *Observations*, because it is
-manually exercised.
+exercised manually.
 
 Frequently Asked Questions
 **************************
