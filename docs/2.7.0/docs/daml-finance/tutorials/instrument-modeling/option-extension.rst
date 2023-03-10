@@ -59,7 +59,7 @@ This option instrument is automatically exercised. This means that the decision 
 exercise is done automatically by comparing the *strike* price to an observation of the close price.
 For this to work, you need to define an *Observation* as well:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Option/Test/Util.daml
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Option/Test/EuropeanCash.daml
   :language: daml
   :start-after: -- CREATE_EUROPEAN_OPTION_OBSERVATIONS_BEGIN
   :end-before: -- CREATE_EUROPEAN_OPTION_OBSERVATIONS_END
