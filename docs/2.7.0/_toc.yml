@@ -613,8 +613,6 @@ subtrees:
             title: "Daml.Finance.Instrument.Equity.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Equity-Instrument
             title: "Daml.Finance.Instrument.Equity.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Generic-Election
-            title: "Daml.Finance.Instrument.Generic.Election"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Generic-Factory
             title: "Daml.Finance.Instrument.Generic.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Generic-Instrument
@@ -721,10 +719,6 @@ subtrees:
             title: "Daml.Finance.Interface.Instrument.Equity.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Equity-Instrument
             title: "Daml.Finance.Interface.Instrument.Equity.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Generic-Election
-            title: "Daml.Finance.Interface.Instrument.Generic.Election"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Generic-Election-Factory
-            title: "Daml.Finance.Interface.Instrument.Generic.Election.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Generic-Factory
             title: "Daml.Finance.Interface.Instrument.Generic.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Generic-Instrument
@@ -781,6 +775,10 @@ subtrees:
             title: "Daml.Finance.Interface.Instrument.Token.Types"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Effect
             title: "Daml.Finance.Interface.Lifecycle.Effect"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Election
+            title: "Daml.Finance.Interface.Lifecycle.Election"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Election-Factory
+            title: "Daml.Finance.Interface.Lifecycle.Election.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Event
             title: "Daml.Finance.Interface.Lifecycle.Event"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Event-Distribution
@@ -825,6 +823,8 @@ subtrees:
             title: "Daml.Finance.Interface.Util.Disclosure"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Effect
             title: "Daml.Finance.Lifecycle.Effect"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Election
+            title: "Daml.Finance.Lifecycle.Election"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-ElectionEffect
             title: "Daml.Finance.Lifecycle.ElectionEffect"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Event-Distribution
