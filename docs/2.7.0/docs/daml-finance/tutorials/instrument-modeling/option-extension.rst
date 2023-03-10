@@ -16,10 +16,10 @@ In order to create an option instrument, you first have to decide what type of o
 :doc:`option extension package <../../packages/implementations/daml-finance-instrument-option>`
 currently supports the following types of options:
 
-European
-========
+EuropeanCash
+============
 
-The :ref:`European option <module-daml-finance-instrument-option-european-instrument-57671>`
+The :ref:`EuropeanCash option <module-daml-finance-instrument-option-europeancash-instrument-22074>`
 instrument models cash-settled, auto exercising call or put options. For reference, European options
 give the holder the right, but not the obligation, to buy (in case of a *call*) or to sell (in case
 of a *put*) the underlying asset at predetermined *strike* price on a specific *expiry* date in the
@@ -54,6 +54,15 @@ option currency after lifecycling.
 
 On the other hand, if the close price of AAPL is below the *strike* price, the option would expire
 worthless.
+
+This option instrument is autotomatically exercised. This means that the decision whether or not to
+exercise is done automatically by comparing the *strike* price to an observation of the close price.
+For this to work, you need to define an *Observation* as well:
+
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Option/Test/Util.daml
+  :language: daml
+  :start-after: -- CREATE_EUROPEAN_OPTION_OBSERVATIONS_BEGIN
+  :end-before: -- CREATE_EUROPEAN_OPTION_OBSERVATIONS_END
 
 Frequently Asked Questions
 **************************
