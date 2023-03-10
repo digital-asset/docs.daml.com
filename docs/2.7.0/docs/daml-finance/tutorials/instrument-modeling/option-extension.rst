@@ -16,7 +16,7 @@ In order to create an option instrument, you first have to decide what type of o
 :doc:`option extension package <../../packages/implementations/daml-finance-instrument-option>`
 currently supports the following types of options:
 
-EuropeanCash
+Cash-settled European Option
 ============
 
 The :ref:`EuropeanCash option <module-daml-finance-instrument-option-europeancash-instrument-22074>`
