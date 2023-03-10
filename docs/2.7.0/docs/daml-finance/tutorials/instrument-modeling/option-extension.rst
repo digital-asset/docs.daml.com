@@ -17,9 +17,9 @@ In order to create an option instrument, you first have to decide what type of o
 currently supports the following types of options:
 
 Cash-settled European Option
-============
+============================
 
-The :ref:`cash-settled european option <module-daml-finance-instrument-option-europeancash-instrument-22074>`
+The  :ref:`EuropeanCash <module-daml-finance-instrument-option-europeancash-instrument-22074>`
 instrument models cash-settled, auto-exercising call or put options. For reference, European options
 give the holder the right, but not the obligation, to buy (in case of a *call*) or to sell (in case
 of a *put*) the underlying asset at predetermined *strike* price on a specific *expiry* date in the
@@ -68,14 +68,14 @@ Since this option instrument is cash-settled, the underlying asset will not chan
 if the option expires in the money, the difference between the observed close price and the *strike*
 price is paid to the option holder.
 
-Physically-settled European Option
-================
+Physically settled European Option
+==================================
 
 The
-:ref:`EuropeanPhysical option <module-daml-finance-instrument-option-europeanphysical-instrument-71708>`
+:ref:`EuropeanPhysical <module-daml-finance-instrument-option-europeanphysical-instrument-71708>`
 instrument models physically settled call or put options. They are similar to the
-:ref:`EuropeanCash options <module-daml-finance-instrument-option-europeancash-instrument-22074>`
-described above, but there are two important differences:
+:ref:`EuropeanCash <module-daml-finance-instrument-option-europeancash-instrument-22074>`
+instrument described above, but there are two important differences:
 
 #. *physical settlement*: option holders that choose to exercise will buy (in case of a *call*) or
    sell (in case of a *put*) the underlying asset at the predetermined *strike* price. Since this
