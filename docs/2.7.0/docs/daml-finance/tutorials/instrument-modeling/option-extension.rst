@@ -79,7 +79,7 @@ instrument described above, but there are two important differences:
 
 #. *physical settlement*: option holders that choose to exercise will buy (in case of a *call*) or
    sell (in case of a *put*) the underlying asset at the predetermined *strike* price. Since this
-  option instrument is physically settled, it means that the underlying asset will change hands.
+   option instrument is physically settled, it means that the underlying asset will change hands.
 #. *manual exercise*: This option instrument is not automatically exercised. Instead, the option
    holder must manually decide whether or not to exercise. This is done by making an *Election*.
 
