@@ -19,7 +19,7 @@ currently supports the following types of options:
 Cash-settled European Option
 ============
 
-The :ref:`EuropeanCash option <module-daml-finance-instrument-option-europeancash-instrument-22074>`
+The :ref:`cash-settled european option <module-daml-finance-instrument-option-europeancash-instrument-22074>`
 instrument models cash-settled, auto-exercising call or put options. For reference, European options
 give the holder the right, but not the obligation, to buy (in case of a *call*) or to sell (in case
 of a *put*) the underlying asset at predetermined *strike* price on a specific *expiry* date in the
