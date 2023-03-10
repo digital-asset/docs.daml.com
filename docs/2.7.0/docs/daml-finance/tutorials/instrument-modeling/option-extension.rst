@@ -68,7 +68,7 @@ Since this option instrument is cash-settled, the underlying asset will not chan
 if the option expires in the money, the difference between the observed close price and the *strike*
 price is paid to the option holder.
 
-EuropeanPhysical
+Physically-settled European Option
 ================
 
 The
