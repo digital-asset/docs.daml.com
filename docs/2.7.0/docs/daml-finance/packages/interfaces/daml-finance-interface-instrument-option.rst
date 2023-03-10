@@ -7,17 +7,17 @@ Daml.Finance.Interface.Instrument.Option
 This package contains the *interface* definitions for various option instruments. It contains the
 following modules:
 
-- :ref:`EuropeanCash.Instrument <module-daml-finance-interface-instrument-option-european-instrument-33824>`:
+- :ref:`EuropeanCash.Instrument <module-daml-finance-interface-instrument-option-europeancash-instrument-96357>`:
   Instrument interface for cash-settled European options
-- :ref:`EuropeanCash.Factory <module-daml-finance-interface-instrument-option-european-factory-92792>`:
+- :ref:`EuropeanCash.Factory <module-daml-finance-interface-instrument-option-europeancash-factory-18215>`:
   Factory interface to instantiate cash-settled European options
-- :ref:`EuropeanCash.Types <module-daml-finance-interface-instrument-option-european-types-11985>`:
+- :ref:`EuropeanCash.Types <module-daml-finance-interface-instrument-option-europeancash-types-42062>`:
   Type definitions to support cash-settled European options
-- :ref:`EuropeanPhysical.Instrument <module-daml-finance-interface-instrument-option-european-instrument-33824>`:
+- :ref:`EuropeanPhysical.Instrument <module-daml-finance-interface-instrument-option-europeanphysical-instrument-46335>`:
   Instrument interface for physically settled European options
-- :ref:`EuropeanPhysical.Factory <module-daml-finance-interface-instrument-option-european-factory-92792>`:
+- :ref:`EuropeanPhysical.Factory <module-daml-finance-interface-instrument-option-europeanphysical-factory-8645>`:
   Factory interface to instantiate physically settled European options
-- :ref:`EuropeanPhysical.Types <module-daml-finance-interface-instrument-option-european-types-11985>`:
+- :ref:`EuropeanPhysical.Types <module-daml-finance-interface-instrument-option-europeanphysical-types-48412>`:
   Type definitions to support physically settled European options
-- :ref:`Types <module-daml-finance-interface-instrument-option-european-types-11985>`:
+- :ref:`Types <module-daml-finance-interface-instrument-option-types-52343>`:
   Type definitions common to several instruments in this package

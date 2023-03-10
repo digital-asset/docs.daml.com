@@ -7,13 +7,13 @@ Daml.Finance.Instrument.Option
 This package contains the *implementation* of different option types, defined in the
 following modules:
 
-- :ref:`EuropeanCash.Instrument <module-daml-finance-instrument-option-european-instrument-57671>`:
+- :ref:`EuropeanCash.Instrument <module-daml-finance-instrument-option-europeancash-instrument-22074>`:
   Instrument implementation for cash-settled European options
-- :ref:`EuropeanCash.Factory <module-daml-finance-instrument-option-european-factory-15301>`:
+- :ref:`EuropeanCash.Factory <module-daml-finance-instrument-option-europeancash-factory-75778>`:
   Factory implementation to instantiate cash-settled European options
-- :ref:`EuropeanPhysical.Instrument <module-daml-finance-instrument-option-european-instrument-57671>`:
+- :ref:`EuropeanPhysical.Instrument <module-daml-finance-instrument-option-europeanphysical-instrument-71708>`:
   Instrument implementation for physically settled European options
-- :ref:`EuropeanPhysical.Factory <module-daml-finance-instrument-option-european-factory-15301>`:
+- :ref:`EuropeanPhysical.Factory <module-daml-finance-instrument-option-europeanphysical-factory-58032>`:
   Factory implementation to instantiate physically settled European options
 
 Check out the tutorial on
