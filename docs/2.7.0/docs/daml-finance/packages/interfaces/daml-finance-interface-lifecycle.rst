@@ -10,6 +10,10 @@ modules:
 - :ref:`Effect <module-daml-finance-interface-lifecycle-effect-16050>`:
   Interface for contracts exposing effects of lifecycling processes, e.g., the payment resulting
   from a bond coupon
+- :ref:`Election <module-daml-finance-interface-lifecycle-election-24570>`:
+  Interface to allow for elections to be made on claim based instruments
+- :ref:`Election.Factory <module-daml-finance-interface-lifecycle-election-factory-66610>`:
+  Factory interface to instantiate elections on claim based instruments
 - :ref:`Event <module-daml-finance-interface-lifecycle-event-43586>`:
   Interface for a lifecycle event. An event is any contract that triggers the processing of a
   lifecycle rule. Events can be, e.g., dividend announcements or simply the passing of time.
