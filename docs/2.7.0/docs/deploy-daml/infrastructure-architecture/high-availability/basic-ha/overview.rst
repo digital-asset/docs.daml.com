@@ -8,23 +8,17 @@ Overview
 
 HA for Daml solutions focuses on the following components running in separate processes:
 
-* Participant nodes:
-
-    * Ledger API server.
-        * gRPC server.
-        * SQL indexer.
-
-    * Sync service.
+* Participant nodes
 
 * Domains:
 
-    * Sequencer.
+    * Sequencer
 
-    * Mediator.
+    * Mediator
 
-    * Topology manager.
+    * Domain manager
 
-    * Domain service.
+    * Domain service
 
 
 .. _components-for-ha:
@@ -55,7 +49,7 @@ A participant node's availability is not affected by the availability of the dom
 Replication
 ~~~~~~~~~~~
 
-To achieve HA, components replicate. All replicas of the same component are assumed to have the same trust assumptions, i.e. the operators of one replica must trust the operators of the other replicas.
+To achieve HA, components replicate. All replicas of the same component have the same trust assumptions, i.e. the operators of one replica must trust the operators of the other replicas.
 
 Databases
 ~~~~~~~~~
