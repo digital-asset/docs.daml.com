@@ -110,6 +110,8 @@ Therefore, ``lookupByKey`` needs all the same authorizations as `visibleByKey`, 
 
 To get the data from the contract once you've confirmed it exists, you'll still need to use ``fetch``.
 
+.. _exercisebykey:
+
 exerciseByKey
 *************
 

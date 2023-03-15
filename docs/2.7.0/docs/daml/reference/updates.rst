@@ -105,9 +105,8 @@ exerciseByKey
    exerciseByKey @ContractType contractKey NameOfChoiceOnContract with choiceArgument1 = value1
 
 - ``exerciseByKey`` function.
-- Exercises the specified choice on the specified contract.
-- Use ``with`` to specify the choice parameters.
-- Requires authorization from the controller(s) of the choice **and** from at least one of the maintainers of the key. If the authorization is not given, the transaction fails.
+- Like ``exercise``, but the contract is specified by :doc:`contract key </daml/reference/contract-keys>`, instead of contract ID.
+- For details see :ref:`Reference: Contract Keys: exerciseByKey<exercisebykey>`
 
 .. _daml-ref-fetch:
 
@@ -134,11 +133,21 @@ fetchByKey
    fetchedContract <- fetchByKey @ContractType contractKey
 
 - ``fetchByKey`` function.
-- The same as ``fetch``, but fetches the contract with that :doc:`contract key </daml/reference/contract-keys>`, instead of the contract ID.
-- Like ``fetch``, ``fetchByKey`` needs to be authorized by at least one stakeholder of the contract.
-- Fails if no contract can be found.
+- Like ``fetch``, but fetches the contract with that :doc:`contract key </daml/reference/contract-keys>`, instead of the contract ID.
+- For details see :ref:`Reference: Contract Keys: fetchByKey<fetchbykey>`.
 
 .. _daml-ref-lookup-by-key:
+
+visibleByKey
+***********
+
+.. code-block:: daml
+
+   isVisible <- visibleByKey @ContractType contractKey
+
+- ``visibleByKey`` function.
+- Use this to check whether a contract with the given :doc:`contract key </daml/reference/contract-keys>` exists.
+- For details see :ref:`Reference: Contract Keys: visibleByKey<visiblebykey>`
 
 lookupByKey
 ***********
@@ -149,8 +158,7 @@ lookupByKey
 
 - ``lookupByKey`` function.
 - Use this to confirm that a contract with the given :doc:`contract key </daml/reference/contract-keys>` exists.
-- If the submitting party is a stakeholder of a matching contract, ``lookupByKey`` returns the ``ContractId`` of the contract; otherwise, it returns ``None``. Transactions may fail due to contention because the key changes between the lookup and committing the transaction, or becasue the submitter didn't know about the existence of a matching contract.
-- **All** of the maintainers of the key must authorize the lookup (by either being signatories or by submitting the command to lookup).
+- For details see :ref:`Reference: Contract Keys: lookupByKey<lookupbykey>`
 
 .. _daml-ref-abort:
 
