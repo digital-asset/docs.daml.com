@@ -139,7 +139,7 @@ fetchByKey
 .. _daml-ref-visible-by-key:
 
 visibleByKey
-***********
+************
 
 .. code-block:: daml
 
