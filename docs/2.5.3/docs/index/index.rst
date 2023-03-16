@@ -109,6 +109,7 @@ Daml Documentation
    writing-daml
    Cheat Sheet <https://docs.daml.com/cheat-sheet>
    concepts/glossary
+   Examples <https://daml.com/examples>
    daml/stdlib/index
    daml/reference/index
    canton/usermanual/FAQ
