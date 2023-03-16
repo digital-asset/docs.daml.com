@@ -117,7 +117,7 @@ exerciseByKey
 
 ``exerciseByKey @ContractType contractKey``
 
-Use ``exerciseByKey`` to exercise a choice on a contract identified by its ``key`` (compared to ``exercise``, which lets you exercise a contract identified by its ``ContractId``). To run ``exerciseByKey`` you need authorization from the controllers of the choice and at least one stakeholder. This is equivalent to the authorization needed to do a ``fetchByKey`` followed by an ``exercise``.
+Use ``exerciseByKey`` to exercise a choice on a contract identified by its ``key`` (compared to ``exercise``, which lets you exercise a contract identified by its ``ContractId``). Just like ``exercise``, running ``exerciseByKey`` requires visibility of the contract (either through divulgence, ``readAs`` or being a stakeholder) and authorization from the controllers of the choice.
 
 Example
 *******
