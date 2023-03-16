@@ -639,7 +639,6 @@ Great - you've completed the quickstart guide!
 
 Some steps you could take next include:
 
-- Explore `examples <https://daml.com/examples>`_ for guidance and inspiration.
 - :doc:`Learn Daml </daml/intro/0_Intro>`.
 - :doc:`Language reference </daml/reference/index>`.
 - Learn more about :doc:`application development </app-dev/app-arch>`.

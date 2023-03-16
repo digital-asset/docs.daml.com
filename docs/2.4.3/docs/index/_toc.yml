@@ -851,8 +851,6 @@ subtrees:
     title: "Cheat Sheet"
   - file: concepts/glossary
     title: "Glossary of concepts"
-  - url: https://daml.com/examples
-    title: "Examples"
   - file: index/advanced-architecture
     title: "Advanced Architecture"
     entries:

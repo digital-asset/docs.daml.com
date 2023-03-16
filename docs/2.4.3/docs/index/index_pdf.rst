@@ -63,7 +63,6 @@ Reference
 
    Cheat Sheet <https://docs.daml.com/cheat-sheet>
    concepts/glossary
-   Examples <https://daml.com/examples>
    concepts/ledger-model/index
    concepts/identity-and-package-management
    concepts/time
