@@ -68,6 +68,8 @@ Since this option instrument is cash-settled, the underlying asset will not chan
 if the option expires in the money, the difference between the observed close price and the *strike*
 price is paid to the option holder.
 
+.. _european-physical:
+
 Physically settled European Option
 ==================================
 
@@ -119,7 +121,8 @@ dividend option gives the holder the right to choose one out of several dividend
 specific *expiry* date in the future. The following payout types are supported:
 
 #. *Cash*: The dividend is paid in cash. This a mandatory option. In addition, the issue can offer:
-#. *Shares*: The dividend is paid in shares. To the investor this is similar to a bonus issue.
+#. *Shares*: The dividend is paid in shares. To the investor this is similar to a
+   :ref:`Bonus Issue <bonus-issue>`.
 #. *CashFx*: The dividend is paid in cash in a foreign currency.
 
 As an example, consider an option instrument that gives the holder the right to choose to receive
@@ -145,8 +148,8 @@ Once this is done, you can create a holding on it using
 :ref:`Account.credit <module-daml-finance-interface-account-account-92922>`.
 
 On the expiry date, the option holder will make an *Election* out of the available choices. The
-lifecycling of this option works in the same way as for physically settled European options
-described earlier.
+lifecycling of this option works in the same way as for
+:ref:`physically settled European options <european-physical>`.
 
 Frequently Asked Questions
 **************************

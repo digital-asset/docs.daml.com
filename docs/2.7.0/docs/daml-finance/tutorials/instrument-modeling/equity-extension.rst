@@ -88,6 +88,8 @@ This allows the issuer to lifecycle the instrument by exercising the ``Evolve`` 
 This results in a lifecycle effect, which can be settled. The settlement of effects is covered
 in the :doc:`Lifecycling tutorial <../getting-started/lifecycling>`.
 
+.. _bonus-issue:
+
 Bonus issue
 ***********
 
@@ -117,13 +119,13 @@ Currently, there are two different ways this can be modeled in the library:
 
 The preferred way is to model this using the following two components:
 
-- A dividend option instrument, which describes the economic term of the rights a shareholder
+- A dividend option instrument, which describes the economic terms of the rights a shareholder
   receives. The :doc:`Option Tutorial <option-extension>` describes how to create a physically
   settled :ref:`Dividend <module-daml-finance-instrument-option-dividend-instrument-7333>` option.
 - The ``DeclareDividend`` choice to distribute the above option instrument in the correct proportion
-  (e.g. 1 option contract for each share held). This can be done in the same way as the Bonus
-  Issue example described earlier, just change the ``perUnitDistribution`` line to distribute the
-  option instrument you created above.
+  (e.g. 1 option contract for each share held). This can be done in the same way as the
+  `Bonus Issue <#bonus-issue>`__  example described earlier, just change the ``perUnitDistribution``
+  line to distribute the option instrument you created above.
 
 When current shareholders receive the option instrument they can choose between one of the dividend
 payment types offered by the issuer, for example cash in a foreign currency.
@@ -167,7 +169,7 @@ In order to raise money, a company may decide to issue new shares and give curre
 right (but not the obligation) to purchase those additional shares at a discounted price. This can
 be modeled using two components:
 
-- An option instrument, which describes the economic term of the rights a shareholder receives.
+- An option instrument, which describes the economic terms of the rights a shareholder receives.
   For example, this could be a European option with a strike price below the current spot price, and
   a maturity three weeks in the future.
   The :doc:`Option Tutorial <option-extension>` describes how to create a physically settled
