@@ -68,6 +68,8 @@ Since this option instrument is cash-settled, the underlying asset will not chan
 if the option expires in the money, the difference between the observed close price and the *strike*
 price is paid to the option holder.
 
+.. _european-physical:
+
 Physically settled European Option
 ==================================
 
@@ -109,6 +111,45 @@ Compared to the
 :ref:`EuropeanCash option <module-daml-finance-instrument-option-europeancash-instrument-22074>`
 this instrument does not require a reference asset identifier or *Observations*, because it is
 exercised manually.
+
+Dividend Option
+===============
+
+The :ref:`Dividend <module-daml-finance-instrument-option-dividend-instrument-7333>`
+instrument models physically settled, manually exercised dividend options. For reference, a
+dividend option gives the holder the right to choose one out of several dividend payouts, on a
+specific *expiry* date in the future. The following payout types are supported:
+
+#. *Cash*: The dividend is paid in cash. This a mandatory option. In addition, the issue can offer:
+#. *Shares*: The dividend is paid in shares. To the investor this is similar to a
+   :ref:`Bonus Issue <bonus-issue>`.
+#. *CashFx*: The dividend is paid in cash in a foreign currency.
+
+As an example, consider an option instrument that gives the holder the right to choose to receive
+AAPL dividends either as cash, shares or cash in a foreign currency (EUR). This example is taken
+from ``src/test/daml/Daml/Finance/Instrument/Option/Test/Dividend.daml``, where all the details are
+available.
+
+You start by defining the terms:
+
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Option/Test/Dividend.daml
+  :language: daml
+  :start-after: -- CREATE_DIVIDEND_OPTION_VARIABLES_BEGIN
+  :end-before: -- CREATE_DIVIDEND_OPTION_VARIABLES_END
+
+Now that the terms have been defined, you can create the option instrument:
+
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Option/Test/Util.daml
+  :language: daml
+  :start-after: -- CREATE_DIVIDEND_OPTION_INSTRUMENT_BEGIN
+  :end-before: -- CREATE_DIVIDEND_OPTION_INSTRUMENT_END
+
+Once this is done, you can create a holding on it using
+:ref:`Account.credit <module-daml-finance-interface-account-account-92922>`.
+
+On the expiry date, the option holder will make an *Election* out of the available choices. The
+lifecycling of this option works in the same way as for
+:ref:`physically settled European options <european-physical>`.
 
 Frequently Asked Questions
 **************************
