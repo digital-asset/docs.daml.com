@@ -623,6 +623,8 @@ subtrees:
             title: "Daml.Finance.Instrument.Option.Dividend.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-Dividend-Instrument
             title: "Daml.Finance.Instrument.Option.Dividend.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-Dividend-Election
+            title: "Daml.Finance.Instrument.Option.Dividend.Election"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-EuropeanCash-Factory
             title: "Daml.Finance.Instrument.Option.EuropeanCash.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-EuropeanCash-Instrument
@@ -739,6 +741,10 @@ subtrees:
             title: "Daml.Finance.Interface.Instrument.Option.Dividend.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Dividend-Types
             title: "Daml.Finance.Interface.Instrument.Option.Dividend.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Dividend-Election
+            title: "Daml.Finance.Interface.Instrument.Option.Dividend.Election"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Dividend-Election-Factory
+            title: "Daml.Finance.Interface.Instrument.Option.Dividend.Election.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-EuropeanCash-Factory
             title: "Daml.Finance.Interface.Instrument.Option.EuropeanCash.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-EuropeanCash-Instrument
