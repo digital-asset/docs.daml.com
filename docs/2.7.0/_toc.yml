@@ -635,6 +635,8 @@ subtrees:
             title: "Daml.Finance.Instrument.Option.EuropeanPhysical.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-Lifecycle-Rule
             title: "Daml.Finance.Instrument.Option.Lifecycle.Rule"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-Lifecycle-DivOptionRule
+            title: "Daml.Finance.Instrument.Option.Lifecycle.DivOptionRule"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-Util
             title: "Daml.Finance.Instrument.Option.Util"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Asset-Factory
