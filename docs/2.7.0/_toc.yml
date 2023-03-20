@@ -619,6 +619,10 @@ subtrees:
             title: "Daml.Finance.Instrument.Generic.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Generic-Lifecycle-Rule
             title: "Daml.Finance.Instrument.Generic.Lifecycle.Rule"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-Dividend-Factory
+            title: "Daml.Finance.Instrument.Option.Dividend.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-Dividend-Instrument
+            title: "Daml.Finance.Instrument.Option.Dividend.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-EuropeanCash-Factory
             title: "Daml.Finance.Instrument.Option.EuropeanCash.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-EuropeanCash-Instrument
@@ -729,6 +733,12 @@ subtrees:
             title: "Daml.Finance.Interface.Instrument.Generic.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Generic-Instrument
             title: "Daml.Finance.Interface.Instrument.Generic.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Dividend-Factory
+            title: "Daml.Finance.Interface.Instrument.Option.Dividend.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Dividend-Instrument
+            title: "Daml.Finance.Interface.Instrument.Option.Dividend.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Dividend-Types
+            title: "Daml.Finance.Interface.Instrument.Option.Dividend.Types"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-EuropeanCash-Factory
             title: "Daml.Finance.Interface.Instrument.Option.EuropeanCash.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-EuropeanCash-Instrument
