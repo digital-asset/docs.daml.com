@@ -115,11 +115,11 @@ Dividend Option
 
 The :ref:`Dividend <module-daml-finance-instrument-option-dividend-instrument-7333>`
 instrument models physically settled, manually exercised dividend options. For reference, a
-dividend option gives the holder the right to choose one out of several dividend payouts, which are
-defined by the issuer. The following payout types are supported:
+dividend option gives the holder the right to choose one out of several dividend payouts, on a
+specific *expiry* date in the future. The following payout types are supported:
 
 #. *Cash*: The dividend is paid in cash. This a mandatory option. In addition, the issue can offer:
-#. *Shares*: The dividend is paid in shares. To the investor, this is similar to a bonus issue.
+#. *Shares*: The dividend is paid in shares. To the investor this is similar to a bonus issue.
 #. *CashFx*: The dividend is paid in cash in a foreign currency.
 
 As an example, consider an option instrument that gives the holder the right to choose to receive
