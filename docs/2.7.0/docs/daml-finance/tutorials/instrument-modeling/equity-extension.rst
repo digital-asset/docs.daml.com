@@ -110,10 +110,10 @@ Dividend option
 
 A company may give shareholders the option of choosing what kind of dividend they want to
 receive. For example, a shareholder could choose between a dividend in cash *or* in stock.
-Currently, there are two different ways this can be modeled in the library.
+Currently, there are two different ways this can be modeled in the library:
 
-Using a dividend option instrument
-==================================
+1. Using a dividend option instrument
+=====================================
 
 The preferred way is to model this using the following two components:
 
@@ -126,14 +126,14 @@ The preferred way is to model this using the following two components:
   option instrument you created above.
 
 When current shareholders receive the option instrument they can choose between one of the dividend
-payment types offered by the issuer.
+payment types offered by the issuer, for example cash in a foreign currency.
 
 More details on this dividend option process are described in
 ``src/test/daml/Daml/Finance/Instrument/Equity/Test/DivOption.daml``, in particular how to define
 and process an *Election*.
 
-Using multiple distribution events
-==================================
+2. Using multiple distribution events
+=====================================
 
 The ``DeclareDividend`` choice can be used for this as well. The issuer creates one event for each
 dividend option that shareholders can choose from:
