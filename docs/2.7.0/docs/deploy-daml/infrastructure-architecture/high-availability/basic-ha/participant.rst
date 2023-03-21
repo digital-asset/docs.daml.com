@@ -45,12 +45,12 @@ The replicas require a shared database for the following reasons:
 Leader Election
 ~~~~~~~~~~~~~~~
 
-A leader election establishes the active replica. The participant node sets the chosen active replica as single writer to the shared database. 
+A leader election establishes the active replica. The participant node sets the chosen active replica as the single writer to the shared database. 
 
-Exclusive, application-level database locks - tied to the database connection lifetime - enforce the leader election and set the chosen replica as single writer. 
+Exclusive, application-level database locks - tied to the database connection lifetime - enforce the leader election and set the chosen replica as the single writer. 
 
 .. NOTE::
-  Alternative approaches for leader election, such as Raft, are unsuitable because the leader status can be lost in between the leader check and the use of the shared resource, i.e. writing to the database. Therefore, we cannot guarantee a single writer.
+  Alternative approaches for leader election, such as Raft, are unsuitable because the leader status can be lost between the leader check and the use of the shared resource, i.e. writing to the database. Therefore, we cannot guarantee a single writer.
 
 Exclusive Lock Acquisition
 """"""""""""""""""""""""""
@@ -63,7 +63,7 @@ A participant node replica uses a write connection pool that is tied to an exclu
 Lock ID Allocation
 """"""""""""""""""
 
-Exclusive application level locks are identified by a 30 bit integer lock id which is allocated based on a scope name and counter. 
+Exclusive application-level locks are identified by a 30-bit integer lock id which is allocated based on a scope name and counter. 
 
 The lock counter differentiates locks used in Canton from each other, depending on their usage. The scope name ensures the uniqueness of the lock id for a given lock counter. The allocation process generates a unique lock id by hashing and truncating the scope and counter to 30 bits.
 
@@ -80,7 +80,7 @@ Prevent Passive Replica Activity
 
 To avoid passive replicas attempting to write to the database - any such attempt fails and produces an error - we use a coarse-grained guard on domain connectivity and API services.
 
-To prevent the passive replica from processing domain events, and ensure it rejects incoming Ledger API requests, we keep the passive replica disconnected from the domains as a coarse-grained enforcement.
+To prevent the passive replica from processing domain events, and ensure it rejects incoming Ledger API requests, we keep the passive replica disconnected from the domains as coarse-grained enforcement.
 
 Lock Loss and Failover
 """"""""""""""""""""""
