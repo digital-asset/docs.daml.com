@@ -25,7 +25,7 @@ DR is usually more costly to architect and deploy than an HA solution. DR is exp
 
 There are different approaches to keeping the backup databases in a DR solution as synchronized as possible to an active DB. One approach is to take frequent snapshots of the source and live database(s) and send them to the remote deployment that supports DR. The AWS documentation states the following:
 
-    You can restore a snapshot of an Aurora DB cluster or from an Amazon RDS DB instance to use as the starting point for your Aurora global database. You restore the snapshot and create a new Aurora provisioned DB cluster at the same time. You then add another AWS Region to the restored DB cluster, thus turning it into an Aurora global database. Any Aurora DB cluster that you create using a snapshot in this way becomes the primary cluster of your Aurora global database. [#f2]_
+    You can restore a snapshot of an Aurora DB cluster or from an Amazon RDS DB instance to use as the starting point for your Aurora global database. You restore the snapshot and create a new Aurora-provisioned DB cluster at the same time. You then add another AWS Region to the restored DB cluster, thus turning it into an Aurora global database. Any Aurora DB cluster that you create using a snapshot in this way becomes the primary cluster of your Aurora global database. [#f2]_
 
 It's important to take care during and after a failover in a DR situation. AWS advises: 
 
@@ -33,7 +33,7 @@ It's important to take care during and after a failover in a DR situation. AWS a
 
 Alternatively, AWS says in Managing RPOs for Aurora PostgreSQL-based global databases: 
 
-    With an Aurora PostgreSQL-based global database, you can manage the recovery point objective (RPO) for your Aurora global database by using PostgreSQL's ``rds.global_db_rpo`` parameter. RPO represents maximum amount of data that can be lost in the event of an outage.
+    With an Aurora PostgreSQL-based global database, you can manage the recovery point objective (RPO) for your Aurora global database by using PostgreSQL's ``rds.global_db_rpo`` parameter. RPO represents the maximum amount of data that can be lost in the event of an outage.
 
     This parameter is supported by Aurora PostgreSQL. Valid values for ``rds.global_db_rpo`` range from 20 seconds to 2,147,483,647 seconds (68 years). [#f4]_
 
