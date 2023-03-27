@@ -330,10 +330,10 @@ invoke a script without having to spin up a ledger in the background.
 
 To run ``daml script`` in this mode, you should provide the ``--ide-ledger`` flag.
 This flag is not compatible with ``--ledger-host``, ``--ledger-port``,
-``--participant-config`` (as you'll see in the next section), and ``--json-api``.
+``--participant-config`` (described more in the next section), and ``--json-api``.
 Note that since this uses an in-memory ledger, no state will be preserved once
-the script finished, you'll only receive a success flag and optionally the script result
-if using ``--output-file``.
+the script finishes. You will only receive a success flag and, optionally, the script result
+if you use ``--output-file``.
 
 Use Daml Script in Canton
 =========================
