@@ -324,8 +324,8 @@ Use Daml Script with the IDE Ledger
 ===================================
 
 Similarly to running ``daml test`` or the codelens in VSCode, you can use
-``daml script`` to run the scripts in a given dar file within the IDE Ledger,
-a fully in-memory child process of ``daml script``, allowing you to quickly
+``daml script`` to run the scripts in a given DAR file within the IDE Ledger.
+This is a fully in-memory child process of ``daml script``, allowing you to quickly
 invoke a script without having to spin up a ledger in the background.
 
 To run ``daml script`` in this mode, you should provide the ``--ide-ledger`` flag.
