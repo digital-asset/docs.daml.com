@@ -320,6 +320,21 @@ translated to Daml script but there are a few things to keep in mind:
 
 .. _daml-script-distributed:
 
+Use Daml Script with the IDE Ledger
+===================================
+
+Similarly to running ``daml test`` or when running a script in VSCode itself via the provided buttons, you can use
+``daml script`` to run the scripts in a given DAR file within the IDE Ledger.
+This is a fully in-memory child process of ``daml script``, allowing you to quickly
+invoke a script without having to spin up a ledger in the background.
+
+To run ``daml script`` in this mode, you should provide the ``--ide-ledger`` flag.
+This flag is not compatible with ``--ledger-host``, ``--ledger-port``,
+``--participant-config`` (described more in the next section), and ``--json-api``.
+Note that since this uses an in-memory ledger, no state will be preserved once
+the script finishes. You will only receive a success flag and, optionally, the script result
+if you use ``--output-file``.
+
 Use Daml Script in Canton
 =========================
 
