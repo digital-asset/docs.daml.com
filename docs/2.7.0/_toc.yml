@@ -609,6 +609,8 @@ subtrees:
             title: "Daml.Finance.Instrument.Bond.ZeroCoupon.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-ZeroCoupon-Instrument
             title: "Daml.Finance.Instrument.Bond.ZeroCoupon.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-Lifecycle-Rule
+            title: "Daml.Finance.Instrument.Bond.Lifecycle.Rule"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Equity-Factory
             title: "Daml.Finance.Instrument.Equity.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Equity-Instrument
