@@ -7,6 +7,10 @@ Daml.Finance.Instrument.Bond
 This package contains the *implementation* of different bond types, defined in the following
 modules:
 
+- :ref:`Callable.Instrument <module-daml-finance-instrument-bond-callable-instrument-83330>`:
+  Instrument implementation for callable bonds
+- :ref:`Callable.Factory <module-daml-finance-instrument-bond-callable-factory-52054>`:
+  Factory implementation to instantiate callable bonds
 - :ref:`FixedRate.Instrument <module-daml-finance-instrument-bond-fixedrate-instrument-67993>`:
   Instrument implementation for fixed-rate bonds
 - :ref:`FixedRate.Factory <module-daml-finance-instrument-bond-fixedrate-factory-46203>`:
