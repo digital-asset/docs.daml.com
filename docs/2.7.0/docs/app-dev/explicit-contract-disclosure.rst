@@ -33,11 +33,11 @@ let's consider a simplified trade between two parties.
 In this example, party **Seller** owns a unit of Digital Asset ``Stock`` issued by the **StockExchange** party.
 As the issuer of the stock, **StockExchange** also publishes the stock's ``PriceQuotation`` as public data,
 which can be used for settling trades at correct market value. The **Seller** announces its offer
-to sell his stock publicly by creating a ``Offer`` contract that can be exercised by anyone that
+to sell his stock publicly by creating an ``Offer`` contract that can be exercised by anyone that
 can pay the correct market value in terms of ``IOU`` units.
 
 On the other side, party **Buyer** owns an ``IOU`` with 10 monetary units, which he wants to
-use to acquire **Seller** s stock.
+use to acquire **Seller** 's stock.
 
 Below we outline the Daml templates used to model the above-mentioned trade.
 
@@ -171,7 +171,7 @@ With the introduction of explicit contract disclosure, **Buyer** can accept the 
 without having seen the involved contracts before on the ledger. This is possible if the contracts' stakeholders
 decide to :ref:`disclose <stakeholder-contract-share>` their contracts to any party desiring to execute such a trade.
 **Buyer** can attach the disclosed contracts to the command submission
-that's exercising ``Offer_Accept`` on **Seller**'s ``offerCid``, thus bypassing the visibility restriction
+that's exercising ``Offer_Accept`` on **Seller** 's ``offerCid``, thus bypassing the visibility restriction
 that he had over the contracts.
 
 .. note:: The Ledger API uses the disclosed contracts attached to command submissions
