@@ -64,13 +64,15 @@ This uses the :ref:`european <function-contingentclaims-core-builders-european-9
 function, which is included in :doc:`Contingent Claims <../../concepts/contingent-claims>`.
 
 Compared to the bond above, where the passage of time results in a coupon payment being due, this
-option instrument requires a manual Election. The holder of the instrument needs to choose whether
+option instrument requires a manual *Election*. The holder of the instrument needs to choose whether
 or not to exercise the option. This is described in the next section.
+
+.. _election-based-lifecycling:
 
 Election based lifecycling of Contingent Claims based instruments
 =================================================================
 
-First, the an Election factory is created:
+First, an Election factory is created:
 
 .. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Generic/Test/EuropeanOption.daml
   :language: daml
@@ -93,7 +95,7 @@ Similarly, an election offer to *expire* the option is also created:
 
 Assuming the investor wants to exercise the option, an election candidate contract is created. In
 order to do this, the investor presents a holding for which an election should be made, and also
-specifies the amount that this election applies to. The amount cannot exceed the quantity of the
+specifies the amount that this election applies to. This amount cannot exceed the quantity of the
 holding:
 
 .. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Generic/Test/EuropeanOption.daml
@@ -108,7 +110,7 @@ Instead, the elected amount must be the same as the holding quantity, or lower:
   :start-after: -- CREATE_ELECTION_CANDIDATE_BEGIN
   :end-before: -- CREATE_ELECTION_CANDIDATE_END
 
-A time event is also required to indicate when the election is made:
+A time event is also required to indicate *when* the election is made:
 
 .. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Generic/Test/EuropeanOption.daml
   :language: daml
@@ -129,7 +131,7 @@ A lifecycle rule is required to specify how to process the Election:
   :start-after: -- CREATE_LIFECYCLE_RULE_BEGIN
   :end-before: -- CREATE_LIFECYCLE_RULE_END
 
-Finally, it is possible to apply the election:
+Finally, it is possible to apply the Election according to the lifecycle rule provided:
 
 .. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Generic/Test/EuropeanOption.daml
   :language: daml

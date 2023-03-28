@@ -194,12 +194,15 @@ Lifecycling of Contingent Claims based instruments can be devided into two categ
 
 - *Time based* evolution: An instrument is evolved solely due to the passage of time. An example is
   a fixed coupon bond, where a coupon payment is due at the end of every coupon period. This can be
-  *automatically* lifecycled by providing the event time.
+  *automatically* lifecycled by providing the event time. The
+  :doc:`Getting Started: Lifecycling <../getting-started/lifecycling>` describes how this is done.
 - *Election based* evolution: An instrument is evolved as a result of a *manual* election. One
   example is a callable bond, where the issuer has the right (but not the obligation) to call,
   or redeem early, the instrument on certain call dates. Lifecycling of such an instrument requires
   an Election event. Time alone is not sufficient, because the evolution of the instrument depends
-  on manual actions of the instrument stakeholders.
+  on manual actions of the instrument stakeholders. Check out the
+  :ref:`Election based lifecycling tutorial <election-based-lifecycling>` for more details on how
+  this can be implemented in practice.
 
 Claim Rule
 ==========
