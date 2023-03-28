@@ -109,6 +109,36 @@ Using these terms we can create the floating rate bond instrument:
 The reference rate (Euribor 3M) is observed once at the beginning of each coupon period and used
 for the coupon payment at the end of that period.
 
+Callable
+========
+
+:ref:`Callable bonds <module-daml-finance-instrument-bond-floatingrate-instrument-98586>` can be
+early redeemed by the issuer before maturity. Both fixed and floating rate coupons are supported.
+In case of a floating rate + coupon spread, a fixed rate coupon can be used to represent the spread.
+
+Here is an example of a bond paying Libor 3M + 0.1% p.a. with a 3M coupon period:
+
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml
+  :language: daml
+  :start-after: -- CREATE_3M_FLOATING_CALLABLE_BOND_VARIABLES_BEGIN
+  :end-before: -- CREATE_3M_FLOATING_CALLABLE_BOND_VARIABLES_END
+
+Using these terms we can create the callable bond instrument:
+
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Util.daml
+  :language: daml
+  :start-after: -- CREATE_CALLABLE_BOND_INSTRUMENT_BEGIN
+  :end-before: -- CREATE_CALLABLE_BOND_INSTRUMENT_END
+
+Unlike regular fixed and floating bonds, which are lifecycled based on the passage of time, this
+callable bond instrument contains an embedded option which is not automatically exercised. Instead,
+the custodian of the bond holding must manually decide whether or not to call the bond. This is done by making an
+*Election*.
+
+This callable bond example is taken from
+`Instrument/Bond/Test/Callable.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml>`_
+, where all the details are available, in particular how to define and process an *Election*.
+
 Inflation Linked
 ================
 
