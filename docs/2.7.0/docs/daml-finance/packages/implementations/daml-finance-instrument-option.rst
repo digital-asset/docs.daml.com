@@ -7,6 +7,10 @@ Daml.Finance.Instrument.Option
 This package contains the *implementation* of different option types, defined in the
 following modules:
 
+- :ref:`Dividend.Instrument <module-daml-finance-instrument-option-dividend-instrument-7333>`:
+  Instrument implementation for dividend options
+- :ref:`Dividend.Factory <module-daml-finance-instrument-option-dividend-factory-82807>`:
+  Factory implementation to instantiate dividend options
 - :ref:`EuropeanCash.Instrument <module-daml-finance-instrument-option-europeancash-instrument-22074>`:
   Instrument implementation for cash-settled European options
 - :ref:`EuropeanCash.Factory <module-daml-finance-instrument-option-europeancash-factory-75778>`:

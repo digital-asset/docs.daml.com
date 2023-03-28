@@ -16,9 +16,7 @@ HA for Daml solutions focuses on the following components running in separate pr
 
     * Mediator
 
-    * Domain manager
-
-    * Domain service
+    * Domain Topology Manager
 
 
 .. _components-for-ha:
@@ -36,7 +34,7 @@ The availability of a participant node shouldn't affect the availability of anot
   1. Where they are both involved. 
   2. When they have distinct visibility configurations, i.e. they manage different parties involved in the workflow.
 
-For example, if they both host the same party, transactions involving the party can still continue as long as either of them are available.
+For example, if they both host the same party, transactions involving the party can continue as long as either of them is available.
 
 .. NOTE::
     An application operating on behalf of a party cannot transparently failover from one participant node to another due to the difference in offsets emitted on each participant.
@@ -56,7 +54,7 @@ Databases
 
 In general, when a component is backed by a database/ledger, the component's HA relies on the HA of the database/ledger. Therefore, the component's operator must handle the HA of the database separately.
 
-All database-backed components are designed to be tolerant to temporary database outages. During the database failover period, components halt processing until the database becomes available again, resuming thereafter.
+All database-backed components are designed to be tolerant of temporary database outages. During the database failover period, components halt processing until the database becomes available again, resuming thereafter.
 
 Transactions that involve these components may time out if the failover takes too long. Nevertheless, they can be safely resubmitted, as command deduplication is idempotent.
 

@@ -7,6 +7,12 @@ Daml.Finance.Interface.Instrument.Option
 This package contains the *interface* definitions for various option instruments. It contains the
 following modules:
 
+- :ref:`Dividend.Instrument <module-daml-finance-interface-instrument-option-dividend-instrument-3166>`:
+  Instrument interface for dividend options
+- :ref:`Dividend.Factory <module-daml-finance-interface-instrument-option-dividend-factory-77394>`:
+  Factory interface to instantiate dividend options
+- :ref:`Dividend.Types <module-daml-finance-interface-instrument-option-dividend-types-84299>`:
+  Type definitions to support dividend options
 - :ref:`EuropeanCash.Instrument <module-daml-finance-interface-instrument-option-europeancash-instrument-96357>`:
   Instrument interface for cash-settled European options
 - :ref:`EuropeanCash.Factory <module-daml-finance-interface-instrument-option-europeancash-factory-18215>`:
