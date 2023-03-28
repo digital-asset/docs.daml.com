@@ -72,6 +72,10 @@ or not to exercise the option. This is described in the next section.
 Election based lifecycling of Contingent Claims based instruments
 =================================================================
 
+This tutorial is based on
+`Instrument/Generic/Test/EuropeanOption.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Generic/Test/EuropeanOption.daml>`_
+, which contains full implementation details.
+
 First, an Election factory is created:
 
 .. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Generic/Test/EuropeanOption.daml
@@ -150,14 +154,6 @@ is described in :doc:`Getting Started: Transfer <../getting-started/transfer>`.
 In order to trade the instrument (transfer it in exchange for cash) you can also initiate a delivery
 versus payment with atomic settlement. This is described in
 :doc:`Getting Started: Settlement <../getting-started/settlement>`.
-
-How to Process Lifecycle Events
-*******************************
-
-
-Note: the tutorial mainly describes time-based lifecycling. The European option above requires
-an active ``Election`` by the holder. This is described in detail in
-``src/test/daml/Daml/Finance/Instrument/Generic/Test/EuropeanOption.daml``.
 
 How to Redeem a Generic Instrument
 **********************************
