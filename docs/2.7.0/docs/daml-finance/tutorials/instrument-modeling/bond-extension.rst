@@ -132,7 +132,7 @@ Using these terms we can create the callable bond instrument:
 
 Unlike regular fixed and floating bonds, which are lifecycled based on the passage of time, this
 callable bond instrument contains an embedded option which is not automatically exercised. Instead,
-the issuer must manually decide whether or not to call the bond. This is done by making an
+the custodian of the bond holding must manually decide whether or not to call the bond. This is done by making an
 *Election*.
 
 This callable bond example is taken from
