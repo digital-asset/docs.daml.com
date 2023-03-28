@@ -187,7 +187,19 @@ assume that a new version of the instrument has already been created (as is the 
 the new version of the instrument as part of its implementation. The latter can be useful if
 information required to create the new version is only available upon processing of the event, as is
 the case for :ref:`Generic Instrument
-<type-daml-finance-interface-instrument-generic-instrument-instrument-11652>` evolution.
+<type-daml-finance-interface-instrument-generic-instrument-instrument-11652>` evolution, as well as
+other Contingent Claims based instruments.
+
+Lifecycling of Contingent Claims based instruments can be devided into two categories:
+
+- *Time based* evolution: An instrument is evolved solely due to the passage of time. An example is
+  a fixed coupon bond, where a coupon payment is due at the end of every coupon period. This can be
+  *automatically* lifecycled by providing the event time.
+- *Election based* evolution: An instrument is evolved as a result of a *manual* election. One
+  example is a callable bond, where the issuer has the right (but not the obligation) to call,
+  or redeem early, the instrument on certain call dates. Lifecycling of such an instrument requires
+  an Election event. Time alone is not sufficient, because the evolution of the instrument depends
+  on manual actions of the instrument stakeholders.
 
 Claim Rule
 ==========
