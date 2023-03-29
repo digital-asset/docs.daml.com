@@ -199,7 +199,7 @@ Lifecycling of Contingent Claims based instruments can be divided into two categ
 - *Election based* evolution: An instrument is evolved as a result of a *manual* election. One
   example is a callable bond, where the custodian of the corresponding holding has the right (but not the obligation) to call,
   or redeem early, the instrument on certain call dates. Lifecycling of such an instrument requires
-  an Election event. Time alone is not sufficient, because the evolution of the instrument depends
+  an *Election* event. Time alone is not sufficient, because the evolution of the instrument depends
   on manual actions of the instrument stakeholders. Check out the
   :ref:`Election based lifecycling tutorial <election-based-lifecycling>` for more details on how
   this can be implemented in practice.
