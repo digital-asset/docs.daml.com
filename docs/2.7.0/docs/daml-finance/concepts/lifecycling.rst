@@ -188,7 +188,7 @@ the new version of the instrument as part of its implementation. The latter can 
 information required to create the new version is only available upon processing of the event, as is
 the case for :ref:`Generic Instrument
 <type-daml-finance-interface-instrument-generic-instrument-instrument-11652>` evolution, as well as
-other Contingent Claims based instruments.
+other :doc:`Contingent Claims <../concepts/contingent-claims>` based instruments.
 
 Lifecycling of Contingent Claims based instruments can be divided into two categories:
 
