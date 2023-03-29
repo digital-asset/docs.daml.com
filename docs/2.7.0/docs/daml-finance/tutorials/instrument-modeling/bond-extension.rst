@@ -137,7 +137,9 @@ the custodian of the bond holding must manually decide whether or not to call th
 
 This callable bond example is taken from
 `Instrument/Bond/Test/Callable.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml>`_
-, where all the details are available, in particular how to define and process an *Election*.
+, where all the details are available. Also, Check out the
+:ref:`Election based lifecycling tutorial <election-based-lifecycling>` for more details on how
+how to define and process an *Election* in practice.
 
 Inflation Linked
 ================

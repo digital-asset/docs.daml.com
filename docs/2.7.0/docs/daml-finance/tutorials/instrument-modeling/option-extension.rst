@@ -87,8 +87,10 @@ instrument described above, but there are two important differences:
 
 As an example, consider an option instrument that gives the holder the right to buy AAPL stock
 at a given price. This example is taken from
-``src/test/daml/Daml/Finance/Instrument/Option/Test/EuropeanPhysical.daml``, where all the details
-are available, in particular how to define and process an *Election*.
+`Instrument/Option/Test/EuropeanPhysical.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Option/Test/EuropeanPhysical.daml>`_
+, where all the details are available. Also, Check out the
+:ref:`Election based lifecycling tutorial <election-based-lifecycling>` for more details on how
+how to define and process an *Election* in practice.
 
 You start by defining the terms:
 
