@@ -51,7 +51,8 @@ for version in $snapshots; do
   then echo "-> Nothing to do."
   elif [ "$version" = "2.0.1-snapshot.20220419.9374.0.44df8f12" ] \
     || [ "$version" = "2.1.0-snapshot.20220411.9707.0.f6fed6ea" ] \
-    || [ "$version" = "2.5.0-snapshot.20221010.10736.0.2f453a14" ]
+    || [ "$version" = "2.5.0-snapshot.20221010.10736.0.2f453a14" ] \
+    || [ "$version" = "2.7.0-snapshot.20230327.11615.0.9aa586fb" ]
   then echo " -> Skipping, known broken."
   else
     base=${version%-*}
