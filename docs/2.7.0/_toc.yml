@@ -593,6 +593,10 @@ subtrees:
             title: "Daml.Finance.Holding.NonTransferable"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Holding-Util
             title: "Daml.Finance.Holding.Util"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-Callable-Factory
+            title: "Daml.Finance.Instrument.Bond.Callable.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-Callable-Instrument
+            title: "Daml.Finance.Instrument.Bond.Callable.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-FixedRate-Factory
             title: "Daml.Finance.Instrument.Bond.FixedRate.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-FixedRate-Instrument
@@ -611,6 +615,8 @@ subtrees:
             title: "Daml.Finance.Instrument.Bond.ZeroCoupon.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-ZeroCoupon-Instrument
             title: "Daml.Finance.Instrument.Bond.ZeroCoupon.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-Lifecycle-Rule
+            title: "Daml.Finance.Instrument.Bond.Lifecycle.Rule"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Equity-Factory
             title: "Daml.Finance.Instrument.Equity.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Equity-Instrument
@@ -707,6 +713,12 @@ subtrees:
             title: "Daml.Finance.Interface.Holding.Util"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Base-Instrument
             title: "Daml.Finance.Interface.Instrument.Base.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-Callable-Factory
+            title: "Daml.Finance.Interface.Instrument.Bond.Callable.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-Callable-Instrument
+            title: "Daml.Finance.Interface.Instrument.Bond.Callable.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-Callable-Types
+            title: "Daml.Finance.Interface.Instrument.Bond.Callable.Types"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-FixedRate-Factory
             title: "Daml.Finance.Interface.Instrument.Bond.FixedRate.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-FixedRate-Instrument

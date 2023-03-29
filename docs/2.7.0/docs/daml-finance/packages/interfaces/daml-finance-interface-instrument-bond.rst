@@ -7,6 +7,12 @@ Daml.Finance.Interface.Instrument.Bond
 This package contains the *interface* definitions for bond instruments. It contains the following
 modules:
 
+- :ref:`Callable.Instrument <module-daml-finance-interface-instrument-bond-callable-instrument-70617>`:
+  Instrument interface for callable bonds
+- :ref:`Callable.Factory <module-daml-finance-interface-instrument-bond-callable-factory-92299>`:
+  Factory interface to instantiate callable bond instruments
+- :ref:`Callable.Types <module-daml-finance-interface-instrument-bond-callable-types-46430>`:
+  Common types used across callable bond instruments
 - :ref:`FixedRate.Instrument <module-daml-finance-interface-instrument-bond-fixedrate-instrument-43896>`:
   Instrument interface for fixed-rate bonds
 - :ref:`FixedRate.Factory <module-daml-finance-interface-instrument-bond-fixedrate-factory-42532>`:
