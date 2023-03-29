@@ -159,10 +159,21 @@ We model the setup of the trade between the parties using a snippet of :ref:`Dam
           value = 10
 
 Settling the trade on-ledger implies that **Buyer** exercises ``Offer_Accept``
-on the ``offerCid`` contract. But how can **Buyer** exercise a choice on a contract
+on the ``offerCid`` contract.
+But how can **Buyer** exercise a choice on a contract
 on which it is neither a stakeholder nor a prior informee?
 Furthermore, the same question applies with regard to **Buyer** 's visibility over the
 ``stockCid`` and ``priceQuotationCid`` contracts.
+
+If **Buyer** plainly exercises the choice like in the snippet below,
+his submission will fail with an error citing missing visibility rights over the involved contracts.
+
+::
+
+      -- Command fails with missing visibility over the contracts for buyer
+      _ <- submit buyer do
+        exerciseCmd offerCid Offer_Accept with priceQuotationCid = priceQuotationCid, buyer = buyer, buyerIou = buyerIouCid
+
 
 Read delegation using explicit contract disclosure
 ``````````````````````````````````````````````````
@@ -249,13 +260,11 @@ with the Ledger API running on port ``5031``.
   -- Result: {"transactions":[{"transaction_id":"1220e17dec28e3277933917513fb92e80a1ef0c5b9645b017527e3cc00723d4da1b7","command_id":"0b255a2c-db13-4d6e-8ab4-a7b20a0b261d","effective_at":"2023-03-22T19:18:46.838466Z","events":[{"created":{"event_id":"#1220e17dec28e3277933917513fb92e80a1ef0c5b9645b017527e3cc00723d4da1b7:0","contract_id":"00368651c0f69fc69cea6e9f69293e41ec9da5edd9ecf4c71fe6689027a62595d5ca011220580ab01aec0c0e2b2f171556087224aaa60f793100bec923f881352d1812a767","template_id":{"package_id":"5811603b1342a2a791fd69aff08d710f67bf652f3e7129dd51f69bc01bb30f19","module_name":"StockExchange","entity_name":"Offer"},"create_arguments":{"record_id":{"package_id":"5811603b1342a2a791fd69aff08d710f67bf652f3e7129dd51f69bc01bb30f19","module_name":"StockExchange","entity_name":"Offer"},"fields":[{"label":"seller","value":{"party":"Seller::12206edc46b86d9ea5f75407fa04720ea005f253ca736fb047a8c25839edf2fbb8fa"}},{"label":"quotationProducer","value":{"party":"StockExchange::12206edc46b86d9ea5f75407fa04720ea005f253ca736fb047a8c25839edf2fbb8fa"}},{"label":"offeredAssetCid","value":{"contract_id":"00b58bf53c8460d597173323436d340943e81a8a1f29f34b032a5938a9ce0a1e64ca0112203ea53a05196b6bdeda8a0db13db0fa15b4858fa4efcd97348a40b2c2b3bb1fa6"}}]},"witness_parties":["Seller::12206edc46b86d9ea5f75407fa04720ea005f253ca736fb047a8c25839edf2fbb8fa"],"agreement_text":"","signatories":["Seller::12206edc46b86d9ea5f75407fa04720ea005f253ca736fb047a8c25839edf2fbb8fa"],"metadata":{"created_at":"2023-03-22T19:18:46.838466Z","driver_metadata":"CiYKJAgBEiDO65v0iPOxiiBxvMCUge/ddRaK3NfWt9TuqNpRrMXNzA=="}}}],"offset":"00000000000000000e"}]}
 
 **Buyer** receives these contracts from the stakeholders and adapts them to disclosed contracts (as described in :ref:`the previous section <submitter-disclosed-contract>`)
-in a command submission that executes ``Offer_Accept`` on the ``offerCid``.
+in a command submission that executes ``Offer_Accept`` on the ``offerCid``. The resulting gRPC command submission, which succeeds, is
+showcased below.
 
 ::
 
   -- Buyer exercises Offer_Accept on offerCid with populating the Command.disclosed_contracts field
   -- with the data previously shared off-ledger for offerCid, stockCid and priceQuotationCid
   grpcurl -plaintext -d '{"commands":{"ledgerId":"participant","workflowId":"ExplicitDisclosureWorkflow","applicationId":"ExplicitDisclosure","commandId":"ExplicitDisclosure-command","party":"Buyer::12206edc46b86d9ea5f75407fa04720ea005f253ca736fb047a8c25839edf2fbb8fa","commands":[{"exercise":{"templateId":{"packageId":"5811603b1342a2a791fd69aff08d710f67bf652f3e7129dd51f69bc01bb30f19","moduleName":"StockExchange","entityName":"Offer"},"contractId":"00368651c0f69fc69cea6e9f69293e41ec9da5edd9ecf4c71fe6689027a62595d5ca011220580ab01aec0c0e2b2f171556087224aaa60f793100bec923f881352d1812a767","choice":"Offer_Accept","choiceArgument":{"record":{"recordId":{"packageId":"5811603b1342a2a791fd69aff08d710f67bf652f3e7129dd51f69bc01bb30f19","moduleName":"StockExchange","entityName":"Offer_Accept"},"fields":[{"label":"priceQuotationCid","value":{"contractId":"00958d90de435166c63a70884d36700d49f05c8e58644afa772021171edd782e17ca0112208d3b314f70bf390728f66eb52349389aaccdfa6d7073b1a0d68ae1631961a919"}},{"label":"buyer","value":{"party":"Buyer::12206edc46b86d9ea5f75407fa04720ea005f253ca736fb047a8c25839edf2fbb8fa"}},{"label":"buyerIou","value":{"contractId":"009008413016cc8e53dd69164df4b7dbc3b57ca541d1176b7324d1fa2ca2e23aa6ca0112200c592da4825f68b6a1978e579115b0f7baf9fa414923c0e62c95b793a767ef16"}}]}}}}],"submissionId":"ExplicitDisclosure-submission","disclosedContracts":[{"templateId":{"packageId":"5811603b1342a2a791fd69aff08d710f67bf652f3e7129dd51f69bc01bb30f19","moduleName":"StockExchange","entityName":"Stock"},"contractId":"00b58bf53c8460d597173323436d340943e81a8a1f29f34b032a5938a9ce0a1e64ca0112203ea53a05196b6bdeda8a0db13db0fa15b4858fa4efcd97348a40b2c2b3bb1fa6","createArguments":{"recordId":{"packageId":"5811603b1342a2a791fd69aff08d710f67bf652f3e7129dd51f69bc01bb30f19","moduleName":"StockExchange","entityName":"Stock"},"fields":[{"label":"issuer","value":{"party":"StockExchange::12206edc46b86d9ea5f75407fa04720ea005f253ca736fb047a8c25839edf2fbb8fa"}},{"label":"owner","value":{"party":"Seller::12206edc46b86d9ea5f75407fa04720ea005f253ca736fb047a8c25839edf2fbb8fa"}},{"label":"stockName","value":{"text":"Daml"}}]},"metadata":{"createdAt":"2023-03-22T19:18:46.750406Z","driverMetadata":"CiYKJAgBEiA766TiHrw+qL6JW+0ze65RTfIFFFLrh09VpCOdjXs/2g=="}},{"templateId":{"packageId":"5811603b1342a2a791fd69aff08d710f67bf652f3e7129dd51f69bc01bb30f19","moduleName":"StockExchange","entityName":"Offer"},"contractId":"00368651c0f69fc69cea6e9f69293e41ec9da5edd9ecf4c71fe6689027a62595d5ca011220580ab01aec0c0e2b2f171556087224aaa60f793100bec923f881352d1812a767","createArguments":{"recordId":{"packageId":"5811603b1342a2a791fd69aff08d710f67bf652f3e7129dd51f69bc01bb30f19","moduleName":"StockExchange","entityName":"Offer"},"fields":[{"label":"seller","value":{"party":"Seller::12206edc46b86d9ea5f75407fa04720ea005f253ca736fb047a8c25839edf2fbb8fa"}},{"label":"quotationProducer","value":{"party":"StockExchange::12206edc46b86d9ea5f75407fa04720ea005f253ca736fb047a8c25839edf2fbb8fa"}},{"label":"offeredAssetCid","value":{"contractId":"00b58bf53c8460d597173323436d340943e81a8a1f29f34b032a5938a9ce0a1e64ca0112203ea53a05196b6bdeda8a0db13db0fa15b4858fa4efcd97348a40b2c2b3bb1fa6"}}]},"metadata":{"createdAt":"2023-03-22T19:18:46.838466Z","driverMetadata":"CiYKJAgBEiDO65v0iPOxiiBxvMCUge/ddRaK3NfWt9TuqNpRrMXNzA=="}},{"templateId":{"packageId":"5811603b1342a2a791fd69aff08d710f67bf652f3e7129dd51f69bc01bb30f19","moduleName":"StockExchange","entityName":"PriceQuotation"},"contractId":"00958d90de435166c63a70884d36700d49f05c8e58644afa772021171edd782e17ca0112208d3b314f70bf390728f66eb52349389aaccdfa6d7073b1a0d68ae1631961a919","createArguments":{"recordId":{"packageId":"5811603b1342a2a791fd69aff08d710f67bf652f3e7129dd51f69bc01bb30f19","moduleName":"StockExchange","entityName":"PriceQuotation"},"fields":[{"label":"issuer","value":{"party":"StockExchange::12206edc46b86d9ea5f75407fa04720ea005f253ca736fb047a8c25839edf2fbb8fa"}},{"label":"stockName","value":{"text":"Daml"}},{"label":"value","value":{"int64":"3"}}]},"metadata":{"createdAt":"2023-03-22T19:18:46.927082Z","driverMetadata":"CiYKJAgBEiDOv6D+wdEKAJbkn5mpXkKJucdJ/M/SpuZO9A+EGOYDzw=="}}]}}' localhost:5031 com.daml.ledger.api.v1.CommandService/SubmitAndWait
-
-If **Buyer** were to not add the disclosed contracts to the command submission,
-the submission would be rejected with a ``CONTRACT_NOT_FOUND`` error.
