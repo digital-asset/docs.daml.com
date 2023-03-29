@@ -83,6 +83,9 @@ Below we outline the Daml templates used to model the above-mentioned trade.
             create this with owner = newOwner
             pure ()
 
+    -- Expresses the current market value of a stock issued by the issuer.
+    -- Not modelled in this example: the issuer ensures that only one `PriceQuotation`
+    -- is active at a time for a specific `stockName`.
     template PriceQuotation
       with
         issuer: Party
@@ -91,6 +94,9 @@ Below we outline the Daml templates used to model the above-mentioned trade.
       where
         signatory issuer
 
+        -- Helper choice to allow the controller to fetch this contract without being a stakeholder.
+        -- By fetching this contract, the controller (i.e. `fetcher`) proves
+        -- that this contract is active and represents the current market value for this stock.
         nonconsuming choice PriceQuotation_Fetch: PriceQuotation
           with fetcher: Party
           controller fetcher
