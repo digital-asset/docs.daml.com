@@ -36,7 +36,7 @@ which can be used for settling trades at correct market value. The **Seller** an
 to sell his stock publicly by creating an ``Offer`` contract that can be exercised by anyone that
 can pay the correct market value in terms of ``IOU`` units.
 
-On the other side, party **Buyer** owns an ``IOU`` with 10 monetary units, which he wants to
+On the other side, party **Buyer** owns an ``IOU`` with 10 monetary units, which it wants to
 use to acquire **Seller** 's stock.
 
 Below we outline the Daml templates used to model the above-mentioned trade.
@@ -124,6 +124,7 @@ Below we outline the Daml templates used to model the above-mentioned trade.
               offeredAssetCid Stock_Transfer with
                 newOwner = buyer
 
+            -- Purchase the stock at the currently published fair price.
             _ <- exercise
               buyerIou IOU_Transfer with target = seller, amount = priceQuotation.value
             pure ()
@@ -162,7 +163,7 @@ Settling the trade on-ledger implies that **Buyer** exercises ``Offer_Accept``
 on the ``offerCid`` contract.
 But how can **Buyer** exercise a choice on a contract
 on which it is neither a stakeholder nor a prior informee?
-Furthermore, the same question applies with regard to **Buyer** 's visibility over the
+Furthermore, the same question applies with regard to **Buyer**'s visibility over the
 ``stockCid`` and ``priceQuotationCid`` contracts.
 
 If **Buyer** plainly exercises the choice like in the snippet below,
@@ -179,7 +180,7 @@ Read delegation using explicit contract disclosure
 ``````````````````````````````````````````````````
 
 With the introduction of explicit contract disclosure, **Buyer** can accept the offer from **Seller**
-without having seen the involved contracts before on the ledger. This is possible if the contracts' stakeholders
+without having seen the involved contracts on the ledger before. This is possible if the contracts' stakeholders
 decide to :ref:`disclose <stakeholder-contract-share>` their contracts to any party desiring to execute such a trade.
 **Buyer** can attach the disclosed contracts to the command submission
 that's exercising ``Offer_Accept`` on **Seller** 's ``offerCid``, thus bypassing the visibility restriction
@@ -205,7 +206,7 @@ which can be read from the Ledger API via the active contracts and transactions 
 (see :ref:`Reading from the ledger <reading-from-the-ledger>`).
 
 The stakeholder can then share the disclosed contract details to the submitter off-ledger (i.e. outside of Daml)
-by conventional means (e.g. SFTP, e-mail etc.). A :ref:`DisclosedContract <com.daml.ledger.api.v1.DisclosedContract>` can
+by conventional means (e.g. HTTPS, SFTP, e-mail etc.). A :ref:`DisclosedContract <com.daml.ledger.api.v1.DisclosedContract>` can
 be constructed from the fields of the same name from the original contract's ``CreatedEvent``.
 
 .. note:: Only contracts created starting with Canton 2.6 can be shared as disclosed contracts.
@@ -230,7 +231,7 @@ the original `CreatedEvent` (see above):
   from the stakeholder off-ledger (see above).
 - **metadata** - The contract metadata. This field can be populated as received from the stakeholder (see below).
 
-Settling the stock trade with explicit disclosure
+Trading the stock with explicit disclosure
 -------------------------------------------------
 
 Going back to our example, **Buyer** does not have visibility over the ``stockCid``, ``priceQuotationCid`` and ``offerCid`` contracts,
