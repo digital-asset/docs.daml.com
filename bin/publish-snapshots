@@ -4,7 +4,9 @@ set -euo pipefail
 
 DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-snapshots=$($DIR/list-hidden-versions \
+cd $DIR/..
+
+snapshots=$(bin/list-hidden-versions \
             | jq -Rr '
                     # We get a version string per line. They are not quoted so
                     # they are not valid JSON, but -R turns each of them into a
@@ -49,7 +51,8 @@ for version in $snapshots; do
   then echo "-> Nothing to do."
   elif [ "$version" = "2.0.1-snapshot.20220419.9374.0.44df8f12" ] \
     || [ "$version" = "2.1.0-snapshot.20220411.9707.0.f6fed6ea" ] \
-    || [ "$version" = "2.5.0-snapshot.20221010.10736.0.2f453a14" ]
+    || [ "$version" = "2.5.0-snapshot.20221010.10736.0.2f453a14" ] \
+    || [ "$version" = "2.7.0-snapshot.20230327.11615.0.9aa586fb" ]
   then echo " -> Skipping, known broken."
   else
     base=${version%-*}
@@ -67,15 +70,20 @@ for version in $snapshots; do
                  | head -1 \
                  | sed 's/canton-open-source-\(.*\)\.tar\.gz/\1/')
         echo " -> canton: $canton"
-        finance=$(jq '.daml_finance' versions.json || jq '.daml_finance' LATEST)
+        if [ -f versions.json ]; then
+          ver=versions.json
+        else
+          ver=LATEST
+        fi
+        finance=$(jq -r '.daml_finance' $ver)
         echo " -> finance: $finance"
         tmp=$(mktemp)
         jq --arg daml $version \
            --arg canton $canton \
            '.daml |= $daml | .canton |= $canton' \
-           versions.json \
+           $ver \
            > $tmp
-        mv $tmp versions.json
+        mv $tmp $ver
         nix-shell shell.nix --pure \
                             --keep ARTIFACTORY_USERNAME \
                             --keep ARTIFACTORY_PASSWORD \
