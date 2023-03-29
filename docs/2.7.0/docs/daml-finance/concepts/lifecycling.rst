@@ -190,7 +190,7 @@ the case for :ref:`Generic Instrument
 <type-daml-finance-interface-instrument-generic-instrument-instrument-11652>` evolution, as well as
 other Contingent Claims based instruments.
 
-Lifecycling of Contingent Claims based instruments can be devided into two categories:
+Lifecycling of Contingent Claims based instruments can be divided into two categories:
 
 - *Time based* evolution: An instrument is evolved solely due to the passage of time. An example is
   a fixed coupon bond, where a coupon payment is due at the end of every coupon period. This can be
