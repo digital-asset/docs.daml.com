@@ -134,17 +134,17 @@ We model the setup of the trade between the parties using a snippet of :ref:`Dam
 
       let stockName = "Daml"
 
-      offerCid <- submit seller do
-        createCmd Offer with
-          seller = seller
-          quotationProducer = stockExchange
-          offeredAssetCid = stockCid
-
       stockCid <- submit stockExchange do
         createCmd Stock with
           issuer = stockExchange
           owner = seller
           stockName = stockName
+
+      offerCid <- submit seller do
+        createCmd Offer with
+          seller = seller
+          quotationProducer = stockExchange
+          offeredAssetCid = stockCid
 
       priceQuotationCid <- submit stockExchange do
         createCmd PriceQuotation with
