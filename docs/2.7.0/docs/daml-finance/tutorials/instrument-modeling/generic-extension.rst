@@ -47,7 +47,7 @@ This will create an instrument containing the
 :doc:`Contingent Claims <../../concepts/contingent-claims>` tree on the ledger.
 
 On a coupon payment date of the bond instrument above, the issuer will need to lifecycle the
-instrument. This will result in a lifecycle effect for the coupon, which can be cash settled. This
+instrument. This will result in a lifecycle effect for the coupon, which can be settled. This
 is described in detail in :doc:`Getting Started: Lifecycling <../getting-started/lifecycling>`.
 
 Define the Claim of a European Option
