@@ -220,7 +220,7 @@ subtrees:
         - hidden: False
           titlesonly: True
           entries:
-          - file: app-dev/grpc/error-codes
+          - file: canton/reference/error_codes.rst
             title: "Error Codes"
           - file: app-dev/command-deduplication
             title: "Command Deduplication"
@@ -1265,8 +1265,6 @@ subtrees:
           title: "Security"
         - file: ops/system_architecture_faq
           title: "System Architecture FAQ"
-      - file: canton/reference/error_codes
-        title: "Canton Error Codes"
       - file: canton/usermanual/FAQ
         title: "Canton Frequently Asked Questions"
   - file: concepts/test-evidence

@@ -4,19 +4,6 @@
 The Ledger API
 ##############
 
-.. .. toctree::
-   :hidden:
-
-   services
-   parties-users
-   grpc/index
-   grpc/error-codes
-   grpc/proto-docs
-   grpc/daml-to-ledger-api
-   daml-lf-translation
-   bindings-x-lang/index
-
-
 To write an application around a Daml ledger, you will need to interact with the **Ledger API**.
 
 Every ledger that Daml can run on exposes this same API.
