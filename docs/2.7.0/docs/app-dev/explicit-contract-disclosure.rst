@@ -12,7 +12,7 @@ that allows you to seamlessly delegate contract read rights to a non-stakeholder
 Toggle the ``explicit-disclosure-unsafe`` flag in the participant configuration as shown below
 to use disclosed contracts in command submission by means of explicit contract disclosure.
 
-.. note::  This feature is **experimental** and **must** not be used in production environments.
+.. note::  This feature is **experimental** and **must not** be used in production environments.
 
 ::
 
@@ -29,17 +29,17 @@ Contract read delegation allows a party to acquire read rights during
 command submission over a contract of which it is neither a stakeholder nor an informee.
 
 As an example application where read delegation could be used,
-let's consider a simplified trade between two parties.
+consider a simplified trade between two parties.
 In this example, party **Seller** owns a unit of Digital Asset ``Stock`` issued by the **StockExchange** party.
 As the issuer of the stock, **StockExchange** also publishes the stock's ``PriceQuotation`` as public data,
-which can be used for settling trades at correct market value. The **Seller** announces its offer
-to sell his stock publicly by creating an ``Offer`` contract that can be exercised by anyone that
+which can be used for settling trades at the correct market value. The **Seller** announces an offer
+to sell its stock publicly by creating an ``Offer`` contract that can be exercised by anyone who
 can pay the correct market value in terms of ``IOU`` units.
 
 On the other side, party **Buyer** owns an ``IOU`` with 10 monetary units, which it wants to
-use to acquire **Seller** 's stock.
+use to acquire **Seller**'s stock.
 
-Below we outline the Daml templates used to model the above-mentioned trade.
+The Daml templates used to model the above-mentioned trade are outlined below.
 
 ::
 
@@ -135,7 +135,7 @@ Below we outline the Daml templates used to model the above-mentioned trade.
               buyerIou IOU_Transfer with target = seller, amount = priceQuotation.value
             pure ()
 
-We model the setup of the trade between the parties using a snippet of :ref:`Daml Script <daml-script>` below.
+The following snippet of :ref:`Daml Script <daml-script>` models the setup of the trade between the parties.
 
 ::
 
@@ -169,11 +169,11 @@ Settling the trade on-ledger implies that **Buyer** exercises ``Offer_Accept``
 on the ``offerCid`` contract.
 But how can **Buyer** exercise a choice on a contract
 on which it is neither a stakeholder nor a prior informee?
-Furthermore, the same question applies with regard to **Buyer**'s visibility over the
+The same question applies to **Buyer**'s visibility over the
 ``stockCid`` and ``priceQuotationCid`` contracts.
 
-If **Buyer** plainly exercises the choice like in the snippet below,
-his submission will fail with an error citing missing visibility rights over the involved contracts.
+If **Buyer** plainly exercises the choice as shown in the snippet below,
+the submission will fail with an error citing missing visibility rights over the involved contracts.
 
 ::
 
@@ -186,20 +186,20 @@ Read delegation using explicit contract disclosure
 ``````````````````````````````````````````````````
 
 With the introduction of explicit contract disclosure, **Buyer** can accept the offer from **Seller**
-without having seen the involved contracts on the ledger before. This is possible if the contracts' stakeholders
+without having seen the involved contracts on the ledger. This is possible if the contracts' stakeholders
 decide to :ref:`disclose <stakeholder-contract-share>` their contracts to any party desiring to execute such a trade.
 **Buyer** can attach the disclosed contracts to the command submission
-that's exercising ``Offer_Accept`` on **Seller** 's ``offerCid``, thus bypassing the visibility restriction
-that he had over the contracts.
+that is exercising ``Offer_Accept`` on **Seller**'s ``offerCid``, thus bypassing the visibility restriction
+over the contracts.
 
 .. note:: The Ledger API uses the disclosed contracts attached to command submissions
   for resolving contract and key activeness lookups during command interpretation.
   This means that usage of a disclosed contract effectively bypasses the visibility restriction
-  of the submitting party's over the respective contract.
+  of the submitting party over the respective contract.
   However, the authorization restrictions of the Daml model still apply:
-  the submitted command still needs to be well authorized (i.e. the actors
-  need to be properly authorized to execute the action -
-  as described in :ref:`Privacy Through Authorization <da-model-privacy-authorization>`).
+  the submitted command still needs to be well authorized. The actors
+  need to be properly authorized to execute the action,
+  as described in :ref:`Privacy Through Authorization <da-model-privacy-authorization>`.
 
 .. _stakeholder-contract-share:
 
@@ -211,8 +211,8 @@ associated :ref:`CreatedEvent <com.daml.ledger.api.v1.CreatedEvent>`,
 which can be read from the Ledger API via the active contracts and transactions queries
 (see :ref:`Reading from the ledger <reading-from-the-ledger>`).
 
-The stakeholder can then share the disclosed contract details to the submitter off-ledger (i.e. outside of Daml)
-by conventional means (e.g. HTTPS, SFTP, e-mail etc.). A :ref:`DisclosedContract <com.daml.ledger.api.v1.DisclosedContract>` can
+The stakeholder can then share the disclosed contract details to the submitter off-ledger (outside of Daml)
+by conventional means, such as HTTPS, SFTP, or e-mail. A :ref:`DisclosedContract <com.daml.ledger.api.v1.DisclosedContract>` can
 be constructed from the fields of the same name from the original contract's ``CreatedEvent``.
 
 .. note:: Only contracts created starting with Canton 2.6 can be shared as disclosed contracts.
@@ -240,15 +240,15 @@ the original `CreatedEvent` (see above):
 Trading the stock with explicit disclosure
 -------------------------------------------------
 
-Going back to our example, **Buyer** does not have visibility over the ``stockCid``, ``priceQuotationCid`` and ``offerCid`` contracts,
-hence he needs to provide them as disclosed contracts in the command submission exercising ``Offer_Accept``. In order to
+In the example above, **Buyer** does not have visibility over the ``stockCid``, ``priceQuotationCid`` and ``offerCid`` contracts,
+so **Buyer** must provide them as disclosed contracts in the command submission exercising ``Offer_Accept``. To
 do so, the contracts' stakeholders must fetch them from the ledger and make them available to the **Buyer**.
 
 .. note:: Daml Script support for explicit disclosure is currently not implemented.
-  For exemplification purposes, we model the last steps of this example using raw gRPC queries.
+  The last steps of the example are modeled using raw gRPC queries.
 
 The contracts' stakeholders issue fetch queries to the Ledger API for retrieving
-the associated contract payloads. For simplicity, all parties reside on participant ``participant``
+the associated contract payloads. For simplicity in the example, all parties reside on participant ``participant``
 with the Ledger API running on port ``5031``.
 
 ::
@@ -268,7 +268,7 @@ with the Ledger API running on port ``5031``.
 
 **Buyer** receives these contracts from the stakeholders and adapts them to disclosed contracts (as described in :ref:`the previous section <submitter-disclosed-contract>`)
 in a command submission that executes ``Offer_Accept`` on the ``offerCid``. The resulting gRPC command submission, which succeeds, is
-showcased below.
+shown below.
 
 ::
 
