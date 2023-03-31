@@ -715,6 +715,8 @@ subtrees:
             title: "Daml.Finance.Interface.Instrument.Bond.Callable.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-Callable-Types
             title: "Daml.Finance.Interface.Instrument.Bond.Callable.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-Callable-BondTypes
+            title: "Daml.Finance.Interface.Instrument.Bond.Callable.BondTypes"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-FixedRate-Factory
             title: "Daml.Finance.Interface.Instrument.Bond.FixedRate.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-FixedRate-Instrument
