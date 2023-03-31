@@ -133,7 +133,7 @@ It is now possible to create the *Election*:
   :start-after: -- CREATE_ELECTION_BEGIN
   :end-before: -- CREATE_ELECTION_END
 
-Note: these parts (election offer and election candidate) are not considered a core part of the Daml
+Note: these templates (election offer and election candidate) are not considered a core part of the Daml
 Finance library. There can be different processes to create the Election, so this is rather
 application specific. Still, in order to showcase one way how this could be done, this workflow is
 included here for convenience.
