@@ -74,7 +74,11 @@ Election based lifecycling of Contingent Claims based instruments
 
 This tutorial is based on
 `Instrument/Generic/Test/EuropeanOption.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Generic/Test/EuropeanOption.daml>`_
-, which contains full implementation details.
+, which contains full implementation details. It describes the lifecycling of an option instrument
+(which can be *Exercised* or *Expired*), but the same concepts apply to other Election based
+instruments (for example, a callable bond could be *Called* or *NotCalled*). Also, the workflow is
+not only applicable to Generic instruments, but also to strongly typed instruments (e.g. those
+available in the Bond, Swap and Option packages).
 
 First, an Election factory is created:
 
@@ -83,7 +87,8 @@ First, an Election factory is created:
   :start-after: -- CREATE_ELECTION_FACTORY_BEGIN
   :end-before: -- CREATE_ELECTION_FACTORY_END
 
-Then, an election offer to *exercise* the option is created:
+Then, election offers are created for the different election choices that are available.
+Specifically, for option instruments, an election offer to *exercise* is created:
 
 .. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Generic/Test/EuropeanOption.daml
   :language: daml
@@ -135,6 +140,8 @@ A lifecycle rule is required to specify how to process the Election:
   :start-after: -- CREATE_LIFECYCLE_RULE_BEGIN
   :end-before: -- CREATE_LIFECYCLE_RULE_END
 
+This is similar to time-based lifecycling.
+
 Finally, it is possible to apply the Election according to the lifecycle rule provided:
 
 .. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Generic/Test/EuropeanOption.daml
@@ -142,8 +149,8 @@ Finally, it is possible to apply the Election according to the lifecycle rule pr
   :start-after: -- APPLY_ELECTION_BEGIN
   :end-before: -- APPLY_ELECTION_END
 
-This create lifecycle effects, which can be claimed and settled in the usual way. This is described
-in :doc:`Getting Started: Lifecycling <../getting-started/lifecycling>`.
+This create lifecycle effects, which can be claimed and settled in the usual way (as described in
+:doc:`Getting Started: Lifecycling <../getting-started/lifecycling>`).
 
 How To Trade and Transfer a Generic Instrument
 **********************************************
