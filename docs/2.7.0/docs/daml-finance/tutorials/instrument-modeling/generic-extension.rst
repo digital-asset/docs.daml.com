@@ -135,8 +135,15 @@ It is now possible to create the *Election*:
 
 Note: these parts (election offer and election candidate) are not considered a core part of the Daml
 Finance library. There can be different processes to create the Election, so this is rather
-application specific. Still, in order to showcase one way how this can be done, this workflow is
+application specific. Still, in order to showcase one way how this could be done, this workflow is
 included here for convenience.
+
+The :ref:`Election <module-daml-finance-interface-lifecycle-election-24570>`
+has a flag *electorIsOwner*, which indicates whether the election is on behalf of the owner of the
+holding. This is typically the case for options, where the option holder has the right, but not the
+obligation, to exercise the option. On the other hand, for callable bonds it is not the holding
+owner (the bond holder) who gets to decide whether the bond is redeemed early. Instead, it is the
+counterparty. In this case, *electorIsOwner* would be false.
 
 A lifecycle rule is required to specify how to process the Election:
 
@@ -154,8 +161,9 @@ Finally, it is possible to apply the Election according to the lifecycle rule pr
   :start-after: -- APPLY_ELECTION_BEGIN
   :end-before: -- APPLY_ELECTION_END
 
-This create lifecycle effects, which can be claimed and settled in the usual way (as described in
-:doc:`Getting Started: Lifecycling <../getting-started/lifecycling>`).
+This creates lifecycle effects, which can be claimed and settled in the usual way (as described in
+:doc:`Getting Started: Lifecycling <../getting-started/lifecycling>`). The value of *electorIsOwner*
+(described above) will determine the who is custodian and who is owner in the lifecycle effects.
 
 How To Trade and Transfer a Generic Instrument
 **********************************************
