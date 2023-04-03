@@ -162,8 +162,9 @@ Finally, it is possible to apply the Election according to the lifecycle rule pr
   :end-before: -- APPLY_ELECTION_END
 
 This creates lifecycle effects, which can be claimed and settled in the usual way (as described in
-:doc:`Getting Started: Lifecycling <../getting-started/lifecycling>`). The value of *electorIsOwner*
-(described above) will determine the who is custodian and who is owner in the lifecycle effects.
+:doc:`Getting Started: Lifecycling <../getting-started/lifecycling>`). However, the holding contract
+used to claim the effect must be compatible with the election that has been made: if Alice made an
+election and *electorIsOwner = True*, then only a holding where *owner = alice* will be accepted.
 
 How To Trade and Transfer a Generic Instrument
 **********************************************
