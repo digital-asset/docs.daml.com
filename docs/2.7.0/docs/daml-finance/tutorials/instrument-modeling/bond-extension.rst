@@ -120,8 +120,11 @@ Libor 3M + 0.1% p.a. with a 3M coupon period:
 
 .. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml
   :language: daml
-  :start-after: -- CREATE_3M_FLOATING_CALLABLE_BOND_VARIABLES_BEGIN
-  :end-before: -- CREATE_3M_FLOATING_CALLABLE_BOND_VARIABLES_END
+  :start-after: -- CREATE_3M_CAP_FLOOR_FLOATING_CALLABLE_BOND_VARIABLES_BEGIN
+  :end-before: -- CREATE_3M_CAP_FLOOR_FLOATING_CALLABLE_BOND_VARIABLES_END
+
+The coupon rate in this example also has a 0% floor and a 1.5% cap. This is configurable, just set
+the cap or floor to *None* if it does not apply.
 
 The fixed rate is fairly simple to define, but the floating rate requires more inputs. A
 :ref:`FloatingRate <type-daml-finance-interface-instrument-bond-callable-bondtypes-floatingrate-78783>`
