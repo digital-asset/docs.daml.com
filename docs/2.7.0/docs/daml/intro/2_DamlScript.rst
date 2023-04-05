@@ -115,6 +115,9 @@ To test for failing submits and keep the script running thereafter, or fail if t
 
 ``submitMustFail`` never has an impact on the ledger, so the resulting tabular script view only shows the two tokens resulting from the successful ``submit`` statements. Note the new column for Bob as well as the visibilities. Alice and Bob cannot see each others' tokens.
 
+.. figure:: images/2_Scenario/failuretable.png
+   :alt: The script view as a separate column with table again. This time there is a column and a row for Bob, as well as Alice. Alice cannot see Bob's tokens and Bob cannot see Alice's tokens, but each can see their own tokens.
+
 .. _archiving:
 
 Archive Contracts
