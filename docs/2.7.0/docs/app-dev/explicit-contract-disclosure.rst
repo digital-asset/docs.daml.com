@@ -283,8 +283,10 @@ shown below.
   # Extracted from the transaction lookup query results from above
   offerCid="00b8355cf81045ad6212e6168380dd9ca4b7dbe9b7f0b53c595bdc0b9e60ec6789ca011220249c851ca8927e761d2fdba628f1508c6e2a3bb9fa64164f5c297aae023bfdd3"
   priceQuotationCid="00e0be88a38c25bc0b3b35acd6f46de92584becf99009cb512a71727fb928c90fdca01122080169e053bd955dc5e29efeeb500fd28182546e1306e7ca968eca48c5fd1bc19"
-  buyerIouCid="00cd7d7b27f1b323bb55c2b0adf2aac76657079741adf6dc98a5d977338e3c92eeca011220649fd780478bb1d2159639fa6df276c0214c672609252c4db601ade0c67605fb"
   stockCid="00406f5cfbe495a21d576fbc4971e5d12c1ec5de972439ca0c054bbe54883de2a9ca01122064de6a454a83ce3ac4535ac9df550b21b90b9524fee6210af213fccf0ac4acca"
+
+  # The contract id of Buyer's IOU (for conciseness, not shown in this example but can be extracted by the Buyer from the getTransactions queries as above)
+  buyerIouCid="00cd7d7b27f1b323bb55c2b0adf2aac76657079741adf6dc98a5d977338e3c92eeca011220649fd780478bb1d2159639fa6df276c0214c672609252c4db601ade0c67605fb"
 
   stockContractCreatedAt="2023-04-05T09:11:29.062939Z"
   stockContractDriverMetadata="CiYKJAgBEiA5hhYAzLWLGx4dr6MO0r1xoD/AAu/Xe6H56hCOzDqOlQ=="
