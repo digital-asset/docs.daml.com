@@ -74,7 +74,11 @@ Election based lifecycling of Contingent Claims based instruments
 
 This tutorial is based on
 `Instrument/Generic/Test/EuropeanOption.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Generic/Test/EuropeanOption.daml>`_
-, which contains full implementation details.
+, which contains full implementation details. It describes the lifecycling of an option instrument
+(which can be *Exercised* or *Expired*), but the same concepts apply to other Election based
+instruments (for example, a callable bond could be *Called* or *NotCalled*). Also, the workflow is
+not only applicable to Generic instruments, but also to strongly typed instruments (e.g. those
+available in the Bond, Swap and Option packages).
 
 First, an Election factory is created:
 
@@ -83,7 +87,8 @@ First, an Election factory is created:
   :start-after: -- CREATE_ELECTION_FACTORY_BEGIN
   :end-before: -- CREATE_ELECTION_FACTORY_END
 
-Then, an election offer to *exercise* the option is created:
+Then, election offers are created for the different election choices that are available.
+Specifically, for option instruments, an election offer to *exercise* is created:
 
 .. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Generic/Test/EuropeanOption.daml
   :language: daml
@@ -128,12 +133,26 @@ It is now possible to create the *Election*:
   :start-after: -- CREATE_ELECTION_BEGIN
   :end-before: -- CREATE_ELECTION_END
 
+Note: these templates (election offer and election candidate) are not considered a core part of the Daml
+Finance library. There can be different processes to create the Election, so this is rather
+application specific. Still, in order to showcase one way how this could be done, this workflow is
+included here for convenience.
+
+The :ref:`Election <module-daml-finance-interface-lifecycle-election-24570>`
+has a flag *electorIsOwner*, which indicates whether the election is on behalf of the owner of the
+holding. This is typically the case for options, where the option holder has the right, but not the
+obligation, to exercise the option. On the other hand, for callable bonds it is not the holding
+owner (the bond holder) who gets to decide whether the bond is redeemed early. Instead, it is the
+counterparty. In this case, *electorIsOwner* would be false.
+
 A lifecycle rule is required to specify how to process the Election:
 
 .. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Generic/Test/EuropeanOption.daml
   :language: daml
   :start-after: -- CREATE_LIFECYCLE_RULE_BEGIN
   :end-before: -- CREATE_LIFECYCLE_RULE_END
+
+This is similar to time-based lifecycling.
 
 Finally, it is possible to apply the Election according to the lifecycle rule provided:
 
@@ -142,8 +161,10 @@ Finally, it is possible to apply the Election according to the lifecycle rule pr
   :start-after: -- APPLY_ELECTION_BEGIN
   :end-before: -- APPLY_ELECTION_END
 
-This create lifecycle effects, which can be claimed and settled in the usual way. This is described
-in :doc:`Getting Started: Lifecycling <../getting-started/lifecycling>`.
+This creates lifecycle effects, which can be claimed and settled in the usual way (as described in
+:doc:`Getting Started: Lifecycling <../getting-started/lifecycling>`). However, the holding contract
+used to claim the effect must be compatible with the election that has been made: if Alice made an
+election and *electorIsOwner = True*, then only a holding where *owner = alice* will be accepted.
 
 How To Trade and Transfer a Generic Instrument
 **********************************************
