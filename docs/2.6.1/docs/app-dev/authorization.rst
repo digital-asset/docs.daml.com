@@ -72,7 +72,7 @@ Access tokens contain information about the rights granted to the bearer of the 
 The Daml Ledger API uses the following rights to govern request authorization:
 
 - ``public``: the right to retrieve publicly available information, such as the ledger identity
-- ``participant_admin``: the right to adminstrate the participant node
+- ``participant_admin``: the right to administer the participant node
 - ``canReadAs(p)``: the right to read information off the ledger (like the active contracts) visible to the party ``p``
 - ``canActsAs(p)``: same as ``canReadAs(p)``, with the added right of issuing commands on behalf of the party ``p``
 
