@@ -113,15 +113,23 @@ Callable
 ========
 
 :ref:`Callable bonds <module-daml-finance-instrument-bond-floatingrate-instrument-98586>` can be
-early redeemed by the issuer before maturity. Both fixed and floating rate coupons are supported.
-In case of a floating rate + coupon spread, a fixed rate coupon can be used to represent the spread.
-
-Here is an example of a bond paying Libor 3M + 0.1% p.a. with a 3M coupon period:
+redeemed by the issuer before maturity. Both fixed and floating rate coupons are supported.
+In case of a floating rate, there is often a fixed spread as well. This can be represented by
+a fixed rate coupon, which is shown in the following example. Here is a bond paying
+Libor 3M + 0.1% p.a. with a 3M coupon period:
 
 .. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml
   :language: daml
-  :start-after: -- CREATE_3M_FLOATING_CALLABLE_BOND_VARIABLES_BEGIN
-  :end-before: -- CREATE_3M_FLOATING_CALLABLE_BOND_VARIABLES_END
+  :start-after: -- CREATE_3M_CAP_FLOOR_FLOATING_CALLABLE_BOND_VARIABLES_BEGIN
+  :end-before: -- CREATE_3M_CAP_FLOOR_FLOATING_CALLABLE_BOND_VARIABLES_END
+
+The coupon rate in this example also has a 0% floor and a 1.5% cap. This is configurable, just set
+the cap or floor to *None* if it does not apply.
+
+The fixed rate is fairly simple to define, but the floating rate requires more inputs. A
+:ref:`FloatingRate <type-daml-finance-interface-instrument-bond-callable-bondtypes-floatingrate-78783>`
+data type is used to specify which reference rate should be used and on which date the reference
+rate is fixed for each coupon period.
 
 Using these terms we can create the callable bond instrument:
 
@@ -131,15 +139,15 @@ Using these terms we can create the callable bond instrument:
   :end-before: -- CREATE_CALLABLE_BOND_INSTRUMENT_END
 
 Unlike regular fixed and floating bonds, which are lifecycled based on the passage of time, this
-callable bond instrument contains an embedded option which is not automatically exercised. Instead,
-the custodian of the bond holding must manually decide whether or not to call the bond. This is done by making an
-*Election*.
+callable bond instrument contains an embedded option that is not automatically exercised. Instead,
+the custodian of the bond holding must manually decide whether or not to call the bond. This is done
+by making an *Election*.
 
 This callable bond example is taken from
 `Instrument/Bond/Test/Callable.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml>`_
-, where all the details are available. Also, Check out the
-:ref:`Election based lifecycling tutorial <election-based-lifecycling>` for more details on how
-how to define and process an *Election* in practice.
+, where all the details are available. Also, check out the
+:ref:`Election based lifecycling tutorial <election-based-lifecycling>` for more details on how to
+define and process an *Election* in practice.
 
 Inflation Linked
 ================

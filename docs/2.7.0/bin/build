@@ -61,4 +61,25 @@ rm -r $BUILD_DIR/sphinx-target/html/.buildinfo $BUILD_DIR/sphinx-target/html/.do
     done < <(find . -name '*.html' | sort | sed -e 's,^\./,https://docs.daml.com/,')
     echo $SMFOOT >> sitemap.xml
 )
+
+# add Finance entries to Hoogle
+
+(
+    tar_tmp=$(mktemp -d)
+    hoogle_tmp=$(mktemp -d)
+    trap "rm -rf $tar_tmp $hoogle_tmp" EXIT
+    cd $tar_tmp
+    cp $SOURCE_DIR/non-sphinx-html-docs-$RELEASE_TAG.tar.gz ./daml.tar.gz
+    cp $SOURCE_DIR/daml-finance-doc-sources-$DAML_FINANCE_RELEASE_TAG.tar.gz ./finance.tar.gz
+    tar xzf daml.tar.gz
+    tar xzf html/hoogle_db.tar.gz -C $hoogle_tmp
+    tar xzf finance.tar.gz
+    cp reference/daml-finance-hoogle.txt $hoogle_tmp/hoogle/
+    cd $hoogle_tmp
+    tar czf hoogle_db.tar.gz hoogle
+    target=$BUILD_DIR/sphinx-target/html/hoogle_db.tar.gz
+    rm -f $target
+    cp hoogle_db.tar.gz $target
+)
+
 tar cfz $TARGET_DIR/html-$prefix.tar.gz -C $BUILD_DIR/sphinx-target html
