@@ -135,8 +135,8 @@ rate is fixed for each coupon period.
 
 This instrument also allows you to configure on which coupon dates the bond is callable. This is
 done by specifying a separate *callSchedule*. If the bond is callable on every coupon date, simply
-set *callSchedule = couponScheule*. Alternatively, if our bond with a 3M coupon is callable every
-six months, this can be configured by specifying a different schedule:
+set *callSchedule = couponSchedule*. Alternatively, if the bond is only callable every six months,
+this can be configured by specifying a different schedule:
 
 .. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml
   :language: daml
