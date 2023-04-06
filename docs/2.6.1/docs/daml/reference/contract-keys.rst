@@ -8,7 +8,7 @@ Reference: Contract Keys
 
 Contract keys are an optional addition to templates. They let you specify a way of uniquely identifying contracts, using the parameters to the template - similar to a primary key for a database.
 
-You can use contract keys to stably refer to a contract, even through iterations of instances of it in which the contract id changes.
+Contract keys do not change and can be used to refer to a contract even when the contract id changes.
 
 Here's an example of setting up a contract key for a bank account, to act as a bank account ID:
 
