@@ -6,8 +6,9 @@ How To Use the Option Extension Package
 
 To follow the script used in this tutorial, you can
 `clone the Daml Finance repository <https://github.com/digital-asset/daml-finance>`_. In particular,
-the Option test folder ``src/test/daml/Daml/Finance/Instrument/Option/Test/`` is the starting point
-of this tutorial.
+the Option test folder
+`Instrument/Option/Test/ <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Option/Test/>`_
+is the starting point of this tutorial.
 
 How To Create an Option Instrument
 **********************************
@@ -27,8 +28,8 @@ future.
 
 As an example, consider an option instrument that gives the holder the right to buy AAPL stock
 at a given price. This example is taken from
-``src/test/daml/Daml/Finance/Instrument/Option/Test/EuropeanCash.daml``, where all the details are
-available.
+`Instrument/Option/Test/EuropeanCash.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Option/Test/EuropeanCash.daml>`_
+, where all the details are available.
 
 You start by defining the terms:
 
@@ -129,8 +130,9 @@ specific *expiry* date in the future. The following payout types are supported:
 
 As an example, consider an option instrument that gives the holder the right to choose to receive
 AAPL dividends either as cash, shares or cash in a foreign currency (EUR). This example is taken
-from ``src/test/daml/Daml/Finance/Instrument/Option/Test/Dividend.daml``, where all the details are
-available.
+from
+`Instrument/Option/Test/Dividend.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Option/Test/Dividend.daml>`_
+, where all the details are available.
 
 You start by defining the terms:
 

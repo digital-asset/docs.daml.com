@@ -39,9 +39,10 @@ There is also the tutorial :doc:`How to implement a Contingent Claims-based inst
 which describes how create an
 :ref:`Effect <type-daml-finance-interface-lifecycle-effect-effect-69649>`.
 For a description of ``Distribution`` and
-``Replacement``, check out the ``src/test/daml/Daml/Finance/Instrument/Equity/Test`` folder. It
-demonstrates how to create and lifecycle a cash dividend, and how to handle corporate actions
-like mergers and stock splits.
+``Replacement``, check out the
+`Instrument/Equity/Test <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Equity/Test>`_
+folder. It demonstrates how to create and lifecycle a cash dividend, and how to handle corporate
+actions like mergers and stock splits.
 
 Changelog
 *********

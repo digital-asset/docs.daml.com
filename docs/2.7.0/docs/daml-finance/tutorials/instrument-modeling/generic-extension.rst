@@ -6,8 +6,9 @@ How To Model and Lifecycle Generic Instruments
 
 To follow the script used in this tutorial, you can
 `clone the Daml Finance repository <https://github.com/digital-asset/daml-finance>`_. In particular,
-the file ``src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml`` is the
-starting point of this tutorial.
+the file
+`Instrument/Generic/Test/Intermediated/BondCoupon.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml>`_
+is the starting point of this tutorial.
 
 How To Create a Generic Instrument
 **********************************

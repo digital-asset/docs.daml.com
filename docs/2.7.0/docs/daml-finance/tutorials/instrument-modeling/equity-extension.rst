@@ -6,8 +6,9 @@ How to Use the Equity Extension Package
 
 To follow the script used in this tutorial, you can
 `clone the Daml Finance repository <https://github.com/digital-asset/daml-finance>`_. In particular,
-the Equity test folder ``src/test/daml/Daml/Finance/Instrument/Equity/Test/`` is the starting point
-of this tutorial.
+the
+`Instrument/Equity/Test/ <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Equity/Test/>`_
+folder is the starting point of this tutorial.
 
 How to Use the Equity Extension in Your Application
 ***************************************************
@@ -131,8 +132,8 @@ When current shareholders receive the option instrument they can choose between 
 payment types offered by the issuer, for example cash in a foreign currency.
 
 More details on this dividend option process are described in
-``src/test/daml/Daml/Finance/Instrument/Equity/Test/DivOption.daml``, in particular how to define
-and process an *Election*.
+`Instrument/Equity/Test/DivOption.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Equity/Test/DivOption.daml>`_
+, in particular how to define and process an *Election*.
 
 2. Using multiple distribution events
 =====================================
@@ -201,8 +202,8 @@ possible to to apply for excess subscription. For example, an investor would lik
   part or in whole.
 
 More details on the Rights Issue and Subscription process are described in
-``src/test/daml/Daml/Finance/Instrument/Equity/Test/RightsIssue.daml``, in particular how to define
-and process an *Election*.
+`Instrument/Equity/Test/RightsIssue.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Equity/Test/RightsIssue.daml>`_
+, in particular how to define and process an *Election*.
 
 Stock split
 ***********

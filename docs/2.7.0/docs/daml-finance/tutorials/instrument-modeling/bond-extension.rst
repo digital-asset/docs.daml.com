@@ -6,8 +6,9 @@ How to Use the Bond Extension Package
 
 To follow the script used in this tutorial, you can
 `clone the Daml Finance repository <https://github.com/digital-asset/daml-finance>`_. In particular,
-the Bond test folder ``src/test/daml/Daml/Finance/Instrument/Bond/Test/`` is the starting point
-of this tutorial.
+the
+`Instrument/Bond/Test <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Bond/Test>`_
+folder is the starting point of this tutorial.
 
 How to Use the Bond Extension in Your Application
 *************************************************
@@ -38,8 +39,9 @@ pay a constant coupon each coupon period. The coupon is quoted on a yearly basis
 coupon and a 6M coupon period. That would mean a 1% coupon is paid twice a year.
 
 As an example we will create a bond instrument paying a 1.1% p.a. coupon with a 12M coupon period.
-This example is taken from ``src/test/daml/Daml/Finance/Instrument/Bond/Test/FixedRate.daml``,
-where all the details are available.
+This example is taken from
+`Instrument/Bond/Test/FixedRate.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Bond/Test/FixedRate.daml>`_
+, where all the details are available.
 
 We start by defining the terms:
 
