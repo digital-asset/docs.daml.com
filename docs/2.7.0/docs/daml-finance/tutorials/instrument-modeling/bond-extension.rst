@@ -122,8 +122,8 @@ Libor 3M + 0.1% p.a. with a 3M coupon period:
 
 .. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml
   :language: daml
-  :start-after: -- CREATE_3M_CAP_FLOOR_FLOATING_CALLABLE_BOND_VARIABLES_BEGIN
-  :end-before: -- CREATE_3M_CAP_FLOOR_FLOATING_CALLABLE_BOND_VARIABLES_END
+  :start-after: -- CREATE_3M_CAP_FLOOR_FLOATING_6M_CALLABLE_BOND_VARIABLES_BEGIN
+  :end-before: -- CREATE_3M_CAP_FLOOR_FLOATING_6M_CALLABLE_BOND_VARIABLES_END
 
 The coupon rate in this example also has a 0% floor and a 1.5% cap. This is configurable, just set
 the cap or floor to *None* if it does not apply.
@@ -133,12 +133,22 @@ The fixed rate is fairly simple to define, but the floating rate requires more i
 data type is used to specify which reference rate should be used and on which date the reference
 rate is fixed for each coupon period.
 
+This instrument also allows you to configure on which coupon dates the bond is callable. This is
+done by specifying a separate *callSchedule*. If the bond is callable on every coupon date, simply
+set *callSchedule = couponSchedule*. Alternatively, if the bond is only callable every six months,
+this can be configured by specifying a different schedule:
+
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml
+  :language: daml
+  :start-after: -- CREATE_3M_CAP_FLOOR_FLOATING_6M_CALLABLE_BOND_SCHEDULE_BEGIN
+  :end-before: -- CREATE_3M_CAP_FLOOR_FLOATING_6M_CALLABLE_BOND_SCHEDULE_END
+
 Using these terms we can create the callable bond instrument:
 
 .. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Util.daml
   :language: daml
-  :start-after: -- CREATE_CALLABLE_BOND_INSTRUMENT_BEGIN
-  :end-before: -- CREATE_CALLABLE_BOND_INSTRUMENT_END
+  :start-after: -- CREATE_MULTI_SCHEDULE_CALLABLE_BOND_INSTRUMENT_BEGIN
+  :end-before: -- CREATE_MULTI_SCHEDULE_CALLABLE_BOND_INSTRUMENT_END
 
 Unlike regular fixed and floating bonds, which are lifecycled based on the passage of time, this
 callable bond instrument contains an embedded option that is not automatically exercised. Instead,
