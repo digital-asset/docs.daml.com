@@ -15,7 +15,8 @@ Check out the tutorial on
 :doc:`How to use the Equity extension package <../../tutorials/instrument-modeling/equity-extension>`.
 
 For a detailed explanation of the equity extension, check out the
-``src/test/daml/Daml/Finance/Instrument/Equity/Test`` folder. It demonstrates how to originate
+`Instrument/Equity/Test <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Equity/Test>`_
+folder. It demonstrates how to originate
 an equity instrument, how to create and lifecycle a cash dividend, and how to handle corporate
 actions like mergers and stock splits.
 

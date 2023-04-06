@@ -20,10 +20,11 @@ We will illustrate the following steps:
 
 To follow the script used in this tutorial, you can
 `clone the Daml Finance repository <https://github.com/digital-asset/daml-finance>`_. In particular,
-the file ``src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml`` is the
-starting point of this tutorial. It contains an example for both non-atomic and atomic settlement
-of lifecycle effects. In this tutorial we will focus on the non-atomic settlement, but we will
-mention atomic settlement towards the end.
+the file
+`Instrument/Generic/Test/Intermediated/BondCoupon.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml>`_
+is the starting point of this tutorial. It contains an example for both non-atomic and atomic
+settlement of lifecycle effects. In this tutorial we will focus on the non-atomic settlement, but we
+will mention atomic settlement towards the end.
 
 Create a Fixed-Rate Bond Instrument
 ***********************************
@@ -163,5 +164,6 @@ There are now more settlement instructions (both from CSD to issuer and from iss
   :end-before: -- LIFECYCLE_BOND_ATOMIC_INSTRUCTIONS_END
 
 These will have to be allocated, approved and settled similarly to the non-atomic case above.
-See the file ``src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml``
+See the file
+`Instrument/Generic/Test/Intermediated/BondCoupon.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml>`_
 for full details.

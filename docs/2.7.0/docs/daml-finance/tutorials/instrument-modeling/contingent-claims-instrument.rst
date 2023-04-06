@@ -13,9 +13,11 @@ template, if you need an instrument type that is not already implemented in Daml
 
 To follow the script used in this tutorial, you can
 `clone the Daml Finance repository <https://github.com/digital-asset/daml-finance>`_. In particular,
-the file ``src/test/daml/Daml/Finance/Instrument/Bond/Test/FixedRate.daml`` is the starting point of
-this tutorial. It also refers to some utility functions in
-``src/test/daml/Daml/Finance/Instrument/Bond/Test/Util.daml``.
+the file
+`Instrument/Bond/Test/FixedRate.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Bond/Test/FixedRate.daml>`_
+is the starting point of this tutorial. It also refers to some utility functions in
+`Instrument/Bond/Test/Util.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Bond/Test/Util.daml>`_
+.
 
 Template Definition
 ===================

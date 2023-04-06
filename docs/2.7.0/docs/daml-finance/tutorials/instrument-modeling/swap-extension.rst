@@ -6,8 +6,9 @@ How To Use the Swap Extension Package
 
 To follow the script used in this tutorial, you can
 `clone the Daml Finance repository <https://github.com/digital-asset/daml-finance>`_. In particular,
-the Swap test folder ``src/test/daml/Daml/Finance/Instrument/Swap/Test/`` is the starting point of
-this tutorial.
+the Swap test folder
+`Instrument/Swap/Test/ <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Swap/Test/>`_
+is the starting point of this tutorial.
 
 Prerequisites
 *************
@@ -34,8 +35,8 @@ end of every payment period.
 
 As an example, we will create a swap instrument paying Libor 3M vs a 2.01% p.a. with a 3M payment
 period. This example is taken from
-``src/test/daml/Daml/Finance/Instrument/Swap/Test/InterestRate.daml``, where all the details are
-available.
+`Instrument/Swap/Test/InterestRate.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Swap/Test/InterestRate.daml>`_
+, where all the details are available.
 
 We start by defining the terms:
 
