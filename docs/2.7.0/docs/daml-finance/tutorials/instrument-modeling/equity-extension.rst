@@ -28,7 +28,7 @@ The Equity Interface
 The equity extension supports different lifecycle related events, for example dividends, stock
 splits and mergers. These are modeled using the choices on the
 :ref:`Equity interface <module-daml-finance-interface-instrument-equity-instrument-13224>`,
-namely ``DeclareDividend``, ``DeclareReplacement`` and ``DeclareStockSplit``. We will now
+namely ``DeclareDistribution``, ``DeclareReplacement`` and ``DeclareStockSplit``. We will now
 demonstrate each one with a concrete lifecycle event.
 
 Dividend
@@ -36,7 +36,7 @@ Dividend
 
 The most common lifecycle event of an equity is probably dividends. This normally means that
 the holder of a stock receives a given amount of cash for each stock held. This is modeled using
-the ``DeclareDividend`` choice. It creates a
+the ``DeclareDistribution`` choice. It creates a
 :ref:`Distribution Event <module-daml-finance-lifecycle-event-distribution-17302>`,
 which allows you to specify distribution per share. In the case of a cash dividend, this would be a
 cash instrument. However, the company can also choose to distribute additional stock or even stock
@@ -123,8 +123,8 @@ The preferred way is to model this using the following two components:
 - A dividend option instrument, which describes the economic terms of the rights a shareholder
   receives. The :doc:`Option Tutorial <option-extension>` describes how to create a physically
   settled :ref:`Dividend <module-daml-finance-instrument-option-dividend-instrument-7333>` option.
-- The ``DeclareDividend`` choice to distribute the above option instrument in the correct proportion
-  (e.g. 1 option contract for each share held). This can be done in the same way as the
+- The ``DeclareDistribution`` choice to distribute the above option instrument in the correct
+  proportion (e.g. 1 option contract for each share held). This can be done in the same way as the
   `Bonus Issue <#bonus-issue>`__  example described earlier, just change the ``perUnitDistribution``
   line to distribute the option instrument you created above.
 
@@ -138,8 +138,8 @@ More details on this dividend option process are described in
 2. Using multiple distribution events
 =====================================
 
-The ``DeclareDividend`` choice can be used for this as well. The issuer creates one event for each
-dividend option that shareholders can choose from:
+The ``DeclareDistribution`` choice can be used for this as well. The issuer creates one event for
+each dividend option that shareholders can choose from:
 
 .. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Equity/Test/Dividend.daml
   :language: daml
@@ -175,10 +175,10 @@ be modeled using two components:
   a maturity three weeks in the future.
   The :doc:`Option Tutorial <option-extension>` describes how to create a physically settled
   European option.
-- The ``DeclareDividend`` choice to distribute the above option instrument in the correct proportion
-  (e.g. 3 option contracts for each 10 shares held). This can be done in the same way as the Bonus
-  Issue example described earlier, just change the ``perUnitDistribution`` line to distribute the
-  option instrument you created above.
+- The ``DeclareDistribution`` choice to distribute the above option instrument in the correct
+  proportion (e.g. 3 option contracts for each 10 shares held). This can be done in the same way as
+  the Bonus Issue example described earlier, just change the ``perUnitDistribution`` line to
+  distribute the option instrument you created above.
 
 When current shareholders receive the option instrument they can typically choose between:
 
