@@ -9,6 +9,6 @@ modules:
 
 - :ref:`Instrument <module-daml-finance-interface-instrument-equity-instrument-13224>`:
   Instrument interface for equities. It supports lifecycling events through the
-  ``DeclareDividend``, ``DeclareReplacement`` and ``DeclareStockSplit`` choices.
+  ``DeclareDistribution``, ``DeclareReplacement`` and ``DeclareStockSplit`` choices.
 - :ref:`Factory <module-daml-finance-interface-instrument-equity-factory-97140>`:
   Factory interface to instantiate equities
