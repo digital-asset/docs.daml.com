@@ -72,7 +72,7 @@ The outcome of command deduplication is communicated as follows:
 
 Independently of how the outcome is communicated, command deduplication generates the following outcomes of a command submission:
 
-- If there is no conflicting submission with the same :ref:`change ID <change-id>` on the Daml ledger or in-flight, the completion event and possibly the response convey the result of the submission (success or a gRPC error; :doc:`/canton/reference/error_codes` explains how errors are communicated).
+- If there is no conflicting submission with the same :ref:`change ID <change-id>` on the Daml ledger or in-flight, the completion event and possibly the response convey the result of the submission (success or a gRPC error; :doc:`/canton/usermanual/error_codes` explains how errors are communicated).
 
 - The gRPC status code ``ALREADY_EXISTS`` with error code ID :ref:`DUPLICATE_COMMAND <error_code_DUPLICATE_COMMAND>` indicates that there is an earlier command completion for the same :ref:`change ID <change-id>` within the effective deduplication period.
 
