@@ -63,7 +63,7 @@ applications in production, but they differ in terms of enterprise and non-funct
    * - Fabric driver
      - Yes
      - No
-   * - `Profiler <https://docs.daml.com/tools/profiler.html>`_
+   * - :doc:`Profiler </tools/profiler>`
      - Yes
      - No
    * - `Non-repudiation Middleware <https://docs.daml.com/tools/non-repudiation.html>`_
