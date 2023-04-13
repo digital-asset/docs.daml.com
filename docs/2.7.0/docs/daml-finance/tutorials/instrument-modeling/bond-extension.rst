@@ -162,8 +162,8 @@ This callable bond example is taken from
 define and process an *Election* in practice. Note that the bond in the example above, that is
 callable only on some of the coupon dates, will require two types of lifecycling:
 
-- :doc:`Time based lifecycling <../tutorials/getting-started/lifecycling>` on coupon dates when the
-  bond is *not* callable.
+- :doc:`Time based lifecycling <../getting-started/lifecycling>` on coupon dates when the bond is
+  *not* callable.
 - :ref:`Election based lifecycling <election-based-lifecycling>` on coupon dates when the bond *is*
   callable.
 
