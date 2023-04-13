@@ -1054,7 +1054,7 @@ subtrees:
 - caption: "Help"
   entries:
 
-  - file: canton/usermanual/error_codes.rst
+  - file: canton/reference/error_codes.rst
     title: "Error Codes"
   - file: daml/troubleshooting
     title: "Troubleshooting"
