@@ -26,7 +26,8 @@ snapshots=$(bin/list-hidden-versions \
                     # we keep just the version number, we do not need the vector of
                     # elements anymore
                     | .[0]
-                    ')
+                    ' \
+            | sort -V)
 
 graphql() (
   version=$1

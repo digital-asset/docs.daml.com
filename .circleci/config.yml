@@ -230,6 +230,7 @@ jobs:
              --keep ARTIFACTORY_PASSWORD \
              --keep AWS_ACCESS_KEY_ID \
              --keep AWS_SECRET_ACCESS_KEY \
+             --keep CI \
              --run bin/publish-snapshots
 
 workflows:
