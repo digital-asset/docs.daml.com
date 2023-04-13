@@ -28,9 +28,9 @@ do
     sed -i 's|include:: /substitution.hrst|include:: /canton/substitution.hrst|g ; s|image:: /images|image:: /canton/images|g' $file
     sed -i "s|__VERSION__|$prefix|g" $file
 done
-sed -i 's|include:: \(.*\)|include:: ../../app-dev/grpc/\1|g' $SPHINX_DIR/source/canton/reference/error_codes.rst
+sed -i 's|include:: \(e.*\)|include:: ../../app-dev/grpc/\1|g' $SPHINX_DIR/source/canton/usermanual/error_codes.rst
 # remove once headers are fixed on the canton side
-sed -i 's|\^|*|g' $SPHINX_DIR/source/canton/reference/error_codes.rst
+sed -i 's|\^|*|g' $SPHINX_DIR/source/canton/usermanual/error_codes.rst
 
 # Drop Canton’s index in favor of our own.
 rm $SPHINX_DIR/source/canton/index.rst
