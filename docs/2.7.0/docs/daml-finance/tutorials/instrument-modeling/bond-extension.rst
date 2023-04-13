@@ -159,7 +159,13 @@ This callable bond example is taken from
 `Instrument/Bond/Test/Callable.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml>`_
 , where all the details are available. Also, check out the
 :ref:`Election based lifecycling tutorial <election-based-lifecycling>` for more details on how to
-define and process an *Election* in practice.
+define and process an *Election* in practice. Note that the bond in the example above, that is
+callable only on some of the coupon dates, will require two types of lifecycling:
+
+- :doc:`Time based lifecycling <../tutorials/getting-started/lifecycling>` on coupon dates when the
+  bond is *not* callable.
+- :ref:`Election based lifecycling <election-based-lifecycling>` on coupon dates when the bond *is*
+  callable.
 
 Inflation Linked
 ================
