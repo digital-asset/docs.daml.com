@@ -206,6 +206,9 @@ Lifecycling of Contingent Claims based instruments can be divided into two categ
   :ref:`Election based lifecycling tutorial <election-based-lifecycling>` for more details on how
   this can be implemented in practice.
 
+Note that some instruments can require both types of lifecycling. An example of this is a callable
+bond that is callable only on some of the coupon dates.
+
 Claim Rule
 ==========
 
