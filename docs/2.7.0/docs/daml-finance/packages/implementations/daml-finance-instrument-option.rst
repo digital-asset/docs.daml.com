@@ -19,8 +19,6 @@ following modules:
   Instrument implementation for physically settled European options
 - :ref:`EuropeanPhysical.Factory <module-daml-finance-instrument-option-europeanphysical-factory-58032>`:
   Factory implementation to instantiate physically settled European options
-- :ref:`Lifecycle.Rule <module-daml-finance-instrument-option-lifecycle-rule-28334>`:
-  Rule to process an election event for option instruments
 
 Check out the tutorial on
 :doc:`How to use the Option extension package <../../tutorials/instrument-modeling/option-extension>`
