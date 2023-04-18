@@ -134,8 +134,8 @@ data type is used to specify which reference rate should be used and on which da
 rate is fixed for each coupon period.
 
 In addition to the Libor/Euribor style reference rates, compounded SOFR and similar reference rates
-are also supported. In order to optimize the calculation, these compounded rates are calculated via
-an index that is continuously compounded, as described in the
+are also supported. In order to optimize performance, these compounded rates are calculated via a
+(pre-computed) continuously compounded index, as described in the
 :ref:`ReferenceRateTypeEnum <type-daml-finance-interface-instrument-bond-callable-bondtypes-referenceratetypeenum-34560>`.
 For example, here is how *daily compounded SOFR* can be specified using the *SOFR Index*:
 
