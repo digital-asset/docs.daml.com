@@ -133,6 +133,17 @@ The fixed rate is fairly simple to define, but the floating rate requires more i
 data type is used to specify which reference rate should be used and on which date the reference
 rate is fixed for each coupon period.
 
+In addition to the Libor/Euribor style reference rates, compounded SOFR and similar reference rates
+are also supported. In order to optimize the calculation, these compounded rates are calculated via
+an index that is continuously compounded, as described in the
+:ref:`ReferenceRateTypeEnum <type-daml-finance-interface-instrument-bond-callable-bondtypes-referenceratetypeenum-34560>`.
+For example, here is how *daily compounded SOFR* can be specified using the *SOFR Index*:
+
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml
+  :language: daml
+  :start-after: -- CREATE_6M_SOFR_CALLABLE_BOND_VARIABLES_BEGIN
+  :end-before: -- CREATE_6M_SOFR_CALLABLE_BOND_VARIABLES_END
+
 This instrument also allows you to configure on which coupon dates the bond is callable. This is
 done by specifying a separate *callSchedule*. If the bond is callable on every coupon date, simply
 set *callSchedule = couponSchedule*. Alternatively, if the bond is only callable every six months,
