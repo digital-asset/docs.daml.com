@@ -175,7 +175,7 @@ This callable bond example is taken from
 `Instrument/Bond/Test/Callable.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml>`_
 , where all the details are available. Also, check out the
 :ref:`Election based lifecycling tutorial <election-based-lifecycling>` for more details on how to
-define and process an *Election* in practice. Note that the sample bond above, that is callable only
+define and process an *Election* in practice. Note that the sample bond above, which is callable only
 on some of the coupon dates, will require two types of lifecycling:
 
 - :doc:`Time based lifecycling <../getting-started/lifecycling>` on coupon dates when the bond is
