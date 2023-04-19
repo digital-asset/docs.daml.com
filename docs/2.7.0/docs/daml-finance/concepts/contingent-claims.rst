@@ -207,12 +207,12 @@ be observed at any given time (such as the “EURUSD” exchange rate in the exa
 two ways of creating an observation in the library:
 
 - :ref:`Observe <constr-contingentclaims-core-observation-observe-30391>` is the original Claims
-  node described in the paper. It does not take a time paramter. Instead, you need to put a ``when``
-  node in front of it. For simple claims this is quite straightforward, but for more complex
-  payoffs it can be difficult to correctly construct the claim.
+  node described in the paper. It does not take a time parameter. Instead, you need to put a
+  ``when`` node in front of it. For simple claims this is quite straightforward, but for more
+  complex payoffs it can be difficult to correctly construct the claim.
 - :ref:`ObserveAt <constr-contingentclaims-core-observation-observeat-8418>` is similar, but it
   takes a time parameter in addition. This makes it significantly easier to use, especially for
-  complex expressions involving several features (e.g. multiple fixign dates, fx adjusted notional,
+  complex expressions combining several features (e.g. multiple fixing dates, FX adjusted notional,
   amortizing notional, etc). It is also safer from a lifecycling point of view, since the time
   is explicitly specified for each observation node individually. We recommend always using this
   to specify observations.
