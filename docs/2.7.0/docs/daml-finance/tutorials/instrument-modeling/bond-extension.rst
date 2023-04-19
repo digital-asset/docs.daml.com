@@ -114,7 +114,7 @@ for the coupon payment at the end of that period.
 Callable
 ========
 
-:ref:`Callable bonds <module-daml-finance-instrument-bond-floatingrate-instrument-98586>` can be
+:ref:`Callable bonds <module-daml-finance-instrument-bond-callable-instrument-83330>` can be
 redeemed by the issuer before maturity. Both fixed and floating rate coupons are supported.
 In case of a floating rate, there is often a fixed spread as well. This can be represented by
 a fixed rate coupon, which is shown in the following example. Here is a bond paying
