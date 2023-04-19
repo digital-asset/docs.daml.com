@@ -114,8 +114,12 @@ for the coupon payment at the end of that period.
 Callable
 ========
 
-:ref:`Callable bonds <module-daml-finance-instrument-bond-callable-instrument-83330>` can be
-redeemed by the issuer before maturity. Both fixed and floating rate coupons are supported.
+:ref:`Callable bonds <module-daml-finance-instrument-bond-callable-instrument-83330>` are similar to
+the bonds above, but in addition they can be redeemed by the issuer before maturity. The callability
+is restricted to some (or all) of the coupon dates. In other words, these bonds have a *Bermudan*
+style embedded call option.
+
+Both fixed and floating rate coupons are supported by this instrument.
 In case of a floating rate, there is often a fixed spread as well. This can be represented by
 a fixed rate coupon, which is shown in the following example. Here is a bond paying
 Libor 3M + 0.1% p.a. with a 3M coupon period:
@@ -145,9 +149,10 @@ For example, here is how *daily compounded SOFR* can be specified using the *SOF
   :end-before: -- CREATE_6M_SOFR_CALLABLE_BOND_VARIABLES_END
 
 This instrument also allows you to configure on which coupon dates the bond is callable. This is
-done by specifying a separate *callSchedule*. If the bond is callable on every coupon date, simply
-set *callSchedule = couponSchedule*. Alternatively, if the bond is only callable every six months,
-this can be configured by specifying a different schedule:
+done by specifying a separate *callSchedule*. The bond is callable on the *last* date of each
+schedule period. For example, if the bond is callable on every coupon date, simply set
+*callSchedule = couponSchedule*. Alternatively, if the bond is only callable every six months, this
+can be configured by specifying a different schedule:
 
 .. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml
   :language: daml
