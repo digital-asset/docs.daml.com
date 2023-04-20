@@ -137,6 +137,18 @@ The fixed rate is fairly simple to define, but the floating rate requires more i
 data type is used to specify which reference rate should be used and on which date the reference
 rate is fixed for each coupon period.
 
+The above variable can be used to create a *couponSchedule*:
+
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml
+  :language: daml
+  :start-after: -- CREATE_3M_CAP_FLOOR_FLOATING_6M_CALLABLE_BOND_COUPON_SCHEDULE_BEGIN
+  :end-before: -- CREATE_3M_CAP_FLOOR_FLOATING_6M_CALLABLE_BOND_COUPON_SCHEDULE_END
+
+This *couponSchedule* is used to determine the coupon payment dates, where the
+*businessDayConvention* specifies how dates are adjusted. Also, *useAdjustedDatesForDcf* determines
+whether adjusted or unadjusted dates should be used for day count fractions (to determine the coupon
+amount).
+
 In addition to the Libor/Euribor style reference rates, compounded SOFR and similar reference rates
 are also supported. In order to optimize performance, these compounded rates are calculated via a
 (pre-computed) continuously compounded index, as described in the
