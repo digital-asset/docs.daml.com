@@ -137,7 +137,7 @@ The fixed rate is fairly simple to define, but the floating rate requires more i
 data type is used to specify which reference rate should be used and on which date the reference
 rate is fixed for each coupon period.
 
-The above variable can be used to create a *couponSchedule*:
+The above variables can be used to create a *couponSchedule*:
 
 .. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml
   :language: daml
