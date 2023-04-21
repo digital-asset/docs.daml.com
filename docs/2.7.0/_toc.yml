@@ -613,8 +613,6 @@ subtrees:
             title: "Daml.Finance.Instrument.Bond.ZeroCoupon.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-ZeroCoupon-Instrument
             title: "Daml.Finance.Instrument.Bond.ZeroCoupon.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-Lifecycle-Rule
-            title: "Daml.Finance.Instrument.Bond.Lifecycle.Rule"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Equity-Factory
             title: "Daml.Finance.Instrument.Equity.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Equity-Instrument
@@ -639,8 +637,6 @@ subtrees:
             title: "Daml.Finance.Instrument.Option.EuropeanPhysical.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-EuropeanPhysical-Instrument
             title: "Daml.Finance.Instrument.Option.EuropeanPhysical.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-Lifecycle-Rule
-            title: "Daml.Finance.Instrument.Option.Lifecycle.Rule"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-Util
             title: "Daml.Finance.Instrument.Option.Util"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Asset-Factory
