@@ -52,7 +52,7 @@ Assertions
 
 A second common kind of restriction is one on data transformations.
 
-For example, the simple Iou in :ref:`simple_iou` allowed the no-op where the ``owner`` transfers to themselves. You can prevent that using an ``assert`` statement, which you have already encountered in the context of scripts.
+For example, the simple Iou in :ref:`simple_iou` allowed the no-op where the ``owner`` reassigns to themselves. You can prevent that using an ``assert`` statement, which you have already encountered in the context of scripts.
 
 ``assert`` does not return an informative error so often it's better to use the function ``assertMsg``, which takes a custom error message:
 

@@ -13,7 +13,7 @@ Multi-party applications, and multi-party application platforms like Daml, solve
  - what a multi-party application is
  - important concepts in multi-party applications
  - key architectural concepts in Daml
- - a transfer example using Daml
+ - an example of an asset transfer with Daml
 
 Why Do Multi-Party Applications Matter?
 ***************************************
@@ -24,7 +24,7 @@ What delays these transactions? The processes in question all involve multiple o
 
 Here’s a deeper look at the problem via the example of a transfer of $100 from Alice’s account in Bank A to Bob’s account in Bank B. (Money is an easily understood example of an asset transferred between parties. The same problems occur in other industries with other assets, for example, healthcare claims, invoices or orders.) Money cannot simply appear or disappear during a transfer. The banks need to ensure that at some point in time, T_0, $100 are in Alice’s account, and at the next point in time, T_1, those $100 are gone from Alice’s account and present in Bob’s account – but at no point are the $100 present in both accounts or in neither account.
 
-In legacy systems, each bank keeps track of cash holdings independently of the other banks. Each bank stores data in its own private database. Each bank performs its own processes to validate, secure, modify and regulate the workflows that transfer money. The coordination between multiple banks is highly complex. The banks have an obligation to limit their counterparty risk - the probability that the other party in the transaction may not fulfill its part of the deal and may default on the contractual obligations.
+In legacy systems, each bank keeps track of cash holdings independently of the other banks. Each bank stores data in its own private database. Each bank performs its own processes to validate, secure, modify, and regulate the workflows that transfer money. The coordination between multiple banks is highly complex. The banks are obligated to limit their counterparty risk - the probability that the other party in the transaction may not fulfill its part of the deal and may default on the contractual obligations.
 
 Today’s common, albeit highly inefficient and costly, solution for a bank account transfer involves the following steps:
 
@@ -32,20 +32,20 @@ Today’s common, albeit highly inefficient and costly, solution for a bank acco
 #. Bank A and Bank B determine a settlement plan, possibly including several intermediaries. Gaining an agreement on the settlement plan is time-consuming and often includes additional fees.
 #. The settlement process entails (i) debiting $100 from Alice’s account at Bank A, (ii) crediting the commercial account at Bank B, and (iii) once Bank B has the money, crediting Bob’s account at Bank B.
 
-In order to make this process atomic (that is, to make it take place between a point T_0 and a point T_1) banks discretize time into business days. On day T_0 the instruction is made and a settlement plan is created. Outside of business hours between day T_0 and day T_1, the plan is executed through end of day netting and settlement processes. In a sense, banks agree to stop time outside of business hours.
+In order to make this process atomic (that is, to make it take place between a point T_0 and a point T_1) banks discretize time into business days. On day T_0 the instruction is made and a settlement plan is created. Outside of business hours between day T_0 and day T_1, the plan is executed through end-of-day netting and settlement processes. In a sense, banks agree to stop time outside of business hours.
 
-If intermediaries are involved, the process is more complex. Cross-border payments or currency conversion add yet more complexity. The resulting process is costly and takes days. During this multi-day process the $100 is locked within the system where it is useless to both Alice and Bob. Delays are common, and if there are problems reconciliation is hugely expensive. Consolidating through centralized intermediaries introduces systemic risk, including the risk of unauthorized disclosure and privacy breaches - and with that risk comes increased latency. Banks insist on this approach, despite the downsides, to reduce counterparty risk and to comply with regulations. At every point in time, ownership of the money is completely clear. (To learn more about cash transfers in traditional banking systems, read `this accessible writeup on international money transfers <https://web.archive.org/web/20220731223958/https://medium.com/@yudapramad/how-international-money-transfers-actually-work-bac65f075bb5>`_.)
+If intermediaries are involved, the process is more complex. Cross-border payments or currency conversion add yet more complexity. The resulting process is costly and takes days. During this multi-day process, the $100 is locked within the system and is useless to both Alice and Bob. Delays are common, and if there are problems reconciliation is hugely expensive. Consolidating through centralized intermediaries introduces systemic risk, including the risk of unauthorized disclosure and privacy breaches - and with that risk comes increased latency. Banks insist on this approach, despite the downsides, to reduce counterparty risk and to comply with regulations. At every point in time, ownership of the money is completely clear. (To learn more about cash transfers in traditional banking systems, read `this accessible writeup on international money transfers <https://web.archive.org/web/20220731223958/https://medium.com/@yudapramad/how-international-money-transfers-actually-work-bac65f075bb5>`_.)
 
-Services like PayPal, Klarna and credit cards, which provide an experience of instant payments internationally, do this by accepting the counterparty risk or acting as banks themselves. If a shop accepts credit cards and you pay with a credit card, both you and the shop have an account with the credit card company. When you purchase, the credit card company can instantly debit $100 from your account and credit $100 to the shop’s account because it is as if both Alice and Bob are using accounts at the same bank – the bank is certain that Alice has $100 in her account and can execute a simple transaction that deducts $100 from Alice’s account and adds $100 to Bob’s.
+Services like PayPal, Klarna, and credit cards, which provide an experience of instant payments internationally, do this by accepting the counterparty risk or acting as banks themselves. If a shop accepts credit cards and you pay with a credit card, both you and the shop have an account with the credit card company. When you purchase, the credit card company can instantly debit $100 from your account and credit $100 to the shop’s account because it is as if both Alice and Bob are using accounts at the same bank – the bank is certain that Alice has $100 in her account and can execute a simple transaction that deducts $100 from Alice’s account and adds $100 to Bob’s.
 
-Wouldn’t it be great if a system existed that allowed multiple parties to transact with each other with the same immediacy and consistency guarantees a single organization can achieve on a database while each kept sovereignty and privacy of their data? That’s Daml!
+Wouldn’t it be great if a system existed that allowed multiple parties to transact with each other with the same immediacy and consistency guarantees a single organization can achieve on a database while each kept the sovereignty and privacy of their data? That’s Daml!
 
 Daml is a platform and framework for building real-time multi-party systems, enabling organizations to deliver the experiences modern users expect without assuming counterparty risk or the expense of reconciliation. The sections below describe how Daml achieves this, including the architectural concepts and considerations necessary to build and deploy a solution with Daml effectively.
 
 What Is a Multi-Party Application?
 **********************************
 
-A multi-party application is one in which data, and the rules and workflows that govern the data, are shared between two or more parties without any party having to give up sovereignty or any single party (including the application provider) being able to control or override the agreed rules of the system. A party could be a company, a department within a company, an organization, an individual or a person. The specific definition of a party will be unique to the application and the domain of that application.
+A multi-party application is one in which data, and the rules and workflows that govern the data, are shared between two or more parties without any party having to give up sovereignty or any single party (including the application provider) being able to control or override the agreed rules of the system. A party could be a company, a department within a company, an organization, an individual, or a person. The specific definition of a party will be unique to the application and the domain of that application.
 
 A well-designed multi-party application provides several benefits:
  - a clean, consistent view of all data managed by the application across all parties
@@ -55,9 +55,9 @@ A well-designed multi-party application provides several benefits:
 
 In most cases, no single party can view all of the data within a multi-party application.
 
-Multi-party applications solve complex operational processes while keeping data clean and consistent, thereby eliminating isolated, disconnected and inefficient processes that often require expensive reconciliation. Multi-party applications manage the relationships, agreements and transactions between parties, providing consistent real-time views of all data.
+Multi-party applications solve complex operational processes while keeping data clean and consistent, thereby eliminating isolated, disconnected, and inefficient processes that often require expensive reconciliation. Multi-party applications manage the relationships, agreements, and transactions between parties, providing consistent real-time views of all data.
 
-Multi-party solutions utilize distributed ledger (blockchain) technology to ensure each party has an immutable, consistent view of the shared data and business processes that govern the data. By providing a consistent view of data with all counterparties, a multi-party application removes friction, cost, and risk within a joint business process. A distributed ledger protects against a malicious participant in the network, attempting to write or overwrite data to the detriment of other parties.
+Multi-party solutions utilize distributed ledger (blockchain) technology to ensure each party has an immutable, consistent view of the shared data and business processes that govern the data. By providing a consistent view of data with all counterparties, a multi-party application removes friction, cost, and risk within a joint business process. A distributed ledger protects against a malicious participant in the network attempting to write or overwrite data to the detriment of other parties.
 
 Important Concepts in Multi-Party Applications
 **********************************************
@@ -65,11 +65,11 @@ Important Concepts in Multi-Party Applications
 For a multi-party application to fully deliver its value, the following conditions must be met:
 
 Multiple involved parties have data sovereignty – that is, they keep their data within their own systems and require strong guarantees that no external party can access or modify that data outside of pre-agreed rules.
-Shared state and rules are codified into an executable schema that determines what data can move between parties, who can read that data, and how that data is manipulated.
+Shared states and rules are codified into an executable schema that determines what data can move between parties, who can read that data, and how that data is manipulated.
 Processes happen in real time as there is no additional reconciliation or manual processing required between organizations.
 
 For each individual party to gain the full benefits of a multi-party system, it should:
- - Integrate the application - Bank A must treat the multi-party infrastructure as the golden source of truth for payment information and integrate it as such with the rest of their infrastructure. Otherwise they are merely trading inter-bank reconciliation for intra-bank reconciliation.
+ - Integrate the application - Bank A must treat the multi-party infrastructure as the golden source of truth for payment information and integrate it as such with the rest of their infrastructure. Otherwise, they are merely trading inter-bank reconciliation for intra-bank reconciliation.
  - Utilize composability by building advanced systems that rely on the base-level multi-party agreements. For example, a healthcare claim application should be built using the payment solution. Integrating one multi-party application with another preserves all the properties of each across both applications. In this example, the patient privacy requirements of a health claims application are retained, as are the financial guarantees of the payment application. Without composability, multi-party applications become bigger silos and you end up reconciling the healthcare claims multi-party application with the payments multi-party application.
 
 Smart contracts, distributed ledgers, and blockchains are commonly used to build and deliver multi-party applications. A smart contract codifies the terms of the agreement between parties, including the rights and obligations of each party, directly written into lines of code. The code controls the execution, and transactions are trackable and irreversible. In a multi-party application, the smart contract defines the data workflow through actions taken by the parties involved.
