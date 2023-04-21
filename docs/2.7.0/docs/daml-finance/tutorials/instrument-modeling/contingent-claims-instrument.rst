@@ -145,6 +145,26 @@ define the coupon based on a future observation of the reference rate. In order 
 introduce the concept of a
 :ref:`numeric observation <module-daml-finance-data-numeric-observation-78761>`.
 
+How to create an observation
+----------------------------
+
+There are two ways of creating an observation in the library:
+
+- :ref:`Observe <constr-contingentclaims-core-observation-observe-30391>` does not take a time
+  parameter. Instead, it is evaluated at the contract's acquisition time. You can put a ``When``
+  node in front of it, in order to fix the acquisition time. For simple claims this is quite
+  straightforward, but for more complex payoffs it can be difficult to correctly construct the
+  claim.
+- :ref:`ObserveAt <constr-contingentclaims-core-observation-observeat-8418>` is similar, but it
+  takes a time parameter in addition. This makes it significantly easier to use, especially for
+  complex expressions combining several features (e.g. multiple fixing dates, FX adjusted notional,
+  amortizing notional, etc). It is also safer from a lifecycling point of view, since the time
+  is explicitly specified for each observation node individually. We recommend always using this
+  to specify observations.
+
+How to use observations in an instrument
+----------------------------------------
+
 In the instrument definition, we need an identifier for the reference rate:
 
 .. literalinclude:: ../../src/main/daml/Daml/Finance/Instrument/Bond/FloatingRate/Instrument.daml
@@ -153,7 +173,7 @@ In the instrument definition, we need an identifier for the reference rate:
   :end-before: -- FLOATING_RATE_BOND_TEMPLATE_UNTIL_REFRATE_END
 
 When we create the claims, we can then use
-:ref:`Observe <constr-contingentclaims-core-observation-observe-30391>`
+:ref:`ObserveAt <constr-contingentclaims-core-observation-observeat-8418>`
 to refer to the value of the reference rate:
 
 .. literalinclude:: ../../src/main/daml/Daml/Finance/Claims/Util/Builders.daml

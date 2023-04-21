@@ -203,20 +203,7 @@ The Observation Parameter
 =========================
 
 ``o`` is the type used to represent ``Observation``\ s, which are time-dependent quantities that can
-be observed at any given time (such as the “EURUSD” exchange rate in the example above). There are
-two ways of creating an observation in the library:
-
-- :ref:`Observe <constr-contingentclaims-core-observation-observe-30391>` does not take a time
-  parameter. Instead, it is evaluated at the contract's acquisition time. You can put a ``When``
-  node in front of it, in order to fix the acquisition time. For simple claims this is quite
-  straightforward, but for more complex payoffs it can be difficult to correctly construct the
-  claim.
-- :ref:`ObserveAt <constr-contingentclaims-core-observation-observeat-8418>` is similar, but it
-  takes a time parameter in addition. This makes it significantly easier to use, especially for
-  complex expressions combining several features (e.g. multiple fixing dates, FX adjusted notional,
-  amortizing notional, etc). It is also safer from a lifecycling point of view, since the time
-  is explicitly specified for each observation node individually. We recommend always using this
-  to specify observations.
+be observed at any given time (such as the “EURUSD” exchange rate in the example above).
 
 The Value Parameter
 ===================
