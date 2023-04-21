@@ -114,8 +114,12 @@ for the coupon payment at the end of that period.
 Callable
 ========
 
-:ref:`Callable bonds <module-daml-finance-instrument-bond-floatingrate-instrument-98586>` can be
-redeemed by the issuer before maturity. Both fixed and floating rate coupons are supported.
+:ref:`Callable bonds <module-daml-finance-instrument-bond-callable-instrument-83330>` are similar to
+the bonds above, but in addition they can be redeemed by the issuer before maturity. The callability
+is restricted to some (or all) of the coupon dates. In other words, these bonds have a *Bermudan*
+style embedded call option.
+
+Both fixed and floating rate coupons are supported by this instrument.
 In case of a floating rate, there is often a fixed spread as well. This can be represented by
 a fixed rate coupon, which is shown in the following example. Here is a bond paying
 Libor 3M + 0.1% p.a. with a 3M coupon period:
@@ -133,6 +137,18 @@ The fixed rate is fairly simple to define, but the floating rate requires more i
 data type is used to specify which reference rate should be used and on which date the reference
 rate is fixed for each coupon period.
 
+The above variables can be used to create a *couponSchedule*:
+
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml
+  :language: daml
+  :start-after: -- CREATE_3M_CAP_FLOOR_FLOATING_6M_CALLABLE_BOND_COUPON_SCHEDULE_BEGIN
+  :end-before: -- CREATE_3M_CAP_FLOOR_FLOATING_6M_CALLABLE_BOND_COUPON_SCHEDULE_END
+
+This *couponSchedule* is used to determine the coupon payment dates, where the
+*businessDayConvention* specifies how dates are adjusted. Also, *useAdjustedDatesForDcf* determines
+whether adjusted or unadjusted dates should be used for day count fractions (to determine the coupon
+amount).
+
 In addition to the Libor/Euribor style reference rates, compounded SOFR and similar reference rates
 are also supported. In order to optimize performance, these compounded rates are calculated via a
 (pre-computed) continuously compounded index, as described in the
@@ -145,9 +161,10 @@ For example, here is how *daily compounded SOFR* can be specified using the *SOF
   :end-before: -- CREATE_6M_SOFR_CALLABLE_BOND_VARIABLES_END
 
 This instrument also allows you to configure on which coupon dates the bond is callable. This is
-done by specifying a separate *callSchedule*. If the bond is callable on every coupon date, simply
-set *callSchedule = couponSchedule*. Alternatively, if the bond is only callable every six months,
-this can be configured by specifying a different schedule:
+done by specifying a separate *callSchedule*. The bond is callable on the *last* date of each
+schedule period. For example, if the bond is callable on every coupon date, simply set
+*callSchedule = couponSchedule*. Alternatively, if the bond is only callable every six months, this
+can be configured by specifying a different schedule:
 
 .. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml
   :language: daml
@@ -170,8 +187,8 @@ This callable bond example is taken from
 `Instrument/Bond/Test/Callable.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml>`_
 , where all the details are available. Also, check out the
 :ref:`Election based lifecycling tutorial <election-based-lifecycling>` for more details on how to
-define and process an *Election* in practice. Note that the bond in the example above, that is
-callable only on some of the coupon dates, will require two types of lifecycling:
+define and process an *Election* in practice. Note that the sample bond above, which is callable only
+on some of the coupon dates, will require two types of lifecycling:
 
 - :doc:`Time based lifecycling <../getting-started/lifecycling>` on coupon dates when the bond is
   *not* callable.
