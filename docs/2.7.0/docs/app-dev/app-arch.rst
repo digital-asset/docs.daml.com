@@ -11,9 +11,17 @@ This section describes our recommended design of a full-stack Daml application.
 .. image:: ./recommended_architecture.svg
    :alt: Diagram of the recommended application architecture, explained in depth immediately below.
 
-The above image shows the recommended architecture. Here there are four types of building blocks that go into our application: user code, Daml components, generated code from Daml, and external components. In the recommended architecture the Daml model determines the DAR files that underpin both the front-end and back-end. The front-end includes user code such as a React Web Frontend, Daml React libraries or other integration libraries, and generated code from the DAR files. The back-end consists of Daml integration components (e.g. JSON API) and a participant node; the participant node communicates with an external token issuer. The Daml network, meanwhile, includes Daml drivers paired with external synchronization technologies.
+The above image shows the recommended Daml solution architecture. Here there are four types of building blocks that go into our application: user code, generated code from Daml, Daml components,  and external components.
 
-Of course there are many ways that the architecture and technology
+In the recommended architecture, the Daml model determines the DAR files that underpin both the frontend and backend. The frontend includes user code such as a React Web Frontend, Daml React libraries or other integration libraries, and generated code from the DAR files (TypeScript).   It does not change things if a client service, instead of a GUI frontend, accesses the Daml application backend.
+
+From the client point of view, the Daml application backend consists of the JSON API and a participant node. The backend uses a Canton synchronization domain (not shown) to distribute changes to the ledger made by the application, as well as changes made by other applications, to all domain-connected participants.
+
+Integrations with a Daml application are done via Java bindings, while automation can be done with Daml Script and/or Daml Triggers. Daml Scripts allows you to write automations that can be triggered by any off-ledger condition, such as the availability of a file in a folder or a message coming from a broker or a user interacting with the system directly. Daml Triggers allow a similar approach but are triggered by on-ledger events, such as the creation of a contract.
+
+Daml application uses JWT tokens for access authorization, checking if the party submitting the request has the necessary rights for it. How an application acquires access tokens depends on the participant node it talks to and is ultimately set up by the participant node operator.
+
+Of course, there are many ways that the architecture and technology
 stack can be changed to fit your needs, which we'll mention in the corresponding sections.
 
 To get started quickly with the recommended application architecture, generate a new project using the ``create-daml-app`` template:
