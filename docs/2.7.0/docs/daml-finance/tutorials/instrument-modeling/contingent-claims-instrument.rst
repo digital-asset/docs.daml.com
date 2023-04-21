@@ -156,11 +156,28 @@ There are two ways of creating an observation in the library:
   straightforward, but for more complex payoffs it can be difficult to correctly construct the
   claim.
 - :ref:`ObserveAt <constr-contingentclaims-core-observation-observeat-8418>` is similar, but it
-  takes a time parameter in addition. This makes it significantly easier to use, especially for
-  complex expressions combining several features (e.g. multiple fixing dates, FX adjusted notional,
-  amortizing notional, etc). It is also safer from a lifecycling point of view, since the time
-  is explicitly specified for each observation node individually. We recommend always using this
-  to specify observations.
+  takes a time parameter in addition. This makes it easier to use.
+
+For comparson, consider a forward-rate note (FRN) using
+:ref:`Observe <constr-contingentclaims-core-observation-observe-30391>`:
+
+.. literalinclude:: ../../src/test/daml/ContingentClaims/Test/Lifecycle.daml
+  :language: daml
+  :start-after: -- CREATE_FRN_USING_OBSERVE_BEGIN
+  :end-before: -- CREATE_FRN_USING_OBSERVE_END
+
+vs :ref:`ObserveAt <constr-contingentclaims-core-observation-observe-30391>`:
+
+.. literalinclude:: ../../src/test/daml/ContingentClaims/Test/Lifecycle.daml
+  :language: daml
+  :start-after: -- CREATE_FRN_USING_OBSERVEAT_BEGIN
+  :end-before: -- CREATE_FRN_USING_OBSERVEAT_END
+
+For this simple instrument, both methods are quite feasible, but in the case of more complex
+expressions combining several features (e.g. multiple fixing dates, FX adjusted notional, amortizing
+notional, etc), using :ref:`ObserveAt <constr-contingentclaims-core-observation-observe-30391>`
+simplifies implementation. It is also safer from a lifecycling point of view, since the time is
+explicitly specified for each observation node individually.
 
 How to use observations in an instrument
 ----------------------------------------
