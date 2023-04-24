@@ -11,9 +11,9 @@ This section describes our recommended design of a full-stack Daml application.
 .. image:: ./recommended_architecture.svg
    :alt: Diagram of the recommended application architecture, explained in depth immediately below.
 
-The above image shows the recommended Daml solution architecture. Here there are four types of building blocks that go into our application: user code, generated code from Daml, Daml components,  and external components.
+The above image shows the recommended Daml solution architecture. Here there are four types of building blocks that go into our application: user code, generated code from Daml, Daml components, and external components.
 
-In the recommended architecture, the Daml model determines the DAR files that underpin both the frontend and backend. The frontend includes user code such as a React Web Frontend, Daml React libraries or other integration libraries, and generated code from the DAR files (TypeScript).   It does not change things if a client service, instead of a GUI frontend, accesses the Daml application backend.
+In the recommended architecture, the Daml model determines the DAR files that underpin both the frontend and backend. The frontend includes user code such as a React Web Frontend, Daml React libraries or other integration libraries, and generated code from the DAR files (TypeScript). A client service can access the Daml application backend instead of a GUI frontend with no change to the rest of the architecture.
 
 From the client point of view, the Daml application backend consists of the JSON API and a participant node. The backend uses a Canton synchronization domain (not shown) to distribute changes to the ledger made by the application, as well as changes made by other applications, to all domain-connected participants.
 
@@ -21,7 +21,7 @@ Integrations with a Daml application are done via Java bindings, while automatio
 
 Daml application uses JWT tokens for access authorization, checking if the party submitting the request has the necessary rights for it. How an application acquires access tokens depends on the participant node it talks to and is ultimately set up by the participant node operator.
 
-Of course, there are many ways that the architecture and technology
+There are many ways that the architecture and technology
 stack can be changed to fit your needs, which we'll mention in the corresponding sections.
 
 To get started quickly with the recommended application architecture, generate a new project using the ``create-daml-app`` template:
