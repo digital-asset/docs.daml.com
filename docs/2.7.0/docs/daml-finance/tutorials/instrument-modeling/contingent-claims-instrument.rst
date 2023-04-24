@@ -9,7 +9,7 @@ In this chapter we will look at how to create a strongly typed instrument, which
 the
 :ref:`fixed rate bond instrument <module-daml-finance-instrument-bond-fixedrate-instrument-67993>`
 is implemented in Daml Finance. The goal is that you will learn how to implement your own instrument
-template, if you need an instrument type that is not already implemented in Daml Fincance.
+template, if you need an instrument type that is not already implemented in Daml Finance.
 
 To follow the script used in this tutorial, you can
 `clone the Daml Finance repository <https://github.com/digital-asset/daml-finance>`_. In particular,
