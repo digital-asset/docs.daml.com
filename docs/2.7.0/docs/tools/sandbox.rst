@@ -8,7 +8,7 @@ Daml Sandbox
 
 The Daml Sandbox, or Sandbox for short, is a simple ledger implementation that enables rapid application prototyping by simulating a Daml Ledger.
 
-You can start Sandbox together with :doc:`Navigator </tools/navigator/index>` using the ``daml start`` command in a Daml project. This command will compile the Daml file and its dependencies as specified in the ``daml.yaml``. It will then launch Sandbox passing the just obtained DAR packages. The script specified in the ``init-script`` field in ``daml.yaml`` will be loaded into the ledger. Finally, it launches the navigator connecting it to the running Sandbox.
+You can start Sandbox together with :doc:`Navigator </tools/navigator/index>` using the ``daml start`` command in a Daml project. This command will compile the Daml file and its dependencies as specified in the ``daml.yaml``. It will then launch Sandbox, passing the just-obtained DAR packages. The script specified in the ``init-script`` field in ``daml.yaml`` will be loaded into the ledger. Finally, it launches the navigator connecting it to the running Sandbox.
 
 It is possible to execute the Sandbox launching step in isolation by typing ``daml sandbox``.
 
@@ -24,7 +24,7 @@ Sandbox can also be run manually as in this example:
   Canton sandbox is ready.
 
 Behind the scenes, Sandbox spins up a Canton ledger with an in-memory
-participant ``sandbox`` and an in-memory domain ``local``. You can pass additional
+participant ``sandbox`` and an in-memory sync domain ``local``. You can pass additional
 Canton configuration files via ``-c``. This option can be specified multiple times and
 the resulting configuration files will be merged.
 
@@ -58,23 +58,23 @@ authorization service and the path to the certificate.
    }]
 
 - ``jwt-rs-256-crt``.
-  The sandbox will expect all tokens to be signed with RS256 (RSA Signature with SHA-256) with the public key loaded from the given X.509 certificate file.
+  The Sandbox expects all tokens to be signed with RS256 (RSA Signature with SHA-256) with the public key loaded from the given X.509 certificate file.
   Both PEM-encoded certificates (text files starting with ``-----BEGIN CERTIFICATE-----``)
   and DER-encoded certificates (binary files) are supported.
 
 - ``jwt-es-256-crt``.
-  The sandbox will expect all tokens to be signed with ES256 (ECDSA using P-256 and SHA-256) with the public key loaded from the given X.509 certificate file.
+  The Sandbox expects all tokens to be signed with ES256 (ECDSA using P-256 and SHA-256) with the public key loaded from the given X.509 certificate file.
   Both PEM-encoded certificates (text files starting with ``-----BEGIN CERTIFICATE-----``)
   and DER-encoded certificates (binary files) are supported.
 
 - ``jwt-es-512-crt``.
-  The sandbox will expect all tokens to be signed with ES512 (ECDSA using P-521 and SHA-512) with the public key loaded from the given X.509 certificate file.
+  The Sandbox expects all tokens to be signed with ES512 (ECDSA using P-521 and SHA-512) with the public key loaded from the given X.509 certificate file.
   Both PEM-encoded certificates (text files starting with ``-----BEGIN CERTIFICATE-----``)
   and DER-encoded certificates (binary files) are supported.
 
 Instead of specifying the path to a certificate, you can also a
 `JWKS <https://tools.ietf.org/html/rfc7517>`__ URL. In that case, the
-sandbox will expect all tokens to be signed with RS256 (RSA Signature
+Sandbox expects all tokens to be signed with RS256 (RSA Signature
 with SHA-256) with the public key loaded from the given JWKS URL.
 
 .. code-block:: none
@@ -88,7 +88,7 @@ with SHA-256) with the public key loaded from the given JWKS URL.
 .. warning::
 
   For testing purposes only, you can also specify a shared secret. In
-  that case, the sandbox will expect all tokens to be signed with
+  that case, the Sandbox expects all tokens to be signed with
   HMAC256 with the given plaintext secret. This is not considered safe for production.
 
 .. code-block:: none
@@ -151,7 +151,7 @@ Run With TLS
 To enable TLS, you need to specify the private key for your server and
 the certificate chain. This enables TLS for both the Ledger API and
 the Canton Admin API. When enabling client authentication, you also
-need to specify client certificates which can be used by Canton’s
+need to specify client certificates that can be used by Canton’s
 internal processes. Note that the identity of the application
 will not be proven by using this method, i.e. the `application_id` field in the request
 is not necessarily correlated with the CN (Common Name) in the certificate.
@@ -193,8 +193,8 @@ Command-line Reference
 To start Sandbox, run: ``daml sandbox [options] [-c canton.config]``.
 
 To see all the available options, run ``daml sandbox --help``. Note
-that this will show you the options of the Sandbox wrapper around
-Canton. To see options of the underlying Canton runner, use
+that this will show you the options for the Sandbox wrapper around
+Canton. To see options for the underlying Canton runner, use
 ``daml sandbox --canton-help``.
 
 Metrics
@@ -219,7 +219,7 @@ For other options and more details refer to the :ref:`Canton documentation <cant
 Types of Metrics
 ================
 
-This is a list of type of metrics with all data points recorded for each.
+This is a list of types of metrics with all data points recorded for each.
 Use this as a reference when reading the list of metrics.
 
 Gauge
@@ -249,7 +249,7 @@ Histogram
 
 An histogram records aggregated statistics about collections of events.
 The exact meaning of the number depends on the metric (e.g. timers
-are histograms about the time necessary to complete an operation).
+are histograms of the time necessary to complete an operation).
 
 - ``<metric.qualified.name>.mean``: arithmetic mean
 - ``<metric.qualified.name>.stddev``: standard deviation
@@ -281,7 +281,7 @@ Timers
 
 A timer records all metrics registered by a meter and by an histogram, where
 the histogram records the time necessary to execute a given operation (unless
-otherwise specified, the precision is nanoseconds and the unit of measurement
+otherwise specified, the precision is nanoseconds, and the unit of measurement
 is milliseconds).
 
 Database Metrics

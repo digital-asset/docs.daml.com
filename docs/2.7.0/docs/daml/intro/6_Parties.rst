@@ -73,7 +73,7 @@ The ``IouProposal`` contract carries the authority of ``iou.issuer`` by virtue o
 
 The choice is called ``IouProposal_Accept``, not ``Accept``, because propose-accept patterns are very common. In fact, you'll see another one just below. As each choice defines a record type, you cannot have two choices of the same name in scope. It's a good idea to qualify choice names to ensure uniqueness.
 
-The above solves issuance, but not reassignments. You can solve reassignments exactly the same way, though, by creating a ``TransferProposal``:
+The above solves issuance, but not reassignments. You can solve reassignments the same way, though, by creating a ``TransferProposal``:
 
 .. literalinclude:: daml/daml-intro-6/daml/Parties.daml
   :language: daml
@@ -158,7 +158,7 @@ It is authorized as follows, ignoring fetches:
 
 - Bob submits the transaction so he's the authorizer on the root transaction.
 - The root transaction has a single action, which is to exercise ``Send_Iou`` on a ``IouSender`` contract with Bob as ``sender`` and Charlie as ``receiver``. Since the controller of that choice is the ``sender``, Bob is the required authorizer.
-- The consequences of the ``Send_Iou`` action are authorized by its actors, Bob, as well as signatories of the contract on which the action was taken. That's Charlie in this case, so the consequences are  authorized by both Bob and Charlie.
+- The consequences of the ``Send_Iou`` action are authorized by its actors, Bob, as well as signatories of the contract on which the action was taken. That's Charlie in this case, so the consequences are authorized by both Bob and Charlie.
 - The consequences contain a single action, which is a ``Mutual_Transfer`` with Charlie as ``newOwner`` on an ``Iou`` with ``issuer`` Alice and ``owner`` Bob. The required authorizers of the action are the ``owner``, Bob, and the ``newOwner``, Charlie, which matches the parent's authorizers.
 - The consequences of ``Mutual_Transfer`` are authorized by the actors (Bob and Charlie), as well as the signatories on the Iou (Alice and Bob).
 - The single action on the consequences, the creation of an Iou with ``issuer`` Alice and ``owner`` Charlie has required authorizers Alice and Charlie, which is a proper subset of the parent's authorizers.
@@ -194,7 +194,7 @@ You can see the graph of this transaction in the transaction view of the IDE:
                                         (Parties:Cash with
                                           currency = "USD"; amount = 100.0000000000)
 
-Note that authority is not automatically transferred transitively.
+Note that authority is not automatically reassigned transitively.
 
 .. literalinclude:: daml/daml-intro-6/daml/Parties.daml
   :language: daml
@@ -213,4 +213,4 @@ Therefore, the consequences of ``TryA`` are only authorized by Alice. Bob's auth
 Next Up
 -------
 
-In :doc:`7_Composing` you will put everything you have learned together to build a simple asset holding and trading model akin to that in the :doc:`/app-dev/bindings-java/quickstart`. In that context you'll learn a bit more about the ``Update`` action and how to use it to compose transactions, as well as about privacy on Daml ledgers.
+In :doc:`7_Composing` you will put everything you have learned together to build a simple asset holding and trading model akin to that in :doc:`/app-dev/bindings-java/quickstart`. In that context you'll learn a bit more about the ``Update`` action and how to use it to compose transactions, as well as about privacy on Daml ledgers.

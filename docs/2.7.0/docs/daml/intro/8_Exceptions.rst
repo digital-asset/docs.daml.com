@@ -162,7 +162,7 @@ Next Up
 -------
 
 We have now seen how to develop safe models and how we can handle
-errors in those models in a robust and simple way. But the journey
+errors in those models robustly and simply. But the journey
 doesn't stop there. In :doc:`9_Dependencies` you will learn how to
 extend an already running application to enhance it with new
 features. In that context you'll learn a bit more about the
