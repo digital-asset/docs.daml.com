@@ -22,9 +22,9 @@ Daml's "public API" is laid out in the :doc:`overview`.
 Cadence
 *******
 
-Regular snapshot releases are made every Wednesday, with additional snapshots released as needed. These releases contain Daml Components, both from the `daml repository <https://github.com/digital-asset/daml>`_ as well as some others.
+Regular, weekly snapshot releases are made every Wednesday, with additional snapshots produced as needed. These releases contain Daml Components, both from the `daml repository <https://github.com/digital-asset/daml>`_ as well as some others.
 
-Stable versions are released once a month. See :ref:`release_process` below for the usual schedule. This schedule is a guide, not a guarantee: additional releases may be made, or releases may be delayed or skipped entirely.
+The decision to perform a Minor version release is based on the content or scope of the payload of that release.  The intent is to release a Minor version once a quarter but this may change based on the customer demand for new, key features.  
 
 No more than one major version is released every six months, barring exceptional circumstances.
 
@@ -44,25 +44,18 @@ Release Notes
 
 Release notes for each release are published on the `Release Notes section of the Daml Driven blog <https://daml.com/release-notes/>`_.
 
-.. _roadmap:
-
-Roadmap
-*******
-
-Once a month Digital Asset publishes a community update to accompany the announcement of the release candidate for the next release. The community update contains a section outlining the next priorities for development. You can find community updates on the `Daml Driven Blog <https://daml.com/blog/engineering>`_, or subscribe to the mailing list or social media profiles on `https://daml.com/ <https://daml.com/>`_ to stay up to date.
-
 .. _release_process:
 
 Process
 *******
 
-Weekly snapshot and monthly stable releases follow a regular process and schedule. The process is documented `in the Daml repository <https://github.com/digital-asset/daml/blob/main/release/RELEASE.md>`_ so only the schedule for monthly releases is covered here.
+Weekly snapshot and Minor releases follow a common process. The process is documented `in the Daml repository. <https://github.com/digital-asset/daml/blob/main/release/RELEASE.md>`_  Only the schedule for Minor releases is covered below.
 
 Selecting a Release Candidate
 
-  This is done by the Daml core engineering teams on the **first Monday of every month**.
+  This is done by the Daml core engineering teams.
 
-  The monthly releases are time-based, not scope-based. Furthermore, Daml development is fully HEAD-based so both the repository and every snapshot are intended to be in a fully releasable state at every point. The release process therefore starts with "selecting a release candidate". Typically the Snapshot from the preceding Wednesday is selected as the release candidate.
+  The Minor releases are scope-based. Furthermore, Daml development is fully HEAD-based so both the repository and every snapshot are intended to be in a fully releasable state at every point. The release process therefore starts with "selecting a release candidate". Typically the Snapshot from the preceding Wednesday is selected as the release candidate.
 
 Release Notes and Candidate Review
 
@@ -74,7 +67,7 @@ Release Candidate Refinement
 
 Release Candidate Announcement
 
-  Barring delays due to issues during initial review, the release candidate is announced publicly with accompanying  Release Notes on **the Thursday following the first Monday of every Month**.
+  Barring delays due to issues during initial review, the release candidate is announced publicly with accompanying Release Notes.
 
 Communications, Testing and Feedback
 
@@ -86,9 +79,4 @@ Release Candidate Refinement II
 
 Release
 
-  Assuming the release is not postponed due to extended test periods or newly discovered issues in the release candidate, the release is declared stable and given a regular version number on **the second Wednesday after the first Monday of the Month**.
-
-.. figure:: release-timeline.png
-   :alt: A typical release process timeline. A regular Wednesday snapshot release takes place on September 2. September 7 is the first Monday of the month, so release candidate selection takes place and the release candidate/ release notes review process begins. On September 10 the review process ends and release candidates are announced. Release candidate testing occurs from September 10 to September 16, and on Wednesday September 16 another release occurs.
-
-   The release process timeline illustrated by example of September 2020.
+  Assuming the release is not postponed due to extended test periods or newly discovered issues in the release candidate, the release is declared stable and given a regular version number.
