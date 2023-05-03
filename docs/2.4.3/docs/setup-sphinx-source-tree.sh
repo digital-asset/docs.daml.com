@@ -10,8 +10,8 @@ cd "$DIR"
 
 RELEASE_TAG=$(jq -r '.daml' ../LATEST)
 CANTON_RELEASE_TAG=$(jq -r '.canton' ../LATEST)
-DOWNLOAD_DIR=workdir/downloads
-SPHINX_DIR=workdir/build/source
+DOWNLOAD_DIR=$DIR/workdir/downloads
+SPHINX_DIR=$DIR/workdir/build/source
 
 prefix=$(jq -r '.prefix' ../LATEST)
 
@@ -46,6 +46,15 @@ for file in pdf html; do
         sed -i "s|$var = u'.*'|$var = u'$prefix'|" $SPHINX_DIR/configs/$file/conf.py
     done
 done
+
+(
+cd $DIR/overwrite
+for f in $(find . -type f); do
+    target=$SPHINX_DIR/source/$f
+    mkdir -p $(dirname $target)
+    cp $f $target
+done
+)
 
 # Title page on the PDF
 sed -i "s|Version : .*|Version : $prefix|" $SPHINX_DIR/configs/pdf/conf.py
