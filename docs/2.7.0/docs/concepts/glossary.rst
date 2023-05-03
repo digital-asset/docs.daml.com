@@ -2,7 +2,7 @@
 .. SPDX-License-Identifier: Apache-2.0
 
 
-Glossary of concepts
+Glossary of Concepts
 ####################
 
 Key Concepts
@@ -479,7 +479,7 @@ Canton Concepts
 ***************
 
 Sync Domain
-======
+===========
 
 The synchronization (sync) domain provides total ordered, guaranteed delivery multi-cast to the participants. This means that participant nodes communicate with each other by sending end-to-end encrypted messages 
 through the sync domain. 
