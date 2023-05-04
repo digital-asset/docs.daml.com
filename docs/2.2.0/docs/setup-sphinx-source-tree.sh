@@ -47,5 +47,14 @@ for file in pdf html; do
     done
 done
 
+(
+cd $DIR/overwrite
+for f in $(find . -type f); do
+    target=$SPHINX_DIR/source/$f
+    mkdir -p $(dirname $target)
+    cp $f $target
+done
+)
+
 # Title page on the PDF
 sed -i "s|Version : .*|Version : $prefix|" $SPHINX_DIR/configs/pdf/conf.py
