@@ -2,6 +2,8 @@
 
 set -eou pipefail
 
+DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
 RELEASE_TAG=$1
 CANTON_RELEASE_TAG=$2
 DOWNLOAD_DIR=$3
@@ -28,3 +30,12 @@ declare -A sphinx_targets=( [html]=html [pdf]=latex )
 
 sed -i "s/'sphinx.ext.extlinks',$/'sphinx.ext.extlinks','canton_enterprise_only','sphinx.ext.todo',/g" $SPHINX_DIR/configs/html/conf.py
 sed -i "s/'sphinx.ext.extlinks'$/'sphinx.ext.extlinks','canton_enterprise_only','sphinx.ext.todo'/g" $SPHINX_DIR/configs/pdf/conf.py
+
+(
+cd $DIR/overwrite
+for f in $(find . -type f); do
+    target=$SPHINX_DIR/source/$f
+    mkdir -p $(dirname $target)
+    cp $f $target
+done
+)
