@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+prefix=$(basename $(realpath $DIR/..))
+sdk_version=$(jq -r '.daml' $DIR/../LATEST)
+canton_version=$(jq -r '.canton' $DIR/../LATEST)
+workdir=$DIR/../docs/workdir
+target=$DIR/../workdir/target
+rm -rf $workdir
+rm -rf $target
+mkdir -p $target
+$DIR/../docs/download.sh $sdk_version $canton_version $workdir
+$DIR/../docs/build.sh $sdk_version $canton_version $workdir $target
+mv $target/html-docs-*.tar.gz $target/html-$prefix.tar.gz
