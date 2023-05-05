@@ -74,7 +74,7 @@ be modeled:
 * Cross-entity issuance: atomic, multi-party issuance across investors, issuer, risk book, and
   treasury
 * Asset-agnostic trading facility: generic delivery-vs-payment and immediate, guaranteed settlement
-* Exotic asset types: non-fungible and non-reassignable assets
+* Exotic asset types: non-fungible and non-transferable assets
 
 .. _explore-library:
 

@@ -38,7 +38,7 @@ For a party to have any guarantees that only those transformations specified in 
   :start-after: -- IOU_BEGIN
   :end-before: -- IOU_END
 
-There's a new problem here: There is no way for Alice to issue or reassign this ``Iou`` to Bob. To get an ``Iou`` with Bob's signature as ``owner`` onto the ledger, his authority is needed:
+There's a new problem here: There is no way for Alice to issue or transfer this ``Iou`` to Bob. To get an ``Iou`` with Bob's signature as ``owner`` onto the ledger, his authority is needed:
 
 .. literalinclude:: daml/daml-intro-6/daml/Parties.daml
   :language: daml
@@ -47,7 +47,7 @@ There's a new problem here: There is no way for Alice to issue or reassign this 
 
 This may seem awkward, but notice that the ``ensure`` clause is gone from the ``Iou`` again. The above ``Iou`` can contain negative values so Bob should be glad that ``Alice`` cannot put his signature on any ``Iou``.
 
-You'll now learn a couple of common ways of building issuance and reassignment workflows for the above ``Iou``, before diving into the authorization model in full.
+You'll now learn a couple of common ways of building issuance and transfer workflows for the above ``Iou``, before diving into the authorization model in full.
 
 
 .. _intro propose accept:
@@ -73,7 +73,7 @@ The ``IouProposal`` contract carries the authority of ``iou.issuer`` by virtue o
 
 The choice is called ``IouProposal_Accept``, not ``Accept``, because propose-accept patterns are very common. In fact, you'll see another one just below. As each choice defines a record type, you cannot have two choices of the same name in scope. It's a good idea to qualify choice names to ensure uniqueness.
 
-The above solves issuance, but not reassignments. You can solve reassignments the same way, though, by creating a ``TransferProposal``:
+The above solves issuance, but not transfers. You can solve transfers the same way, though, by creating a ``TransferProposal``:
 
 .. literalinclude:: daml/daml-intro-6/daml/Parties.daml
   :language: daml
@@ -84,14 +84,14 @@ In addition to defining the signatories of a contract, ``signatory`` can also be
 
 The ``IouProposal`` had a single signatory so it could be canceled easily by archiving it. Without a ``Cancel`` choice, the ``newOwner`` could abuse an open TransferProposal as an option. The triple ``Accept``, ``Reject``, ``Cancel`` is common to most proposal templates.
 
-To allow an ``iou.owner`` to create such a proposal, you need to give them the choice to propose a reassignment on the ``Iou`` contract. The choice looks just like the above ``Transfer`` choice, except that a ``IouTransferProposal`` is created instead of an ``Iou``:
+To allow an ``iou.owner`` to create such a proposal, you need to give them the choice to propose a Transfer on the ``Iou`` contract. The choice looks just like the above ``Transfer`` choice, except that a ``IouTransferProposal`` is created instead of an ``Iou``:
 
 .. literalinclude:: daml/daml-intro-6/daml/Parties.daml
   :language: daml
   :start-after: -- PROPOSE_TRANSFER_BEGIN
   :end-before: -- PROPOSE_TRANSFER_END
 
-Bob can now reassign his ``Iou``. The reassign workflow can even be used for issuance:
+Bob can now transfer his ``Iou``. The transfer workflow can even be used for issuance:
 
 .. literalinclude:: daml/daml-intro-6/daml/Parties.daml
   :language: daml
@@ -101,9 +101,9 @@ Bob can now reassign his ``Iou``. The reassign workflow can even be used for iss
 Use Role Contracts for Ongoing Authorization
 --------------------------------------------
 
-Many actions, like the issuance of assets or their reassignment, can be pre-agreed. You can represent this succinctly in Daml through relationship or role contracts.
+Many actions, like the issuance of assets or their transfer, can be pre-agreed. You can represent this succinctly in Daml through relationship or role contracts.
 
-Jointly, an ``owner`` and ``newOwner`` can reassign an asset, as demonstrated in the script above. In :doc:`7_Composing`, you will see how to compose the ``ProposeTransfer`` and ``IouTransferProposal_Accept`` choices into a single new choice, but for now, here is a different way. You can give them the joint right to reassign an IOU:
+Jointly, an ``owner`` and ``newOwner`` can transfer an asset, as demonstrated in the script above. In :doc:`7_Composing`, you will see how to compose the ``ProposeTransfer`` and ``IouTransferProposal_Accept`` choices into a single new choice, but for now, here is a different way. You can give them the joint right to transfer an IOU:
 
 .. literalinclude:: daml/daml-intro-6/daml/Parties.daml
   :language: daml
@@ -112,7 +112,7 @@ Jointly, an ``owner`` and ``newOwner`` can reassign an asset, as demonstrated in
 
 Up to now, the controllers of choices were known from the current contract. Here, the ``newOwner`` variable is part of the choice arguments, not the ``Iou``.
 
-This is also the first time we have shown a choice with more than one controller. If multiple controllers are specified, the authority of *all* the controllers is needed. Here, neither ``owner`` nor ``newOwner`` can execute a reassignment unilaterally, hence the name ``Mutual_Transfer``.
+This is also the first time we have shown a choice with more than one controller. If multiple controllers are specified, the authority of *all* the controllers is needed. Here, neither ``owner`` nor ``newOwner`` can execute a transfer unilaterally, hence the name ``Mutual_Transfer``.
 
 .. literalinclude:: daml/daml-intro-6/daml/Parties.daml
   :language: daml
@@ -194,7 +194,7 @@ You can see the graph of this transaction in the transaction view of the IDE:
                                         (Parties:Cash with
                                           currency = "USD"; amount = 100.0000000000)
 
-Note that authority is not automatically reassigned transitively.
+Note that authority is not automatically transferred transitively.
 
 .. literalinclude:: daml/daml-intro-6/daml/Parties.daml
   :language: daml

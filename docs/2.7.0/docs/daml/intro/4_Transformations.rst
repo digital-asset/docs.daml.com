@@ -6,7 +6,7 @@ Transform Data Using Choices
 
 In the example in :ref:`contract_keys` the accountant party wanted to change some data on a contract. They did so by archiving the contract and re-creating it with the updated data. That works because the accountant is the sole signatory on the ``Account`` contract defined there.
 
-But what if the accountant wanted to allow the bank to change its own telephone number? Or what if the owner of a ``CashBalance`` should be able to reassign ownership to someone else?
+But what if the accountant wanted to allow the bank to change its own telephone number? Or what if the owner of a ``CashBalance`` should be able to transfer ownership to someone else?
 
 In this section, you will learn about how to define simple data transformations using *choices* and how to delegate the right to *exercise* these choices to other parties.
 

@@ -9,7 +9,7 @@ Problem Definition
 
 Latency is a measure of how long a business transaction takes to complete. Throughput measures, on average, the number of business transactions possible per second while taking into account any lower or upper bounds which may point to bottlenecks. Defense against latency and throughput issues can be written into the Daml application during design. 
 
-First, we need to identify the potential bottlenecks in a Daml application. We can do this by analyzing the sync-domain-specific transactions.
+First, we need to identify the potential bottlenecks in a Daml application. We can do this by analyzing the transactions moving through a specific sync domain.
 
 Each Daml business transaction kicks off when a Ledger API client sends the commands ``create`` or ``exercise`` to a participant. 
 

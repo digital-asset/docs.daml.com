@@ -7,7 +7,7 @@ Daml Interfaces
 After defining a few templates in Daml, you've probably found yourself repeating
 some behaviors between them. For instance, many templates have a notion of
 ownership where a party is designated as the "owner" of the contract, and this
-party has the power to reassign ownership of the contract to a different party
+party has the power to transfer ownership of the contract to a different party
 (subject to that party agreeing!). Daml Interfaces provide a
 way to abstract those behaviors into a Daml type.
 
@@ -47,7 +47,7 @@ be the existing ``owner``. Finally, the existing ``owner`` also has the choice
 ``WithdrawCashTransferProposal``, which archives the proposal and creates a new
 ``Cash`` contract with identical contents to the original one.
 
-Overall, the effect is that a ``Cash`` contract can be reassigned to another
+Overall, the effect is that a ``Cash`` contract can be transferred to another
 party, if they agree, in two steps.
 
 The declarations from ``intro13/daml/NFT.daml`` declare the templates ``NFT``
@@ -76,7 +76,7 @@ To abstract this behavior, you will next introduce two interfaces: ``IAsset`` an
   :start-after: -- INTERFACE_IASSET_TF_DEF_BEGIN
   :end-before: -- INTERFACE_IASSET_TF_DEF_END
 
-There are a few things happening here:
+A few things are happening here:
 
 1. For each interface, you have defined a ``viewtype``. This is mandatory for
    all interfaces. All viewtypes must be serializable records. The viewtype
@@ -176,11 +176,11 @@ reduce duplication in the code for different templates by instead going through
 the common interface.
 
 For instance, both ``Cash`` and ``NFT`` are ``Asset``\s, which means that
-contracts of either template have an owner who can propose to reassign the
+contracts of either template have an owner who can propose to transfer the
 contract to a third party. Thus, you can use Daml Script (see
 :ref:`testing-using-script`) to test that the same contract can be created by
-``Alice`` and successively reassigned to ``Bob`` and then ``Charlie``, who then
-proposes to reassign it to ``Dominic``, who rejects the proposal, and finally to
+``Alice`` and successively transferred to ``Bob`` and then to ``Charlie``, who then
+proposes to transfer it to ``Dominic``, who rejects the proposal, and finally to
 ``Emily`` before withdrawing the proposal, so in the end the contract remains in
 ``Charlie``'s ownership. This procedure is tested on the ``Cash`` and ``NFT``
 templates by the Daml Script tests ``cashTest`` and ``nftTest``, respectively,

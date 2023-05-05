@@ -4,7 +4,7 @@
 Basic Contracts
 ===============
 
-To begin with, you're going to write a very small Daml template, which represents a self-issued token that cannot be reassigned. Because it's a minimal template, it isn't actually useful on its own - you'll make it more useful later - but it's enough that it can show you the most basic concepts:
+To begin with, you're going to write a very small Daml template, which represents a self-issued, non-transferrable token. Because it's a minimal template, it isn't actually useful on its own - you'll make it more useful later - but it's enough that it can show you the most basic concepts:
 
 - Transactions
 - Daml Modules and Files

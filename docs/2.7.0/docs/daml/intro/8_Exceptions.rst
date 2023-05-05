@@ -126,13 +126,13 @@ would revert to the default Daml behavior and the ``Order`` creation
 In addition to catching built-in exceptions like
 ``PreconditionFailed``, you can also define your own exception types
 which can be caught and thrown. As an example, let’s consider a
-variant of the ``Transfer`` choice that only allows for reassignments up
+variant of the ``Transfer`` choice that only allows for transfers up
 to a given limit. If the amount is higher than the limit, we throw an
 exception called ``TransferLimitExceeded``.
 
 We first have to define the exception and define a way to represent it
 as a string. In this case, our exception should store the amount that
-someone tried to reassign as well as the limit.
+someone tried to transfer as well as the limit.
 
 .. literalinclude:: daml/daml-intro-8/daml/Intro/Exceptions.daml
   :language: daml

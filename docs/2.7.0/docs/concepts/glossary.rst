@@ -514,7 +514,7 @@ The sequencer is a service provided by the `sync domain <#domain>`__, used by th
 the messages in the same order. Think about registered and sealed mail delivered according to the postal date stamp.
 
 Sync Domain Identity Manager
-=======================
+============================
 
 The Sync Domain Identity Manager is a service provided by the `sync domain <#domain>`__, used by the `Canton protocol <#canton-protocol>`__. Participants join a new sync domain by registering with the sync domain identity manager. The sync domain 
 identity manager establishes a consistent identity state among all participants. The sync domain identity manager only forwards identity updates. It cannot invent them.

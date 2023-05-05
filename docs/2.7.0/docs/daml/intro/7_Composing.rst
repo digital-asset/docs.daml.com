@@ -4,7 +4,7 @@
 Composing Choices
 =================
 
-It's time to put everything you've learned so far together into a complete and secure Daml model for asset issuance, management, and trading. This application will have capabilities similar to the one in :doc:`/app-dev/bindings-java/quickstart`. In the process you will learn about a few more concepts:
+It's time to put everything you've learned so far together into a complete and secure Daml model for asset issuance, management, transfer and trading. This application will have capabilities similar to the one in :doc:`/app-dev/bindings-java/quickstart`. In the process you will learn about a few more concepts:
 
 - Daml projects, packages, and modules
 - Composition of transactions
@@ -37,7 +37,7 @@ You compile a Daml project by running ``daml build`` from the project root direc
 Project Structure
 -----------------
 
-This project contains an asset-holding model for reassignable, fungible assets and a separate trade workflow. The templates are structured in three modules: ``Intro.Asset``, ``Intro.Asset.Role``, and ``Intro.Asset.Trade``.
+This project contains an asset-holding model for transferrable, fungible assets and a separate trade workflow. The templates are structured in three modules: ``Intro.Asset``, ``Intro.Asset.Role``, and ``Intro.Asset.Trade``.
 
 In addition, there are tests in modules ``Test.Intro.Asset``, ``Test.Intro.Asset.Role``, and ``Test.Intro.Asset.Trade``.
 
@@ -95,9 +95,9 @@ Project Overview
 The project both changes and adds to the ``Iou`` model presented in :doc:`6_Parties`:
 
 - Assets are fungible in the sense that they have ``Merge`` and ``Split`` choices that allow the ``owner`` to manage their holdings.
-- Reassignment proposals now need the authorities of both ``issuer`` and ``newOwner`` to accept. This makes ``Asset`` safer than ``Iou`` from the issuer's point of view.
+- Transfer proposals now need the authorities of both ``issuer`` and ``newOwner`` to accept. This makes ``Asset`` safer than ``Iou`` from the issuer's point of view.
 
-  With the ``Iou`` model, an ``issuer`` could end up owing cash to anyone as reassignments were authorized by just ``owner`` and ``newOwner``. In this project, only parties with an ``AssetHolder`` contract can end up owning assets. This allows the ``issuer`` to determine which parties may own their assets.
+  With the ``Iou`` model, an ``issuer`` could end up owing cash to anyone as transfers were authorized by just ``owner`` and ``newOwner``. In this project, only parties with an ``AssetHolder`` contract can end up owning assets. This allows the ``issuer`` to determine which parties may own their assets.
 - The ``Trade`` template adds a swap of two assets to the model.
 
 Composed Choices and Scripts
@@ -235,12 +235,12 @@ Completion
 
 The first important consequence of the above is that all transactions are committed atomically. Either a transaction is committed as a whole and for all participants, or it fails.
 
-That's important in the context of the ``Trade_Settle`` choice shown above. The choice reassigns a ``baseAsset`` from one party to another and a ``quoteAsset`` the other way. Thanks to transaction atomicity, there is no chance that either party is left out of pocket.
+That's important in the context of the ``Trade_Settle`` choice shown above. The choice transfers a ``baseAsset`` from one party to another and a ``quoteAsset`` the other way. Thanks to transaction atomicity, there is no chance that either party is left out of pocket.
 
 The second consequence is that the requester of a transaction knows all consequences of their submitted transaction -- there are no surprises in Daml. However, it also means that the requester must have all the information to interpret the transaction.
 We also refer to this as Principle 2 a bit later on this page.
 
-That's also important in the context of ``Trade``. To allow Bob to interpret a transaction that reassigns Alice's cash to Bob, Bob needs to know both about Alice's ``Asset`` contract and about some way for ``Alice`` to accept the reassignment -- remember, accepting a reassignment needs the authority of ``issuer`` in this example.
+That's also important in the context of ``Trade``. To allow Bob to interpret a transaction that transfers Alice's cash to Bob, Bob needs to know both about Alice's ``Asset`` contract and about some way for ``Alice`` to accept the transfer -- remember, accepting a transfer needs the authority of ``issuer`` in this example.
 
 Observers
 ---------
@@ -261,7 +261,7 @@ The ``Asset`` template also gives the ``owner`` a choice to set the observers, a
 
 Observers have guarantees in Daml. In particular, they are guaranteed to see actions that create and archive the contract on which they are an observer.
 
-Since observers are calculated from the arguments of the contract, they always know about each other. That's why, rather than adding Bob as an observer on Alice's ``AssetHolder`` contract, and using that to authorize the reassignment in ``Trade_Settle``, Alice creates a one-time authorization in the form of a ``TransferAuthorization``. If Alice had lots of counterparties, she would otherwise end up leaking them to each other.
+Since observers are calculated from the arguments of the contract, they always know about each other. That's why, rather than adding Bob as an observer on Alice's ``AssetHolder`` contract, and using that to authorize the transfer in ``Trade_Settle``, Alice creates a one-time authorization in the form of a ``TransferAuthorization``. If Alice had lots of counterparties, she would otherwise end up leaking them to each other.
 
 Controllers declared in the ``choice`` syntax are not automatically made observers, as they can only be calculated at the point in time when the choice arguments are known. On the contrary, controllers declared via the ``controller cs can`` syntax are automatically made observers, but this syntax is deprecated and will be removed in a future version of Daml.
 
