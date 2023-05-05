@@ -35,8 +35,8 @@ Check out the :doc:`Lifecycling tutorial <../../tutorials/getting-started/lifecy
 description on how lifecycling works in practice, including how to
 :ref:`Claim <type-daml-finance-interface-lifecycle-rule-claim-claim-29284>` an
 :ref:`Effect <type-daml-finance-interface-lifecycle-effect-effect-69649>`.
-There is also the tutorial :doc:`How to implement a Contingent Claims-based instrument <../../tutorials/instrument-modeling/contingent-claims-instrument>`,
-which describes how create an
+There is also the tutorial :doc:`How to implement a Contingent Claims-based instrument <../../tutorials/advanced-topics/instrument-modeling/contingent-claims-instrument>`,
+which describes how to create an
 :ref:`Effect <type-daml-finance-interface-lifecycle-effect-effect-69649>`.
 For a description of ``Distribution`` and
 ``Replacement``, check out the

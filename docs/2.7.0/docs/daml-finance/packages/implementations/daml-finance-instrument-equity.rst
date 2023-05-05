@@ -12,7 +12,7 @@ This package contains the *implementation* of equity instruments, defined in the
   Factory implementation to instantiate equities
 
 Check out the tutorial on
-:doc:`How to use the Equity extension package <../../tutorials/instrument-modeling/equity-extension>`.
+:doc:`How to use the Equity extension package <../../tutorials/instrument-extension-packages/equity-extension>`.
 
 For a detailed explanation of the equity extension, check out the
 `Instrument/Equity/Test <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Equity/Test>`_
