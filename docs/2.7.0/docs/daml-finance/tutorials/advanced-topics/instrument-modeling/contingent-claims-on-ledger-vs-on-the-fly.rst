@@ -43,7 +43,7 @@ On the other hand, if you need to quickly create a one-off instrument, the on le
 you to create the claims directly from a script, without first having to define a dedicated
 template. Also, if the :doc:`Contingent Claims <../../../concepts/contingent-claims>` representation
 is actively used by both counterparties of the trade it could be useful to have it on ledger from a
-transparancy point of view. Similarly, if you need to explicitly keep the
+transparency point of view. Similarly, if you need to explicitly keep the
 :doc:`Contingent Claims <../../../concepts/contingent-claims>` representations of older versions of
 the instrument on the ledger, for example for auditing reasons, that would be achieved out of the
 box.
