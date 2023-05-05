@@ -202,7 +202,7 @@ Definition »Multi-Ledger causality graph«
   +------------------+-----------------+-----------------+
   | **NoSuchKey**    | no              | no              |
   +------------------+-----------------+-----------------+
-  | **Reassig** | maybe           | maybe           |
+  | **Reassign**     | maybe           | maybe           |
   +------------------+-----------------+-----------------+
 
   For non-consuming **Exercise** and **Fetch** actions, the incoming ledger must be the same as the outgoing ledger.

@@ -18,11 +18,11 @@ Multi-party applications, and multi-party application platforms like Daml, solve
 Why Do Multi-Party Applications Matter?
 ***************************************
 
-Have you ever wondered why bank transfers, stock purchases or healthcare claims take days to process? Given our technological advances, including the speed of networks, you might expect these transactions to take less than a second to complete. An inefficient protocol like email takes only a few seconds to send and receive, while these important business workflows take days or weeks.
+Have you ever wondered why bank transfers, stock purchases, or healthcare claims take days to process? Given our technological advances, including the speed of networks, you might expect these transactions to take less than a second to complete. An inefficient protocol like email takes only a few seconds to send and receive, while these important business workflows take days or weeks.
 
-What delays these transactions? The processes in question all involve multiple organizations that each keep their own records, resulting in data silos. The processes to ensure consistency between those data silos are complex and slow. When inconsistencies arise, the correction processes (sometimes referred to as reconciliation) are expensive, time-consuming and often require human intervention to determine why two parties have differing views of the result of a business interaction. There are a myriad of reasons for these discrepancies, including differences in data models and error handling logic, inconsistent business process implementations and system faults.
+What delays these transactions? The processes in question all involve multiple organizations that each keep their own records, resulting in data silos. The processes to ensure consistency between those data silos are complex and slow. When inconsistencies arise, the correction processes (sometimes referred to as reconciliation) are expensive, time-consuming and often require human intervention to determine why two parties have differing views of the result of a business interaction. There are myriad reasons for these discrepancies, including differences in data models and error handling logic, inconsistent business process implementations, and system faults.
 
-Here’s a deeper look at the problem via the example of a transfer of $100 from Alice’s account in Bank A to Bob’s account in Bank B. (Money is an easily understood example of an asset transferred between parties. The same problems occur in other industries with other assets, for example, healthcare claims, invoices or orders.) Money cannot simply appear or disappear during a transfer. The banks need to ensure that at some point in time, T_0, $100 are in Alice’s account, and at the next point in time, T_1, those $100 are gone from Alice’s account and present in Bob’s account – but at no point are the $100 present in both accounts or in neither account.
+Here’s a deeper look at the problem via the example of a transfer of $100 from Alice’s account in Bank A to Bob’s account in Bank B. (Money is an easily understood example of an asset transferred between parties. The same problems occur in other industries with other assets, for example, healthcare claims, invoices, or orders.) Money cannot simply appear or disappear during a transfer. The banks need to ensure that at some point in time, T_0, $100 are in Alice’s account, and at the next point in time, T_1, those $100 are gone from Alice’s account and present in Bob’s account – but at no point are the $100 present in both accounts or in neither account.
 
 In legacy systems, each bank keeps track of cash holdings independently of the other banks. Each bank stores data in its own private database. Each bank performs its own processes to validate, secure, modify, and regulate the workflows that transfer money. The coordination between multiple banks is highly complex. The banks are obligated to limit their counterparty risk - the probability that the other party in the transaction may not fulfill its part of the deal and may default on the contractual obligations.
 
@@ -32,7 +32,7 @@ Today’s common, albeit highly inefficient and costly, solution for a bank acco
 #. Bank A and Bank B determine a settlement plan, possibly including several intermediaries. Gaining an agreement on the settlement plan is time-consuming and often includes additional fees.
 #. The settlement process entails (i) debiting $100 from Alice’s account at Bank A, (ii) crediting the commercial account at Bank B, and (iii) once Bank B has the money, crediting Bob’s account at Bank B.
 
-In order to make this process atomic (that is, to make it take place between a point T_0 and a point T_1) banks discretize time into business days. On day T_0 the instruction is made and a settlement plan is created. Outside of business hours between day T_0 and day T_1, the plan is executed through end-of-day netting and settlement processes. In a sense, banks agree to stop time outside of business hours.
+To make this process atomic (that is, to make it take place between a point T_0 and a point T_1) banks discretize time into business days. On day T_0 the instruction is made and a settlement plan is created. Outside of business hours between day T_0 and day T_1, the plan is executed through end-of-day netting and settlement processes. In a sense, banks agree to stop time outside of business hours.
 
 If intermediaries are involved, the process is more complex. Cross-border payments or currency conversion add yet more complexity. The resulting process is costly and takes days. During this multi-day process, the $100 is locked within the system and is useless to both Alice and Bob. Delays are common, and if there are problems reconciliation is hugely expensive. Consolidating through centralized intermediaries introduces systemic risk, including the risk of unauthorized disclosure and privacy breaches - and with that risk comes increased latency. Banks insist on this approach, despite the downsides, to reduce counterparty risk and to comply with regulations. At every point in time, ownership of the money is completely clear. (To learn more about cash transfers in traditional banking systems, read `this accessible writeup on international money transfers <https://web.archive.org/web/20220731223958/https://medium.com/@yudapramad/how-international-money-transfers-actually-work-bac65f075bb5>`_.)
 
@@ -45,7 +45,7 @@ Daml is a platform and framework for building real-time multi-party systems, ena
 What Is a Multi-Party Application?
 **********************************
 
-A multi-party application is one in which data, and the rules and workflows that govern the data, are shared between two or more parties without any party having to give up sovereignty or any single party (including the application provider) being able to control or override the agreed rules of the system. A party could be a company, a department within a company, an organization, an individual, or a person. The specific definition of a party will be unique to the application and the domain of that application.
+A multi-party application is one in which data, and the rules and workflows that govern the data, are shared between two or more parties without any party having to give up sovereignty or any single party (including the application provider) being able to control or override the agreed rules of the system. A party could be a company, a department within a company, an organization, an individual, or a person. The specific definition of a party will be unique to the application.
 
 A well-designed multi-party application provides several benefits:
  - a clean, consistent view of all data managed by the application across all parties
@@ -93,19 +93,19 @@ The Daml code that collectively makes up the data schema and rules for an applic
 
 Using the Daml language, developers define the schema for a virtual shared system of record (VSSR). A VSSR is the combined data from all parties involved in the application. The Canton protocol ensures that each party gets a unique view into the VSSR, which is their projection of the full system.
 
-In the execution model for Canton, each party of the application is hosted on a Participant Node (Diagram 1). The Participant Node stores the party’s unique projection and history of the shared system of record. Participant Nodes synchronize by running a consensus protocol (the Canton Protocol) between them. The protocol is executed by sending encrypted messages through Domains, which route messages and offer guaranteed delivery and order consistency. Domains are also units of access control and availability, meaning an application can be additionally protected from interference by other applications or malicious actors by synchronizing it only through a given domain, and restricting which participants can connect to it.
+In the execution model for Canton, each party of the application is hosted on a Participant Node (Diagram 1). The Participant Node stores the party’s unique projection and history of the shared system of record. Participant Nodes synchronize by running a consensus protocol (the Canton Protocol) between them. The protocol is executed by sending encrypted messages through Sync Domains, which route messages and offer guaranteed delivery and order consistency. Sync Domains are also units of access control and availability, meaning an application can be additionally protected from interference by other applications or malicious actors by synchronizing it only through a given Sync Domain, and restricting which participants can connect to it.
 
 Diagram 1:
 
 .. figure:: arch-intro-1.png
-   :alt: A Domain (center) with four Participant Nodes. Participant Node One hosts Party A; Participant Node Two hosts Party B; Participant Node Three hosts Party C; and Participant Node Four hosts Parties D, E, and F. The Domain can be centralized or distributed, public or private.
+   :alt: A Sync Domain (center) with four Participant Nodes. Participant Node One hosts Party A; Participant Node Two hosts Party B; Participant Node Three hosts Party C; and Participant Node Four hosts Parties D, E, and F. The Sync Domain can be centralized or distributed, public or private.
 
-In a composed solution, each domain is a sub-network. A Participant Node connects to one or more Domains, enabling transactions that span Domains (Diagram 2).
+In a composed solution, each Sync Domain is a sub-network. A Participant Node connects to one or more Sync Domains, enabling transactions that span Sync Domains (Diagram 2).
 
 Diagram 2:
 
 .. figure:: arch-intro-2.png
-   :alt: Three Domains with five Participant Nodes, each hosting one or more parties. Domains A (HL Fabric) and B (Ethereum) have two Domain Nodes each, while Domain C (SQL) has a single Domain Node. Each Participant Node can connect to different Domain Nodes across different Domains.
+   :alt: Three Sync Domains (A, B, and the Public Canton Synchronization Domain) with four Participant Nodes (1, 2, 3, and 4), each hosting one or more parties. Each Participant Node can connect to at least two Sync Domains.
 
 
 Transfer Example Using Daml
@@ -115,7 +115,7 @@ Consider the transfer example described above with Alice and Bob. Using Daml, th
 
 #. Alice logs into her online banking at Bank A and enters a transfer to Bob at Bank B.
 #. The online banking backend creates a transaction that deducts $100 from Alice’s account and creates a transfer to Bob at Bank B.
-#. When Bank B accepts the transfer, Bank A credits $100 to Bank B’s account at Bank A and Bank B simultaneously credits Bob’s account by $100.
+#. When Bank B accepts the transfer, Bank A credits $100 to Bank B’s account at Bank A, and Bank B simultaneously credits Bob’s account by $100.
 #. Bob’s online banking interfaces with the Daml Ledger and can see the incoming funds in real time.
 
 At every point, ownership of the $100 is completely clear and all systems are fully consistent.
