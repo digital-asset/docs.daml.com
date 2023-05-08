@@ -171,6 +171,9 @@ can be configured by specifying a different schedule:
   :start-after: -- CREATE_3M_CAP_FLOOR_FLOATING_6M_CALLABLE_BOND_SCHEDULE_BEGIN
   :end-before: -- CREATE_3M_CAP_FLOOR_FLOATING_6M_CALLABLE_BOND_SCHEDULE_END
 
+The *noticeDays* defines how many business days notice is required to call the bond. The election
+whether or not to call the bond must be done on this date.
+
 Using these terms we can create the callable bond instrument:
 
 .. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Util.daml
