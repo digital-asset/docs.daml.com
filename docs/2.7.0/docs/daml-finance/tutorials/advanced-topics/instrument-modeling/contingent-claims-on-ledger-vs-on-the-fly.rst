@@ -8,12 +8,12 @@ Different Ways to Create and Store the Contingent Claims Tree
 *************************************************************
 
 We have seen two different ways of modeling a fixed coupon bond using
-:doc:`Contingent Claims <../../concepts/contingent-claims>`:
+:doc:`Contingent Claims <../../../concepts/contingent-claims>`:
 
 Explicitly Storing the Contingent Claims Tree on the Ledger
 ===========================================================
 
-When we use the :doc:`Generic extension <generic-extension>`, we create the claims tree at
+When we use the :doc:`Generic extension <../../payoff-modeling/generic-extension>`, we create the claims tree at
 instrument inception and store this representation explicitly on the ledger. Since the tree is
 stored statically it can only change if the instrument is updated on ledger. For example, after a
 coupon payment a new version of the instrument (excluding the coupon just paid) supersedes the
@@ -41,9 +41,9 @@ large claims tree it could be desirable not to store it on the ledger for perfor
 
 On the other hand, if you need to quickly create a one-off instrument, the on ledger approach allows
 you to create the claims directly from a script, without first having to define a dedicated
-template. Also, if the :doc:`Contingent Claims <../../concepts/contingent-claims>` representation
+template. Also, if the :doc:`Contingent Claims <../../../concepts/contingent-claims>` representation
 is actively used by both counterparties of the trade it could be useful to have it on ledger from a
-transparancy point of view. Similarly, if you need to explicitly keep the
-:doc:`Contingent Claims <../../concepts/contingent-claims>` representations of older versions of
+transparency point of view. Similarly, if you need to explicitly keep the
+:doc:`Contingent Claims <../../../concepts/contingent-claims>` representations of older versions of
 the instrument on the ledger, for example for auditing reasons, that would be achieved out of the
 box.

@@ -40,7 +40,7 @@ The :doc:`Lifecycling <../../concepts/lifecycling>` page contains an overview of
 process and explains the relationship between events, lifecycle rules and effects. Check out the
 :doc:`Lifecycling tutorial <../../tutorials/getting-started/lifecycling>` for a description on how
 lifecycling works in practice. There is also the tutorial
-:doc:`How to implement a Contingent Claims-based instrument <../../tutorials/instrument-modeling/contingent-claims-instrument>`,
+:doc:`How to implement a Contingent Claims-based instrument <../../tutorials/advanced-topics/instrument-modeling/contingent-claims-instrument>`,
 which describes how claims are defined, how to use a ``NumericObservable``, and how the
 ``Lifecycle`` interface is implemented for bonds.
 

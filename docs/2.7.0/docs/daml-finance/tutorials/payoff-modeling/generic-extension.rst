@@ -13,8 +13,8 @@ is the starting point of this tutorial.
 How To Create a Generic Instrument
 **********************************
 
-The :doc:`Generic <../../packages/implementations/daml-finance-instrument-generic>` extension
-provides a flexible framework to model generic instruments in Daml Finance. It encapsulates the
+The :doc:`Generic Instrument<../../packages/implementations/daml-finance-instrument-generic>`
+provides a flexible framework to model custom payoffs in Daml Finance. It encapsulates the
 :doc:`Contingent Claims <../../concepts/contingent-claims>` library, which allows us to model the
 economic terms of an instrument.
 

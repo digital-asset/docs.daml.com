@@ -29,9 +29,9 @@ modules:
   Factory implementation to instantiate zero-coupon bonds
 
 Check out the tutorial on
-:doc:`How to use the Bond extension package <../../tutorials/instrument-modeling/bond-extension>`
+:doc:`How to use the Bond extension package <../../tutorials/instrument-extension-packages/bond-extension>`
 for a description of how to use the bond extension in practice. There is also the tutorial
-:doc:`How to implement a Contingent Claims-based instrument <../../tutorials/instrument-modeling/contingent-claims-instrument>`,
+:doc:`How to implement a Contingent Claims-based instrument <../../tutorials/advanced-topics/instrument-modeling/contingent-claims-instrument>`,
 which describes how the claims are defined and how the lifecycle interface is implemented for
 bonds.
 
