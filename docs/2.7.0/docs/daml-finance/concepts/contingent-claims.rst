@@ -17,7 +17,7 @@ offers lifecycling capabilities, as well as a valuation semantics to map a claim
 expression that can be used for no-arbitrage pricing.
 
 An example of how to create and lifecycle contracts using Contingent Claims can be found in
-:doc:`this tutorial <../tutorials/instrument-modeling/contingent-claims-instrument>`.
+:doc:`this tutorial <../tutorials/advanced-topics/instrument-modeling/contingent-claims-instrument>`.
 
 In the following we present a user guide for getting started with ``Contingent Claims``-based
 modeling. It is meant to teach the basics of the framework, but does not cover every aspect. The

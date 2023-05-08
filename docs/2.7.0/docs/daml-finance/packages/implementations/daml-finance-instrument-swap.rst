@@ -35,7 +35,7 @@ modules:
   Factory implementation to instantiate interest rate swaps
 
 Check out the tutorial on
-:doc:`How to use the Swap extension package <../../tutorials/instrument-modeling/swap-extension>`
+:doc:`How to use the Swap extension package <../../tutorials/instrument-extension-packages/swap-extension>`
 for a description of how to use the swap extension in practice.
 
 Changelog

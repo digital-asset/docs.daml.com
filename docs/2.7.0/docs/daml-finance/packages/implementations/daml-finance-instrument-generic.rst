@@ -15,7 +15,7 @@ in the following modules:
 - :ref:`Lifecycle.Rule <module-daml-finance-instrument-generic-lifecycle-rule-68537>`:
   Rule to process a time update event for generic instruments
 
-The tutorial :doc:`How To Model and Lifecycle Generic Instruments <../../tutorials/instrument-modeling/generic-extension>`
+The tutorial :doc:`How To Model and Lifecycle Generic Instruments <../../tutorials/payoff-modeling/generic-extension>`
 describes how a :doc:`Contingent Claims <../../concepts/contingent-claims>` payoff is defined and
 lifecycled in practice.
 
