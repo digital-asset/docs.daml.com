@@ -1,12 +1,12 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Intermediated Lifecycling of a Generic Instrument
-#################################################
+Intermediated Lifecycling of an Instrument
+##########################################
 
 This tutorial describes the :ref:`lifecycle <lifecycling>` flow of an instrument with an
 intermediary party between the issuer and the investor. We will use the a
-:doc:`Generic <generic-extension>` instrument, but the same concepts apply to other instrument
+:doc:`Generic Instrument<../../payoff-modeling/generic-extension>`, but the same concepts apply to other instrument
 types as well.
 
 We will illustrate the following steps:
@@ -30,7 +30,7 @@ Create a Fixed-Rate Bond Instrument
 ***********************************
 
 We start by defining a fixed rate bond, which pays a 4% p.a. coupon with a 6M coupon period. This is
-explained in the :doc:`Generic Tutorial <generic-extension>`.
+explained in the :doc:`Generic Instrument<../../payoff-modeling/generic-extension>` tutorial.
 
 Define an Intermediated Settlement Route
 ****************************************
@@ -38,14 +38,14 @@ Define an Intermediated Settlement Route
 In the case of intermediated lifecycling, we need to define a settlement route for the bond
 instrument, which depends on the account structure:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml
   :language: daml
   :start-after: -- CREATE_BOND_ROUTE_BEGIN
   :end-before: -- CREATE_BOND_ROUTE_END
 
 Similarly, we define a settlement route for the cash instrument instrument:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml
   :language: daml
   :start-after: -- CREATE_CASH_ROUTE_BEGIN
   :end-before: -- CREATE_CASH_ROUTE_END
@@ -61,7 +61,7 @@ some flexibility regarding when to process events.
 Because of this, the issuer defines a clock update event contract, which signals that a certain time
 has been reached:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml
   :language: daml
   :start-after: -- CREATE_CLOCK_FOR_BOND_LIFECYCLING_BEGIN
   :end-before: -- CREATE_CLOCK_FOR_BOND_LIFECYCLING_END
@@ -72,7 +72,7 @@ Lifecycle the Bond Instrument
 Using the :ref:`Lifecycle <module-daml-finance-interface-lifecycle-rule-lifecycle-50431>` interface,
 the CSD creates a lifecycle rule contract:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml
   :language: daml
   :start-after: -- LIFECYCLE_BOND_CREATE_RULE_BEGIN
   :end-before: -- LIFECYCLE_BOND_CREATE_RULE_END
@@ -80,7 +80,7 @@ the CSD creates a lifecycle rule contract:
 The issuer of the bond is responsible for initiating the lifecycling of the coupon payment, by
 exercising the ``Evolve`` choice on the coupon date:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml
   :language: daml
   :start-after: -- LIFECYCLE_BOND_BEGIN
   :end-before: -- LIFECYCLE_BOND_END
@@ -105,7 +105,7 @@ First, there is the settlement between the issuer and the CSD. By using the
 ``EffectSettlementService`` template, the issuer can claim and settle the lifecycling effects in one
 step by exercising the ``ClaimAndSettle`` choice:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml
   :language: daml
   :start-after: -- LIFECYCLE_BOND_ISSUER_CSD_BEGIN
   :end-before: -- LIFECYCLE_BOND_ISSUER_CSD_END
@@ -113,7 +113,7 @@ step by exercising the ``ClaimAndSettle`` choice:
 Then, there is the settlement between the CSD and the investor. We start by creating a settlement
 factory:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml
   :language: daml
   :start-after: -- LIFECYCLE_BOND_SETTLEMENT_FACTORY_BEGIN
   :end-before: -- LIFECYCLE_BOND_SETTLEMENT_FACTORY_END
@@ -122,7 +122,7 @@ Settlement instructions are created
 by using the :ref:`Claim <module-daml-finance-interface-lifecycle-rule-claim-6739>` interface and
 exercising the ``ClaimEffect`` choice:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml
   :language: daml
   :start-after: -- LIFECYCLE_BOND_CSD_INVESTOR_BEGIN
   :end-before: -- LIFECYCLE_BOND_CSD_INVESTOR_END
@@ -134,7 +134,7 @@ Claiming the effect has two consequences:
 
 Finally, the settlement instructions are allocated, approved and then settled.
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml
   :language: daml
   :start-after: -- LIFECYCLE_BOND_ALLOCATE_APPROVE_SETTLE_BEGIN
   :end-before: -- LIFECYCLE_BOND_ALLOCATE_APPROVE_SETTLE_END
@@ -151,14 +151,14 @@ The first part of the process is very similar. The first important difference is
 exercises the ``ClaimEffect`` choice, where the bond holdings of both the CSD and the investor are
 provided:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml
   :language: daml
   :start-after: -- LIFECYCLE_BOND_ATOMIC_CLAIMEFFECT_BEGIN
   :end-before: -- LIFECYCLE_BOND_ATOMIC_CLAIMEFFECT_END
 
 There are now more settlement instructions (both from CSD to issuer and from issuer to CSD):
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml
   :language: daml
   :start-after: -- LIFECYCLE_BOND_ATOMIC_INSTRUCTIONS_BEGIN
   :end-before: -- LIFECYCLE_BOND_ATOMIC_INSTRUCTIONS_END

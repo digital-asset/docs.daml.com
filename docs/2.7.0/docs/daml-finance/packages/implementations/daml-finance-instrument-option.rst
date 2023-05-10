@@ -21,5 +21,5 @@ following modules:
   Factory implementation to instantiate physically settled European options
 
 Check out the tutorial on
-:doc:`How to use the Option extension package <../../tutorials/instrument-modeling/option-extension>`
+:doc:`How to use the Option extension package <../../tutorials/instrument-extension-packages/option-extension>`
 for a description of how to use the option extension in practice.

@@ -171,6 +171,9 @@ can be configured by specifying a different schedule:
   :start-after: -- CREATE_3M_CAP_FLOOR_FLOATING_6M_CALLABLE_BOND_SCHEDULE_BEGIN
   :end-before: -- CREATE_3M_CAP_FLOOR_FLOATING_6M_CALLABLE_BOND_SCHEDULE_END
 
+The *noticeDays* field defines how many business days notice is required to call the bond.
+The election whether or not to call the bond must be done on this date.
+
 Using these terms we can create the callable bond instrument:
 
 .. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Util.daml
@@ -261,7 +264,7 @@ How do I process coupon payments for a bond?
 On the coupon payment date, the issuer will need to lifecycle the bond. This will result in a
 lifecycle effect for the coupon, which can be cash settled. This is described in detail in the
 :doc:`Lifecycling <../getting-started/lifecycling>` and the
-:doc:`Intermediated Lifecycling <intermediated-lifecycling>` tutorials.
+:doc:`Intermediated Lifecycling <../advanced-topics/lifecycling/intermediated-lifecycling>` tutorials.
 
 How do I redeem a bond?
 =======================

@@ -4,4 +4,5 @@
 Tutorials
 #########
 
-This tutorials section contains step-by-step implementation guides across different use cases.
+This section contains step-by-step implementation guides across different aspects of the Daml
+Finance library.
