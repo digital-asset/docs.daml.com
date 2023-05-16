@@ -27,6 +27,8 @@ modules:
   Instrument implementation for zero-coupon bonds
 - :ref:`ZeroCoupon.Factory <module-daml-finance-instrument-bond-zerocoupon-factory-51640>`:
   Factory implementation to instantiate zero-coupon bonds
+- :ref:`Util <module-daml-finance-instrument-bond-util-70458>`:
+  Bond-specific utility functions
 
 Check out the tutorial on
 :doc:`How to use the Bond extension package <../../tutorials/instrument-extension-packages/bond-extension>`

@@ -18,7 +18,7 @@ following modules:
 - :ref:`Factory <module-daml-finance-settlement-factory-257>`: Used to create a set of
   settlement `Instruction`\s, and a `Batch` to atomically settle them
 - :ref:`Hierarchy <module-daml-finance-settlement-hierarchy-15826>`: Data type that describes a
-  hierarchical account structure among multiple parties
+  hierarchical account structure between multiple parties
 
 The :doc:`Settlement <../../concepts/settlement>` page contains an overview of the settlement
 process and explains the relationship between ``Instruction`` and ``Batch``. Also, check out the

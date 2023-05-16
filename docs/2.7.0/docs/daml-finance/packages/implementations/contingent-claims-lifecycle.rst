@@ -5,7 +5,8 @@ ContingentClaims.Lifecycle
 ##########################
 
 This package contains the *implementation* of utility functions to lifecycle a
-:doc:`Contingent Claims <../../concepts/contingent-claims>` tree. The following modules are included:
+:doc:`Contingent Claims <../../concepts/contingent-claims>` tree. The following modules are
+included:
 
 - :ref:`Lifecycle <module-contingentclaims-lifecycle-lifecycle-72039>`:
   Functions to lifecycle a :doc:`Contingent Claims <../../concepts/contingent-claims>` tree

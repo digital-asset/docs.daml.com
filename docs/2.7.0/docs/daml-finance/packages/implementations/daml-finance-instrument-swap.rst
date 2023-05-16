@@ -33,6 +33,8 @@ modules:
   Instrument implementation for interest rate swaps
 - :ref:`InterestRate.Factory <module-daml-finance-instrument-swap-interestrate-factory-62092>`:
   Factory implementation to instantiate interest rate swaps
+- :ref:`Util <module-daml-finance-instrument-swap-util-63208>`:
+  Utility functions for swaps
 
 Check out the tutorial on
 :doc:`How to use the Swap extension package <../../tutorials/instrument-extension-packages/swap-extension>`
