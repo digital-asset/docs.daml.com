@@ -147,7 +147,7 @@ The first option, on the left, fronts the sequencer service with a load balancer
 
 The option on the right is a gRPC java client library providing a round-robin selection mechanism for load balancing that automatically round-robins through multiple sequencer connections and includes the ones that are healthy. This setup requires the distributed application provider and distributed application users to maintain the configuration information of all the available sequencers in the sequencer client. The sequencer client continuously monitors the health of each sequencer endpoint when selecting a possible node in round-robin fashion. 
 
-See the Canton documentation on `connection to high availability sequencers <../../../canton/usermanual/connectivity.html#connect-to-high-availability-sequencers>`__ and `client load balancing <../../../canton/usermanual/ha.html#client-side-load-balancing>`__ for more information.
+See the Canton documentation on :ref:`connection to high availability sequencers <connectivity_participant_connect_ha>` and `client load balancing </canton/usermanual/ha.html#client-side-load-balancing>`__ for more information.
 
 Blockchain domains
 ==================
