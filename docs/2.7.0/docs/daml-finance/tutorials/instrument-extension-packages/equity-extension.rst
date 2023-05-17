@@ -306,7 +306,7 @@ Frequently Asked Questions
 How do I transfer or trade an Equity?
 =====================================
 
-When you have created a holding on an Equity instrument this can be transfered to another party.
+When you have created a holding on an Equity instrument this can be transferred to another party.
 This is described in the :doc:`Getting Started: Transfer <../getting-started/transfer>` tutorial.
 
 In order to trade an Equity (transfer it in exchange for cash) you can also initiate a delivery

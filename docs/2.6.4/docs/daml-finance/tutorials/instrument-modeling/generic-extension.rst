@@ -64,7 +64,7 @@ function, which is included in :doc:`Contingent Claims <../../concepts/contingen
 How To Trade and Transfer a Generic Instrument
 **********************************************
 
-When you have created a holding on the above instrument it can be transfered to another party. This
+When you have created a holding on the above instrument it can be transferred to another party. This
 is described in :doc:`Getting Started: Transfer <../getting-started/transfer>`.
 
 In order to trade the instrument (transfer it in exchange for cash) you can also initiate a delivery

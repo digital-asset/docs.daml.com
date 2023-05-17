@@ -5,9 +5,9 @@ High Availability From a Business Perspective
 #############################################
 
 .. IMPORTANT::
-    
-    This section contains information for those unfamiliar with HA and how it is fundamental to operational efficiency. We look at how business goals drive the configuration and operational aspects of the HA deployment. 
-    
+
+    This section contains information for those unfamiliar with HA and how it is fundamental to operational efficiency. We look at how business goals drive the configuration and operational aspects of the HA deployment.
+
     **Those familiar with these principles may skip this page.**
 
 **Definition**
@@ -22,12 +22,12 @@ High Availability From a Business Perspective
     1. Elimination of `single points of failure <https://en.wikipedia.org/wiki/Single_point_of_failure>`_. This means adding or building redundancy into the system so that failure of a component does not mean failure of the entire system.
     2. Reliable crossover. In `redundant systems <https://en.wikipedia.org/wiki/Redundancy_(engineering)>`_, the crossover point itself tends to become a single point of failure. Reliable systems must provide for reliable crossover.
     3. Detection of failures as they occur. If the two principles above are observed, then a user may never see a failure - but the maintenance activity must."
-    
+
 Daml solution design honors these principles by:
 
 1. Eliminating single points of failure through redundant components.
-2. Executing reliable crossover through networking best practices, in conjunction with the Canton transaction consensus protocol, to eliminate partially processed requests. 
-3. Ensuring automated failover when a single failure is detected. 
+2. Executing reliable crossover through networking best practices, in conjunction with the Canton transaction consensus protocol, to eliminate partially processed requests.
+3. Ensuring automated failover when a single failure is detected.
 
 **Useful External Resources**
 
@@ -40,24 +40,24 @@ Daml solution design honors these principles by:
 Availability
 ************
 
-Availability defines whether a system is able to fulfill its intended function over a period of time, i.e. the system works as intended 99.5% or 99.999% of the time. 
+Availability defines whether a system is able to fulfill its intended function over a period of time, i.e. the system works as intended 99.5% or 99.999% of the time.
 
-The inverse is the percentage of time it is expected to fail, such as 0.5% or 0.001%. 
+The inverse is the percentage of time it is expected to fail, such as 0.5% or 0.001%.
 
 Time-based availability
 =======================
 
-Availability is usually measured in whole system uptime percentage, rather than the uptime percentages of separate components. 
+Availability is usually measured in whole system uptime percentage, rather than the uptime percentages of separate components.
 
 A refinement of this metric is *unplanned downtime*, i.e. the amount of time that the system is unexpectedly unavailable. This is because well-published maintenance activities have no business impact whereas unplanned downtime can cause lost revenue, reputational harm, customers switching to a competitor, etc.
 
-The general formula is: 
+The general formula is:
 
     :math:`availability = uptime / (uptime + downtime)`
 
-This formula calculates how many minutes of downtime are allowed in a given period. For example, a system with an availability target of 99.99% can be down for up to 52.56 minutes in an entire year and stay within its availability level. 
+This formula calculates how many minutes of downtime are allowed in a given period. For example, a system with an availability target of 99.99% can be down for up to 52.56 minutes in an entire year and stay within its availability level.
 
-The table below shows estimated downtimes for a number of given availability levels. 
+The table below shows estimated downtimes for a number of given availability levels.
 
 ..  .. list-table:: Availability calculator table
     :widths: 14 14 14 14 14 14 16
@@ -66,9 +66,9 @@ The table below shows estimated downtimes for a number of given availability lev
     - * Availability level
       * Downtime per year
       * Downtime per quarter
-      * Downtime per month 
-      * Downtime per week 
-      * Downtime per day 
+      * Downtime per month
+      * Downtime per week
+      * Downtime per day
       * Downtime per hour
     - * 90%
       * 36.52 days
@@ -154,23 +154,23 @@ The table below shows estimated downtimes for a number of given availability lev
 
 Data like this helps a business define an error budget or "the maximum amount of time that a technical system can fail without contractual consequences.”[#f2]_ which may also be a KPI for SREs.
 
-For example, over a 30 day (43,200 minutes) time-window, with an availability target of 99.9%, the system must not be down for more than 43.2 minutes. This 43.2 minute figure is a concrete target to plan around, and is often referred to as the error budget. If you exceed 43.2 minutes of downtime over 30 days, you fail to meet your availability goal. 
+For example, over a 30 day (43,200 minutes) time-window, with an availability target of 99.9%, the system must not be down for more than 43.2 minutes. This 43.2 minute figure is a concrete target to plan around, and is often referred to as the error budget. If you exceed 43.2 minutes of downtime over 30 days, you fail to meet your availability goal.
 
 Aggregate request availability
 ==============================
 
-In contrast to time-based availabilty, the fine-grained aggregate request availability metric considers the number of failed requests i.e. x% of total failed requests.
+In contrast to time-based availability, the fine-grained aggregate request availability metric considers the number of failed requests i.e. x% of total failed requests.
 
-This metric is most useful for services that may be partially available or whose load varies over the course of a day or week rather than remaining constant, or to monitor specific, business-critical endpoints. 
+This metric is most useful for services that may be partially available or whose load varies over the course of a day or week rather than remaining constant, or to monitor specific, business-critical endpoints.
 
-The general formula is: 
+The general formula is:
 
     :math:`availability = successfulRequests / totalRequests`
 
 Although not all requests have equal business value, this metric is often calculated over all requests made to the system. For example, a system that serves 2.5M requests per day, with a daily availability target of 99.99%, can serve up to 250 errors and still hit the target.
 
 .. NOTE::
-    If a failing request retries and succeeds, it is not considered failed since the end-user sees no failure. 
+    If a failing request retries and succeeds, it is not considered failed since the end-user sees no failure.
 
 Resiliency
 **********
@@ -189,22 +189,22 @@ Other Common Metrics / RTO and RPO
 
 **Recovery Time Objective** (RTO) is the maximum acceptable delay between the interruption of service and restoration of service. This value determines an acceptable duration over which the service is impaired. It is a slice of the error budget but for a single instance of downtime.
 
-**Recovery Point Objective** (RPO) is the maximum acceptable amount of time since the last data recovery point. This determines the acceptable data loss between the latest recovery point and a service interruption. 
+**Recovery Point Objective** (RPO) is the maximum acceptable amount of time since the last data recovery point. This determines the acceptable data loss between the latest recovery point and a service interruption.
 
-Financial systems often require support for an RPO of zero. 
+Financial systems often require support for an RPO of zero.
 
 HA Cost Trade-Offs
 ******************
 
-High availability can be costly and thus require trade-offs. 
+High availability can be costly and thus require trade-offs.
 
-To illustrate, extreme events that are highly improbable and costly to guard against - such as an asteroid strike that wipes out a continent's data centers - may not need consideration. This highlights the trade-off between the cost of avoiding an outage, the probability of a single failure (single component redundancy), and the probability of multiple simultaneous failures (multiple component, integrated redundancy). 
+To illustrate, extreme events that are highly improbable and costly to guard against - such as an asteroid strike that wipes out a continent's data centers - may not need consideration. This highlights the trade-off between the cost of avoiding an outage, the probability of a single failure (single component redundancy), and the probability of multiple simultaneous failures (multiple component, integrated redundancy).
 
 We can analyze the trade-offs by deriving the cost of loss of availability using unplanned downtime as follows:
 
     :math:`cost = errorBudget * revenueLostPerMinuteOfDowntime`
 
-where the revenue lost per minute of downtime is a projected or measured statistic. 
+where the revenue lost per minute of downtime is a projected or measured statistic.
 
 Use this formula in different configurations to compare increasing cost against availability to determine an appropriate trade-off for your business goals.
 

@@ -171,7 +171,7 @@ Concerning Type Parameters
 
 The curious reader may have noticed that the signature we gave for ``data Claim`` is not quite what
 is in the library, where we have ``data Claim t x a o``. In our examples, we have specialised this
-to ``type Claim' t x a o = Claim Date Decimal a a``. Parametrising these variables allows us to
+to ``type Claim' t x a o = Claim Date Decimal a a``. Parameterising these variables allows us to
 reason about ``Asset``\ s and ``Observation``\ s that appear in\ ``Claim``\ s as function-like
 objects. The main use of this is to create claims with ‘placeholders’ for actual parameters, that
 can later be ‘filled in’ by mapping over them (``mapParams``).

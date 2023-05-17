@@ -12,7 +12,7 @@ This package implements templates containing reference data. It includes the fol
 - :ref:`Reference.HolidayCalendar <module-daml-finance-data-reference-holidaycalendar-10773>`:
   A holiday calendar of an entity (typically an exchange or a currency)
 - :ref:`Time.DateClock.Types <module-daml-finance-data-time-dateclock-types-48777>`:
-  A date type which can be converted to time, and time-related utility funtions
+  A date type which can be converted to time, and time-related utility functions
 - :ref:`Time.DateClock <module-daml-finance-data-time-dateclock-65212>`:
   A contract specifying what is the current local date. It is used to inject date information in
   lifecycle processing rules

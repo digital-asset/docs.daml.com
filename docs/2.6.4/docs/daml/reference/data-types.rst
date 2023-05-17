@@ -62,7 +62,7 @@ Table of built-in primitive types
      - models differences between time values
      - ``seconds 1``, ``seconds (-2)``
      - ``RelTime`` values have microsecond precision with allowed range from `-9,223,372,036,854,775,808ms` to `9,223,372,036,854,775,807ms`
-       There are no literals for ``RelTime``. Instead they are created using one of ``days``, ``hours``, ``minutes``, ``seconds``, ``miliseconds`` and ``microseconds``  (to get these functions, import ``DA.Time``).
+       There are no literals for ``RelTime``. Instead they are created using one of ``days``, ``hours``, ``minutes``, ``seconds``, ``milliseconds`` and ``microseconds``  (to get these functions, import ``DA.Time``).
 
 Escaping Characters
 ===================
