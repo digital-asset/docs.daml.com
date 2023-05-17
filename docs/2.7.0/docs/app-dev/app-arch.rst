@@ -131,6 +131,7 @@ Together, these features can provide you with very tight feedback loops while de
 
 .. image:: ./developer_workflow.svg
    :alt: A simple developer workflow - iterate on the Daml model, iterate on the UI, repeat.
+   :scale: 200 %
 
 See :doc:`Your First Feature </getting-started/first-feature>` for a more detailed walkthrough of these steps.
 
@@ -139,7 +140,7 @@ Command Deduplication
 
 The interaction of a Daml application with the ledger is inherently asynchronous: applications send commands to the ledger, and some time later they see the effect of that command on the ledger.
 
-There are several things that can fail during this time window: the application can crash, the participant node can crash, messages can be lost on the network, or the ledger may be just slow to respond due to a high load.
+Several things can fail during this time window: the application can crash, the participant node can crash, messages can be lost on the network, or the ledger may be just slow to respond due to a high load.
 
 If you want to make sure that a command is not executed twice, your application needs to robustly handle all failure scenarios.
 Daml ledgers provide a mechanism for :doc:`command deduplication <command-deduplication>` to help deal with this problem.
