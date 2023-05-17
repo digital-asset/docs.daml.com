@@ -19,7 +19,7 @@ Configuration
 
 In order to use this new feature, your Daml project needs to
 explicitly target Daml-LF version ``1.15`` or higher which is
-specificed by adding the following line to the project's ``daml.yaml``
+specified by adding the following line to the project's ``daml.yaml``
 file:
 
 .. code-block:: yaml

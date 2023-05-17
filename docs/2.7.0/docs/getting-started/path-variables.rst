@@ -14,7 +14,7 @@ Set the JAVA_HOME Variable
 1. Search for Advanced System Settings (open ``Search``, type "advanced system settings" and hit ``Enter``).
 2. Find the ``Advanced`` tab and click ``Environment Variables``.
 3. Click ``New`` in the ``System variables`` section (if you want to set ``JAVA_HOME`` system wide) or in the ``User variables`` section (if you want to set ``JAVA_HOME`` for a single user). This will open a modal window for ``Variable name``.
-4. In the ``Variable name`` window type ``JAVA_HOME``, and for the ``Variable value`` set the path to the JDK installation. 
+4. In the ``Variable name`` window type ``JAVA_HOME``, and for the ``Variable value`` set the path to the JDK installation.
 5. Click OK in the ``Variable name`` window.
 6. Click OK in the tab and click Apply to apply the changes.
 
@@ -31,14 +31,14 @@ First, determine whether you are running Bash or zsh. Open a Terminal and run::
         echo $SHELL
 
 This should return either ``/bin/bash``, in which case you are running Bash, or
-``/bin/zsh``, in which case you are running zsh. 
+``/bin/zsh``, in which case you are running zsh.
 
 If you get any other output, you have a non-standard setup. If you're not sure
 how to set up environment variables in your setup, ask on the
 `Daml forum <https://discuss.daml.com>`_ and we will be happy to help.
 
 Open a terminal and run the following commands. Copy/paste one line at a time if possible. None of these should produce any
-output on success. 
+output on success.
 
 To set the variables in **bash**::
 
@@ -51,7 +51,7 @@ To set the variables in **zsh**::
         echo 'export PATH="$HOME/.daml/bin:$PATH"' >> ~/.zprofile
 
 For both shells, the above will update the configuration for future, newly
-opened terminals, but will not affect any exsting one. 
+opened terminals, but will not affect any existing one.
 
 To test the
 configuration of ``JAVA_HOME`` (on either shell), open a new terminal and run::

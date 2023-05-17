@@ -292,7 +292,7 @@ Configuration
 *************
 
 The Custom Views library uses the `Lightbend config library <https://github.com/lightbend/config>`_ for configuration.
-The library is packaged with a ``reference.conf`` file which specifies default settings. The next sections describe the default confguration settings.
+The library is packaged with a ``reference.conf`` file which specifies default settings. The next sections describe the default configuration settings.
 You can override the configuration by using an ``application.conf`` file, see `using the Lightbend config library <https://github.com/lightbend/config#using-the-library>`_ for more details.
 
 Database migration with Flyway

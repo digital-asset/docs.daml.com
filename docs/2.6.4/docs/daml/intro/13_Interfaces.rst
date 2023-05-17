@@ -179,7 +179,7 @@ For instance, both ``Cash`` and ``NFT`` are ``Asset``\s, which means that
 contracts of either template have an owner who can propose to transfer the
 contract to a third party. Thus, you can use Daml Script (see
 :ref:`testing-using-script`) to test that the same contract can be created by
-``Alice`` and successively transfered to ``Bob`` and then ``Charlie``, who then
+``Alice`` and successively transferred to ``Bob`` and then ``Charlie``, who then
 proposes to transfer to ``Dominic``, who rejects the proposal, and finally to
 ``Emily`` before withdrawing the proposal, so in the end the contract remains in
 ``Charlie``'s ownership. This procedure is tested on the ``Cash`` and ``NFT``
