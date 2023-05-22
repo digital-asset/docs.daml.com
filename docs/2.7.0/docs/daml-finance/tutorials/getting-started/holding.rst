@@ -20,7 +20,7 @@ In particular, `An Introduction to Daml <https://docs.daml.com/daml/intro/0_Intr
 would be a good starting point.
 
 This example refers to the :doc:`Transfer <transfer>` tutorial script in the sense that it explains
-the accounts and holdings required for that tutrial.
+the accounts and holdings required for that tutorial.
 
 Explanation of Holdings
 ***********************
