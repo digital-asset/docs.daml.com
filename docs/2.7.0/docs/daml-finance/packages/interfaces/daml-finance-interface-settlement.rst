@@ -21,7 +21,7 @@ This package contains the *interface* for settlement. It has the following modul
 The :doc:`Settlement <../../concepts/settlement>` page contains an overview of the settlement
 process and explains the relationship between instructions and batches. Check out the
 :doc:`Settlement tutorial <../../tutorials/getting-started/settlement>` for a description on how to
-use settlement workflow in practice.
+use the settlement workflow in practice.
 
 The following diagram shows the incoming and outgoing dependencies for this package:
 

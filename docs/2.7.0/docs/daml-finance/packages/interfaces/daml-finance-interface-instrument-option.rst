@@ -13,6 +13,8 @@ following modules:
   Factory interface to instantiate dividend options
 - :ref:`Dividend.Types <module-daml-finance-interface-instrument-option-dividend-types-84299>`:
   Type definitions to support dividend options
+- :ref:`Dividend.Election.Factory <module-daml-finance-interface-instrument-option-dividend-election-factory-158>`:
+  Factory interface to instantiate elections for dividend options
 - :ref:`EuropeanCash.Instrument <module-daml-finance-interface-instrument-option-europeancash-instrument-96357>`:
   Instrument interface for cash-settled European options
 - :ref:`EuropeanCash.Factory <module-daml-finance-interface-instrument-option-europeancash-factory-18215>`:

@@ -717,8 +717,6 @@ subtrees:
             title: "Daml.Finance.Interface.Instrument.Bond.Callable.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-Callable-Types
             title: "Daml.Finance.Interface.Instrument.Bond.Callable.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-Callable-BondTypes
-            title: "Daml.Finance.Interface.Instrument.Bond.Callable.BondTypes"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-FixedRate-Factory
             title: "Daml.Finance.Interface.Instrument.Bond.FixedRate.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-FixedRate-Instrument
@@ -743,6 +741,8 @@ subtrees:
             title: "Daml.Finance.Interface.Instrument.Bond.ZeroCoupon.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-ZeroCoupon-Types
             title: "Daml.Finance.Interface.Instrument.Bond.ZeroCoupon.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-Types
+            title: "Daml.Finance.Interface.Instrument.Bond.Types"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Equity-Factory
             title: "Daml.Finance.Interface.Instrument.Equity.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Equity-Instrument
@@ -757,8 +757,6 @@ subtrees:
             title: "Daml.Finance.Interface.Instrument.Option.Dividend.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Dividend-Types
             title: "Daml.Finance.Interface.Instrument.Option.Dividend.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Dividend-Election
-            title: "Daml.Finance.Interface.Instrument.Option.Dividend.Election"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Dividend-Election-Factory
             title: "Daml.Finance.Interface.Instrument.Option.Dividend.Election.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-EuropeanCash-Factory

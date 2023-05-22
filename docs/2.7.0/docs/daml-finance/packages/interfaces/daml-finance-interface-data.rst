@@ -10,7 +10,8 @@ in the context of lifecycling. It contains the following modules:
 - :ref:`Numeric.Observation.Factory <module-daml-finance-interface-data-numeric-observation-factory-57560>`:
   Interface for a factory used to create, remove and view a ``Numeric.Observation``
 - :ref:`Numeric.Observation <module-daml-finance-interface-data-numeric-observation-99152>`:
-  Interface for a time-dependent ``Numeric.Observation``, where the values are explicitly stored on-ledger
+  Interface for a time-dependent ``Numeric.Observation``, where the values are explicitly stored
+  on-ledger
 - :ref:`Reference.HolidayCalendar.Factory <module-daml-finance-interface-data-reference-holidaycalendar-factory-22148>`:
   Interface for a factory used to create, remove and view a ``HolidayCalendar``
 - :ref:`Reference.HolidayCalendar <module-daml-finance-interface-data-reference-holidaycalendar-19648>`:
