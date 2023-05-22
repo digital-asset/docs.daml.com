@@ -36,7 +36,7 @@ and it is assigned by the backing storage mechanism when the transaction is pers
 
 The record time should be an intuitive representation of "real time",
 but the Daml abstract ledger model does not prescribe exactly how to assign the record time.
-Each persistance technology might use a different way of representing time in a distributed setting.
+Each persistence technology might use a different way of representing time in a distributed setting.
 
 
 .. _time_guarantees:
@@ -109,7 +109,7 @@ The algorithm is not part of the definition of time in Daml, and may change in t
    or if the transaction uses a very fine-grained control flow based on time.
 
 #. At this point, the ledger time may lie in the future (e.g., if a large value for ``min_ledger_time_rel`` was given).
-   The participant waits until ``lt_TX - transaction_latency`` before it submits the transaction to the ledger - 
+   The participant waits until ``lt_TX - transaction_latency`` before it submits the transaction to the ledger -
    the intention is that the transaction is recorded at ``lt_TX == rt_TX``.
 
 Use the parameters ``min_ledger_time_rel`` and ``min_ledger_time_abs`` if you expect that

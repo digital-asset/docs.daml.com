@@ -45,7 +45,7 @@ Daml Finance optimizes for the following aspects:
 * Extensibility
 
    Various extension points allow customization and extension of the library as required. If an
-   existing implementation does not fulfil the requirements it is straightforward to provide a
+   existing implementation does not fulfill the requirements it is straightforward to provide a
    custom extension.
 
 Scope

@@ -17,7 +17,7 @@ also has two major downsides. First, it can
 be invasive for operations where aborting the transaction is often the
 desired behavior, e.g., changing division to return ``Either`` or an
 ``Option`` to handle division by zero would be a very invasive change
-and many callsites might not want to handle the error case explicitly.
+and many call sites might not want to handle the error case explicitly.
 Second, and more importantly, this approach does not allow rolling
 back ledger actions that have happened before the point where failure is
 detected; if a contract

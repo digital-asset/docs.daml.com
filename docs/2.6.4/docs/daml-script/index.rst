@@ -240,7 +240,7 @@ the result of parsing the input file as its argument. For example, we
 can initialize our ledger using the ``initialize`` function defined
 above.
 
-Using the previosuly created ``-ledger-parties.json`` file, we can
+Using the previously created ``-ledger-parties.json`` file, we can
 initialize our ledger as follows:
 
 ``daml script --dar .daml/dist/script-example-0.0.1.dar --script-name ScriptExample:initialize --ledger-host localhost --ledger-port 6865 --input-file ledger-parties.json``
@@ -402,7 +402,7 @@ Run Daml Script Against the HTTP JSON API
 
 In some cases, you only have access to the
 :doc:`HTTP JSON API </json-api/index>` but not to the gRPC of a ledger, e.g., on
-`Daml Hub <https://hub.daml.com>`_. For this usecase, Daml
+`Daml Hub <https://hub.daml.com>`_. For this use case, Daml
 script can be run against the JSON API. Note that if you do have
 access to the gRPC Ledger API, running Daml script against the JSON API does
 not have any advantages.

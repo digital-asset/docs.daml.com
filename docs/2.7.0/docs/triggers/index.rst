@@ -61,7 +61,7 @@ Our example for this tutorial builds upon the Getting Started Guide,
 specifically picking up right after the :doc:`/getting-started/first-feature`
 section.
 
-We assume that our requirements are to build a chatbot that reponds to every
+We assume that our requirements are to build a chatbot that responds to every
 message with:
 
   "Please, tell me more about that."
@@ -325,7 +325,7 @@ Command Deduplication
 =====================
 
 Daml Triggers react to many things, and it's usually important to make sure
-that the same command is not sent mutiple times.
+that the same command is not sent multiple times.
 
 For example, in our ``autoReply`` chatbot above, the rule will be triggered not
 only when we receive a message, but also when we send one, as well as when we
