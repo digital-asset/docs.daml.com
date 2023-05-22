@@ -203,9 +203,8 @@ subtrees:
                 title: "Authorization"
             - file: tools/auth-middleware/index
               title: "Auth Middleware"
-              entries:
-              - file: tools/auth-middleware/oauth2
-                title: "OAuth 2.0 Auth Middleware"
+            - file: tools/auth-middleware/oauth2
+              title: "OAuth 2.0 Auth Middleware"
       - file: index/create-daml-apps/off-ledger/errors/index
         title: "Handle Errors"
         subtrees:
