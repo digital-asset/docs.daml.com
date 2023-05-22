@@ -37,6 +37,8 @@ During command submission, parties can fetch divulged contracts. This is incompa
 How the Daml Ledger API is Affected
 -----------------------------------
 
+Pruning of old data is not noticed by applications that are up to date. However pruning data in active use by applications can result in the following errors:
+
 - Active data streams from the Daml Participant may abort and need to be re-established by the Daml application from a later offset than pruned, even if they are already streaming past it.
 - Requesting information at offsets that predate pruning, including from the ledger's start, will result in a ``FAILED_PRECONDITION`` gRPC error.
   - As a consequence, after pruning, a Daml application must bootstrap from the Active Contract Service and a recent offset [3]_.
