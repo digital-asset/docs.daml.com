@@ -12,8 +12,8 @@ following modules:
   Rule to process a lifecycle event for instruments that are modelled using
   :doc:`On-the-Fly claims <../../tutorials/advanced-topics/instrument-modeling/contingent-claims-on-ledger-vs-on-the-fly>`
 - :ref:`Util <module-daml-finance-claims-util-5254>`:
-  Contains utility functions for claims, e.g., checking the content of a claim and converting claim
-  time
+  Contains utility functions for claims, e.g., checking the content of a claim and converting the
+  claim time
 - :ref:`Util.Lifecycle <module-daml-finance-claims-util-lifecycle-9534>`:
   Defines different types of events and how to lifecycle them
 - :ref:`Util.Builders <module-daml-finance-claims-util-builders-48637>`:
