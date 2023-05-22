@@ -11,21 +11,21 @@ Key Concepts
 Daml
 ====
 
-Daml is a platform for building and running sophisticated, multi-party applications. At its core, it contains a smart contract `language <#daml-language>`__ and `tooling <#developer-tools>`__ 
-that defines the schema, semantics, and execution of transactions between parties. Daml includes `Canton <#canton-ledger>`__, a privacy-enabled distributed ledger that is enhanced when deployed 
+Daml is a platform for building and running sophisticated, multi-party applications. At its core, it contains a smart contract `language <#daml-language>`__ and `tooling <#developer-tools>`__
+that defines the schema, semantics, and execution of transactions between parties. Daml includes `Canton <#canton-ledger>`__, a privacy-enabled distributed ledger that is enhanced when deployed
 with complementary blockchains.
 
 Daml Language
 =============
 
-The Daml language is a purpose-built language for rapid development of composable multi-party applications. It is a modern, ergonomically designed functional language that carefully avoids many 
+The Daml language is a purpose-built language for rapid development of composable multi-party applications. It is a modern, ergonomically designed functional language that carefully avoids many
 of the pitfalls that hinder multi-party application development in other languages.
 
 Daml Ledger
 ===========
 
 A Daml ledger is a distributed ledger system running `Daml smart contracts <#contract>`__ according to the :doc:`Daml ledger model </concepts/ledger-model/index>` and exposes the Daml Ledger APIs.
-All current implementations of Daml ledgers consist of a Daml driver that utilises an underlying Synchronization Technology to either implement the Daml ledger directly, or to run the Canton protocol.
+All current implementations of Daml ledgers consist of a Daml driver that utilizes an underlying Synchronization Technology to either implement the Daml ledger directly, or to run the Canton protocol.
 
 Canton Ledger
 -------------
@@ -35,7 +35,7 @@ A Canton ledger is a privacy-enabled Daml ledger implemented using the Canton ap
 Canton Protocol
 ===============
 
-The Canton protocol is the technology which synchronizes `participant nodes <#participant-node>`__ across any Daml-enabled blockchain or database.  The Canton protocol not only makes Daml 
+The Canton protocol is the technology which synchronizes `participant nodes <#participant-node>`__ across any Daml-enabled blockchain or database.  The Canton protocol not only makes Daml
 applications portable between different underlying `synchronization technologies <#synchronization-technology>`__, but also allows applications to transact with each other across them.
 
 .. Synchronization technology.  Not 'Environment', 'Infrastructure layer', 'Messaging layer', 'Topology layer', 'Underlying <enter-any-previous-term>'
@@ -43,13 +43,13 @@ applications portable between different underlying `synchronization technologies
 Synchronization Technology
 ==========================
 
-The syncronization technology is the database or blockchain that Daml uses for synchronization, messaging, and topology. Daml runs on a range of synchronization technologies, from centralized 
+The synchronization technology is the database or blockchain that Daml uses for synchronization, messaging, and topology. Daml runs on a range of synchronization technologies, from centralized
 databases to fully distributed deployments, and users can employ the technology that best suits their technical and operational needs.
 
 Daml Drivers
 ============
 
-Daml drivers enable a `ledger <#daml-ledger>`__ to be implemented on top of different `synchronization technologies <#synchronization-technology>`__; a database or distributed ledger technology. 
+Daml drivers enable a `ledger <#daml-ledger>`__ to be implemented on top of different `synchronization technologies <#synchronization-technology>`__; a database or distributed ledger technology.
 
 Daml Language Concepts
 **********************
@@ -349,7 +349,7 @@ There's a lot of information available about application development, starting w
 Ledger API
 ==========
 
-The **Ledger API** is an API that's exposed by any `ledger <#daml-ledger>`__ on a participant node. Users access and manipulate the ledger state through the leger API.
+The **Ledger API** is an API that's exposed by any `ledger <#daml-ledger>`__ on a participant node. Users access and manipulate the ledger state through the Ledger API.
 An alternative name for the Ledger API is the **gRPC Ledger API** if disambiguation from other technologies is needed.
 See :doc:`/app-dev/ledger-api` page.
 It includes the following :doc:`services </app-dev/services>`.
@@ -438,13 +438,13 @@ A **command** is an instruction to add a transaction to the `ledger <#daml-ledge
 Participant Node
 ================
 
-The participant node is a server that provides users a consistent programmatic access to a ledger through the `Ledger API <#ledger-api>`__. The participant nodes handles transaction signing and 
+The participant node is a server that provides users a consistent programmatic access to a ledger through the `Ledger API <#ledger-api>`__. The participant nodes handles transaction signing and
 validation, such that users don't have to deal with cryptographic primitives but can trust the participant node that the data they are observing has been properly verified to be correct.
 
 Sub-transaction Privacy
 =======================
 
-Sub-transaction privacy is where participants to a transaction only `learn about the subset of the transaction <https://docs.daml.com/concepts/ledger-model/ledger-privacy.html>`__ they are 
+Sub-transaction privacy is where participants to a transaction only `learn about the subset of the transaction <https://docs.daml.com/concepts/ledger-model/ledger-privacy.html>`__ they are
 directly involved in, but not about any other part of the transaction. This applies to both the content of the transaction as well as other involved participants.
 
 Daml-LF
@@ -461,7 +461,7 @@ As a user, you don't need to interact with Daml-LF directly. But internally, it'
 Composability
 =============
 
-Composability is the ability of a participant to extend an existing system with new Daml applications or new topologies unilaterally without requiring cooperation from anyone except the 
+Composability is the ability of a participant to extend an existing system with new Daml applications or new topologies unilaterally without requiring cooperation from anyone except the
 directly involved participants who wish to be part of the new application functionality.
 
 .. _trust-domain:
@@ -481,10 +481,10 @@ Canton Concepts
 Domain
 ======
 
-The domain provides total ordered, guaranteed delivery multi-cast to the participants. This means that participant nodes communicate with each other by sending end-to-end encrypted messages 
-through the domain. 
+The domain provides total ordered, guaranteed delivery multi-cast to the participants. This means that participant nodes communicate with each other by sending end-to-end encrypted messages
+through the domain.
 
-The `sequencer service <#sequencer>`__ of the domain orders these messages without knowing about the content and ensures that every participant receives the messages in the same order. 
+The `sequencer service <#sequencer>`__ of the domain orders these messages without knowing about the content and ensures that every participant receives the messages in the same order.
 
 The other services of the domain are the `mediator <#mediator>`__ and the `domain identity manager <#domain-identity-manager>`__.
 
@@ -496,36 +496,36 @@ Every participant node manages its own private contract store (PCS) which contai
 Virtual Global Ledger
 =====================
 
-While every participant has their own private contract store (PCS), the `Canton protocol <#canton-protocol>`__ guarantees that the contracts which are stored in the PCS are well-authorized 
-and that any change to the store is justified, authorized and valid. The result is that every participant only possesses a small part of the *virtual global ledger*. All the local 
-stores together make up that *virtual global ledger* and they are thus synchronized. The Canton protocol guarantees that the virtual ledger provides integrity, privacy, 
+While every participant has their own private contract store (PCS), the `Canton protocol <#canton-protocol>`__ guarantees that the contracts which are stored in the PCS are well-authorized
+and that any change to the store is justified, authorized and valid. The result is that every participant only possesses a small part of the *virtual global ledger*. All the local
+stores together make up that *virtual global ledger* and they are thus synchronized. The Canton protocol guarantees that the virtual ledger provides integrity, privacy,
 transparency and auditability. The ledger is logically global, even though physically, it runs on segregated and isolated domains that are not aware of each other.
 
 Mediator
 ========
 
-The mediator is a service provided by the `domain <#domain>`__ and used by the `Canton protocol <#canton-protocol>`__. The mediator acts as commit coordinator, collecting individual transaction verdicts issued by validating 
+The mediator is a service provided by the `domain <#domain>`__ and used by the `Canton protocol <#canton-protocol>`__. The mediator acts as commit coordinator, collecting individual transaction verdicts issued by validating
 participants and aggregates them into a single result. The mediator does not learn about the content of the transaction, they only learn about the involved participants.
 
 Sequencer
 =========
 
-The sequencer is a service provided by the `domain <#domain>`__, used by the `Canton protocol <#canton-protocol>`__. The sequencer forwards encrypted addressed messages from participants and ensures that every member receives 
+The sequencer is a service provided by the `domain <#domain>`__, used by the `Canton protocol <#canton-protocol>`__. The sequencer forwards encrypted addressed messages from participants and ensures that every member receives
 the messages in the same order. Think about registered and sealed mail delivered according to the postal datestamp.
 
 Domain Identity Manager
 =======================
 
-The Domain Identity Manager is a service provided by the `domain <#domain>`__, used by the `Canton protocol <#canton-protocol>`__. Participants join a new domain by registering with the domain identity manager. The domain 
+The Domain Identity Manager is a service provided by the `domain <#domain>`__, used by the `Canton protocol <#canton-protocol>`__. Participants join a new domain by registering with the domain identity manager. The domain
 identity manager establishes a consistent identity state among all participants. The domain identity manager only forwards identity updates. It can not invent them.
 
 
 Consensus
 =========
 
-The Canton protocol does not use PBFT or any similar consensus algorithm. There is no proof of work or proof of stake involved. Instead, Canton uses a variant of a stakeholder based 
-two-phase commit protocol. As such, only stakeholders of a transaction are involved in it and need to process it, providing efficiency, privacy and horizontal scalability. Canton based 
-ledgers are resilient to malicious participants as long as there is at least a single honest participant. A domain integration itself might be using the consensus mechanism of the underlying 
+The Canton protocol does not use PBFT or any similar consensus algorithm. There is no proof of work or proof of stake involved. Instead, Canton uses a variant of a stakeholder based
+two-phase commit protocol. As such, only stakeholders of a transaction are involved in it and need to process it, providing efficiency, privacy and horizontal scalability. Canton based
+ledgers are resilient to malicious participants as long as there is at least a single honest participant. A domain integration itself might be using the consensus mechanism of the underlying
 platform, but participant nodes will not be involved in that process.
 
 .. Transaction

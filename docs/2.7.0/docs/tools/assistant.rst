@@ -256,7 +256,7 @@ Run Commands Outside of the Project Directory
 *********************************************
 
 In some cases, it can be convenient to run a command in a project
-without having to change directories. For that usecase, you can set
+without having to change directories. For that use case, you can set
 the ``DAML_PROJECT`` environment variable to the path to the project:
 
 .. code-block:: sh

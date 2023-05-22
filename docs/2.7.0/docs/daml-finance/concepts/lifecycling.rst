@@ -7,7 +7,7 @@ Lifecycling
 :ref:`Lifecycling <lifecycling>` refers to the evolution of financial instruments over their
 lifetime. This includes processing of contractual events, like interest payments or coupon
 cashflows, as well as discretionary events, like dividends and other corporate actions. The library
-provides a standard mechanism for processing such events accross different instruments.
+provides a standard mechanism for processing such events across different instruments.
 
 The interfaces for lifecycling are defined in the ``Daml.Finance.Interface.Lifecycle`` package, and
 several default implementations are provided in the ``Daml.Finance.Lifecycle`` package.
@@ -76,7 +76,7 @@ We will now explain each step in the process in detail.
 Creating the event
 ==================
 
-The issuer first creates a new instance of the ``ACME`` instrument, assiging a new version. Note
+The issuer first creates a new instance of the ``ACME`` instrument, assigning a new version. Note
 that the logic to create the new version of an instrument can also be encoded in the lifecycle rule.
 The new version is then automatically produced when processing the event as described in the next
 step.

@@ -35,7 +35,7 @@ Reference App
 *************
 
 In addition to Daml Finance, there is also a separate ``Daml Finance Reference App``. It showcases
-several of the Daml Finance capabilites in a web-based graphical user interface.
+several of the Daml Finance capabilities in a web-based graphical user interface.
 
 If you are interested in trying out the app locally, you can clone the
 corresponding repo and follow the installation instructions on the
