@@ -66,6 +66,7 @@ Next Steps
 
 The following tutorials are available:
 
+* :doc:`Holding <holding>`: describes the basics of holdings and how they relate to instruments.
 * :doc:`Transfer <transfer>`: describes accounts, cash instrument, deposits and transfers.
 * :doc:`Settlement <settlement>`: explains how to execute multiple asset movements atomically.
 * :doc:`Lifecycling <lifecycling>`: describes how lifecycle rules and events can be used to evolve

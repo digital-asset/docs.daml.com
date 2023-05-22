@@ -71,6 +71,8 @@ instrument (which includes coupon payments).
 The expectation is that customers define their own instruments suiting the use-case they are
 modeling.
 
+.. _holding-asset-model:
+
 Holding
 *******
 
