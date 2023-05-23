@@ -125,7 +125,20 @@ means that we fully trust the Bank with any action concerning the instrument.
 Deposit Cash in Alice’s Account
 ===============================
 
-We can now deposit cash in Alice’s account, using the ``CreditAccount`` workflow.
+We can now deposit cash in Alice’s account. It is possible to create a holding directly using the
+``Fungible`` template:
+
+.. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Holding.daml
+  :language: daml
+  :start-after: -- CREATE_ALICE_DIRECT_HOLDING_BEGIN
+  :end-before: -- CREATE_ALICE_DIRECT_HOLDING_END
+
+However, this makes the application dependent on the implementation package. As explained in
+:ref:`Application Architecture <application-architecture>`, it is better to depend on the interface
+layer to maximize upgradability and minimize the impact of incremental changes to your application
+or Daml Finance.
+
+Instead, we create the holding using the ``CreditAccount`` workflow, which uses the interface layer.
 
 .. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Holding.daml
   :language: daml
