@@ -58,7 +58,7 @@ Create ``Holding`` and ``Account`` Factories
 The first instruction instantiates an account factory. This is just a template that is used by a
 party (the Bank in this case) to create accounts as part of the ``CreateAccount`` workflow.
 
-.. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Transfer.daml
+.. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Holding.daml
   :language: daml
   :start-after: -- CREATE_ACCOUNT_FACTORY_BEGIN
   :end-before: -- CREATE_ACCOUNT_FACTORY_END
@@ -69,7 +69,7 @@ because our workflows do not have any knowledge of concrete template implementat
 Similarly, we define a holding factory, which is used within an account to ``Credit`` and ``Debit``
 holdings.
 
-.. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Transfer.daml
+.. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Holding.daml
   :language: daml
   :start-after: -- CREATE_HOLDING_FACTORY_BEGIN
   :end-before: -- CREATE_HOLDING_FACTORY_END
@@ -93,7 +93,7 @@ at the Bank for Alice and Bob.
 The creation of an account needs to be authorized by both the ``custodian`` and the ``owner``, i.e.,
 by the Bank and Alice in our case. Authorization is collected using an initiate / accept pattern.
 
-.. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Transfer.daml
+.. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Holding.daml
   :language: daml
   :start-after: -- SETUP_ALICE_ACCOUNT_BEGIN
   :end-before: -- SETUP_ALICE_ACCOUNT_END
@@ -107,7 +107,7 @@ In order to credit Alice’s account with some cash, we first introduce a cash
 :ref:`Instrument <type-daml-finance-interface-instrument-token-instrument-instrument-4350>`
 in our model.
 
-.. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Transfer.daml
+.. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Holding.daml
   :language: daml
   :start-after: -- ISSUE_CASH_INSTRUMENT_BEGIN
   :end-before: -- ISSUE_CASH_INSTRUMENT_END
@@ -127,7 +127,7 @@ Deposit Cash in Alice’s Account
 
 We can now deposit cash in Alice’s account, using the ``CreditAccount`` workflow.
 
-.. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Transfer.daml
+.. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Holding.daml
   :language: daml
   :start-after: -- CREATE_ALICE_HOLDING_BEGIN
   :end-before: -- CREATE_ALICE_HOLDING_END
