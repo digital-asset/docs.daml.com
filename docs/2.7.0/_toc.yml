@@ -1273,8 +1273,6 @@ subtrees:
 
   - file: concepts/interoperability
     title: "Daml Ledger Interoperability"
-  - file: tools/export/index
-    title: "Ledger Export"
   - file: tools/non-repudiation
     title: "Non-repudiation"
   - file: tools/visual
