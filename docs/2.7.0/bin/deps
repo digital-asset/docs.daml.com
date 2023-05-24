@@ -52,7 +52,9 @@ list() (
          --location \
          --silent \
       | jq -r '.children[].uri' \
-      | sed -e 's/^\///'
+      | sed -e 's/^\///' \
+      | grep -P '^\d+\.\d+\.\d+' \
+      | sort -V
 )
 
 fetch() (
