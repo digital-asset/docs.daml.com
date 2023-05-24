@@ -307,9 +307,6 @@ Developer Tools
    * - ``daml script`` :doc:`CLI to run Scripts against live ledgers. </daml-script/index>`
      - Stable
      -
-   * - ``daml ledger export script`` :doc:`CLI extract Daml Script from ledgers. </tools/export/index>`
-     - Alpha
-     -
    * - **Navigator**
      -
      -
