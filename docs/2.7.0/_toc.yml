@@ -998,7 +998,7 @@ subtrees:
         title: "Use the Canton Command Line"
       - file: canton/usermanual/console
         title: "Console Quickstart"
-      - file: canton/reference/console
+      - file: canton/includes/generated/console
         title: "Console Commands"
   - file: canton/usermanual/monitoring
     title: "Monitoring Best Practices"
