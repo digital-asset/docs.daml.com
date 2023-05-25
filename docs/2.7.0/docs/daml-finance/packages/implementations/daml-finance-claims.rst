@@ -19,6 +19,8 @@ following modules:
 - :ref:`Util.Builders <module-daml-finance-claims-util-builders-48637>`:
   Utility functions related to creating :doc:`Contingent Claims <../../concepts/contingent-claims>`,
   e.g. for bonds/swaps
+- :ref:`Util.Date <module-daml-finance-claims-util-date-40505>`:
+  Utility functions related to dates and schedule periods, which are used to define claims.
 
 Changelog
 *********
