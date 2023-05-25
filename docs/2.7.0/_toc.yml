@@ -574,6 +574,8 @@ subtrees:
             title: "Daml.Finance.Claims.Util"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Claims-Util-Builders
             title: "Daml.Finance.Claims.Util.Builders"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Claims-Util-Date
+            title: "Daml.Finance.Claims.Util.Date"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Claims-Util-Lifecycle
             title: "Daml.Finance.Claims.Util.Lifecycle"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-Numeric-Observation
