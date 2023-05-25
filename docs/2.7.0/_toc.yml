@@ -576,6 +576,8 @@ subtrees:
             title: "Daml.Finance.Claims.Util"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Claims-Util-Builders
             title: "Daml.Finance.Claims.Util.Builders"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Claims-Util-Date
+            title: "Daml.Finance.Claims.Util.Date"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Claims-Util-Lifecycle
             title: "Daml.Finance.Claims.Util.Lifecycle"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-Numeric-Observation
@@ -1275,8 +1277,6 @@ subtrees:
 
   - file: concepts/interoperability
     title: "Daml Ledger Interoperability"
-  - file: tools/export/index
-    title: "Ledger Export"
   - file: tools/non-repudiation
     title: "Non-repudiation"
   - file: tools/visual
