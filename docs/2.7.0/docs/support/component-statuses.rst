@@ -280,9 +280,6 @@ Developer Tools
    * - Daml Documentation Generation (``daml damlc docs``)
      - Labs
      -
-   * - :doc:`Daml Model Visualization </tools/visual>` (``daml damlc visual`` and ``daml damlc visual-web``)
-     - Labs
-     -
    * - ``daml doctest``
      - Labs
      -
