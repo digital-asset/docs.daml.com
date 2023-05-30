@@ -9,70 +9,12 @@ This tutorial builds on the previous chapter, which introduced :ref:`account <ac
 
 We are now going to transfer a holding from Alice to Bob.
 
-Download the Code for the Tutorial
-**********************************
-
-As a prerequisite, the `Daml SDK <https://docs.daml.com/getting-started/installation.html>`_ needs
-to be installed on your machine.
-
-Open a terminal and run:
-
-.. code-block:: shell
-
-   daml new quickstart-finance --template quickstart-finance
-
-This creates a new folder with contents from our template. Navigate to the folder and then run the
-following to download the required ``daml-finance`` packages:
-
-.. code-block:: shell
-
-   ./get-dependencies.sh
-
-Then run the following to open the code editor and inspect the code:
-
-.. code-block:: shell
-
-   daml studio
-
-.. _structure-of-code-dependencies:
-
-Structure of the Code and Dependencies
-**************************************
-
-The code includes
-
-- four workflows defined in the ``Workflows`` folder
-- three Daml scripts defined in the ``Scripts`` folder
-
-The ``Workflows`` encapsulate the core business logic of the application, whereas the ``Scripts``
-are meant to be executed on a one-off basis.
-
-If you take a closer look at the ``Workflows``, you will recognize three initiate / accept patterns
-to:
-
-- create an account
-- make a deposit to the account
-- execute a holding transfer
-
-The ``DvP`` workflow will be used in the next tutorial, so please ignore that one for now.
-
-Modules in the ``Workflows`` folder depend only on *interface* packages of ``daml-finance`` (the
-packages that start with ``Daml.Finance.Interface.*``), as you can see from the import list.
-
-This is important, as it decouples the user-defined business logic from the template implementations
-used in ``daml-finance`` which makes it easier to upgrade the application. The user-defined business
-logic in the ``Workflows`` will not need to be modified nor re-compiled to work with
-upgraded (ie., newer versions of) *implementation* packages.
-
-On the other hand, modules in the ``Scripts`` folder depend on both the *interface* packages and
-the *implementation* packages (in this case, ``Daml.Finance.Account``, ``Daml.Finance.Holding``,
-and ``Daml.Finance.Instrument.Token``). This is not problematic as scripts are meant to be run only
-once when the application is initialized.
-
 Run the Transfer Script
 ***********************
 
-Let us now explore the ``Transfer`` script step-by-step.
+Let us now explore the ``Transfer`` script step-by-step. It builds on the previous
+:doc:`Holding <holding>` tutorial script in the sense that the same accounts and the existing
+holdings are used.
 
 Transfer Cash from Alice to Bob
 ===============================
