@@ -38,7 +38,7 @@ Instruments vs Holdings
 * A holding defines *how much* (i.e., the amount) of an instrument and *against which party* (i.e.,
   the custodian) the instrument is being held.
 
-Bearer tokens vs Holdings
+Bearer Tokens vs Holdings
 =========================
 
 * Bearer tokens mean that *any* party in possession of the token is presumed to be the owner of the
@@ -46,17 +46,17 @@ Bearer tokens vs Holdings
 * Holdings, on the other hand, *restrict* the ownership of the asset to parties that have an account
   (a vetted relationship) at a custodian.
 
-Sample code
+Sample Code
 ***********
 
-In order to show how this works in practice, let us now explore the ``Transfer`` script (used in the
+In order to show how this works in practice, let us explore the ``Transfer`` script (used in the
 :doc:`Transfer <transfer>` chapter) step-by-step.
 
 Create ``Holding`` and ``Account`` Factories
 ============================================
 
-The first instruction instantiates an account factory. This is just a template that is used by a
-party (the Bank in this case) to create accounts as part of the ``CreateAccount`` workflow.
+The first instruction instantiates an account factory. This is a template that is used by a party
+(the Bank in this case) to create accounts as part of the ``CreateAccount`` workflow.
 
 .. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Holding.daml
   :language: daml
@@ -80,9 +80,9 @@ This factory contract can be used to create
 and are both :ref:`fungible <fungibility>`, as well as :ref:`transferable <transferability>`.
 
 We are adding a so-called *public party* as an observer to the holding factory. This is done to
-ensure that every other party has visibility over this contract, as all parties can `readAs` the
-public party. This is required when you want to to transfer the holding, which will be shown in the
-next tutorial.
+ensure that parties, which have `readAs` rights of the public party, have visibility over the
+contract. This is required when you want to to transfer the holding, which will be shown in the next
+tutorial.
 
 Open Alice’s and Bob’s Accounts
 ===============================
@@ -91,7 +91,7 @@ Once the factory templates are setup, we leverage our ``CreateAccount`` workflow
 at the Bank for Alice and Bob.
 
 The creation of an account needs to be authorized by both the ``custodian`` and the ``owner``, i.e.,
-by the Bank and Alice in our case. Authorization is collected using an initiate / accept pattern.
+by the Bank and Alice in our case. Authorization is collected using an propose / accept pattern.
 
 .. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Holding.daml
   :language: daml
@@ -112,12 +112,12 @@ in our model.
   :start-after: -- ISSUE_CASH_INSTRUMENT_BEGIN
   :end-before: -- ISSUE_CASH_INSTRUMENT_END
 
-An instrument is a representation of what it is that we are holding against the bank. It can be as
+An instrument is a representation of what it is that we are holding against the Bank. It can be as
 simple as just a textual label (like in this case) or it can include complex on-ledger lifecycling
 logic.
 
-To hold one unit of the cash instrument in this scenario means that we can claim USD 1 from the
-custodian of the holding.
+To hold one unit of the cash instrument in this scenario means that we can claim ``USD 1``
+(commercial bank money) from the custodian of the holding.
 
 Notice how in this case the Bank acts both as the issuer and depository of the cash instrument. This
 means that we fully trust the Bank with any action concerning the instrument.
@@ -149,7 +149,7 @@ Alice creates a request to deposit ``USD 1000`` at the Bank, the Bank then accep
 a corresponding
 :ref:`Holding <type-daml-finance-interface-holding-base-base-14854>` is created.
 
-You can imagine that the latter step happens only after Alice has shown up at the bank and
+You can imagine that the latter step happens only after Alice has shown up at the Bank and
 delivered physical banknotes corresponding to the amount of the deposit.
 
 Frequently Asked Questions
@@ -185,7 +185,7 @@ initialization.
 Summary
 *******
 
-You know how to setup basic accounts, holdings and instruments. The key concepts to take away are:
+You know how to setup basic accounts, holdings, and instruments. The key concepts to take away are:
 
 * Holdings represent the ownership of a financial instrument at a custodian.
 * Instruments define the economic terms of a financial contract.
