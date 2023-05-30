@@ -89,9 +89,9 @@ to:
 
 - create an account
 - make a deposit to the account
-- execute a holding transfer
 
-The ``DvP`` workflow will be used in the next tutorial, so please ignore that one for now.
+The ``Transfer`` and `DvP`` workflows will be used in the next tutorials, so please ignore those for
+now.
 
 Modules in the ``Workflows`` folder depend only on *interface* packages of ``daml-finance`` (the
 packages that start with ``Daml.Finance.Interface.*``), as you can see from the import list.
