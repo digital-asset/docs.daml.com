@@ -43,6 +43,8 @@ and
 `Windows <https://github.com/digital-asset/daml-finance/blob/main/docs/code-samples/getting-started/get-dependencies.bat>`_
 variants) from the main branch of the repository.
 
+.. _application-architecture:
+
 Application Architecture
 ************************
 

@@ -502,6 +502,8 @@ subtrees:
       - file: daml-finance/tutorials/getting-started/intro
         title: "Getting Started"
         entries:
+        - file: daml-finance/tutorials/getting-started/holding
+          title: "Holding"
         - file: daml-finance/tutorials/getting-started/transfer
           title: "Transfer"
         - file: daml-finance/tutorials/getting-started/settlement
