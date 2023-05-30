@@ -29,13 +29,13 @@ As described in the :ref:`Asset model <holding-asset-model>`, a holding contract
 ownership of a certain amount of an :ref:`instrument <instrument>` by an owner at a custodian.
 
 A holding implementation can have specific properties such as being :ref:`fungible <fungibility>` or
-:ref:`transferable <transferability>`.
+:ref:`non-transferable <transferability>`.
 
 Instruments vs Holdings
 =======================
 
 * An instrument defines *what* a party holds (the rights and obligations).
-* A holding defines *how much* (ie., the amount) of an instrument and *against which party* (ie.,
+* A holding defines *how much* (i.e., the amount) of an instrument and *against which party* (i.e.,
   the custodian) the instrument is being held.
 
 Bearer tokens vs Holdings
