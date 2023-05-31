@@ -54,7 +54,7 @@ that your application follows a similar split between interface (API) and implem
 order to maximize upgradability and minimize the impact of incremental changes to your application
 or Daml Finance.
 
-The following picture shows a suggested architecture that minimizes undesireable coupling and
+The following picture shows a suggested architecture that minimizes undesirable coupling and
 optimizes for upgradability of your application:
 
 .. image:: ../images/application_architecture.png
