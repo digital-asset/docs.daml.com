@@ -22,7 +22,7 @@ Transfer Cash from Alice to Bob
 The final step of our ``Setup`` script transfers Alice’s holding to Bob using the ``Transfer``
 workflow. In our tutorial example, the receiver of the cash makes the transfer request:
 
-.. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Transfer.daml
+.. literalinclude:: ../../quickstart-finance/daml/Scripts/Transfer.daml
   :language: daml
   :start-after: -- TRANSFER_BEGIN
   :end-before: -- TRANSFER_END
@@ -41,7 +41,7 @@ How does the ``Transfer`` workflow work?
 
 If you look at the implementation of the ``Transfer`` workflow, you will notice the following lines:
 
-.. literalinclude:: /_templates/quickstart-finance/daml/Workflow/Transfer.daml
+.. literalinclude:: ../../quickstart-finance/daml/Workflow/Transfer.daml
   :language: daml
   :start-after: -- DO_TRANSFER_BEGIN
   :end-before: -- DO_TRANSFER_END
