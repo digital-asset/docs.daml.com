@@ -286,4 +286,5 @@ There are several ways to access the data of a contract:
    :ref:`instrument <type-daml-finance-interface-instrument-bond-callable-instrument-instrument-70770>`,
    a party can get the view of a contract, without necessarily being a stakeholder of the contract.
    This can be useful in situations where someone needs access to reference data, but should not be
-   a stakeholder of the contract.
+   a stakeholder of the contract. For example, if *publicParty* is an observer of an instrumentCid,
+   a party would only require readAs rights of *publicParty* in order to exercise ``GetView``.
