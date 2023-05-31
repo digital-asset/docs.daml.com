@@ -105,3 +105,26 @@ overall application:
 
 In general, we will provide upgrade contracts and scripts to facilitate migration between major
 version updates of packages within the Daml Finance perimeter.
+
+Using Daml Codegen
+******************
+
+The Daml Finance packages are compatible with the :doc:`Daml Codegen tool<../../tools/codegen>`.
+
+If you, e.g., want to create a *JavaScript* app that uses Daml Finance, it is possible to generate
+*JavaScript* classes from the Daml Finance packages you need. Use
+:doc:`daml codegen js <../../app-dev/bindings-ts/daml2js>`, for example:
+
+.. code-block:: shell
+
+   daml codegen js -o ./output .lib/daml-finance-interface-instrument-swap.dar .lib/daml-finance-interface-instrument-bond.dar
+
+Alternatively, if your app uses *Java*, you can run
+:doc:`daml codegen java <../../app-dev/bindings-java/index>` in a similar way:
+
+.. code-block:: shell
+
+   daml codegen java -o ./output .lib/daml-finance-interface-instrument-swap.dar .lib/daml-finance-interface-instrument-bond.dar
+
+Note, this Daml Finance codegen is only supported on SDK versions 2.5.x and higher.
+

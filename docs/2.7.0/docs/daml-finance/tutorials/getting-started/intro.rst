@@ -41,26 +41,6 @@ If you are interested in trying out the app locally, you can clone the
 corresponding repo and follow the installation instructions on the
 `Daml Finance Reference App GitHub page <https://github.com/digital-asset/daml-finance-app>`_.
 
-Create your own App
-*******************
-
-If you want to create a *JavaScript* app that uses Daml Finance, it is possible to generate
-*JavaScript* code from the Daml Finance packages you need. Simply run
-`daml codegen js <https://docs.daml.com/app-dev/bindings-ts/daml2js.html>`_, for example:
-
-.. code-block:: shell
-
-   daml codegen js -o ./output .lib/daml-finance-interface-instrument-swap.dar .lib/daml-finance-interface-instrument-bond.dar
-
-Alternatively, if your app uses *Java*, you can run
-`daml codegen java <https://docs.daml.com/app-dev/bindings-java/index.html>`_ in a similar way:
-
-.. code-block:: shell
-
-   daml codegen java -o ./output .lib/daml-finance-interface-instrument-swap.dar .lib/daml-finance-interface-instrument-bond.dar
-
-Note, this Daml Finance codegen is only supported on SDK versions 2.5.x and higher.
-
 Next Steps
 **********
 
