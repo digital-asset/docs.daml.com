@@ -4,5 +4,5 @@
 Reference
 #########
 
-This reference section contains code patterns, a glossary as well as code-level documentation for
+This reference section contains code patterns, a glossary, as well as code-level documentation for
 each Daml Finance package.
