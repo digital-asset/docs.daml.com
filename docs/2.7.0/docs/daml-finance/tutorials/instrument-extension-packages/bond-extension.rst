@@ -275,16 +275,5 @@ processed in the same way as a single coupon payment described above.
 How do I view the terms of a bond instrument?
 =============================================
 
-There are several ways to access the data of a contract:
-
-#. :ref:`fetch <daml-ref-fetch>` the contract using its contract ID. This requires the submitting
-   party to be a stakeholder of the contract.
-#. :ref:`fetchByKey <daml-ref-fetch-by-key>`: Similar to ``fetch``, but using a
-   :doc:`contract key </daml/reference/contract-keys>` instead. This requires authorization from at
-   least one stakeholder of the contract.
-#. ``GetView``: by calling this choice on the
-   :ref:`instrument <type-daml-finance-interface-instrument-bond-callable-instrument-instrument-70770>`,
-   a party can get the view of a contract, without necessarily being a stakeholder of the contract.
-   This can be useful in situations where someone needs access to reference data, but should not be
-   a stakeholder of the contract. For example, if *publicParty* is an observer of an instrumentCid,
-   a party would only require readAs rights of *publicParty* in order to exercise ``GetView``.
+There are several ways to access the data of a contract, as explained in the
+:ref:`Patterns <getview>` section.

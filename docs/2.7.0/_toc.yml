@@ -543,6 +543,8 @@ subtrees:
       entries:
       - file: daml-finance/reference/glossary
         title: "Glossary"
+      - file: daml-finance/reference/patterns
+        title: "Patterns"
       - file: daml-finance/reference/code-documentation/daml-finance-rst/index
         title: "Daml Finance"
         subtrees:
