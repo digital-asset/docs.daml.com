@@ -1002,7 +1002,7 @@ subtrees:
         title: "Use the Canton Command Line"
       - file: canton/usermanual/console
         title: "Console Quickstart"
-      - file: canton/includes/generated/console
+      - file: canton/reference/console
         title: "Console Commands"
   - file: canton/usermanual/monitoring
     title: "Monitoring Best Practices"
@@ -1059,7 +1059,7 @@ subtrees:
 - caption: "Help"
   entries:
 
-  - file: canton/usermanual/error_codes.rst
+  - file: canton/reference/error_codes
     title: "Error Codes"
   - file: daml/troubleshooting
     title: "Troubleshooting"

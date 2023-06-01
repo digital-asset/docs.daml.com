@@ -16,25 +16,26 @@ prefix=$(basename $(realpath $DIR/..))
 
 mkdir -p $SPHINX_DIR/source/canton $SPHINX_DIR/source/daml-finance
 tar xf $DOWNLOAD_DIR/sphinx-source-tree-$RELEASE_TAG.tar.gz -C $SPHINX_DIR --strip-components=1
-tar xf $DOWNLOAD_DIR/canton-doc-sources-$CANTON_RELEASE_TAG.tar.gz -C $SPHINX_DIR/source/canton
-rm $SPHINX_DIR/source/canton/canton-refs.rst
+tar xf $DOWNLOAD_DIR/canton-doc-sources-$CANTON_RELEASE_TAG.tar.gz -C $SPHINX_DIR/source/canton ./includes # only extract the includes folder
 tar xf $DOWNLOAD_DIR/daml-finance-doc-sources-$DAML_FINANCE_RELEASE_TAG.tar.gz -C $SPHINX_DIR/source/daml-finance
 
+cp -r $DIR/../docs/canton/* $SPHINX_DIR/source/canton
+# Temporary file rename in the case of using an canton assembly docs tar ball which contains console.rst instead of console.rst.inc
+console_commands_rst_f=$SPHINX_DIR/source/canton/includes/generated/console.rst
+if [[ -e "$console_commands_rst_f" ]]; then
+    mv "$console_commands_rst_f" $SPHINX_DIR/source/canton/includes/generated/console.rst.inc
+fi
 cp $SPHINX_DIR/source/canton/exts/canton_enterprise_only.py $SPHINX_DIR/configs/static/
+
 
 # Rewrite Canton's absolute references.
 find $SPHINX_DIR/source/canton -type f -print0 | while IFS= read -r -d '' file
 do
-    sed -i 's|include:: /substitution.hrst|include:: /canton/substitution.hrst|g ; s|image:: /images|image:: /canton/images|g' $file
-    sed -i 's|include:: /includes|include:: /canton/includes|g' $file
     sed -i "s|__VERSION__|$prefix|g" $file
 done
-sed -i 's|include:: \(e.*\)|include:: ../../app-dev/grpc/\1|g' $SPHINX_DIR/source/canton/usermanual/error_codes.rst
+sed -i 's|include:: \(e.*\)|include:: ../../app-dev/grpc/\1|g' $SPHINX_DIR/source/canton/reference/error_codes.rst
 # remove once headers are fixed on the canton side
-sed -i 's|\^|*|g' $SPHINX_DIR/source/canton/usermanual/error_codes.rst
-
-# Drop Canton’s index in favor of our own.
-rm $SPHINX_DIR/source/canton/index.rst
+sed -i 's|\^|*|g' $SPHINX_DIR/source/canton/reference/error_codes.rst
 
 declare -A sphinx_targets=( [html]=html [pdf]=latex )
 
@@ -60,12 +61,19 @@ done
 # Title page on the PDF
 sed -i "s|Version : .*|Version : $prefix|" $SPHINX_DIR/configs/pdf/conf.py
 
+# Creates hard links to docs files; effectively overriding any existing file in the sphinx source directory
 for f in $(cd $DIR/../docs; find . -type f); do
-    mkdir -p $SPHINX_DIR/source/$(dirname $f)
-    rm -f $SPHINX_DIR/source/$f
-    ln $DIR/../docs/$f $SPHINX_DIR/source/$f
+    if [[ $(dirname $f) != "./canton/"* ]]; then  # TODO exclude canton so that the preprocessing from before does not get overridden again
+      mkdir -p $SPHINX_DIR/source/$(dirname $f)
+      rm -f $SPHINX_DIR/source/$f
+      ln $DIR/../docs/$f $SPHINX_DIR/source/$f
+    fi
 done
 
 # Copy ToC
 rm -f $SPHINX_DIR/source/_toc.yml
 ln $DIR/../_toc.yml $SPHINX_DIR/source/_toc.yml
+
+
+# Process canton snippet directives
+python $DIR/canton/snippet_directive.py $SPHINX_DIR/source/canton/includes/snippet_data $SPHINX_DIR/source/canton
