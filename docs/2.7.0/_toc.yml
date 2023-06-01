@@ -676,8 +676,6 @@ subtrees:
             title: "Daml.Finance.Instrument.Swap.InterestRate.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-InterestRate-Instrument
             title: "Daml.Finance.Instrument.Swap.InterestRate.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Util
-            title: "Daml.Finance.Instrument.Swap.Util"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Token-Factory
             title: "Daml.Finance.Instrument.Token.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Token-Instrument
