@@ -192,6 +192,16 @@ choice on the :ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97
 In principle, a different settler could be chosen. The choice of a settler is usually quite
 delicate, as this party acquires visibility on the entire transaction and hence needs to be trusted.
 
+What if one party wants to cancel the settlement?
+=================================================
+
+The parties who sign the
+:ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>` contract (the requestors)
+can exercise the ``Cancel`` choice of the
+:ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>` to cancel all associated
+:ref:`Instructions <type-daml-finance-interface-settlement-instruction-instruction-30569>`
+atomically.
+
 Summary
 *******
 

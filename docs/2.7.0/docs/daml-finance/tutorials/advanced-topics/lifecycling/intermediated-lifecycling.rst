@@ -167,3 +167,20 @@ These will have to be allocated, approved and settled similarly to the non-atomi
 See the file
 `Instrument/Generic/Test/Intermediated/BondCoupon.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml>`_
 for full details.
+
+Frequently Asked Questions
+**************************
+
+What if one party wants to cancel the settlement?
+=================================================
+
+The parties who sign the
+:ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>` contract (the requestors)
+can exercise the ``Cancel`` choice of the
+:ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>` to cancel all associated
+:ref:`Instructions <type-daml-finance-interface-settlement-instruction-instruction-30569>`
+atomically.
+
+Parties who are not a requestor can prevent settlement by not approving / allocating their
+instructions (since a batch is only successful if the settlement instructions are fully allocated
+and approved).

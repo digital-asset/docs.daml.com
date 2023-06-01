@@ -29,7 +29,7 @@ Participant Nodes advertise the Ledger API version they support via the :ref:`ve
 
 .. note:
 
-  Before release 1.7, the Ledger API version exposed by the Participant Node matched the version of the integration kit and SDK they were released with. 
+  Before release 1.7, the Ledger API version exposed by the Participant Node matched the version of the integration kit and SDK they were released with.
 
 As a concrete example, Daml for Postgres 1.4.0 has the Participant Node integrated, and exposes Ledger API version 1.4.0 and the Daml for VMware Blockchain 1.0 Participant Nodes expose Ledger API version 1.6.0. So any application that runs on Daml for Postgres 1.4.0 will also run on Daml for VMware Blockchain 1.0.
 
@@ -38,7 +38,7 @@ List of Ledger API Versions Supported by Daml
 
 The below lists with which Daml version a new Ledger API version was introduced.
 
-.. list-table::   
+.. list-table::
    :header-rows: 1
 
    * - Ledger API Version
@@ -79,7 +79,7 @@ Summary of Ledger API Changes
        | Extend the Transaction Service by adding a new `GetLatestPrunedOffsets` request. It allows querying for current pruning offsets.
        | Introduce the Event Query Service. It allows querying for events associated with a given `ContractId` and `ContractKey`.
    * - 2.2
-     - | Remove the inlined error documentation from gRPC calls in favor of rich error details documentation under :doc:`/canton/usermanual/error_codes`.
+     - | Remove the inlined error documentation from gRPC calls in favor of rich error details documentation under :doc:`/canton/reference/error_codes`.
        | Extend the User Management Service by adding is_deactivated and metadata fields to the User record and by providing an UpdateUser method allowing modifications of the existing users.
        | Extend the Party Management Service by adding participant specific local_metadata field to the PartyDetails record and by providing an UpdatePartyDetails method that allows changing existing parties' details.
        | Extend the Labs feature of contract disclosure by adding support for opaque contract argument blobs. The message types of DisclosedContract and ContractMetadata should continue being ignored.
@@ -116,7 +116,7 @@ Driver and Participant Compatibility: Network Upgradeability
 
 Given the Ledger API Compatibility above, network upgrades are seamless if they preserve data, and Participant Nodes keep exposing the same or a newer minor version of the same major Ledger API Version. The semantic versioning of Daml drivers and participant nodes gives this guarantee. Upgrades from one minor version to another are data preserving, and major Ledger API versions may only be removed with a new major version of integration components, Daml drivers and Participant Nodes.
 
-As an example, from an application standpoint, the only effect of upgrading Daml for Postgres 1.4.0 to Daml for Postgres 1.6.0 is an uptick in the Ledger API version. There may be significant changes to components or database schemas, but these are not public APIs. 
+As an example, from an application standpoint, the only effect of upgrading Daml for Postgres 1.4.0 to Daml for Postgres 1.6.0 is an uptick in the Ledger API version. There may be significant changes to components or database schemas, but these are not public APIs.
 
 Participant database migration
 ==============================
@@ -140,7 +140,7 @@ SDK, Runtime Component, and Library Compatibility: Daml Upgradeability
 
 As long as a major Ledger API version is supported (see :ref:`ledger-api-support`), there will be supported version of Daml able to target all minor versions of that major version. This has the obvious caveat that new features may not be available with old Ledger API versions.
 
-For example, an application built and compiled with Daml SDK 1.4.0 against Ledger API 1.4.0, it can still be compiled using SDK 1.6.0 and can be run against Ledger API 1.4.0 using 1.6.0 libraries and runtime components. 
+For example, an application built and compiled with Daml SDK 1.4.0 against Ledger API 1.4.0, it can still be compiled using SDK 1.6.0 and can be run against Ledger API 1.4.0 using 1.6.0 libraries and runtime components.
 
 .. _ledger-api-support:
 

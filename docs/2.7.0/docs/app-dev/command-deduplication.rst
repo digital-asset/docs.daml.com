@@ -30,7 +30,7 @@ The following fields in a command submissions are relevant for command deduplica
 The first three form the :ref:`change ID <change-id>` that identifies the intended ledger change.
 
 - The union of :ref:`party <com.daml.ledger.api.v1.Commands.party>` and :ref:`act_as <com.daml.ledger.api.v1.Commands.act_as>` define the submitting parties.
-  
+
 - The :ref:`application ID <com.daml.ledger.api.v1.Commands.application_id>` identifies the application that submits the command.
 
 - The :ref:`command ID <com.daml.ledger.api.v1.Commands.command_id>` is chosen by the application to identify the intended ledger change.
@@ -47,7 +47,7 @@ The ledger may arbitrarily extend the deduplication period specified in the subm
 
 .. note::
    The maximum deduplication duration is the length of the deduplication period guaranteed to be supported by the participant.
-   
+
 The deduplication period chosen by the ledger is the *effective deduplication period*.
 The ledger may also convert a requested deduplication duration into an effective deduplication offset or vice versa.
 The effective deduplication period is reported in the command completion event in the :ref:`deduplication duration <com.daml.ledger.api.v1.Completion.deduplication_duration>` or :ref:`deduplication offset <com.daml.ledger.api.v1.Completion.deduplication_offset>` fields.
@@ -72,7 +72,7 @@ The outcome of command deduplication is communicated as follows:
 
 Independently of how the outcome is communicated, command deduplication generates the following outcomes of a command submission:
 
-- If there is no conflicting submission with the same :ref:`change ID <change-id>` on the Daml ledger or in-flight, the completion event and possibly the response convey the result of the submission (success or a gRPC error; :doc:`/canton/usermanual/error_codes` explains how errors are communicated).
+- If there is no conflicting submission with the same :ref:`change ID <change-id>` on the Daml ledger or in-flight, the completion event and possibly the response convey the result of the submission (success or a gRPC error; :doc:`/canton/reference/error_codes` explains how errors are communicated).
 
 - The gRPC status code ``ALREADY_EXISTS`` with error code ID :ref:`DUPLICATE_COMMAND <error_code_DUPLICATE_COMMAND>` indicates that there is an earlier command completion for the same :ref:`change ID <change-id>` within the effective deduplication period.
 
@@ -138,7 +138,7 @@ Under this caveat, the following strategy works for applications that use the :r
 #. When you use the :ref:`Command Completion Service <command-submission-service>`, obtain a recent offset on the completion stream ``OFF1``, say the :ref:`current ledger end <com.daml.ledger.api.v1.CompletionEndRequest>`.
 
    .. _dedup-bounded-step-submit:
-   
+
 #. Submit the command with the following parameters:
 
    - Set the :ref:`command ID <com.daml.ledger.api.v1.Commands.command_id>` to the chosen command ID from :ref:`Step 1 <dedup-bounded-step-command-id>`.
@@ -150,7 +150,7 @@ Under this caveat, the following strategy works for applications that use the :r
 	to guard against the case where a ledger configuration update shortens the maximum deduplication duration.
 	With the bound ``B``, you will be notified of such a problem via an :ref:`INVALID_DEDUPLICATION_PERIOD <error_code_INVALID_DEDUPLICATION_PERIOD>` error
 	if the ledger does not support deduplication durations of length ``B`` any more.
-	
+
 	If you omitted the deduplication period, the currently valid maximum deduplication duration would be used.
 	In this case, a ledger configuration update could silently shorten the deduplication period and thus invalidate your deduplication analysis.
 
@@ -164,19 +164,19 @@ Under this caveat, the following strategy works for applications that use the :r
      This timeout is typically much shorter than the deduplication duration.
 
    .. _dedup-bounded-step-await:
-   
+
 #. Wait until the RPC call returns a response.
-   
+
    - Status codes other than ``OK`` should be handled according to :ref:`error handling <dedup-bounded-error-handling>`.
 
    - When you use the :ref:`Command Service <command-service>` and the response carries the status code ``OK``, the ledger change took place.
      You can report success.
-     
+
    - When you use the :ref:`Command Submission Service <command-submission-service>`,
      subscribe with the :ref:`Command Completion Service <command-submission-service>` for completions for ``actAs`` from ``OFF1`` (exclusive) until you see a completion event for the change ID and the submission ID chosen in :ref:`Step 3 <dedup-bounded-step-submit>`.
      If the completion’s status is ``OK``, the ledger change took place and you can report success.
      Other status codes should be handled according to :ref:`error handling <dedup-bounded-error-handling>`.
-   
+
      This step needs no timeout as the :ref:`Command Submission Service <command-submission-service>` acknowledges a submission only if there will eventually be a completion event, unless relevant parts of the system become permanently unavailable.
 
 
@@ -194,32 +194,32 @@ Fields in the error metadata are written as ``field`` in lowercase letters.
    :header-rows: 1
 
    - * Error condition
-     
+
      * Reaction
 
-       
+
    - * ``DEADLINE_EXCEEDED``
-     
+
      * Consider the submission lost.
-       
+
        Retry from :ref:`Step 2 <dedup-bounded-step-offset>`, obtaining the completion offset ``OFF1``, and possibly increase the timeout.
 
-       
+
    - * Application crashed
-     
+
      * Retry from :ref:`Step 2 <dedup-bounded-step-offset>`, obtaining the completion offset ``OFF1``.
 
 
    - * ``ALREADY_EXISTS`` / :ref:`DUPLICATE_COMMAND <error_code_DUPLICATE_COMMAND>`
-     
+
      * The change ID has already been accepted by the ledger within the reported deduplication period.
        The optional field ``completion_offset`` contains the precise offset.
        The optional field ``existing_submission_id`` contains the submission ID of the successful submission.
        Report success for the ledger change.
-       
-       
+
+
    - * ``FAILED_PRECONDITION`` / :ref:`INVALID_DEDUPLICATION_PERIOD <error_code_INVALID_DEDUPLICATION_PERIOD>`
-     
+
      * The specified deduplication period is longer than what the Daml ledger supports or the ledger cannot handle the specified deduplication offset.
        ``earliest_offset`` contains the earliest deduplication offset or ``longest_duration`` contains the longest deduplication duration that can be used (at least one of the two must be provided).
 
@@ -241,9 +241,9 @@ Fields in the error metadata are written as ``field`` in lowercase letters.
 
 
    - * ``ABORTED`` / :ref:`SUBMISSION_ALREADY_IN_FLIGHT <error_code_SUBMISSION_ALREADY_IN_FLIGHT>`
-     
+
        This error occurs only as an RPC response, not inside a completion event.
-       
+
      * There is already another submission in flight, with the submission ID in ``existing_submission_id``.
 
        - When you use the :ref:`Command Service <command-service>`, wait a bit and retry from :ref:`Step 3 <dedup-bounded-step-submit>`, submitting the command.
@@ -251,16 +251,16 @@ Fields in the error metadata are written as ``field`` in lowercase letters.
 	 Since the in-flight submission might still be rejected, (repeated) resubmission ensures that you (eventually) learn the outcome:
          If an earlier submission was accepted, you will eventually receive a :ref:`DUPLICATE_COMMAND <error_code_DUPLICATE_COMMAND>` rejection.
 	 Otherwise, you have a second chance to get the ledger change accepted on the ledger and learn the outcome.
-	 
+
 
        - When you use the :ref:`Command Completion Service <command-completion-service>`, look for a completion for ``existing_submission_id`` instead of the chosen submission ID in :ref:`Step 4 <dedup-bounded-step-await>`.
 
 
    - * ``ABORTED`` / other error codes
-     
+
      * Wait a bit and retry from :ref:`Step 2 <dedup-bounded-step-offset>`, obtaining the completion offset ``OFF1``.
 
-       
+
    - * other error conditions
 
      * Use background knowledge about the business workflow and the current ledger state to decide whether earlier submissions might still get accepted.
@@ -278,7 +278,7 @@ Failure Scenarios
 The above strategy can fail in the following scenarios:
 
 #. The bound ``B`` is too low: The command can be executed multiple times.
-   
+
    Possible causes:
 
    - You have retried for longer than the deduplication duration, but never got a meaningful answer, e.g., because the timeout (gRPC deadline) is too short.
@@ -311,7 +311,7 @@ We recommend the following strategy for using deduplication offsets:
    (Analogous to :ref:`Step 1 above <dedup-bounded-step-command-id>`)
 
    .. _dedup-unbounded-step-dedup-offset:
-   
+
 #. Obtain a recent offset ``OFF0`` on the completion event stream and remember across crashes that you use ``OFF0`` with the chosen command ID. There are several ways to do so:
 
    - Use the :ref:`Command Completion Service <command-completion-service>` by asking for the :ref:`current ledger end <com.daml.ledger.api.v1.CompletionEndRequest>`.
@@ -320,7 +320,7 @@ We recommend the following strategy for using deduplication offsets:
 	Some ledger implementations reject deduplication offsets that do not identify a command completion visible to the submitting parties with the error code id :ref:`INVALID_DEDUPLICATION_PERIOD <error_code_INVALID_DEDUPLICATION_PERIOD>`.
 	In general, the ledger end need not identify a command completion that is visible to the submitting parties.
 	When running on such a ledger, use the Command Service approach described next.
-   
+
    - Use the :ref:`Command Service <command-service>` to obtain a recent offset by repeatedly submitting a dummy command, e.g., a :ref:`Create-And-Exercise command <com.daml.ledger.api.v1.CreateAndExerciseCommand>` of some single-signatory template with the :ref:`Archive <function-da-internal-template-functions-archive-2977>` choice, until you get a successful response.
      The response contains the :ref:`completion offset <com.daml.ledger.api.v1.SubmitAndWaitForTransactionIdResponse.completion_offset>`.
 
@@ -328,7 +328,7 @@ We recommend the following strategy for using deduplication offsets:
    .. _dedup-unbounded-step-offset:
 
 #. When you use the :ref:`Command Completion Service <command-submission-service>`:
-   
+
    - If you execute this step the first time, set ``OFF1 = OFF0``.
    - If you execute this step as part of :ref:`error handling <dedup-unbounded-error-handling>` retrying from Step 3, obtaining the completion offset ``OFF1``,
      obtain a recent offset on the completion stream ``OFF1``, say its current end.
@@ -345,13 +345,13 @@ We recommend the following strategy for using deduplication offsets:
    - Set the timeout (gRPC deadline) to the expected submission processing time (Command Service) or submission hand-off time (Command Submission Service).
 
 #. Wait until the RPC call returns a response.
-   
+
    - Status codes other than ``OK`` should be handled according to :ref:`error handling <dedup-bounded-error-handling>`.
 
    - When you use the :ref:`Command Service <command-service>` and the response carries the status code ``OK``, the ledger change took place.
      You can report success.
      The response contains a :ref:`completion offset <com.daml.ledger.api.v1.SubmitAndWaitForTransactionIdResponse.completion_offset>` that you can use in :ref:`Step 2 <dedup-unbounded-step-dedup-offset>` of later submissions.
-     
+
    - When you use the :ref:`Command Submission Service <command-submission-service>`,
      subscribe with the :ref:`Command Completion Service <command-submission-service>` for completions for ``actAs`` from ``OFF1`` (exclusive) until you see a completion event for the change ID and the submission ID chosen in :ref:`step 3 <dedup-bounded-step-submit>`.
      If the completion’s status is ``OK``, the ledger change took place and you can report success.
@@ -371,7 +371,7 @@ Failure Scenarios
 The above strategy can fail in the following scenarios:
 
 #. No success within the supported deduplication period
-   
+
    When the application receives a :ref:`INVALID_DEDUPLICATION_PERIOD <error_code_INVALID_DEDUPLICATION_PERIOD>` error, it cannot achieve exactly once execution any more within the originally intended deduplication period.
 
 
