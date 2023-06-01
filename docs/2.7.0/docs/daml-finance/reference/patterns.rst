@@ -9,12 +9,13 @@ This page explains some common design patterns used in the Daml Finance library.
 .. _getview:
 
 View of an interface contract and the `GetView` choice
----------------------------
+------------------------------------------------------
 
 There are different ways to access the data of a contract, for example the terms of an instrument:
 
-#. :ref:`fetch <daml-ref-fetch>` the contract using its contract ID. This requires the submitting
-   party to be a stakeholder of the contract.
+#. :ref:`fetch <daml-ref-fetch>` the interface contract using its contract ID (this requires the
+   submitting party to be a stakeholder of the contract). It is then possible to use the ``view``
+   built-in method to get the interface view.
 #. ``GetView``: by calling this choice on the interface, for example on a
    :ref:`callable bond <type-daml-finance-interface-instrument-bond-callable-instrument-instrument-70770>`,
    a party can get the view of a contract, without necessarily being a stakeholder of the contract.
