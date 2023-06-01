@@ -54,7 +54,7 @@ that your application follows a similar split between interface (API) and implem
 order to maximize upgradability and minimize the impact of incremental changes to your application
 or Daml Finance.
 
-The following picture shows a suggested architecture that minimizes undesireable coupling and
+The following picture shows a suggested architecture that minimizes undesirable coupling and
 optimizes for upgradability of your application:
 
 .. image:: ../images/application_architecture.png
@@ -105,3 +105,26 @@ overall application:
 
 In general, we will provide upgrade contracts and scripts to facilitate migration between major
 version updates of packages within the Daml Finance perimeter.
+
+Using Daml Codegen
+******************
+
+The Daml Finance packages are compatible with the :doc:`Daml Codegen tool<../../tools/codegen>`.
+
+If you, e.g., want to create a *JavaScript* app that uses Daml Finance, it is possible to generate
+*JavaScript* classes from the Daml Finance packages you need. Use
+:doc:`daml codegen js <../../app-dev/bindings-ts/daml2js>`, for example:
+
+.. code-block:: shell
+
+   daml codegen js -o ./output .lib/daml-finance-interface-instrument-swap-0.2.1.dar .lib/daml-finance-interface-instrument-bond-0.2.1.dar
+
+Alternatively, if your app uses *Java*, you can run
+:doc:`daml codegen java <../../app-dev/bindings-java/index>` in a similar way:
+
+.. code-block:: shell
+
+   daml codegen java -o ./output .lib/daml-finance-interface-instrument-swap-0.2.1.dar .lib/daml-finance-interface-instrument-bond-0.2.1.dar
+
+Note, this Daml Finance codegen is only supported on SDK versions 2.5.x and higher.
+
