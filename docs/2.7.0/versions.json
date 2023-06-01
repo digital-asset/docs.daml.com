@@ -1,5 +1,5 @@
 {
   "daml": "2.7.0-snapshot.20230523.11810.0.06abd5c6",
   "canton": "2.7.0-snapshot.20230524.10397.0.va673444e",
-  "daml_finance": "1.2.12"
+  "daml_finance": "1.2.13"
 }
