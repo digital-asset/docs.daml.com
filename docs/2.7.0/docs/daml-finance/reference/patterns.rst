@@ -4,7 +4,7 @@
 Patterns
 ########
 
-This page some common patterns used in the Daml Finance library.
+This page explains some common design patterns used in the Daml Finance library.
 
 .. _getview:
 
