@@ -271,3 +271,9 @@ How do I redeem a bond?
 
 On the redemption date, both the last coupon and the redemption amount will be paid. This is
 processed in the same way as a single coupon payment described above.
+
+How do I view the terms of a bond instrument?
+=============================================
+
+There are several ways to access the data of a contract, as explained in the
+:ref:`Patterns <getview>` section.
