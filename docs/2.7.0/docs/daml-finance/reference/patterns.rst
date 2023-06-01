@@ -8,7 +8,7 @@ This page explains some common design patterns used in the Daml Finance library.
 
 .. _getview:
 
-View the data of a contract
+View of an interface contract and the `GetView` choice
 ---------------------------
 
 There are different ways to access the data of a contract, for example the terms of an instrument:
