@@ -182,4 +182,5 @@ can exercise the ``Cancel`` choice of the
 atomically.
 
 Parties who are not a requestor can prevent settlement by not approving / allocating their
-instructions.
+instructions (since a batch is only successful if the settlement instructions are fully allocated
+and approved).
