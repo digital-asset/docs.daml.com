@@ -117,14 +117,14 @@ If you, e.g., want to create a *JavaScript* app that uses Daml Finance, it is po
 
 .. code-block:: shell
 
-   daml codegen js -o ./output .lib/daml-finance-interface-instrument-swap.dar .lib/daml-finance-interface-instrument-bond.dar
+   daml codegen js -o ./output .lib/daml-finance-interface-instrument-swap-0.2.1.dar .lib/daml-finance-interface-instrument-bond-0.2.1.dar
 
 Alternatively, if your app uses *Java*, you can run
 :doc:`daml codegen java <../../app-dev/bindings-java/index>` in a similar way:
 
 .. code-block:: shell
 
-   daml codegen java -o ./output .lib/daml-finance-interface-instrument-swap.dar .lib/daml-finance-interface-instrument-bond.dar
+   daml codegen java -o ./output .lib/daml-finance-interface-instrument-swap-0.2.1.dar .lib/daml-finance-interface-instrument-bond-0.2.1.dar
 
 Note, this Daml Finance codegen is only supported on SDK versions 2.5.x and higher.
 
