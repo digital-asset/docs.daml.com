@@ -1,3 +1,4 @@
 .envrc.private
 .DS_Store
 .vscode/
+.idea/

@@ -323,8 +323,8 @@ When packaging large amounts of data, it can be useful to increase the default t
 Health Checks
 -------------
 
-gRPC Health Check Service (Preview)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+gRPC Health Check Service
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Each canton node can optionally be configured to start a gRPC server exposing the `gRPC Health Service <https://github.com/grpc/grpc/blob/master/doc/health-checking.md#service-definition>`__.
 Passive nodes (see :ref:`High Availability <ha_user_manual>` for more information on active/passive states) will return ``NOT_SERVING``.
