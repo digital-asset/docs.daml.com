@@ -11,17 +11,15 @@ This page explains some common design patterns used in the Daml Finance library.
 Factory concept
 ---------------
 
-Factories are contracts that are used to create instruments and other contracts. The reason why
-using factories is a recommended pattern when using Daml Finance has to do with application
-decoupling / upgradeability of your application.
+Factories are helper contracts that are used to create instruments, holdings and other important
+contracts like lifecycle rules and effects. The reason why using factories is a recommended pattern
+when using Daml Finance has to do with application decoupling / upgradeability of your application.
 
-For example, suppose that you are writing Daml code to issue equity instruments, for which you want
-to use the template provided in Daml Finance.
-
-Your workflow would reference the
-:ref:`Equity implementation package <module-daml-finance-instrument-equity-instrument-69265>`
- v0.2.1 and at some point do a create
-Equity.Instrument with issuer = myParty, id = "MyCompany", .. to create the instrument.
+For example, suppose that you are writing Daml code to issue equity instruments. Your workflow would
+reference the
+:ref:`Equity implementation package <module-daml-finance-instrument-equity-instrument-69265>` v0.2.1
+and at some point do a
+``create Equity.Instrument with issuer = myParty, id = "MyCompany", ..`` to create the instrument.
 
 If the equity package gets updated to v0.2.2 and a new field is added to the instrument (or a choice
 is changed, or a new lifecycle event is added, …) then you are forced to upgrade your Daml code in
@@ -33,8 +31,11 @@ which contains interface definitions and is updated less frequently.
 
 However, you would now need a way to create equity instruments without referencing
 Daml.Finance.Instrument.Equity in your main Daml workflow. To do this, you can setup a Script to run
-a ledger initialisation that will create a factory contract and cast it to the corresponding
-interface. You can then use the factory in your main workflow code to create the instruments.
+during ledger initialisation that will create a
+:ref:`factory contract <module-daml-finance-instrument-equity-factory-96899>`
+and cast it to the corresponding
+:ref:`interface <module-daml-finance-interface-instrument-equity-factory-97140>`.
+You can then use the factory in your main workflow code to create the instruments.
 
 When an upgraded instrument comes along, you would need to write code to archive the old factory and
 create the new one, in order to issue the new instruments. However, the Daml code for your workflow
