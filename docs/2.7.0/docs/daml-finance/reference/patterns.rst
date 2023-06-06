@@ -6,6 +6,42 @@ Patterns
 
 This page explains some common design patterns used in the Daml Finance library.
 
+.. _factory-concept:
+
+Factory concept
+---------------
+
+Factories are contracts that are used to create instruments and other contracts. The reason why
+using factories is a recommended pattern when using Daml Finance has to do with application
+decoupling / upgradeability of your application.
+
+For example, suppose that you are writing Daml code to issue equity instruments, for which you want
+to use the template provided in Daml Finance.
+
+Your workflow will reference Daml.Finance.Instrument.Equity 0.1.6 and at some point do a create
+Equity.Instrument with issuer = myParty, id = "MyCompany", .. to create the instrument.
+
+If the equity package gets updated to Daml.Finance.Instrument.Equity 0.1.7 and a new field is added
+to the instrument (or a choice is changed, or a new lifecycle event is added, …) then you are forced
+to upgrade your Daml code in order to use the new feature and will have to deal with upgrading
+multiple templates on the ledger.
+
+A safer approach is for your Daml code to only reference the
+Daml.Finance.Interface.Instrument.Equity package, which contains interface definitions and is
+updated less frequently.
+
+However, you now need a way to create equity instruments without referencing
+Daml.Finance.Instrument.Equity in your main Daml workflow. To do this, you can setup a Script to run
+on ledger initialisation that will create a factory contract and cast it to the corresponding
+interface. You can then use the factory in your main workflow code to create the instruments.
+
+When an upgraded instrument comes along, you will need to write code to archive the old factory and
+create the new one, in order to issue the new instruments. However, the Daml code for your workflow
+can in principle stay untouched.
+
+For an example on where the Factory pattern is used, check out the
+:doc:`Getting Started <../tutorials/getting-started>` tutorials.
+
 .. _getview:
 
 View of an interface contract and the `GetView` choice
