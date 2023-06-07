@@ -3,3 +3,5 @@
 
 HA for Production Systems
 #########################
+
+This section covers how to implement High Availability (HA) in production systems.

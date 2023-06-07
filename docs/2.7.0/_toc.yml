@@ -959,12 +959,12 @@ subtrees:
             title: "Ethereum Domain"
   - file: deploy-daml/infrastructure-architecture/high-availability/main-menu
     subtrees:
-    - hidden: True
+    - hidden: False
       titlesonly: True
       entries:
       - file: deploy-daml/infrastructure-architecture/high-availability/basic-ha/intro
         subtrees:
-        - hidden: True
+        - hidden: False
           titlesonly: True
           entries:
           - file: deploy-daml/infrastructure-architecture/high-availability/basic-ha/overview
@@ -972,7 +972,7 @@ subtrees:
           - file: deploy-daml/infrastructure-architecture/high-availability/basic-ha/domain
       - file: deploy-daml/infrastructure-architecture/high-availability/production
         subtrees:
-        - hidden: True
+        - hidden: False
           titlesonly: True
           entries:
           - file: deploy-daml/infrastructure-architecture/high-availability/ha-and-scaling/introduction
