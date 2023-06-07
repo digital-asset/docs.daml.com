@@ -11,9 +11,9 @@ This page explains some common design patterns used in the Daml Finance library.
 Factory concept
 ---------------
 
-Factories are helper contracts that are used to create instruments, holdings and other important
-contracts like lifecycle rules and effects. The reason why using factories is a recommended pattern
-when using Daml Finance has to do with application decoupling / upgradeability of your application.
+Factories are helper contracts that are used to create instruments, holdings and some other
+important contracts. The reason why using factories is a recommended pattern when using Daml Finance
+has to do with application decoupling / upgradeability of your application.
 
 For example, suppose that you are writing Daml code to issue equity instruments. Your workflow would
 reference the
