@@ -677,7 +677,7 @@ Participant Initialization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 The following steps describe how to manually initialize a participant node:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/topology/MemberAutoInitIntegrationTest.scala
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/topology/TopologyManagementHelper.scala
    :language: scala
    :start-after: architecture-handbook-entry-begin: ManualInitParticipant
    :end-before: architecture-handbook-entry-end: ManualInitParticipant
