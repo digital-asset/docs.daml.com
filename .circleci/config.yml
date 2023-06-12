@@ -151,7 +151,7 @@ jobs:
              --run bash \<<'EOF'
              set -euo pipefail
 
-             DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+             DIR=$(pwd)
 
              to_version_json_format() (
                  sed 's/\(.*\)/"\1"/' | jq -sc '[.[] | {(.): .} ] | add'
@@ -164,7 +164,11 @@ jobs:
                  cat $DIR/dropdown_versions \
                   | to_version_json_format \
                   | jq --arg dev "$dev" \
-                       '{($dev):($dev + " preview")} + .'
+                       '
+                       .
+                       | to_entries
+                       | [.[0], {"key": $dev, "value": ($dev + " preview")}] + .[1:]
+                       | from_entries'
              )
 
              root=$(cat root)
