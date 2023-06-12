@@ -21,7 +21,7 @@ When programming within a distributed system like Daml, the developer must view 
 Application design must understand the sources of contention; this allows you to use different techniques to manage it and improve performance by increasing throughput and decreasing latency. These techniques include:
 
 - Bundling or batching business logic to increase business transaction throughput - the marginal cost of extra business logic within a transaction is often small, so bundling or batching business logic cleverly can allow for throughput an order of magnitude higher.
-- Maximizing parallelism with techniques like sharding, ensuring there is no contention between shards. (Avoid large sets of observers, which can negatively impact parallelism.)
+- Maximizing parallelism with techniques like sharding, ensuring there is no contention between shards.
 
 When designing Daml applications:
 
@@ -30,7 +30,9 @@ When designing Daml applications:
 * Partition contracts along natural lines and touch as few partitions as possible in each transaction (e.g., partition all asset positions into total asset positions, and then only touch one total asset position per transaction)
 * Use contention-free representations where possible
 
-The Daml language follows functional programming principles. To build safe, secure smart contracts with Daml, we recommended that the developers embrace functional programming. Using functional programming often helps to reduce contention.
+For more information, see the section on `Avoiding Contention <resource-management/contention-avoiding.html>`__.
+
+The Daml language follows functional programming principles. To build safe, secure smart contracts with Daml, we recommend that the developers embrace functional programming.
 
 The Daml SDK contains tools and libraries that simplify multi-party application development, including defining the application’s schema and implementing off-ledger code that leverages the Canton APIs.
 
