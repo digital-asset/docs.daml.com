@@ -617,9 +617,22 @@ Check that the party is now hosted by two participants:
     .. success:: participant1.parties.list("Alice")
     .. assert:: participant1.parties.list("Alice").flatMap(_.participants.map(_.participant)).contains(participant2.id)
 
-In the next step, you store the active contract set of the party into a file. If there is no traffic on the participant
-node and you can be sure that nothing has changed for the party, you can just straight use the ``repair.download``
-command. Otherwise, you must find the timestamp when the party was activated. One way to find that timestamp is by
+In the next step, you store the active contract set of the party into a file.
+
+.. todo::
+   `Remove this workaround of running a ping <https://github.com/DACH-NY/canton/issues/13414>`_.
+   It is only needed to make sure that the clean request counter prehead is past the timestamp of the topology transactions.
+
+Make sure that the participant to supply the ACS has seen some transactions after the topology state has become active,
+but those transactions should not involve the migrated party.
+So just run a health check:
+
+.. snippet:: party_on_two_nodes
+    .. success:: participant1.health.ping(participant1.id)
+
+If there is no traffic on the participant node and you can be sure that nothing has changed for the party,
+you can just straight use the ``repair.download`` command.
+Otherwise, you must find the timestamp when the party was activated. One way to find that timestamp is by
 looking at the topology store of that particular domain connection:
 
 .. snippet:: party_on_two_nodes
