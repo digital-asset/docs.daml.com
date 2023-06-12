@@ -3,3 +3,5 @@
 
 High Availability (HA)
 ######################
+
+The following sections cover how High Availability (HA) is implemented in Daml solutions.

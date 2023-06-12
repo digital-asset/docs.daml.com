@@ -4,3 +4,4 @@
 Intro to HA in Canton
 #####################
 
+This section provides an overview of High Availability (HA) in Canton, how participant nodes are replicated, and how HA is implemented on the domain.
