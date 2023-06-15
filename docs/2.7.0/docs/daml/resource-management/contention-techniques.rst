@@ -37,7 +37,7 @@ The following list adds some practical matters to complete the rough functional 
 * It is possible to constrain the *total asset position* of an owner to be non-negative. In other words, it is possible to ensure that settlements are funded. The total asset position is the sum of the quantities of all assets of a given type by that owner.
 
 Performance measurement in the example application
-==============================================
+==================================================
 
 Performance in the example can be measured by latency and throughput; specifically, settlement latency and settlement throughput. Another important factor in measuring performance is the ledger transaction latency. 
 
