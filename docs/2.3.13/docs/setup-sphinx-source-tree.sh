@@ -56,5 +56,9 @@ for f in $(find . -type f); do
 done
 )
 
+# Insert research page into the architecture toc
+
+sed -i '21a\ \ research' $SPHINX_DIR/source/canton/architecture/architecture.rst
+
 # Title page on the PDF
 sed -i "s|Version : .*|Version : $prefix|" $SPHINX_DIR/configs/pdf/conf.py
