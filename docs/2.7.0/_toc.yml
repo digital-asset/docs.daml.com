@@ -162,6 +162,13 @@ subtrees:
           titlesonly: True
           entries:
           - file: daml/resource-management/latency-and-throughput
+          - file: daml/resource-management/contention-avoiding
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              entries:
+              - file: daml/resource-management/contention-reducing.rst
+              - file: daml/resource-management/contention-techniques.rst
           - file: daml/resource-management/active-contract-set
       - file: app-dev/ledger-api
         title: "Build Integration with the Ledger API"
