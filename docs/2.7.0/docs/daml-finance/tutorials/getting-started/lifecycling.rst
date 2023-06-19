@@ -153,6 +153,13 @@ example, it would probably be the issuer.
 In some special cases like Elections, if we really need the owner to be the lifecycler in order to
 choose which "path" they'd like to lifecycle the instrument with, we can use a delegation contract.
 
+Which party is the provider of the Effect?
+==========================================
+
+Most of the time the provider of the Effect is the lifecycler, yet in some cases where we want to
+hide the visibility of holdings and the calculation result, we will have a provider that is
+different from the lifecycler.
+
 Can an instrument act as its own lifecycle rule?
 ================================================
 
