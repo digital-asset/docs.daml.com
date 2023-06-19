@@ -122,7 +122,7 @@ The
 :ref:`BarrierEuropeanCash <module-daml-finance-interface-instrument-option-barriereuropeancash-instrument-61159>`
 instrument models barrier options. They are similar to the
 :ref:`EuropeanCash <module-daml-finance-instrument-option-europeancash-instrument-22074>`
-instrument described above, but also contain a barrier that is used to activate (or knock out) the
+instrument described above, but also contain a barrier that is used to activate (or, alternatively, knock out) the
 option. The :ref:`BarrierTypeEnum <type-daml-finance-interface-instrument-option-types-barriertypeenum-80356>`
 describes which barrier types are supported.
 
