@@ -156,9 +156,10 @@ choose which "path" they'd like to lifecycle the instrument with, we can use a d
 Which party is the provider of the Effect?
 ==========================================
 
-Most of the time the provider of the Effect is the lifecycler, yet in some cases where we want to
-hide the visibility of holdings and the calculation result, we will have a provider that is
-different from the lifecycler.
+Most of the time the provider of the Effect is the lifecycler. However, in some cases we may want to
+hide the visibility of holdings and the calculation result. The provider of the Effect gets to see
+all holdings claimed against that one Effect contract. If we don't want the lifecycler to see this,
+then we need a different effect provider.
 
 Can an instrument act as its own lifecycle rule?
 ================================================
