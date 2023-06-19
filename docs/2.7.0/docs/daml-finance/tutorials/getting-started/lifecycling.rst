@@ -144,6 +144,15 @@ process up to the implementation.
 * The party executing settlement can be chosen as well, as described in the previous tutorial on
   :doc:`Settlement <settlement>`.
 
+Which party should take the role as *lifecycler*?
+=================================================
+
+From a design perspective, a lifecycler should be the party that defines the lifecycle events
+happening on an instrument. In the simplified example above, it is the bank. In a more realistic
+example, it would probably be the issuer.
+In some special cases like Elections, if we really need the owner to be the lifecycler in order to
+choose which "path" they'd like to lifecycle the instrument with, we can use a delegation contract.
+
 Can an instrument act as its own lifecycle rule?
 ================================================
 
