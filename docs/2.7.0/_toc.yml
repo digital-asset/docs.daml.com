@@ -641,6 +641,10 @@ subtrees:
             title: "Daml.Finance.Instrument.Generic.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Generic-Lifecycle-Rule
             title: "Daml.Finance.Instrument.Generic.Lifecycle.Rule"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-BarrierEuropeanCash-Factory
+            title: "Daml.Finance.Instrument.Option.BarrierEuropeanCash.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-BarrierEuropeanCash-Instrument
+            title: "Daml.Finance.Instrument.Option.BarrierEuropeanCash.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-Dividend-Factory
             title: "Daml.Finance.Instrument.Option.Dividend.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-Dividend-Instrument
@@ -655,10 +659,6 @@ subtrees:
             title: "Daml.Finance.Instrument.Option.EuropeanPhysical.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-EuropeanPhysical-Instrument
             title: "Daml.Finance.Instrument.Option.EuropeanPhysical.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-BarrierEuropeanCash-Factory
-            title: "Daml.Finance.Instrument.Option.BarrierEuropeanCash.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-BarrierEuropeanCash-Instrument
-            title: "Daml.Finance.Instrument.Option.BarrierEuropeanCash.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-Util
             title: "Daml.Finance.Instrument.Option.Util"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Asset-Factory
@@ -765,6 +765,12 @@ subtrees:
             title: "Daml.Finance.Interface.Instrument.Generic.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Generic-Instrument
             title: "Daml.Finance.Interface.Instrument.Generic.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-BarrierEuropeanCash-Factory
+            title: "Daml.Finance.Interface.Instrument.Option.BarrierEuropeanCash.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-BarrierEuropeanCash-Instrument
+            title: "Daml.Finance.Interface.Instrument.Option.BarrierEuropeanCash.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-BarrierEuropeanCash-Types
+            title: "Daml.Finance.Interface.Instrument.Option.BarrierEuropeanCash.Types"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Dividend-Factory
             title: "Daml.Finance.Interface.Instrument.Option.Dividend.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Dividend-Instrument
@@ -785,12 +791,6 @@ subtrees:
             title: "Daml.Finance.Interface.Instrument.Option.EuropeanPhysical.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-EuropeanPhysical-Types
             title: "Daml.Finance.Interface.Instrument.Option.EuropeanPhysical.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-BarrierEuropeanCash-Factory
-            title: "Daml.Finance.Interface.Instrument.Option.BarrierEuropeanCash.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-BarrierEuropeanCash-Instrument
-            title: "Daml.Finance.Interface.Instrument.Option.BarrierEuropeanCash.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-BarrierEuropeanCash-Types
-            title: "Daml.Finance.Interface.Instrument.Option.BarrierEuropeanCash.Types"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Types
             title: "Daml.Finance.Interface.Instrument.Option.Types"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Asset-Factory
