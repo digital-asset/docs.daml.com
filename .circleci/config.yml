@@ -162,13 +162,14 @@ jobs:
              make_dropdown() (
                  dev=$(cd docs; echo * | tr ' ' '\n' | sort -V | tail -1)
                  cat $DIR/dropdown_versions \
-                  | to_version_json_format \
-                  | jq --arg dev "$dev" \
-                       '
-                       .
-                       | to_entries
-                       | [.[0], {"key": $dev, "value": ($dev + " preview")}] + .[1:]
-                       | from_entries'
+                  | to_version_json_format
+                  #\
+                  #| jq --arg dev "$dev" \
+                  #     '
+                  #     .
+                  #     | to_entries
+                  #     | [.[0], {"key": $dev, "value": ($dev + " preview")}] + .[1:]
+                  #     | from_entries'
              )
 
              root=$(cat root)
