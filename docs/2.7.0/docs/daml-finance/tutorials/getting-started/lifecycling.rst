@@ -175,12 +175,15 @@ out into rule contracts:
   now simply add a distribution rule to the running system to enable this new lifecycle event for
   their instrument without affecting the actual live instrument itself (or any holdings on it).
 
-Can I integrate a holding ownership change within lifecycling?
-==============================================================
+Can I integrate a holding ownership change (of the target instrument) within lifecycling?
+=========================================================================================
 
-Lifecycling will not change the ownership of the instrument produced. You should use the
+Lifecycling will not change the ownership of the target instrument. You should use the
 :doc:`Transfer <transfer>` pattern to do a delivery-versus-payment as a separate step from the
 lifecycling.
+
+However, there usually is a change of ownership of the other consumed/produced instruments when
+lifecycling (e.g. when paying out a dividend cash is moved from one party to another).
 
 Summary
 *******
