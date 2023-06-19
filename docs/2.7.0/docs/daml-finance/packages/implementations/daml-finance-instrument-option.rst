@@ -7,9 +7,9 @@ Daml.Finance.Instrument.Option
 This package contains the *implementation* of different option types, defined in the
 following modules:
 
-- :ref:`BarrierEuropeanCash.Instrument <module-daml-finance-instrument-option-europeancash-instrument-22074>`:
+- :ref:`BarrierEuropeanCash.Instrument <module-daml-finance-instrument-option-barriereuropeancash-instrument-15498>`:
   Instrument implementation for barrier options
-- :ref:`BarrierEuropeanCash.Factory <module-daml-finance-instrument-option-europeancash-factory-75778>`:
+- :ref:`BarrierEuropeanCash.Factory <module-daml-finance-instrument-option-barriereuropeancash-factory-43938>`:
   Factory implementation to instantiate barrier options
 - :ref:`Dividend.Instrument <module-daml-finance-instrument-option-dividend-instrument-7333>`:
   Instrument implementation for dividend options
