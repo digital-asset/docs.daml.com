@@ -1296,5 +1296,3 @@ subtrees:
     title: "Daml Ledger Interoperability"
   - file: tools/non-repudiation
     title: "Non-repudiation"
-  - file: app-dev/custom-views/index
-    title: "Custom Views"
