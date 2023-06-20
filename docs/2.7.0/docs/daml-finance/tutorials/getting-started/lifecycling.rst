@@ -162,7 +162,7 @@ Which party is the provider of the Effect?
 ==========================================
 
 Most of the time the provider of the Effect is the lifecycler. However, in some cases we may want to
-hide the visibility of holdings and the calculation result. The provider of the Effect gets to see
+avoid disclosing the claimed holdings to the lifecycler. The provider of the Effect gets to see
 all holdings claimed against that one Effect contract. If we don't want the lifecycler to see this,
 then we need a different effect provider.
 
