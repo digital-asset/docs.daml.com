@@ -150,8 +150,8 @@ Which party should take the role as *lifecycler*?
 From a design perspective, a lifecycler is often the party that defines the lifecycle events
 happening on an instrument (although they can be different). In the simplified example above, it is
 the bank. In a more realistic example, it would probably be the issuer.
-In some special cases like Elections, if we really need the owner to be the lifecycler in order to
-choose which "path" they would like to lifecycle the instrument with, we can use a delegation contract.
+In some special cases, if we really need the owner to be the lifecycler, we can use a delegation
+contract.
 
 The lifecycler is currently trusted with:
 
