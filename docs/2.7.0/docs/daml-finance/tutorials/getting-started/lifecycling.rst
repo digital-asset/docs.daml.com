@@ -163,7 +163,7 @@ Which party is the provider of the Effect?
 
 Most of the time the provider of the Effect is the lifecycler. However, in some cases we may want to
 avoid disclosing the claimed holdings to the lifecycler. The provider of the Effect gets to see
-all holdings claimed against that one Effect contract. If we don't want the lifecycler to see this,
+all holdings claimed against that one Effect contract. If we wish to avoid that,
 then we need a different effect provider.
 
 Can an instrument act as its own lifecycle rule?
