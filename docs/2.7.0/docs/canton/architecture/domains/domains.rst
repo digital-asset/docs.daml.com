@@ -145,7 +145,7 @@ Security
   .. _standard-crypto-domain-req:
 
 * **Standards compliant cryptography:** All used cryptographic primitives and
-  their configurations must be compliant to approved standards and based on
+  their configurations must comply to approved standards and based on
   existing and audited implementations.
 
   .. _authnz-domain-req:
