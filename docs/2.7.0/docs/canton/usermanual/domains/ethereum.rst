@@ -171,7 +171,7 @@ Customization of the Demo Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 You can also modify the Canton configurations and bootstrap scripts for the demo if, for example,
-you want to `add persistence to the participants <https://www.canton.io/docs/dev/user-manual/usermanual/static_conf.html#persistence>`_.
+you want to :ref:`add persistence to the participants <persistence-config>`.
 The Canton configurations are found in
 
 * ``canton-conf/simple`` and
@@ -192,7 +192,7 @@ Error codes
 
 The Ethereum Sequencer application auto-detects many common configuration and deployment issues and logs them
 as warnings or errors with :ref:`error codes <error_codes>`. If you see such a warning or error, please refer to
-the `respective error code explanation and resolution <https://www.canton.io/docs/dev/user-manual/usermanual/error_codes.html#ethereumerrors>`_.
+the :ref:`respective error code explanation and resolution <3. ethereumerrors_canton_error_codes>`.
 
 
 TLS configuration
