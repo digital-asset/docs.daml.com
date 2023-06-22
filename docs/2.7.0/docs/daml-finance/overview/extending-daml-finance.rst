@@ -9,7 +9,7 @@ requirements at hand. In principle, all interfaces in the :ref:`interface layer 
 can be implemented with custom implementations. Specific extension points we expect and encourage
 users to customize are explained below.
 
-Note that for all of the listed extension points we are happy to receive external contributions to
+Note that for all of the listed extension points, we are happy to receive external contributions to
 be included in the library.
 
 Custom Holding Implementations

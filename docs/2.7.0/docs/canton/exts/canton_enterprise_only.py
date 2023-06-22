@@ -6,7 +6,7 @@ from docutils.parsers.rst import Directive
 class EnterpriseOnlyDirective(Directive):
     def run(self):
         para_node = nodes.paragraph(text="This feature is only available in ")
-        ref_node = nodes.reference('Canton Enterprise', 'Canton Enterprise', internal=False, refuri="https://canton.io/enterprise")
+        ref_node = nodes.reference('Canton Enterprise', 'Canton Enterprise', internal=True, refuri="/canton/usermanual/downloading.html")
         para_node += ref_node
         important_node = nodes.important()
         important_node += para_node

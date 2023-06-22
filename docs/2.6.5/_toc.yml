@@ -226,12 +226,12 @@ subtrees:
         - hidden: False
           titlesonly: True
           entries:
+          - file: app-dev/grpc/error-codes
+            title: "Error Codes"
           - file: app-dev/command-deduplication
             title: "Command Deduplication"
       - file: app-dev/authorization
         title: "Authorization"
-      - file: app-dev/explicit-contract-disclosure
-        title: "Explicit Contract Disclosure (Experimental)"
       - file: upgrade/index
         title: "Upgrading and Extending Daml Applications"
         entries:
@@ -509,38 +509,30 @@ subtrees:
       - file: daml-finance/tutorials/getting-started/intro
         title: "Getting Started"
         entries:
-        - file: daml-finance/tutorials/getting-started/holding
-          title: "Holding"
         - file: daml-finance/tutorials/getting-started/transfer
           title: "Transfer"
         - file: daml-finance/tutorials/getting-started/settlement
           title: "Settlement"
         - file: daml-finance/tutorials/getting-started/lifecycling
           title: "Lifecycling"
-      - file: daml-finance/tutorials/instrument-extension-packages/intro
-        title: "Instrument Extensions Packages"
+      - file: daml-finance/tutorials/instrument-modeling/intro
+        title: "Instrument Modeling"
         entries:
-        - file: daml-finance/tutorials/instrument-extension-packages/bond-extension
+        - file: daml-finance/tutorials/instrument-modeling/bond-extension
           title: "How to Use the Bond Extension Package"
-        - file: daml-finance/tutorials/instrument-extension-packages/option-extension
+        - file: daml-finance/tutorials/instrument-modeling/option-extension
           title: "How To Use the Option Extension Package"
-        - file: daml-finance/tutorials/instrument-extension-packages/swap-extension
+        - file: daml-finance/tutorials/instrument-modeling/swap-extension
           title: "How To Use the Swap Extension Package"
-        - file: daml-finance/tutorials/instrument-extension-packages/equity-extension
+        - file: daml-finance/tutorials/instrument-modeling/equity-extension
           title: "How To Model and Lifecycle Equity Instruments"
-      - file: daml-finance/tutorials/payoff-modeling/intro
-        title: "Payoff Modeling"
-        entries:
-        - file: daml-finance/tutorials/payoff-modeling/generic-extension
+        - file: daml-finance/tutorials/instrument-modeling/generic-extension
           title: "How To Model and Lifecycle Generic Instruments"
-      - file: daml-finance/tutorials/advanced-topics/intro
-        title: "Advanced Topics"
-        entries:
-        - file: daml-finance/tutorials/advanced-topics/lifecycling/intermediated-lifecycling
+        - file: daml-finance/tutorials/instrument-modeling/intermediated-lifecycling
           title: "Intermediated Lifecycling of a Generic Instrument"
-        - file: daml-finance/tutorials/advanced-topics/instrument-modeling/contingent-claims-instrument
+        - file: daml-finance/tutorials/instrument-modeling/contingent-claims-instrument
           title: "How to Implement a Contingent Claims-Based Instrument"
-        - file: daml-finance/tutorials/advanced-topics/instrument-modeling/contingent-claims-on-ledger-vs-on-the-fly
+        - file: daml-finance/tutorials/instrument-modeling/contingent-claims-on-ledger-vs-on-the-fly
           title: "Contingent Claims Tree on Ledger vs On-the-Fly Creation"
   - file: daml-finance/reference/index
     title: "Reference"
@@ -550,8 +542,6 @@ subtrees:
       entries:
       - file: daml-finance/reference/glossary
         title: "Glossary"
-      - file: daml-finance/reference/patterns
-        title: "Patterns"
       - file: daml-finance/reference/code-documentation/daml-finance-rst/index
         title: "Daml Finance"
         subtrees:
@@ -585,8 +575,6 @@ subtrees:
             title: "Daml.Finance.Claims.Util"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Claims-Util-Builders
             title: "Daml.Finance.Claims.Util.Builders"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Claims-Util-Date
-            title: "Daml.Finance.Claims.Util.Date"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Claims-Util-Lifecycle
             title: "Daml.Finance.Claims.Util.Lifecycle"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-Numeric-Observation
@@ -609,10 +597,6 @@ subtrees:
             title: "Daml.Finance.Holding.NonTransferable"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Holding-Util
             title: "Daml.Finance.Holding.Util"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-Callable-Factory
-            title: "Daml.Finance.Instrument.Bond.Callable.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-Callable-Instrument
-            title: "Daml.Finance.Instrument.Bond.Callable.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-FixedRate-Factory
             title: "Daml.Finance.Instrument.Bond.FixedRate.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-FixedRate-Instrument
@@ -635,30 +619,18 @@ subtrees:
             title: "Daml.Finance.Instrument.Equity.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Equity-Instrument
             title: "Daml.Finance.Instrument.Equity.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Generic-Election
+            title: "Daml.Finance.Instrument.Generic.Election"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Generic-Factory
             title: "Daml.Finance.Instrument.Generic.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Generic-Instrument
             title: "Daml.Finance.Instrument.Generic.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Generic-Lifecycle-Rule
             title: "Daml.Finance.Instrument.Generic.Lifecycle.Rule"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-BarrierEuropeanCash-Factory
-            title: "Daml.Finance.Instrument.Option.BarrierEuropeanCash.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-BarrierEuropeanCash-Instrument
-            title: "Daml.Finance.Instrument.Option.BarrierEuropeanCash.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-Dividend-Factory
-            title: "Daml.Finance.Instrument.Option.Dividend.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-Dividend-Instrument
-            title: "Daml.Finance.Instrument.Option.Dividend.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-Dividend-Election
-            title: "Daml.Finance.Instrument.Option.Dividend.Election"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-EuropeanCash-Factory
-            title: "Daml.Finance.Instrument.Option.EuropeanCash.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-EuropeanCash-Instrument
-            title: "Daml.Finance.Instrument.Option.EuropeanCash.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-EuropeanPhysical-Factory
-            title: "Daml.Finance.Instrument.Option.EuropeanPhysical.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-EuropeanPhysical-Instrument
-            title: "Daml.Finance.Instrument.Option.EuropeanPhysical.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-European-Factory
+            title: "Daml.Finance.Instrument.Option.European.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-European-Instrument
+            title: "Daml.Finance.Instrument.Option.European.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-Util
             title: "Daml.Finance.Instrument.Option.Util"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Asset-Factory
@@ -687,6 +659,8 @@ subtrees:
             title: "Daml.Finance.Instrument.Swap.InterestRate.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-InterestRate-Instrument
             title: "Daml.Finance.Instrument.Swap.InterestRate.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Util
+            title: "Daml.Finance.Instrument.Swap.Util"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Token-Factory
             title: "Daml.Finance.Instrument.Token.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Token-Instrument
@@ -725,12 +699,6 @@ subtrees:
             title: "Daml.Finance.Interface.Holding.Util"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Base-Instrument
             title: "Daml.Finance.Interface.Instrument.Base.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-Callable-Factory
-            title: "Daml.Finance.Interface.Instrument.Bond.Callable.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-Callable-Instrument
-            title: "Daml.Finance.Interface.Instrument.Bond.Callable.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-Callable-Types
-            title: "Daml.Finance.Interface.Instrument.Bond.Callable.Types"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-FixedRate-Factory
             title: "Daml.Finance.Interface.Instrument.Bond.FixedRate.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-FixedRate-Instrument
@@ -755,44 +723,24 @@ subtrees:
             title: "Daml.Finance.Interface.Instrument.Bond.ZeroCoupon.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-ZeroCoupon-Types
             title: "Daml.Finance.Interface.Instrument.Bond.ZeroCoupon.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-Types
-            title: "Daml.Finance.Interface.Instrument.Bond.Types"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Equity-Factory
             title: "Daml.Finance.Interface.Instrument.Equity.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Equity-Instrument
             title: "Daml.Finance.Interface.Instrument.Equity.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Generic-Election
+            title: "Daml.Finance.Interface.Instrument.Generic.Election"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Generic-Election-Factory
+            title: "Daml.Finance.Interface.Instrument.Generic.Election.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Generic-Factory
             title: "Daml.Finance.Interface.Instrument.Generic.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Generic-Instrument
             title: "Daml.Finance.Interface.Instrument.Generic.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-BarrierEuropeanCash-Factory
-            title: "Daml.Finance.Interface.Instrument.Option.BarrierEuropeanCash.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-BarrierEuropeanCash-Instrument
-            title: "Daml.Finance.Interface.Instrument.Option.BarrierEuropeanCash.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-BarrierEuropeanCash-Types
-            title: "Daml.Finance.Interface.Instrument.Option.BarrierEuropeanCash.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Dividend-Factory
-            title: "Daml.Finance.Interface.Instrument.Option.Dividend.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Dividend-Instrument
-            title: "Daml.Finance.Interface.Instrument.Option.Dividend.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Dividend-Types
-            title: "Daml.Finance.Interface.Instrument.Option.Dividend.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Dividend-Election-Factory
-            title: "Daml.Finance.Interface.Instrument.Option.Dividend.Election.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-EuropeanCash-Factory
-            title: "Daml.Finance.Interface.Instrument.Option.EuropeanCash.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-EuropeanCash-Instrument
-            title: "Daml.Finance.Interface.Instrument.Option.EuropeanCash.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-EuropeanCash-Types
-            title: "Daml.Finance.Interface.Instrument.Option.EuropeanCash.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-EuropeanPhysical-Factory
-            title: "Daml.Finance.Interface.Instrument.Option.EuropeanPhysical.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-EuropeanPhysical-Instrument
-            title: "Daml.Finance.Interface.Instrument.Option.EuropeanPhysical.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-EuropeanPhysical-Types
-            title: "Daml.Finance.Interface.Instrument.Option.EuropeanPhysical.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Types
-            title: "Daml.Finance.Interface.Instrument.Option.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-European-Factory
+            title: "Daml.Finance.Interface.Instrument.Option.European.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-European-Instrument
+            title: "Daml.Finance.Interface.Instrument.Option.European.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-European-Types
+            title: "Daml.Finance.Interface.Instrument.Option.European.Types"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Asset-Factory
             title: "Daml.Finance.Interface.Instrument.Swap.Asset.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Asset-Instrument
@@ -839,10 +787,6 @@ subtrees:
             title: "Daml.Finance.Interface.Instrument.Token.Types"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Effect
             title: "Daml.Finance.Interface.Lifecycle.Effect"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Election
-            title: "Daml.Finance.Interface.Lifecycle.Election"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Election-Factory
-            title: "Daml.Finance.Interface.Lifecycle.Election.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Event
             title: "Daml.Finance.Interface.Lifecycle.Event"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Event-Distribution
@@ -887,8 +831,6 @@ subtrees:
             title: "Daml.Finance.Interface.Util.Disclosure"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Effect
             title: "Daml.Finance.Lifecycle.Effect"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Election
-            title: "Daml.Finance.Lifecycle.Election"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-ElectionEffect
             title: "Daml.Finance.Lifecycle.ElectionEffect"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Event-Distribution
@@ -1044,6 +986,9 @@ subtrees:
         title: "Security & Key Management"
   - file: operate-a-daml-ledger/infrastructure-automation/index
     title: "Infrastructure Automation (Node and Domain)"
+    entries:
+    - file: canton/reference/admin_apis
+      title: "Administration APIs"
   - file: canton/usermanual/performance
     title: "Scaling and Performance"
   - file: operate-a-daml-ledger/advanced-operations/index
@@ -1074,8 +1019,6 @@ subtrees:
 - caption: "Help"
   entries:
 
-  - file: canton/reference/error_codes
-    title: "Error Codes"
   - file: daml/troubleshooting
     title: "Troubleshooting"
   - file: support/support
@@ -1284,6 +1227,8 @@ subtrees:
           title: "Security"
         - file: ops/system_architecture_faq
           title: "System Architecture FAQ"
+      - file: canton/reference/error_codes
+        title: "Canton Error Codes"
       - file: canton/usermanual/FAQ
         title: "Canton Frequently Asked Questions"
   - file: concepts/test-evidence
@@ -1294,5 +1239,10 @@ subtrees:
 
   - file: concepts/interoperability
     title: "Daml Ledger Interoperability"
+  - file: tools/export/index
+    title: "Ledger Export"
   - file: tools/non-repudiation
     title: "Non-repudiation"
+  - file: tools/visual
+    title: "Visualizing Daml Contracts"
+ 
