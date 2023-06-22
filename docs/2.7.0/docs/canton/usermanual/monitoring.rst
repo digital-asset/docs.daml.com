@@ -8,18 +8,89 @@
 Monitoring
 ==========
 
+Introduction
+------------
+
+Observability (also known as “monitoring”) can determine if the Daml Enterprise solution is healthy or not healthy. If the state is not healthy, observability helps diagnose the root cause. There are three parts to observability: metrics, logs, and traces. These are described in this section.
+
+To avoid becoming overwhelmed by the number of metrics and log messages, follow these steps:
+
+- Read the shortcut to learning what is important, which is described below in the section :ref:`Hands-On with the Daml Enterprise - Observability Example <hands-on>`. It is a great starting point and an inspiration when building your metric monitoring.
+- For an overview of how most metrics are exposed, read the section :ref:`Golden Signals and Key Metrics Quick Start <golden>` below. It describes the philosophy behind metric naming and labeling.
+
+The remaining sections provide references to more detailed information. 
+
+.. _hands-on:
+
+Hands-On with the Daml Enterprise - Observability Example
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The `Daml Enterprise - Observability Example <https://github.com/digital-asset/daml-platform-observability-example>`__ GitHub repository provides a complete reference example for exploring the metrics that Daml Enterprise exposes. You can use it in a hands-on way to explore the collection, aggregation, filtering, and visualization of metrics. It is self-contained, with the following components:
+
+- An example Docker compose file to create a run-time for all the components
+- Some shell scripts to generate requests to the Daml Enterprise solution
+- A Prometheus config file to scrape the metrics data
+- A Grafana template file(s) to visualize the metrics in a meaningful way, such as shown below in the example dashboard
+
+.. figure:: images/noc_dashboard.png
+   :alt: A dashboard showing metrics to measure the health of the system.
+
+   Dashboard with metrics
+
+.. _golden:
+
+Golden Signals and Key Metrics Quick Start
+------------------------------------------
+
+The best practice for `monitoring a microservices application <https://sre.google/sre-book/monitoring-distributed-systems/>`__ is an approach known as the `Golden Signals <https://www.blameless.com/blog/4-sre-golden-signals-what-they-are-and-why-they-matter/>`__, or `the RED method <https://www.weave.works/blog/the-red-method-key-metrics-for-microservices-architecture/>`__. In this approach, metric monitoring determines whether the application is healthy and, if not healthy, which service is the root cause of the issue. The Golden Signals for HTTP and gRPC endpoints are supported for all endpoints. Key metrics specific to Daml Enterprises are also available. These are described below.
+
+The following Golden Signal metrics for each HTTP and gRPC API are available:
+
+- Input request rate, as a counter
+- Error rate, as a counter (discussed below)
+- Latency (the time to process a request), as a histogram
+- Size of the payload, as a counter, following the `Apache HTTP precedent <https://github.com/Lusitaniae/apache_exporter>`__
+
+You can filter or aggregate each metric using its accompanying labels. The instrumentation labels added to each HTTP API metric are as follows:
+
+- ``http_verb``: the HTTP verb (for example: GET, POST)
+- ``http_status``: the status code (for example: 200, 401, 403, 504)
+- ``host``: the host identifier
+- ``daml_version``: the Daml release number
+- ``service``: a string to identify what Daml service or Canton component is running in this process (for example: ``participant``, ``domain``, ``json_api``), as well as ``domain`` if several Canton components run in a single process
+- ``path``: the request made to the endpoint (for example: ``/v1/create``, ``/v1/exercise``)
+
+The gRPC protocol is layered on top of HTTP/2, so certain labels (such as the ``daml_version`` and ``service``) from the above section are included. The labels added by default to each `gRPC API metric <https://docs.daml.com/ops/common-metrics.html#grpc-metrics>`__ are as follows:
+
+- ``canton_version``: the `Canton protocol version <https://docs.daml.com/canton/usermanual/versioning.html#canton-protocol-version>`__
+- ``grpc_code``: the human readable status code for gRPC (for example: ``OK``, ``CANCELLED``, ``DEADLINE_EXCEEDED``)
+- The type of the client/server gRPC `request <http://www.grpc.io/docs/guides/concepts.html#rpc-life-cycle>`__, under the labels ``grpc_client_type`` and ``grpc_server_type``
+- The protobuf package and service names, under the labels ``grpc_service_name`` and ``grpc_method_name``
+
+The following other key metrics are monitored:
+
+- A binary gauge indicates whether the node is `healthy or not healthy <https://docs.daml.com/ops/common-metrics.html#health-metrics>`__. This can also be used to infer which node is passive in a highly available configuration because it will show as not being healthy, while the active node is always healthy.
+- A binary gauge signals whether a node is active or passive, for identifying which node is the active node.
+- A binary gauge `detects when pruning is occurring <https://docs.daml.com/ops/common-metrics.html#pruning-metrics>`__.
+- Each participant node measures the count of the inflight (dirty) requests so the user can see if ``maxDirtyRequests`` limit is close to being hit.  The metrics are:  ``canton_dirty_requests`` and ``canton_max_dirty_requests``.
+- Each participant node records the distribution of events (updates) received by the participant and allows drill-down by event type (package upload, party creation, or transaction), status (success or failure), participant ID, and application ID (if available). The counter is called ``daml_indexer_events_total``.
+- The ledger event requests are totaled in a counter called ``daml_indexer_metered_events_total``.
+- Metrics are available for `monitoring the usage of JVM execution services <https://docs.daml.com/ops/common-metrics.html#java-execution-service-metrics>`__ used by Daml components.
+- `JVM garbage collection metrics <https://docs.daml.com/ops/common-metrics.html#jvm-metrics>`__ are collected.
+
+This list is not exhaustive. It highlights the most important metrics.
+
 .. _logging:
 
 Logging
 -------
-Canton uses `Logback <https://logback.qos.ch>`__ as the logging library. All Canton logs derive from the logger ``com.digitalasset.canton``.
-By default, Canton will write a log to the file ``log/canton.log`` using the ``INFO``
-log-level and will also log WARN and ERROR to stdout.
+Canton uses `Logback <https://logback.qos.ch>`__ as the logging library. All Canton logs derive from the logger ``com.digitalasset.canton``. By default, Canton will write a log to the file ``log/canton.log`` using the ``INFO``
+log-level and will also log ``WARN`` and ``ERROR`` to stdout.
 
 How Canton produces log files can be configured extensively on the command line using the following options:
 
-- ``-v`` (or ``--verbose``) is a short option to set the canton log level to ``DEBUG``. This is likely the most common log option you will use.
-- ``--debug`` sets all log levels, except stdout which is set to ``INFO``, to ``DEBUG``. Note that ``DEBUG`` logs of external libraries can be very noisy.
+- ``-v`` (or ``--verbose``) is a short option to set the Canton log level to ``DEBUG``. This is likely the most common log option you will use.
+- ``--debug`` sets all log levels except stdout to ``DEBUG``. Stdout is set to ``INFO``. Note that ``DEBUG`` logs of external libraries can be very noisy.
 - ``--log-level-root=<level>`` configures the log-level of the root logger. This changes the log level of Canton and of external libraries, but not of stdout.
 - ``--log-level-canton=<level>`` configures the log-level of only the Canton logger.
 - ``--log-level-stdout=<level>`` configures the log-level of stdout. This will usually be the text displayed in the Canton console.
@@ -28,12 +99,12 @@ How Canton produces log files can be configured extensively on the command line 
 - ``--log-file-rolling-history=12`` configures the number of historical files to keep when using the rolling appender.
 - ``--log-file-rolling-pattern=YYYY-mm-dd`` configures the rolling file suffix (and therefore the frequency) of how files should be rolled.
 - ``--log-truncate`` configures whether the log file should be truncated on startup.
-- ``--log-profile=container`` provides a default set of logging settings for a particular setup. Right now, we only support the ``container`` profile which logs to STDOUT and turns of flat file logging to avoid storage leaks due to log files within a container.
+- ``--log-profile=container`` provides a default set of logging settings for a particular setup. Only the ``container`` profile is supported, which logs to STDOUT. It turns off flat file logging to avoid storage leaks due to log files within a container.
 - ``--log-immediate-flush=false`` turns off immediate flushing of the log output to the log file.
 
-Please note that if you use ``--log-profile``, the order of the command line arguments matters. The profile settings can be overridden on the command line by placing adjustments after the profile has been selected.
+Note that if you use ``--log-profile``, the order of the command line arguments matters. The profile settings can be overridden on the command line by placing adjustments after the profile has been selected.
 
-Canton supports the normal log4j logging levels: ``TRACE, DEBUG, INFO, WARN, ERROR``.
+Canton supports the normal log4j logging levels: ``TRACE``, ``DEBUG``, ``INFO``, ``WARN``, and ``ERROR``.
 
 For further customization, a custom `logback configuration <https://logback.qos.ch/manual/configuration.html>`__ can be provided using ``JAVA_OPTS``.
 
@@ -42,61 +113,53 @@ For further customization, a custom `logback configuration <https://logback.qos.
     JAVA_OPTS="-Dlogback.configurationFile=./path-to-file.xml" ./bin/canton --config ...
 
 
-If you use a custom log-file, the command line arguments for logging will not have any effect, except ``--log-level-canton`` and ``--log-level-root`` which can still be used to adjust the log level of the root loggers.
+If you use a custom log-file, the command line arguments for logging will not have any effect, except that ``--log-level-canton`` and ``--log-level-root`` can still be used to adjust the log level of the root loggers.
 
 .. _lnav:
 
 Viewing Logs
 ~~~~~~~~~~~~
 
-We strongly recommend the use of a log file viewer such as `lnav <https://lnav.org/>`__ to view Canton logs and resolve issues.
-Among other features, lnav has automatic syntax highlighting, convenient filtering for specific log messages, and allows viewing log files of different Canton components in a single view.
-This makes viewing logs and resolving issues a lot more efficient than simply using standard UNIX tools such as less or grep.
+A log file viewer such as `lnav <https://lnav.org/>`__ is recommended to view Canton logs and resolve issues. Among other features, lnav has automatic syntax highlighting, convenient filtering for specific log messages, and the ability to view log files of different Canton components in a single view. This makes viewing logs and resolving issues more efficient than using standard UNIX tools such as less or grep.
 
-In particular, we have found the following features especially useful when using ``lnav``:
+The following features are especially useful when using ``lnav``:
 
-- viewing log files of different Canton components in `a single view <https://lnav.org/features#single-log-view>`__ merged according to timestamps (``lnav <log1> <log2> ...``).
-- `filtering <https://docs.lnav.org/en/latest/usage.html#filtering>`__ specific log messages in (``:filter-in <regex>``) or out (``:filter-out <regex>``). When filtering messages, e.g. with a given trace-id, in, a transaction can be traced across different components, especially when using the single-view-feature described above.
-- `searching <https://docs.lnav.org/en/latest/usage.html#searching>`__ for specific log messages (``/<regex>``) and jumping in-between them (``n`` and ``N``).
-- automatic syntax highlighting of parts of log messages (e.g. timestamps) and log messages themselves (e.g. ``WARN`` log messages are yellow).
-- `jumping <https://docs.lnav.org/en/latest/usage.html#searching>`__ in-between error (``e`` and ``E``) and warn messages (``w`` and ``W``).
-- selectively activating and deactivating different filters and files (``TAB`` and `` `` to activate/deactivate a filter).
-- marking lines (``m``) and jumping back-and-forth between marked lines (``u`` and ``U``).
-- jumping back-and-forth between lines that have the same :ref:`trace-id <tracing>` (``o`` and ``O``).
+- Viewing log files of different Canton components in `a single view <https://lnav.org/features#single-log-view>`__, merged according to timestamps (``lnav <log1> <log2> ...``).
+- `Filtering <https://docs.lnav.org/en/latest/usage.html#filtering>`__ specific log messages in (``:filter-in <regex>``) or out (``:filter-out <regex>``). When filtering messages (for example, with a given trace-id), a transaction can be traced across different components, especially when using the single-view-feature described earlier.
+- `Searching <https://docs.lnav.org/en/latest/usage.html#searching>`__ for specific log messages (``/<regex>``) and jumping between them (``n`` and ``N``).
+- Automatic syntax highlighting of parts of log messages (such as timestamps) and log messages themselves (for example, ``WARN`` log messages are yellow).
+- `Jumping <https://docs.lnav.org/en/latest/usage.html#searching>`__ between error (``e`` and ``E``) and warn messages (``w`` and ``W``).
+- Selectively activating and deactivating different filters and files (``TAB`` and `` `` to activate/deactivate a filter).
+- Marking lines (``m``) and jumping back and forth between marked lines (``u`` and ``U``).
+- Jumping back and forth between lines that have the same :ref:`trace-id <tracing>` (``o`` and ``O``).
 
-The `custom lnav log format file <https://docs.lnav.org/en/latest/formats.html>`__ for Canton logs ``canton.lnav.json`` is bundled in any Canton release. It can be installed with ``lnav -i canton.lnav.json``.
-JSON based log files (which need to use the file suffix ``.clog``) can be viewed using the ``canton-json.lnav.json`` format file.
+The `custom lnav log format file <https://docs.lnav.org/en/latest/formats.html>`__ for Canton logs ``canton.lnav.json`` is bundled in any Canton release. You can install it with ``lnav -i canton.lnav.json``. JSON-based log files (which need to use the file suffix ``.clog``) can be viewed using the ``canton-json.lnav.json`` format file.
 
 .. _detailed_logging:
 
 Detailed Logging
 ~~~~~~~~~~~~~~~~
 
-By default, logging will omit details in order to not write sensitive data into log files. For debug or
-educational purposes, you can turn on additional logging using the following configuration switches:
+By default, logging omits details to avoid writing sensitive data into log files. For debugging or educational purposes, you can turn on additional logging using the following configuration switches:
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/logging-event-details.conf
 
-In particular, this will turn on payload logging in the ``ApiRequestLogger``, which records every GRPC API invocation,
-and will turn on detailed logging of the ``SequencerClient`` and for the transaction trees. Please note that all
-additional events will be logged at DEBUG level.
+This turns on payload logging in the ``ApiRequestLogger``, which records every GRPC API invocation, and turns on detailed logging of the ``SequencerClient`` and the transaction trees. Please note that all additional events are logged at ``DEBUG`` level.
 
 .. _tracing:
 
 Tracing
 -------
 
-For further debuggability, Canton provides a trace-id which allows to trace the processing
+For further debugging, Canton provides a trace-id which allows you to trace the processing
 of requests through the system. The trace-id is exposed to logback through the
 *mapping diagnostic context* and can be included in the logback output pattern using ``%mdc{trace-id}``.
 
-The trace-id propagation is enabled by setting the ``canton.monitoring.tracing.propagation = enabled``
-configuration option, which is already enabled by default.
+The trace-id propagation is enabled by setting the ``canton.monitoring.tracing.propagation = enabled`` configuration option, which is enabled by default.
 
-It is also possible to configure the service where traces and spans are reported to, for observing distributed traces.
-Refer to :ref:`Traces <traces>` below to see what it looks like.
+You can configure the service where traces and spans are reported for observing distributed traces. Refer to :ref:`Traces <traces>` for a preview.
 
-Currently Jaeger and Zipkin are supported. For example, Jaeger reporting can be configure as follows:
+Jaeger and Zipkin are supported. For example, Jaeger reporting can be configured as follows:
 
 ::
 
@@ -106,9 +169,9 @@ Currently Jaeger and Zipkin are supported. For example, Jaeger reporting can be 
       port = ... // default: 14250
     }
 
-The configuration above will connect to a running Jaeger server to report tracing information.
+This configuration connects to a running Jaeger server to report tracing information.
 
-It is possible to easily run Jaeger in a Docker container as follows:
+You can run Jaeger in a Docker container as follows:
 
 ::
 
@@ -117,18 +180,15 @@ It is possible to easily run Jaeger in a Docker container as follows:
       -p 14250:14250 \
       jaegertracing/all-in-one:1.22.0
 
-If you prefer not to use Docker, it is also possible to download the binary for your specific OS at `Download Jaeger <https://www.jaegertracing.io/download/#binaries>`_. Unzip the file and then simply run the binary titled `jaeger-all-in-one` (no need for providing any arguments to it).
-By default Jagger will expose port `16686` for its UI which can be seen in a browser window, and port `14250` to which Canton will report trace information. Please make sure to properly expose these ports.
+If you prefer not to use Docker, you can download the binary for your specific OS at `Download Jaeger <https://www.jaegertracing.io/download/#binaries>`_. Unzip the file and then run the binary `jaeger-all-in-one` (no arguments are needed).
+By default, Jaeger will expose port `16686` (for its UI, which can be seen in a browser window) and port `14250` (to which Canton will report trace information). Be sure to properly expose these ports.
 
-Please make sure that all Canton nodes in the network report to the same Jagger server in order to have an accurate view of the full traces, and that the Jaeger server is reachable by all Canton nodes.
+Make sure that all Canton nodes in the network report to the same Jaeger server to have an accurate view of the full traces. Also, ensure that the Jaeger server is reachable by all Canton nodes.
 
 Sampling
 ~~~~~~~~
 
-It is also possible to change how often spans are sampled (i.e. reported to the configured exporter).
-By default it will always report (``monitoring.tracing.tracer.sampler.type = always-on``).
-It can also be configured to never report (``monitoring.tracing.tracer.sampler.type = always-off``, although not super useful).
-And it can also be configured so that a specific fraction of spans are reported like below:
+You can change how often spans are sampled and reported to the configured exporter. By default, it will always report (``monitoring.tracing.tracer.sampler.type = always-on``). You can configure it to never report (``monitoring.tracing.tracer.sampler.type = always-off``), although this is less useful. Also, you can configure only a specific fraction of spans to be reported as follows:
 
 ::
 
@@ -137,184 +197,151 @@ And it can also be configured so that a specific fraction of spans are reported 
       ratio = 0.5
     }
 
-There is one last property of sampling that can be optionally changed. By default we have parent-based sampling on (``monitoring.tracing.tracer.sampler.parent-based = true``)
-which means that a span is sampled iff its parent is sampled (the root span will follow the configured sampling strategy).
-This way, there will never be incomplete traces, so either the full trace is sampled or not.
-If this property is changed, all spans will follow the configured sampling strategy ignoring whether the parent is sampled or not.
+You can also change the parent-based sampling property. By default, it is turned on (``monitoring.tracing.tracer.sampler.parent-based = true``). When turned on, a span is sampled iff its parent is sampled (the root span will follow the configured sampling strategy). There will never be incomplete traces; either the full trace is sampled or it is not. If you change this property, all spans will follow the configured sampling strategy and ignore whether the parent is sampled.
 
 Known Limitations
 ~~~~~~~~~~~~~~~~~
 
-Not every trace created which can currently be observed in logs are reported to the configured trace collector service.
-Traces originated at console commands or that are part of the transaction protocol are largely well reported, while other kinds of traces
-are being added to the set of reported traces as the need arise.
+Not every trace created which can be observed in logs is reported to the configured trace collector service. Traces originated at console commands or that are part of the transaction protocol are largely reported, while other types of traces are added to the set of reported traces as the need arises.
 
 .. todo::
     The limitation mentioned below is to be addressed as part of the below tickets:
     `#10633 <https://github.com/DACH-NY/canton/issues/10633>`_
     `#14256 <https://github.com/digital-asset/daml/issues/14256>`_
 
-Also, even the transaction protocol trace has a know limitation which is that once some command is submitted (and its trace fully reported),
-if there are any resulting daml events which are subsequently processed as a result, a new trace is created as currently the ledger api does not
-propagate any trace context info from command submission to transaction subscription. This can be observed for example by the fact that
-if a participant creates a ``Ping`` contract, it is possible to see the full transaction processing trace of the ``Ping`` command being submitted, but then
-the participant which processes the ``Ping`` by exercising ``Respond`` and creating the ``Pong`` contract will then create a separate trace instead of continuing to use the same one.
+Also, the transaction protocol trace has a known limitation. Once a command is submitted and its trace is fully reported, a new trace is created for any resulting Daml events that are processed. This occurs because the ledger API does not propagate any trace context information from the command submission to the transaction subscription. As an example, when a participant creates a ``Ping`` contract, you can see the full transaction processing trace of the ``Ping`` command being submitted. However, a participant that processes the ``Ping`` by exercising ``Respond`` and creating a ``Pong`` contract creates a separate trace instead of using the same one.
 
-Note that this is different than if a single Daml transaction results in multiple actions at the same time (multiple contracts being archived and created).
-In that case a single trace would encompass the whole process, since it is happening as part of a single transaction as opposed to as a result of
-some external process reacting to Daml events.
+This differs from a situation where a single Daml transaction results in multiple actions at the same time, such as archiving and creating multiple contracts. In that case, a single trace encompasses the entire process, since it occurs as part of a single transaction rather than the result of an external process reacting to Daml events.
 
 .. _traces:
 
 Traces
 ~~~~~~
 
-Each span represents a single operation within a trace. A trace is a directed acyclic graph (DAG) of spans, where the edges between spans are defined as parent/child relationships (definitions taken from `Opentelemetry's glossary <https://opentelemetry.io/docs/concepts/glossary/>`_).
+Traces contain operations that are each represented by a span. A trace is a directed acyclic graph (DAG) of spans, where the edges between spans are defined as parent/child relationships (the definitions come from the `Opentelemetry glossary <https://opentelemetry.io/docs/concepts/glossary/>`_).
 
-Canton currently reports several different kinds of traces. For example, every Canton console command that interacts with the admin api starts a trace whose initial span last for the whole duration of the command, including the GRPC call to the specific admin api endpoint.
+Canton reports several types of traces. As one example, every Canton console command that interacts with the Admin API starts a trace whose initial span last for the entire duration of the command, including the GRPC call to the specific Admin API endpoint.
 
 .. figure:: ./images/ping-trace.jpg
-   :align: center
    :width: 100%
+   :alt: A graph showing the trace of a Canton ping containing 18 spans.
 
-One important trace is the trace of Daml command submission. This trace is illustrated above as part of performing a Canton ping using the console, which contains 18 spans.
-Note that this is what it looks like as of October 2022, and it may have changed slightly.
-The current tracing focuses largely on the message exchange via the sequencer, without digging deep into the message handlers and further processing of transactions. We will close those gaps in the future.
-The ping illustrated here is started by ``participant1`` and has ``participant2`` as the target.
+   Graph of a Canton ping trace containing 18 spans
 
-Notice that in some cases spans may start later than the end of their parent, due to their processing happening asynchronously.
-That is, at a later point, as opposed to during the processing of the predecessor.
-This typically happens when the new operation gets placed on a queue to be handled later, which immediately frees the parent span and ends it.
-It is made clear below the moments when this happens.
+Traces of Daml command submissions are important. The trace illustrated in the figure results from performing a Canton ping using the console. It contains 18 spans. The ping is started by ``participant1``, and ``participant2`` is the target. The trace focuses on the message exchange through the sequencer without digging deep into the message handlers or further processing of transactions.
 
-The initial span (span 1) covers the duration of the whole ping operation, with a GRPC request made by the console which is handled by the GrpcPingService (span 2) in the participant node which also lasts for the whole duration of the ping operation.
+In some cases, spans may start later than the end of their parents, due to asynchronous processing. This typically occurs when a new operation is placed on a queue to be handled later, which immediately frees the parent span and ends it.
 
-For context, the Canton ping consists of 3 different Daml commands:
+The initial span (span 1) covers the duration of the ping operation. In span 2, the GrpcPingService in the participant node handles a GRPC request made by the console. It also lasts for the duration of the ping operation.
 
-1. ``participant1``’s admin party creates the ``Ping`` contract
-2. ``participant2``’s admin party exercises the ``Respond`` consuming choice on the contract, which results in the creation of a ``Pong`` contract.
-3. ``participant1``’s admin party exercises the ``Ack`` consuming choice on it.
+The Canton ping consists of three Daml commands:
+
+1. The admin party for ``participant1`` creates a ``Ping`` contract.
+2. The admin party for ``participant2`` exercises the ``Respond`` consuming choice on the contract, which results in the creation of a ``Pong`` contract.
+3. The admin party for ``participant1`` exercises the ``Ack`` consuming choice on it.
 
 .. todo::
     `#10633 <https://github.com/DACH-NY/canton/issues/10633>`_
 
-Starting at span 3 in the example trace we see the submission of the first of the three Daml commands (the creation of the ``Ping`` contract).
-Due to a limitation explained in the next section, the other 2 Daml command submissions do not get linked to this whole trace. It is possible to find them separately.
-In any case span 2 will only complete once the 3 Daml commands are completed.
+The submission of the first of the three Daml commands (the creation of the Ping contract) starts at span 3 in the example trace. Due to a limitation explained in the next section, the other two Daml command submissions are not linked to this trace. It is possible to find them separately. In any case, span 2 will only complete once the three Daml commands are completed.
 
-At span 3 the participant node itself is on the client side of the ledger-api, but in other use cases it could also be an application integrated with the participant.
-This span lasts for the duration of this GRPC call, which gets received on the server side (span 4) and gets handled by the ``CantonSyncService`` (span 5).
-At this point the request is received and acknowledged, but not fully processed. It is processed asynchronously later on, which means that spans 3 to 5 will complete before the request is actually handled.
+At span 3, the participant node is on the client side of the ledger API. In other use cases, it could be an application integrated with the participant. This span lasts for the duration of the GRPC call, which is received on the server side in span 4 and handled by the ``CantonSyncService`` in span 5. The request is then received and acknowledged, but not fully processed. It is processed asynchronously later, which means that spans 3 through 5 will complete before the request is handled.
 
-Currently missing from the trace, which accounts for some of the gap between spans 5 and 6, is the domain routing where the participant decides which domain to use for the
-command submission, and the preparation of the initial set of messages to be sent. At span 6 we see the start of the Canton transaction protocol. Here ``participant1`` sends a request to ``sequencer1`` for it to sequence the initial set of confirmation requests messages as part of phase 1 of the transaction protocol.
+Missing steps from the trace (which account for part of the gap between spans 5 and 6) are:
 
-The transaction protocol has 7 phases. An in-detail document about them will be made available soon, currently a simple description can be found at :ref:`transaction processing <canton-overview-tx-processing>`.
+- The domain routing where the participant decides which domain to use for the command submission.
+- The preparation of the initial set of messages to be sent.
 
-At span 7 we see ``sequencer1`` receive the request and register it. Receipt of the messages is not part of this span, as that happens asynchronously at a later point.
+The start of the Canton transaction protocol begins at span 6. In this span, ``participant1`` sends a request to ``sequencer1`` to sequence the initial set of confirmation request messages as part of phase 1 of the transaction protocol. The transaction protocol has :ref:`seven phases <canton-overview-tx-processing>`.
 
-At span 18, as part of phase 2, ``mediator1`` receives an informee message and all it needs to do is validate and register it. As it doesn't need to respond, span 18 has no children.
+At span 7, ``sequencer1`` receives the request and registers it. Receipt of the messages is not part of this span. That happens asynchronously at a later point.
 
-As part of phase 3, ``participant2`` receives a message (which we can see at span 8) and ``participant1`` also receives a message (which we can see at span 9).
-Both participants asynchronously validate the messages. ``participant2`` does not need to respond since it is only an observer, that's why span 8 has no children.
-``participant1`` however will respond, which is visible at span 10 where it is again making a call to the ``sequencer1``, which receives it at span 11.
+At span 18, as part of phase 2, ``mediator1`` receives an informee message. It only needs to validate and register it. Since it doesn't need to respond, span 18 has no children.
 
-At span 12, ``participant1`` receives a successful send response message that signals that his message to the mediator was successfully sequenced.
-This is happening as part of phase 4, where confirmation responses are sent to the mediator. We can see the mediator receive it at span 13, and will then proceed to validate the message (phase 5).
+As part of phase 3, ``participant2`` receives a message (see span 8), and ``participant1`` also receives a message (see span 9). Both participants asynchronously validate the messages. ``participant2`` does not need to respond. Since it is only an observer, span 8 has no children. ``participant1`` responds, however, which is visible at span 10. There, it again makes a call to ``sequencer1``, which receives it at span 11.
 
-At this point, as we can see in spans 14 and 15, ``mediator1`` (now at phase 6) asks ``sequencer1`` to send the transaction result messages to the participants.
+At span 12, ``participant1`` receives a successful send response message that signals that its message to the mediator was successfully sequenced. This occurs as part of phase 4, where confirmation responses are sent to the mediator. The mediator receives it at span 13, and it validates the message (phase 5).
 
-To end this round of the transaction protocol, ``participant1`` and ``participant2`` receive their messages at spans 16 and 17 respectively. The messages are asynchronously validated and their projections of the virtual shared ledger are updated (phase 7).
+In spans 14 and 15, ``mediator1`` (now at phase 6) asks ``sequencer1`` to send the transaction result messages to the participants.
 
-As mentioned, there are 2 other transaction submission which are unlinked from this ping trace but are part of the operation. It is also possible to find them.
-The second one starts at a span titled ``admin-ping.processTransaction`` which is created by ``participant2``, and the third one has the same name but is initiated by ``participant1``.
+To end this round of the transaction protocol, ``participant1`` and ``participant2`` receive their messages at spans 16 and 17, respectively. The messages are asynchronously validated, and their projections of the virtual shared ledger are updated (phase 7).
+
+As mentioned, there are two other transaction submissions that are unlinked from this ping trace but are part of the operation. It is possible to find them.
+The second one starts at a span titled ``admin-ping.processTransaction``, which is created by ``participant2``. The third one has the same name but is initiated by ``participant1``.
 
 .. _status-commands:
 
 Status
 ------
 
-Each Canton node exposes rich status information. Running
+Each Canton node exposes rich status information. Running:
 
 .. code-block:: bash
 
     <node>.health.status
 
-will return a status object which can be one of
+returns a status object, which can be one of:
 
-- ``Failure`` - if the status of the node cannot be determined, including an error message why it failed
-- ``NotInitialized`` - if the node is not yet initialized
-- ``Success[NodeStatus]`` - if the status could be determined including the detailed status.
+- ``Failure``: if the status of the node cannot be determined, including an error message of why it failed
+- ``NotInitialized``: if the node is not yet initialized
+- ``Success[NodeStatus]``: if the status could be determined, including the detailed status
 
-Depending on the node type, the ``NodeStatus`` will differ. A participant node will respond with a message containing
+The ``NodeStatus`` differs depending on the node type. A participant node responds with a message containing:
 
-- ``Participant id:`` - the participant id of the node
-- ``Uptime:`` - the uptime of this node
-- ``Ports:`` - the ports on which the participant node exposes the Ledger and the Admin API.
-- ``Connected domains:`` - list of domains the participant is currently connected to properly
-- ``Unhealthy domains:`` - list of domains the participant is trying to be connected to but where the connection is not ready for command submission.
-- ``Active:`` - true if this instance is the active replica (can be false in case of the passive instance of a high-availability deployment)
-
-
-A domain node or a sequencer node will respond with a message containing
-
-- ``Domain id:`` - the unique identifier of the domain
-- ``Uptime:`` - the uptime of this node
-- ``Ports:`` - the ports on which the domain node exposes the Public and the Admin API
-- ``Connected Participants:`` - the list of connected participants
-- ``Sequencer:`` - a boolean flag indicating if the embedded sequencer writer is operational
+- ``Participant id``: the participant id of the node
+- ``Uptime``: the uptime of this node
+- ``Ports``: the ports on which the participant node exposes the Ledger and the Admin API.
+- ``Connected domains``: the list of domains to which the participant is properly connected
+- ``Unhealthy domains``: the list of domains to which the participant is trying to connect, but the connection is not ready for command submission
+- ``Active``: true if this instance is the active replica (It can be false in the case of the passive instance of a high-availability deployment.)
 
 
-A domain topology manager or a mediator node will return
+A domain node or a sequencer node responds with a message containing:
 
-- ``Node uid:`` - the unique identifier of the node
-- ``Uptime:`` - the uptime of this node
-- ``Ports:`` - the ports on which the node hosts its APIs.
-- ``Active:``  - true if this instance is the active replica (can be false in case of the passive instance of a high-availability deployment)
+- ``Domain id``: the unique identifier of the domain
+- ``Uptime``: the uptime of this node
+- ``Ports``: the ports on which the domain node exposes the Public and the Admin API
+- ``Connected Participants``: the list of connected participants
+- ``Sequencer``: a boolean flag indicating whether the embedded sequencer writer is operational
+
+A domain topology manager or a mediator node returns:
+
+- ``Node uid``: the unique identifier of the node
+- ``Uptime``: the uptime of this node
+- ``Ports``: the ports on which the node hosts its APIs
+- ``Active``: true if this instance is the active replica (It can be false in the case of the passive instance of a high-availability deployment.)
 
 
-Additionally, all nodes will also return a ``components`` field detailing the health state of each of its internal runtime dependency.
-The actual components differ per node, and can give further insights into its current status.
-Example components include storage access, domain connectivity, sequencer backend connectivity.
+Additionally, all nodes also return a ``components`` field detailing the health state of each of its internal runtime dependencies. The actual components differ per node and can give further insights into its current status. Example components include storage access, domain connectivity, and sequencer backend connectivity.
 
 .. _creating_dumps:
 
 Health Dumps
 ------------
 
-In order to provide efficient support, we need as much information as possible. For this purpose, Canton implements
-an information gathering facility that will gather key essential system information for our support staff.
-Therefore, if you encounter an error where you need our help, please ensure the following:
+You should provide as much information as possible to receive efficient support. For this purpose, Canton implements an information-gathering facility that gathers key essential system information for support staff. If you encounter an error where you need assistance, please ensure the following:
 
-- Start Canton in interactive mode, with the ``-v`` option to enable debug logging: ``./bin/canton -v -c <myconfig>``.
-  This will provide you with a console prompt.
-- Reproduce the error by following the steps that previously caused the error. Write down these steps so they can be
-  provided to support staff.
-- After you observe the error, type ``health.dump()`` into the Canton console to generate the ZIP file.
+- Start Canton in interactive mode, with the ``-v`` option to enable debug logging: ``./bin/canton -v -c <myconfig>``. This provides a console prompt.
+- Reproduce the error by following the steps that previously caused the error. Write down these steps so they can be provided to support staff.
+- After you observe the error, type ``health.dump()`` into the Canton console to generate a ZIP file.
 
-This will create a dump file (``.zip``) that stores the following information:
+This creates a dump file (``.zip``) that stores the following information:
 
 - The configuration you are using, with all sensitive data stripped from it (no passwords).
-- An extract of the logfile. We don't log overly sensitive data into log files.
+- An extract of the logfile. Overly sensitive data is not logged into log files.
 - A current snapshot on Canton metrics.
 - A stacktrace for each running thread.
 
-Please provide the gathered information together with the exact list of steps you did that lead
-to the issue to your support contact. Providing complete information is very important to us in order to help you
-troubleshoot your issues.
+Provide the gathered information to your support contact together with the exact list of steps that led to the issue. Providing complete information is very important to help troubleshoot issues.
 
 Remote Health Dumps
 ~~~~~~~~~~~~~~~~~~~
 
-When running a console configured to access remote nodes, the ``health.dump()`` command will gather health
-data from the remote nodes and package them in the resulting zip files. There is no special action required.
-It is also possible to obtain the health data of a specific node by targeting it when running the command.
-
-For instance:
+When running a console configured to access remote nodes, the ``health.dump()`` command gathers health data from the remote nodes and packages them into resulting zip files. There is no special action required. You can obtain the health data of a specific node by targeting it when running the command. For example:
 
 ``remoteParticipant1.health.dump()``
 
-When packaging large amounts of data, it can be useful to increase the default timeout of the dump command:
+When packaging large amounts of data, increase the default timeout of the dump command:
 
 ``health.dump(timeout = 2.minutes)``
 
@@ -326,35 +353,29 @@ Health Checks
 gRPC Health Check Service
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Each canton node can optionally be configured to start a gRPC server exposing the `gRPC Health Service <https://github.com/grpc/grpc/blob/master/doc/health-checking.md#service-definition>`__.
-Passive nodes (see :ref:`High Availability <ha_user_manual>` for more information on active/passive states) will return ``NOT_SERVING``.
-This should be considered when configuring `liveness and readiness probes in a Kubernetes environment <https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/>`__.
+Each Canton node can optionally be configured to start a gRPC server exposing the `gRPC Health Service <https://github.com/grpc/grpc/blob/master/doc/health-checking.md#service-definition>`__. Passive nodes (see :ref:`High Availability <ha_user_manual>` for more information on active/passive states) return ``NOT_SERVING``. Consider this when configuring `liveness and readiness probes in a Kubernetes environment <https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/>`__.
 
-The precise way the state is computed is subject to change and will likely evolve as we refine canton self monitoring capabilities.
+The precise way the state is computed is subject to change.
 
-Example monitoring configuration to be placed inside a node configuration object:
+Here is an example monitoring configuration to place inside a node configuration object:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/integration-testing/src/main/resources/include/health-monitoring.conf
 
 .. note::
 
-    The gRPC health server is configured per canton node, not per process, as is the case for the HTTP health check server (see below).
-    This means the configuration must be inserted within a node's configuration object.
+    The gRPC health server is configured per Canton node, not per process, as is the case for the HTTP health check server (see below). This means that the configuration must be inserted within a node's configuration object.
 
 .. note::
 
     To support usage as a Kubernetes liveness probe, the health server exposes a service named ``liveness`` that should be targeted when `configuring a gRPC probe <https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-grpc-liveness-probe>`__.
-    The latter service will always return ``SERVING``.
+    The latter service always returns ``SERVING``.
 
 HTTP Health Check
 ~~~~~~~~~~~~~~~~~
 
-The ``canton`` process can optionally expose an HTTP endpoint indicating if the process believes it is healthy.
-This may be used as an uptime check or as a `Kubernetes liveness probe <https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/>`__.
-If enabled, the ``/health`` endpoint will respond to a ``GET`` HTTP request with a 200 HTTP status code if healthy or 500 if unhealthy (with a plain text description of why it is unhealthy).
+The ``canton`` process can optionally expose an HTTP endpoint indicating whether the process believes it is healthy. This may be used as an uptime check or as a `Kubernetes liveness probe <https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/>`__. If enabled, the ``/health`` endpoint will respond to a ``GET`` HTTP request with a 200 HTTP status code (if healthy) or 500 (if unhealthy, along with a plain text description of why it is unhealthy).
 
-To enable this health endpoint add a ``monitoring`` section to the canton configuration.
-As this health check is for the whole process, it is added directly to the ``canton`` configuration rather than for a specific node.
+To enable this health endpoint, add a ``monitoring`` section to the Canton configuration. Since this health check is for the whole process, add it directly to the ``canton`` configuration rather than for a specific node.
 
 ::
 
@@ -371,7 +392,7 @@ As this health check is for the whole process, it is added directly to the ``can
      }
   }
 
-This health check will have ``participant1`` "ledger ping" itself every 30 seconds. The process will be considered healthy if the ping is successful.
+This health check causes ``participant1`` to "ledger ping" itself every 30 seconds. The process is considered healthy if the ping is successful.
 
 .. _canton-metrics:
 
@@ -381,10 +402,9 @@ Metrics
 Enabling the Prometheus Reporter
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-We recommend configuring `Prometheus <https://prometheus.io>`__ for metrics reporting.
-Other reporters (jmx, graphite, csv) are currently supported but they are deprecated and will be removed in the future. Any such reporter should be migrated to Prometheus.
+It is recommended to configure `Prometheus <https://prometheus.io>`__ for metrics reporting. Other reporters (jmx, graphite, and csv) are supported, but they are deprecated. Any such reporter should be migrated to Prometheus.
 
-Prometheus can be enabled using
+Prometheus can be enabled using:
 
 ::
 
@@ -397,24 +417,20 @@ Prometheus can be enabled using
 
 Prometheus-Only Metrics
 ~~~~~~~~~~~~~~~~~~~~~~~
-Some metrics are available only when using the Prometheus reporter.
-These metrics include common gRPC and HTTP metrics (helping you to measure `the four golden signals <https://sre.google/sre-book/monitoring-distributed-systems/#xref_monitoring_golden-signals>`__),
-Java Executor Services metrics and JVM GC and memory usage metrics (if enabled).
-
-`The metrics are documented in detail here. <https://docs.daml.com/ops/common-metrics.html>`__
+Some metrics are available only when using the Prometheus reporter. These metrics include common gRPC and HTTP metrics (which help you to measure `the four golden signals <https://sre.google/sre-book/monitoring-distributed-systems/#xref_monitoring_golden-signals>`__), Java Executor Services metrics, and JVM GC and memory usage metrics (if enabled). The metrics are documented `in detail here. <https://docs.daml.com/ops/common-metrics.html>`__
 
 Any metric marked with ``*`` is available only when using the Prometheus reporter.
 
 Deprecated Reporters
 ~~~~~~~~~~~~~~~~~~~~
 
-JMX-based reporting (for testing purposes only) can be enabled using
+JMX-based reporting (for testing purposes only) can be enabled using:
 
 ::
 
     canton.monitoring.metrics.reporters = [{ type = jmx }]
 
-Additionally, metrics can be written to a file
+Additionally, metrics can be written to a file:
 
 ::
 
@@ -429,7 +445,7 @@ Additionally, metrics can be written to a file
       }]
     }]
 
-or reported via Graphite (to Grafana) using
+or reported via Graphite (to Grafana) using:
 
 ::
 
@@ -445,11 +461,9 @@ or reported via Graphite (to Grafana) using
     }]
 
 
-When using the ``graphite`` or the ``csv`` reporter, Canton periodically evaluates all metrics matching the given filters.
-It is therefore advisable to filter for only those metrics that are relevant to you.
+When using the ``graphite`` or the ``csv`` reporter, Canton periodically evaluates all metrics matching the given filters. Filter for only those metrics that are relevant to you.
 
-In addition to Canton metrics, the process can also report Daml metrics (of the ledger api server). Optionally,
-JVM metrics can be included using
+In addition to Canton metrics, the process can also report Daml metrics (of the Ledger API server). Optionally, JVM metrics can be included using:
 
 ::
 
