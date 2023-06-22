@@ -144,6 +144,28 @@ process up to the implementation.
 * The party executing settlement can be chosen as well, as described in the previous tutorial on
   :doc:`Settlement <settlement>`.
 
+Which party should take the role as *lifecycler*?
+=================================================
+
+From a design perspective, a lifecycler is often the party that defines the lifecycle events
+happening on an instrument (although they can be different). In the simplified example above, it is
+the bank. In a more realistic example, it would probably be the issuer.
+In some special cases, if we really need the owner to be the lifecycler, we can use a delegation
+contract.
+
+The lifecycler is currently trusted with:
+
+* Timely and complete Event processing
+* Providing accurate Observations
+
+Which party is the provider of the Effect?
+==========================================
+
+Most of the time the provider of the Effect is the lifecycler. However, in some cases we may want to
+avoid disclosing the claimed holdings to the lifecycler. The provider of the Effect gets to see all
+holdings claimed against that one Effect contract. If we wish to avoid that, we then need a
+different effect provider.
+
 Can an instrument act as its own lifecycle rule?
 ================================================
 
@@ -158,6 +180,16 @@ out into rule contracts:
   distributions. Then, at a later point, the issuer might decide to start paying dividends. They can
   now simply add a distribution rule to the running system to enable this new lifecycle event for
   their instrument without affecting the actual live instrument itself (or any holdings on it).
+
+Can I integrate a holding ownership change (of the target instrument) within lifecycling?
+=========================================================================================
+
+Lifecycling will not change the ownership of the target instrument. You should use the
+:doc:`Transfer <transfer>` pattern to do a delivery-versus-payment as a separate step from the
+lifecycling.
+
+However, there usually is a change of ownership of the other consumed/produced instruments when
+lifecycling (e.g. when paying out a dividend cash is moved from one party to another).
 
 Summary
 *******

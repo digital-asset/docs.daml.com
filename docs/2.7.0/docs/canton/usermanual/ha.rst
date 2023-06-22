@@ -15,7 +15,7 @@ This section looks at some of the components already mentioned and supplies usef
 Domain Manager
 --------------
 
-As explained in :ref:`domain-architecture`, a domain internally comprises a sequencer, a mediator and a topology manager.
+As explained in :ref:`domain-architecture`, a domain internally comprises a sequencer, a mediator, and a topology manager.
 When running a simple domain node (configured with ``canton.domains``, as shown in most of the examples), this node will be running a topology manager,
 a sequencer and a mediator all internally.
 
@@ -26,8 +26,8 @@ which takes care of the bootstrapping of the distributed domain setup and runs t
 The domain bootstrapping process is explained in :ref:`domain_bootstrapping`.
 
 The domain manager can be made highly available by running an active node and an arbitrary number of replicated passive nodes
-on hot standby, similarly to the mediator HA mechanism (see below). The only requirement is a shared storage between all the domain
-manager instance, that must be either Postgres or Oracle. Nodes automatically handle their state and become active / passive
+on hot standby, similar to the mediator HA mechanism (see below). The only requirement is shared storage between all the domain
+manager instances, which must be either Postgres or Oracle. Nodes automatically handle their state and become active/passive
 whenever the active instance fails, such that from a configuration perspective this is entirely transparent.
 
 An example configuration of a standalone HA domain manager node could therefore simply look like this:
@@ -35,7 +35,7 @@ An example configuration of a standalone HA domain manager node could therefore 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/external-domain-managers.conf
 
 
-In a replicated setup, only the active domain manager can be used to issue topology transactions (for instance bootstrapping a domain or onboard new mediators / sequencers).
+In a replicated setup, only the active domain manager can be used to issue topology transactions (for instance bootstrapping a domain or onboard new mediators/sequencers).
 To find out if a domain manager is active, one can run `domainManager1.health.active` in the canton console (for a domain manager node named `domainManager1`).
 Another way to avoid this manual check is to place a load balancer in front of the domain managers and let it pick the active instance.
 See :ref:`Load Balancer Configuration <load-balancer-configuration>` for more information.
@@ -47,7 +47,7 @@ HA Setup on Oracle
 ------------------
 
 The HA approach that is used by the participant, mediator, and sequencer nodes
-requires additional permissions being granted on Oracle to the database user.
+requires additional permissions to be granted on Oracle to the database user.
 
 All replicas of a node must be configured with the same DB user
 name. The DB user must have the following permissions granted::
@@ -61,10 +61,10 @@ user name. These permissions allow the DB user to request application-level
 locks on Oracle, as well as to query the state of locks and its own session
 information.
 
-For a high availability deployment the underlying Oracle store must be set up in
+For a high-availability deployment the underlying Oracle store must be set up in
 a highly available manner (for example, using Oracle RAC or Veritas VCS).
 
-High availability of Oracle is supported only when the database presents to the
+Oracle high availability is supported only when the database presents to the
 Canton nodes as a single, logical Oracle database. There is no support for
 horizontal scaling through sharding or other multi-database RAC features beyond
 simple HA clustering.
@@ -74,7 +74,7 @@ simple HA clustering.
 Mediator
 --------
 
-The mediator service uses a hot-standby mechanism, with an arbitrary number of replicas.
+The mediator service uses a hot-standby mechanism with an arbitrary number of replicas.
 During a mediator fail-over, all in-flight requests get purged.
 As a result, these requests will timeout at the participants.
 The applications need to retry the underlying commands.
@@ -85,12 +85,12 @@ Running a Stand-Alone Mediator Node
 A domain may be statically configured with a single embedded mediator node or it may be configured to work with external mediators.
 Once the domain has been initialized further mediators can be added at runtime.
 
-By default a domain node will run an embedded mediator node itself.
+By default, a domain node will run an embedded mediator node itself.
 This is useful in simple deployments where all domain functionality can be co-located on a single host.
-In a distributed setup where domain services are operated over many machines
+In a distributed setup where domain services are operated over many machines,
 you can instead configure a domain manager node and bootstrap the domain with mediator(s) running externally.
 
-Mediator nodes can be defined the same manner as Canton participants and domains.
+Mediator nodes can be defined in the same manner as Canton participants and domains.
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/external-mediators.conf
    :start-after: user-manual-entry-begin: ExternalMediatorNode
@@ -98,7 +98,7 @@ Mediator nodes can be defined the same manner as Canton participants and domains
    :dedent:
 
 When the domain node starts it will automatically provide the embedded mediator information about the domain.
-External mediators have to be initialized using runtime administration in order to complete the domains initialization.
+External mediators have to be initialized using runtime administration in order to complete the domain initialization.
 
 HA Configuration
 ~~~~~~~~~~~~~~~~
@@ -129,7 +129,7 @@ remain passive until the current active mediator node replica fails.
 Sequencer
 ---------
 
-The database based sequencer can be horizontally scaled and placed behind a load-balancer to provide
+The database-based sequencer can be horizontally scaled and placed behind a load balancer to provide
 high availability and performance improvements.
 
 Deploy multiple sequencer nodes for the Domain with the following configuration:
@@ -139,7 +139,7 @@ Deploy multiple sequencer nodes for the Domain with the following configuration:
 
 .. note::
 
-    Starting from canton 2.4.0, sequencer high-availability is enabled by default when using supported storage.
+    Starting from canton 2.4.0, sequencer high availability is enabled by default when using supported storage.
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/external-ha-sequencers.conf
    :start-after: user-manual-entry-begin: SequencerHAConfig
@@ -173,8 +173,8 @@ to create timestamps that do not conflict with other sequencer nodes while seque
 database insertion process. Canton uses microseconds, which yields a theoretical max throughput of 1 million messages
 per second per domain. Now, this theoretical throughput is divided equally among all sequencer nodes
 (``total-node-count``). Therefore, if you set ``total-node-count`` too high, then a sequencer might not be able to
-operate at the maximum theoretical throughput. We recommend to keep the default value of ``10``, as all above explanations
-are only of theoretical nature and we have not yet seen a database / hard-disk that can handle the theoretical throughput.
+operate at the maximum theoretical throughput. We recommend keeping the default value of ``10``, as all above explanations
+are only theoretical and we have not yet seen a database/hard disk that can handle the theoretical throughput.
 Also note that a message might contain multiple events, such that we are talking about high numbers here.
 
 External load balancer
@@ -200,15 +200,15 @@ An example `HAProxy <http://www.haproxy.org/>`__ configuration for exposing GRPC
     server sequencer2 sequencer2.local:1234 proto h2 check port 8080
     server sequencer3 sequencer3.local:1234 proto h2 check port 8080
 
-Please note that for quick failover, you also need to add http health checks, as
-otherwise you have to wait for the TCP timeout to occur before failover happens. The public API of the sequencer
+Please note that for quick failover, you also need to add HTTP health checks, as
+otherwise, you have to wait for the TCP timeout to occur before failover happens. The public API of the sequencer
 exposes the standard `GRPC health endpoints <https://github.com/grpc/grpc/blob/master/doc/health-checking.md>`__, but
 these are currently not supported by HAProxy, hence you need to fall-back on the HTTP / health endpoint.
 
 Client-side load balancing
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Using client-side load balancing is recommended where a external load-balancing service is unavailable (or lacks http2+grpc
+Using client-side load balancing is recommended where an external load-balancing service is unavailable (or lacks http2+grpc
 support), and the set of sequencers is static and can be configured at the client.
 
 To simply specify multiple sequencers use the ``domains.connect_multi`` console command when registering/connecting to the domain::
@@ -234,7 +234,7 @@ individual participants with two required changes for each participant node
 replica:
 
 - Using the same storage configuration to ensure access to the shared database.
-  Only PostgreSQL and Oracle based storage is supported for HA. For Oracle it is crucial that the participant replicas
+  Only PostgreSQL and Oracle-based storage is supported for HA. For Oracle it is crucial that the participant replicas
   use the same username to access the shared database.
 - Set ``replication.enabled = true`` for each participant node replica.
 
@@ -246,15 +246,14 @@ replica:
 Domain Connectivity during Fail-over
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-During fail-over from one replica to another the new active replica re-connects to all configured domains for which
+During fail-over from one replica to another, the new active replica re-connects to all configured domains for which
 ``manualConnect = false``. This means if the former active replica was manually connected to a domain, this domain
-connection is not automatically re-established during fail-over, but must be performed manually again.
+connection is not automatically re-established during fail-over but must be performed manually again.
 
 Manual Trigger of a Fail-over
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Fail-over from the active to a passive replica is done automatically when the
-active replica has a failure, but one can also initiate a graceful fail-over
+Fail-over from the active to a passive replica is done automatically when the active replica has a failure, but one can also initiate a graceful fail-over
 with the following command:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/ReplicatedParticipantTest.scala
@@ -277,7 +276,7 @@ determine which participant instance is active and direct ledger and admin api r
 This makes participant replication and failover transparent from the perspective of the ledger-api application or canton console
 administering the logical participant, as they will simply be pointed at the load balancer.
 
-Participants should be configured to expose an "IsActive" health status on our health http server using the following
+Participants should be configured to expose an "IsActive" health status on our health HTTP server using the following
 monitoring configuration:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/health-check-is-active.conf
@@ -286,7 +285,7 @@ monitoring configuration:
 
 Once running this server will report a http 200 status code on a http/1 GET request to `/health` if the participant
 is currently the active replica.
-Otherwise an error will be returned.
+Otherwise, an error will be returned.
 
 To use a load balancer it must support http/1 health checks for routing requests on a separate http/2 (GRPC) server.
 This is possible with `HAProxy <http://www.haproxy.org/>`__ using the following example configuration::
@@ -310,7 +309,7 @@ This is possible with `HAProxy <http://www.haproxy.org/>`__ using the following 
       # enable http health checks
       option httpchk
       # required to create a separate connection to query the load balancer.
-      # this is particularly important as the health http server does not support h2
+      # this is particularly important as the health HTTP server does not support h2
       # which would otherwise be the default.
       http-check connect
       # set the health check uri
