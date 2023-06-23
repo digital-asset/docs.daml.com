@@ -46,14 +46,15 @@ MAC:
 - HMAC with SHA-256
 
 The list of supported signing and asymmetric encryption schemes :ref:`is smaller <kms_schemes>` when we make use of a
-key management service (KMS) to generate and store our keys.
+key management service (KMS) to generate/store our keys and perform cryptographic operations without
+access to those keys.
 
 Key Generation and Storage
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Keys can either be generated in the node and stored in the node's primary storage or generated and stored by
 an external key management system (KMS).
-We currently support an early access version of Canton that can use AWS KMS to either:
+We currently support a version of Canton that can use AWS KMS to either:
 (a) :ref:`protect Canton's private keys at rest <kms_envelope_architecture>`
 or (b) :ref:`generate and store the private keys itself <kms_external_architecture>`.
 This version is available only as part of Daml Enterprise.
@@ -367,12 +368,17 @@ The KMS integration is currently only enabled for `Amazon Web Services (AWS)
 KMS` in Canton Enterprise. Other KMS integration options
 (e.g., `Google Cloud Provider (GCP) KMS` or other on-premise solutions) will be supported in the future.
 
+Running Canton with a KMS
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
 KMS support can be enabled for a new installation (i.e., during the node
 bootstrap) or for an existing deployment that is transparently updated to use KMS.
-When the KMS is enabled after a node has been running, (a) the keys are encrypted and stored in this encrypted form
+When the KMS is enabled after a node has been running, the keys are (a) encrypted and stored in this encrypted form
 in the Canton node's database, or (b) transparently replaced by external KMS keys.
 
-Note: If we encrypt the private keys at rest, scenario (a), then the AWS KMS keys used to encrypt them need
+.. backup-kms::
+
+Note: In scenario (a), then the AWS KMS keys used to encrypt the private keys need
 to live as long as the Canton database backups, so care must be taken when
 deleting database backup files or KMS keys. Otherwise, a Canton node restored from a database
 backup may try to decrypt the private keys with a `KMS wrapper key` that was previously deleted.
@@ -476,7 +482,7 @@ An example configuration that puts it all together is below:
 Revert Encrypted Private Key Storage
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If ever you wish to change the encrypted private key store and revert back to using an unencrypted store,
+If you wish to change the encrypted private key store and revert back to using an unencrypted store,
 you must restart the nodes with an updated configuration that includes
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/encrypted-store-reverted.conf
@@ -523,7 +529,7 @@ you only need to specify the correct crypto provider ``kms``:
    :start-after: user-manual-entry-begin: PrivateKeyStoreConfig
    :end-before: user-manual-entry-end: PrivateKeyStoreConfig
 
-Please be aware that AWS KMS only supports the following cryptographic schemes:
+AWS KMS only supports the following cryptographic schemes:
 
 .. _kms_schemes:
 
@@ -545,7 +551,7 @@ An example configuration that puts it all together is below:
 
 .. warning::
     Once a node starts with a KMS as its provider it can no longer be reverted without a full reset of the node
-    (i.e., database pruning and re-generation of all keys).
+    (i.e., re-generation of node identity and all keys).
 
 .. _manual-aws-ksm-key-rotation:
 
@@ -555,9 +561,9 @@ Auditability
 AWS provides  tools to monitor KMS keys. To set automatic external logging, refer to the `official documentation
 <https://docs.aws.amazon.com/kms/latest/developerguide/monitoring-overview.html>`_.
 This includes instructions on how to set AWS Cloud Trail or Cloud Watch Alarms
-to keep track of usage of KMS keys. Errors resulting from the use of a
-KMS key (e.g., during encryption and decryption) are also logged in Canton.
-
+to keep track of usage of KMS keys. We can also extend this with an optional audit trail for all the
+KMS usage when used in full KMS mode. Errors resulting from the use of a KMS key
+(e.g., during encryption and decryption) are also logged in Canton.
 
 Ledger-API Authorization
 ------------------------
