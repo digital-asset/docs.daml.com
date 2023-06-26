@@ -318,7 +318,6 @@ in a sensible way to automatically deal with errors and decide whether to retry
 a request or escalate to the operator.
 
 ..
-   TODO(#12315)
    This file is generated:
 .. include:: error-categories-inventory.rst.inc
 
@@ -326,9 +325,7 @@ a request or escalate to the operator.
 Error Codes Inventory - Daml
 ****************************
 
-
 ..
-   TODO(#12315)
    This file is generated:
 .. include:: error-codes-inventory.rst.inc
 
@@ -337,6 +334,5 @@ Error Codes Inventory - Canton
 ******************************
 
 ..
-   TODO(#12315)
    This file is generated:
 .. include:: /canton/includes/generated/error_codes.rst.inc

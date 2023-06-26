@@ -459,7 +459,6 @@ Participant Metrics
 ~~~~~~~~~~~~~~~~~~~
 
 ..
-   TODO(#12315)
    This file is generated:
 .. include:: /canton/includes/generated/participant_metrics.rst.inc
 
@@ -467,6 +466,5 @@ Domain Metrics
 ~~~~~~~~~~~~~~
 
 ..
-   TODO(#12315)
    This file is generated:
 .. include:: /canton/includes/generated/domain_metrics.rst.inc
