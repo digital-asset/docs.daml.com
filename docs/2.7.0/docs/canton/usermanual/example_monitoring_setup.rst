@@ -13,9 +13,9 @@ This section provides an example of how Canton can be run inside a connected net
 Container Setup
 ---------------
 
-Following are the details for how you can configure `Docker Compose <https://docs.docker.com/compose/>`_ to spin up the Docker container network shown in the diagram. See the `compose` documentation for detailed information concerning the structure of the configuration files.
+To configure `Docker Compose <https://docs.docker.com/compose/>`_ to spin up the Docker container network shown in the diagram, use the information below. See the `compose` documentation for detailed information concerning the structure of the configuration files.
 
-One feature of `compose` is that you can provide the overall configuration across multiple files. Each configuration file is described below, followed by information on how to bring them together in a running network.
+`compose` allows you to provide the overall configuration across multiple files. Each configuration file is described below, followed by information on how to bring them together in a running network.
 
 .. image:: ./images/basic-canton-setup.svg
    :align: center
@@ -25,11 +25,11 @@ One feature of `compose` is that you can provide the overall configuration acros
 Intended Use
 ~~~~~~~~~~~~
 
-This example is intended to demonstrate how you can expose, aggregate, and observe monitoring information from Canton. It is not suitable for production without alterations. Note the following warnings.
+This example is intended to demonstrate how to expose, aggregate, and observe monitoring information from Canton. It is not suitable for production without alterations. Note the following warnings:
 
  .. warning::
 
-   Ports are exposed from the Docker network that are not necessary to support the UI. This may be to allow low-level interaction with the underlying service via a REST or similar interface. In a production system, the only ports that should be exposed are those required for the operation of the system.
+   Ports are exposed from the Docker network that are not necessary to support the UI. For example, the network can allow low-level interaction with the underlying service via a REST or similar interface. In a production system, the only ports that should be exposed are those required for the operation of the system.
 
  .. warning:: 
 
@@ -196,7 +196,7 @@ Grafana is provided with:
 * The location of any externally provided dashboards
 * The actual dashboards
 
-Note that the `Metric Count` dashboard referenced in the docker-compose.yml file (`grafana-message-count-dashboard.json`) is not inlined below. The reason is that this is not hand-configured but built via the web UI and then exported, so it contains unnecessary details. See `Grafana Metric Monitoring`_ for instructions to log into Grafana and display the dashboard.
+Note that the `Metric Count` dashboard referenced in the docker-compose.yml file (`grafana-message-count-dashboard.json`) is not inlined below. The reason is that this is not hand-configured but built via the web UI and then exported. See `Grafana Metric Monitoring`_ for instructions to log into Grafana and display the dashboard.
 
 .. literalinclude:: ./monitoring/etc/grafana-docker-compose.yml
    :caption: etc/grafana-docker-compose.yml
@@ -224,7 +224,7 @@ The `yaml` anchor `x-logging` enabled GELF container logging and is duplicated a
 Docker Images
 ~~~~~~~~~~~~~
 
-The Docker images used need to be pulled down before starting the network:
+The Docker images need to be pulled down before starting the network:
 
 * digitalasset/canton-open-source:2.5.1
 * docker.elastic.co/elasticsearch/elasticsearch:8.5.2
@@ -238,9 +238,9 @@ The Docker images used need to be pulled down before starting the network:
 Running Docker Compose
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Since running `docker compose` with all the compose files shown above can create a long command line, a helper script `dc.sh` is used.
+Since running `docker compose` with all the compose files shown above creates a long command line, a helper script `dc.sh` is used.
 
-It is recommended to provide the Docker with a minimum of **12GB** of memory. To verify that Docker is not running short of memory, run `docker stats` and ensure the total `MEM%` is not too high.
+A minimum of **12GB** of memory is recommended for Docker. To verify that Docker is not running short of memory, run `docker stats` and ensure the total `MEM%` is not too high.
 
 .. literalinclude:: ./monitoring/dc.sh
    :language: bash
@@ -302,7 +302,7 @@ When Kibana is started for the first time, you must set up a data view to allow 
       * Index pattern: `logs-*`
       * Timestamp field: `@timestamp`
 
-You should now see a UI similar to the one shown.
+You should now see a UI similar to the one shown here:
 
 .. image:: ./images/kibana.png
    :align: center
@@ -330,7 +330,7 @@ You can log into the Grafana UI and set up a dashboard. The example imports a `G
    4. Enter the dashboard ID `14282` and click **Load**.
    5. On the screen, select **Prometheus** as the data source and click **Import**.
 
-You should see a container system metrics dashboard similar to the one shown:
+You should see a container system metrics dashboard similar to the one shown here:
 
 .. image:: ./images/grafana-cadvisor.png
    :align: center
@@ -409,7 +409,7 @@ Glossary
 
 Docker Log Driver
 ~~~~~~~~~~~~~~~~~
-Docker containers can be configured with a log driver that allows log output to be exported out of the Docker container. Using log drivers to export logging information means that it is not necessary to run another process on the Docker container to do this.
+Docker containers can be configured with a log driver that allows log output to be exported from the Docker container. Using log drivers to export logging information makes running another process on the Docker container for this unnecessary.
 
 `https://docs.docker.com/config/containers/logging/configure/ <https://docs.docker.com/config/containers/logging/configure/>`_
 
@@ -501,6 +501,6 @@ OpenTelemetry is an organization that works to standardize observability (an umb
 
 cAdvisor
 ~~~~~~~~
-Container Advisor (cAdvisor) provides an overview of CPU, memory, disk, and network utilization for each of the Docker containers. It works by querying the `Docker Engine API <https://docs.docker.com/engine/api/>`_ to get these statistics for each container. This avoids layering the containers with a utility to perform these functions.
+Container Advisor (cAdvisor) provides an overview of CPU, memory, disk, and network utilization for each of the Docker containers. It works by querying the `Docker Engine API <https://docs.docker.com/engine/api/>`_ to get these statistics for each container. This lets you avoid layering the containers with a utility to perform these functions.
 
 `https://github.com/google/cadvisor <https://github.com/google/cadvisor>`_

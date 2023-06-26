@@ -11,11 +11,11 @@ Monitoring
 Introduction
 ------------
 
-Observability (also known as “monitoring”) can determine if the Daml Enterprise solution is healthy or not healthy. If the state is not healthy, observability helps diagnose the root cause. There are three parts to observability: metrics, logs, and traces. These are described in this section.
+Observability (also known as “monitoring”) lets you determine if the Daml Enterprise solution is healthy or not. If the state is not healthy, observability helps diagnose the root cause. There are three parts to observability: metrics, logs, and traces. These are described in this section.
 
 To avoid becoming overwhelmed by the number of metrics and log messages, follow these steps:
 
-- Read the shortcut to learning what is important, which is described below in the section :ref:`Hands-On with the Daml Enterprise - Observability Example <hands-on>`. It is a great starting point and an inspiration when building your metric monitoring.
+- Read the shortcut to learning what is important, which is described below in the section :ref:`Hands-On with the Daml Enterprise - Observability Example <hands-on>` as a starting point and inspiration when building your metric monitoring.
 - For an overview of how most metrics are exposed, read the section :ref:`Golden Signals and Key Metrics Quick Start <golden>` below. It describes the philosophy behind metric naming and labeling.
 
 The remaining sections provide references to more detailed information. 
@@ -25,7 +25,7 @@ The remaining sections provide references to more detailed information.
 Hands-On with the Daml Enterprise - Observability Example
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The `Daml Enterprise - Observability Example <https://github.com/digital-asset/daml-platform-observability-example>`__ GitHub repository provides a complete reference example for exploring the metrics that Daml Enterprise exposes. You can use it in a hands-on way to explore the collection, aggregation, filtering, and visualization of metrics. It is self-contained, with the following components:
+The `Daml Enterprise - Observability Example <https://github.com/digital-asset/daml-platform-observability-example>`__ GitHub repository provides a complete reference example for exploring the metrics that Daml Enterprise exposes. You can use it to explore the collection, aggregation, filtering, and visualization of metrics. It is self-contained, with the following components:
 
 - An example Docker compose file to create a run-time for all the components
 - Some shell scripts to generate requests to the Daml Enterprise solution
@@ -209,7 +209,7 @@ Not every trace created which can be observed in logs is reported to the configu
     `#10633 <https://github.com/DACH-NY/canton/issues/10633>`_
     `#14256 <https://github.com/digital-asset/daml/issues/14256>`_
 
-Also, the transaction protocol trace has a known limitation. Once a command is submitted and its trace is fully reported, a new trace is created for any resulting Daml events that are processed. This occurs because the ledger API does not propagate any trace context information from the command submission to the transaction subscription. As an example, when a participant creates a ``Ping`` contract, you can see the full transaction processing trace of the ``Ping`` command being submitted. However, a participant that processes the ``Ping`` by exercising ``Respond`` and creating a ``Pong`` contract creates a separate trace instead of using the same one.
+Also, the transaction protocol trace has a known limitation: once a command is submitted and its trace is fully reported, a new trace is created for any resulting Daml events that are processed. This occurs because the ledger API does not propagate any trace context information from the command submission to the transaction subscription. As an example, when a participant creates a ``Ping`` contract, you can see the full transaction processing trace of the ``Ping`` command being submitted. However, a participant that processes the ``Ping`` by exercising ``Respond`` and creating a ``Pong`` contract creates a separate trace instead of using the same one.
 
 This differs from a situation where a single Daml transaction results in multiple actions at the same time, such as archiving and creating multiple contracts. In that case, a single trace encompasses the entire process, since it occurs as part of a single transaction rather than the result of an external process reacting to Daml events.
 
@@ -220,7 +220,7 @@ Traces
 
 Traces contain operations that are each represented by a span. A trace is a directed acyclic graph (DAG) of spans, where the edges between spans are defined as parent/child relationships (the definitions come from the `Opentelemetry glossary <https://opentelemetry.io/docs/concepts/glossary/>`_).
 
-Canton reports several types of traces. As one example, every Canton console command that interacts with the Admin API starts a trace whose initial span last for the entire duration of the command, including the GRPC call to the specific Admin API endpoint.
+Canton reports several types of traces. One example: every Canton console command that interacts with the Admin API starts a trace whose initial span last for the entire duration of the command, including the GRPC call to the specific Admin API endpoint.
 
 .. figure:: ./images/ping-trace.jpg
    :width: 100%
@@ -312,7 +312,7 @@ A domain topology manager or a mediator node returns:
 - ``Active``: true if this instance is the active replica (It can be false in the case of the passive instance of a high-availability deployment.)
 
 
-Additionally, all nodes also return a ``components`` field detailing the health state of each of its internal runtime dependencies. The actual components differ per node and can give further insights into its current status. Example components include storage access, domain connectivity, and sequencer backend connectivity.
+Additionally, all nodes also return a ``components`` field detailing the health state of each of its internal runtime dependencies. The actual components differ per node and can give further insights into the node's current status. Example components include storage access, domain connectivity, and sequencer backend connectivity.
 
 .. _creating_dumps:
 
@@ -328,7 +328,7 @@ You should provide as much information as possible to receive efficient support.
 This creates a dump file (``.zip``) that stores the following information:
 
 - The configuration you are using, with all sensitive data stripped from it (no passwords).
-- An extract of the logfile. Overly sensitive data is not logged into log files.
+- An extract of the log file. Sensitive data is not logged into log files.
 - A current snapshot on Canton metrics.
 - A stacktrace for each running thread.
 
@@ -373,7 +373,7 @@ Here is an example monitoring configuration to place inside a node configuration
 HTTP Health Check
 ~~~~~~~~~~~~~~~~~
 
-The ``canton`` process can optionally expose an HTTP endpoint indicating whether the process believes it is healthy. This may be used as an uptime check or as a `Kubernetes liveness probe <https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/>`__. If enabled, the ``/health`` endpoint will respond to a ``GET`` HTTP request with a 200 HTTP status code (if healthy) or 500 (if unhealthy, along with a plain text description of why it is unhealthy).
+Optionally, the ``canton`` process can expose an HTTP endpoint indicating whether the process believes it is healthy. This may be used as an uptime check or as a `Kubernetes liveness probe <https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/>`__. If enabled, the ``/health`` endpoint will respond to a ``GET`` HTTP request with a 200 HTTP status code (if healthy) or 500 (if unhealthy, along with a plain text description of why it is unhealthy).
 
 To enable this health endpoint, add a ``monitoring`` section to the Canton configuration. Since this health check is for the whole process, add it directly to the ``canton`` configuration rather than for a specific node.
 
@@ -402,7 +402,7 @@ Metrics
 Enabling the Prometheus Reporter
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-It is recommended to configure `Prometheus <https://prometheus.io>`__ for metrics reporting. Other reporters (jmx, graphite, and csv) are supported, but they are deprecated. Any such reporter should be migrated to Prometheus.
+`Prometheus <https://prometheus.io>`__ is recommended for metrics reporting. Other reporters (jmx, graphite, and csv) are supported, but they are deprecated. Any such reporter should be migrated to Prometheus.
 
 Prometheus can be enabled using:
 
