@@ -25,29 +25,10 @@ Supported Cryptographic Schemes in Canton
 Within Canton we use the cryptographic primitives of signing, symmetric and
 asymmetric encryption, and MAC with the following supported schemes:
 
-Signing:
-
-- Ed25519 (default)
-- ECDSA with P-256 and P-384
-- SM2 (experimental)
-
-Symmetric Encryption:
-
-- AES128-GCM (default)
-
-Asymmetric Encryption:
-
-- ECIES on P-256 with HMAC-SHA256 and AES128-GCM (default)
-- ECIES on P-256 with HMAC-SHA256 and AES128-CBC (only available with a ``jce`` provider)
-- RSA 2048 with OAEP using SHA-256 (only available with ``jce`` and ``kms`` providers)
-
-MAC:
-
-- HMAC with SHA-256
-
-The list of supported signing and asymmetric encryption schemes :ref:`is smaller <kms_schemes>` when we make use of a
-key management service (KMS) to generate/store our keys and perform cryptographic operations without
-access to those keys.
+.. image:: ./images/canton_supported_schemes.png
+   :width: 50%
+   :align: center
+   :alt: A table showing Canton's supported schemes per provider.
 
 Key Generation and Storage
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -376,7 +357,7 @@ bootstrap) or for an existing deployment that is transparently updated to use KM
 When the KMS is enabled after a node has been running, the keys are (a) encrypted and stored in this encrypted form
 in the Canton node's database, or (b) transparently replaced by external KMS keys.
 
-.. backup-kms::
+.. _backup-kms:
 
 Note: In scenario (a), then the AWS KMS keys used to encrypt the private keys need
 to live as long as the Canton database backups, so care must be taken when
@@ -542,16 +523,21 @@ Asymmetric Encryption:
 - RSA 2048 with OAEP using SHA-256
 
 Therefore, a node running with a ``kms`` provider is only ever able to communicate
-with other nodes running a ``kms`` or ``jce`` providers.
+with other nodes running a ``kms`` or ``jce`` providers. Furthermore,
+the domain has to be explicitly configured to use the KMS supported algorithms
+as the required algorithms on the domain
 
 An example configuration that puts it all together is below:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/encrypted-store-enabled.conf
    :language: none
 
-.. warning::
-    Once a node starts with a KMS as its provider it can no longer be reverted without a full reset of the node
-    (i.e., re-generation of node identity and all keys).
+.. todo::
+      #. `Enable revert for a KMS provider <https://github.com/DACH-NY/canton/issues/13635>`_
+
+.. note::
+    Currently if a node starts with a KMS as its provider it can no longer be reverted without a full reset of the node
+    (i.e., re-generation of node identity and all keys). We plan to add this revert feature in the near future.
 
 .. _manual-aws-ksm-key-rotation:
 
