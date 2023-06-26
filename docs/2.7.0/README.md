@@ -63,7 +63,8 @@ It also produces a PDF, and a tarball containing all of the HTML, under `workdir
 {
   "daml": "2.6.0-snapshot.20230123.11292.0.b3f84bfc",
   "canton": "20230124",
-  "daml_finance": "1.0.4"
+  "daml_finance": "1.0.4",
+  "canton_drivers": "0.1.9"
 }
 ```
 
