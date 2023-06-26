@@ -156,20 +156,6 @@ subtrees:
                 title: "Logging"
               - file: json-api/production-setup/metrics
                 title: "Metrics"
-      - file: daml/resource-management/index
-        subtrees:
-        - hidden: False
-          titlesonly: True
-          entries:
-          - file: daml/resource-management/latency-and-throughput
-          - file: daml/resource-management/contention-avoiding
-            subtrees:
-            - hidden: False
-              titlesonly: True
-              entries:
-              - file: daml/resource-management/contention-reducing.rst
-              - file: daml/resource-management/contention-techniques.rst
-          - file: daml/resource-management/active-contract-set
       - file: app-dev/ledger-api
         title: "Build Integration with the Ledger API"
         subtrees:
@@ -232,15 +218,29 @@ subtrees:
         title: "Authorization"
       - file: app-dev/explicit-contract-disclosure
         title: "Explicit Contract Disclosure (Experimental)"
-      - file: upgrade/index
-        title: "Upgrading and Extending Daml Applications"
-        entries:
-        - file: upgrade/extend
-          title: "Extending Daml Applications"
-        - file: upgrade/upgrade
-          title: "Upgrading Daml Applications"
-        - file: upgrade/automation
-          title: "Automating the Upgrade Process"
+  - file: daml/resource-management/index
+    subtrees:
+    - hidden: False
+      titlesonly: True
+      entries:
+      - file: daml/resource-management/latency-and-throughput
+      - file: daml/resource-management/contention-avoiding
+        subtrees:
+        - hidden: False
+          titlesonly: True
+          entries:
+          - file: daml/resource-management/contention-reducing.rst
+          - file: daml/resource-management/contention-techniques.rst
+      - file: daml/resource-management/active-contract-set
+  - file: upgrade/index
+    title: "Upgrading and Extending Daml Applications"
+    entries:
+    - file: upgrade/extend
+      title: "Extending Daml Applications"
+    - file: upgrade/upgrade
+      title: "Upgrading Daml Applications"
+    - file: upgrade/automation
+      title: "Automating the Upgrade Process"
   - file: create-daml-apps/developer-tools/index
     title: "Developer Tools"
     subtrees:
