@@ -103,6 +103,20 @@ with SHA-256) with the public key loaded from the given JWKS URL.
           TLS with server authentication as described in :ref:`sandbox-tls` for
           any request sent to the Ledger API in production.
 
+Fresh participant nodes come with the default participant admin user called ``participant_admin`` which
+can be used to bootstrap other users.
+You might prefer to have an admin user with a different user id ready on the participant startup.
+For such situations you can specify an additional participant admin user with the user id of your choice.
+
+.. note:: If a user with the specified id already exists then no additional user will be created,
+          even if the pre-existing user was not an admin user.
+
+.. code-block:: none
+   :caption: additional-admin.conf
+
+   canton.participants.sandbox.ledger-api.user-management-service.additional-admin-user-id = "my-admin-id"
+
+
 Generate JSON Web Tokens (JWT)
 ==============================
 
