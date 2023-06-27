@@ -689,6 +689,17 @@ In the following, we demonstrate the basic steps how to initialise a node:
 
 .. _manually-init-domain:
 
+Keys Initialization
+^^^^^^^^^^^^^^^^^^^
+
+The following steps describe how to manually generate the necessary Canton keys:
+
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/topology/TopologyManagementHelper.scala
+   :language: scala
+   :start-after: architecture-handbook-entry-begin: ManualInitKeys
+   :end-before: architecture-handbook-entry-end: ManualInitKeys
+   :dedent:
+
 Domain Initialization
 ^^^^^^^^^^^^^^^^^^^^^
 The following steps describe how to manually initialize a domain node:
@@ -705,7 +716,7 @@ Participant Initialization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 The following steps describe how to manually initialize a participant node:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/topology/MemberAutoInitIntegrationTest.scala
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/topology/TopologyManagementHelper.scala
    :language: scala
    :start-after: architecture-handbook-entry-begin: ManualInitParticipant
    :end-before: architecture-handbook-entry-end: ManualInitParticipant
