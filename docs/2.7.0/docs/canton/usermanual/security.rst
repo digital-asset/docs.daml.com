@@ -530,8 +530,10 @@ store private keys in an external KMS. Besides the previously presented :ref:`AW
 you only need to specify the correct crypto provider ``kms`` and ensure that the remaining nodes, in particular
 the connected domain, runs with the correct schemes:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/encrypted-store-reverted.conf
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/kms-provider-tagged.conf
    :language: none
+   :start-after: user-manual-entry-begin: KmsProviderConfig
+   :end-before: user-manual-entry-end: KmsProviderConfig
 
 Therefore, a node running with a ``kms`` provider is only ever able to communicate with other nodes running
 a ``kms`` or ``jce`` providers. Furthermore, the nodes have to be explicitly configured to use the
