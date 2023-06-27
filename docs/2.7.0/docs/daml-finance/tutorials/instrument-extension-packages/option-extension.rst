@@ -115,6 +115,49 @@ Compared to the
 this instrument does not require a reference asset identifier or *Observations*, because it is
 exercised manually.
 
+Barrier Option
+==============
+
+The
+:ref:`BarrierEuropeanCash <module-daml-finance-interface-instrument-option-barriereuropeancash-instrument-61159>`
+instrument models barrier options. They are similar to the
+:ref:`EuropeanCash <module-daml-finance-instrument-option-europeancash-instrument-22074>`
+instrument described above, but also contain a barrier that is used to activate (or, alternatively,
+knock out) the option. The
+:ref:`BarrierTypeEnum <type-daml-finance-interface-instrument-option-types-barriertypeenum-80356>`
+describes which barrier types are supported.
+
+As an example, consider an option instrument that gives the holder the right to buy AAPL stock
+at a given price. However, if AAPL ever trades at or below a given barrier level, the option is
+knocked out (which means that it expires worthless). In other words, this describes a
+:ref:`DownAndOut <constr-daml-finance-interface-instrument-option-types-downandout-16889>` option.
+This example is taken from
+`Instrument/Option/Test/BarrierEuropeanCash.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Option/Test/BarrierEuropeanCash.daml>`_
+, where all the details are available.
+
+You start by defining the terms:
+
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Option/Test/BarrierEuropeanCash.daml
+  :language: daml
+  :start-after: -- CREATE_BARRIER_EUROPEAN_OPTION_VARIABLES_BEGIN
+  :end-before: -- CREATE_BARRIER_EUROPEAN_OPTION_VARIABLES_END
+
+Now that the terms have been defined, you can create the option instrument:
+
+.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Option/Test/Util.daml
+  :language: daml
+  :start-after: -- CREATE_BARRIER_EUROPEAN_OPTION_INSTRUMENT_BEGIN
+  :end-before: -- CREATE_BARRIER_EUROPEAN_OPTION_INSTRUMENT_END
+
+Once this is done, you can create a holding on it using
+:ref:`Account.credit <module-daml-finance-interface-account-account-92922>`.
+
+Compared to the
+:ref:`EuropeanCash option <module-daml-finance-instrument-option-europeancash-instrument-22074>`
+this instrument needs to be lifecycled not only at expiry but also during its lifetime in case of a
+barrier hit. This is done in the same way as lifecycling at maturity, i.e. an *Observation* is
+provided for the reference asset identifier, containing the date and the underlying price.
+
 Dividend Option
 ===============
 
@@ -174,4 +217,5 @@ How do I calculate settlement payments for an option?
 On the expiry date, the issuer will need to lifecycle the European option. This will result in a
 lifecycle effect for the payoff, which can be cash settled. This is described in detail in the
 :doc:`Lifecycling <../getting-started/lifecycling>` and the
-:doc:`Intermediated Lifecycling <../advanced-topics/lifecycling/intermediated-lifecycling>` tutorials.
+:doc:`Intermediated Lifecycling <../advanced-topics/lifecycling/intermediated-lifecycling>`
+tutorials.

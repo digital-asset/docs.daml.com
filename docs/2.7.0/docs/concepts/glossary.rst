@@ -96,7 +96,7 @@ For full documentation on choices, see :doc:`/daml/reference/choices`.
 Consuming Choice
 ----------------
 
-A **consuming choice** means that, when the choices is exercised, the `contract <#contract>`__ it is on will be `archived <#active-contract-archived-contract>`__. The alternative is a `nonconsuming choice <#nonconsuming-choice>`__.
+A **consuming choice** means that, when the choice is exercised, the `contract <#contract>`__ it is on will be `archived <#active-contract-archived-contract>`__. The alternative is a `nonconsuming choice <#nonconsuming-choice>`__.
 
 Consuming choices can be `preconsuming <#preconsuming-choice>`__ or `postconsuming <#postconsuming-choice>`__.
 
@@ -206,10 +206,10 @@ A Daml update is the composition of update actions created with one of the items
      - ``k -> Update (Optional (ContractId c))``
      - All key maintainers
 
-At runtime, the Daml execution engine computes the required authorizing parties from this mapping. It also computes which parties have given authorization to the update in question. A party is giving authorization to an update in one of two ways:
+At runtime, the Daml execution engine computes the required authorizing parties from this mapping. It also computes which parties have given authorization to the update in question. A party gives authorization to an update in one of two ways:
 
 - It is the signatory of the contract that contains the update action.
-- It is element of the controllers executing the choice containing the update action.
+- It is an element of the controllers executing the choice containing the update action.
 
 Only if all required parties have given their authorization to an update action, the update action is well-authorized and therefore executed. A missing authorization leads to the abortion of the update action and the failure of the containing transaction.
 
@@ -225,7 +225,7 @@ For documentation, see :doc:`/daml/stdlib/index`.
 Agreement
 =========
 
-An **agreement** is part of a `contract <#contract>`__. It is text that explains what the contract represents.
+An **agreement** is part of a `contract <#contract>`__. It is the text that explains what the contract represents.
 
 It can be used to clarify the legal intent of a contract, but this text isn't evaluated programmatically.
 
@@ -276,7 +276,7 @@ See :ref:`testing-using-script`.
 Contract Key
 ============
 
-A **contract key** allows you to uniquely identify a `contract <#contract>`__ of a particular `template <#template>`__, similarly to a primary key in a database table.
+A **contract key** allows you to uniquely identify a `contract <#contract>`__ of a particular `template <#template>`__, similar to a primary key in a database table.
 
 A contract key requires a `maintainer <#maintainer>`__: a simple key would be something like a tuple of text and maintainer, like ``(accountId, bank)``.
 
@@ -342,7 +342,7 @@ Building Applications
 Application, Ledger Client, Integration
 =======================================
 
-**Application**, **ledger client** and **integration** are all terms for an application that sits on top of the `ledger <#daml-ledger>`__. These usually `read from the ledger <#reading-from-the-ledger>`_, `send commands <#submitting-commands-writing-to-the-ledger>`__ to the ledger, or both.
+**Application**, **ledger client**, and **integration** are all terms for an application that sits on top of the `ledger <#daml-ledger>`__. These usually `read from the ledger <#reading-from-the-ledger>`_, `send commands <#submitting-commands-writing-to-the-ledger>`__ to the ledger, or both.
 
 There's a lot of information available about application development, starting with the :doc:`/app-dev/app-arch` page.
 
@@ -438,13 +438,13 @@ A **command** is an instruction to add a transaction to the `ledger <#daml-ledge
 Participant Node
 ================
 
-The participant node is a server that provides users a consistent programmatic access to a ledger through the `Ledger API <#ledger-api>`__. The participant nodes handles transaction signing and
+The participant node is a server that provides users with consistent programmatic access to a ledger through the `Ledger API <#ledger-api>`__. The participant nodes handle transaction signing and
 validation, such that users don't have to deal with cryptographic primitives but can trust the participant node that the data they are observing has been properly verified to be correct.
 
 Sub-transaction Privacy
 =======================
 
-Sub-transaction privacy is where participants to a transaction only `learn about the subset of the transaction <https://docs.daml.com/concepts/ledger-model/ledger-privacy.html>`__ they are
+Sub-transaction privacy is where participants in a transaction only `learn about the subset of the transaction <https://docs.daml.com/concepts/ledger-model/ledger-privacy.html>`__ they are
 directly involved in, but not about any other part of the transaction. This applies to both the content of the transaction as well as other involved participants.
 
 Daml-LF
@@ -497,15 +497,15 @@ Virtual Global Ledger
 =====================
 
 While every participant has their own private contract store (PCS), the `Canton protocol <#canton-protocol>`__ guarantees that the contracts which are stored in the PCS are well-authorized
-and that any change to the store is justified, authorized and valid. The result is that every participant only possesses a small part of the *virtual global ledger*. All the local
+and that any change to the store is justified, authorized, and valid. The result is that every participant only possesses a small part of the *virtual global ledger*. All the local
 stores together make up that *virtual global ledger* and they are thus synchronized. The Canton protocol guarantees that the virtual ledger provides integrity, privacy,
-transparency and auditability. The ledger is logically global, even though physically, it runs on segregated and isolated domains that are not aware of each other.
+transparency, and auditability. The ledger is logically global, even though physically, it runs on segregated and isolated domains that are not aware of each other.
 
 Mediator
 ========
 
 The mediator is a service provided by the `domain <#domain>`__ and used by the `Canton protocol <#canton-protocol>`__. The mediator acts as commit coordinator, collecting individual transaction verdicts issued by validating
-participants and aggregates them into a single result. The mediator does not learn about the content of the transaction, they only learn about the involved participants.
+participants and aggregating them into a single result. The mediator does not learn about the content of the transaction, they only learn about the involved participants.
 
 Sequencer
 =========
@@ -523,8 +523,8 @@ identity manager establishes a consistent identity state among all participants.
 Consensus
 =========
 
-The Canton protocol does not use PBFT or any similar consensus algorithm. There is no proof of work or proof of stake involved. Instead, Canton uses a variant of a stakeholder based
-two-phase commit protocol. As such, only stakeholders of a transaction are involved in it and need to process it, providing efficiency, privacy and horizontal scalability. Canton based
+The Canton protocol does not use PBFT or any similar consensus algorithm. There is no proof of work or proof of stake involved. Instead, Canton uses a variant of a stakeholder-based
+two-phase commit protocol. As such, only stakeholders of a transaction are involved in it and need to process it, providing efficiency, privacy, and horizontal scalability. Canton-based
 ledgers are resilient to malicious participants as long as there is at least a single honest participant. A domain integration itself might be using the consensus mechanism of the underlying
 platform, but participant nodes will not be involved in that process.
 

@@ -12,7 +12,7 @@ by default, any valid Ledger API request will be accepted by the sandbox.
 
 This is not the case for participant nodes of deployed ledgers.
 For every Ledger API request, the participant node checks whether the request contains an access token that is valid and sufficient to authorize that request.
-You thus need to add support for authorization using access token to your application to run it against a deployed ledger.
+You thus need to add support for authorization using access tokens to your application to run it against a deployed ledger.
 
 .. note:: In case of mutual (two-way) TLS authentication, the Ledger API
           client must present its certificate (in addition to an access token) to
