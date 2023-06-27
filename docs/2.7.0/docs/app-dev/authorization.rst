@@ -87,12 +87,14 @@ The following table summarizes the rights required to access each Ledger API end
 | ActiveContractsService              | GetActiveContracts            | for each requested party p: canReadAs(p)               |
 +-------------------------------------+-------------------------------+--------------------------------------------------------+
 | CommandCompletionService            | CompletionEnd                 | public                                                 |
-|                                     +-------------------------------+--------------------------------------------------------+
++-------------------------------------+-------------------------------+--------------------------------------------------------+
 |                                     | CompletionStream              | for each requested party p: canReadAs(p)               |
 +-------------------------------------+-------------------------------+--------------------------------------------------------+
 | CommandSubmissionService            | Submit                        | for submitting party p: canActAs(p)                    |
 +-------------------------------------+-------------------------------+--------------------------------------------------------+
 | CommandService                      | All                           | for submitting party p: canActAs(p)                    |
++-------------------------------------+-------------------------------+--------------------------------------------------------+
+| EventQueryService                   | All                           | for each requesting party p: canReadAs(p)              |
 +-------------------------------------+-------------------------------+--------------------------------------------------------+
 | Health                              | All                           | no access token required for health checking           |
 +-------------------------------------+-------------------------------+--------------------------------------------------------+
@@ -107,7 +109,7 @@ The following table summarizes the rights required to access each Ledger API end
 | PackageManagementService            | All                           | participant_admin                                      |
 +-------------------------------------+-------------------------------+--------------------------------------------------------+
 | PartyManagementService              | All                           | participant_admin                                      |
-|                                     +-------------------------------+--------------------------------------------------------+
++-------------------------------------+-------------------------------+--------------------------------------------------------+
 |                                     | All (except GetParticipantId, | idp_admin                                              |
 |                                     | UpdatePartyIdentityProviderId)|                                                        |
 +-------------------------------------+-------------------------------+--------------------------------------------------------+
@@ -116,20 +118,20 @@ The following table summarizes the rights required to access each Ledger API end
 | ServerReflection                    | All                           | no access token required for gRPC service reflection   |
 +-------------------------------------+-------------------------------+--------------------------------------------------------+
 | TimeService                         | GetTime                       | public                                                 |
-|                                     +-------------------------------+--------------------------------------------------------+
++-------------------------------------+-------------------------------+--------------------------------------------------------+
 |                                     | SetTime                       | participant_admin                                      |
 +-------------------------------------+-------------------------------+--------------------------------------------------------+
 | TransactionService                  | LedgerEnd                     | public                                                 |
-|                                     +-------------------------------+--------------------------------------------------------+
++-------------------------------------+-------------------------------+--------------------------------------------------------+
 |                                     | All (except LedgerEnd)        | for each requested party p: canReadAs(p)               |
 +-------------------------------------+-------------------------------+--------------------------------------------------------+
 | UserManagementService               | All                           | participant_admin                                      |
-|                                     +-------------------------------+--------------------------------------------------------+
++-------------------------------------+-------------------------------+--------------------------------------------------------+
 |                                     | All (except                   | idp_admin                                              |
 |                                     | UpdateUserIdentityProviderId) |                                                        |
-|                                     +-------------------------------+--------------------------------------------------------+
++-------------------------------------+-------------------------------+--------------------------------------------------------+
 |                                     | GetUser                       | authenticated users can get their own user             |
-|                                     +-------------------------------+--------------------------------------------------------+
++-------------------------------------+-------------------------------+--------------------------------------------------------+
 |                                     | ListUserRights                | authenticated users can list their own rights          |
 +-------------------------------------+-------------------------------+--------------------------------------------------------+
 | VersionService                      | All                           | public                                                 |
@@ -226,7 +228,7 @@ User IDs must be non-empty strings of at most 128 characters that are either alp
 Identity providers
 ------------------------------
 
-An identity provider configuration can thought of as a set of participant users which:
+An identity provider configuration can be thought of as a set of participant users which:
  - have a defined way to verify their access tokens,
  - can be administered in isolation from the rest of the users on the same participant node,
  - have an identity provider id unique per participant node,
@@ -237,9 +239,9 @@ Additionally you can configure a small number of non-default identity providers 
 by supplying a non-empty identity provider id and a `JWK Set <https://datatracker.ietf.org/doc/html/rfc7517>`_
 URL which the participant node will use to retrieve the cryptographic data needed to verify the access tokens.
 
-When authenticating as a user from a non-default identity provider configuration your access tokens must
+When authenticating as a user from a non-default identity provider configuration, your access tokens must
 contain the ``iss`` field whose value matches the identity provider id.
-In case of the default identity provider configuration the ``iss`` field can be empty or omitted from the access tokens.
+In case of the default identity provider configuration, the ``iss`` field can be empty or omitted from the access tokens.
 
 
 Custom Daml Claims Access Tokens
