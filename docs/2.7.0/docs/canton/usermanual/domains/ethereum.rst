@@ -202,7 +202,7 @@ Canton supports mutual TLS between Canton and Ethereum client nodes and the demo
 configure this.
 Concretely, the TLS configuration for Canton expects a key store and the path to the Ethereum TLS certificates:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/pack/examples/e03-ethereum-sequencer/canton-conf/simple/tls.conf
+.. literalinclude:: /canton-drivers/examples/e03-ethereum-sequencer/canton-conf/simple/tls.conf
 
 The demo also contains the utility script ``qbft-testnet/generate-tls.sh`` which is called by ``generate-testnet.sh``
 and writes the TLS certificates to ``qbft-testnet/testnet/tls``. These certificates are then used by ``start-node.sh``.
@@ -232,15 +232,15 @@ and `BIP 39 format <https://en.bitcoin.it/wiki/BIP_0039>`_.
 The Ethereum demo includes examples of mix-in wallet configuration files for both formats;
 the UTC JSON-based wallet mix-in looks as follows:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/pack/examples/e03-ethereum-sequencer/canton-conf/advanced/utc-wallet.conf
+.. literalinclude:: /canton-drivers/examples/e03-ethereum-sequencer/canton-conf/advanced/utc-wallet.conf
 
 with following ``utc-wallet.json``:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/pack/examples/e03-ethereum-sequencer/canton-conf/advanced/utc-wallet.conf
+.. literalinclude:: /canton-drivers/examples/e03-ethereum-sequencer/canton-conf/advanced/utc-wallet.conf
 
 The BIP39-based wallet mix-in looks as follows:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/pack/examples/e03-ethereum-sequencer/canton-conf/advanced/utc-wallet.conf
+.. literalinclude:: /canton-drivers/examples/e03-ethereum-sequencer/canton-conf/advanced/utc-wallet.conf
 
 For more details, please refer to the `Canton scaladoc documentation <https://docs.daml.com/__VERSION__/canton/scaladoc/com/digitalasset/canton/domain/sequencing/config/EthereumLedgerNodeConfig$$WalletConfig.html>`_.
 

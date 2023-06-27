@@ -9,15 +9,17 @@ DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 RELEASE_TAG=$(jq -r '.daml' $DIR/../versions.json)
 CANTON_RELEASE_TAG=$(jq -r '.canton' $DIR/../versions.json)
 DAML_FINANCE_RELEASE_TAG=$(jq -r '.daml_finance' $DIR/../versions.json)
+CANTON_DRIVERS_RELEASE_TAG=$(jq -r '.canton_drivers' $DIR/../versions.json)
 DOWNLOAD_DIR=$DIR/../workdir/downloads
 SPHINX_DIR=$DIR/../workdir/build/source
 
 prefix=$(basename $(realpath $DIR/..))
 
-mkdir -p $SPHINX_DIR/source/canton $SPHINX_DIR/source/daml-finance
+mkdir -p $SPHINX_DIR/source/canton $SPHINX_DIR/source/daml-finance $SPHINX_DIR/source/canton-drivers
 tar xf $DOWNLOAD_DIR/sphinx-source-tree-$RELEASE_TAG.tar.gz -C $SPHINX_DIR --strip-components=1
 tar xf $DOWNLOAD_DIR/canton-doc-sources-$CANTON_RELEASE_TAG.tar.gz -C $SPHINX_DIR/source/canton ./includes # only extract the includes folder
 tar xf $DOWNLOAD_DIR/daml-finance-doc-sources-$DAML_FINANCE_RELEASE_TAG.tar.gz -C $SPHINX_DIR/source/daml-finance
+tar xf $DOWNLOAD_DIR/canton-drivers-$CANTON_DRIVERS_RELEASE_TAG.tar.gz -C $SPHINX_DIR/source/canton-drivers --wildcards 'examples/*'
 
 cp -r $DIR/../docs/canton/* $SPHINX_DIR/source/canton
 # Temporary file rename in the case of using an canton assembly docs tar ball which contains console.rst instead of console.rst.inc
