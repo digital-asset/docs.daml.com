@@ -73,58 +73,67 @@ The Daml Ledger API uses the following rights to govern request authorization:
 
 - ``public``: the right to retrieve publicly available information, such as the ledger identity
 - ``participant_admin``: the right to administer the participant node
+- ``idp_admin``: the right to administer the users and parties belonging the same identity provider configuration as the authenticated user
 - ``canReadAs(p)``: the right to read information off the ledger (like the active contracts) visible to the party ``p``
 - ``canActsAs(p)``: same as ``canReadAs(p)``, with the added right of issuing commands on behalf of the party ``p``
 
 The following table summarizes the rights required to access each Ledger API endpoint:
 
-+-------------------------------------+----------------------------+--------------------------------------------------------+
-| Ledger API service                  | Endpoint                   | Required right                                         |
-+=====================================+============================+========================================================+
-| LedgerIdentityService               | GetLedgerIdentity          | public                                                 |
-+-------------------------------------+----------------------------+--------------------------------------------------------+
-| ActiveContractsService              | GetActiveContracts         | for each requested party p: canReadAs(p)               |
-+-------------------------------------+----------------------------+--------------------------------------------------------+
-| CommandCompletionService            | CompletionEnd              | public                                                 |
-|                                     +----------------------------+--------------------------------------------------------+
-|                                     | CompletionStream           | for each requested party p: canReadAs(p)               |
-+-------------------------------------+----------------------------+--------------------------------------------------------+
-| CommandSubmissionService            | Submit                     | for submitting party p: canActAs(p)                    |
-+-------------------------------------+----------------------------+--------------------------------------------------------+
-| CommandService                      | All                        | for submitting party p: canActAs(p)                    |
-+-------------------------------------+----------------------------+--------------------------------------------------------+
-| Health                              | All                        | no access token required for health checking           |
-+-------------------------------------+----------------------------+--------------------------------------------------------+
-| LedgerConfigurationService          | GetLedgerConfiguration     | public                                                 |
-+-------------------------------------+----------------------------+--------------------------------------------------------+
-| MeteringReportService               | All                        | participant_admin                                      |
-+-------------------------------------+----------------------------+--------------------------------------------------------+
-| PackageService                      | All                        | public                                                 |
-+-------------------------------------+----------------------------+--------------------------------------------------------+
-| PackageManagementService            | All                        | participant_admin                                      |
-+-------------------------------------+----------------------------+--------------------------------------------------------+
-| PartyManagementService              | All                        | participant_admin                                      |
-+-------------------------------------+----------------------------+--------------------------------------------------------+
-| ParticipantPruningService           | All                        | participant_admin                                      |
-+-------------------------------------+----------------------------+--------------------------------------------------------+
-| ServerReflection                    | All                        | no access token required for gRPC service reflection   |
-+-------------------------------------+----------------------------+--------------------------------------------------------+
-| TimeService                         | GetTime                    | public                                                 |
-|                                     +----------------------------+--------------------------------------------------------+
-|                                     | SetTime                    | participant_admin                                      |
-+-------------------------------------+----------------------------+--------------------------------------------------------+
-| TransactionService                  | LedgerEnd                  | public                                                 |
-|                                     +----------------------------+--------------------------------------------------------+
-|                                     | All (except LedgerEnd)     | for each requested party p: canReadAs(p)               |
-+-------------------------------------+----------------------------+--------------------------------------------------------+
-| UserManagementService               | All                        | participant_admin                                      |
-|                                     +----------------------------+--------------------------------------------------------+
-|                                     | GetUser                    | authenticated users can get their own user             |
-|                                     +----------------------------+--------------------------------------------------------+
-|                                     | ListUserRights             | authenticated users can list their own rights          |
-+-------------------------------------+----------------------------+--------------------------------------------------------+
-| VersionService                      | All                        | public                                                 |
-+-------------------------------------+----------------------------+--------------------------------------------------------+
++-------------------------------------+-------------------------------+--------------------------------------------------------+
+| Ledger API service                  | Endpoint                      | Required right                                         |
++=====================================+===============================+========================================================+
+| LedgerIdentityService               | GetLedgerIdentity             | public                                                 |
++-------------------------------------+-------------------------------+--------------------------------------------------------+
+| ActiveContractsService              | GetActiveContracts            | for each requested party p: canReadAs(p)               |
++-------------------------------------+-------------------------------+--------------------------------------------------------+
+| CommandCompletionService            | CompletionEnd                 | public                                                 |
+|                                     +-------------------------------+--------------------------------------------------------+
+|                                     | CompletionStream              | for each requested party p: canReadAs(p)               |
++-------------------------------------+-------------------------------+--------------------------------------------------------+
+| CommandSubmissionService            | Submit                        | for submitting party p: canActAs(p)                    |
++-------------------------------------+-------------------------------+--------------------------------------------------------+
+| CommandService                      | All                           | for submitting party p: canActAs(p)                    |
++-------------------------------------+-------------------------------+--------------------------------------------------------+
+| Health                              | All                           | no access token required for health checking           |
++-------------------------------------+-------------------------------+--------------------------------------------------------+
+| IdentityProviderConfigService       | All                           | participant_admin                                      |
++-------------------------------------+-------------------------------+--------------------------------------------------------+
+| LedgerConfigurationService          | GetLedgerConfiguration        | public                                                 |
++-------------------------------------+-------------------------------+--------------------------------------------------------+
+| MeteringReportService               | All                           | participant_admin                                      |
++-------------------------------------+-------------------------------+--------------------------------------------------------+
+| PackageService                      | All                           | public                                                 |
++-------------------------------------+-------------------------------+--------------------------------------------------------+
+| PackageManagementService            | All                           | participant_admin                                      |
++-------------------------------------+-------------------------------+--------------------------------------------------------+
+| PartyManagementService              | All                           | participant_admin                                      |
+|                                     +-------------------------------+--------------------------------------------------------+
+|                                     | All (except GetParticipantId, | idp_admin                                              |
+|                                     | UpdatePartyIdentityProviderId)|                                                        |
++-------------------------------------+-------------------------------+--------------------------------------------------------+
+| ParticipantPruningService           | All                           | participant_admin                                      |
++-------------------------------------+-------------------------------+--------------------------------------------------------+
+| ServerReflection                    | All                           | no access token required for gRPC service reflection   |
++-------------------------------------+-------------------------------+--------------------------------------------------------+
+| TimeService                         | GetTime                       | public                                                 |
+|                                     +-------------------------------+--------------------------------------------------------+
+|                                     | SetTime                       | participant_admin                                      |
++-------------------------------------+-------------------------------+--------------------------------------------------------+
+| TransactionService                  | LedgerEnd                     | public                                                 |
+|                                     +-------------------------------+--------------------------------------------------------+
+|                                     | All (except LedgerEnd)        | for each requested party p: canReadAs(p)               |
++-------------------------------------+-------------------------------+--------------------------------------------------------+
+| UserManagementService               | All                           | participant_admin                                      |
+|                                     +-------------------------------+--------------------------------------------------------+
+|                                     | All (except                   | idp_admin                                              |
+|                                     | UpdateUserIdentityProviderId) |                                                        |
+|                                     +-------------------------------+--------------------------------------------------------+
+|                                     | GetUser                       | authenticated users can get their own user             |
+|                                     +-------------------------------+--------------------------------------------------------+
+|                                     | ListUserRights                | authenticated users can list their own rights          |
++-------------------------------------+-------------------------------+--------------------------------------------------------+
+| VersionService                      | All                           | public                                                 |
++-------------------------------------+-------------------------------+--------------------------------------------------------+
 
 
 .. _access-token-formats:
@@ -176,6 +185,7 @@ Audience-Based Tokens
    {
       "aud": "https://daml.com/jwt/aud/participant/someParticipantId",
       "sub": "someUserId",
+      "iss": "someIdpId",
       "exp": 1300819380
    }
 
@@ -183,6 +193,7 @@ To interpret the above notation:
 
 - ``aud`` is a required field which restricts the token to participant nodes with the given ID (e.g. ``someParticipantId``)
 - ``sub`` is a required field which specifies the participant user's ID
+- ``iss`` is a field which specifies the identity provider id
 - ``exp`` is an optional field which specifies the JWT expiration date (in seconds since EPOCH)
 
 Scope-Based Tokens
@@ -194,6 +205,7 @@ Scope-Based Tokens
       "aud": "someParticipantId",
       "sub": "someUserId",
       "exp": 1300819380,
+      "iss": "someIdpId",
       "scope": "daml_ledger_api"
    }
 
@@ -201,6 +213,7 @@ To interpret the above notation:
 
 - ``aud`` is an optional field which restricts the token to participant nodes with the given ID
 - ``sub`` is a required field which specifies the participant user's ID
+- ``iss`` is a field which specifies the identity provider id
 - ``exp`` is an optional field which specifies the JWT expiration date (in seconds since EPOCH)
 - ``scope`` is a space-separated list of `OAuth 2.0 scopes <https://datatracker.ietf.org/doc/html/rfc6749#section-3.3>`_
   that must contain the ``"daml_ledger_api"`` scope
@@ -209,6 +222,25 @@ Requirements for User IDs
 -------------------------
 
 User IDs must be non-empty strings of at most 128 characters that are either alphanumeric ASCII characters or one of the symbols "@^$.!`-#+'~_|:".
+
+Identity providers
+------------------------------
+
+An identity provider configuration can thought of as a set of participant users which:
+ - have a defined way to verify their access tokens,
+ - can be administered in isolation from the rest of the users on the same participant node,
+ - have an identity provider id unique per participant node,
+ - have a related set of parties that share the same identity provider id.
+
+A participant node always has a statically configured default identity provider configuration whose id is the empty string ``""``.
+Additionally you can configure a small number of non-default identity providers using ``IdentityProviderConfigService``
+by supplying a non-empty identity provider id and a `JWK Set <https://datatracker.ietf.org/doc/html/rfc7517>`_
+URL which the participant node will use to retrieve the cryptographic data needed to verify the access tokens.
+
+When authenticating as a user from a non-default identity provider configuration your access tokens must
+contain the ``iss`` field whose value matches the identity provider id.
+In case of the default identity provider configuration the ``iss`` field can be empty or omitted from the access tokens.
+
 
 Custom Daml Claims Access Tokens
 ================================
