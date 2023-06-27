@@ -9,8 +9,8 @@ the :doc:`Lifecycling <lifecycling>` tutorial, in that it describes how lifecycl
 can be used to evolve instruments over time. However, there is one main difference:
 
 * The :doc:`Lifecycling <lifecycling>` tutorial describes a dividend event, which is something that
-  the issuer defines on an ongoing basis. When the date and amount of a dividend payment has been
-  defined, the issuer creates a distribution event accordingly.
+  the issuer defines on an ongoing basis. Only once the date and amount of a dividend payment has
+  been defined, the issuer creates a distribution event accordingly.
 * This tutorial describes a fixed rate bond, where all coupon payments are defined in advance. They
   are all encoded in the instrument definition. Hence, the issuer does not need to create
   distribution events on an ongoing bases. Instead, one lifecycle rule in combination with time
@@ -26,7 +26,7 @@ We are going to:
 #. settle the resulting batch atomically
 
 This example builds on the previous :doc:`Settlement <settlement>` tutorial script in the sense that
-the same parties, accounts and the existing holding factory are used.
+the same parties, accounts and holding factory are used.
 
 Run the Script
 **************
@@ -69,10 +69,19 @@ We can now create the bond instrument using a factory:
   :start-after: -- CREATE_FIXED_RATE_BOND_INSTRUMENT_BEGIN
   :end-before: -- CREATE_FIXED_RATE_BOND_INSTRUMENT_END
 
+Also create a bond holding:
+
+.. literalinclude:: ../../quickstart-finance/daml/Scripts/FixedRateBond.daml
+  :language: daml
+  :start-after: -- CREATE_FIXED_RATE_BOND_HOLDING_BEGIN
+  :end-before: -- CREATE_FIXED_RATE_BOND_HOLDING_END
+
+Now, we have both an instrument definition and a holding. Let us now proceed to lifecycle the bond.
+
 Lifecycle Events and Rule
 =========================
 
-Next, we create a lifecycle rule (which can be used to process all time events):
+As mentioned earlier, we only need one single lifecycle rule to process all time events:
 
 .. literalinclude:: ../../quickstart-finance/daml/Scripts/FixedRateBond.daml
   :language: daml
@@ -86,14 +95,14 @@ Furthermore, we create a time event corresponding to the date of the first coupo
   :start-after: -- CREATE_CLOCK_UPDATE_EVENT_BEGIN
   :end-before: -- CREATE_CLOCK_UPDATE_EVENT_END
 
-Now, we have what we need to lifecycle the bond:
+Now, we have what we need to actually lifecycle the bond:
 
 .. literalinclude:: ../../quickstart-finance/daml/Scripts/FixedRateBond.daml
   :language: daml
   :start-after: -- LIFECYCLE_BOND_BEGIN
   :end-before: -- LIFECYCLE_BOND_END
 
-The result of this is an effect describing the per-unit asset movements to be executed for token
+The result of this is an effect describing the per-unit asset movements to be executed for bond
 holders. Each holder can now present their holding to *claim* the effect and instruct settlement of
 the associated entitlements.
 
@@ -114,13 +123,14 @@ the effect:
   :end-before: -- CLAIM_EFFECT_END
 
 As a side-effect of settling the entitlements, the presented holding is exchanged for a holding of
-a new bond version. This is to prevent a holder from benefiting from a given effect twice.
+a new bond version. This is to prevent a holder from benefiting from a given effect twice (in our
+case: receiving the same coupon twice).
 
 In our example of a bond coupon, only a single instruction is generated: the movement of cash from
 the bank to the bond holder. This instruction along with its batch is settled the usual way, as
 described in the previous :doc:`Settlement <settlement>` tutorial.
 
-.. literalinclude:: ../../quickstart-finance/daml/Scripts/Lifecycling.daml
+.. literalinclude:: ../../quickstart-finance/daml/Scripts/FixedRateBond.daml
   :language: daml
   :start-after: -- EFFECT_SETTLEMENT_BEGIN
   :end-before: -- EFFECT_SETTLEMENT_END
@@ -156,60 +166,14 @@ process up to the implementation.
 * The party executing settlement can be chosen as well, as described in the previous tutorial on
   :doc:`Settlement <settlement>`.
 
-Which party should take the role as *lifecycler*?
-=================================================
-
-From a design perspective, a lifecycler is often the party that defines the lifecycle events
-happening on an instrument (although they can be different). In the simplified example above, it is
-the bank. In a more realistic example, it would probably be the issuer.
-In some special cases, if we really need the owner to be the lifecycler, we can use a delegation
-contract.
-
-The lifecycler is currently trusted with:
-
-* Timely and complete Event processing
-* Providing accurate Observations
-
-Which party is the provider of the Effect?
-==========================================
-
-Most of the time the provider of the Effect is the lifecycler. However, in some cases we may want to
-avoid disclosing the claimed holdings to the lifecycler. The provider of the Effect gets to see all
-holdings claimed against that one Effect contract. If we wish to avoid that, we then need a
-different effect provider.
-
-Can an instrument act as its own lifecycle rule?
-================================================
-
-Yes, an instrument can implement the ``Lifecycle`` interface directly such that the lifecycle rules
-are contained within the instrument itself. There are, however, advantages to separating this logic
-out into rule contracts:
-
-* Keeping lifecycle rules in a different package from your instruments allows you to independently
-  upgrade or patch them without affecting your live instruments.
-* Having separate rules allows to change the lifecycle properties of an instrument dynamically at
-  runtime. For example, an instrument can initially be created without support for doing asset
-  distributions. Then, at a later point, the issuer might decide to start paying dividends. They can
-  now simply add a distribution rule to the running system to enable this new lifecycle event for
-  their instrument without affecting the actual live instrument itself (or any holdings on it).
-
-Can I integrate a holding ownership change (of the target instrument) within lifecycling?
-=========================================================================================
-
-Lifecycling will not change the ownership of the target instrument. You should use the
-:doc:`Transfer <transfer>` pattern to do a delivery-versus-payment as a separate step from the
-lifecycling.
-
-However, there usually is a change of ownership of the other consumed/produced instruments when
-lifecycling (e.g. when paying out a dividend cash is moved from one party to another).
-
 Summary
 *******
 
-You have learned how to use lifecycle rules and events to describe the behavior of an instrument.
+You have learned how to create a fixed coupon bond and how to use a lifecycle rule and events to
+process the payments pre-defined by the instrument.
 The key concepts to take away are:
 
-* Lifecycle events represent different ways of how an instrument can evolve.
+* Lifecycle events cause the bond instrument to evolve over time.
 * A lifecycle rule contains logic to calculate the effects an event has on an instrument and its
   holdings.
 * A claim rule is used to instruct settlement for a given effect using a holding.
