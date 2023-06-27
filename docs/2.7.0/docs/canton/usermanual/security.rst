@@ -23,12 +23,40 @@ Supported Cryptographic Schemes in Canton
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Within Canton we use the cryptographic primitives of signing, symmetric and
-asymmetric encryption, and MAC with the following supported schemes:
+asymmetric encryption, and MAC with the following supported schemes (`D` = `default`, `S` = `supported`
+and `/` = `not supported`):
 
-.. image:: ./images/canton_supported_schemes.png
-   :width: 50%
-   :align: center
-   :alt: A table showing Canton's supported schemes per provider.
+.. _canton_supported_keys:
+
++--------------------------------------------------------+------------+-----------+----------+
+| **TYPE**                                               |    TINK    |    JCE    |    KMS   |
++========================================================+============+===========+==========+
+| **SIGNING**                                                                                |
++--------------------------------------------------------+------------+-----------+----------+
+| Ed25519                                                |      D     |     D     |     /    |
++--------------------------------------------------------+------------+-----------+----------+
+| ECDSA P-256                                            |      S     |     S     |     D    |
++--------------------------------------------------------+------------+-----------+----------+
+| ECDSA P-384                                            |      S     |     S     |     S    |
++--------------------------------------------------------+------------+-----------+----------+
+| SM2 (experimental)                                     |      S     |     S     |     /    |
++--------------------------------------------------------+------------+-----------+----------+
+| **SYMMETRIC ENCRYPTION**                                                                   |
++--------------------------------------------------------+------------+-----------+----------+
+| AES128-GCM                                             |      D     |     D     |     D    |
++--------------------------------------------------------+------------+-----------+----------+
+| **ASYMMETRIC ENCRYPTION**                                                                  |
++--------------------------------------------------------+------------+-----------+----------+
+| ECIES on P-256 with HMAC-SHA256 and AES128-GCM         |      D     |     D     |     /    |
++--------------------------------------------------------+------------+-----------+----------+
+| ECIES on P-256 with HMAC-SHA256 and AES128-CBC         |      /     |     S     |     /    |
++--------------------------------------------------------+------------+-----------+----------+
+| RSA 2048 with OAEP using SHA-256                       |      /     |     S     |     D    |
++--------------------------------------------------------+------------+-----------+----------+
+| **MAC**                                                                                    |
++--------------------------------------------------------+------------+-----------+----------+
+| HMAC with SHA-256                                      |      D     |     D     |     D    |
++--------------------------------------------------------+------------+-----------+----------+
 
 Key Generation and Storage
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -497,47 +525,30 @@ to update the configuration before rotating the wrapper key.
 Canton Configuration for External Key Storage and Usage
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. warning::
-    You cannot mix an external private key storage configuration
-    with an encrypted private key storage configuration.
-
 In the example below we configure a Canton participant node (called ``participant1``) to generate and
 store private keys in an external KMS. Besides the previously presented :ref:`AWS KMS configuration <kms_config>`
-you only need to specify the correct crypto provider ``kms``:
+you only need to specify the correct crypto provider ``kms`` and ensure that the remaining nodes, in particular
+the connected domain, runs with the correct schemes:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/encrypted-store-enabled-tagged.conf
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/kms-provider-tagged.conf
    :language: none
-   :start-after: user-manual-entry-begin: PrivateKeyStoreConfig
-   :end-before: user-manual-entry-end: PrivateKeyStoreConfig
+   :start-after: user-manual-entry-begin: KmsProviderConfig
+   :end-before: user-manual-entry-end: KmsProviderConfig
 
-AWS KMS only supports the following cryptographic schemes:
+Therefore, a node running with a ``kms`` provider is only ever able to communicate with other nodes running
+a ``kms`` or ``jce`` providers. Furthermore, the nodes have to be explicitly configured to use the
+KMS supported algorithms as the required algorithms.
 
-.. _kms_schemes:
-
-Signing:
-
-- ECDSA with P-256 and P-384
-
-Asymmetric Encryption:
-
-- RSA 2048 with OAEP using SHA-256
-
-Therefore, a node running with a ``kms`` provider is only ever able to communicate
-with other nodes running a ``kms`` or ``jce`` providers. Furthermore,
-the domain has to be explicitly configured to use the KMS supported algorithms
-as the required algorithms on the domain
-
-An example configuration that puts it all together is below:
-
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/encrypted-store-enabled.conf
-   :language: none
+AWS KMS only supports the :ref:`following cryptographic schemes <canton_supported_keys>`.
 
 .. todo::
       #. `Enable revert for a KMS provider <https://github.com/DACH-NY/canton/issues/13635>`_
 
 .. note::
-    Currently if a node starts with a KMS as its provider it can no longer be reverted without a full reset of the node
-    (i.e., re-generation of node identity and all keys). We plan to add this revert feature in the near future.
+    You cannot mix an external private key storage configuration
+    with an encrypted private key storage configuration. Currently if a node starts with a KMS as its
+    provider it can no longer be reverted without a full reset of the node
+    (i.e., re-generation of node identity and all keys).
 
 .. _manual-aws-ksm-key-rotation:
 
@@ -547,9 +558,8 @@ Auditability
 AWS provides  tools to monitor KMS keys. To set automatic external logging, refer to the `official documentation
 <https://docs.aws.amazon.com/kms/latest/developerguide/monitoring-overview.html>`_.
 This includes instructions on how to set AWS Cloud Trail or Cloud Watch Alarms
-to keep track of usage of KMS keys. We can also extend this with an optional audit trail for all the
-KMS usage when used in full KMS mode. Errors resulting from the use of a KMS key
-(e.g., during encryption and decryption) are also logged in Canton.
+to keep track of usage of KMS keys. We can also extend this with an optional audit trail for all the errors
+resulting from the use of a KMS key (e.g., during encryption and decryption).
 
 Ledger-API Authorization
 ------------------------
