@@ -29,9 +29,9 @@ and `/` = `not supported`):
 .. _canton_supported_keys:
 
 +--------------------------------------------------------+------------+-----------+----------+
-| **TYPE**                                               |    TINK    |    JCE    |    KMS   |
+| **Crypto Provider**                                    |    Tink    |    JCE    |    KMS   |
 +========================================================+============+===========+==========+
-| **SIGNING**                                                                                |
+| **Signing**                                                                                |
 +--------------------------------------------------------+------------+-----------+----------+
 | Ed25519                                                |      D     |     D     |     /    |
 +--------------------------------------------------------+------------+-----------+----------+
@@ -41,11 +41,11 @@ and `/` = `not supported`):
 +--------------------------------------------------------+------------+-----------+----------+
 | SM2 (experimental)                                     |      S     |     S     |     /    |
 +--------------------------------------------------------+------------+-----------+----------+
-| **SYMMETRIC ENCRYPTION**                                                                   |
+| **Symmetric Encryption**                                                                   |
 +--------------------------------------------------------+------------+-----------+----------+
 | AES128-GCM                                             |      D     |     D     |     D    |
 +--------------------------------------------------------+------------+-----------+----------+
-| **ASYMMETRIC ENCRYPTION**                                                                  |
+| **Asymmetric Encryption**                                                                  |
 +--------------------------------------------------------+------------+-----------+----------+
 | ECIES on P-256 with HMAC-SHA256 and AES128-GCM         |      D     |     D     |     /    |
 +--------------------------------------------------------+------------+-----------+----------+
@@ -558,8 +558,8 @@ Auditability
 AWS provides  tools to monitor KMS keys. To set automatic external logging, refer to the `official documentation
 <https://docs.aws.amazon.com/kms/latest/developerguide/monitoring-overview.html>`_.
 This includes instructions on how to set AWS Cloud Trail or Cloud Watch Alarms
-to keep track of usage of KMS keys. We can also extend this with an optional audit trail for all the errors
-resulting from the use of a KMS key (e.g., during encryption and decryption).
+to keep track of usage of KMS keys or of performed crypto operations. Errors resulting from the use of
+KMS keys are logged in Canton.
 
 Ledger-API Authorization
 ------------------------
