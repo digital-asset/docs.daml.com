@@ -228,7 +228,7 @@ Canton reports several types of traces. One example: every Canton console comman
 
    Graph of a Canton ping trace containing 18 spans
 
-Traces of Daml command submissions are important. The trace illustrated in the figure results from performing a Canton ping using the console. It contains 18 spans. The ping is started by ``participant1``, and ``participant2`` is the target. The trace focuses on the message exchange through the sequencer without digging deep into the message handlers or further processing of transactions.
+Traces of Daml command submissions are important. The trace illustrated in the figure results when you perform a Canton ping using the console. The ping is a smoke test that sends a Daml transaction (create Ping, exercise choice Pong, exercise choice Archive) to test a connection. It uses a particular smart contract that is preinstalled on every Canton participant. The command uses the Admin API to access a preinstalled application, which then issues Ledger API commands operating on this smart contract. In this example, the trace contains 18 spans. The ping is started by ``participant1``, and ``participant2`` is the target. The trace focuses on the message exchange through the sequencer without digging deep into the message handlers or further processing of transactions.
 
 In some cases, spans may start later than the end of their parents, due to asynchronous processing. This typically occurs when a new operation is placed on a queue to be handled later, which immediately frees the parent span and ends it.
 
@@ -266,7 +266,7 @@ In spans 14 and 15, ``mediator1`` (now at phase 6) asks ``sequencer1`` to send t
 
 To end this round of the transaction protocol, ``participant1`` and ``participant2`` receive their messages at spans 16 and 17, respectively. The messages are asynchronously validated, and their projections of the virtual shared ledger are updated (phase 7).
 
-As mentioned, there are two other transaction submissions that are unlinked from this ping trace but are part of the operation. It is possible to find them.
+As mentioned, there are two other transaction submissions that are unlinked from this ping trace but are part of the operation.
 The second one starts at a span titled ``admin-ping.processTransaction``, which is created by ``participant2``. The third one has the same name but is initiated by ``participant1``.
 
 .. _status-commands:
