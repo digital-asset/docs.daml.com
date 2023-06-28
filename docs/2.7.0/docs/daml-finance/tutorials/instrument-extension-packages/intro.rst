@@ -8,6 +8,35 @@ This section explains how to use some of the Daml Finance instrument packages to
 financial instruments. Each tutorial combines a step by step description of different workflows
 with supporting code.
 
+Tutorial code
+*************
+
+To follow the tutorials, you can install the ``finance-instruments`` project via the Daml assistant
+by executing the following commands -
+
+On Unix-based systems execute:
+
+.. code-block:: shell
+
+   daml new finance-instruments --template=finance-instruments
+   cd finance-instruments
+   ./get-dependencies.sh
+   daml studio
+
+On Windows-based systems execute:
+
+.. code-block:: shell
+
+   daml new finance-instruments --template=finance-instruments
+   cd finance-instruments
+   get-dependencies.bat
+   daml studio
+
+Note: this will only work once Daml SDK v2.7 has been released.
+
+Next Steps
+**********
+
 The following tutorials are available:
 
 * The :doc:`Bond Extension <bond-extension>` tutorial introduces the different types of bonds
