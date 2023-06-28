@@ -9,34 +9,31 @@ the :doc:`Lifecycling <../getting-started/lifecycling>` tutorial, in that it des
 rules and events can be used to evolve instruments over time. However, there is one main difference:
 
 * The :doc:`Lifecycling <../getting-started/lifecycling>` tutorial describes a dividend event, which
-  is something that the issuer defines on an ongoing basis. Only once the date and amount of a
+  is something that the issuer defines *on an ongoing basis*. Only once the date and amount of a
   dividend payment has been defined, the issuer creates a distribution event accordingly.
-* This tutorial describes a fixed rate bond, where all coupon payments are defined in advance. They
-  are all encoded in the instrument definition. Hence, the issuer does not need to create
+* This tutorial describes a fixed rate bond, where all coupon payments are defined *in advance*.
+  They are all encoded in the instrument definition. Hence, the issuer does not need to create
   distribution events on an ongoing bases. Instead, one lifecycle rule in combination with time
   events (a date clock) are used to lifecycle the bond.
 
 We are going to:
 
-#. create a fixed rate bond instrument and a holding on it
+#. create a fixed rate bond instrument and book a holding on it
 #. create a lifecycle rule
-#. create a lifecycle event (time event: DateClockUpdate)
+#. create a lifecycle event (time event: ``DateClockUpdate``)
 #. process the event to produce the effects of a coupon payment
 #. instruct settlement by presenting a bond holding
 #. settle the resulting batch atomically
 
 This example builds on the previous :doc:`Settlement <../getting-started/settlement>` tutorial
-script in the sense that the same parties, accounts and holding factory are used.
+script. Some required concepts are explained there, so please check out that tutorial before you
+continue below.
 
 Run the Script
 **************
 
 The code for this tutorial can be executed via the ``runFixedRateBond`` function in the
 ``FixedRateBond.daml`` module.
-
-The first part executes the script from the previous
-:doc:`Settlement <../getting-started/settlement>` tutorial to arrive at the initial state for this
-scenario.
 
 Instrument and Holding
 ======================
@@ -70,7 +67,7 @@ We can now create the bond instrument using a factory:
   :start-after: -- CREATE_FIXED_RATE_BOND_INSTRUMENT_BEGIN
   :end-before: -- CREATE_FIXED_RATE_BOND_INSTRUMENT_END
 
-Also create a bond holding:
+Finally, we create a bond holding in Bob's account:
 
 .. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
   :language: daml
@@ -82,14 +79,16 @@ Now, we have both an instrument definition and a holding. Let us now proceed to 
 Lifecycle Events and Rule
 =========================
 
-As mentioned earlier, we only need one single lifecycle rule to process all time events:
+As mentioned earlier, we only need one single lifecycle rule to process all time events (since all
+coupon payments are pre-defined in the instrument terms):
 
 .. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
   :language: daml
   :start-after: -- CREATE_LIFECYCLE_RULE_BEGIN
   :end-before: -- CREATE_LIFECYCLE_RULE_END
 
-Furthermore, we create a time event corresponding to the date of the first coupon payment:
+In order to lifecycle a coupon payment, we create a time event corresponding to the date of the
+first coupon:
 
 .. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
   :language: daml
@@ -158,8 +157,8 @@ Which parties typically take which actions in the lifecycle workflow?
 The lifecycle interfaces governing the process leave the controllers of the various choices in the
 process up to the implementation.
 
-* Typically, we would expect the issuer of an instrument to be responsible to generate lifecycle
-  events (for example, announcing dividends or stock splits).
+* Typically, we would expect the issuer of an instrument to define the instrument terms, which in
+  our example above govern the date and amount of each bond coupon.
 * Lifecycle rules on the other hand are often controlled by 3rd-party calculation agents.
 * The claiming of lifecycle effects is by default the responsibility of the owner of a holding. If
   instead the owner wants to delegate this responsibility to their custodian they can do so via a
