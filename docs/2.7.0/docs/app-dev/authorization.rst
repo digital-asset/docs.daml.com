@@ -229,13 +229,13 @@ Identity providers
 ------------------------------
 
 An identity provider configuration can be thought of as a set of participant users which:
- - have a defined way to verify their access tokens,
- - can be administered in isolation from the rest of the users on the same participant node,
- - have an identity provider id unique per participant node,
- - have a related set of parties that share the same identity provider id.
+ - Have a defined way to verify their access tokens
+ - Can be administered in isolation from the rest of the users on the same participant node
+ - Have an identity provider id unique per participant node
+ - Have a related set of parties that share the same identity provider id
 
 A participant node always has a statically configured default identity provider configuration whose id is the empty string ``""``.
-Additionally you can configure a small number of non-default identity providers using ``IdentityProviderConfigService``
+Additionally, you can configure a small number of non-default identity providers using ``IdentityProviderConfigService``
 by supplying a non-empty identity provider id and a `JWK Set <https://datatracker.ietf.org/doc/html/rfc7517>`_
 URL which the participant node will use to retrieve the cryptographic data needed to verify the access tokens.
 
