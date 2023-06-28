@@ -1024,10 +1024,10 @@ subtrees:
   - file: canton/usermanual/monitoring
     title: "Monitoring Best Practices"
     entries:
-    - file: ops/common-metrics
-      title: "Common Metrics"
     - file: canton/usermanual/example_monitoring_setup
       title: "Example Monitoring Setup"
+    - file: canton/usermanual/monitoring_glossary
+      title: "Glossary"
   - file: canton/usermanual/identity_management
     title: "Identity Management"
   - file: operate-a-daml-ledger/common-tasks/index

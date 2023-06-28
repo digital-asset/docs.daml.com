@@ -8,7 +8,7 @@
 Example Monitoring Setup
 ========================
 
-This section provides an example of how Canton can be run inside a connected network of Docker containers. The example also shows how you can monitor network activity. See the `Glossary`_ for an explanation of the terms and the `Monitoring Choices`_ section for the reasoning behind the example monitoring setup. 
+This section provides an example of how Canton can be run inside a connected network of Docker containers. The example also shows how you can monitor network activity. See the `monitoring glossary <https://docs.daml.com/canton/usermanual/monitoring_glossary.html>`_ for an explanation of the terms and the `Monitoring Choices`_ section for the reasoning behind the example monitoring setup. 
 
 Container Setup
 ---------------
@@ -114,7 +114,7 @@ The setup for participant2 is identical, except that the name and ports are chan
 Logstash
 ~~~~~~~~
 
-Docker containers can specify a log driver to automatically export log information from the container to an aggregating service. The example exports log information in `GELF`_, using Logstash as the aggregation point for all GELF streams. You can use Logstash to feed many downstream logging data stores, including Elasticsearch, Loki, and Graylog.
+Docker containers can specify a log driver to automatically export log information from the container to an aggregating service. The example exports log information in GELF, using Logstash as the aggregation point for all GELF streams. You can use Logstash to feed many downstream logging data stores, including Elasticsearch, Loki, and Graylog.
 
 .. literalinclude:: ./monitoring/etc/logstash-docker-compose.yml
    :caption: etc/logstash-docker-compose.yml
@@ -337,7 +337,7 @@ You should see a container system metrics dashboard similar to the one shown her
    :width: 100%
    :alt: An example metrics dashboard
 
-See the `Grafana Documentation`_ for how to configure dashboards. For information about which metrics are available, see the Metrics documentation in the Monitoring section of this user manual.
+See the `Grafana documentation <https://grafana.com/grafana/>`_ for how to configure dashboards. For information about which metrics are available, see the Metrics documentation in the Monitoring section of this user manual.
 
 Monitoring Choices
 ------------------
@@ -381,18 +381,18 @@ Use Elasticsearch/Kibana
 
 **Reasons:**
 
-- Using Logstash with Elasticsearch and Kibana, the `ELK`_ stack, is a mature way to set up a logging infrastructure. 
+- Using Logstash with Elasticsearch and Kibana, the ELK stack, is a mature way to set up a logging infrastructure. 
 - Good defaults for these products allow a basic setup to be started with almost zero configuration.
-- The ELK setup acts as a good baseline as compared to other options such as `Loki`_ or `Graylog`_.
+- The ELK setup acts as a good baseline as compared to other options such as Loki or Graylog.
 
 Use Prometheus/Grafana
 ~~~~~~~~~~~~~~~~~~~~~~
 
 **Reasons:**
 
-- Prometheus defines and uses the `OpenTelemetry`_ reference file format.
+- Prometheus defines and uses the OpenTelemetry reference file format.
 - Exposing metrics via an HTTP endpoint allows easy direct inspection of metric values.
-- The Prometheus approach of pulling metrics from underlying system means that the running containers do not need infrastructure to store and push metric data.
+- The Prometheus approach of pulling metrics from the underlying system means that the running containers do not need infrastructure to store and push metric data.
 - Grafana works very well with Prometheus.
 
 
@@ -401,106 +401,6 @@ Logging Improvements
 This version of the example only has the logging structure provided via GELF. It is possible to improve this by:
 
   - Extracting data from the underlying containers as a JSON stream.
-  - Mapping fields in this JSON data onto the `ECS`_ so that the same name is used for commonly used field values (for example, log level).
+  - Mapping fields in this JSON data onto the ECS so that the same name is used for commonly used field values (for example, log level).
   - Configuring Elasticsearch with a schema that allows certain fields to be quickly filtered (for example, log level).
 
-Glossary
---------
-
-Docker Log Driver
-~~~~~~~~~~~~~~~~~
-Docker containers can be configured with a log driver that allows log output to be exported from the Docker container. Using log drivers to export logging information makes running another process on the Docker container for this unnecessary.
-
-`https://docs.docker.com/config/containers/logging/configure/ <https://docs.docker.com/config/containers/logging/configure/>`_
-
-Syslog
-~~~~~~
-Syslog is a standard for logging messages that has been around since the 1980s. Syslog is one of the built-in logging drivers supported by Docker.
-
-`https://en.wikipedia.org/wiki/Syslog <https://en.wikipedia.org/wiki/Syslog>`_
-
-GELF
-~~~~
-The Graylog extended logging format (GELF) improves on syslog logging by providing structured messages that are not size-limited. GELF is one of the built-in logging drivers supported by Docker. The message format is compressed JSON.
-
-`https://docs.graylog.org/docs/gelf <https://docs.graylog.org/docs/gelf>`_
-
-Docker Plugins
-~~~~~~~~~~~~~~
-A Docker plugin is a way to extend Docker (for example, by adding a log driver).
-
-`https://docs.docker.com/engine/extend/ <https://docs.docker.com/engine/extend/>`_
-
-Loki Log Driver
-~~~~~~~~~~~~~~~
-The Loki log driver is a Loki client that allows log information to be shipped from a Docker log file, similar to other log drivers. The message format is gRPC protobuf.
-
-`https://grafana.com/docs/loki/latest/clients/docker-driver/ <https://grafana.com/docs/loki/latest/clients/docker-driver/>`_
-
-Logstash
-~~~~~~~~
-Logstash is a service that allows a series of pipelines to be configured that read, filter, and manipulate data before writing it out. It has support for a multitude of input, filter, and output types. The GELF input reader and Elasticsearch output writer are of particular interest.
-
-`https://www.elastic.co/guide/en/logstash/current/introduction.html <https://www.elastic.co/guide/en/logstash/current/introduction.html>`_
-
-Elasticsearch
-~~~~~~~~~~~~~
-Elasticsearch is a technology that allows JSON documents to be stored, indexed, and searched in near real time. It can be configured as a cluster with built-in resiliency.
-
-`https://www.elastic.co/guide/en/elasticsearch/reference/8.5/index.html <https://www.elastic.co/guide/en/elasticsearch/reference/8.5/index.html>`_
-
-ECS
-~~~
-The Elastic Common Schema (ECS) defines a naming convention for fields used in Elasticsearch. For example, use `@timestamp` for timestamp.
-
-`https://www.elastic.co/guide/en/ecs/current/ecs-field-reference.html <https://www.elastic.co/guide/en/ecs/current/ecs-field-reference.html>`_
-
-MinIO
-~~~~~
-AWS S3 Compatible Storage (used by Loki).
-
-`https://min.io/product/s3-compatibility <https://min.io/product/s3-compatibility>`_
-
-ELK
-~~~
-The ELK stack is an established way to enable capturing, indexing, and displaying log data.
-
-`https://www.elastic.co/what-is/elk-stack <https://www.elastic.co/what-is/elk-stack>`_
-
-Graylog
-~~~~~~~
-Unlike Elasticsearch, Graylog is not a general-purpose indexing, analytics, and search tool. It is designed specifically for log data. This provides a simpler, more focused option with better defaults for logging. 
-
-`https://www.graylog.org/about/ <https://www.graylog.org/about/>`_
-
-Loki
-~~~~
-Loki is a log aggregation system designed to store and query logs from all your applications and infrastructure. It displays log information inside Grafana, allowing a single UI to be used for both metric data and logs.
-
-`https://grafana.com/oss/loki/ <https://grafana.com/oss/loki/>`_
-
-Prometheus
-~~~~~~~~~~
-Prometheus can be configured to scrape metric data from many endpoints. This metric data can then be queried by metric visualization tools such as Grafana.
-
-`https://prometheus.io/ <https://prometheus.io/>`_
-
-.. _Grafana Documentation:
-
-Grafana
-~~~~~~~
-Grafana provides a web UI that allows the construction of dashboards showing metric data. This data can be queried against a Prometheus metric store.
-
-`https://grafana.com/grafana/ <https://grafana.com/grafana/>`_
-
-OpenTelemetry
-~~~~~~~~~~~~~
-OpenTelemetry is an organization that works to standardize observability (an umbrella term that includes logging, metrics, and tracing).
-
-`https://opentelemetry.io/ <https://opentelemetry.io/>`_
-
-cAdvisor
-~~~~~~~~
-Container Advisor (cAdvisor) provides an overview of CPU, memory, disk, and network utilization for each of the Docker containers. It works by querying the `Docker Engine API <https://docs.docker.com/engine/api/>`_ to get these statistics for each container. This lets you avoid layering the containers with a utility to perform these functions.
-
-`https://github.com/google/cadvisor <https://github.com/google/cadvisor>`_
