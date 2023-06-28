@@ -393,6 +393,21 @@ The return value contains the updated state of the user:
     .. assert:: updatedUser.id == "myuser"
     .. assert:: updatedUser.annotations == Map("description" -> "This is a new description", "baz" -> "bar")
 
+You can also update the user's identity provider id.
+In the following snippets, you change the user's identity provider id to the newly created one.
+Note that originally the user belonged to the default identity provider whose id is represented as the empty string ```""```.
+
+.. snippet:: user_management
+    .. success:: participant1.ledger_api.identity_provider_config.create("idp-id1", isDeactivated = false, jwksUrl = "http://someurl", issuer = "issuer1", audience = None)
+    .. success:: participant1.ledger_api.users.update_idp("myuser", sourceIdentityProviderId="", targetIdentityProviderId="idp-id1")
+    .. success:: participant1.ledger_api.users.get("myuser", identityProviderId="idp-id1")
+
+You can change the user's identity provider id back to the default one:
+
+.. snippet:: user_management
+    .. success:: participant1.ledger_api.users.update_idp("myuser", sourceIdentityProviderId="idp-id1", targetIdentityProviderId="")
+    .. success:: participant1.ledger_api.users.get("myuser", identityProviderId="")
+
 Inspect
 ^^^^^^^
 
@@ -674,6 +689,17 @@ In the following, we demonstrate the basic steps how to initialise a node:
 
 .. _manually-init-domain:
 
+Keys Initialization
+^^^^^^^^^^^^^^^^^^^
+
+The following steps describe how to manually generate the necessary Canton keys:
+
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/topology/TopologyManagementHelper.scala
+   :language: scala
+   :start-after: architecture-handbook-entry-begin: ManualInitKeys
+   :end-before: architecture-handbook-entry-end: ManualInitKeys
+   :dedent:
+
 Domain Initialization
 ^^^^^^^^^^^^^^^^^^^^^
 The following steps describe how to manually initialize a domain node:
@@ -690,7 +716,7 @@ Participant Initialization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 The following steps describe how to manually initialize a participant node:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/topology/MemberAutoInitIntegrationTest.scala
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/topology/TopologyManagementHelper.scala
    :language: scala
    :start-after: architecture-handbook-entry-begin: ManualInitParticipant
    :end-before: architecture-handbook-entry-end: ManualInitParticipant

@@ -13,12 +13,16 @@ Security
 Secure Cryptographic Private Key Storage
 ----------------------------------------
 
-In this section we describe Canton's approach to securing the storage of cryptographic private keys.
-When enabled, we leverage a Key Management Service (KMS) to host an encryption
-key that is used to transparently encrypt the private keys before storing them.
-This way an attacker who has access to the database (e.g., a malicious database operator)
-cannot get access to the private keys from a Canton node, which would compromise the transaction
-privacy and integrity guarantees of Canton.
+In this section we describe Canton's two different approaches to securing the storage of cryptographic private keys.
+When enabled, we leverage a Key Management Service (KMS) to either: (a) `host an encryption
+key that is used to transparently encrypt the private keys (i.e. envelope encryption) before storing
+them in Canton's database`; or (b) `directly use a KMS to perform cryptographic operations without
+access to the private keys`.
+While using envelope encryption we make sure that an attacker who has access to the database
+(e.g., a malicious database operator) cannot get access to the private keys from a Canton node,
+which would compromise the transaction privacy and integrity guarantees of Canton. If we instead decide to
+externalize private key storage and usage, we go one step further and protect against an attacker with privileged
+access to the node’s system that can inspect the memory.
 
 Background
 ~~~~~~~~~~
@@ -48,15 +52,16 @@ Requirements
 - Backup and subsequent restoration of the database of a participant node supports KMS key rotation and rotation of Canton’s long-term keys.
 - For high availability operation, Canton supports duplication of keys.
 
-
 .. note::
 
     Confidentiality at runtime for the private keys is out of scope.
-    This approach does not protect against an attacker that has privileged access to the node’s
-    system and can inspect the memory.
+    If envelope encryption is used then we do not protect against an attacker that has
+    privileged access to the node’s system and can inspect the memory.
 
-Protect Private Keys With a Key Management Service
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. _kms_envelope_architecture:
+
+Protect Private Keys With Envelope Encryption and a Key Management Service
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Canton can protect private keys by forcing them to be internally stored in an encrypted form so
 they can’t be decrypted and used to create fraudulent transactions. This protection at rest safeguards
@@ -87,6 +92,23 @@ The KMS must be locked down appropriately:
 - Usage of the wrapper key must be logged for auditability.
 - Separation of duties between the KMS operator and the database operator.
 
+.. _kms_external_architecture:
+
+Externalize Private Keys With a Key Management Service
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Canton can also protect private keys by outsourcing their generation and storage to a KMS, making use of
+of a KMS's API to perform the necessary crypto operations such as decryption and signing. This protection
+safeguards against malicious adversaries that, besides access to the storage layer, can also
+access the node’s system and inspect its memory. Using a KMS's underlying monitoring framework
+(e.g. AWS CloudTrail Logs or GCP Cloud Audit Logs) in combination with Canton logging also offers a
+reliable way to maintain the security, reliability of Canton, and identify any possible misuse of its private keys.
+
+This improvement in security comes with drawbacks, in particular:
+
+- Added latency resulting from the need to use a KMS to decrypt and sign messages.
+- Canton's supported schemes must match those provided by the KMS.
+
 AWS KMS Integration
 ^^^^^^^^^^^^^^^^^^^
 
@@ -94,7 +116,7 @@ Canton currently makes use of AWS KMS to protect its private keys.
 The `AWS KMS API <https://docs.aws.amazon.com/kms/latest/developerguide/overview.html>`_ is similar to a hardware security module (HSM) where cryptographic operations can be done
 within the KMS using the stored keys, without exposing them outside of the KMS.
 
-Besides offering a secure platform to encrypt and decrypt Canton's private keys the AWS, KMS also supports:
+Besides offering a secure platform to create, manage, and control cryptographic keys, AWS KMS also supports:
 
 - Enforcement of key usage/authorization policies;
 - Access to the key usage authorization logs;
@@ -102,7 +124,7 @@ Besides offering a secure platform to encrypt and decrypt Canton's private keys 
 - Automatic rotation of KMS keys. Note that `AWS KMS transparently selects the appropriate KMS key to decrypt <https://aws.amazon.com/kms/faqs/>`_ so KMS keys can be safely rotated without any code changes.
 
 AWS KMS Wrapper Key Rotation
-""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 AWS KMS offers two different ways to `rotate keys, either automatically or manually <https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html>`_.
 By default every key newly created by AWS is set for a yearly automatic rotation where only the key material is changed.
@@ -119,26 +141,28 @@ The rotation frequency is fixed and cannot be changed.
 
    image taken from https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html
 
-Manual rotation of wrapper keys requires creating a new KMS key and re-encrypting our data with it.
-Canton node administrators can request a :ref:`manual rotation of the KMS wrapper key through the Canton console <manual-aws-ksm-key-rotation>`.
+If Canton is responsible for the storage of the private keys (i.e. we are using envelope encryption) the
+manual rotation of keys requires not only the creation of a new KMS key but also the re-encryption of our data with it.
+To do this Canton node administrators can request a :ref:`manual rotation of the KMS wrapper key through the Canton console <manual-aws-ksm-key-rotation>`.
 
 Satisfied Requirements
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Our solution complies with all the previously mentioned :ref:`requirements <kms_requirements>` in the following ways:
+Our solutions: (a) `private key storage protection using envelope encryption` and (b) `private key externalization`
+comply with all the previously mentioned :ref:`requirements <kms_requirements>` in the following ways:
 
 - The long-term keys must not be available on disk or in storage in a way that would allow someone with access to the storage to view/access the key.
-    - The long-term and permanent keys are only stored in an encrypted form in the database. The corresponding encryption key is stored securely by the KMS in an HSM.
+    - The long-term and permanent keys are either: (a) only stored in an encrypted form in the database (the corresponding encryption key is stored securely by the KMS in an HSM), or (b) not stored at all by Canton.
 - The keys must not be part of Canton’s container images.
-    - The Canton private keys are stored in the database of the node and not in the container image. The wrapper key is stored in the external KMS. Credentials to access the KMS can be passed in via the environment when a container is created, the credentials must not be stored in the image.
+    - The Canton private keys are stored in the (a) database of the node or directly in the (b) external KMS and not in the container image. Credentials to access the KMS can be passed in via the environment when a container is created, the credentials must not be stored in the image.
 - A key administrator can both rotate the KMS key or long-term keys in Canton.
-    - Canton already supports manual rotation of long-term keys.
-    - Early access: Support of KMS key rotation based on AWS KMS automated annual key rotation.
-    - Future support of manual KMS key rotation by re-encrypting the Canton private keys.
+    - Canton already supports manual rotation of long-term keys. In scenario (b) this also involves the re-generation of the keys in the KMS.
+    - Support of KMS wrapper key rotation (b) based on either: an AWS KMS automated annual key rotation, or a manual rotation and re-encryption of the Canton private keys.
 - Historical contract data can be decrypted using old long-term, encrypted keys that have been superseded. No old long-term keys are used in future transactions.
     - Canton already supports rotation of long-term keys with a synchronized state on which keys are active across nodes as part of topology management.
 - Backup and subsequent restoration of the database of a participant node supports KMS key rotation and rotation of Canton’s long-term keys.
-    - As long as the database and the wrapper key are available, backup and restoration are not impacted by key rotation. Furthermore, replicating a KMS key in multiple regions  can also mitigate the impact of a failure in the primary region.
+    - Database restoration/backup is only needed for (a) protection of keys at rest and as long as the :ref:`database and the wrapper key are available <backup-kms>`, backup and restoration are not impacted by key rotation. Replicating a KMS key in multiple regions can also mitigate the impact of a failure in the primary region.
+    - A KMS operator must ensure its configured key store has in place a robust disaster recovery plan to prevent the permanent loss of keys.
 - For high availability operation, Canton supports duplication of keys.
     - Canton supports AWS multi-region keys when enabled in the configuration, as well as when the operator manually creates the key and just configures the existing key id in Canton. `Note: replicating keys to other regions is a manual process by the operator and not done automatically by Canton.`
 
