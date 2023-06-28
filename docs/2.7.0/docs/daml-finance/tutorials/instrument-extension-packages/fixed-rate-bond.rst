@@ -42,14 +42,14 @@ Instrument and Holding
 
 We start by creating our fixed rate bond instrument. Here are the key terms:
 
-.. literalinclude:: ../../quickstart-finance/daml/Scripts/FixedRateBond.daml
+.. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
   :language: daml
   :start-after: -- CREATE_FIXED_RATE_BOND_VARIABLES_BEGIN
   :end-before: -- CREATE_FIXED_RATE_BOND_VARIABLES_END
 
 We also need holiday calendars, which are used to adjust non-business days:
 
-.. literalinclude:: ../../quickstart-finance/daml/Scripts/FixedRateBond.daml
+.. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
   :language: daml
   :start-after: -- CREATE_FIXED_RATE_BOND_CALENDARS_BEGIN
   :end-before: -- CREATE_FIXED_RATE_BOND_CALENDARS_END
@@ -57,21 +57,21 @@ We also need holiday calendars, which are used to adjust non-business days:
 The coupon dates and the redemption date are described using a periodic schedule. This also allows
 us to define a stub period (if required):
 
-.. literalinclude:: ../../quickstart-finance/daml/Scripts/FixedRateBond.daml
+.. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
   :language: daml
   :start-after: -- CREATE_PERIODIC_SCHEDULE_BEGIN
   :end-before: -- CREATE_PERIODIC_SCHEDULE_END
 
 We can now create the bond instrument using a factory:
 
-.. literalinclude:: ../../quickstart-finance/daml/Scripts/FixedRateBond.daml
+.. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
   :language: daml
   :start-after: -- CREATE_FIXED_RATE_BOND_INSTRUMENT_BEGIN
   :end-before: -- CREATE_FIXED_RATE_BOND_INSTRUMENT_END
 
 Also create a bond holding:
 
-.. literalinclude:: ../../quickstart-finance/daml/Scripts/FixedRateBond.daml
+.. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
   :language: daml
   :start-after: -- CREATE_FIXED_RATE_BOND_HOLDING_BEGIN
   :end-before: -- CREATE_FIXED_RATE_BOND_HOLDING_END
@@ -83,21 +83,21 @@ Lifecycle Events and Rule
 
 As mentioned earlier, we only need one single lifecycle rule to process all time events:
 
-.. literalinclude:: ../../quickstart-finance/daml/Scripts/FixedRateBond.daml
+.. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
   :language: daml
   :start-after: -- CREATE_LIFECYCLE_RULE_BEGIN
   :end-before: -- CREATE_LIFECYCLE_RULE_END
 
 Furthermore, we create a time event corresponding to the date of the first coupon payment:
 
-.. literalinclude:: ../../quickstart-finance/daml/Scripts/FixedRateBond.daml
+.. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
   :language: daml
   :start-after: -- CREATE_CLOCK_UPDATE_EVENT_BEGIN
   :end-before: -- CREATE_CLOCK_UPDATE_EVENT_END
 
 Now, we have what we need to actually lifecycle the bond:
 
-.. literalinclude:: ../../quickstart-finance/daml/Scripts/FixedRateBond.daml
+.. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
   :language: daml
   :start-after: -- LIFECYCLE_BOND_BEGIN
   :end-before: -- LIFECYCLE_BOND_END
@@ -109,7 +109,7 @@ the associated entitlements.
 A :ref:`Claim Rule <module-daml-finance-lifecycle-rule-claim-99318>` allows a holder of the
 target instrument to claim the effect resulting from the time event:
 
-.. literalinclude:: ../../quickstart-finance/daml/Scripts/FixedRateBond.daml
+.. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
   :language: daml
   :start-after: -- CREATE_CLAIM_RULE_BEGIN
   :end-before: -- CREATE_CLAIM_RULE_END
@@ -117,7 +117,7 @@ target instrument to claim the effect resulting from the time event:
 By presenting their holding they can instruct the settlement of the holding transfers described in
 the effect:
 
-.. literalinclude:: ../../quickstart-finance/daml/Scripts/FixedRateBond.daml
+.. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
   :language: daml
   :start-after: -- CLAIM_EFFECT_BEGIN
   :end-before: -- CLAIM_EFFECT_END
@@ -130,7 +130,7 @@ In our example of a bond coupon, only a single instruction is generated: the mov
 the bank to the bond holder. This instruction along with its batch is settled the usual way, as
 described in the previous :doc:`Settlement <settlement>` tutorial.
 
-.. literalinclude:: ../../quickstart-finance/daml/Scripts/FixedRateBond.daml
+.. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
   :language: daml
   :start-after: -- EFFECT_SETTLEMENT_BEGIN
   :end-before: -- EFFECT_SETTLEMENT_END
