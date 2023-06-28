@@ -5,12 +5,12 @@ How to Use a Fixed Rate Bond (Time-based Lifecycling)
 #####################################################
 
 This tutorial describes how to define and lifecycle a fixed rate bond instrument. It is similar to
-the :doc:`Lifecycling <lifecycling>` tutorial, in that it describes how lifecycle rules and events
-can be used to evolve instruments over time. However, there is one main difference:
+the :doc:`Lifecycling <../getting-started/lifecycling>` tutorial, in that it describes how lifecycle
+rules and events can be used to evolve instruments over time. However, there is one main difference:
 
-* The :doc:`Lifecycling <lifecycling>` tutorial describes a dividend event, which is something that
-  the issuer defines on an ongoing basis. Only once the date and amount of a dividend payment has
-  been defined, the issuer creates a distribution event accordingly.
+* The :doc:`Lifecycling <../getting-started/lifecycling>` tutorial describes a dividend event, which
+  is something that the issuer defines on an ongoing basis. Only once the date and amount of a
+  dividend payment has been defined, the issuer creates a distribution event accordingly.
 * This tutorial describes a fixed rate bond, where all coupon payments are defined in advance. They
   are all encoded in the instrument definition. Hence, the issuer does not need to create
   distribution events on an ongoing bases. Instead, one lifecycle rule in combination with time
@@ -25,8 +25,8 @@ We are going to:
 #. instruct settlement by presenting a bond holding
 #. settle the resulting batch atomically
 
-This example builds on the previous :doc:`Settlement <settlement>` tutorial script in the sense that
-the same parties, accounts and holding factory are used.
+This example builds on the previous :doc:`Settlement <../getting-started/settlement>` tutorial
+script in the sense that the same parties, accounts and holding factory are used.
 
 Run the Script
 **************
@@ -34,8 +34,9 @@ Run the Script
 The code for this tutorial can be executed via the ``runFixedRateBond`` function in the
 ``FixedRateBond.daml`` module.
 
-The first part executes the script from the previous :doc:`Settlement <settlement>` tutorial to
-arrive at the initial state for this scenario.
+The first part executes the script from the previous
+:doc:`Settlement <../getting-started/settlement>` tutorial to arrive at the initial state for this
+scenario.
 
 Instrument and Holding
 ======================
@@ -128,7 +129,7 @@ case: receiving the same coupon twice).
 
 In our example of a bond coupon, only a single instruction is generated: the movement of cash from
 the bank to the bond holder. This instruction along with its batch is settled the usual way, as
-described in the previous :doc:`Settlement <settlement>` tutorial.
+described in the previous :doc:`Settlement <../getting-started/settlement>` tutorial.
 
 .. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
   :language: daml
@@ -164,7 +165,7 @@ process up to the implementation.
   instead the owner wants to delegate this responsibility to their custodian they can do so via a
   delegation contract.
 * The party executing settlement can be chosen as well, as described in the previous tutorial on
-  :doc:`Settlement <settlement>`.
+  :doc:`Settlement <../getting-started/settlement>`.
 
 Summary
 *******
