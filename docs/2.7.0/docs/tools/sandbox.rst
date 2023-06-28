@@ -106,10 +106,10 @@ with SHA-256) with the public key loaded from the given JWKS URL.
 Fresh participant nodes come with a default participant admin user called ``participant_admin``, which
 can be used to bootstrap other users.
 You might prefer to have an admin user with a different user id ready on a participant startup.
-For such situations you can specify an additional participant admin user with the user id of your choice.
+For such situations, you can specify an additional participant admin user with the user id of your choice.
 
-.. note:: If a user with the specified id already exists then no additional user will be created,
-          even if the pre-existing user was not an admin user.
+.. note:: If a user with the specified id already exists, then no additional user will be created,
+          even if the preexisting user was not an admin user.
 
 .. code-block:: none
    :caption: additional-admin.conf
