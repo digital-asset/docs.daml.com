@@ -164,20 +164,35 @@ As you can see, the behavior of ``fetch``, ``fetchByKey`` and ``lookupByKey`` at
 Checking Coverage
 -----------------
 
-When ``daml test`` runs, it analyzes the ledger record to produce a report on what percentage of templates were created and which interface and template choices were exercised during our tests.
+When ``daml test`` runs a set of tests, it analyzes the ledger record from those tests to report template and choice coverage. It calculates what percentage of templates defined in the package were created and what percentage of choices defined in the package were exercised.
 
-Flags Controlling Tests and Coverage
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+You can also save the resulting coverage results for the test set to a file and then read them back into a future report. In an invocation of ``daml test``, you can both read results in and run tests simultaneously in order to generate a final report which aggregates them. More details on the workflows that this enables are detailed in `Serializing Results Workflows`_.
 
-``daml test`` has four important options which affect the coverage report: ``--test-pattern PATTERN``, ``--files FILE``, ``--show-coverage``, and ``--all``:
+.. figure:: images/12_Testing/coverage_workflow.png
+   :alt: Flow chart visually explaining sources and sinks for coverage results.
 
-Enabling ``--show-coverage`` lists by name any templates, choices, and interfaces which are not covered. By default, the report only reports percentage of coverage.
+Flags Controlling Test Set
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The remaining three options affect which tests are run. The coverage report is in aggregate for all tests run - tests that don't run do not count towards coverage.
+You can control the set of tests run by ``daml test`` using ``--test-pattern PATTERN``, ``--files FILE``, and ``--all``.
 
 * Passing ``--test-pattern <PATTERN>`` runs only the local tests which match ``PATTERN``.
 * Passing ``--files <FILE>`` runs only the tests found in ``FILE``.
-* Enabling ``--all`` runs tests in dependency modules as well. Note: it is not affected by ``test-pattern`` - all external tests are run, and ``test-pattern`` only restricts local tests.
+* Enabling ``--all`` runs tests in dependency modules as well. Note: all external tests are run, regardless of the setting in ``test-pattern``; ``test-pattern`` only restricts local tests.
+
+Flags Controlling Serialization
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can save the final coverage results of a ``daml test`` invocation using ``--save-coverage FILE``. This writes the list of templates and choices in scope, along with the list of templates created and choices exercised.
+
+You can read in previous coverage results using ``--load-coverage FILE``. This flag can be set multiple times, in which case the results from each file will be read and aggregated into the final result.
+
+There may be occasions where you only need to aggregate coverage results from files, without running any tests. To do that, use the ``--load-coverage-only`` flag, which ensures that no tests are run.
+
+Flags Controlling Report
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Enabling ``--show-coverage`` tells the final printed report to include the names of any templates, choices, and interfaces which are not covered. By default, the report only reports the percentage of coverage.
 
 Define templates, choices, and interfaces
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -322,7 +337,7 @@ Finally, we define an interface ``I`` with one dummy choice, and implementations
 Local Definitions
 ~~~~~~~~~~~~~~~~~
 
-Running ``daml test -p '/^$/'`` to create a coverage report without running any tests - because no tests were run, coverage will be 0% in all cases, but the report will still tally all discovered templates, interfaces, and choices, both external and internal.
+Running ``daml test -p '^$'`` to create a coverage report without running any tests: Because no tests were run, coverage will be 0% in all cases. However, the report will still tally all discovered templates, interfaces, and choices, both external and internal.
 
 .. code-block:: none
 
@@ -494,6 +509,80 @@ If we define a different local test, ``testT1AndT2``, which creates ``T1`` and `
   ...
 
 External template choices and interface instance choices are also reported with "any", internal, and external coverage - we will not cover them here.
+
+Serializing Results Workflows
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The ``--save-coverage`` and ``--load-coverage`` flags enable you to write coverage results to a file and read them back out again. Multiple coverage results from different files can be aggregated, along with new coverage results from tests, and then written back to a new file.
+
+This enables three new kinds of coverage testing which should be especially useful to those with large test suites.
+
+Single Test Iteration
+~~~~~~~~~~~~~~~~~~~~~
+
+When iterating on a single test, you can see the overall coverage of the system by loading in coverage results from all unchanged tests and running the single test, producing an aggregate result.
+
+.. code-block:: sh
+
+  > # Run tests 1 through 8, long running
+  > daml test --pattern Test[12345678] --save-coverage unchanged-test-results
+  ...
+  > # Run test 9, aggregate with results from tests 1 through 8
+  > daml test --pattern Test9 --load-coverage unchanged-test-results
+  ...
+  > # ... make some changes to test 9 ...
+  > # Only need to run test 9 to compare coverage report
+  > daml test --pattern Test9 --load-coverage unchanged-test-results
+
+Multiple Test Aggregation
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When running a large test suite, you can split the suite across multiple machines and aggregate the results.
+
+.. code-block:: sh
+
+  > # On machine 1:
+  > daml test --pattern Machine1Test --save-coverage machine1-results
+  ...
+  > # On machine 2:
+  > daml test --pattern Machine2Test --save-coverage machine2-results
+  ...
+  > # On machine 3:
+  > daml test --pattern Machine3Test --save-coverage machine3-results
+  ...
+  > # Aggregate results into a single report once all three are done
+  > daml test --load-coverage-only \
+      --load-coverage machine1-results \
+      --load-coverage machine2-results \
+      --load-coverage machine3-results
+
+Test Failure Recovery
+~~~~~~~~~~~~~~~~~~~~~
+
+If a test failure causes one ``daml test`` to fail, other coverage results from other tests can be used, and only the failing test needs to be rerun.
+
+.. code-block:: sh
+
+  > # First test run
+  > daml test --pattern Test1 --save-coverage test1-results
+  ...
+  > # Second test run:
+  > daml test --pattern Test2 --save-coverage test2-results
+  ...
+  > # Third test run (failing):
+  > daml test --pattern Test3 --save-coverage test3-results
+  ...
+  FAILED
+  ...
+  > # ... fix third test ...
+  > # Third test run (succeeds):
+  > daml test --pattern Test3 --save-coverage test3-results
+  ...
+  > # Aggregate results into a single report once all three are done
+  > daml test --load-coverage-only \
+      --load-coverage test1-results \
+      --load-coverage test2-results \
+      --load-coverage test3-results
 
 Next Up
 -------
