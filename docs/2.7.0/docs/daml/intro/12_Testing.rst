@@ -164,9 +164,9 @@ As you can see, the behavior of ``fetch``, ``fetchByKey`` and ``lookupByKey`` at
 Checking Coverage
 -----------------
 
-When ``daml test`` runs a set of tests, it analyzes the ledger record from those tests to report template and choice coverage. It calculates what percentage of templates defined in the package were created, and what percentage of choices defined in the package were exercised.
+When ``daml test`` runs a set of tests, it analyzes the ledger record from those tests to report template and choice coverage. It calculates what percentage of templates defined in the package were created and what percentage of choices defined in the package were exercised.
 
-The user can also save the resulting coverage results for the test set to a file, and then read them back into a future report. In an invocation of ``daml test``, one can both read results in and run tests simultaneously, in order to generate a final report which aggregates them all. More details on the workflows this enables are detailed in `Serializing Results Workflows`_.
+You can also save the resulting coverage results for the test set to a file and then read them back into a future report. In an invocation of ``daml test``, you can both read results in and run tests simultaneously in order to generate a final report which aggregates them. More details on the workflows that this enables are detailed in `Serializing Results Workflows`_.
 
 .. figure:: images/12_Testing/coverage_workflow.png
    :alt: Flow chart visually explaining sources and sinks for coverage results.
@@ -174,7 +174,7 @@ The user can also save the resulting coverage results for the test set to a file
 Flags Controlling Test Set
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The user can control the set of tests run by ``daml test`` using ``--test-pattern PATTERN``, ``--files FILE``, and ``--all``.
+You can control the set of tests run by ``daml test`` using ``--test-pattern PATTERN``, ``--files FILE``, and ``--all``.
 
 * Passing ``--test-pattern <PATTERN>`` runs only the local tests which match ``PATTERN``.
 * Passing ``--files <FILE>`` runs only the tests found in ``FILE``.
@@ -183,16 +183,16 @@ The user can control the set of tests run by ``daml test`` using ``--test-patter
 Flags Controlling Serialization
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The user can save the final coverage results of a ``daml test`` invocation using ``--save-coverage FILE``. This will write the list of templates and choices in scope, along with the list of templates created and choices exercised.
+You can save the final coverage results of a ``daml test`` invocation using ``--save-coverage FILE``. This writes the list of templates and choices in scope, along with the list of templates created and choices exercised.
 
-The user can read in previous coverage results using ``--load-coverage FILE``. This flag can be set multiple times, in which case the results from each file will be read and aggregated into the final result.
+You can read in previous coverage results using ``--load-coverage FILE``. This flag can be set multiple times, in which case the results from each file will be read and aggregated into the final result.
 
-There may be occasions where we only need to aggregate coverage results from files, without running any tests - for this we have provided the ``--load-coverage-only`` flag, which ensures that no tests are run.
+There may be occasions where you only need to aggregate coverage results from files, without running any tests. To do that, use the ``--load-coverage-only`` flag, which ensures that no tests are run.
 
 Flags Controlling Report
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Enabling ``--show-coverage`` tells the final printed report to include the names of any templates, choices, and interfaces which are not covered. By default, the report only reports percentage of coverage.
+Enabling ``--show-coverage`` tells the final printed report to include the names of any templates, choices, and interfaces which are not covered. By default, the report only reports the percentage of coverage.
 
 Define templates, choices, and interfaces
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -337,7 +337,7 @@ Finally, we define an interface ``I`` with one dummy choice, and implementations
 Local Definitions
 ~~~~~~~~~~~~~~~~~
 
-Running ``daml test -p '^$'`` to create a coverage report without running any tests - because no tests were run, coverage will be 0% in all cases, but the report will still tally all discovered templates, interfaces, and choices, both external and internal.
+Running ``daml test -p '^$'`` to create a coverage report without running any tests: Because no tests were run, coverage will be 0% in all cases. However, the report will still tally all discovered templates, interfaces, and choices, both external and internal.
 
 .. code-block:: none
 
@@ -513,14 +513,14 @@ External template choices and interface instance choices are also reported with 
 Serializing Results Workflows
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The ``--save-coverage`` and ``--load-coverage`` flags enable us to write coverage results to a file, and read them back out again. Multiple coverage results from different files can be aggregated, along with new coverage results from tests, and then written back to a new file.
+The ``--save-coverage`` and ``--load-coverage`` flags enable you to write coverage results to a file and read them back out again. Multiple coverage results from different files can be aggregated, along with new coverage results from tests, and then written back to a new file.
 
 This enables three new kinds of coverage testing which should be especially useful to those with large test suites.
 
 Single Test Iteration
 ~~~~~~~~~~~~~~~~~~~~~
 
-When iterating on a single test, we can see the overall coverage of the system by loading in coverage results from all unchanged tests, and running the single test, producing an aggregate result.
+When iterating on a single test, you can see the overall coverage of the system by loading in coverage results from all unchanged tests and running the single test, producing an aggregate result.
 
 .. code-block:: sh
 
@@ -537,7 +537,7 @@ When iterating on a single test, we can see the overall coverage of the system b
 Multiple Test Aggregation
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When running a large test suite, we can split the suite across multiple machines and aggregate the results afterwards.
+When running a large test suite, you can split the suite across multiple machines and aggregate the results.
 
 .. code-block:: sh
 
