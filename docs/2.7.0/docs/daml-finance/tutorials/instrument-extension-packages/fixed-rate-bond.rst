@@ -42,7 +42,7 @@ Instrument and Holding
 ======================
 
 :ref:`Fixed rate bonds <module-daml-finance-instrument-bond-fixedrate-instrument-67993>`
-pay a constant coupon rate at the end of each each coupon period. The coupon rate is quoted on an
+pay a constant coupon rate at the end of each coupon period. The coupon rate is quoted on an
 annualized basis (per annum, p.a.), but it could be paid more frequently (e.g. quarterly).
 As an example we will create a bond instrument paying a 1.1% p.a. coupon with a 12M coupon period.
 We start by creating our instrument. Here are the key terms:
