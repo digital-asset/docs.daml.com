@@ -11,7 +11,7 @@ Enterprise Drivers
 The Daml Enterprise edition of the Canton ledger provides the following drivers in
 addition to the PostgreSQL-based domain in the open-source edition.
 
-.. toctree::
+.. .. toctree::
    :maxdepth: 1
 
    oracle.rst

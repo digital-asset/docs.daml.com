@@ -284,7 +284,7 @@ ranging from a relational database to a distributed blockchain. Components can
 be shared among integrations, for example, a mediator implemented on a
 relational database can be used together with a blockchain-based sequencer.
 
-.. toctree::
+.. .. toctree::
    :maxdepth: 1
 
    ethereum.rst
