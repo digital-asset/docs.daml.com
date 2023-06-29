@@ -178,7 +178,7 @@ You can control the set of tests run by ``daml test`` using ``--test-pattern PAT
 
 * Passing ``--test-pattern <PATTERN>`` runs only the local tests which match ``PATTERN``.
 * Passing ``--files <FILE>`` runs only the tests found in ``FILE``.
-* Enabling ``--all`` runs tests in dependency modules as well. Note: all external tests are run, regardless of the setting in ``test-pattern`` - ``test-pattern`` only restricts local tests.
+* Enabling ``--all`` runs tests in dependency modules as well. Note: all external tests are run, regardless of the setting in ``test-pattern``; ``test-pattern`` only restricts local tests.
 
 Flags Controlling Serialization
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
