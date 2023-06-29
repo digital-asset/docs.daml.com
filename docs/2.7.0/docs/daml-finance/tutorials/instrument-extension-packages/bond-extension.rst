@@ -34,7 +34,7 @@ Fixed Rate
 ==========
 
 :ref:`Fixed rate bonds <module-daml-finance-instrument-bond-fixedrate-instrument-67993>`
-pay a constant coupon each coupon period. The coupon is quoted on a yearly basis
+pay a constant coupon rate at the end of each coupon period. The coupon is quoted on a yearly basis
 (per annum, p.a.), but it could be paid more frequently. For example, a bond could have a 2% p.a.
 coupon and a 6M coupon period. That would mean a 1% coupon is paid twice a year.
 

@@ -5,10 +5,10 @@ How to Use a Fixed Rate Bond (Time-based Lifecycling)
 #####################################################
 
 This tutorial describes how to define and lifecycle a fixed rate bond instrument. It is similar to
-the :doc:`Lifecycling <../getting-started/lifecycling>` tutorial, in that it describes how lifecycle
+the :doc:`Lifecycling tutorial <../getting-started/lifecycling>`, in that it describes how lifecycle
 rules and events can be used to evolve instruments over time. However, there is one main difference:
 
-* The :doc:`Lifecycling <../getting-started/lifecycling>` tutorial describes a dividend event, which
+* The :doc:`Lifecycling tutorial <../getting-started/lifecycling>` describes a dividend event, which
   is something that the issuer defines *on an ongoing basis*. Only once the date and amount of a
   dividend payment has been defined, the issuer creates a distribution event accordingly.
 * This tutorial describes a fixed rate bond, where all coupon payments are defined *in advance*.
@@ -16,7 +16,10 @@ rules and events can be used to evolve instruments over time. However, there is 
   distribution events on an ongoing bases. Instead, one lifecycle rule in combination with time
   events (a date clock) are used to lifecycle the bond.
 
-We are going to:
+Check out the :doc:`Lifecycling concepts <../../concepts/lifecycling>` for a more in-depth
+description of the evolution of financial instruments over their lifetime.
+
+In this tutorial, we are going to:
 
 #. create a fixed rate bond instrument and book a holding on it
 #. create a lifecycle rule
@@ -38,29 +41,53 @@ The code for this tutorial can be executed via the ``runFixedRateBond`` function
 Instrument and Holding
 ======================
 
-We start by creating our fixed rate bond instrument. Here are the key terms:
+:ref:`Fixed rate bonds <module-daml-finance-instrument-bond-fixedrate-instrument-67993>`
+pay a constant coupon rate at the end of each coupon period. The coupon rate is quoted on an
+annualized basis (per annum, p.a.), but it could be paid more frequently (e.g. quarterly).
+As an example we will create a bond instrument paying a 1.1% p.a. coupon with a 12M coupon period.
+We start by creating our instrument. Here are the key terms:
 
 .. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
   :language: daml
   :start-after: -- CREATE_FIXED_RATE_BOND_VARIABLES_BEGIN
   :end-before: -- CREATE_FIXED_RATE_BOND_VARIABLES_END
 
-We also need holiday calendars, which are used to adjust non-business days:
+The :ref:`day count convention <type-daml-finance-interface-types-date-daycount-daycountconventionenum-67281>`
+is used to determine how many days, i.e., what fraction of a full year, each coupon period has. This
+will determine the exact coupon amount that will be paid each period.
+
+The :ref:`business day convention <type-daml-finance-interface-types-date-calendar-businessdayconventionenum-88986>`
+determines *how* a coupon date is adjusted if it falls on a non-business day.
+
+We also need holiday calendars, which determine *when* to adjust dates:
 
 .. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
   :language: daml
   :start-after: -- CREATE_FIXED_RATE_BOND_CALENDARS_BEGIN
   :end-before: -- CREATE_FIXED_RATE_BOND_CALENDARS_END
 
-The coupon dates and the redemption date are described using a periodic schedule. This also allows
-us to define a stub period (if required):
+The coupon dates and the redemption date are described using a
+:ref:`PeriodicSchedule <constr-daml-finance-interface-types-date-schedule-periodicschedule-99705>`:
 
 .. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
   :language: daml
   :start-after: -- CREATE_PERIODIC_SCHEDULE_BEGIN
   :end-before: -- CREATE_PERIODIC_SCHEDULE_END
 
-We can now create the bond instrument using a factory:
+This is used to determine the periods that are used to calculate the coupon. There are a few things
+to note here:
+
+- The :ref:`RollConventionEnum <type-daml-finance-interface-types-date-rollconvention-rollconventionenum-73360>`
+  defines whether dates are rolled at the end of the month or on a given date of the month. In our
+  example above, we went for the latter option.
+- The :ref:`StubPeriodTypeEnum <type-daml-finance-interface-types-date-schedule-stubperiodtypeenum-69372>`
+  allows you to explicitly specify what kind of stub period the bond should have. This is optional
+  and not used in the example above. Instead, we defined the stub implicitly by specifying a
+  ``firstRegularPeriodStartDate``: since the time between the issue date and the first regular
+  period start date is less than 12M (our regular coupon period), this implies a short initial
+  stub period.
+
+Now that we have defined the terms we can create the bond instrument using a factory:
 
 .. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
   :language: daml
@@ -73,6 +100,10 @@ Finally, we create a bond holding in Bob's account:
   :language: daml
   :start-after: -- CREATE_FIXED_RATE_BOND_HOLDING_BEGIN
   :end-before: -- CREATE_FIXED_RATE_BOND_HOLDING_END
+
+A holding represents the ownership of a certain amount of an :ref:`instrument <instrument>` by an
+owner at a custodian. Check out the :doc:`Holding <../getting-started/holding>` tutorial for more
+details.
 
 Now, we have both an instrument definition and a holding. Let us now proceed to lifecycle the bond.
 
@@ -139,6 +170,10 @@ Note that the bank in this case does not actually transfer the cash from another
 credits Bob's account by using the ``CreditReceiver`` allocation type. In a real-world bond coupon
 scenario one would additionally model the flow of funds from the issuer to the bank using the same
 lifecycle process as described above.
+
+Check out the :doc:`Settlement concepts <../../concepts/settlement>` for a more in-depth
+description of the different steps in the settlement process and the settlement modes supported
+by the library.
 
 Frequently Asked Questions
 **************************
