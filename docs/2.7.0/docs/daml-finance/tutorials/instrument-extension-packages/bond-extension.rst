@@ -35,8 +35,8 @@ Fixed Rate
 
 :ref:`Fixed rate bonds <module-daml-finance-instrument-bond-fixedrate-instrument-67993>`
 pay a constant coupon rate at the end of each coupon period. The coupon is quoted on a yearly basis
-(per annum, p.a.), but it could be paid more frequently. For example, a bond could have a 2% p.a.
-coupon and a 6M coupon period. That would mean a 1% coupon is paid twice a year.
+(per annum, p.a.), but it could be paid more frequently (e.g. quarterly). For example, a bond could
+have a 2% p.a. coupon and a 6M coupon period. That would mean a 1% coupon is paid twice a year.
 
 As an example we will create a bond instrument paying a 1.1% p.a. coupon with a 12M coupon period.
 This example is taken from
@@ -55,7 +55,9 @@ is used to determine how many days, i.e., what fraction of a full year, each cou
 will determine the exact coupon amount that will be paid each period.
 
 The :ref:`business day convention <type-daml-finance-interface-types-date-calendar-businessdayconventionenum-88986>`
-determines how a coupon date is adjusted if it falls on a non-business day.
+determines *how* a coupon date is adjusted if it falls on a non-business day.
+
+We also need holiday calendars, which determine *when* to adjust dates.
 
 We can use these variables to create a :ref:`PeriodicSchedule <constr-daml-finance-interface-types-date-schedule-periodicschedule-99705>`:
 

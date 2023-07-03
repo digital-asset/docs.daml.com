@@ -1,12 +1,13 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-How to Use a Fixed Rate Bond (Time-based Lifecycling)
-#####################################################
+Time-based Lifecycling (e.g. fixed rate bond)
+#############################################
 
-This tutorial describes how to define and lifecycle a fixed rate bond instrument. It is similar to
-the :doc:`Lifecycling tutorial <../getting-started/lifecycling>`, in that it describes how lifecycle
-rules and events can be used to evolve instruments over time. However, there is one main difference:
+This tutorial describes how to lifecycle instruments with pre-defined payments, e.g. a fixed rate
+bond. It is similar to the :doc:`Lifecycling tutorial <../getting-started/lifecycling>`, in that it
+describes how lifecycle rules and events can be used to evolve instruments over time. However, there
+is one main difference:
 
 * The :doc:`Lifecycling tutorial <../getting-started/lifecycling>` describes a dividend event, which
   is something that the issuer defines *on an ongoing basis*. Only once the date and amount of a
@@ -41,62 +42,20 @@ The code for this tutorial can be executed via the ``runFixedRateBond`` function
 Instrument and Holding
 ======================
 
+For the purpose of showcasing time-based lifecycling, we need a suitable sample instrument.
 :ref:`Fixed rate bonds <module-daml-finance-instrument-bond-fixedrate-instrument-67993>`
-pay a constant coupon rate at the end of each coupon period. The coupon rate is quoted on an
-annualized basis (per annum, p.a.), but it could be paid more frequently (e.g. quarterly).
-As an example we will create a bond instrument paying a 1.1% p.a. coupon with a 12M coupon period.
-We start by creating our instrument. Here are the key terms:
+pay a constant coupon rate at the end of each coupon period. The
+:doc:`Bond Extension tutorial <bond-extension>` describes this instrument in more detail. Here, we
+briefly show how to create the bond instrument using a factory:
 
-.. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
-  :language: daml
-  :start-after: -- CREATE_FIXED_RATE_BOND_VARIABLES_BEGIN
-  :end-before: -- CREATE_FIXED_RATE_BOND_VARIABLES_END
-
-The :ref:`day count convention <type-daml-finance-interface-types-date-daycount-daycountconventionenum-67281>`
-is used to determine how many days, i.e., what fraction of a full year, each coupon period has. This
-will determine the exact coupon amount that will be paid each period.
-
-The :ref:`business day convention <type-daml-finance-interface-types-date-calendar-businessdayconventionenum-88986>`
-determines *how* a coupon date is adjusted if it falls on a non-business day.
-
-We also need holiday calendars, which determine *when* to adjust dates:
-
-.. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
-  :language: daml
-  :start-after: -- CREATE_FIXED_RATE_BOND_CALENDARS_BEGIN
-  :end-before: -- CREATE_FIXED_RATE_BOND_CALENDARS_END
-
-The coupon dates and the redemption date are described using a
-:ref:`PeriodicSchedule <constr-daml-finance-interface-types-date-schedule-periodicschedule-99705>`:
-
-.. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
-  :language: daml
-  :start-after: -- CREATE_PERIODIC_SCHEDULE_BEGIN
-  :end-before: -- CREATE_PERIODIC_SCHEDULE_END
-
-This is used to determine the periods that are used to calculate the coupon. There are a few things
-to note here:
-
-- The :ref:`RollConventionEnum <type-daml-finance-interface-types-date-rollconvention-rollconventionenum-73360>`
-  defines whether dates are rolled at the end of the month or on a given date of the month. In our
-  example above, we went for the latter option.
-- The :ref:`StubPeriodTypeEnum <type-daml-finance-interface-types-date-schedule-stubperiodtypeenum-69372>`
-  allows you to explicitly specify what kind of stub period the bond should have. This is optional
-  and not used in the example above. Instead, we defined the stub implicitly by specifying a
-  ``firstRegularPeriodStartDate``: since the time between the issue date and the first regular
-  period start date is less than 12M (our regular coupon period), this implies a short initial
-  stub period.
-
-Now that we have defined the terms we can create the bond instrument using a factory:
-
-.. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
+.. literalinclude:: ../../finance-lifecycling/daml/Scripts/FixedRateBond.daml
   :language: daml
   :start-after: -- CREATE_FIXED_RATE_BOND_INSTRUMENT_BEGIN
   :end-before: -- CREATE_FIXED_RATE_BOND_INSTRUMENT_END
 
 Finally, we create a bond holding in Bob's account:
 
-.. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
+.. literalinclude:: ../../finance-lifecycling/daml/Scripts/FixedRateBond.daml
   :language: daml
   :start-after: -- CREATE_FIXED_RATE_BOND_HOLDING_BEGIN
   :end-before: -- CREATE_FIXED_RATE_BOND_HOLDING_END
@@ -105,7 +64,8 @@ A holding represents the ownership of a certain amount of an :ref:`instrument <i
 owner at a custodian. Check out the :doc:`Holding <../getting-started/holding>` tutorial for more
 details.
 
-Now, we have both an instrument definition and a holding. Let us now proceed to lifecycle the bond.
+Now, we have both an instrument definition and a holding. Let us now proceed to lifecycle the bond,
+which is the main purpose of this tutorial.
 
 Lifecycle Events and Rule
 =========================
@@ -113,7 +73,7 @@ Lifecycle Events and Rule
 As mentioned earlier, we only need one single lifecycle rule to process all time events (since all
 coupon payments are pre-defined in the instrument terms):
 
-.. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
+.. literalinclude:: ../../finance-lifecycling/daml/Scripts/FixedRateBond.daml
   :language: daml
   :start-after: -- CREATE_LIFECYCLE_RULE_BEGIN
   :end-before: -- CREATE_LIFECYCLE_RULE_END
@@ -121,14 +81,14 @@ coupon payments are pre-defined in the instrument terms):
 In order to lifecycle a coupon payment, we create a time event corresponding to the date of the
 first coupon:
 
-.. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
+.. literalinclude:: ../../finance-lifecycling/daml/Scripts/FixedRateBond.daml
   :language: daml
   :start-after: -- CREATE_CLOCK_UPDATE_EVENT_BEGIN
   :end-before: -- CREATE_CLOCK_UPDATE_EVENT_END
 
 Now, we have what we need to actually lifecycle the bond:
 
-.. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
+.. literalinclude:: ../../finance-lifecycling/daml/Scripts/FixedRateBond.daml
   :language: daml
   :start-after: -- LIFECYCLE_BOND_BEGIN
   :end-before: -- LIFECYCLE_BOND_END
@@ -140,7 +100,7 @@ the associated entitlements.
 A :ref:`Claim Rule <module-daml-finance-lifecycle-rule-claim-99318>` allows a holder of the
 target instrument to claim the effect resulting from the time event:
 
-.. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
+.. literalinclude:: ../../finance-lifecycling/daml/Scripts/FixedRateBond.daml
   :language: daml
   :start-after: -- CREATE_CLAIM_RULE_BEGIN
   :end-before: -- CREATE_CLAIM_RULE_END
@@ -148,7 +108,7 @@ target instrument to claim the effect resulting from the time event:
 By presenting their holding they can instruct the settlement of the holding transfers described in
 the effect:
 
-.. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
+.. literalinclude:: ../../finance-lifecycling/daml/Scripts/FixedRateBond.daml
   :language: daml
   :start-after: -- CLAIM_EFFECT_BEGIN
   :end-before: -- CLAIM_EFFECT_END
@@ -161,7 +121,7 @@ In our example of a bond coupon, only a single instruction is generated: the mov
 the bank to the bond holder. This instruction along with its batch is settled the usual way, as
 described in the previous :doc:`Settlement <../getting-started/settlement>` tutorial.
 
-.. literalinclude:: ../../finance-instruments/daml/Scripts/FixedRateBond.daml
+.. literalinclude:: ../../finance-lifecycling/daml/Scripts/FixedRateBond.daml
   :language: daml
   :start-after: -- EFFECT_SETTLEMENT_BEGIN
   :end-before: -- EFFECT_SETTLEMENT_END
@@ -174,6 +134,9 @@ lifecycle process as described above.
 Check out the :doc:`Settlement concepts <../../concepts/settlement>` for a more in-depth
 description of the different steps in the settlement process and the settlement modes supported
 by the library.
+
+Note that the lifecycling process above does not only work for fixed coupon bonds. It also works for
+other instruments with pre-defined payments, for example foreign exchange swaps.
 
 Frequently Asked Questions
 **************************
