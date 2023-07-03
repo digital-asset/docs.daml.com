@@ -11,25 +11,23 @@ Scaling and Performance
 Network Scaling
 ---------------
 
-The scaling and performance characteristics of a Canton based system
-are determined by many factors. The simplest approach is when Canton
-is deployed as a simple monolith where vertical scaling would
-add more CPUs, memory, etc. to the compute resource. However, it is expected
-the most frequent deployment of Canton is as a distributed, micro-service architecture, running in
+The scaling and performance characteristics of a Canton-based system
+are determined by many factors. The simplest approach is to deploy Canton as a simple monolith where vertical scaling would
+add more CPUs, memory, etc. to the compute resource. However, the most frequent and expected deployment of Canton is as a distributed, micro-service architecture, running in
 different data centers of different organizations, with many opportunities to
 incrementally increase throughput. This is outlined below.
 
 The ledger state in Canton does not exist globally so there is no
 single node that, by design, hosts all contracts. Instead, participant nodes are
 involved in transactions that operate on the ledger state on a strict
-need to know basis (data minimization), only exchanging (encrypted)
+need-to-know basis (data minimization), only exchanging (encrypted)
 information on the domains used as coordination points for the given
 input contracts. For example, if participants Alice and Bank transact
-on an i-owe-you contract on domain A, another participant Bob or
-another domain B will not even receive a single bit related to this
+on an i-owe-you contract on domain A, another participant Bob, or
+another domain B, does not receive a single bit related to this
 transaction. This is in contrast to blockchains, where each node has to
 process each block regardless of how active or directly affected
-they are by a certain transaction. This lends itself to a
+they are by a given transaction. This lends itself to a
 micro-service approach that can scale horizontally.
 
 The micro-services deployment of Canton includes the set of
@@ -40,7 +38,7 @@ each Canton micro-service follows the best practice of having its own
 local database which increases throughput. Deploying a service
 to its
 own compute server increases throughput because of the additional CPU and
-disk capacity. In fact, a vertical scaling approach can be used to
+disk capacity. A vertical scaling approach can be used to
 increase throughput if a single service becomes a bottleneck, along
 with the option of horizontal scaling that is discussed next.
 
@@ -48,9 +46,9 @@ An initial Canton deployment can increase its scaling in multiple
 ways that build on each other. If a single participant node has many
 parties, then throughput can be increased by migrating parties off to
 a new, additional participant node (currently supported as a manual
-early access feature). For example, if there are 100 parties performing
+early access feature). For example, if 100 parties are performing
 multi-lateral transactions with each other, then the system can
-reallocate parties to 10 participants with 10 parties each, or say 100
+reallocate parties to 10 participants with 10 parties each, or 100
 participants with 1 party each. As most of the computation occurs on
 the participants, a domain can sustain a very substantial load from
 multiple participants. If the domain were to be a bottleneck then the
@@ -59,7 +57,7 @@ compute server which increases the domain throughput. Therefore, new
 compute servers with additional Canton nodes can be added to the
 network when needed, allowing the entire system to scale horizontally.
 
-If even more throughput is needed then the multiple domain feature of
+If even more throughput is needed then the multiple-domain feature of
 Canton can be leveraged to increase throughput. In a large and active network
 where a domain reaches the capacity limit, additional domains can be
 rolled out, such that the workflows can be sharded over the available
@@ -74,7 +72,7 @@ distribute the workflows evenly over the two operators (eventually hosted on dif
 some intermediate steps for the few cases where the workflows would
 span across the two shards.
 
-There are some anti-patterns that need to be avoided for the
+Some anti-patterns need to be avoided for the
 maximum scaling opportunity. For example, having
 almost all of the parties on a single participant is an anti-pattern to
 be avoided since that participant will be a bottleneck. Similarly,
@@ -84,7 +82,7 @@ synchronization party
 through which all transactions need to be validated introduces a
 bottleneck so it is also an anti-pattern to avoid.
 
-The bottom-line is that a Canton system can scale out horizontally if
+The bottom line is that a Canton system can scale out horizontally if
 commands involve only a small number of participants and domains.
 
 
@@ -95,62 +93,61 @@ Node Scaling
 
 The Daml Enterprise edition of Canton supports the following scaling of nodes:
 
-- The database backed drivers (Postgres and Oracle) can run in an active-active setup with parallel processing,
+- The database-backed drivers (Postgres and Oracle) can run in an active-active setup with parallel processing,
   supporting multiple writer and reader processes. Thus, such nodes can scale horizontally.
 
 - The enterprise participant node processes transactions in parallel (except the process of conflict detection which
   by definition must be sequential), allowing much higher throughput than the community version. The community version
   is processing each transaction sequentially.
-  Canton processes make use of multiple cpus and will detect the number of available cpus automatically.
+  Canton processes make use of multiple CPUs and will detect the number of available CPUs automatically.
   The number of parallel threads can be controlled by setting the JVM properties
   `scala.concurrent.context.numThreads` to the desired value.
 
 Generally, the performance of Canton nodes is currently storage I/O bound. Therefore, their performance depends on the
-scaling behaviour and throughput performance of the underlying storage layer, which can be a database, or a distributed
-ledger for some drivers. Therefore, appropriately sizing the database is key to achieve the necessary performance.
+scaling behavior and throughput performance of the underlying storage layer, which can be a database or a distributed
+ledger for some drivers. Therefore, appropriately sizing the database is key to achieving the necessary performance.
 
 On a related note: the Daml interpretation is a pure operation, without side-effects. Therefore, the interpretation
-of each transaction can run in parallel, and only the conflict-detection between transactions must run sequentially.
+of each transaction can run in parallel, and only the conflict detection between transactions must run sequentially.
 
 Performance and Sizing
 ----------------------
 
 A Daml workflow can be computationally arbitrarily complex, performing lots of computation (cpu!) or fetching many
-contracts (io!), and involve different numbers of parties, participants and domains. Canton nodes store their entire
+contracts (io!), and involve different numbers of parties, participants, and domains. Canton nodes store their entire
 data in the storage layer (database), with additional indexes. Every workflow and topology is different,
 and therefore, sizing requirements depend on the Daml application that is going to run, and on the resource
-requirements of the storage layer. Therefore, in order to obtain sizing estimates, you must measure the resource usage
-of dominant workflows using a representative topology and setup of your use-case.
+requirements of the storage layer. Therefore, to obtain sizing estimates you must measure the resource usage
+of dominant workflows using a representative topology and setup of your use case.
 
 Batching
 --------
 
 As every transaction comes with an overhead (signatures, symmetric encryption keys, serialization and wrapping into
-messages for transport, http headers etc), we recommend to design the applications submitting commands in a way that
+messages for transport, HTTP headers, etc), we recommend designing the applications submitting commands in a way that
 batches smaller requests together into a single transaction.
 
-Optimal batch sizes depend on the workflow and the topology, and need to be determined experimentally.
+Optimal batch sizes depend on the workflow and the topology and need to be determined experimentally.
 
 Storage Estimation
 ------------------
-A priori storage estimation of a Canton installation is tricky. Generally, we can give the following reasoning around
-the storage used. As explained above, storage usage depends highly on topology, payload, Daml models used and what type
-of storage layer is configured. However, the following example might be used to understand the storage usage for your use case.
+A priori storage estimation of a Canton installation is tricky. As explained above, storage usage depends on topology, payload, Daml models used, and what type
+of storage layer is configured. However, the following example may help you understand the storage usage for your use case:
 
-First, a command submitted through the Ledger Api is sent to the participant as a serialized gRPC request.
+First, a command submitted through the ledger API is sent to the participant as a serialized gRPC request.
 
 This command is first interpreted and translated into a Daml-LF transaction. The interpreted transaction is next translated into a Canton transaction view-decomposition, which is a privacy-preserving
 representation of the full transaction tree structure.
-A transaction typically consists of several transaction views; in the worst case every action node in the transaction tree becomes a separate transaction view.
+A transaction typically consists of several transaction views; in the worst case, every action node in the transaction tree becomes a separate transaction view.
 Each view contains the full set of arguments required by that view, including the contract arguments of the input contracts.
 So the data representation can be multiplied quite a bit. Here, we cannot estimate the resulting size without having a concrete example.
 For simplicity, let us consider the simple case where a participant is exercising a simple "Transfer" choice on an
 typical "Iou" contract to a new owner, preserving the other contract arguments.
-We assume that the old and new owner of the Iou are hosted on the same participant whereas the Iou issuer is hosted on a second participant.
+We assume that the old and new owners of the IOU are hosted on the same participant whereas the IOU issuer is hosted on a second participant.
 
-In this case, the resulting Canton transaction consists of two views (one for the **Exercise** node of the Transfer choice and one for the **Create** node of the transferred Iou).
+The resulting Canton transaction consists of two views (one for the **Exercise** node of the Transfer choice and one for the **Create** node of the transferred IOU).
 Both views contain some metadata such as the package and template identifiers, contract keys, stakeholders, and involved participants.
-The view for the **Exercise** node contains the contract arguments of the input Iou, say of size `Y`.
+The view for the **Exercise** node contains the contract arguments of the input IOU, say of size `Y`.
 The view for the **Create** node contains the updated contract arguments for the created contract, again of size `Y`.
 Note that there is no fixed relation between the command size `X` and the size of the input contracts `Y`.
 Typically `X` only contains the receiver of the transfer, but not the contract arguments that are stored on the ledger.
@@ -159,20 +156,20 @@ Then, we observe the following storage usage:
 
 - Two encrypted envelopes with payload `Y` each, one symmetric key per
   view and informee participant of that view, two root hashes for each
-  participant and the participant ids as recipients at the sequencer
+  participant and the participant IDs as recipients at the sequencer
   store, and the informee tree for the mediator (informees and
   transaction metadata, but no payload), together with the sequencer
   database indexes.
 - Two encrypted envelopes with payload `Y` each and the symmetric keys for the views, in the participant events table of each participant (as both receive the data)
 - Decrypted new resulting contract of size `Y` in the private contract store and some status information of that contract on the active contract journal of the sync service.
-- The full decrypted transaction with payload of size `Y` for the created contract, in the sync service linear event log. This transaction does not contain the input contract arguments.
+- The full decrypted transaction with a payload of size `Y` for the created contract, in the sync service linear event log. This transaction does not contain the input contract arguments.
 - The full decrypted transaction with `Y` in the indexer events table, excluding input contracts, but including newly divulged input contracts.
 
 If we assume that payloads dominate the storage requirements, we conclude that the storage requirement is given by the payload multiplication
 due to the view decomposition. In our example, the transaction requires `5*Y` storage on each participant and `2*Y` on the sequencer.
 For the two participants and the sequencer, this makes `12*Y` in total.
 
-Additionally to this, some indexes have to be built by the database in order to serve the contracts and events efficiently.
+Additionally to this, some indexes have to be built by the database to serve the contracts and events efficiently.
 The exact estimation of the size usage of such indexes for each database layer is beyond the scope of our documentation.
 
 .. note::
@@ -180,16 +177,16 @@ The exact estimation of the size usage of such indexes for each database layer i
    Please note that we do have plans to remove the storage duplication between the sync service and the indexer. Ideally,
    will be able to reduce the storage on the participant for this example from `5*Y` down to `3*Y`: once for the unencrypted created contract and twice for the two encrypted transaction views.
 
-Generally, in order to recover used storage, a participant and a domain can be pruned. Pruning is available on Canton Enterprise
-through a :ref:`set of console commands <ledger-pruning-commands>` and allows to remove past events and archived contracts
-based on a timestamp. This way, the storage usage of a Canton deployment can be kept constant by continuously removing
-obsolete data. Non-repudiation and auditability of the unpruned history is preserved due to the bilateral commitments.
+Generally, to recover used storage, a participant and a domain can be pruned. Pruning is available on Canton Enterprise
+through a :ref:`set of console commands <ledger-pruning-commands>` and allows removal of past events and archived contracts
+based on a timestamp. The storage usage of a Canton deployment can be kept constant by continuously removing
+obsolete data. Non-repudiation and auditability of the unpruned history are preserved due to the bilateral commitments.
 
 
-How to Setup Canton to Get Best Performance?
---------------------------------------------
+Set Up Canton to Get the Best Performance
+-----------------------------------------
 
-In this section, the findings from our internal performance tests are outlined to help you achieve best performance for your Canton application.
+In this section, the findings from internal performance tests are outlined to help you achieve optimal performance for your Canton application.
 
 System Design / Architecture
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -197,15 +194,15 @@ System Design / Architecture
 We recommend the version of Canton included in the Daml Enterprise edition, which is heavily optimized when compared with the community edition.
 
 Plan your topology such that your Daml parties can be partitioned into independent blocks.
-That means, most of your Daml commands involve parties of a single block only.
+That means most of your Daml commands involve parties of a single block only.
 It is ok if some commands involve parties of several (or all) blocks, as long as this happens only very rarely.
-In particular, avoid having a single master party that is involved in every command, because that party would become a bottleneck of the system.
+In particular, avoid having a single master party that is involved in every command, because that party bottlenecks the system.
 
 If your participants are becoming a bottleneck, add more participant nodes to your system.
 Make sure that each block runs on its own participant.
 If your domain(s) are becoming a bottleneck, add more domain nodes and distribute the load evenly over all domains.
 
-Prefer sending big commands with multiple actions (creates / exercise) over sending numerous small commands.
+Prefer sending big commands with multiple actions (creates / exercises) over sending numerous small commands.
 Avoid sending unnecessary commands through the ledger API.
 Try to minimize the payload of commands.
 
@@ -367,7 +364,7 @@ As a result, Canton will log the following line:
    :end-before: user-manual-entry-end: LogNumThreads
    :dedent:
 
-**Asynchronous commits.** If you are using a Postgres database, configure the participant's ledger api server
+**Asynchronous commits.** If you are using a Postgres database, configure the participant's ledger API server
 to commit database transactions asynchronously by including the following line into your Canton configuration:
 
 .. literalinclude:: /canton/includes/mirrored/scripts/canton-testing/config/participants.conf
@@ -378,7 +375,7 @@ to commit database transactions asynchronously by including the following line i
 and turn off immediate log flushing using the ``--log-immediate-flush=false`` commandline flag,
 at the risk of missing log entries during a host system crash.
 
-**Replication.** If (and **only if**) using single nodes for participant, sequencer and/or mediator, replication can be turned off by setting
+**Replication.** If (and **only if**) using single nodes for participant, sequencer, and/or mediator, replication can be turned off by setting
 ``replication.enabled = false`` in their respective configuration.
 
 .. warning::
