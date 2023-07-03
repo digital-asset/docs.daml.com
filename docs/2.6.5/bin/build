@@ -62,6 +62,19 @@ rm -r $BUILD_DIR/sphinx-target/html/.buildinfo $BUILD_DIR/sphinx-target/html/.do
     echo $SMFOOT >> sitemap.xml
 )
 
+# fix java module path because I don't know how to do it in Bazel
+
+(
+    for f in $(find $BUILD_DIR -type f -name search.js); do
+        # See https://stackoverflow.com/questions/52326318/maven-javadoc-search-redirects-to-undefined-url
+        # TL;DR: The JS code in getURLPrefix tries to add the module name to
+        # the URL ("item.m" in the code), but that property is not defined.
+        # We override that function.
+        chmod +w $f
+        echo 'getURLPrefix = function(ui) { return ""; };' >> $f
+    done
+)
+
 # add Finance entries to Hoogle
 
 (
