@@ -53,7 +53,7 @@ briefly show how to create the bond instrument using a factory:
   :start-after: -- CREATE_FIXED_RATE_BOND_INSTRUMENT_BEGIN
   :end-before: -- CREATE_FIXED_RATE_BOND_INSTRUMENT_END
 
-Finally, we create a bond holding in Bob's account:
+We also create a bond holding in Bob's account:
 
 .. literalinclude:: ../../finance-lifecycling/daml/Scripts/FixedRateBond.daml
   :language: daml
@@ -64,7 +64,7 @@ A holding represents the ownership of a certain amount of an :ref:`instrument <i
 owner at a custodian. Check out the :doc:`Holding <../getting-started/holding>` tutorial for more
 details.
 
-Now, we have both an instrument definition and a holding. Let us now proceed to lifecycle the bond,
+Now, we have both an instrument definition and a holding. Let us proceed to lifecycle the bond,
 which is the main purpose of this tutorial.
 
 Lifecycle Events and Rule
@@ -136,7 +136,15 @@ description of the different steps in the settlement process and the settlement 
 by the library.
 
 Note that the lifecycling process above does not only work for fixed coupon bonds. It also works for
-other instruments with pre-defined payments, for example foreign exchange swaps.
+other instruments with pre-defined payments, for example :
+
++-------------------------+-------------------------------------+
+| Instrument              | Pre-defined variable                |
++=========================+=====================================+
+| Foreign exchange swaps  | FX rate                             |
++-------------------------+-------------------------------------+
+| Currency swaps          | interest rates (on both legs)       |
++-------------------------+-------------------------------------+
 
 Frequently Asked Questions
 **************************
