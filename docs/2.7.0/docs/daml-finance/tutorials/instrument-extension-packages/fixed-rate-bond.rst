@@ -136,7 +136,7 @@ description of the different steps in the settlement process and the settlement 
 by the library.
 
 Note that the lifecycling process above does not only work for fixed coupon bonds. It also works for
-other instruments with pre-defined payments, for example :
+other instruments with pre-defined payments, for example:
 
 +-------------------------+-------------------------------------+
 | Instrument              | Pre-defined variable                |
