@@ -9,12 +9,12 @@ This tutorial describes how to define observations. It builds on the previous
 coupons are pre-defined using a constant annualized rate. In contrast, the coupons of a
 floating rate bond depend on the value of a reference rate for each coupon period. Hence, the
 lifecycling framework requires the future values of the reference rate. This is referred to as
-*Observations*, which is the main topic of this tutorial.
+``Observations``, which is the main topic of this tutorial.
 
 In this tutorial, we are going to:
 
 #. create a floating rate bond instrument and book a holding on it
-#. create an observation of the floating rate, which defines the coupon payment
+#. create an observation of the floating rate, which is used to define the coupon payment
 #. reuse the lifecycle rule and lifecycle event from the fixed rate bond tutorial
 #. process the event to produce the effects of a coupon payment
 #. instruct settlement by presenting a bond holding
@@ -32,9 +32,11 @@ The code for this tutorial can be executed via the ``runFloatingRateBond`` funct
 Instrument and Holding
 ======================
 
-For the purpose of showcasing Observations, we need a suitable sample instrument.
+For the purpose of showcasing the
+:ref:`Observation <module-daml-finance-data-numeric-observation-78761>` concept,
+we need a suitable sample instrument.
 :ref:`Floating rate bonds <module-daml-finance-instrument-bond-floatingrate-instrument-98586>`
-pay a coupon which is determined by a reference rate. The
+pay a coupon which is determined by a reference rate, e.g. 3M Libor. The
 :doc:`Bond Extension tutorial <bond-extension>` describes this instrument in more detail. Here, we
 briefly show how to create the bond instrument using a factory:
 
@@ -44,7 +46,7 @@ briefly show how to create the bond instrument using a factory:
   :end-before: -- CREATE_FLOATING_RATE_BOND_INSTRUMENT_END
 
 Compared to the fixed rate bond, notice that this floating rate instrument also has a
-``referenceRateId``, that specifies which Observations to use in the lifecycling section below.
+``referenceRateId``, that specifies which ``Observations`` to use in the lifecycling section below.
 
 We also create a bond holding in Bob's account:
 
@@ -58,14 +60,14 @@ owner at a custodian. Check out the :doc:`Holding <../getting-started/holding>` 
 details.
 
 Now, we have both an instrument definition and a holding. Let us proceed to lifecycle the bond using
-*Observations*, which is the main purpose of this tutorial.
+``Observations``, which is the main purpose of this tutorial.
 
 Lifecycle Events and Rule
 =========================
 
-An observation of a reference rate contains two pieces of information: the interest rate level and
-the date to which it applies. The rate level can be positive or negative. In our example, we have a
-negative interest rate:
+An :ref:`Observation <module-daml-finance-data-numeric-observation-78761>` of a reference rate
+contains two pieces of information: the interest rate level and the date to which it applies. The
+rate level can be positive or negative. In our example, we have a negative interest rate:
 
 .. literalinclude:: ../../finance-lifecycling/daml/Scripts/FloatingRateBond.daml
   :language: daml
@@ -136,5 +138,5 @@ The key concepts to take away are:
 * Observations are required in order to lifecycle some instruments.
 * Observations is a general concept that can be used to model different kind of payoffs, using
   various types of underlyings.
-* Lifecycling instruments with Observations works in a very similar manner compared to those
+* Lifecycling instruments with observations works in a very similar manner compared to those
   without.
