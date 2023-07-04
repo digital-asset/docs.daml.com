@@ -1,11 +1,11 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Observations (e.g. for a floating rate bond)
-############################################
+Observations (using a floating rate bond)
+#########################################
 
 This tutorial describes how to define observations. It builds on the previous
-:doc:`Time-based Lifecycling <../fixed-rate-bond>` tutorial, which uses a fixed rate bonds where all
+:doc:`Time-based Lifecycling <../fixed-rate-bond>` tutorial, which uses a fixed rate bond where all
 coupons are pre-defined using a constant annualized rate. In contrast, the coupons of a
 floating rate bond depend on the value of a reference rate for each coupon period. Hence, the
 lifecycling framework requires the future values of the reference rate. This is referred to as
@@ -43,6 +43,9 @@ briefly show how to create the bond instrument using a factory:
   :start-after: -- CREATE_FLOATING_RATE_BOND_INSTRUMENT_BEGIN
   :end-before: -- CREATE_FLOATING_RATE_BOND_INSTRUMENT_END
 
+Compared to the fixed rate bond, notice that this floating rate instrument also has a
+``referenceRateId``, that specifies which Observations to use in the lifecycling section below.
+
 We also create a bond holding in Bob's account:
 
 .. literalinclude:: ../../finance-lifecycling/daml/Scripts/FloatingRateBond.daml
@@ -54,8 +57,8 @@ A holding represents the ownership of a certain amount of an :ref:`instrument <i
 owner at a custodian. Check out the :doc:`Holding <../getting-started/holding>` tutorial for more
 details.
 
-Now, we have both an instrument definition and a holding. Let us now proceed to lifecycle the bond
-using *Observations*, which is the main purpose of this tutorial.
+Now, we have both an instrument definition and a holding. Let us proceed to lifecycle the bond using
+*Observations*, which is the main purpose of this tutorial.
 
 Lifecycle Events and Rule
 =========================
@@ -69,7 +72,7 @@ negative interest rate:
   :start-after: -- CREATE_FLOATING_RATE_OBSERVATIONS_BEGIN
   :end-before: -- CREATE_FLOATING_RATE_OBSERVATIONS_END
 
-In our case, the bank then creates the observation.
+In our case, the bank then creates the observation on the ledger.
 
 In order to lifecycle a coupon payment, we need a lifecycle rule that defines how to process all
 time events. We also need a time event corresponding to the date of the first coupon. Both of these
@@ -83,7 +86,8 @@ Now, we have what we need to actually lifecycle the bond:
   :end-before: -- LIFECYCLE_BOND_END
 
 The difference compared to the previous tutorial is that here we also pass in the observables to
-the Evolve choice.
+the Evolve choice. They are used to evaluate the reference rate on the relevant fixing date of the
+coupon payment currently being lifecycled.
 
 The result of this is an effect describing the per-unit asset movements to be executed for bond
 holders. Each holder can now present their holding to *claim* the effect and instruct settlement of
@@ -109,7 +113,7 @@ asset, for example:
 +-----------------------+-------------------------------------------------------+
 | Vanilla option        | Reference asset (often end of day fixing)             |
 +-----------------------+-------------------------------------------------------+
-| Barrier option        | Reference asset (often intraday observations as well) |
+| Barrier option        | Reference asset (often intraday observations)         |
 +-----------------------+-------------------------------------------------------+
 
 Frequently Asked Questions
@@ -130,7 +134,7 @@ amount of the coupon payments.
 The key concepts to take away are:
 
 * Observations are required in order to lifecycle some instruments.
-* Observations is a general concept that can be used to model different kind of payoffs on using
+* Observations is a general concept that can be used to model different kind of payoffs, using
   various types of underlyings.
-* Lifecycling of instruments with Observations works in a very similar manner compared to those
+* Lifecycling instruments with Observations works in a very similar manner compared to those
   without.

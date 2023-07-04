@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Time-based Lifecycling (e.g. fixed rate bond)
-#############################################
+Time-based lifecycling (using a fixed rate bond)
+################################################
 
 This tutorial describes how to lifecycle instruments with pre-defined payments, e.g. a fixed rate
 bond. It is similar to the :doc:`Lifecycling tutorial <../getting-started/lifecycling>`, in that it
@@ -143,7 +143,7 @@ other instruments with pre-defined payments, for example :
 +=========================+=====================================+
 | Foreign exchange swaps  | FX rate                             |
 +-------------------------+-------------------------------------+
-| Currency swaps          | interest rates (on both legs)       |
+| Currency swaps          | Interest rates (on both legs)       |
 +-------------------------+-------------------------------------+
 
 Frequently Asked Questions
