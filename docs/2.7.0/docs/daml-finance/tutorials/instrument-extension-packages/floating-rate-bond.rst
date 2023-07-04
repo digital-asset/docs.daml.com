@@ -5,7 +5,7 @@ Observations (using a floating rate bond)
 #########################################
 
 This tutorial describes how to define observations. It builds on the previous
-:doc:`Time-based Lifecycling <../fixed-rate-bond>` tutorial, which uses a fixed rate bond where all
+:doc:`Time-based Lifecycling <fixed-rate-bond>` tutorial, which uses a fixed rate bond where all
 coupons are pre-defined using a constant annualized rate. In contrast, the coupons of a
 floating rate bond depend on the value of a reference rate for each coupon period. Hence, the
 lifecycling framework requires the future values of the reference rate. This is referred to as
@@ -20,8 +20,8 @@ In this tutorial, we are going to:
 #. instruct settlement by presenting a bond holding
 #. settle the resulting batch atomically
 
-This example builds on the previous :doc:`Time-based Lifecycling <../fixed-rate-bond>` tutorial
-script in the sense that the same parties, accounts, lifecycle rule and events are used.
+This example builds on the previous :doc:`Time-based Lifecycling <fixed-rate-bond>` tutorial script
+in the sense that the same parties, accounts, lifecycle rule and events are used.
 
 Run the Script
 **************
