@@ -55,10 +55,6 @@ We also create a bond holding in Bob's account:
   :start-after: -- CREATE_FLOATING_RATE_BOND_HOLDING_BEGIN
   :end-before: -- CREATE_FLOATING_RATE_BOND_HOLDING_END
 
-A holding represents the ownership of a certain amount of an :ref:`instrument <instrument>` by an
-owner at a custodian. Check out the :doc:`Holding <../getting-started/holding>` tutorial for more
-details.
-
 Now, we have both an instrument definition and a holding. Let us proceed to lifecycle the bond using
 ``Observations``, which is the main purpose of this tutorial.
 
