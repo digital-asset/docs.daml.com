@@ -127,7 +127,7 @@ observations.
 Summary
 *******
 
-You have learned how to create a floating coupon bond and how to define observations that define the
+You have learned how to create a floating rate bond and how to define observations that define the
 amount of the coupon payments.
 The key concepts to take away are:
 
