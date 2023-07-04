@@ -132,7 +132,7 @@ amount of the coupon payments.
 The key concepts to take away are:
 
 * Observations are required in order to lifecycle some instruments.
-* Observations is a general concept that can be used to model different kind of payoffs, using
+* Observations are a general concept that can be used to model different kind of payoffs, using
   various types of underlyings.
 * Lifecycling instruments with observations works in a very similar manner compared to those
   without.
