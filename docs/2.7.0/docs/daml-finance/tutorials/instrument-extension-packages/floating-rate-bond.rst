@@ -94,7 +94,7 @@ the associated entitlements.
 The remaining steps (define a claim rule, claim the effect and settle the entitlements) are
 identical to the previous tutorial.
 
-Note that the lifecycling process above does not only work for floating coupon bonds, which have
+Note that the lifecycling process above does not only work for floating rate bonds, which have
 a reference rate as observable. It also works for other instruments that depend on an underlying
 asset, for example:
 
