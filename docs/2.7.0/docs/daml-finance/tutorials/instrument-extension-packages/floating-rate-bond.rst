@@ -52,8 +52,8 @@ We also create a bond holding in Bob's account:
 
 .. literalinclude:: ../../finance-lifecycling/daml/Scripts/FloatingRateBond.daml
   :language: daml
-  :start-after: -- CREATE_FIXED_RATE_BOND_HOLDING_BEGIN
-  :end-before: -- CREATE_FIXED_RATE_BOND_HOLDING_END
+  :start-after: -- CREATE_FLOATING_RATE_BOND_HOLDING_BEGIN
+  :end-before: -- CREATE_FLOATING_RATE_BOND_HOLDING_END
 
 A holding represents the ownership of a certain amount of an :ref:`instrument <instrument>` by an
 owner at a custodian. Check out the :doc:`Holding <../getting-started/holding>` tutorial for more
