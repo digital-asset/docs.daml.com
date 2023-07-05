@@ -568,8 +568,8 @@ For example for a participant we would run:
 
 where `xyzKmsKeyId` is the KMS identifier for a specific key (e.g. AWS KMS Key ARN).
 
-Finally, we need to initialize our :ref:`domain <_manually-init-domain>` and
-:ref:`participants <_manually-init-participants>` using the previously registered keys.
+Finally, we need to initialize our :ref:`domain <manually-init-domain>` and
+:ref:`participants <manually-init-participants>` using the previously registered keys.
 
 .. _manual-aws-ksm-key-rotation:
 
