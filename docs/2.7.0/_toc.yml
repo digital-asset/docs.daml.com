@@ -521,7 +521,9 @@ subtrees:
         title: "Instrument Extensions Packages"
         entries:
         - file: daml-finance/tutorials/instrument-extension-packages/fixed-rate-bond
-          title: "How to Use a Fixed Rate Bond (Time-based Lifecycling)"
+          title: "Time-based lifecycling (using a fixed rate bond)"
+        - file: daml-finance/tutorials/instrument-extension-packages/floating-rate-bond
+          title: "Observations (using a floating rate bond)"
         - file: daml-finance/tutorials/instrument-extension-packages/bond-extension
           title: "How to Use the Bond Extension Package"
         - file: daml-finance/tutorials/instrument-extension-packages/option-extension
