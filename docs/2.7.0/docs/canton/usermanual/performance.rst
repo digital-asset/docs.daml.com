@@ -129,6 +129,23 @@ batches smaller requests together into a single transaction.
 
 Optimal batch sizes depend on the workflow and the topology and need to be determined experimentally.
 
+Asynchronous Submissions
+------------------------
+
+In order to achieve best performance, we suggest that you use asynchronous command submissions. However,
+please note that the async submission is only partially asynchronous, as the initial command interpretation
+and transaction building is included in that step, while the transaction validation and result finalization is
+not. This means that an async submission takes between 50 to 1000 ms, depending on command size and complexity.
+In the extreme case with a single thread submitting transactions, this would mean that you would only achieve a rate of
+one command per second.
+
+If you use synchronous command submissions, the system will wait for the entire transaction to complete, which will
+require even more threads. Also, please note that the synchronous command submission has a default upper limit of 256
+in flight commands, which can be reconfigured using
+
+.. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/command-service-max-commands-in-flight.conf
+
+
 Storage Estimation
 ------------------
 A priori storage estimation of a Canton installation is tricky. As explained above, storage usage depends on topology, payload, Daml models used, and what type
@@ -285,7 +302,11 @@ commands getting rejected with the error code ``PARTICIPANT_BACKPRESSURE``.
 **Size of connection pools.** Make sure that every node uses a connection pool to communicate with the database.
 This avoids the extra cost of creating a new connection on every database query.
 Canton chooses a suitable connection pool by default.
-Configure the maximum number of connections such that the database is fully loaded, but not overloaded.
+Configure the maximum number of connections such that the database is fully loaded, but not overloaded. Allocating
+too many database connections will lead to resource waste (each thread costs), context switching and contention on the
+database system, slowing the overall system down. You can notice this on the query latencies reported by canton going
+up.
+
 Try to observe the ``db-storage.queue`` metrics. If they are large, then the system performance may benefit from
 tuning the number of database connections.
 Detailed instructions can be found in the Section :ref:`max_connection_settings`.
@@ -383,4 +404,16 @@ at the risk of missing log entries during a host system crash.
     While replication can be turned off to try to obtain performance gains, it must **not** be disabled when running multiple nodes
     for HA.
 
+.. _caching_configuration:
 
+**Caching Configuration.** In some cases, you might also want to tune caching configurations and either
+reduce or increase them, depending on your situation. This can also be helpful if you need to reduce the memory
+foot-print of Canton, which can be large, as the default cache configurations are tailored for high-throughput,
+high-memory and small transaction sizes.
+
+Generally, the caches that usually matter with respect to size are the contract caches and the in-memory
+fan-out event buffer. You can tune these using the following configurations. The values depicted here are
+the ones recommended for smaller memory-footprints and are therefore also helpful if you run into out-of-memory
+issues:
+
+.. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/caching-configs.conf

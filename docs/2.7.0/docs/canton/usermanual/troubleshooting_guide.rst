@@ -26,8 +26,8 @@ The following switches / steps should be taken in order to improve analyzing err
 
      Turn on debug logging by starting the process with::
 
-          ./bin/canton -v  
-     
+          ./bin/canton -v
+
      or even::
 
           ./bin/canton –debug
@@ -44,7 +44,7 @@ The following switches / steps should be taken in order to improve analyzing err
 
        metrics.report-jvm-metrics = true
 
-       canton.monitoring.metrics.reporters = [{ 
+       canton.monitoring.metrics.reporters = [{
          type = csv
          directory = “metrics”
          interval = 5s
@@ -65,7 +65,7 @@ The following switches / steps should be taken in order to improve analyzing err
          }, {
            contains = "jvm.memory_usage.non-heap"
          }, {
-           contains = "jvm.thread_states"         
+           contains = "jvm.thread_states"
          }]
        }, {
          type = jmx
@@ -77,7 +77,7 @@ The following switches / steps should be taken in order to improve analyzing err
 
 * **Turn on database query cost monitoring**
 
-     Enable ``canton.monitoring.log-query-cost.every = 60s``. This will capture query cost statistics and might help diagnose latency / indexing issues with your database, as 
+     Enable ``canton.monitoring.log-query-cost.every = 60s``. This will capture query cost statistics and might help diagnose latency / indexing issues with your database, as
      explained in :ref:`How to Diagnose Slow Database Queries <how_to_diagnose_slow_db_queries>`.
 
 * **Turn on slow futures supervision**
@@ -106,17 +106,17 @@ Key Knowledge
           * Phase 1: Submitting participant prepares the confirmation request based on the “Daml command input”. The confirmation request is sent to the sequencer, addressing the mediator and the validating participants.
 
           * Phase 2: The mediator receives the request from the sequencer, registers the transaction and starts to wait for confirmations.
-          
-          * Phase 3: The validating participants receive the confirmation request from the sequencer and perform their validations. The two main checks that happen here are: validation (is the transaction correct and properly authorized?) & conflict detection (are all contracts that are spent or fetched in the transaction still active?). 
-          
+
+          * Phase 3: The validating participants receive the confirmation request from the sequencer and perform their validations. The two main checks that happen here are: validation (is the transaction correct and properly authorized?) & conflict detection (are all contracts that are spent or fetched in the transaction still active?).
+
           * Phase 4: The confirming participants, a subset of the validating participants, send their verdict on each sub-transaction they are privy via the sequencer to the mediator. The verdict can be ``LocalApprove`` or some rejection reason.
-          
+
           * Phase 5: The mediator receives the mediator responses (approvals and rejections) from the participants via the sequencer and validates them. If the mediator receives enough responses for the given transaction, it will compute the “Verdict”, which is the final decision on the transaction.
-          
+
           * Phase 6: The mediator sends its verdict to all validating participants of a transaction via the sequencer.
-          
+
           * Phase 7: The participants receive the mediator verdict and register it to the record order publisher. While the validation can happen in parallel, the record publisher will ensure that the transactions are emitted in order.
-     
+
      For each phase a log line that should appear at the beginning and one that appears at the end of the phase.
 
 * **Internal Errors**
@@ -134,53 +134,53 @@ Log Files
 
      All Canton log statements contain a :ref:`trace-id <tracing>`. This tracing is turned on by default and the ``trace-id`` is passed between the distributed processes::
 
-          c.d.c.p.p.s.InFlightSubmissionTracker:participant=participant1 
-          tid:d5df95972a95b5ff00cb5cc3346c545f - NOT_SEQUENCED_TIMEOUT(2,d5df9597): 
-          Transaction was not sequenced within the pre-defined max sequencing time and has 
-          therefore timed out err-context:{location=SubmissionTrackingData.scala:175, 
-          timestamp=2022-10-19T17:45:56.393151Z} 
+          c.d.c.p.p.s.InFlightSubmissionTracker:participant=participant1
+          tid:d5df95972a95b5ff00cb5cc3346c545f - NOT_SEQUENCED_TIMEOUT(2,d5df9597):
+          Transaction was not sequenced within the pre-defined max sequencing time and has
+          therefore timed out err-context:{location=SubmissionTrackingData.scala:175,
+          timestamp=2022-10-19T17:45:56.393151Z}
 
      In above example, we see the trace id twice: ``tid:d5df95972a95b5ff00cb5cc3346c545f`` and ``NOT_SEQUENCED_TIMEOUT(2,d5df9597)``. By filtering according to the ``trace-id``, you can find almost all log statements that relate to a particular command. Unfortunately, the ledger-api server does not yet log the ``trace-id``. Therefore, sometimes, we also need to find out the command id of a transaction. You can do that by grepping for the “rosetta stone”, which is one particular log line that contains both strings::
 
-          2022-10-19 17:45:20,630 [⋮] DEBUG 
-          c.d.c.p.s.CantonSyncService:SimplestPingIntegrationTestInMemory/participant=participant1 
+          2022-10-19 17:45:20,630 [⋮] DEBUG
+          c.d.c.p.s.CantonSyncService:SimplestPingIntegrationTestInMemory/participant=participant1
           tid:d5df95972a95b5ff00cb5cc3346c545f - Received submit-transaction
-          5ec48477-b440-4175-a1f8-d8373d5108ef-ping-5838bf58-5e1d-4ccc-869b-0607bed42fc7 
+          5ec48477-b440-4175-a1f8-d8373d5108ef-ping-5838bf58-5e1d-4ccc-869b-0607bed42fc7
 
      The first string is again the trace id and the second one is the command id. Ideally, you then subsequently filter for command-id and trace-id.
 
 * **Extract the Context of a Log Message**
 
-     The log lines often also contain the “context” of the component. Examples: 
+     The log lines often also contain the “context” of the component. Examples:
 
      * This log line tells us which component of which participant (participant1) of which domain connection (da) has been emitting this log line. It also includes the trace id of the underlying request::
-          
-          2022-10-04 15:55:50,077 [⋮] DEBUG 
-          c.d.c.p.p.TransactionProcessingSteps:participant=participant1/domain=da 
-          tid:461cae6245cfaadc87c2481a17d7e1bb - Preparing batch for transaction 
+
+          2022-10-04 15:55:50,077 [⋮] DEBUG
+          c.d.c.p.p.TransactionProcessingSteps:participant=participant1/domain=da
+          tid:461cae6245cfaadc87c2481a17d7e1bb - Preparing batch for transaction
           submission
 
      * During tests, the log line includes the name of the test. In this case, it is ``SimplestPingIntegrationTestInMemory``::
 
           :: 2022-10-04 15:55:50,077 [⋮] DEBUG c.d.c.p.p.TransactionProcessingSteps:SimplestPingIntegrationTestInMemory/
-          participant=participant1/domain=da tid:461cae6245cfaadc87c2481a17d7e1bb 
+          participant=participant1/domain=da tid:461cae6245cfaadc87c2481a17d7e1bb
           - Preparing batch for transaction submission
 
 
      * Some classes use a different format for logging the context. This time, the context comes after the log message::
-     
-          2022-11-02 11:13:27,017 [⋮] INFO  c.d.p.i.p.ParallelIndexerSubscription - Storing 
+
+          2022-11-02 11:13:27,017 [⋮] INFO  c.d.p.i.p.ParallelIndexerSubscription - Storing
           Accept transaction 1220cea6b84e95a707025b866ffe7c36c0406759ef1494726d434b079b7d950dab15
-          , context: {test: "AuthorizationIntegrationTestDefault", participant: "participant1", 
-          offset: "00000000000000000e", update: {submissionTime: "1970-01-01T00:00:00Z", 
-          recordTime: "1970-01-01T00:00:00.000433Z", completion: {actAs : 
+          , context: {test: "AuthorizationIntegrationTestDefault", participant: "participant1",
+          offset: "00000000000000000e", update: {submissionTime: "1970-01-01T00:00:00Z",
+          recordTime: "1970-01-01T00:00:00.000433Z", completion: {actAs :
           ["participant1::1220565a4c91e7218b71d9f8f48fb7913680caeef6182aa0136427c08344e7528a34"]
-          , commandId : "94b7354f-9c6d-42bb-affe-441631e24a10-ack-d73e5645-286c-4853-bb5d-dfb40f62f94f", 
-          submissionId: "17f795ef-511b-418b-9375-17b40af5d059", deduplicationPeriod : {offset: 
-          "000000000000000001"}, applicationId : "admin-ping"}, workflowId: "admin-ping", 
+          , commandId : "94b7354f-9c6d-42bb-affe-441631e24a10-ack-d73e5645-286c-4853-bb5d-dfb40f62f94f",
+          submissionId: "17f795ef-511b-418b-9375-17b40af5d059", deduplicationPeriod : {offset:
+          "000000000000000001"}, applicationId : "admin-ping"}, workflowId: "admin-ping",
           transactionId: "1220cea6b84e95a707025b866ffe7c36c0406759ef1494726d434b079b7d950dab15"
           , ledgerTime: "1970-01-01T00:00:00Z"}}
-     
+
 
 * **Compare with a Happy Path Successful Logging Trace**
 
@@ -207,7 +207,7 @@ Using LNAV to View Log Files
 
 * **Split Log Files if they are too big**
 
-     If your log files are too big the unix utility ``split`` can be used to split the file into chunks. 
+     If your log files are too big the unix utility ``split`` can be used to split the file into chunks.
 
 * **Uncompress GZ Log files for faster reading**
 
@@ -223,13 +223,13 @@ Using LNAV to View Log Files
      If the first warning or error does not completely explain the situation, it is important to look at all such messages. Use the following recipe:
 
           #. Set the minimum log level to WARN to display only warnings and errors (``:set-min-log-level warn``).
-          
+
           #. Look at the first message. Mark the message (pressing ``m``) so you can later get back to the message.
-          
+
           #. Define an out-filter to hide the first message and all similar messages.
-          
+
           #. Repeat steps (2) and (3) until you have filtered out all messages.
-          
+
           #. Disable all out-filters. You can now press u and U to step through all marked warning and error messages.
 
 * **Filter Irrelevant Items**
@@ -241,11 +241,11 @@ Using LNAV to View Log Files
      Once you start filtering for a particular command trace, you might want to hit “shift-t”. This will show you the delta time between the first log line and the subsequent one. Usually, you just need to find the “gap”. This will tell you immediately where something got stuck / slow / timed out:
 
           * open the log files of all components
-          
+
           * search for the first error / warn (i.e. hit ``w`` or ``e``)
-          
+
           * pick the trace-id (as described above) and filter for it
-          
+
           * hit ``shift-t`` and find the gap.
 
 Setup Issues
@@ -258,9 +258,9 @@ Setup Issues
 * Are the nodes :ref:`connected to a sequencer <sequencer_connections>`? Errors that often happen here are:
 
      * public-apis / ledger-api addresses are not set to ``0.0.0.0`` and are still binding to ``localhost`` (default value for security reasons).
-     
+
      * you are using TLS on the server side, but on the client side you have defined the URL as ``http://``.
-     
+
      * the chosen port is not correct.
 
 * If you are running into TLS connectivity issues, turn on “--debug” and check the detailed netty logs for hints. These libraries tend to log necessary information only on debug level. You can also increase the debugging information level by starting canton with `-Djavax.net.debug=all`.
@@ -283,7 +283,7 @@ Any transaction that is submitted to Canton will either be successfully worked o
 Such a timeout usually means that some component is either:
 
      * offline - resolve by checking that all nodes are healthy (``health.status()``) and are connected with each other.
-     
+
      * overloaded - resolve by tuning according to our :ref:`performance configuration guide <performance_configuration>`.
 
      * unable to complete the transaction processing within the given time (i.e. transactions are too big) - resolve by increasing the timeouts as described in our :ref:`performance configuration guide <performance_configuration>`.
@@ -292,20 +292,20 @@ Such a timeout usually means that some component is either:
 
      Many issues only surface under high load. Therefore, it often makes sense to diagnose timeout issues using a::
 
-          participant1.health.ping(...) 
+          participant1.health.ping(...)
 
      while the system is idle. If the ping works, then you have likely a throughput / performance / contention issue and you should use one of the other guides to continue debugging.
-     
+
      If the ping doesn't work and never did before, you should check the setup troubleshooting guide.
 
-     If previously, transaction processing worked and now stopped working, while all nodes are up and running, and reporting to be healthy, you should raise an issue with support. 
+     If previously, transaction processing worked and now stopped working, while all nodes are up and running, and reporting to be healthy, you should raise an issue with support.
 
      By turning on diagnostics information collection as explained above, you can then figure out which step of transaction processing failed by comparing the trace in the logs to the Phase 1-7 explanation, isolating out which component did not respond.
 
 Auth Errors
 -----------
 
-For security reasons, Canton removes all details from auth errors. On the client side, you usually only see 
+For security reasons, Canton removes all details from auth errors. On the client side, you usually only see
 ``PERMISSION_DENIED/An error occurred. Please contact the operator and inquire about the request <no-correlation-id>``, so you need to inspect server logs to debug auth errors.
 
 To use an auth-enabled ledger api, the caller needs to attach an access token to the gRPC request. These tokens are attached in the ``Authorization`` HTTP header. To see headers attached to incoming and outgoing requests, you need to set the log level to ``TRACE``. ``ApiRequestLogger`` will then output log lines containing ``received headers`` or ``sending response headers``.
@@ -342,23 +342,29 @@ How to obtain a performant system is :ref:`extensively documented <performance_c
 If you have followed that documentation, we can assume that:
 
      * Your database pools are sufficiently sized: check metric ``db-storage.queue``.
-     
+
      * You have set the right settings with respect to:
 
           * number of threads (check cpu usage)
           * number of database connections (connection pool size) (``max-connections`` in storage)
           * high-throughput sequencer settings (``sequencer.writer.type = high-throughput``)
-     
+
      * The database server is using SSDs and not spinning disks, and the latency to the database is low.
-     
+
+     * The database has enough memory to keep the indexes in memory (shared_buffers!) and is properly configured.
+
+     * The number of connections to the database aligns with the available resources on the database. A database can
+       not concurrently serve more than one request per CPU. Allocating too many connections will lead to contention
+       and slow down the database (latency under load goes up as you queue on the db).
+
      * You are not using one of the slow “DLT layers” such as Fabric or Besu that are simply limited in their throughput (``sequencer.type = database``).
-     
+
      * You have enough spare CPU capacity (cpu usage is not at 100%).
-     
+
      * You don't have other systems competing for resources.
-     
+
      * The max inflight transaction resource limits on the participant (``participant1.resources.set_resource_limits``) have been set carefully. The resource limits are low enough so that an application cannot overload Canton. The resource limits are high enough such that applications can submit commands at the desired target rate.
-     
+
      * You are able to load the system fully. I.e. the load generator that you apply is submitting faster than the system can handle (i.e. you throttle using, for example, max 1000 pending commands, the latency grows linearly with num pending commands).
 
 If you have done all that, you might have reached the limit of what the Canton version you are using can do. The next step is then to find out which component is creating the bottleneck. Generally, it is either one of the nodes or the database.
@@ -369,9 +375,9 @@ How to Measure Database Performance
 To get a first impression of database performance, enable the following metrics:
 
      * Metrics containing ``executor.waittime``. These metrics show the time (in millis) a db command needs to wait until Canton sends it to the db. High values indicate that the db is a bottleneck.
-     
+
      * Metrics containing ``executor.queued``. These metrics show the number of db commands waiting in a queue for being sent to the db. High values indicate that the db is a bottleneck.
-     
+
      * Metrics containing ``executor.running``. These metrics show the number of tasks currently being executed by the db. Very high values indicate that Canton is overloading the db. Very low values indicate that Canton is not fully loading the db. The number of db connections can be configured via ``canton.<path-to-my-node>.storage.parameters.max-connections``.
 
 .. _how_to_diagnose_slow_db_queries:
@@ -386,7 +392,7 @@ If database metrics indicate that the database is a bottleneck you may want to o
      count=    598 mean=   8.82 ms total=  5.3 s com.digitalasset.canton.domain.sequencing.sequencer.store.DbSequencerStore.fetchWatermark(DbSequencerStore.scala:621)
      count=      1 mean=  29.48 ms total=  0.0 s com.digitalasset.canton.domain.sequencing.authentication.DbMemberAuthenticationStore.expireNoncesAndTokens(MemberAuthenticationStore.scala:234)
      count=      2 mean=   9.37 ms total=  0.0 s com.digitalasset.canton.topology.store.db.DbTopologyStore.$anonfun$queryForTransactions$2(DbTopologyStore.scala:387)
-     count=      1 mean=  18.52 ms total=  0.0 s 
+     count=      1 mean=  18.52 ms total=  0.0 s
 
 The information in here can be very useful:
 
@@ -399,7 +405,7 @@ Please note that the “execution time” of the query does not include “queui
 
 Now, you do the following analysis:
 
-     * if you have for example ``max-connections = 4`` and you log once a minute, if the total time of the queries approaches 240s, then you are obviously using up all db connections that are available. 
+     * if you have for example ``max-connections = 4`` and you log once a minute, if the total time of the queries approaches 240s, then you are obviously using up all db connections that are available.
 
      * if a single query runs for ``60s``, then that query might be a sequential bottleneck, as it has been running for 60s out of the 60s interval.
 
@@ -408,7 +414,7 @@ Now, you do the following analysis:
 How to find the Bottleneck
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In some situations, you would like to understand which component is causing a particular bottleneck. You can do that using the following technique. 
+In some situations, you would like to understand which component is causing a particular bottleneck. You can do that using the following technique.
 
 Theory
 ^^^^^^
@@ -423,8 +429,8 @@ Now, if you have an input source that will throttle its submission based on the 
 
 	*latency  = num-open-requests / max-throughput*
 
-The latency will grow linearly with the number of open requests. Now, as we previously defined that 
-	
+The latency will grow linearly with the number of open requests. Now, as we previously defined that
+
      *throughput(Stage 3) < throughput (all other Stages)*
 
 We know that the open requests will be starting to pile up in front of Stage 3, because all other stages are processing every transaction much faster.
@@ -463,7 +469,7 @@ This section here explains you how to deal with situations where many commands a
      * ``CONTRACT_NOT_FOUND``
      * ``DUPLICATE_CONTRACT_KEY``
 
-Canton is not just a distributed system, but a distributed **racy** system where different independent actors may race for contracts or other resources. As a simple example: if you have an offer contract that can be accepted by a buyer and revoked by the seller, then the decision of the buyer to accept can race with a decision of the seller to revoke the offer. 
+Canton is not just a distributed system, but a distributed **racy** system where different independent actors may race for contracts or other resources. As a simple example: if you have an offer contract that can be accepted by a buyer and revoked by the seller, then the decision of the buyer to accept can race with a decision of the seller to revoke the offer.
 
 Now, a distributed decision system with individual actors can be **accidentally racy** or **intentionally racy**. Let's explain the difference between the two:
 
@@ -471,7 +477,7 @@ Now, a distributed decision system with individual actors can be **accidentally 
 
      * **Accidentally racy**: You turn off the traffic lights at a crossing. Suddenly, access to the shared resource (the crossing) is not managed anymore such that everyone rushes into it, blocking the entire box, making it impossible for anyone to move, leading to a complete traffic break-down.
 
-If the system and model is intentionally racy, there is nothing you can do about the rejections. They must be there as they are the result of resolving the race for resources. But often, you will find the situation that the model is accidentally racy, which can be fixed by changing the model slightly. In many cases, contention arises due to contract-keys being fetched and updated. The issue is then that the transaction is built in phase 1, looking at the contract key state at that time. The validation / conflict detection happens then in phase 3. If any other transaction changed that particular key in the time between phase 1 and phase 3, the transaction will fail. 
+If the system and model is intentionally racy, there is nothing you can do about the rejections. They must be there as they are the result of resolving the race for resources. But often, you will find the situation that the model is accidentally racy, which can be fixed by changing the model slightly. In many cases, contention arises due to contract-keys being fetched and updated. The issue is then that the transaction is built in phase 1, looking at the contract key state at that time. The validation / conflict detection happens then in phase 3. If any other transaction changed that particular key in the time between phase 1 and phase 3, the transaction will fail.
 
 Whether you get ``INACTIVE_CONTRACTS``, ``LOCKED_CONTRACT`` or ``CONTRACT_NOT_FOUND`` just depends on timing of the competing transaction. ``LOCKED`` means: there is a transaction about to change this resource, but we have not yet received the final verdict on it.
 
@@ -483,7 +489,7 @@ Now, you can resolve such accidental raciness by “introducing order” into th
 	template AccountIdGenerator
 		next : Integer
 		…
-	where 
+	where
 		choice NextAccount : (ContractId AccountId, ContractId AccountIdGenerator)
 		do
 			a <- create this with next = next + 1
@@ -493,7 +499,7 @@ Now, you can resolve such accidental raciness by “introducing order” into th
 This ``AccountIdGenerator`` contract will be very racy. However, you can just add a::
 
 	template GetAccountIdRequest
-		
+
 and then have a single application consume these requests and generate ids. That single application knows whether it has already spent the existing ``AccountIdGenerator`` contract. Of course, it would make sense to support a list of requests in the choice ``NextAccount`` such that many AccountIds are created at once, as otherwise, the throughput of account allocation would be limited.
 
 This is just a simple example, but should be sufficient to illustrate the issue and the solution idea.
@@ -504,15 +510,15 @@ How To Find Contention
 In a distributed application, where different systems such as Triggers, Nanobots, Ingestion Application etc submit transactions, it is often not easy to understand where the contention is coming from. Here is a recipe that can be used on the Canton level:
 
      #. Ensure that you have turned on Detailed API Logging with Debug logs.
-     
+
      #. Run your system / tests until you have collected enough information / rejections.
-     
+
      #. Open the log files and search for one of the rejections, i.e. search for ``LOCKED``.
-     
+
      #. Filter by the trace-id of this rejection. Determine the command-id using the “rosetta stone” log entry. Add the command-id to the filter.
-     
+
      #. Now, find the ApiRequestLogger log entry of the CommandSubmissionService. This log entry contains the entire command that the application has submitted (if you turned on the detailed api logging). I.e. the “exercise choice” that caused the contention.
-     
+
      #. Then, go back to the rejection (i.e. the one with ``LOCKED``). This rejection will contain a ``ResourceInfo``, referring to the key / contract that caused the rejection. The ResourceInfo will contain the key that caused the failure.
 
 Using the above recipe, you determine the choice and which key in that particular choice created the problem. This should be sufficient to find the problematic parts in the model.
@@ -565,9 +571,9 @@ Let's call it “Deployment 5”. If the test fails on "Deployment 5", you have 
 The following guidelines are helpful to make this approach successful:
 
      * Try to keep the list of differences between successful and failing deployment **as complete as possible**. If the root cause is not on your list, you can't find it. Differences can come from configuration, DAML models, ledger applications, deployment (in process, network, docker, kubernetes, ...), hardware, operating system.
-     
+
      * Always **aim at the middle** between the successful and failing deployment to learn the most with every new deployment you create and test. That is the fastest path to the root cause.
-     
+
      * **Don't make assumptions up front** of which difference may or may not cause the problem. For example, if you are making the assumption that the problem is not caused by TLS, you may save one iteration, if you are right. But you will take a long detour, if you are wrong.
-     
+
      * Do not assume that the problem is caused by a single difference between the two deployments. It could very well be that a **combination of differences** is needed to **reproduce the problem**.
