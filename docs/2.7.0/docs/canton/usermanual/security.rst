@@ -561,7 +561,7 @@ adding the following flag in the config:
 We then need to register the keys in Canton by running the key registration command on each node.
 For example for a participant we would run:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/kms-provider-tagged.conf
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/topology/TopologyManagementHelper.scala
    :language: scala
    :start-after: user-manual-entry-begin: ManualRegisterKmsKeys
    :end-before: user-manual-entry-end: ManualRegisterKmsKeys
