@@ -142,12 +142,18 @@ Log Files
 
      In above example, we see the trace id twice: ``tid:d5df95972a95b5ff00cb5cc3346c545f`` and ``NOT_SEQUENCED_TIMEOUT(2,d5df9597)``. By filtering according to the ``trace-id``, you can find almost all log statements that relate to a particular command. However, sometimes, we also need to find out the command id of a transaction. You can do that by grepping for the “rosetta stone”, which is one particular log line that contains both strings::
 
-          2022-10-19 17:45:20,630 [⋮] DEBUG
-          c.d.c.p.s.CantonSyncService:SimplestPingIntegrationTestInMemory/participant=participant1
-          tid:d5df95972a95b5ff00cb5cc3346c545f - Received submit-transaction
-          5ec48477-b440-4175-a1f8-d8373d5108ef-ping-5838bf58-5e1d-4ccc-869b-0607bed42fc7 from ledger-api server
+          2023-07-04 12:03:26,517 [⋮] INFO
+          c.d.c.p.a.s.c.CommandSubmissionServiceImpl:participant=participant1
+          tid:35e389f0e41fd0273443dd866ff9e347 - Submitting commands for interpretation,
+          commands -> {readAs: [], deduplicationPeriod: {duration: 'PT168H'},
+          submittedAt: '2023-07-04T10:03:26.514885Z', ledgerId: 'participant1',
+          applicationId: 'CSsubmitAndWaitBasic',
+          submissionId: 'CSsubmitAndWaitBasic-alpha-410b4d7b1b585-submission-0',
+          actAs: ['CSsubmitAndWaitBasic-alpha-410b4d7b1b585-party-0::122035bd93d74879ce582adf5aa04a809b4b20618d39c1a9c2a17d35c29ab1ed098f'],
+          commandId: 'CSsubmitAndWaitBasic-alpha-410b4d7b1b585-command-0',
+          workflowId: 'CSsubmitAndWaitBasic-410b4d7b1b585'}.
 
-     The first string is again the trace id and the second one is the command id. Ideally, you then subsequently filter for command-id and trace-id.
+     The first string is again the trace id. Additionally, the commandId of the transaction, the applicationId, the submissionId and the workflowId are logged and can be used to filter the logs.
 
 * **Extract the Context of a Log Message**
 
