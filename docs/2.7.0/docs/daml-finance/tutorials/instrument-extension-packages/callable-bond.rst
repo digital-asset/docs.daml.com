@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Elections (using a callable bond)
-#################################
+Election-based lifecycling (using a callable bond)
+##################################################
 
 This tutorial describes how to define observations. It builds on the previous
 :doc:`Time-based Lifecycling <fixed-rate-bond>` tutorial, which uses a fixed rate bond where all
