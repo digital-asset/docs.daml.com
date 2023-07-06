@@ -23,7 +23,7 @@ Daml is tested using the following specific dependencies in default installation
 
 1. Operating Systems:
 
-  1. Ubuntu 20.04 for development.  Ubuntu 20.04 and Debian 11 is also tested for production use.
+  1. Ubuntu 20.04 for development. Ubuntu 20.04 and Debian 11 is also tested for production use.
   2. Windows Server 2016
   3. MacOS 10.15 Catalina
 
