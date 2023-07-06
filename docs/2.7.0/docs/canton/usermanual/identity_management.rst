@@ -692,7 +692,7 @@ In the following, we demonstrate the basic steps how to initialise a node:
 Keys Initialization
 ^^^^^^^^^^^^^^^^^^^
 
-The following steps describe how to manually generate the necessary Canton keys:
+The following steps describe how to manually generate the necessary Canton keys (e.g. for a participant):
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/topology/TopologyManagementHelper.scala
    :language: scala

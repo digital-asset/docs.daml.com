@@ -550,6 +550,27 @@ AWS KMS only supports the :ref:`following cryptographic schemes <canton_supporte
     provider it can no longer be reverted without a full reset of the node
     (i.e., re-generation of node identity and all keys).
 
+In the previous example, Canton creates its own keys on startup and initializes the identity of the nodes automatically.
+If the keys have already been generated in the KMS, we need to manually initialize the identity of the nodes by
+adding the following flag in the config:
+
+.. code-block:: none
+
+    <node>.init.auto-init = false
+
+We then need to register the keys in Canton by running the key registration command on each node.
+For example for a participant we would run:
+
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/topology/TopologyManagementHelper.scala
+   :language: scala
+   :start-after: user-manual-entry-begin: ManualRegisterKmsKeys
+   :end-before: user-manual-entry-end: ManualRegisterKmsKeys
+
+where `xyzKmsKeyId` is the KMS identifier for a specific key (e.g. AWS KMS Key ARN).
+
+Finally, we need to initialize our :ref:`domain <manually-init-domain>` and
+:ref:`participants <manually-init-participant>` using the previously registered keys.
+
 .. _manual-aws-ksm-key-rotation:
 
 Auditability
