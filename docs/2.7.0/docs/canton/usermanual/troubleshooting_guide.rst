@@ -140,7 +140,7 @@ Log Files
           therefore timed out err-context:{location=SubmissionTrackingData.scala:175,
           timestamp=2022-10-19T17:45:56.393151Z}
 
-     In above example, we see the trace id twice: ``tid:d5df95972a95b5ff00cb5cc3346c545f`` and ``NOT_SEQUENCED_TIMEOUT(2,d5df9597)``. By filtering according to the ``trace-id``, you can find almost all log statements that relate to a particular command. The ledger-api server logs the ``trace-id`` as well. However, sometimes, we also need to find out the command id of a transaction. You can do that by grepping for the “rosetta stone”, which is one particular log line that contains both strings::
+     In above example, we see the trace id twice: ``tid:d5df95972a95b5ff00cb5cc3346c545f`` and ``NOT_SEQUENCED_TIMEOUT(2,d5df9597)``. By filtering according to the ``trace-id``, you can find almost all log statements that relate to a particular command. However, sometimes, we also need to find out the command id of a transaction. You can do that by grepping for the “rosetta stone”, which is one particular log line that contains both strings::
 
           2022-10-19 17:45:20,630 [⋮] DEBUG
           c.d.c.p.s.CantonSyncService:SimplestPingIntegrationTestInMemory/participant=participant1
