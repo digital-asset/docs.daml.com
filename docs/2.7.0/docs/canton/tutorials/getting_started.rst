@@ -29,7 +29,7 @@ Alternatively Canton is available as a `docker image <https://hub.docker.com/r/d
 Canton is platform-agnostic. For development purposes, it runs on macOS,
 Linux, and Windows. Linux is the supported platform for production.  
 
-Please note that, under Windows, the Canton console output will be garbled
+Note: Windows garbles the Canton console output
 unless you are running Windows 10 and you enable terminal colors (e.g., by
 running ``cmd.exe`` and then executing ``reg add HKCU\Console /v
 VirtualTerminalLevel /t REG_DWORD /d 1``).
