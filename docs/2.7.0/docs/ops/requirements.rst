@@ -9,7 +9,7 @@ System Requirements
 Unless otherwise stated, all Daml runtime components require the following dependencies:
 
 1. For development, an x86-compatible system running a modern Linux, Windows,
-   or MacOS operating system.  For a production deployment, an x86-compatible
+   or MacOS operating system. For a production deployment, an x86-compatible
    system running a modern Linux operating system.
 2. Java 11 or greater.
 3. An RDBMS system,
