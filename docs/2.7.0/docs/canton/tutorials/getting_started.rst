@@ -26,7 +26,7 @@ Installation
 Canton is a JVM application. To run it natively you need Java 11 or higher installed on your system.
 Alternatively Canton is available as a `docker image <https://hub.docker.com/r/digitalasset/canton-open-source>`__ (see :ref:`Canton docker instructions <docker-instructions>`).
 
-Canton is platform-agnostic.  For development purposes it runs on macOS,
+Canton is platform-agnostic. For development purposes, it runs on macOS,
 Linux, and Windows. Linux is the supported platform for production.  
 
 Please note that, under Windows, the Canton console output will be garbled
