@@ -26,10 +26,15 @@ Installation
 Canton is a JVM application. To run it natively you need Java 11 or higher installed on your system.
 Alternatively Canton is available as a `docker image <https://hub.docker.com/r/digitalasset/canton-open-source>`__ (see :ref:`Canton docker instructions <docker-instructions>`).
 
-Otherwise Canton is platform-agnostic, but we recommend you try it under Linux and macOS if possible as we currently only test those platforms.
-Under Windows, the Canton console output will be garbled unless you are running Windows 10 and you enable terminal colors (e.g., by running ``cmd.exe`` and then executing ``reg add HKCU\Console /v VirtualTerminalLevel /t REG_DWORD /d 1``).
+Canton is platform-agnostic.  For development purposes it runs on macOS,
+Linux, and Windows.  Linux is the supported platform for production.  
 
-To start, download our community edition `latest release <https://github.com/digital-asset/daml/releases>`__
+Please note that, under Windows, the Canton console output will be garbled
+unless you are running Windows 10 and you enable terminal colors (e.g., by
+running ``cmd.exe`` and then executing ``reg add HKCU\Console /v
+VirtualTerminalLevel /t REG_DWORD /d 1``).
+
+To start, download the open source community edition `latest release <https://github.com/digital-asset/daml/releases>`__
 and extract the archive, or use the enterprise edition if you have access to it.
 
 The extracted archive has the following structure:
