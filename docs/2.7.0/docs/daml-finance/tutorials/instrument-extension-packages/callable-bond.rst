@@ -55,7 +55,7 @@ We also create a bond holding in Bob's account:
 .. literalinclude:: ../../finance-lifecycling/daml/Scripts/CallableBond.daml
   :language: daml
   :start-after: -- CREATE_CALLABLE_BOND_HOLDING_BEGIN
-  :end-before: -- CREATE_CALLABLE_BOND_HOLDING_BEGIN
+  :end-before: -- CREATE_CALLABLE_BOND_INSTRUMENT_END
 
 Now, we have both an instrument definition and a holding. Let us proceed to lifecycle the bond using
 ``Elections``, which is the main purpose of this tutorial.
