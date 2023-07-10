@@ -190,6 +190,8 @@ the case for :ref:`Generic Instrument
 <type-daml-finance-interface-instrument-generic-instrument-instrument-11652>` evolution, as well as
 other :doc:`Contingent Claims <../concepts/contingent-claims>` based instruments.
 
+.. _time-vs-election-lifecycling:
+
 Lifecycling of Contingent Claims based instruments can be divided into two categories:
 
 - *Time based* evolution: An instrument is evolved solely due to the passage of time. An example is

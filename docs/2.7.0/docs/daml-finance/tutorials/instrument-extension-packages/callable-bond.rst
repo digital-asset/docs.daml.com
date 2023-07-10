@@ -4,135 +4,157 @@
 Election-based lifecycling (using a callable bond)
 ##################################################
 
-This tutorial describes how to define observations. It builds on the previous
+This tutorial describes how to define and process Elections. It builds on the previous
 :doc:`Time-based Lifecycling <fixed-rate-bond>` tutorial, which uses a fixed rate bond where all
-coupons are pre-defined using a constant annualized rate. In contrast, the coupons of a
-floating rate bond depend on the value of a reference rate for each coupon period. Hence, the
-lifecycling framework requires the future values of the reference rate. This is referred to as
-``Observations``, which is the main topic of this tutorial.
+coupons are pre-defined and happen as time passes. In contrast, the coupons of a
+callable bond depend on whether the issuer has called the bond. Hence, a simple time event is not
+sufficient to define the state of the instrument. Instead, the lifecycling framework requires an
+active Election on each dates when it is possible to call the bond, which is the main topic of this
+tutorial. Check out the :ref:`Lifecycling concepts <time-vs-election-lifecycling>` for more details
+on time based vs election based evolution of instruments.
 
 In this tutorial, we are going to:
 
 #. create a floating rate bond instrument and book a holding on it
-#. create an observation of the floating rate, which is used to define the coupon payment
-#. reuse the lifecycle rule and lifecycle event from the fixed rate bond tutorial
+#. reuse the lifecycle rule and settlement factory from the fixed rate bond tutorial
+#. create the election not to call the bond
 #. process the event to produce the effects of a coupon payment
 #. instruct settlement by presenting a bond holding
 #. settle the resulting batch atomically
 
 This example builds on the previous :doc:`Time-based Lifecycling <fixed-rate-bond>` tutorial script
-in the sense that the same parties, accounts, lifecycle rule and events are used.
+in the sense that the same parties, accounts, lifecycle rule and settlment factory are used.
 
 Run the Script
 **************
 
-The code for this tutorial can be executed via the ``runFloatingRateBond`` function in the
-``FloatingRateBond.daml`` module.
+The code for this tutorial can be executed via the ``runCallableBond`` function in the
+``CallableBond.daml`` module.
 
 Instrument and Holding
 ======================
 
-For the purpose of showcasing the
-:ref:`Observation <module-daml-finance-data-numeric-observation-78761>` concept,
+In order to demonstrate the
+:ref:`Election <module-daml-finance-interface-lifecycle-election-24570>` concept,
 we need a suitable sample instrument.
-:ref:`Floating rate bonds <module-daml-finance-instrument-bond-floatingrate-instrument-98586>`
-pay a coupon which is determined by a reference rate, e.g. 3M Libor. The
+:ref:`Callable bonds <module-daml-finance-instrument-bond-callable-instrument-83330>`
+pay coupons as long as the bond has not yet been called. The
 :doc:`Bond Extension tutorial <bond-extension>` describes this instrument in more detail. Here, we
 briefly show how to create the bond instrument using a factory:
 
-.. literalinclude:: ../../finance-lifecycling/daml/Scripts/FloatingRateBond.daml
+.. literalinclude:: ../../finance-lifecycling/daml/Scripts/CallableBond.daml
   :language: daml
-  :start-after: -- CREATE_FLOATING_RATE_BOND_INSTRUMENT_BEGIN
-  :end-before: -- CREATE_FLOATING_RATE_BOND_INSTRUMENT_END
+  :start-after: -- CREATE_CALLABLE_BOND_INSTRUMENT_BEGIN
+  :end-before: -- CREATE_CALLABLE_BOND_INSTRUMENT_END
 
 Compared to the fixed rate bond, notice that this floating rate instrument also has a
 ``referenceRateId``, that specifies which ``Observations`` to use in the lifecycling section below.
 
 We also create a bond holding in Bob's account:
 
-.. literalinclude:: ../../finance-lifecycling/daml/Scripts/FloatingRateBond.daml
+.. literalinclude:: ../../finance-lifecycling/daml/Scripts/CallableBond.daml
   :language: daml
-  :start-after: -- CREATE_FLOATING_RATE_BOND_HOLDING_BEGIN
-  :end-before: -- CREATE_FLOATING_RATE_BOND_HOLDING_END
+  :start-after: -- CREATE_CALLABLE_BOND_HOLDING_BEGIN
+  :end-before: -- CREATE_CALLABLE_BOND_HOLDING_BEGIN
 
 Now, we have both an instrument definition and a holding. Let us proceed to lifecycle the bond using
-``Observations``, which is the main purpose of this tutorial.
+``Elections``, which is the main purpose of this tutorial.
 
 Lifecycle Events and Rule
 =========================
 
-An :ref:`Observation <module-daml-finance-data-numeric-observation-78761>` of a reference rate
-contains two pieces of information: the interest rate level and the date to which it applies. The
-rate level can be positive or negative. In our example, we have a negative interest rate:
+We start by creating an Election factory, which can be used to create elections:
 
-.. literalinclude:: ../../finance-lifecycling/daml/Scripts/FloatingRateBond.daml
+.. literalinclude:: ../../finance-lifecycling/daml/Scripts/CallableBond.daml
   :language: daml
-  :start-after: -- CREATE_FLOATING_RATE_OBSERVATIONS_BEGIN
-  :end-before: -- CREATE_FLOATING_RATE_OBSERVATIONS_END
+  :start-after: -- CREATE_ELECTION_FACTORY_BEGIN
+  :end-before: -- CREATE_ELECTION_FACTORY_END
 
-In our case, the bank then creates the observation on the ledger.
 
-In order to lifecycle a coupon payment, we need a lifecycle rule that defines how to process all
-time events. We also need a time event corresponding to the date of the first coupon. Both of these
-are the same as in the previous tutorial using a fixed rate bond, so we will reuse them from there.
+An :ref:`Election <module-daml-finance-interface-lifecycle-election-24570>`
+contains two main pieces of information: the election tag (e.g. "CALLED") and the date to which it applies. The
+rate level can be positive or negative. In our example, the bank chooses not to call the bond:
+
+.. literalinclude:: ../../finance-lifecycling/daml/Scripts/CallableBond.daml
+  :language: daml
+  :start-after: -- CREATE_ELECTION_BEGIN
+  :end-before: -- CREATE_ELECTION_END
+
+Note the flag *electorIsOwner* above. Since the bank is not the holding owner of the bond, this is
+*False* in our example. On the other hand, if an investor Alice would have had a holding in a call
+option, the election whether or not to exercise would have belonged to Alice, so this flag would
+have been *True*.
+
+Also, note that there is an *amount* in the election above. This allows the elector to create an
+election for parts of the holding or the whole holding.
 
 Now, we have what we need to actually lifecycle the bond:
 
-.. literalinclude:: ../../finance-lifecycling/daml/Scripts/FloatingRateBond.daml
+.. literalinclude:: ../../finance-lifecycling/daml/Scripts/CallableBond.daml
   :language: daml
   :start-after: -- LIFECYCLE_BOND_BEGIN
   :end-before: -- LIFECYCLE_BOND_END
 
-The difference compared to the previous tutorial is that here we also pass in the observables to
-the Evolve choice. They are used to evaluate the reference rate on the relevant fixing date of the
-coupon payment currently being lifecycled.
+In order to lifecycle a coupon payment above, we need a lifecycle rule that defines how to process all
+election events. The lifecycle rule from the previous tutorial can be reused for this, if we first
+convert it to an ``Election.Exercisable``, as described above.
+
+A :ref:`Claim Rule <module-daml-finance-lifecycle-rule-claim-99318>` allows the elector to claim the
+effect resulting from the time event:
+
+.. literalinclude:: ../../finance-lifecycling/daml/Scripts/CallableBond.daml
+  :language: daml
+  :start-after: -- CREATE_CLAIM_RULE_BEGIN
+  :end-before: -- CREATE_CLAIM_RULE_END
+
+Note that even though we already had a claim rule in the previous example, we could not reuse it
+because that one was for the *holding owner* to claim the results, whereas in this case it is the
+*elector* that should claim:
+
+.. literalinclude:: ../../finance-lifecycling/daml/Scripts/CallableBond.daml
+  :language: daml
+  :start-after: -- CLAIM_EFFECT_BEGIN
+  :end-before: -- CLAIM_EFFECT_END
 
 The result of this is an effect describing the per-unit asset movements to be executed for bond
 holders. Each holder can now present their holding to *claim* the effect and instruct settlement of
 the associated entitlements.
 
-The remaining steps (define a claim rule, claim the effect and settle the entitlements) are
-identical to the previous tutorial.
+The remaining steps (settling the entitlements) are identical to the previous tutorial.
 
-Note that the lifecycling process above does not only work for floating rate bonds, which have
-a reference rate as observable. It also works for other instruments that depend on an underlying
-asset, for example:
-
-+-----------------------+-------------------------------------------------------+
-| Instrument            | Observed variable                                     |
-+=======================+=======================================================+
-| Inflation linked bond | Inflation index                                       |
-+-----------------------+-------------------------------------------------------+
-| Interest rate swap    | Reference rate (similar to a floating rate bond)      |
-+-----------------------+-------------------------------------------------------+
-| Asset swap            | Reference asset                                       |
-+-----------------------+-------------------------------------------------------+
-| Credit default swap   | Default probability & Recovery rate (two observables) |
-+-----------------------+-------------------------------------------------------+
-| Vanilla option        | Reference asset (often end of day fixing)             |
-+-----------------------+-------------------------------------------------------+
-| Barrier option        | Reference asset (often intraday observations)         |
-+-----------------------+-------------------------------------------------------+
+Note that the election process above does not only work for callable bonds. It also works for other
+instruments that require a manual decision, for example a physically settled option with a manual
+exercise decision.
 
 Frequently Asked Questions
 **************************
 
-Which party should create the observations?
-===========================================
+Which party should create the elections?
+========================================
 
-In the simplified scenario for this tutorial, the bank created the observation. In a real-world
-case, it would probably be the issuer (or a 3rd-party reference data agent) that creates the
-observations.
+This depends on the economics of the instrument. For example, in a callable bond, it
+is the issuer of the bond that that has the right to choose whether or not to call the bond on the
+call dates. On the other hand, in the case of a puttable bond, it would be the investor that can
+elect to demand early repayment of the bond.
+
+What if a bond can only be called on some coupon dates?
+=======================================================
+
+Some instruments can require both time based and election based lifecycling. For example, consider
+a callable bond that has a quarterly coupon but a call schedule that only allows the bond to be
+called once a year. In this case, an Election has to be created on the call dates to lifecycle the
+bond. On the other coupon dates, regular time based lifecycling is required to process the coupon
+payments.
 
 Summary
 *******
 
-You have learned how to create a floating rate bond and how to define observations that define the
-amount of the coupon payments.
+You have learned how to create a callable bond and how to define Elections to choose whether or not
+to call the bond.
 The key concepts to take away are:
 
-* Observations are required in order to lifecycle some instruments.
-* Observations are a general concept that can be used to model different kind of payoffs, using
-  various types of underlyings.
-* Lifecycling instruments with observations works in a very similar manner compared to those
-  without.
+* Elections are required in order to lifecycle some instruments which require an active choice by
+  one of the stakeholders.
+* Depending on the economics of the instrument, either the holding owner or the issuer should create
+  the election.
+* Some instruments require both time based and election based lifecycling.
