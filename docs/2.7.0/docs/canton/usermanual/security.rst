@@ -550,6 +550,9 @@ AWS KMS only supports the :ref:`following cryptographic schemes <canton_supporte
     provider it can no longer be reverted without a full reset of the node
     (i.e., re-generation of node identity and all keys).
 
+Setup with Pre-Generated Keys
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 In the previous example, Canton creates its own keys on startup and initializes the identity of the nodes automatically.
 If the keys have already been generated in the KMS, we need to manually initialize the identity of the nodes by
 adding the following flag in the config:
