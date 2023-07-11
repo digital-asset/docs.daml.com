@@ -22,9 +22,6 @@ In this tutorial, we are going to:
 #. instruct settlement by presenting a bond holding
 #. settle the resulting batch atomically
 
-This example builds on the previous :doc:`Time-based Lifecycling <fixed-rate-bond>` tutorial script
-in the sense that the same parties, accounts, lifecycle rule and settlment factory are used.
-
 Run the Script
 **************
 
