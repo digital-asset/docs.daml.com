@@ -6,10 +6,10 @@ Election-based lifecycling (using a callable bond)
 
 This tutorial describes how to define and process Elections. It builds on the previous
 :doc:`Time-based Lifecycling <fixed-rate-bond>` tutorial, which uses a fixed rate bond where all
-coupons are pre-defined and happen as time passes. In contrast, the coupons of a callable bond
+coupons are pre-defined and are paid out as time passes. In contrast, the coupons of a callable bond
 depend on whether the issuer has called the bond. Hence, a simple time event is not sufficient to
-define the state of the instrument. Instead, the lifecycling framework requires an active Election
-on each date when it is possible to call the bond. This Election is the main topic of this tutorial.
+define the next state of the instrument. Instead, the lifecycling framework requires an active Election
+to be made on each call date. This Election is the main topic of the tutorial.
 Check out the :ref:`Lifecycling concepts <time-vs-election-lifecycling>` for more details on time
 based vs election based evolution of instruments.
 
@@ -28,7 +28,7 @@ in the sense that the same parties, accounts, lifecycle rule and settlment facto
 Run the Script
 **************
 
-The code for this tutorial can be executed via the ``runCallableBond`` function in the
+The code for this tutorial can be executed via the ``runCallableBond`` script in the
 ``CallableBond.daml`` module.
 
 Instrument and Holding
@@ -38,7 +38,7 @@ In order to demonstrate the
 :ref:`Election <module-daml-finance-interface-lifecycle-election-24570>` concept, we need a suitable
 sample instrument.
 :ref:`Callable bonds <module-daml-finance-instrument-bond-callable-instrument-83330>` pay coupons as
-long as the bond has not yet been called. The :doc:`Bond Extension tutorial <bond-extension>`
+long as the bond has not been called by the issuer. The :doc:`Bond Extension tutorial <bond-extension>`
 describes this instrument in more detail. Here, we briefly show how to create the bond instrument
 using a factory:
 
@@ -80,13 +80,13 @@ applies. In our example, the bank chooses *not* to call the bond:
   :start-after: -- CREATE_ELECTION_BEGIN
   :end-before: -- CREATE_ELECTION_END
 
-Note the flag *electorIsOwner* above. Since the bank is not the holding owner of the bond, this flag
+Note the flag *electorIsOwner* above. Since the bank is not the owner of the bond holding, this flag
 is *False* in our example. On the other hand, if an investor Alice would have had a holding in a
 puttable bond, the election whether or not to put would have belonged to Alice (the holding owner),
 so this flag would have been *True*.
 
 Also, note that there is an *amount* in the election above. This allows the elector to create an
-election for parts of the holding or the whole holding.
+election for a specific number of holding units.
 
 Now, we have what we need to actually lifecycle the bond:
 
@@ -109,7 +109,7 @@ effect resulting from the time event:
 
 Note that even though we already had a claim rule in the previous example, we could not reuse it
 because that one was for the *holding owner* to claim the results, whereas in the case of Election
-based lifecycling it is the *elector* that should claim:
+based lifecycling it is the *elector* that should claim them:
 
 .. literalinclude:: ../../finance-lifecycling/daml/Scripts/CallableBond.daml
   :language: daml
@@ -121,8 +121,8 @@ holders.
 
 The remaining steps (settling the entitlements) are identical to the previous tutorial.
 
-Note that the election process above does not only work for callable bonds. It also works for other
-instruments that require a manual decision, for example a physically settled option with a manual
+Note that the election process above does not work only for callable bonds. It also works for other
+instruments that require a manual decision, such as a physically settled option with a manual
 exercise decision.
 
 Frequently Asked Questions
