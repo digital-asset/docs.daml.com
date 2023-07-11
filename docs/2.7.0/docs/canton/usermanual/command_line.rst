@@ -84,8 +84,6 @@ For testing and scripting purposes, Canton can also start in headless script mod
 In this case, commands are specified in a script rather than executed interactively. Any errors with the script or
 during command execution should cause the Canton process to exit with a non-zero exit code.
 
-This mode is sometimes useful for testing, but we are not convinced yet that we'll keep it in a stable version.
-
 Interactive Server Process using Screen
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In some situations, we find it convenient to run even a server process interactively.

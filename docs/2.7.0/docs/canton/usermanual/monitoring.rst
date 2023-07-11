@@ -18,7 +18,7 @@ To avoid becoming overwhelmed by the number of metrics and log messages, follow 
 - Read the shortcut to learning what is important, which is described below in the section :ref:`Hands-On with the Daml Enterprise - Observability Example <hands-on>` as a starting point and inspiration when building your metric monitoring.
 - For an overview of how most metrics are exposed, read the section :ref:`Golden Signals and Key Metrics Quick Start <golden>` below. It describes the philosophy behind metric naming and labeling.
 
-The remaining sections provide references to more detailed information. 
+The remaining sections provide references to more detailed information.
 
 .. _hands-on:
 
@@ -192,8 +192,8 @@ daml_health_status
 
   - **0**: Not healthy
   - **1**: Healthy
-  
-- **Labels**: 
+
+- **Labels**:
 
   - **component**: the name of the component being monitored
 
@@ -518,6 +518,12 @@ By default, logging omits details to avoid writing sensitive data into log files
 .. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/logging-event-details.conf
 
 This turns on payload logging in the ``ApiRequestLogger``, which records every GRPC API invocation, and turns on detailed logging of the ``SequencerClient`` and the transaction trees. Please note that all additional events are logged at ``DEBUG`` level.
+
+.. note::
+
+    Note that the detailed event logging will happen within an gRPC API Interceptor. This creates a
+    sequential bottleneck as every message that is sent or received gets translated into a pretty-printed
+    string. You will not be able to achieve the same performance if this setting is turned on.
 
 .. _tracing:
 
