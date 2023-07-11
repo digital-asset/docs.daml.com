@@ -68,9 +68,14 @@ We start by creating an Election factory, which can be used to create elections:
   :end-before: -- CREATE_ELECTION_FACTORY_END
 
 
-An :ref:`Election <module-daml-finance-interface-lifecycle-election-24570>`
-contains two main pieces of information: the election tag (e.g. "CALLED") and the date to which it
-applies. In our example, the bank chooses *not* to call the bond:
+An :ref:`Election <module-daml-finance-interface-lifecycle-election-24570>` contains three main
+pieces of information:
+
+- the election tag (e.g. "CALLED")
+- who is making the election (e.g. the bank)
+- the date to which it applies.
+
+In our example, the bank chooses *not* to call the bond:
 
 .. literalinclude:: ../../finance-lifecycling/daml/Scripts/CallableBond.daml
   :language: daml
