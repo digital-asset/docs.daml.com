@@ -8,8 +8,8 @@ This tutorial describes how to define and process Elections. It builds on the pr
 :doc:`Time-based Lifecycling <fixed-rate-bond>` tutorial, which uses a fixed rate bond where all
 coupons are pre-defined and are paid out as time passes. In contrast, the coupons of a callable bond
 depend on whether the issuer has called the bond. Hence, a simple time event is not sufficient to
-define the next state of the instrument. Instead, the lifecycling framework requires an active Election
-to be made on each call date. This Election is the main topic of the tutorial.
+define the next state of the instrument. Instead, the lifecycling framework requires an active
+Election to be made on each call date. This Election is the main topic of the tutorial.
 Check out the :ref:`Lifecycling concepts <time-vs-election-lifecycling>` for more details on time
 based vs election based evolution of instruments.
 
@@ -35,9 +35,9 @@ In order to demonstrate the
 :ref:`Election <module-daml-finance-interface-lifecycle-election-24570>` concept, we need a suitable
 sample instrument.
 :ref:`Callable bonds <module-daml-finance-instrument-bond-callable-instrument-83330>` pay coupons as
-long as the bond has not been called by the issuer. The :doc:`Bond Extension tutorial <bond-extension>`
-describes this instrument in more detail. Here, we briefly show how to create the bond instrument
-using a factory:
+long as the bond has not been called by the issuer.
+The :doc:`Bond Extension tutorial <bond-extension>` describes this instrument in more detail. Here,
+we briefly show how to create the bond instrument using a factory:
 
 .. literalinclude:: ../../finance-lifecycling/daml/Scripts/CallableBond.daml
   :language: daml
