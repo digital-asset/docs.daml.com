@@ -26,7 +26,7 @@ in the sense that the same parties, accounts, lifecycle rule and events are used
 Run the Script
 **************
 
-The code for this tutorial can be executed via the ``runFloatingRateBond`` function in the
+The code for this tutorial can be executed via the ``runFloatingRateBond`` script in the
 ``FloatingRateBond.daml`` module.
 
 Instrument and Holding
