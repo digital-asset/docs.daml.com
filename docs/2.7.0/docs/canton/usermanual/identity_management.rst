@@ -511,6 +511,20 @@ one participant node to another. Note, the process below works only for parties 
 Also, if the party is not fully controlled by the source participant node, you need to prepare the topology state
 change appropriately, disabling the party on the source node and delegating the party to the target node.
 
+.. note::
+
+    Please note that the entire system needs to be totally quiet for this process to succeed. You
+    currently can not migrate a party under load. If you migrate a party on a system that processes
+    transactions, the processing data will eventually become corrupt breaking your node.
+
+Turn off transaction processing on the domain by setting the rate to 0 and wait for all timeouts to have
+elapsed (mediator & participant reaction timeout):
+
+.. code::
+
+    mydomain.service.set_max_rate_per_participant(0)
+    // wait until mediator + participant reaction timeouts elapsed!
+
 Starting with a party Alice being allocated on participant1:
 
 .. snippet:: party_migration
