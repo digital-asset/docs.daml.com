@@ -266,7 +266,7 @@ How do I process coupon payments for a bond?
 On the coupon payment date, the issuer will need to lifecycle the bond. This will result in a
 lifecycle effect for the coupon, which can be cash settled. This is described in detail in the
 :doc:`Lifecycling <../tutorials/getting-started/lifecycling>` and the
-:doc:`Intermediated Lifecycling <../advanced-topics/lifecycling/intermediated-lifecycling>` tutorials.
+:doc:`Intermediated Lifecycling <../tutorials/advanced-topics/lifecycling/intermediated-lifecycling>` tutorials.
 
 How do I redeem a bond?
 =======================

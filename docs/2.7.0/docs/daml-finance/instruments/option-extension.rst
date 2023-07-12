@@ -217,5 +217,5 @@ How do I calculate settlement payments for an option?
 On the expiry date, the issuer will need to lifecycle the European option. This will result in a
 lifecycle effect for the payoff, which can be cash settled. This is described in detail in the
 :doc:`Lifecycling <../tutorials/getting-started/lifecycling>` and the
-:doc:`Intermediated Lifecycling <../advanced-topics/lifecycling/intermediated-lifecycling>`
+:doc:`Intermediated Lifecycling <../tutorials/advanced-topics/lifecycling/intermediated-lifecycling>`
 tutorials.

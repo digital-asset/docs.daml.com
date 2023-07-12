@@ -319,5 +319,5 @@ How do I process dividend payments for an Equity?
 On the dividend payment date, the issuer will need to lifecycle the Equity. This will result in a
 lifecycle effect for the dividend, which can be cash settled. This is described in detail in the
 :doc:`Lifecycling <../tutorials/getting-started/lifecycling>` and the
-:doc:`Intermediated Lifecycling <../advanced-topics/lifecycling/intermediated-lifecycling>` tutorials (depending on what kind of
+:doc:`Intermediated Lifecycling <../tutorials/advanced-topics/lifecycling/intermediated-lifecycling>` tutorials (depending on what kind of
 settlement you need).
