@@ -205,17 +205,17 @@ How do I transfer or trade an option?
 =====================================
 
 When you have created a holding on an option instrument this can be transferred to another party.
-This is described in the :doc:`Getting Started: Transfer <../getting-started/transfer>` tutorial.
+This is described in the :doc:`Getting Started: Transfer <../tutorials/getting-started/transfer>` tutorial.
 
 In order to trade an option (transfer it in exchange for cash) you can also initiate a delivery
 versus payment with atomic settlement. This is described in the
-:doc:`Getting Started: Settlement <../getting-started/settlement>` tutorial.
+:doc:`Getting Started: Settlement <../tutorials/getting-started/settlement>` tutorial.
 
 How do I calculate settlement payments for an option?
 =====================================================
 
 On the expiry date, the issuer will need to lifecycle the European option. This will result in a
 lifecycle effect for the payoff, which can be cash settled. This is described in detail in the
-:doc:`Lifecycling <../getting-started/lifecycling>` and the
+:doc:`Lifecycling <../tutorials/getting-started/lifecycling>` and the
 :doc:`Intermediated Lifecycling <../advanced-topics/lifecycling/intermediated-lifecycling>`
 tutorials.

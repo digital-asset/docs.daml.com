@@ -195,7 +195,7 @@ This callable bond example is taken from
 define and process an *Election* in practice. Note that the sample bond above, which is callable only
 on some of the coupon dates, will require two types of lifecycling:
 
-- :doc:`Time based lifecycling <../getting-started/lifecycling>` on coupon dates when the bond is
+- :doc:`Time based lifecycling <../tutorials/getting-started/lifecycling>` on coupon dates when the bond is
   *not* callable.
 - :ref:`Election based lifecycling <election-based-lifecycling>` on coupon dates when the bond *is*
   callable.
@@ -254,18 +254,18 @@ How do I transfer or trade a bond?
 ==================================
 
 When you have created a holding on a bond instrument this can be transferred to another party.
-This is described in the :doc:`Getting Started: Transfer <../getting-started/transfer>` tutorial.
+This is described in the :doc:`Getting Started: Transfer <../tutorials/getting-started/transfer>` tutorial.
 
 In order to trade a bond (transfer it in exchange for cash) you can also initiate a delivery versus
 payment with atomic settlement. This is described in the
-:doc:`Getting Started: Settlement <../getting-started/settlement>` tutorial.
+:doc:`Getting Started: Settlement <../tutorials/getting-started/settlement>` tutorial.
 
 How do I process coupon payments for a bond?
 ============================================
 
 On the coupon payment date, the issuer will need to lifecycle the bond. This will result in a
 lifecycle effect for the coupon, which can be cash settled. This is described in detail in the
-:doc:`Lifecycling <../getting-started/lifecycling>` and the
+:doc:`Lifecycling <../tutorials/getting-started/lifecycling>` and the
 :doc:`Intermediated Lifecycling <../advanced-topics/lifecycling/intermediated-lifecycling>` tutorials.
 
 How do I redeem a bond?
