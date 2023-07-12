@@ -14,9 +14,9 @@ How to Use the Bond Extension in Your Application
 *************************************************
 
 As explained in the :ref:`Getting Started <structure-of-code-dependencies>` section and on the
-:doc:`Architecture <../../overview/architecture>` page, your app should only depend on the interface
+:doc:`Architecture <../overview/architecture>` page, your app should only depend on the interface
 layer of Daml Finance. For bonds this means that you should only include the
-:doc:`bond interface package <../../packages/interfaces/daml-finance-interface-instrument-bond>`.
+:doc:`bond interface package <../packages/interfaces/daml-finance-interface-instrument-bond>`.
 
 Your initialization scripts are an exception, since they are only run once when your app is
 initialized. This creates the necessary factories. Your app can then create bonds through these
@@ -27,7 +27,7 @@ How to Create a Bond Instrument
 
 There are different types of bonds, which mainly differ in the way the coupon is defined. In order
 to create a bond instrument you first have to decide what type of bond you need. The
-:doc:`bond extension package <../../packages/implementations/daml-finance-instrument-bond>`
+:doc:`bond extension package <../packages/implementations/daml-finance-instrument-bond>`
 currently supports the following bond types:
 
 Fixed Rate
@@ -45,7 +45,7 @@ This example is taken from
 
 We start by defining the terms:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/FixedRate.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Bond/Test/FixedRate.daml
   :language: daml
   :start-after: -- CREATE_FIXED_RATE_BOND_VARIABLES_BEGIN
   :end-before: -- CREATE_FIXED_RATE_BOND_VARIABLES_END
@@ -61,7 +61,7 @@ We also need holiday calendars, which determine *when* to adjust dates.
 
 We can use these variables to create a :ref:`PeriodicSchedule <constr-daml-finance-interface-types-date-schedule-periodicschedule-99705>`:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Test/Util/Time.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Test/Util/Time.daml
   :language: daml
   :start-after: -- CREATE_PERIODIC_SCHEDULE_BEGIN
   :end-before: -- CREATE_PERIODIC_SCHEDULE_END
@@ -81,7 +81,7 @@ to note here:
 
 Now that we have defined the terms we can create the bond instrument:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Util.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Bond/Test/Util.daml
   :language: daml
   :start-after: -- CREATE_FIXED_RATE_BOND_INSTRUMENT_BEGIN
   :end-before: -- CREATE_FIXED_RATE_BOND_INSTRUMENT_END
@@ -98,14 +98,14 @@ There is also a rate spread, which is paid in addition to the reference rate.
 
 Here is an example of a bond paying Euribor 3M + 1.1% p.a. with a 3M coupon period:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/FloatingRate.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Bond/Test/FloatingRate.daml
   :language: daml
   :start-after: -- CREATE_FLOATING_RATE_BOND_VARIABLES_BEGIN
   :end-before: -- CREATE_FLOATING_RATE_BOND_VARIABLES_END
 
 Using these terms we can create the floating rate bond instrument:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Util.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Bond/Test/Util.daml
   :language: daml
   :start-after: -- CREATE_FLOATING_RATE_BOND_INSTRUMENT_BEGIN
   :end-before: -- CREATE_FLOATING_RATE_BOND_INSTRUMENT_END
@@ -126,7 +126,7 @@ In case of a floating rate, there is often a fixed spread as well. This can be r
 a fixed rate coupon, which is shown in the following example. Here is a bond paying
 Libor 3M + 0.1% p.a. with a 3M coupon period:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml
   :language: daml
   :start-after: -- CREATE_3M_CAP_FLOOR_FLOATING_6M_CALLABLE_BOND_VARIABLES_BEGIN
   :end-before: -- CREATE_3M_CAP_FLOOR_FLOATING_6M_CALLABLE_BOND_VARIABLES_END
@@ -141,7 +141,7 @@ rate is fixed for each coupon period.
 
 The above variables can be used to create a *couponSchedule*:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml
   :language: daml
   :start-after: -- CREATE_3M_CAP_FLOOR_FLOATING_6M_CALLABLE_BOND_COUPON_SCHEDULE_BEGIN
   :end-before: -- CREATE_3M_CAP_FLOOR_FLOATING_6M_CALLABLE_BOND_COUPON_SCHEDULE_END
@@ -157,7 +157,7 @@ are also supported. In order to optimize performance, these compounded rates are
 :ref:`ReferenceRateTypeEnum <type-daml-finance-interface-instrument-bond-types-referenceratetypeenum-64956>`.
 For example, here is how *daily compounded SOFR* can be specified using the *SOFR Index*:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml
   :language: daml
   :start-after: -- CREATE_6M_SOFR_CALLABLE_BOND_VARIABLES_BEGIN
   :end-before: -- CREATE_6M_SOFR_CALLABLE_BOND_VARIABLES_END
@@ -168,7 +168,7 @@ schedule period. For example, if the bond is callable on every coupon date, simp
 *callSchedule = couponSchedule*. Alternatively, if the bond is only callable every six months, this
 can be configured by specifying a different schedule:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml
   :language: daml
   :start-after: -- CREATE_3M_CAP_FLOOR_FLOATING_6M_CALLABLE_BOND_SCHEDULE_BEGIN
   :end-before: -- CREATE_3M_CAP_FLOOR_FLOATING_6M_CALLABLE_BOND_SCHEDULE_END
@@ -178,7 +178,7 @@ The election whether or not to call the bond must be done on this date.
 
 Using these terms we can create the callable bond instrument:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Util.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Bond/Test/Util.daml
   :language: daml
   :start-after: -- CREATE_MULTI_SCHEDULE_CALLABLE_BOND_INSTRUMENT_BEGIN
   :end-before: -- CREATE_MULTI_SCHEDULE_CALLABLE_BOND_INSTRUMENT_END
@@ -210,14 +210,14 @@ Consumer Price Index (CPI) in the U.S.
 
 Here is an example of a bond paying 1.1% p.a. (on a CPI adjusted principal) with a 3M coupon period:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/InflationLinked.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Bond/Test/InflationLinked.daml
   :language: daml
   :start-after: -- CREATE_INFLATION_LINKED_BOND_VARIABLES_BEGIN
   :end-before: -- CREATE_INFLATION_LINKED_BOND_VARIABLES_END
 
 Based on these terms we can create the inflation linked bond instrument:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Util.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Bond/Test/Util.daml
   :language: daml
   :start-after: -- CREATE_INFLATION_LINKED_BOND_INSTRUMENT_BEGIN
   :end-before: -- CREATE_INFLATION_LINKED_BOND_INSTRUMENT_END
@@ -235,14 +235,14 @@ does not pay any coupons at all. It only pays the redemption amount at maturity.
 
 Here is an example of a zero coupon bond:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/ZeroCoupon.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Bond/Test/ZeroCoupon.daml
   :language: daml
   :start-after: -- CREATE_ZERO_COUPON_BOND_VARIABLES_BEGIN
   :end-before: -- CREATE_ZERO_COUPON_BOND_VARIABLES_END
 
 Based on this we create the zero coupon bond instrument:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Bond/Test/Util.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Bond/Test/Util.daml
   :language: daml
   :start-after: -- CREATE_ZERO_COUPON_BOND_INSTRUMENT_BEGIN
   :end-before: -- CREATE_ZERO_COUPON_BOND_INSTRUMENT_END

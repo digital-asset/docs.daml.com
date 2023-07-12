@@ -14,9 +14,9 @@ How to Use the Equity Extension in Your Application
 ***************************************************
 
 As explained in the :ref:`Getting Started <structure-of-code-dependencies>` section and on the
-:doc:`Architecture <../../overview/architecture>` page, your app should only depend on the interface
+:doc:`Architecture <../overview/architecture>` page, your app should only depend on the interface
 layer of Daml Finance. For equities this means that you should only include the
-:doc:`equity interface package <../../packages/interfaces/daml-finance-interface-instrument-equity>`.
+:doc:`equity interface package <../packages/interfaces/daml-finance-interface-instrument-equity>`.
 
 Your initialization scripts are an exception, since they are only run once when your app is
 initialized. This creates the necessary factories. Your app can then create equity instruments
@@ -50,7 +50,7 @@ one before the event and one after the event. In the case of a dividend event, t
 one instrument *cum* dividend (which includes the dividend) and one *ex* dividend (which does no
 longer include the dividend):
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Equity/Test/Dividend.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Equity/Test/Dividend.daml
   :language: daml
   :start-after: -- CREATE_EQUITY_INSTRUMENTS_BEGIN
   :end-before: -- CREATE_EQUITY_INSTRUMENTS_END
@@ -58,7 +58,7 @@ longer include the dividend):
 Once this is done, you can create a holding on it. This is not limited to integer
 holdings, but fractional holdings are supported as well:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Equity/Test/Dividend.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Equity/Test/Dividend.daml
   :language: daml
   :start-after: -- CREATE_EQUITY_HOLDING_BEGIN
   :end-before: -- CREATE_EQUITY_HOLDING_END
@@ -66,7 +66,7 @@ holdings, but fractional holdings are supported as well:
 We create a distribution rule for the cash dividend. It defines the business logic for the dividend
 and it has the issuer as signatory:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Equity/Test/Dividend.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Equity/Test/Dividend.daml
   :language: daml
   :start-after: -- CREATE_EQUITY_DISTRIBUTION_RULE_BEGIN
   :end-before: -- CREATE_EQUITY_DISTRIBUTION_RULE_END
@@ -74,14 +74,14 @@ and it has the issuer as signatory:
 We also need a distribution event, which defines the terms of the dividend. In this case, it is
 USD 2 cash per share (this also works for a fractional amount of shares):
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Equity/Test/Dividend.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Equity/Test/Dividend.daml
   :language: daml
   :start-after: -- CREATE_EQUITY_DISTRIBUTION_EVENT_BEGIN
   :end-before: -- CREATE_EQUITY_DISTRIBUTION_EVENT_END
 
 This allows the issuer to lifecycle the instrument by exercising the ``Evolve`` choice:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Equity/Test/Dividend.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Equity/Test/Dividend.daml
   :language: daml
   :start-after: -- LIFECYCLE_CASH_DIVIDEND_BEGIN
   :end-before: -- LIFECYCLE_CASH_DIVIDEND_END
@@ -99,7 +99,7 @@ cash to current shareholders. This is called *bonus issue* and it is modeled in 
 to the *dividend* above. The main difference is in the distribution event, which now distributes a
 different instrument (equity instead of cash):
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Equity/Test/Dividend.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Equity/Test/Dividend.daml
   :language: daml
   :start-after: -- CREATE_EQUITY_BONUS_ISSUE_DISTRIBUTION_EVENT_BEGIN
   :end-before: -- CREATE_EQUITY_BONUS_ISSUE_DISTRIBUTION_EVENT_END
@@ -141,21 +141,21 @@ More details on this dividend option process are described in
 The ``DeclareDistribution`` choice can be used for this as well. The issuer creates one event for
 each dividend option that shareholders can choose from:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Equity/Test/Dividend.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Equity/Test/Dividend.daml
   :language: daml
   :start-after: -- CREATE_EQUITY_DIVIDEND_OPTION_DISTRIBUTION_EVENT_BEGIN
   :end-before: -- CREATE_EQUITY_DIVIDEND_OPTION_DISTRIBUTION_EVENT_END
 
 The issuer then lifecycles each event individually, to generate two alternative lifecycling effects:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Equity/Test/Dividend.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Equity/Test/Dividend.daml
   :language: daml
   :start-after: -- LIVECYCLE_DIVIDEND_OPTION_BEGIN
   :end-before: -- LIVECYCLE_DIVIDEND_OPTION_END
 
 The investor can then claim one or the other:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Equity/Test/Dividend.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Equity/Test/Dividend.daml
   :language: daml
   :start-after: -- INVESTOR_CLAIMS_DIVIDEND_OPTION_BEGIN
   :end-before: -- INVESTOR_CLAIMS_DIVIDEND_OPTION_END
@@ -221,28 +221,28 @@ instruments). Consequently, this interface can also be used for other types of c
 The workflow for a stock split is quite similar to that of a dividend above. We start by defining
 the instrument before and after the lifecycle event:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Equity/Test/StockSplit.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Equity/Test/StockSplit.daml
   :language: daml
   :start-after: -- CREATE_EQUITY_INSTRUMENTS_BEGIN
   :end-before: -- CREATE_EQUITY_INSTRUMENTS_END
 
 We create a replacement rule for the stock split:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Equity/Test/StockSplit.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Equity/Test/StockSplit.daml
   :language: daml
   :start-after: -- CREATE_EQUITY_REPLACEMENT_RULE_BEGIN
   :end-before: -- CREATE_EQUITY_REPLACEMENT_RULE_END
 
 We also need a replacement event. For a 2-for-1 stock split, the ``adjustmentFactor`` is 1/2 = 0.5:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Equity/Test/StockSplit.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Equity/Test/StockSplit.daml
   :language: daml
   :start-after: -- CREATE_EQUITY_REPLACEMENT_EVENT_BEGIN
   :end-before: -- CREATE_EQUITY_REPLACEMENT_EVENT_END
 
 This allows the issuer to lifecycle the instrument:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Equity/Test/StockSplit.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Equity/Test/StockSplit.daml
   :language: daml
   :start-after: -- LIFECYCLE_STOCK_SPLIT_BEGIN
   :end-before: -- LIFECYCLE_STOCK_SPLIT_END
@@ -271,14 +271,14 @@ This is a mandatory exchange offer: no election is required (or possible) by the
 We start by defining the instrument before and after the merger. Shares of company ABC are being
 replaced by shares of company XYZ:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Equity/Test/Merger.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Equity/Test/Merger.daml
   :language: daml
   :start-after: -- CREATE_EQUITY_INSTRUMENTS_BEGIN
   :end-before: -- CREATE_EQUITY_INSTRUMENTS_END
 
 We create a replacement rule for the merger:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Equity/Test/Merger.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Equity/Test/Merger.daml
   :language: daml
   :start-after: -- CREATE_EQUITY_REPLACEMENT_RULE_BEGIN
   :end-before: -- CREATE_EQUITY_REPLACEMENT_RULE_END
@@ -286,14 +286,14 @@ We create a replacement rule for the merger:
 We also need a replacement event. Two shares of ABC are replaced by one share of XYZ, so the
 factor used in ``perUnitReplacement`` is 0.5:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Equity/Test/Merger.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Equity/Test/Merger.daml
   :language: daml
   :start-after: -- CREATE_EQUITY_REPLACEMENT_EVENT_BEGIN
   :end-before: -- CREATE_EQUITY_REPLACEMENT_EVENT_END
 
 This allows the issuer to lifecycle the instrument:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Equity/Test/Merger.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Equity/Test/Merger.daml
   :language: daml
   :start-after: -- LIFECYCLE_MERGER_BEGIN
   :end-before: -- LIFECYCLE_MERGER_END
