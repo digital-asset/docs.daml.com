@@ -302,6 +302,21 @@ subtrees:
         title: "Lifecycling"
       - file: daml-finance/concepts/contingent-claims
         title: "Contingent Claims"
+  - file: daml-finance/instruments/intro
+    title: "Instruments"
+    subtrees:
+    - hidden: False
+      titlesonly: True
+      maxdepth: 1
+      entries:
+      - file: daml-finance/instruments/bond-extension
+        title: "Bond Extension"
+      - file: daml-finance/instruments/equity-extension
+        title: "Equity Extension"
+      - file: daml-finance/instruments/option-extension
+        title: "Option Extension"
+      - file: daml-finance/instruments/swap-extension
+        title: "Swap Extension"
   - file: daml-finance/packages/index
     title: "Packages"
     subtrees:
