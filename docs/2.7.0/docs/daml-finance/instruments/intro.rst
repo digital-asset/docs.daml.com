@@ -5,8 +5,8 @@ Instruments
 ###########
 
 This section describes which instruments are included out of the box in Daml Finance. Each
-instrument package constains a list of the supported instruments and a description of each:
-what it does and how it works.
+instrument package constains a list of supported instruments. The instrument extension pages
+explain what each instrument does and how to set it up.
 
 Bonds
 *****
