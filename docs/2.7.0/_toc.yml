@@ -533,7 +533,7 @@ subtrees:
         - file: daml-finance/tutorials/getting-started/lifecycling
           title: "Lifecycling"
       - file: daml-finance/tutorials/lifecycling/intro
-        title: "Instrument Extensions Packages"
+        title: "Lifecycling"
         entries:
         - file: daml-finance/tutorials/lifecycling/fixed-rate-bond
           title: "Time-based lifecycling (using a fixed rate bond)"

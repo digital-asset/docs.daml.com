@@ -31,7 +31,7 @@ modules:
   Bond-specific utility functions
 
 Check out the tutorial on
-:doc:`How to use the Bond extension package <../../tutorials/instrument-extension-packages/bond-extension>`
+:doc:`How to use the Bond extension package <../../instruments/bond-extension>`
 for a description of how to use the bond extension in practice. There is also the tutorial
 :doc:`How to implement a Contingent Claims-based instrument <../../tutorials/advanced-topics/instrument-modeling/contingent-claims-instrument>`,
 which describes how the claims are defined and how the lifecycle interface is implemented for

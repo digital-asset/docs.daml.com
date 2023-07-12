@@ -29,5 +29,5 @@ following modules:
   Utility functions for options
 
 Check out the tutorial on
-:doc:`How to use the Option extension package <../../tutorials/instrument-extension-packages/option-extension>`
+:doc:`How to use the Option extension package <../../instruments/option-extension>`
 for a description of how to use the option extension in practice.
