@@ -532,21 +532,13 @@ subtrees:
           title: "Settlement"
         - file: daml-finance/tutorials/getting-started/lifecycling
           title: "Lifecycling"
-      - file: daml-finance/tutorials/instrument-extension-packages/intro
+      - file: daml-finance/tutorials/lifecycling/intro
         title: "Instrument Extensions Packages"
         entries:
-        - file: daml-finance/tutorials/instrument-extension-packages/fixed-rate-bond
+        - file: daml-finance/tutorials/lifecycling/fixed-rate-bond
           title: "Time-based lifecycling (using a fixed rate bond)"
-        - file: daml-finance/tutorials/instrument-extension-packages/floating-rate-bond
+        - file: daml-finance/tutorials/lifecycling/floating-rate-bond
           title: "Observations (using a floating rate bond)"
-        - file: daml-finance/tutorials/instrument-extension-packages/bond-extension
-          title: "How to Use the Bond Extension Package"
-        - file: daml-finance/tutorials/instrument-extension-packages/option-extension
-          title: "How To Use the Option Extension Package"
-        - file: daml-finance/tutorials/instrument-extension-packages/swap-extension
-          title: "How To Use the Swap Extension Package"
-        - file: daml-finance/tutorials/instrument-extension-packages/equity-extension
-          title: "How To Model and Lifecycle Equity Instruments"
       - file: daml-finance/tutorials/payoff-modeling/intro
         title: "Payoff Modeling"
         entries:
