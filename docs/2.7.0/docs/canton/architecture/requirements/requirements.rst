@@ -127,9 +127,6 @@ and design limitations :ref:`later in the section
   can resend change requests in case of a restart without adding the
   changes to the ledger twice.
 
-  .. todo::
-      #. `Change request deduplication / disaster recovery <https://github.com/DACH-NY/canton/issues/156>`_
-
   .. _bounded-decision-time-hlreq:
 
 * **Bounded decision time**. I want to be able to learn within some
