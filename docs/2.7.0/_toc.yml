@@ -302,6 +302,21 @@ subtrees:
         title: "Lifecycling"
       - file: daml-finance/concepts/contingent-claims
         title: "Contingent Claims"
+  - file: daml-finance/instruments/intro
+    title: "Instruments"
+    subtrees:
+    - hidden: False
+      titlesonly: True
+      maxdepth: 1
+      entries:
+      - file: daml-finance/instruments/bond-extension
+        title: "Bond Extension"
+      - file: daml-finance/instruments/equity-extension
+        title: "Equity Extension"
+      - file: daml-finance/instruments/option-extension
+        title: "Option Extension"
+      - file: daml-finance/instruments/swap-extension
+        title: "Swap Extension"
   - file: daml-finance/packages/index
     title: "Packages"
     subtrees:
@@ -517,21 +532,13 @@ subtrees:
           title: "Settlement"
         - file: daml-finance/tutorials/getting-started/lifecycling
           title: "Lifecycling"
-      - file: daml-finance/tutorials/instrument-extension-packages/intro
-        title: "Instrument Extensions Packages"
+      - file: daml-finance/tutorials/lifecycling/intro
+        title: "Lifecycling"
         entries:
-        - file: daml-finance/tutorials/instrument-extension-packages/fixed-rate-bond
+        - file: daml-finance/tutorials/lifecycling/fixed-rate-bond
           title: "Time-based lifecycling (using a fixed rate bond)"
-        - file: daml-finance/tutorials/instrument-extension-packages/floating-rate-bond
+        - file: daml-finance/tutorials/lifecycling/floating-rate-bond
           title: "Observations (using a floating rate bond)"
-        - file: daml-finance/tutorials/instrument-extension-packages/bond-extension
-          title: "How to Use the Bond Extension Package"
-        - file: daml-finance/tutorials/instrument-extension-packages/option-extension
-          title: "How To Use the Option Extension Package"
-        - file: daml-finance/tutorials/instrument-extension-packages/swap-extension
-          title: "How To Use the Swap Extension Package"
-        - file: daml-finance/tutorials/instrument-extension-packages/equity-extension
-          title: "How To Model and Lifecycle Equity Instruments"
       - file: daml-finance/tutorials/payoff-modeling/intro
         title: "Payoff Modeling"
         entries:
