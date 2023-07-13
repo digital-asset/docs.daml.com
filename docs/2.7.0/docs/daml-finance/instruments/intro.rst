@@ -32,7 +32,7 @@ Options
 The following instruments are included in the :doc:`Option Extension <option-extension>`:
 
 - Cash-settled European options
-- Physically settled European options
+- Physically-settled European options
 - Barrier options
 - Dividend options
 
