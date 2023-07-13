@@ -20,13 +20,10 @@ In this tutorial, we are going to:
 #. instruct settlement by presenting a bond holding
 #. settle the resulting batch atomically
 
-This example builds on the previous :doc:`Time-based Lifecycling <fixed-rate-bond>` tutorial script
-in the sense that the same parties, accounts, lifecycle rule and events are used.
-
 Run the Script
 **************
 
-The code for this tutorial can be executed via the ``runFloatingRateBond`` function in the
+The code for this tutorial can be executed via the ``runFloatingRateBond`` script in the
 ``FloatingRateBond.daml`` module.
 
 Instrument and Holding
@@ -37,8 +34,8 @@ For the purpose of showcasing the
 we need a suitable sample instrument.
 :ref:`Floating rate bonds <module-daml-finance-instrument-bond-floatingrate-instrument-98586>`
 pay a coupon which is determined by a reference rate, e.g. 3M Libor. The
-:doc:`Bond Extension tutorial <bond-extension>` describes this instrument in more detail. Here, we
-briefly show how to create the bond instrument using a factory:
+:doc:`Bond Extension tutorial <../../instruments/bond-extension>` describes this instrument in more
+detail. Here, we briefly show how to create the bond instrument using a factory:
 
 .. literalinclude:: ../../finance-lifecycling/daml/Scripts/FloatingRateBond.daml
   :language: daml
