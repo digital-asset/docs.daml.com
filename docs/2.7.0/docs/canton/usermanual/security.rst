@@ -23,7 +23,8 @@ Supported Cryptographic Schemes in Canton
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Within Canton we use the cryptographic primitives of signing, symmetric and
-asymmetric encryption, and MAC with the following supported schemes (`D` = `default`, `S` = `supported`
+asymmetric encryption, and MAC with the following supported schemes (`D` = `default`, `S` = `supported`,
+`P` = `partially supported` for instance just signature verifiation but no signing with a private key,
 and `/` = `not supported`):
 
 .. _canton_supported_keys:
@@ -33,7 +34,7 @@ and `/` = `not supported`):
 +========================================================+============+===========+==========+
 | **Signing**                                                                                |
 +--------------------------------------------------------+------------+-----------+----------+
-| Ed25519                                                |      D     |     D     |     /    |
+| Ed25519                                                |      D     |     D     |     P    |
 +--------------------------------------------------------+------------+-----------+----------+
 | ECDSA P-256                                            |      S     |     S     |     D    |
 +--------------------------------------------------------+------------+-----------+----------+
