@@ -143,7 +143,7 @@ The rotation frequency is fixed and cannot be changed.
 
 If Canton is responsible for the storage of the private keys (i.e. we are using envelope encryption) the
 manual rotation of keys requires not only the creation of a new KMS key but also the re-encryption of our data with it.
-To do this Canton node administrators can request a :ref:`manual rotation of the KMS wrapper key through the Canton console <manual-aws-ksm-key-rotation>`.
+To do this Canton node administrators can request a :ref:`manual rotation of the KMS wrapper key through the Canton console <manual-kms-wrapper-key-rotation>`.
 
 Satisfied Requirements
 ~~~~~~~~~~~~~~~~~~~~~~
