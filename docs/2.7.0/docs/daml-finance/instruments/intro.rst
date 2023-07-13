@@ -24,7 +24,7 @@ Equites
 
 The following instruments are included in the :doc:`Equity Extension <equity-extension>`:
 
-- Equites (can also be used to model ETFs)
+- Equities (can also be used to model ETFs)
 
 Options
 *******
