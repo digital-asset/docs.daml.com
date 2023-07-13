@@ -539,6 +539,8 @@ subtrees:
           title: "Time-based lifecycling (using a fixed rate bond)"
         - file: daml-finance/tutorials/lifecycling/floating-rate-bond
           title: "Observations (using a floating rate bond)"
+        - file: daml-finance/tutorials/lifecycling/callable-bond
+          title: "Election-based lifecycling (using a callable bond)"
       - file: daml-finance/tutorials/payoff-modeling/intro
         title: "Payoff Modeling"
         entries:
