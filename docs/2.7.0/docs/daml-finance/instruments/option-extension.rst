@@ -14,7 +14,7 @@ How To Create an Option Instrument
 **********************************
 
 In order to create an option instrument, you first have to decide what type of option you need. The
-:doc:`option extension package <../../packages/implementations/daml-finance-instrument-option>`
+:doc:`option extension package <../packages/implementations/daml-finance-instrument-option>`
 currently supports the following types of options:
 
 Cash-settled European Option
@@ -33,14 +33,14 @@ at a given price. This example is taken from
 
 You start by defining the terms:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Option/Test/EuropeanCash.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Option/Test/EuropeanCash.daml
   :language: daml
   :start-after: -- CREATE_EUROPEAN_OPTION_VARIABLES_BEGIN
   :end-before: -- CREATE_EUROPEAN_OPTION_VARIABLES_END
 
 Now that the terms have been defined, you can create the option instrument:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Option/Test/Util.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Option/Test/Util.daml
   :language: daml
   :start-after: -- CREATE_EUROPEAN_OPTION_INSTRUMENT_BEGIN
   :end-before: -- CREATE_EUROPEAN_OPTION_INSTRUMENT_END
@@ -60,7 +60,7 @@ This option instrument is automatically exercised. This means that the decision 
 exercise is done automatically by comparing the *strike* price to an observation of the close price.
 For this to work, you need to define an *Observation* as well:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Option/Test/EuropeanCash.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Option/Test/EuropeanCash.daml
   :language: daml
   :start-after: -- CREATE_EUROPEAN_OPTION_OBSERVATIONS_BEGIN
   :end-before: -- CREATE_EUROPEAN_OPTION_OBSERVATIONS_END
@@ -95,14 +95,14 @@ how to define and process an *Election* in practice.
 
 You start by defining the terms:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Option/Test/EuropeanPhysical.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Option/Test/EuropeanPhysical.daml
   :language: daml
   :start-after: -- CREATE_EUROPEAN_PHYSICAL_OPTION_VARIABLES_BEGIN
   :end-before: -- CREATE_EUROPEAN_PHYSICAL_OPTION_VARIABLES_END
 
 Now that the terms have been defined, you can create the option instrument:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Option/Test/Util.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Option/Test/Util.daml
   :language: daml
   :start-after: -- CREATE_EUROPEAN_PHYSICAL_OPTION_INSTRUMENT_BEGIN
   :end-before: -- CREATE_EUROPEAN_PHYSICAL_OPTION_INSTRUMENT_END
@@ -137,14 +137,14 @@ This example is taken from
 
 You start by defining the terms:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Option/Test/BarrierEuropeanCash.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Option/Test/BarrierEuropeanCash.daml
   :language: daml
   :start-after: -- CREATE_BARRIER_EUROPEAN_OPTION_VARIABLES_BEGIN
   :end-before: -- CREATE_BARRIER_EUROPEAN_OPTION_VARIABLES_END
 
 Now that the terms have been defined, you can create the option instrument:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Option/Test/Util.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Option/Test/Util.daml
   :language: daml
   :start-after: -- CREATE_BARRIER_EUROPEAN_OPTION_INSTRUMENT_BEGIN
   :end-before: -- CREATE_BARRIER_EUROPEAN_OPTION_INSTRUMENT_END
@@ -179,14 +179,14 @@ from
 
 You start by defining the terms:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Option/Test/Dividend.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Option/Test/Dividend.daml
   :language: daml
   :start-after: -- CREATE_DIVIDEND_OPTION_VARIABLES_BEGIN
   :end-before: -- CREATE_DIVIDEND_OPTION_VARIABLES_END
 
 Now that the terms have been defined, you can create the option instrument:
 
-.. literalinclude:: ../../src/test/daml/Daml/Finance/Instrument/Option/Test/Util.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Option/Test/Util.daml
   :language: daml
   :start-after: -- CREATE_DIVIDEND_OPTION_INSTRUMENT_BEGIN
   :end-before: -- CREATE_DIVIDEND_OPTION_INSTRUMENT_END
@@ -205,17 +205,17 @@ How do I transfer or trade an option?
 =====================================
 
 When you have created a holding on an option instrument this can be transferred to another party.
-This is described in the :doc:`Getting Started: Transfer <../getting-started/transfer>` tutorial.
+This is described in the :doc:`Getting Started: Transfer <../tutorials/getting-started/transfer>` tutorial.
 
 In order to trade an option (transfer it in exchange for cash) you can also initiate a delivery
 versus payment with atomic settlement. This is described in the
-:doc:`Getting Started: Settlement <../getting-started/settlement>` tutorial.
+:doc:`Getting Started: Settlement <../tutorials/getting-started/settlement>` tutorial.
 
 How do I calculate settlement payments for an option?
 =====================================================
 
 On the expiry date, the issuer will need to lifecycle the European option. This will result in a
 lifecycle effect for the payoff, which can be cash settled. This is described in detail in the
-:doc:`Lifecycling <../getting-started/lifecycling>` and the
-:doc:`Intermediated Lifecycling <../advanced-topics/lifecycling/intermediated-lifecycling>`
+:doc:`Lifecycling <../tutorials/getting-started/lifecycling>` and the
+:doc:`Intermediated Lifecycling <../tutorials/advanced-topics/lifecycling/intermediated-lifecycling>`
 tutorials.

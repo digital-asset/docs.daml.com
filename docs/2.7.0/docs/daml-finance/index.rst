@@ -31,7 +31,8 @@ The following is a suggested learning path to get productive quickly:
 
 #. :doc:`Get started <tutorials/getting-started/intro>` quickly
 #. Understand the :doc:`fundamental concepts <concepts/index>` in depth
-#. Learn how to :doc:`use the instrument packages to model different financial instruments <tutorials/instrument-extension-packages/intro>`
+#. Learn how to
+   :doc:`use the instrument packages to model different financial instruments <instruments/intro>`
 #. Read up on the :doc:`background, purpose, and intended usage <overview/intro>` of the library
 #. Explore the
    `Daml Finance Reference Application <https://github.com/digital-asset/daml-finance-app>`_

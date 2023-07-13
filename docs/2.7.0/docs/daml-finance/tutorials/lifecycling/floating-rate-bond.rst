@@ -34,8 +34,8 @@ For the purpose of showcasing the
 we need a suitable sample instrument.
 :ref:`Floating rate bonds <module-daml-finance-instrument-bond-floatingrate-instrument-98586>`
 pay a coupon which is determined by a reference rate, e.g. 3M Libor. The
-:doc:`Bond Extension tutorial <bond-extension>` describes this instrument in more detail. Here, we
-briefly show how to create the bond instrument using a factory:
+:doc:`Bond Extension tutorial <../../instruments/bond-extension>` describes this instrument in more
+detail. Here, we briefly show how to create the bond instrument using a factory:
 
 .. literalinclude:: ../../finance-lifecycling/daml/Scripts/FloatingRateBond.daml
   :language: daml
