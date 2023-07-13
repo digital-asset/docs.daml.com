@@ -42,7 +42,7 @@ The following tutorials are available:
   to demonstrate time-based lifecycling.
 * The :doc:`Observations <floating-rate-bond>` tutorial uses a floating rate bond as a sample
   instrument to show how Observations work.
-* The :doc:`Election-based lifecycling <floating-rate-bond>` tutorial uses a callable bond to
+* The :doc:`Election-based lifecycling <callable-bond>` tutorial uses a callable bond to
   explain how to create and process elections.
 
 If you want to learn how to model custom payoffs, you can skip to the next section and have a look
