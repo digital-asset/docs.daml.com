@@ -3,6 +3,8 @@
 ..
    Proprietary code. All rights reserved.
 
+.. _command-line-arguments:
+
 Command-line Arguments
 ======================
 Canton supports a variety of command line arguments. Please run ``bin/canton --help`` to see all of them. Here,
