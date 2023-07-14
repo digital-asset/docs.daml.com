@@ -41,8 +41,8 @@ The following tutorials are available:
 * The :doc:`Time-based lifecycling <fixed-rate-bond>` tutorial uses a fixed rate bond as an example
   to demonstrate time-based lifecycling.
 * The :doc:`Observations <floating-rate-bond>` tutorial uses a floating rate bond as a sample
-  instrument to show how Observations work. This applies to instruments that depend on the price of an underlying
-  asset.
+  instrument to show how Observations work. This applies to instruments that depend on the price of
+  an underlying asset.
 * The :doc:`Election-based lifecycling <callable-bond>` tutorial uses a callable bond to
   explain how to create and process elections. This applies to instruments that require an
   active choice by one of the stakeholders
