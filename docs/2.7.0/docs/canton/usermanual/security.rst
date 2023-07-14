@@ -427,14 +427,14 @@ with the following list of authorized actions (i.e. IAM permissions):
 When we rely on AWS KMS to generate, store, and manage the necessary private keys, it must be configured
 with the following list of authorized actions:
 
-    - `"kms:CreateKey"`
-    - `"kms:ScheduleKeyDeletion"`
-    - `"kms:Decrypt"`
-    - `"kms:Sign"`
-    - `"kms:DescribeKey"`
-    - `"kms:GetPublicKey"`
-    - `kms:ImportKeyMaterial`
-    - `kms:ListKeys`
+    - `kms:CreateKey`
+    - `kms:ScheduleKeyDeletion`
+    - `kms:Decrypt`
+    - `kms:Sign`
+    - `kms:DescribeKey`
+    - `kms:GetPublicKey`
+
+If you plan to use cross-account key usage then the permissions for key rotation in Canton, namely `kms:CreateKey` and `kms:ScheduleKeyDeletion`, do not have to be configured as they do not apply in that use case.
 
 Canton uses the `standard AWS credential access
 <https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html>`_ to
