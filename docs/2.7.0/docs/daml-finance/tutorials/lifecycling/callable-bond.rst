@@ -45,7 +45,7 @@ more detail. Here, we briefly show how to create the bond instrument using a fac
   :end-before: -- CREATE_CALLABLE_BOND_INSTRUMENT_END
 
 Compared to the fixed rate bond, notice that this callable instrument also has a ``callSchedule``,
-that specifies on which dates the issuer can call the bond.
+that specifies the dates on which the issuer can call the bond.
 
 We also create a bond holding in Bob's account:
 
@@ -90,7 +90,8 @@ so this flag would have been *True*.
 Also, note that there is an *amount* in the election above. This allows the elector to create an
 election for a specific number of holding units.
 
-Now, we have what we need to actually lifecycle the bond:
+Now, we have what we need to actually lifecycle the bond. The ``Apply`` choice is exercised in order
+to process the election:
 
 .. literalinclude:: ../../finance-lifecycling/daml/Scripts/CallableBond.daml
   :language: daml
@@ -102,7 +103,7 @@ all election events. The lifecycle rule from the previous tutorial can be reused
 first convert it to an ``Election.Exercisable``, as described above.
 
 A :ref:`Claim Rule <module-daml-finance-lifecycle-rule-claim-99318>` allows the elector to claim the
-effect resulting from the time event:
+effect resulting from the election event:
 
 .. literalinclude:: ../../finance-lifecycling/daml/Scripts/CallableBond.daml
   :language: daml
@@ -123,7 +124,7 @@ holders.
 
 The remaining steps (settling the entitlements) are identical to the previous tutorial.
 
-Note that the election process above does not work only for callable bonds. It also works for other
+Note that the election process above is not limited to callable bonds. It also works for other
 instruments that require a manual decision, such as a physically settled option with a manual
 exercise decision.
 
@@ -154,8 +155,8 @@ You have learned how to create a callable bond and how to define Elections to ch
 to call the bond.
 The key concepts to take away are:
 
-* Elections are required in order to lifecycle some instruments that require an active choice by one
-  of the stakeholders.
+* Elections are required in order to lifecycle some instruments that require an *active choice* by
+  one of the stakeholders.
 * Depending on the economics of the instrument, either the holding owner or the issuer should create
   the election.
 * Some instruments require both time based and election based lifecycling.
