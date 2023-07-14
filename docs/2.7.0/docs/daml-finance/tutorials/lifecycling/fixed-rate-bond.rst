@@ -36,7 +36,7 @@ continue below.
 Run the Script
 **************
 
-The code for this tutorial can be executed via the ``runFixedRateBond`` function in the
+The code for this tutorial can be executed via the ``runFixedRateBond`` script in the
 ``FixedRateBond.daml`` module.
 
 Instrument and Holding
@@ -86,7 +86,8 @@ first coupon:
   :start-after: -- CREATE_CLOCK_UPDATE_EVENT_BEGIN
   :end-before: -- CREATE_CLOCK_UPDATE_EVENT_END
 
-Now, we have what we need to actually lifecycle the bond:
+Now, we have what we need to actually lifecycle the bond. The ``Evolve`` choice of the lifecycle
+rule is exercised to process the time event:
 
 .. literalinclude:: ../../finance-lifecycling/daml/Scripts/FixedRateBond.daml
   :language: daml
@@ -135,7 +136,7 @@ Check out the :doc:`Settlement concepts <../../concepts/settlement>` for a more 
 description of the different steps in the settlement process and the settlement modes supported
 by the library.
 
-Note that the lifecycling process above does not only work for fixed coupon bonds. It also works for
+Note that the lifecycling process above is not limited to fixed coupon bonds. It also works for
 other instruments with pre-defined payments, for example:
 
 +-------------------------+-------------------------------------+
