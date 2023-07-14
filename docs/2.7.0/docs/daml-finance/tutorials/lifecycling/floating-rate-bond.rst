@@ -20,13 +20,10 @@ In this tutorial, we are going to:
 #. instruct settlement by presenting a bond holding
 #. settle the resulting batch atomically
 
-This example builds on the previous :doc:`Time-based Lifecycling <fixed-rate-bond>` tutorial script
-in the sense that the same parties, accounts, lifecycle rule and events are used.
-
 Run the Script
 **************
 
-The code for this tutorial can be executed via the ``runFloatingRateBond`` function in the
+The code for this tutorial can be executed via the ``runFloatingRateBond`` script in the
 ``FloatingRateBond.daml`` module.
 
 Instrument and Holding
