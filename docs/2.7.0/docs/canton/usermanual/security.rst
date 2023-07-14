@@ -634,7 +634,7 @@ For example for a participant we would run:
    :dedent:
 
 where `xyzKmsKeyId` is the KMS identifier for a specific key (e.g. `KMS Key RN`). If we are using, for example,
-:ref:`AWS cross account keys <https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html>`_
+`AWS cross account keys <https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html>`_
 be aware that using the key id is not enough and we are required to register the key using its `ARN`.
 
 Finally, we need to initialize our :ref:`domain <manually-init-domain>` and
