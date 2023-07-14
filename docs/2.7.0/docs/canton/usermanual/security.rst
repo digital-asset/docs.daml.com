@@ -63,7 +63,7 @@ Key Generation and Storage
 
 Keys can either be generated in the node and stored in the node's primary storage or generated and stored by
 an external key management system (KMS).
-We currently support a version of Canton that can use AWS KMS to either:
+We currently support a version of Canton that can use a KMS to either:
 (a) :ref:`protect Canton's private keys at rest <kms_envelope_architecture>`
 or (b) :ref:`generate and store the private keys itself <kms_external_architecture>`.
 This version is available only as part of Daml Enterprise.
@@ -523,7 +523,7 @@ Please be aware that an AWS KMS key needs to be configured with the following se
 - Key specification: `SYMMETRIC_DEFAULT <https://docs.aws.amazon.com/kms/latest/developerguide/asymmetric-key-specs.html>`_
 - Key usage: `ENCRYPT_DECRYPT <https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#symmetric-cmks>`_
 
-Similarly, for GCP KMS you can use:
+Similarly, for GCP KMS we can use:
 
 - Key name: `“test-key”`
 - Key RN (Resource Name): `“projects/gcp-kms-testing/locations/us-east1/keyRings/canton-test-keys/cryptoKeys/test-key/cryptoKeyVersions/1”`
@@ -533,7 +533,7 @@ And your key needs to be configured with the following settings:
 - Key algorithm: `GOOGLE_SYMMETRIC_ENCRYPTION <https://cloud.google.com/kms/docs/algorithms>`_
 - Key purpose: `ENCRYPT_DECRYPT`
 
-If no ``wrapper-key-id`` is specified Canton creates a symmetric key in the KMS. After subsequent restarts the operator does not need to specify the identifier for the newly
+If no ``wrapper-key-id`` is specified, Canton creates a symmetric key in the KMS. After subsequent restarts the operator does not need to specify the identifier for the newly
 created key; Canton stores the generated wrapper key id in the database.
 
 An example with a pre-defined AWS KMS key is shown below:
@@ -570,7 +570,7 @@ including the KMS one.
 Manual wrapper key rotation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Currently AWS and GCP offer automatic KMS symmetric key rotation (yearly for AWS and dynamically set for GCP).
+Currently AWS and GCP offer automatic KMS symmetric key rotation (yearly for AWS and user-defined for GCP).
 Canton extends this by enabling node administrators to manually rotate the KMS wrapper
 key using the following command:
 
@@ -635,7 +635,7 @@ For example for a participant we would run:
 
 where `xyzKmsKeyId` is the KMS identifier for a specific key (e.g. `KMS Key RN`). If we are using, for example,
 :ref:`AWS cross account keys <https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html>`
-be aware that using its key id its not enough and we are required to register the key using its `ARN`.
+be aware that using the key id is not enough and we are required to register the key using its `ARN`.
 
 Finally, we need to initialize our :ref:`domain <manually-init-domain>` and
 :ref:`participants <manually-init-participant>` using the previously registered keys.
@@ -654,7 +654,7 @@ key commands <rotating-canton-keys>` or, if we already have a KMS key to rotate 
    :dedent:
 
 Both AWS and GCP do not offer automatic rotation of asymmetric keys so, contrary to the wrapper key rotation,
-the node operator needs to be responsible of periodically rotating the keys.
+the node operator needs to be responsible for periodically rotating the keys.
 
 Auditability
 ^^^^^^^^^^^^

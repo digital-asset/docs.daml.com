@@ -109,10 +109,10 @@ This improvement in security comes with drawbacks, in particular:
 - Added latency resulting from the need to use a KMS to decrypt and sign messages.
 - Canton's supported schemes must match those provided by the KMS.
 
-AWS and GCP KMS Integration
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KMS Integration
+^^^^^^^^^^^^^^^
 
-Canton currently makes use of AWS or GCP KMS to protect its private keys.
+Canton currently makes use of AWS or GCP KMSs to protect its private keys.
 The `AWS KMS API <https://docs.aws.amazon.com/kms/latest/developerguide/overview.html>`_
 or the `GCP KMS API <https://cloud.google.com/kms/docs/reference/rest>`_  are similar to
 a hardware security module (HSM) where cryptographic operations can be done
@@ -123,7 +123,7 @@ Besides offering a secure platform to create, manage, and control cryptographic 
 - Enforcement of key usage/authorization policies;
 - Access to the key usage authorization logs;
 - Multi-region keys that allow for the replication of keys in multiple regions for disaster recovery;
-- Automatic rotation of keys. Note that both AWS and GCP KMS transparently select the appropriate KMS key to use so KMS keys can be safely rotated without any code changes.
+- Automatic rotation of keys. Note that both AWS and GCP transparently select the appropriate KMS key to use so they can be safely rotated without any code changes.
 
 KMS Wrapper Key Rotation
 ^^^^^^^^^^^^^^^^^^^^^^^^
