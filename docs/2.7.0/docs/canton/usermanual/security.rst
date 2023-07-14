@@ -75,7 +75,7 @@ if you wish to know how Canton can protect private keys whilst they remain inter
 :ref:`Externalize Private Keys With a Key Management Service <kms_external_architecture>`
 for more details on how Canton can enable private keys to be generated and stored by an external KMS.
 
-The following section :ref:`Key Management Service Setup <kms_setup>` describes how to enable AWS KMS for Canton
+The following section :ref:`Key Management Service Setup <kms_setup>` describes how to enable KMS for Canton
 and how to setup each of these two modes of operation.
 
 Public Key Distribution using Topology Management
@@ -264,7 +264,7 @@ Cryptographic Key Management
 Rotating Canton Node Keys
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Canton supports rotating of node keys (signing and encryption) during live
+Canton supports rotation of node keys (signing and encryption) during live
 operation through its topology management. In order to ensure continuous
 operation, the new key is added first and then the previous key is removed.
 
@@ -291,7 +291,7 @@ manager authorizes the key rotation and a reference needs to be passed in to the
    :end-before: user-manual-entry-end: RotateNodeKeys2
    :dedent:
 
-We can also individually rotate a key by running the following command (e.g. for a participant):
+We can also individually rotate a key by running the following command for example:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/topology/KeyManagementIntegrationTest.scala
    :language: scala
@@ -299,7 +299,7 @@ We can also individually rotate a key by running the following command (e.g. for
    :end-before: user-manual-entry-end: RotateNodeKey
    :dedent:
 
-We can find out the fingerprint of the key we wish to rotate by listing all our public keys:
+A fingerprint of a key can be retrieved from the list of public keys:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/topology/KeyManagementIntegrationTest.scala
    :language: scala
@@ -390,15 +390,17 @@ the corresponding public keys in its stores so that it can verify signatures and
 encrypt messages without having to rely on the KMS.
 
 The KMS integration is currently enabled for `Amazon Web Services (AWS)
-KMS` and 'Google Cloud Provider (GCP) KMS' in Canton Enterprise.
+KMS` and `Google Cloud Provider (GCP) KMS` in Canton Enterprise.
 
 Running Canton with a KMS
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 KMS support can be enabled for a new installation (i.e., during the node
-bootstrap) or for an existing deployment that is transparently updated to use KMS.
+bootstrap) or for an existing deployment.
 When the KMS is enabled after a node has been running, the keys are (a) encrypted and stored in this encrypted form
-in the Canton node's database, or (b) transparently replaced by external KMS keys.
+in the Canton node's database, or (b) transparently replaced by external KMS keys. For
+scenario (a) this process is done transparently, while in (b) it could be more involved if the
+key schemes being used do no match the current supported keys for KMS.
 
 .. _backup-kms:
 
@@ -484,10 +486,10 @@ environment variables of `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` can
 be used. Alternatively, you can specify an AWS profile file (e.g. use a temporary access
 profile credentials - `sts`).
 
-For GCP, Canton uses `a GCP service account
+For GCP, Canton uses a `GCP service account
 <https://cloud.google.com/docs/authentication/provide-credentials-adc#local-user-cred>`_. For example,
 standard environment variable `GOOGLE_APPLICATION_CREDENTIALS` can be used after
-setting up a local Application Default Credentials (ADC) file.
+setting up a local Application Default Credentials (ADC) file to our service account.
 
 The protection and rotation of
 the credentials for accessing AWS or GCP are a responsibility of the node operator.
@@ -568,8 +570,8 @@ including the KMS one.
 Manual wrapper key rotation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Currently AWS and GCP KMS offer automatic KMS symmetric key rotation (yearly for AWS and dynamically set for GCP).
-Canton extends this by enabling node administrators to manually rotate the AWS KMS wrapper
+Currently AWS and GCP offer automatic KMS symmetric key rotation (yearly for AWS and dynamically set for GCP).
+Canton extends this by enabling node administrators to manually rotate the KMS wrapper
 key using the following command:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/RotateWrapperKeyIntegrationTest.scala
@@ -579,13 +581,13 @@ key using the following command:
    :dedent:
 
 You can optionally pass a wrapper key id to change to or let Canton generate a new key based on the current
-KMS configuration. If you wish to change the key specification (e.g. enable multi region) you are required
-to update the configuration before rotating the wrapper key.
+KMS configuration. Changing the key specification (e.g. enable multi region) during rotation is for now
+only possible with AWS, by updating the configuration before rotating the wrapper key.
 
 Canton Configuration for External Key Storage and Usage
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In the example below we configure a Canton participant node (called ``participant1``) to generate and
+In the example below, we configure a Canton participant node (called ``participant1``) to generate and
 store private keys in an external KMS. Besides the previously presented :ref:`KMS configuration <kms_config>`
 (in this example we use AWS, but GCP is set similarly)
 you only need to specify the correct crypto provider ``kms`` and ensure that the remaining nodes, in particular
@@ -631,7 +633,9 @@ For example for a participant we would run:
    :end-before: user-manual-entry-end: ManualRegisterKmsKeys
    :dedent:
 
-where `xyzKmsKeyId` is the KMS identifier for a specific key (e.g. KMS Key RN).
+where `xyzKmsKeyId` is the KMS identifier for a specific key (e.g. `KMS Key RN`). If we are using, for example,
+:ref:`AWS cross account keys <https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html>`
+be aware that using its key id its not enough and we are required to register the key using its `ARN`.
 
 Finally, we need to initialize our :ref:`domain <manually-init-domain>` and
 :ref:`participants <manually-init-participant>` using the previously registered keys.
@@ -640,7 +644,7 @@ Manual KMS key rotation
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 Canton keys can still be manually rotated even if externally stored in a KMS.
-To do that we can use the same ref:`standard rotate
+To do that we can use the same :ref:`standard rotate
 key commands <rotating-canton-keys>` or, if we already have a KMS key to rotate to, run the following command:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/RotateAwsKmsKeyIntegrationTest.scala
@@ -650,16 +654,16 @@ key commands <rotating-canton-keys>` or, if we already have a KMS key to rotate 
    :dedent:
 
 Both AWS and GCP do not offer automatic rotation of asymmetric keys so, contrary to the wrapper key rotation,
-the node manager needs to be responsible of periodically rotating the keys.
+the node operator needs to be responsible of periodically rotating the keys.
 
 Auditability
 ^^^^^^^^^^^^
 
-AWS and GCP provide tools to monitor KMS keys. For AWS to set automatic external logging, refer to the `official documentation
-<https://docs.aws.amazon.com/kms/latest/developerguide/monitoring-overview.html>`_.
+AWS and GCP provide tools to monitor KMS keys. For AWS to set automatic external logging, refer to the
+`AWS official documentation <https://docs.aws.amazon.com/kms/latest/developerguide/monitoring-overview.html>`_.
 This includes instructions on how to set AWS Cloud Trail or Cloud Watch Alarms
 to keep track of usage of KMS keys or of performed crypto operations.
-For GCP you can refer to the `official documentation
+For GCP you can refer to the `GCP official documentation
 <https://cloud.google.com/kms/docs/audit-logging>`_ for information on how logging is done.
 Errors resulting from the use of KMS keys are logged in Canton.
 
