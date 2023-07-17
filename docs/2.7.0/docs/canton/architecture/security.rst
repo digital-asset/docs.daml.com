@@ -40,6 +40,9 @@ Canton can, :ref:`if enabled <kms_setup>`, offer confidentiality at rest for the
 Short-term keys do not require additional protection because they are derived from a secret that is already
 transmitted and stored in an encrypted form using a long-term public encryption key.
 
+Long-term keys should include an operational security policy that requires to rotate these keys periodically
+or if one of them has been considered compromised.
+
 .. _kms_requirements:
 
 Requirements
@@ -98,7 +101,7 @@ Externalize Private Keys With a Key Management Service
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Canton can also protect private keys by outsourcing their generation and storage to a KMS, making use of
-of a KMS's API to perform the necessary crypto operations such as decryption and signing. This protection
+of a its API to perform the necessary crypto operations such as decryption and signing. This protection
 safeguards against malicious adversaries that, besides access to the storage layer, can also
 access the node’s system and inspect its memory. Using a KMS's underlying monitoring framework
 (e.g. AWS CloudTrail Logs or GCP Cloud Audit Logs) in combination with Canton logging also offers a

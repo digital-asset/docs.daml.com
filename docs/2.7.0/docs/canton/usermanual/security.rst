@@ -62,8 +62,8 @@ Key Generation and Storage
 Keys can either be generated in the node and stored in the node's primary storage or generated and stored by
 an external key management system (KMS).
 We currently support a version of Canton that can use a KMS to either:
-(a) :ref:`protect Canton's private keys at rest <kms_envelope_architecture>`
-or (b) :ref:`generate and store the private keys itself <kms_external_architecture>`.
+(a) `protect Canton's private keys at rest`
+or (b) `generate and store the private keys itself`.
 This version is available only as part of Daml Enterprise.
 
 You can find more background information on this key management feature in
@@ -437,7 +437,7 @@ Specific to GCP:
 
 - ``location-id`` specifies which region the GCP KMS is bound to.
 - ``project-id`` specifies which project are we binding to.
-- ``keyRingId`` specifies the keyring to use. Contrary to AWS, multi region keys are enabled for an entire keyring. Therefore, the KMS operator is responsible to setting the keyring correctly depending on the systems' needs.
+- ``keyRingId`` specifies the keyring to use. Contrary to AWS, multi region keys are enabled for an entire keyring. Therefore, the KMS operator is responsible for setting the keyring correctly depending on the systems' needs.
 
 Configure AWS Credentials and Permissions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -485,7 +485,7 @@ profile credentials - `sts`).
 For GCP, Canton uses a `GCP service account
 <https://cloud.google.com/docs/authentication/provide-credentials-adc#local-user-cred>`_. For example,
 standard environment variable `GOOGLE_APPLICATION_CREDENTIALS` can be used after
-setting up a local Application Default Credentials (ADC) file to our service account.
+setting up a local Application Default Credentials (ADC) file for our service account.
 
 The protection and rotation of
 the credentials for accessing AWS or GCP are a responsibility of the node operator.
