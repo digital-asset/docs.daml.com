@@ -39,8 +39,6 @@ and `/` = `not supported`):
 +--------------------------------------------------------+------------+-----------+----------+
 | ECDSA P-384                                            |      S     |     S     |     S    |
 +--------------------------------------------------------+------------+-----------+----------+
-| SM2 (experimental)                                     |      S     |     S     |     /    |
-+--------------------------------------------------------+------------+-----------+----------+
 | **Symmetric Encryption**                                                                   |
 +--------------------------------------------------------+------------+-----------+----------+
 | AES128-GCM                                             |      D     |     D     |     D    |
@@ -452,8 +450,6 @@ with the following list of authorized actions (i.e. IAM permissions):
 +===========================================+===========================================+
 | `kms:CreateKey`                           | `cloudkms.cryptoKeyVersions.create`       |
 +-------------------------------------------+-------------------------------------------+
-| `kms:ScheduleKeyDeletion`                 | `cloudkms.cryptoKeyVersions.destroy`      |
-+-------------------------------------------+-------------------------------------------+
 | `kms:Encrypt`                             | `cloudkms.cryptoKeyVersions.useToEncrypt` |
 +-------------------------------------------+-------------------------------------------+
 | `kms:Decrypt`                             | `cloudkms.cryptoKeyVersions.useToDecrypt` |
@@ -469,8 +465,6 @@ with the following list of authorized actions:
 +===========================================+===========================================+
 | `kms:CreateKey`                           | `cloudkms.cryptoKeyVersions.create`       |
 +-------------------------------------------+-------------------------------------------+
-| `kms:ScheduleKeyDeletion`                 | `cloudkms.cryptoKeyVersions.destroy`      |
-+-------------------------------------------+-------------------------------------------+
 | `kms:Decrypt`                             | `cloudkms.cryptoKeyVersions.useToDecrypt` |
 +-------------------------------------------+-------------------------------------------+
 | `kms:Sign`                                | `cloudkms.cryptoKeyVersions.useToEncrypt` |
@@ -479,6 +473,8 @@ with the following list of authorized actions:
 +-------------------------------------------+-------------------------------------------+
 | `kms:GetPublicKey`                        | `cloudkms.cryptoKeyVersions.viewPublicKey`|
 +-------------------------------------------+-------------------------------------------+
+
+If you plan to use cross-account key usage then the permission for key rotation in Canton, namely `kms:CreateKey`, does not have to be configured as it does not apply in that use case.
 
 To be able to make the API calls to the AWS KMS, Canton uses the `standard AWS credential access
 <https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html>`_. For example, the standard
