@@ -111,3 +111,13 @@ This downloads all required packages and builds the project. You can then run:
    daml studio
 
 to open the code editor and inspect the code.
+
+Demo Application
+****************
+
+In addition to Daml Finance, there is also a separate Demo Application, showcasing
+several of the library's capabilities in a web-based graphical user interface.
+
+If you are interested in trying out the app locally, you can clone the
+corresponding repo and follow the installation instructions on the
+`Daml Finance Demo App GitHub page <https://github.com/digital-asset/daml-finance-app>`_.
