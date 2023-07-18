@@ -46,31 +46,6 @@ Bearer Tokens vs Holdings
 * Holdings, on the other hand, *restrict* the ownership of the asset to parties that have an account
   (a vetted relationship) at a custodian.
 
-Download the Code for the Tutorial
-**********************************
-
-As a prerequisite, the `Daml SDK <https://docs.daml.com/getting-started/installation.html>`_ needs
-to be installed on your machine.
-
-Open a terminal and run:
-
-.. code-block:: shell
-
-   daml new quickstart-finance --template quickstart-finance
-
-This creates a new folder with contents from our template. Navigate to the folder and then run the
-following to download the required ``daml-finance`` packages:
-
-.. code-block:: shell
-
-   ./get-dependencies.sh
-
-Then run the following to open the code editor and inspect the code:
-
-.. code-block:: shell
-
-   daml studio
-
 .. _structure-of-code-dependencies:
 
 Structure of the Code and Dependencies
