@@ -112,12 +112,12 @@ This downloads all required packages and builds the project. You can then run:
 
 to open the code editor and inspect the code.
 
-Reference App
-*************
+Demo Application
+****************
 
-In addition to Daml Finance, there is also a separate ``Daml Finance Reference App``. It showcases
-several of the Daml Finance capabilities in a web-based graphical user interface.
+In addition to Daml Finance, there is also a separate Demo Application, showcasing
+several of the library's capabilities in a web-based graphical user interface.
 
 If you are interested in trying out the app locally, you can clone the
 corresponding repo and follow the installation instructions on the
-`Daml Finance Reference App GitHub page <https://github.com/digital-asset/daml-finance-app>`_.
+`Daml Finance Demo App GitHub page <https://github.com/digital-asset/daml-finance-app>`_.
