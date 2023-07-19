@@ -33,17 +33,16 @@ Starting Canton
 
 The canton executable is the default image entry point so all examples using ``bin/canton`` can simply substitute that with ``docker run digitalasset/canton``.
 
-For example, to run our example simple topology:
+For example, to run with our simple topology configuration in interactive console mode:
 
 .. code-block:: bash
 
-   docker run --rm -it digitalasset/canton-open-source:latest --config examples/01-simple-topology/simple-topology.conf --bootstrap examples/01-simple-topology/simple-ping.canton
+   docker run --rm -it digitalasset/canton-open-source:latest --config simple-topology.conf
 
 The ``--rm`` option ensures that the container is removed when the canton process exits.
 The ``-it`` options start the container interactively and provide a TTY for running our console.
 
 The default working directory of the container is ``/canton``.
-This directory contains the same content as the release archive (``daml``, ``dar``, ``examples``).
 
 By default docker will pull the ``latest`` tag containing the latest Canton release.
 As docker will only automatically pull ``latest`` once, ensure you have the latest version by  periodically running ``docker pull digitalasset/canton-open-source``.
