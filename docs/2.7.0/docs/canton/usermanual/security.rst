@@ -596,7 +596,7 @@ flag to the path of the file.
 These and other parameters can be configured using environment variables or CLI flags:
 
 .. list-table:: KMS logging configuration
-   :widths: 25 50 25
+   :widths: 20 20 40 20
    :header-rows: 1
 
    * - Environment variable
