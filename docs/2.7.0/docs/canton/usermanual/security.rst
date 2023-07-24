@@ -588,36 +588,37 @@ KMS keys are logged in Canton.
 Logging
 ^^^^^^^
 
-For further auditability, Canton can be configured to log every call made to AWS.
+For further auditability, Canton can be configured to log every call made to the AWS KMS.
 To enable this feature, set the ``audit-logging`` field of the KMS configuration to ``true``.
-By default, when using a file-based logging configuration, such logs will be written into a
-separate log file called ``log/canton_kms.log``.
-These and other parameters can be configured using environment variables:
+By default, when using a file-based logging configuration, such logs will be written into the main canton log file.
+To write them to a dedicated log file, set the ``KMS_LOG_FILE_NAME`` environment variable or ``--kms-log-file-name`` CLI
+flag to the path of the file.
+These and other parameters can be configured using environment variables or CLI flags:
 
-.. list-table:: Environment variables to configure KMS logging
+.. list-table:: KMS logging configuration
    :widths: 25 50 25
    :header-rows: 1
 
-   * - Name
+   * - Environment variable
+     - CLI Flag
      - Purpose
      - Default
    * - KMS_LOG_FILE_NAME
-     - Path to the KMS log file
-     - log/canton_kms.log
+     - --kms-log-file-name
+     - Path to a dedicated KMS log file
+     - not set
    * - KMS_LOG_IMMEDIATE_FLUSH
+     - --kms-log-immediate-flush
      - When true, logs will be immediately flushed to the KMS log file
      - true
    * - KMS_LOG_FILE_ROLLING_PATTERN
+     - --kms-log-file-rolling-pattern
      - Pattern to use when using the rolling file strategy to roll KMS log files
      - yyyy-MM-dd
    * - KMS_LOG_FILE_HISTORY
+     - --kms-log-file-history
      - Maximum number of KMS log files to keep when using the rolling file strategy
      - 0 (i.e. no limit)
-   * - MERGE_KMS_LOG
-     - When set, the KMS logs will be written to the canton log file, instead of a separate file
-     - not set
-
-The same values can be configured using Canton CLI arguments. See the :ref:`CLI documentation <command-line-arguments>` for more details.
 
 Sample of an AWS KMS audit log:
 
@@ -632,7 +633,8 @@ Sample of an AWS KMS audit log:
     2023-07-13 17:03:05,831 [ScalaTest-run-running-AwsKmsTest] INFO  c.d.c.c.k.a.a.AwsRequestResponseLogger:AwsKmsTest tid:58c038e94d0d8e139b968c3a180dc62f - Sending request: DecryptRequest(CiphertextBlob=** Ciphertext placeholder **, KeyId=alias/canton-kms-test-key, EncryptionAlgorithm=SYMMETRIC_DEFAULT) to https://kms.us-east-1.amazonaws.com/
     2023-07-13 17:03:05,948 [aws-java-sdk-NettyEventLoop-1-14] INFO  c.d.c.c.k.a.a.AwsRequestResponseLogger:AwsKmsTest tid:58c038e94d0d8e139b968c3a180dc62f - Received response [b918d4f7-8008-4549-a5e1-e80378509600] - DecryptResponse(Plaintext=** Redacted plaintext placeholder **, KeyId=arn:aws:kms:us-east-1:724647588434:key/407d44eb-c05a-46cc-a8b9-448771a86e57, EncryptionAlgorithm=SYMMETRIC_DEFAULT). Original request DecryptRequest(CiphertextBlob=** Ciphertext placeholder **, KeyId=alias/canton-kms-test-key, EncryptionAlgorithm=SYMMETRIC_DEFAULT)
 
-Note that if the Canton trace id is available, it will appear on the logline. This can be used to correlate canton requests with KMS requests.
+Note that sensitive data is removed before logging.
+If the Canton trace id is available, it will appear on the log line. This can be used to correlate Canton requests with KMS requests.
 Furthermore, for the AWS KMS, the AWS request ID is added to the response log lines in between brackets.
 
 Ledger-API Authorization
