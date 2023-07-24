@@ -1294,7 +1294,7 @@ subtrees:
         - file: canton/architecture/research
           title: "Research Publications"
         - file: canton/architecture/security
-          title: "Security"
+          title: "Security Architecture"
         - file: ops/system_architecture_faq
           title: "System Architecture FAQ"
       - file: canton/usermanual/FAQ
