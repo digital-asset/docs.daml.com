@@ -13,3 +13,6 @@ included:
 - :ref:`Util <module-contingentclaims-lifecycle-util-90074>`:
   Utility functions to query a :doc:`Contingent Claims <../../concepts/contingent-claims>` tree for
   certain properties
+
+Changelog
+*********

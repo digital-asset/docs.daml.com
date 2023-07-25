@@ -15,3 +15,6 @@ modules:
   debiting holdings
 - :ref:`Util <module-daml-finance-interface-account-util-56106>`:
   Utility functions related to accounts, e.g., getting the custodian or the owner of an account
+
+Changelog
+*********

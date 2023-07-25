@@ -31,3 +31,6 @@ following modules:
 Check out the tutorial on
 :doc:`How to use the Option extension package <../../instruments/option-extension>`
 for a description of how to use the option extension in practice.
+
+Changelog
+*********

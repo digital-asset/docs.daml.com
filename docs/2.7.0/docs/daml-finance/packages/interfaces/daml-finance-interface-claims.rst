@@ -15,3 +15,6 @@ following modules:
 - :ref:`Types <module-daml-finance-interface-claims-types-95967>`:
   Types related to claims and what is required to represent claims (e.g. Deliverable and
   Observable)
+
+Changelog
+*********

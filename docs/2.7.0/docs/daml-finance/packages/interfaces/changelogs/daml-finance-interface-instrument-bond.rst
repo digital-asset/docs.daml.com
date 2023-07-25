@@ -4,6 +4,22 @@
 Daml.Finance.Interface.Instrument.Bond - Changelog
 ##################################################
 
+Version 1.0.0
+*************
+
+- Update of SDK version and dependencies
+
+- The `Create` choice on the instrument factories returns the corresponding interface (rather than the base instrument interface)
+
+- Add `GetView` choice to all instrument interfaces
+
+- Make use of the `requires` keyword to enforce the interface hierarchy (in particular the `asDisclosure` and
+  `asBaseInstrument` methods were removed)
+
+- Introduce a new callable bond instrument
+
+- Add a `notional` field to all instruments
+
 Version 0.2.1
 *************
 
