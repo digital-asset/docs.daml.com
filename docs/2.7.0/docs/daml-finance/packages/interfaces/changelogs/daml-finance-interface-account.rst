@@ -11,5 +11,4 @@ Version 2.0.0
 
 - Remove type synonym for `AccountKey`
 
-- Make use of the `requires` keyword to enforce the interface hierarchy
-(in particular the `asDisclosure` method was removed)
+- Make use of the `requires` keyword to enforce the interface hierarchy (in particular the `asDisclosure` method was removed)

@@ -9,5 +9,4 @@ Version 2.0.0
 
 - Update of SDK version and dependencies
 
-- Make use of the `requires` keyword to enforce the interface hierarchy
-(in particular the `asBaseInstrument` method was removed)
+- Make use of the `requires` keyword to enforce the interface hierarchy (in particular the `asBaseInstrument` method was removed)

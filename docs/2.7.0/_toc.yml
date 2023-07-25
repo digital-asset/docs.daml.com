@@ -561,7 +561,7 @@ subtrees:
               titlesonly: True
               maxdepth: 1
               entries:
-              - file: daml-finance/packages/interfaces/changelogs/contingent-claims-lifecycle.rst
+              - file: daml-finance/packages/implementations/changelogs/contingent-claims-lifecycle.rst
                 title: "Changelog"
           - file: daml-finance/packages/implementations/contingent-claims-valuation
             title: "ContingentClaims.Valuation"
@@ -570,7 +570,7 @@ subtrees:
               titlesonly: True
               maxdepth: 1
               entries:
-              - file: daml-finance/packages/interfaces/changelogs/contingent-claims-valuation.rst
+              - file: daml-finance/packages/implementations/changelogs/contingent-claims-valuation.rst
                 title: "Changelog"
           - file: daml-finance/packages/implementations/daml-finance-instrument-bond
             title: "Daml.Finance.Instrument.Bond"
@@ -606,7 +606,7 @@ subtrees:
               titlesonly: True
               maxdepth: 1
               entries:
-              - file: daml-finance/packages/interfaces/changelogs/daml-finance-instrument-option.rst
+              - file: daml-finance/packages/implementations/changelogs/daml-finance-instrument-option.rst
                 title: "Changelog"
           - file: daml-finance/packages/implementations/daml-finance-instrument-swap
             title: "Daml.Finance.Instrument.Swap"

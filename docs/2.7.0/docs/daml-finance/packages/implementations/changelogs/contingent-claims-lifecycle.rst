@@ -9,6 +9,5 @@ Version 2.0.0
 
 - Update of SDK version and dependencies
 
-- Refactor `exercise` to identify the elected sub-tree by a textual tag rather than
-the actual sub-tree
+- Refactor `exercise` to identify the elected sub-tree by a textual tag rather than the actual sub-tree
 
