@@ -12,3 +12,6 @@ modules:
   ``DeclareDistribution``, ``DeclareReplacement`` and ``DeclareStockSplit`` choices.
 - :ref:`Factory <module-daml-finance-interface-instrument-equity-factory-97140>`:
   Factory interface to instantiate equities
+
+Changelog
+*********

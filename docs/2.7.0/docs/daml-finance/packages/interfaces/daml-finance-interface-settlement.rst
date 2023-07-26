@@ -27,3 +27,6 @@ The following diagram shows the incoming and outgoing dependencies for this pack
 
 .. image:: ../../images/daml_finance_interface_settlement.png
    :alt: A diagram showing the incoming and outgoing dependencies of the package.
+
+Changelog
+*********

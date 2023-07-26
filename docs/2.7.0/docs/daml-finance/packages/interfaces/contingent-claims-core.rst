@@ -19,3 +19,6 @@ creation of trees using composition. The following modules are included:
   observations in trees
 - :ref:`Util.Recursion <module-contingentclaims-core-util-recursion-31812>`: Utility functions to
   facilitate recursive traversal of trees
+
+Changelog
+*********

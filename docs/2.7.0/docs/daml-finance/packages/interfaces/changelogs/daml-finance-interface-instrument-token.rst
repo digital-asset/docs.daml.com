@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Daml.Finance.Instrument.Token - Changelog
-#########################################
+Daml.Finance.Interface.Instrument.Token - Changelog
+###################################################
 
 Version 2.0.0
 *************
@@ -13,8 +13,3 @@ Version 2.0.0
 
 - Make use of the `requires` keyword to enforce the interface hierarchy (in the particular `asDisclosure` and
   `asBaseInstrument` implementations were removed)
-
-Version 1.0.1
-*************
-
-- Dependencies update

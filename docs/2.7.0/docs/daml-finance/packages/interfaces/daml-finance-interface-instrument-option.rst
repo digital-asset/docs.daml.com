@@ -35,3 +35,6 @@ following modules:
   Type definitions to support physically settled European options
 - :ref:`Types <module-daml-finance-interface-instrument-option-types-52343>`:
   Type definitions common to several instruments in this package
+
+Changelog
+*********

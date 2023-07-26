@@ -4,6 +4,13 @@
 Daml.Finance.Util - Changelog
 #############################
 
+Version 3.0.0
+*************
+
+- Update of SDK version and dependencies
+
+- Remove the `groupBy` utility function
+
 Version 2.0.0
 *************
 
