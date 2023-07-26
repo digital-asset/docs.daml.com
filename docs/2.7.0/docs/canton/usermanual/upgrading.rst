@@ -220,6 +220,31 @@ Hence, command to add a new sequencer connection to the mediator would be change
         _.addEndpoints(SequencerAlias.Default, connection)
     )
 
+
+Unique Contract Keys Deprecation
+""""""""""""""""""""""""""""""""
+The unique-contract-keys parameters for both participant and domain nodes are now marked as deprecated.
+As of this release, the meaning and default value (true) remain unchanged.
+However, contract key uniqueness will not be available in the next major version, featuring multi-domain connectivity.
+If you are already setting this key to false explicitly (preview), this behavior will be the default one after the configuration key is removed.
+If you don't explicitly set this value to false, you are encouraged to evaluate evolving your existing applications and services to avoid relying on this feature.
+You can read more on the topic in the :ref:`documentation <canton_keys>`.
+
+Causality Tracking
+""""""""""""""""""
+An obsolete early access feature to enable causality tracking, related to preview multi-domain, was removed. If you enabled it, you need to remove the following config lines, as they will not compile anymore:
+
+.. code:: bash
+
+    participants.participant.init.parameters.unsafe-enable-causality-tracking = true
+    participants.participant.parameters.enable-causality-tracking = true
+
+Besu and Fabric drivers
+"""""""""""""""""""""""
+In order to allow for independent updates of the different components, we have  separated out the drivers into a separate jar, which needs to be loaded into a separate classpath.
+As a result, deployments that use Fabric or Besu need to additionally download the jar and place it in the appropriate directory.
+Please :ref:`consult the installation documentation <canton-enterprise-drivers>` on how to obtain this additional jar.
+
 Upgrade to Release 2.6
 ^^^^^^^^^^^^^^^^^^^^^^
 TODO
