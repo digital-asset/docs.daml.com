@@ -201,6 +201,24 @@ Activation of unsupported features
 In order to activate unsupported features, you now need to explicitly enable dev-version-support on the domain (in addition to the non-standard config flag).
 More information can be found in the :ref:`documentation <how-do-i-enable-unsupported-features>`.
 
+Breaking changes around console commands
+""""""""""""""""""""""""""""""""""""""""
+
+**Key rotation**
+The command keys.secret.rotate_wrapper_key now returns a different error code.
+An INVALID_WRAPPER_KEY_ID error has been replaced by an INVALID_KMS_KEY_ID error.
+
+**Adding sequencer connection**
+The configuration of the Sequencer Client has been updated to accommodate multiple sequencers and their endpoints:
+method `addConnection` has been renamed to `addEndpoints` to better reflect the fact that it modifies an endpoint for the sequencer.
+
+Hence, command to add a new sequencer connection to the mediator would be changed to:
+
+.. code:: bash
+
+    mediator1.sequencer_connection.modifyConnections(
+        _.addEndpoints(SequencerAlias.Default, connection)
+    )
 
 Upgrade to Release 2.6
 ^^^^^^^^^^^^^^^^^^^^^^
