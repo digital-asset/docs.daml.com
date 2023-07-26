@@ -484,6 +484,9 @@ appearing too frequent, the queue size can be configured using:
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/storage-queue-size.conf
 
+
+.. _backup-and-restore:
+
 Backup and Restore
 ------------------
 

@@ -156,6 +156,8 @@ This guide has demonstrated how to import data from non-Canton Daml Participant 
 lower major version as part of a Canton upgrade.
 
 
+.. _repairing-participants:
+
 Repairing Participants
 ----------------------
 

@@ -80,6 +80,6 @@ To be able to get snapshots from peers securely, nodes regularly exchange “com
 
 **Further Reading:**
 
-- `Repairing Participants <../canton/usermanual/operational_processes.html#repairing-participants>`__
-- `Backup and Restore <../canton/usermanual/operational_processes.html#backup-and-restore>`__
-- `Ledger Pruning <../canton/usermanual/operational_processes.html#ledger-pruning>`__
+- :ref:`Repairing Participants <repairing-participants>`
+- :ref:`Backup and Restore <backup-and-restore>`
+- :ref:`Ledger Pruning <ledger-pruning>`
