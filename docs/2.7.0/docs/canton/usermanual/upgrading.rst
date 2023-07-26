@@ -195,6 +195,12 @@ This mode can be enabled by setting the appropriate storage parameter:
 In order to benefit from the new security features brought by protocol version 5,
 you will have to :ref:`upgrade the domain accordingly <canton_domain_protocol_version_upgrading>`.
 
+Activation of unsupported features
+""""""""""""""""""""""""""""""""""
+
+In order to activate unsupported features, you now need to explicitly enable dev-version-support on the domain (in addition to the non-standard config flag).
+More information can be found in the :ref:`documentation <how-do-i-enable-unsupported-features>`.
+
 
 Upgrade to Release 2.6
 ^^^^^^^^^^^^^^^^^^^^^^
