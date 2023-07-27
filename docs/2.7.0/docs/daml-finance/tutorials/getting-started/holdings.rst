@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Holding
-#######
+Holdings
+########
 
 This tutorial introduces the core asset model of the library through a simple example. The purpose
 is to illustrate the concepts of :ref:`account <account>`, :ref:`instrument <instrument>`, and
@@ -18,9 +18,6 @@ We expect the reader to be familiar with the basic building blocks of Daml. If t
 a suitable introduction can be found `here <https://www.digitalasset.com/developers/learn>`_.
 In particular, `An Introduction to Daml <https://docs.daml.com/daml/intro/0_Intro.html>`_
 would be a good starting point.
-
-This example refers to the :doc:`Transfer <transfer>` tutorial script in the sense that it explains
-the accounts and holdings required for that tutorial.
 
 Explanation of Holdings
 ***********************

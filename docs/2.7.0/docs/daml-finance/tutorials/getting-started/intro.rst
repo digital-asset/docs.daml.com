@@ -9,7 +9,7 @@ step description of different workflows with supporting Daml code.
 
 The following tutorials are available:
 
-* :doc:`Holding <holding>`: describes the core asset model used in Daml Finance.
+* :doc:`Holdings <holdings>`: describes the core asset model used in Daml Finance.
 * :doc:`Transfer <transfer>`: shows how to transfer ownership of a holding.
 * :doc:`Settlement <settlement>`: explains how to execute multiple asset movements atomically.
 * :doc:`Lifecycling <lifecycling>`: describes how lifecycle rules and events can be used to evolve
