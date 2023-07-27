@@ -37,6 +37,6 @@ Next Steps
 The following tutorial is available:
 
 * The :doc:`Enhance Transfers <transfer>` tutorial builds upon the
-  basic :doc:`transfer <../getting-started/transfer>`tutorial from the getting-started section.
+  basic :doc:`transfer <../getting-started/transfer>` tutorial from the getting-started section.
   Specifically, we explore how to configure the controllers that need to authorize incoming
   transfers (credits) and outgoing transfers (debits) to and from an account, respectively.
