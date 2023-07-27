@@ -86,7 +86,7 @@ To execute the transfer, both the Bank and Alice must authorize:
 Discretionary
 =============
 
-The `runDiscretionaryTransfer`` script specifies that the custodian controls both incoming and
+The `runDiscretionaryTransfer` script specifies that the custodian controls both incoming and
 outgoing transfers:
 
 .. literalinclude:: ../../quickstart-finance/daml/Scripts/Transfer.daml
