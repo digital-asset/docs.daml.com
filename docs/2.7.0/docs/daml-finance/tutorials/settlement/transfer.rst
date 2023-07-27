@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Transfer
-########
+Enhanced Transfers
+##################
 
 In this tutorial, we delve deeper into the concepts that were introduced in our getting-started
 tutorials. In particular, we will extend on the :ref:`transfer <../getting-started/transfer>`
@@ -11,7 +11,7 @@ tutorial.
 We begin by understanding the simple form of settlement. It transpires when a customer's funds are
 transferred to another account within the same bank. Consequently, the sender's account is debited
 (balance decreases), and the recipient's account is credited (balance increases). This process is
-internally managed within the bank's systems and usually occurs instantly, as it does not require
+internally managed within the bank's systems and usually occurs instantly, as it doesn't require
 interaction with external systems or institutions.
 
 In Daml Finance, such fund transfers are not necessarily represented by a settlement workflow that
@@ -19,8 +19,8 @@ involves allocating and approving instructions. Instead, a "direct" transfer of 
 between two parties, such as Alice and Bob. This transfer debits the sending account and atomically
 credits the receiving account.
 
-Next, we will explore how to configure the controllers responsible for authorizing incoming and outgoing
-transfers of holdings to an account.
+Next, we will explore how to configure the controllers responsible for authorizing incoming
+transfers (credits) and outgoing transfers (debits) of holdings to an account.
 
 Configuring Account Controllers
 *******************************
@@ -104,7 +104,7 @@ Following the setup, the Bank can execute the transfer single-handedly:
 Sovereign
 =========
 
-In the `runSovereignTransfer`` script, the owner controls both incoming and outgoing transfers:
+In the `runSovereignTransfer` script, the owner controls both incoming and outgoing transfers:
 
 .. literalinclude:: ../../quickstart-finance/daml/Scripts/Transfer.daml
   :language: daml
@@ -123,7 +123,7 @@ Unilateral
 ==========
 
 In our final example script, `runUnilateralTransfer`, the owner controls outgoing transfers, while
-incoming transfers require no authorization:
+incoming transfers require no additional authorization:
 
 .. literalinclude:: ../../quickstart-finance/daml/Scripts/Transfer.daml
   :language: daml
@@ -140,8 +140,8 @@ Once the setup is complete, Alice can independently execute the transfer to Bob:
 Summary
 *******
 
-By now, you should understand how to configure incoming and outgoing controllers for accounts based on your requirements. Key
-concepts to remember include:
+By now, you should understand how to configure incoming and outgoing controllers for accounts based
+on your requirements. Key concepts to remember include:
 
 * To execute a transfer between a sender and a receiver, the outgoing controllers of the sending
   account and the incoming controllers of the receiving account need to authorize it.
