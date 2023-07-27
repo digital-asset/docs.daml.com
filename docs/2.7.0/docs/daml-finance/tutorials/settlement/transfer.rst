@@ -140,7 +140,7 @@ Once the setup is complete, Alice can independently execute the transfer to Bob:
 Summary
 *******
 
-By now, you should understand how to configure incoming and outgoing controllers for accounts. Key
+By now, you should understand how to configure incoming and outgoing controllers for accounts based on your requirements. Key
 concepts to remember include:
 
 * To execute a transfer between a sender and a receiver, the outgoing controllers of the sending
