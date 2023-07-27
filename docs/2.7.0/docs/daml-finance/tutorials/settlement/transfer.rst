@@ -37,7 +37,7 @@ controller settings:
 +==========================+==============+==================================+
 | runDualControlTransfer   | Anyone       | Both (owner and custodian)       |
 |                          |              |                                  |
-| runDiscretionaryTran     | Custodian    | Custodian                        |
+| runDiscretionaryTransfer | Custodian    | Custodian                        |
 |                          |              |                                  |
 | runSovereignTransfer     | Owner        | Owner                            |
 |                          |              |                                  |
