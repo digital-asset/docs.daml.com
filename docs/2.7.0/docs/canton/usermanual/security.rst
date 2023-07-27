@@ -509,7 +509,7 @@ Currently AWS KMS offers a yearly automatic KMS key rotation. Canton extends
 this by enabling node administrators to manually rotate the AWS KMS wrapper
 key using the following command:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/RotateWrapperKeyIntegrationTest.scala
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/kms/RotateWrapperKeyIntegrationTest.scala
    :language: scala
    :start-after: user-manual-entry-begin: ManualWrapperKeyRotation
    :end-before: user-manual-entry-end: ManualWrapperKeyRotation
