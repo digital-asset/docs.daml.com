@@ -44,7 +44,7 @@ controller settings:
 | runUnilateralTranser     | Anyone       | Owner                            |
 +--------------------------+--------------+----------------------------------+
 
-Each script begins by running a setup script `runSetupTransferRequestWith` that requests a transfer
+Each script begins by running a setup script ``runSetupTransferRequestWith`` that requests a transfer
 of a holding from Alice to Bob at the Bank. The setup script takes a configuration as input to
 set up Alice's and Bob's account controllers, as outlined in the table above.
 
@@ -52,13 +52,13 @@ The last step of the setup script creates a transfer request of a holding from A
 
 .. literalinclude:: ../../finance-settlement/daml/Scripts/Transfer.daml
   :language: daml
-  :start-after: -- SETUP_TRANSFER_REQUEST_BEGIN
-  :end-before: -- SETUP_TRANSFER_REQUEST_END
+  :start-after: -- TRANSFER_REQUEST_SETUP_BEGIN
+  :end-before: -- TRANSFER_REQUEST_SETUP_END
 
-The transfer `Request` template is designed for the stepwise collection of the necessary
+The transfer ``Request`` template is designed for the stepwise collection of the necessary
 authorizations for transferring a holding to a new owner:
 
-.. literalinclude:: ../../finance-settlement/daml/Workflow/Request.daml
+.. literalinclude:: ../../finance-settlement/daml/Workflow/Transfer.daml
   :language: daml
   :start-after: -- TRANSFER_REQUEST_BEGIN
   :end-before: -- TRANSFER_REQUEST_END
@@ -66,15 +66,15 @@ authorizations for transferring a holding to a new owner:
 Dual Control
 ============
 
-In the `runDualControlTransfer` script, both the custodian and the owner of an account must
+In the ``runDualControlTransfer`` script, both the custodian and the owner of an account must
 authorize outgoing transfers (debits), while incoming transfers (credits) require no authorization.
 
 This script begins by setting up accounts accordingly and creating a transfer request instance:
 
 .. literalinclude:: ../../quickstart-finance/daml/Scripts/Transfer.daml
   :language: daml
-  :start-after: -- SETUP_DUAL_CONTROL_TRANSFER_BEGIN
-  :end-before: -- SETUP_DUAL_CONTROL_TRANSFER_END
+  :start-after: -- DUAL_CONTROL_SETUP_BEGIN
+  :end-before: -- DUAL_CONTROL_SETUP_END
 
 To execute the transfer, both the Bank and Alice must authorize:
 
@@ -86,13 +86,13 @@ To execute the transfer, both the Bank and Alice must authorize:
 Discretionary
 =============
 
-The `runDiscretionaryTransfer` script specifies that the custodian controls both incoming and
+The ``runDiscretionaryTransfer`` script specifies that the custodian controls both incoming and
 outgoing transfers:
 
 .. literalinclude:: ../../finance-settlement/daml/Scripts/Transfer.daml
   :language: daml
-  :start-after: -- SETUP_DISCRETIONARY_TRANSFER_BEGIN
-  :end-before: -- SETUP_DISCRETIONARY_TRANSFER_END
+  :start-after: -- DISCRETIONARY_SETUP_BEGIN
+  :end-before: -- DISCRETIONARY_SETUP_END
 
 Following the setup, the Bank can execute the transfer single-handedly:
 
@@ -104,12 +104,12 @@ Following the setup, the Bank can execute the transfer single-handedly:
 Sovereign
 =========
 
-In the `runSovereignTransfer` script, the owner controls both incoming and outgoing transfers:
+In the ``runSovereignTransfer`` script, the owner controls both incoming and outgoing transfers:
 
 .. literalinclude:: ../../finance-settlement/daml/Scripts/Transfer.daml
   :language: daml
-  :start-after: -- SETUP_SOVEREIGN_TRANSFER_BEGIN
-  :end-before: -- SETUP_SOVEREIGN_TRANSFER_END
+  :start-after: -- SOVEREIGN_SETUP_BEGIN
+  :end-before: -- SOVEREIGN_SETUP_END
 
 As Alice is the outgoing controller of the sending account, and Bob is the incoming controller of
 the receiving account, both need to authorize the transfer:
@@ -127,8 +127,8 @@ incoming transfers require no additional authorization:
 
 .. literalinclude:: ../../finance-settlement/daml/Scripts/Transfer.daml
   :language: daml
-  :start-after: -- SETUP_UNILATERAL_TRANSFER_BEGIN
-  :end-before: -- SETUP_UNILATERAL_TRANSFER_END
+  :start-after: -- UNILATERAL_SETUP_BEGIN
+  :end-before: -- UNILATERAL_SETUP_END
 
 Once the setup is complete, Alice can independently execute the transfer to Bob:
 
