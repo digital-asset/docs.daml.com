@@ -67,7 +67,7 @@ Dual Control
 ============
 
 In the `runDualControlTransfer` script, both the custodian and the owner of an account must
-authorize outgoing transfers, while incoming transfers require no authorization.
+authorize outgoing transfers (debits), while incoming transfers (credits) require no authorization.
 
 This script begins by setting up accounts accordingly and creating a transfer request instance:
 
