@@ -1,0 +1,162 @@
+{
+  "138" : {
+    "command" : "mediator1.mediator.initialize(domainId, MediatorId(domainId), domainParameters, sequencerConnections, None)",
+    "output" : "res20: PublicKey = SigningPublicKey(id = 1220189c84ae..., format = Tink, scheme = Ed25519)"
+  },
+  "120" : {
+    "command" : "domainManager1.topology.all.list().collectOfType[TopologyChangeOp.Positive].writeToFile(\"tmp/domain-bootstrapping-files/topology-transactions.proto\")",
+    "output" : ""
+  },
+  "84" : {
+    "command" : "val domainIdString = domainManager1.id.toProtoPrimitive",
+    "output" : "domainIdString : String = \"domainManager1::1220be641b8b69c9e56c6548ac78437f05e2fdc0be96df9a70dfe2e403d28da0de9b\""
+  },
+  "92" : {
+    "command" : "val domainId = DomainId.tryFromString(domainIdString)",
+    "output" : "domainId : DomainId = domainManager1::1220be641b8b..."
+  },
+  "129" : {
+    "command" : "sequencer1.initialization.bootstrap_topology(initialTopology)",
+    "output" : ""
+  },
+  "45" : {
+    "command" : "",
+    "output" : ""
+  },
+  "144" : {
+    "command" : "val sequencerConnection = SequencerConnections.tryReadFromFile(\"tmp/domain-bootstrapping-files/sequencer-connection.proto\")",
+    "output" : "sequencerConnection : SequencerConnections = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(\n  endpoints = http://127.0.0.1:30141,\n  transportSecurity = false,\n  customTrustCertificates = None()\n)"
+  },
+  "113" : {
+    "command" : "domainManager1.setup.helper.authorizeKey(mediatorKey, \"mediator1\", MediatorId(domainId))",
+    "output" : ""
+  },
+  "91" : {
+    "command" : "val domainParameters = com.digitalasset.canton.admin.api.client.data.StaticDomainParameters.tryReadFromFile(\"tmp/domain-bootstrapping-files/params.proto\")",
+    "output" : "domainParameters : StaticDomainParameters = StaticDomainParametersV1(\n  uniqueContractKeys = true,\n  requiredSigningKeySchemes = Set(Ed25519, ECDSA-P256, ECDSA-P384),\n  requiredEncryptionKeySchemes = Set(ECIES-P256_HMAC256_AES128-GCM),\n  requiredSymmetricKeySchemes = Set(AES128-GCM),\n  requiredHashAlgorithms = Set(Sha256),\n  requiredCryptoKeyFormats = Set(Tink),\n  protocolVersion = 4\n)"
+  },
+  "130" : {
+    "command" : "SequencerConnections.single(sequencer1.sequencerConnection).writeToFile(\"tmp/domain-bootstrapping-files/sequencer-connection.proto\")",
+    "output" : ""
+  },
+  "43" : {
+    "command" : "",
+    "output" : ""
+  },
+  "99" : {
+    "command" : "val sequencerPublicKey = SigningPublicKey.tryReadFromFile(\"tmp/domain-bootstrapping-files/seq1-key.proto\")",
+    "output" : "sequencerPublicKey : SigningPublicKey = SigningPublicKey(id = 122050ae909a..., format = Tink, scheme = Ed25519)"
+  },
+  "42" : {
+    "command" : "domainManager1.setup.bootstrap_domain(Seq(sequencer1), Seq(mediator1))",
+    "output" : ""
+  },
+  "24" : {
+    "command" : "",
+    "output" : ""
+  },
+  "25" : {
+    "command" : "sequencer1.health.initialized()",
+    "output" : "res2: Boolean = false"
+  },
+  "93" : {
+    "command" : "val initResponse = sequencer1.initialization.initialize_from_beginning(domainId, domainParameters)",
+    "output" : "initResponse : com.digitalasset.canton.domain.sequencing.admin.grpc.InitializeSequencerResponse = InitializeSequencerResponse(\n  keyId = \"sequencer-id\",\n  publicKey = SigningPublicKey(id = 122050ae909a..., format = Tink, scheme = Ed25519),\n  replicated = false\n)"
+  },
+  "152" : {
+    "command" : "participant1.health.ping(participant1)",
+    "output" : "res26: Duration = 948 milliseconds"
+  },
+  "28" : {
+    "command" : "",
+    "output" : ""
+  },
+  "137" : {
+    "command" : "val domainParameters = com.digitalasset.canton.admin.api.client.data.StaticDomainParameters.tryReadFromFile(\"tmp/domain-bootstrapping-files/params.proto\")",
+    "output" : "domainParameters : StaticDomainParameters = StaticDomainParametersV1(\n  uniqueContractKeys = true,\n  requiredSigningKeySchemes = Set(Ed25519, ECDSA-P256, ECDSA-P384),\n  requiredEncryptionKeySchemes = Set(ECIES-P256_HMAC256_AES128-GCM),\n  requiredSymmetricKeySchemes = Set(AES128-GCM),\n  requiredHashAlgorithms = Set(Sha256),\n  requiredCryptoKeyFormats = Set(Tink),\n  protocolVersion = 4\n)"
+  },
+  "33" : {
+    "command" : "domainManager1.health.wait_for_identity()",
+    "output" : ""
+  },
+  "128" : {
+    "command" : "",
+    "output" : ""
+  },
+  "105" : {
+    "command" : "mediator1.keys.secret.generate_signing_key(\"initial-key\").writeToFile(\"tmp/domain-bootstrapping-files/med1-key.proto\")",
+    "output" : ""
+  },
+  "44" : {
+    "command" : "",
+    "output" : ""
+  },
+  "27" : {
+    "command" : "domainManager1.health.initialized()",
+    "output" : "res3: Boolean = false"
+  },
+  "112" : {
+    "command" : "val domainId = DomainId.tryFromString(domainIdString)",
+    "output" : "domainId : DomainId = domainManager1::1220be641b8b..."
+  },
+  "145" : {
+    "command" : "domainManager1.setup.init(sequencerConnection)",
+    "output" : ""
+  },
+  "50" : {
+    "command" : "participant1.domains.connect_local(sequencer1)",
+    "output" : ""
+  },
+  "127" : {
+    "command" : "val initialTopology = com.digitalasset.canton.topology.store.StoredTopologyTransactions.tryReadFromFile(\"tmp/domain-bootstrapping-files/topology-transactions.proto\").collectOfType[TopologyChangeOp.Positive]",
+    "output" : "initialTopology : store.StoredTopologyTransactions[TopologyChangeOp.Positive] = Seq(\n  StoredTopologyTransaction(\n    sequenced = 2023-06-12T12:19:31.150925Z,\n    validFrom = 2023-06-12T12:19:31.150925Z,\n    validUntil = 2023-06-12T12:19:31.150925Z,\n    op = Add,\n.."
+  },
+  "26" : {
+    "command" : "",
+    "output" : ""
+  },
+  "114" : {
+    "command" : "domainManager1.topology.mediator_domain_states.authorize(TopologyChangeOp.Add, domainId, MediatorId(domainId), RequestSide.Both)",
+    "output" : "res13: com.google.protobuf.ByteString = <ByteString@227271fd size=560 contents=\"\\n\\255\\004\\n\\333\\001\\n\\326\\001\\n\\323\\001\\022 TJu4dWv2cpqPUOi2StZtQyuEE2BjPM0UR...\">"
+  },
+  "139" : {
+    "command" : "mediator1.health.wait_for_initialized()",
+    "output" : ""
+  },
+  "23" : {
+    "command" : "mediator1.health.initialized()",
+    "output" : "res1: Boolean = false"
+  },
+  "151" : {
+    "command" : "participant1.domains.connect_local(sequencer1)",
+    "output" : ""
+  },
+  "146" : {
+    "command" : "domainManager1.health.wait_for_initialized()",
+    "output" : ""
+  },
+  "51" : {
+    "command" : "participant1.health.ping(participant1)",
+    "output" : "res7: Duration = 5514 milliseconds"
+  },
+  "136" : {
+    "command" : "val sequencerConnections = SequencerConnections.tryReadFromFile(\"tmp/domain-bootstrapping-files/sequencer-connection.proto\")",
+    "output" : "sequencerConnections : SequencerConnections = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(\n  endpoints = http://127.0.0.1:30141,\n  transportSecurity = false,\n  customTrustCertificates = None()\n)"
+  },
+  "94" : {
+    "command" : "initResponse.publicKey.writeToFile(\"tmp/domain-bootstrapping-files/seq1-key.proto\")",
+    "output" : ""
+  },
+  "111" : {
+    "command" : "val mediatorKey = SigningPublicKey.tryReadFromFile(\"tmp/domain-bootstrapping-files/med1-key.proto\")",
+    "output" : "mediatorKey : SigningPublicKey = SigningPublicKey(id = 122097079077..., format = Tink, scheme = Ed25519)"
+  },
+  "83" : {
+    "command" : "domainManager1.service.get_static_domain_parameters.writeToFile(\"tmp/domain-bootstrapping-files/params.proto\")",
+    "output" : ""
+  },
+  "100" : {
+    "command" : "domainManager1.setup.helper.authorizeKey(sequencerPublicKey, \"sequencer\", SequencerId(domainManager1.id))",
+    "output" : ""
+  }
+}
