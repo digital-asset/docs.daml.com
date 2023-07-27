@@ -40,4 +40,13 @@ The following tutorials are available:
   basic :doc:`transfer <../getting-started/transfer>` tutorial from the getting-started section.
   Specifically, we explore how to configure the controllers that need to authorize incoming
   transfers (credits) and outgoing transfers (debits) to and from an account, respectively.
-* Internal Settlement
+* The :doc:`Internal Settlement <internal>` tutorial, an extension of the
+  basic :doc:`settlement <../getting-started/settlement>` getting-started tutorial, illustrates how
+  holdings can be transferred within a single custodian through a settlement workflow involving
+  batches and related instructions. The allocation process of such instructions involves methods for
+  committing a pre-existing holding (``Pledge``), a newly created holding (``CreditReceiver``), and
+  a holding received simultaneously (``PassThroughFrom``). The approval methods include taking
+  delivery of a holding to an account (``TakeDelivery``), immediately nullifying the holding
+  (``DebitSender``), and passing the holding through (as allocation) to another instruction
+  (``PassThroughTo``).
+
