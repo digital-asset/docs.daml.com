@@ -11,7 +11,7 @@ tutorial.
 We begin by understanding the simple form of settlement. It transpires when a customer's funds are
 transferred to another account within the same bank. Consequently, the sender's account is debited
 (balance decreases), and the recipient's account is credited (balance increases). This process is
-internally managed within the bank's systems and usually occurs instantly, as it doesn't require
+internally managed within the bank's systems and usually occurs instantly, as it does not require
 interaction with external systems or institutions.
 
 In Daml Finance, such fund transfers are not necessarily represented by a settlement workflow that
