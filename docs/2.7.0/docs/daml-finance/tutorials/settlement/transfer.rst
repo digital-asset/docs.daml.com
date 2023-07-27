@@ -71,14 +71,14 @@ authorize outgoing transfers (debits), while incoming transfers (credits) requir
 
 This script begins by setting up accounts accordingly and creating a transfer request instance:
 
-.. literalinclude:: ../../quickstart-finance/daml/Scripts/Transfer.daml
+.. literalinclude:: ../../finance-settlement/daml/Scripts/Transfer.daml
   :language: daml
   :start-after: -- DUAL_CONTROL_SETUP_BEGIN
   :end-before: -- DUAL_CONTROL_SETUP_END
 
 To execute the transfer, both the Bank and Alice must authorize:
 
-.. literalinclude:: ../../quickstart-finance/daml/Scripts/Transfer.daml
+.. literalinclude:: ../../finance-settlement/daml/Scripts/Transfer.daml
   :language: daml
   :start-after: -- DUAL_CONTROL_TRANSFER_BEGIN
   :end-before: -- DUAL_CONTROL_TRANSFER_END
