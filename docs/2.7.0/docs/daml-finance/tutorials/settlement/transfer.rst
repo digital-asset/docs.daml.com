@@ -5,7 +5,7 @@ Enhanced Transfers
 ##################
 
 In this tutorial, we delve deeper into the concepts that were introduced in our getting-started
-tutorials. In particular, we will extend on the :ref:`transfer <../getting-started/transfer>`
+tutorials. In particular, we will extend on the :doc:`transfer <../getting-started/transfer>`
 tutorial.
 
 We begin by understanding the simple form of settlement. It transpires when a customer's funds are
