@@ -44,9 +44,9 @@ controller settings:
 | runUnilateralTranser     | Anyone       | Owner                            |
 +--------------------------+--------------+----------------------------------+
 
-Each script begins by running a setup script ``runSetupTransferRequestWith`` that requests a transfer
-of a holding from Alice to Bob at the Bank. The setup script takes a configuration as input to
-set up Alice's and Bob's account controllers, as outlined in the table above.
+Each script begins by running a setup script ``runSetupTransferRequestWith`` that requests a
+transfer of a holding from Alice to Bob at the Bank. The setup script takes a configuration as input
+to set up Alice's and Bob's account controllers, as outlined in the table above.
 
 The last step of the setup script creates a transfer request of a holding from Alice to Bob:
 
