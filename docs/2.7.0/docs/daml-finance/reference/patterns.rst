@@ -42,7 +42,7 @@ create the new one, in order to issue the new instruments. However, the Daml cod
 could in principle stay untouched.
 
 For an example on where the Factory pattern is used, check out the
-:doc:`Holding tutorial <../tutorials/getting-started/holding>`.
+:doc:`Holdings tutorial <../tutorials/getting-started/holdings>`.
 
 .. _getview:
 

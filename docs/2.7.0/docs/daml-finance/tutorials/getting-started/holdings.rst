@@ -14,11 +14,6 @@ We are going to:
 #. issue a cash instrument
 #. credit a cash holding to Alice’s account
 
-We expect the reader to be familiar with the basic building blocks of Daml. If that is not the case,
-a suitable introduction can be found `here <https://www.digitalasset.com/developers/learn>`_.
-In particular, `An Introduction to Daml <https://docs.daml.com/daml/intro/0_Intro.html>`_
-would be a good starting point.
-
 Explanation of Holdings
 ***********************
 

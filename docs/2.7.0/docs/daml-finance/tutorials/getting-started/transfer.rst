@@ -13,7 +13,7 @@ Run the Transfer Script
 ***********************
 
 Let us now explore the ``Transfer`` script step-by-step. It builds on the previous
-:doc:`Holding <holding>` tutorial script in the sense that the same accounts and the existing
+:doc:`Holdings <holdings>` tutorial script in the sense that the same accounts and the existing
 holdings are used.
 
 Transfer Cash from Alice to Bob
