@@ -71,6 +71,8 @@ instrument (which includes coupon payments).
 The expectation is that customers define their own instruments suiting the use-case they are
 modeling.
 
+.. _holding-asset-model:
+
 Holding
 *******
 
@@ -250,7 +252,7 @@ Entity, a Securities Depository, and an Investor.
 
 The Issuing Entity acts as ``issuer`` of the :ref:`Equity Instrument
 <type-daml-finance-instrument-equity-instrument-instrument-90430>`. The Securities Depository acts
-as ``depository`` of the instrument, thus preventing the Issuing Entity from single-handledly
+as ``depository`` of the instrument, thus preventing the Issuing Entity from single-handedly
 modifying details of the instrument (such as the share's nominal value).
 
 The Institutional Investor holds units of shares against the Securities Depository, through

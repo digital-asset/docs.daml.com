@@ -250,18 +250,32 @@ Use the **user management service** to manage the set of users on a participant 
 their :ref:`access rights <authorization-claims>` to that node's Ledger API services
 and as the integration point for your organization's IAM (Identity and Access Management) framework.
 
-In contrast to parties, users are local to a participant node.
-The relation between a participant node's users and Daml parties is best understood by analogy to classical databases:
-a participant node's users are analogous to database users while Daml parties are analogous to database roles; and further, the rights granted to a user are analogous to the user's assigned database roles.
+Daml 2.0 introduced the concept of the user in Daml. While a party represents a single individual with a single set of rights and is universal across participant nodes, a user is local to a specific participant node. Each user is typically associated with a primary party and is given the right to act as or read as other parties. Every participant node will maintain its own mapping from its user ids to the parties that they can act and/or read as. Also, when used, the user's ids will serve as application ids. Thus, participant users can be used to manage the permissions of Daml applications (i.e. to authorize applications to read as or act as certain parties). Unlike a JWT token-based system, the user management system does not limit the number of parties that the user can act or read as.
 
-For more information, consult the :ref:`the API reference documentation <com.daml.ledger.api.v1.admin.UserManagementService>` for how to list, create, update and delete users and their rights.
-See the :ref:`UserManagementFeature descriptor <com.daml.ledger.api.v1.UserManagementFeature>` to learn about limits of the user management service, e.g., the maximum number of rights per user.
+The relation between a participant node's users and Daml parties is best understood by analogy to classical databases: a participant node's users are analogous to database users while Daml parties are analogous to database roles. Further, the rights granted to a user are analogous to the user's assigned database roles.
+
+For more information, consult the :ref:`the API reference documentation <com.daml.ledger.api.v1.admin.UserManagementService>` for how to list, create, update, and delete users and their rights.
+See the :ref:`UserManagementFeature descriptor <com.daml.ledger.api.v1.UserManagementFeature>` to learn about the limits of the user management service, e.g., the maximum number of rights per user.
 The feature descriptor can be retrieved using the :ref:`Version service <version-service>`.
 
 With user management enabled you can use both new user-based and old custom Daml authorization tokens.
-Read the :doc:`Authorization documentation </app-dev/authorization>` to understand how Ledger API requests are authorized, and how to use user management to dynamically change an application's rights.
+Consult the :doc:`Authorization documentation </app-dev/authorization>` to understand how Ledger API requests are authorized, and how to use user management to dynamically change an application's rights.
 
 User management is available in Canton-enabled drivers and not yet available in the Daml for VMware Blockchain driver.
+
+
+.. _identity-provider-config-service:
+
+Identity Provider Config Service
+================================
+
+Use **identity provider config service** to define and manage the parameters of an external IDP systems configured to issue tokens for a participant node.
+
+The **identity provider config service** makes it possible for participant node administrators to set up and manage additional identity providers at runtime. This allows using access tokens from identity providers unknown at deployment time. When an identity provider is configured, independent IDP administrators can manage their own set of parties and users.
+
+Such parties and users have a matching identity_provider_id defined and are inaccessible to administrators from other identity providers. A user will only be authenticated if the corresponding JWT token is issued by the appropriate identity provider. Users and parties without identity_provider_id defined are assumed to be using the default identity provider, which is configured statically when the participant node is deployed.
+
+For full details, see :ref:`the proto documentation for the service <com.daml.ledger.api.v1.admin.IdentityProviderConfigService>`.
 
 .. _package-service:
 

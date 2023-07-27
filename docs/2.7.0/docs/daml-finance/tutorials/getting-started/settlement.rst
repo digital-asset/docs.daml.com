@@ -56,7 +56,7 @@ We first give a quick outline of the settlement process:
 +--------------------+-----------------------------------------------------------------------------+
 | 4. Settle the      | A :ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>`   |
 |    batch           | contract is used to settle all instructions atomically according to the     |
-|                    | specified preferences (e.g. by transfering all allocated holdings to the    |
+|                    | specified preferences (e.g. by transferring all allocated holdings to the   |
 |                    | corresponding receiving accounts).                                          |
 |                    |                                                                             |
 |                    | This batch contract is created in step 2, together with the settlement      |
@@ -80,7 +80,7 @@ proposal, we need to instantiate two contracts:
 
 1. :ref:`Route Provider <type-daml-finance-interface-settlement-routeprovider-routeprovider-53805>`
 
-   .. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Settlement.daml
+   .. literalinclude:: ../../quickstart-finance/daml/Scripts/Settlement.daml
      :language: daml
      :start-after: -- ROUTE_PROVIDER_BEGIN
      :end-before: -- ROUTE_PROVIDER_END
@@ -92,7 +92,7 @@ proposal, we need to instantiate two contracts:
 
 2. :ref:`Settlement Factory <type-daml-finance-interface-settlement-factory-factory-31525>`
 
-   .. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Settlement.daml
+   .. literalinclude:: ../../quickstart-finance/daml/Scripts/Settlement.daml
      :language: daml
      :start-after: -- SETTLEMENT_FACTORY_BEGIN
      :end-before: -- SETTLEMENT_FACTORY_END
@@ -102,14 +102,14 @@ proposal, we need to instantiate two contracts:
 
 Bob creates a ``Dvp.Proposal`` template to propose the exchange of the ``TOKEN`` against ``USD``.
 
-.. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Settlement.daml
+.. literalinclude:: ../../quickstart-finance/daml/Scripts/Settlement.daml
   :language: daml
   :start-after: -- DVP_PROPOSE_BEGIN
   :end-before: -- DVP_PROPOSE_END
 
 Alice then accepts the proposal, agreeing to the terms of the trade.
 
-.. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Settlement.daml
+.. literalinclude:: ../../quickstart-finance/daml/Scripts/Settlement.daml
   :language: daml
   :start-after: -- DVP_ACCEPT_BEGIN
   :end-before: -- DVP_ACCEPT_END
@@ -122,7 +122,7 @@ Once the proposal is accepted, three contracts are created:
 
 The workflow to create these contracts makes use of the route provider and the settlement factory.
 
-.. literalinclude:: /_templates/quickstart-finance/daml/Workflow/DvP.daml
+.. literalinclude:: ../../quickstart-finance/daml/Workflow/DvP.daml
   :language: daml
   :start-after: -- INSTRUCT_BEGIN
   :end-before: -- INSTRUCT_END
@@ -130,7 +130,7 @@ The workflow to create these contracts makes use of the route provider and the s
 As a next step, Alice allocates her ``TOKEN`` holding to the corresponding instruction. Bob then
 approves the instruction specifying the receiving account.
 
-.. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Settlement.daml
+.. literalinclude:: ../../quickstart-finance/daml/Scripts/Settlement.daml
   :language: daml
   :start-after: -- ALLOCATE_APPROVE_BEGIN
   :end-before: -- ALLOCATE_APPROVE_END
@@ -140,7 +140,7 @@ provides the receiving account).
 
 Now that all instructions are fully allocated and approved, they can finally be settled.
 
-.. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Settlement.daml
+.. literalinclude:: ../../quickstart-finance/daml/Scripts/Settlement.daml
   :language: daml
   :start-after: -- SETTLE_BEGIN
   :end-before: -- SETTLE_END
@@ -191,6 +191,16 @@ choice on the :ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97
 
 In principle, a different settler could be chosen. The choice of a settler is usually quite
 delicate, as this party acquires visibility on the entire transaction and hence needs to be trusted.
+
+What if one party wants to cancel the settlement?
+=================================================
+
+The parties who sign the
+:ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>` contract (the requestors)
+can exercise the ``Cancel`` choice of the
+:ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>` to cancel all associated
+:ref:`Instructions <type-daml-finance-interface-settlement-instruction-instruction-30569>`
+atomically.
 
 Summary
 *******

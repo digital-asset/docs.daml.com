@@ -156,13 +156,6 @@ subtrees:
                 title: "Logging"
               - file: json-api/production-setup/metrics
                 title: "Metrics"
-      - file: daml/resource-management/index
-        subtrees:
-        - hidden: False
-          titlesonly: True
-          entries:
-          - file: daml/resource-management/latency-and-throughput
-          - file: daml/resource-management/active-contract-set
       - file: app-dev/ledger-api
         title: "Build Integration with the Ledger API"
         subtrees:
@@ -211,9 +204,8 @@ subtrees:
                 title: "Authorization"
             - file: tools/auth-middleware/index
               title: "Auth Middleware"
-              entries:
-              - file: tools/auth-middleware/oauth2
-                title: "OAuth 2.0 Auth Middleware"
+            - file: tools/auth-middleware/oauth2
+              title: "OAuth 2.0 Auth Middleware"
       - file: create-daml-apps/off-ledger/errors/index
         title: "Handle Errors"
         subtrees:
@@ -225,16 +217,30 @@ subtrees:
       - file: app-dev/authorization
         title: "Authorization"
       - file: app-dev/explicit-contract-disclosure
-        title: "Explicit Contract Disclosure (Experimental)"
-      - file: upgrade/index
-        title: "Upgrading and Extending Daml Applications"
-        entries:
-        - file: upgrade/extend
-          title: "Extending Daml Applications"
-        - file: upgrade/upgrade
-          title: "Upgrading Daml Applications"
-        - file: upgrade/automation
-          title: "Automating the Upgrade Process"
+        title: "Explicit Contract Disclosure (Alpha)"
+  - file: daml/resource-management/index
+    subtrees:
+    - hidden: False
+      titlesonly: True
+      entries:
+      - file: daml/resource-management/latency-and-throughput
+      - file: daml/resource-management/contention-avoiding
+        subtrees:
+        - hidden: False
+          titlesonly: True
+          entries:
+          - file: daml/resource-management/contention-reducing.rst
+          - file: daml/resource-management/contention-techniques.rst
+      - file: daml/resource-management/active-contract-set
+  - file: upgrade/index
+    title: "Upgrading and Extending Daml Applications"
+    entries:
+    - file: upgrade/extend
+      title: "Extending Daml Applications"
+    - file: upgrade/upgrade
+      title: "Upgrading Daml Applications"
+    - file: upgrade/automation
+      title: "Automating the Upgrade Process"
   - file: create-daml-apps/developer-tools/index
     title: "Developer Tools"
     subtrees:
@@ -296,6 +302,21 @@ subtrees:
         title: "Lifecycling"
       - file: daml-finance/concepts/contingent-claims
         title: "Contingent Claims"
+  - file: daml-finance/instruments/intro
+    title: "Instruments"
+    subtrees:
+    - hidden: False
+      titlesonly: True
+      maxdepth: 1
+      entries:
+      - file: daml-finance/instruments/bond-extension
+        title: "Bond Extension"
+      - file: daml-finance/instruments/equity-extension
+        title: "Equity Extension"
+      - file: daml-finance/instruments/option-extension
+        title: "Option Extension"
+      - file: daml-finance/instruments/swap-extension
+        title: "Swap Extension"
   - file: daml-finance/packages/index
     title: "Packages"
     subtrees:
@@ -312,16 +333,58 @@ subtrees:
           entries:
           - file: daml-finance/packages/interfaces/daml-finance-interface-holding
             title: "Daml.Finance.Interface.Holding"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-holding.rst
+                title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-account
             title: "Daml.Finance.Interface.Account"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-account.rst
+                title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-settlement
             title: "Daml.Finance.Interface.Settlement"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-settlement.rst
+                title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-lifecycle
             title: "Daml.Finance.Interface.Lifecycle"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-lifecycle.rst
+                title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-base
             title: "Daml.Finance.Interface.Instrument.Base"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-instrument-base.rst
+                title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-claims
             title: "Daml.Finance.Interface.Claims"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-claims.rst
+                title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-data
             title: "Daml.Finance.Interface.Data"
             subtrees:
@@ -333,6 +396,13 @@ subtrees:
                 title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-types-common
             title: "Daml.Finance.Interface.Types.Common"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-types-common.rst
+                title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-types-date
             title: "Daml.Finance.Interface.Types.Date"
             subtrees:
@@ -344,8 +414,22 @@ subtrees:
                 title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-util
             title: "Daml.Finance.Interface.Util"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-util.rst
+                title: "Changelog"
           - file: daml-finance/packages/interfaces/contingent-claims-core
             title: "ContingentClaims.Core"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/interfaces/changelogs/contingent-claims-core.rst
+                title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-bond
             title: "Daml.Finance.Interface.Instrument.Bond"
             subtrees:
@@ -357,10 +441,31 @@ subtrees:
                 title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-equity
             title: "Daml.Finance.Interface.Instrument.Equity"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-instrument-equity.rst
+                title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-generic
             title: "Daml.Finance.Interface.Instrument.Generic"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-instrument-generic.rst
+                title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-option
             title: "Daml.Finance.Interface.Instrument.Option"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-instrument-option.rst
+                title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-swap
             title: "Daml.Finance.Interface.Instrument.Swap"
             subtrees:
@@ -372,6 +477,13 @@ subtrees:
                 title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-token
             title: "Daml.Finance.Interface.Instrument.Token"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-instrument-token.rst
+                title: "Changelog"
       - file: daml-finance/packages/implementations/index
         title: "Implementation Packages"
         subtrees:
@@ -444,8 +556,22 @@ subtrees:
                 title: "Changelog"
           - file: daml-finance/packages/implementations/contingent-claims-lifecycle
             title: "ContingentClaims.Lifecycle"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/implementations/changelogs/contingent-claims-lifecycle.rst
+                title: "Changelog"
           - file: daml-finance/packages/implementations/contingent-claims-valuation
             title: "ContingentClaims.Valuation"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/implementations/changelogs/contingent-claims-valuation.rst
+                title: "Changelog"
           - file: daml-finance/packages/implementations/daml-finance-instrument-bond
             title: "Daml.Finance.Instrument.Bond"
             subtrees:
@@ -475,6 +601,13 @@ subtrees:
                 title: "Changelog"
           - file: daml-finance/packages/implementations/daml-finance-instrument-option
             title: "Daml.Finance.Instrument.Option"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/implementations/changelogs/daml-finance-instrument-option.rst
+                title: "Changelog"
           - file: daml-finance/packages/implementations/daml-finance-instrument-swap
             title: "Daml.Finance.Instrument.Swap"
             subtrees:
@@ -503,23 +636,23 @@ subtrees:
       - file: daml-finance/tutorials/getting-started/intro
         title: "Getting Started"
         entries:
+        - file: daml-finance/tutorials/getting-started/holding
+          title: "Holding"
         - file: daml-finance/tutorials/getting-started/transfer
           title: "Transfer"
         - file: daml-finance/tutorials/getting-started/settlement
           title: "Settlement"
         - file: daml-finance/tutorials/getting-started/lifecycling
           title: "Lifecycling"
-      - file: daml-finance/tutorials/instrument-extension-packages/intro
-        title: "Instrument Extensions Packages"
+      - file: daml-finance/tutorials/lifecycling/intro
+        title: "Lifecycling"
         entries:
-        - file: daml-finance/tutorials/instrument-extension-packages/bond-extension
-          title: "How to Use the Bond Extension Package"
-        - file: daml-finance/tutorials/instrument-extension-packages/option-extension
-          title: "How To Use the Option Extension Package"
-        - file: daml-finance/tutorials/instrument-extension-packages/swap-extension
-          title: "How To Use the Swap Extension Package"
-        - file: daml-finance/tutorials/instrument-extension-packages/equity-extension
-          title: "How To Model and Lifecycle Equity Instruments"
+        - file: daml-finance/tutorials/lifecycling/fixed-rate-bond
+          title: "Time-based lifecycling (using a fixed rate bond)"
+        - file: daml-finance/tutorials/lifecycling/floating-rate-bond
+          title: "Observations (using a floating rate bond)"
+        - file: daml-finance/tutorials/lifecycling/callable-bond
+          title: "Election-based lifecycling (using a callable bond)"
       - file: daml-finance/tutorials/payoff-modeling/intro
         title: "Payoff Modeling"
         entries:
@@ -542,6 +675,8 @@ subtrees:
       entries:
       - file: daml-finance/reference/glossary
         title: "Glossary"
+      - file: daml-finance/reference/patterns
+        title: "Patterns"
       - file: daml-finance/reference/code-documentation/daml-finance-rst/index
         title: "Daml Finance"
         subtrees:
@@ -575,6 +710,8 @@ subtrees:
             title: "Daml.Finance.Claims.Util"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Claims-Util-Builders
             title: "Daml.Finance.Claims.Util.Builders"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Claims-Util-Date
+            title: "Daml.Finance.Claims.Util.Date"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Claims-Util-Lifecycle
             title: "Daml.Finance.Claims.Util.Lifecycle"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-Numeric-Observation
@@ -629,6 +766,10 @@ subtrees:
             title: "Daml.Finance.Instrument.Generic.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Generic-Lifecycle-Rule
             title: "Daml.Finance.Instrument.Generic.Lifecycle.Rule"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-BarrierEuropeanCash-Factory
+            title: "Daml.Finance.Instrument.Option.BarrierEuropeanCash.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-BarrierEuropeanCash-Instrument
+            title: "Daml.Finance.Instrument.Option.BarrierEuropeanCash.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-Dividend-Factory
             title: "Daml.Finance.Instrument.Option.Dividend.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-Dividend-Instrument
@@ -671,8 +812,6 @@ subtrees:
             title: "Daml.Finance.Instrument.Swap.InterestRate.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-InterestRate-Instrument
             title: "Daml.Finance.Instrument.Swap.InterestRate.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Util
-            title: "Daml.Finance.Instrument.Swap.Util"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Token-Factory
             title: "Daml.Finance.Instrument.Token.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Token-Instrument
@@ -717,8 +856,6 @@ subtrees:
             title: "Daml.Finance.Interface.Instrument.Bond.Callable.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-Callable-Types
             title: "Daml.Finance.Interface.Instrument.Bond.Callable.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-Callable-BondTypes
-            title: "Daml.Finance.Interface.Instrument.Bond.Callable.BondTypes"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-FixedRate-Factory
             title: "Daml.Finance.Interface.Instrument.Bond.FixedRate.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-FixedRate-Instrument
@@ -743,6 +880,8 @@ subtrees:
             title: "Daml.Finance.Interface.Instrument.Bond.ZeroCoupon.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-ZeroCoupon-Types
             title: "Daml.Finance.Interface.Instrument.Bond.ZeroCoupon.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-Types
+            title: "Daml.Finance.Interface.Instrument.Bond.Types"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Equity-Factory
             title: "Daml.Finance.Interface.Instrument.Equity.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Equity-Instrument
@@ -751,14 +890,18 @@ subtrees:
             title: "Daml.Finance.Interface.Instrument.Generic.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Generic-Instrument
             title: "Daml.Finance.Interface.Instrument.Generic.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-BarrierEuropeanCash-Factory
+            title: "Daml.Finance.Interface.Instrument.Option.BarrierEuropeanCash.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-BarrierEuropeanCash-Instrument
+            title: "Daml.Finance.Interface.Instrument.Option.BarrierEuropeanCash.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-BarrierEuropeanCash-Types
+            title: "Daml.Finance.Interface.Instrument.Option.BarrierEuropeanCash.Types"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Dividend-Factory
             title: "Daml.Finance.Interface.Instrument.Option.Dividend.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Dividend-Instrument
             title: "Daml.Finance.Interface.Instrument.Option.Dividend.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Dividend-Types
             title: "Daml.Finance.Interface.Instrument.Option.Dividend.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Dividend-Election
-            title: "Daml.Finance.Interface.Instrument.Option.Dividend.Election"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Dividend-Election-Factory
             title: "Daml.Finance.Interface.Instrument.Option.Dividend.Election.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-EuropeanCash-Factory
@@ -958,12 +1101,12 @@ subtrees:
             title: "Ethereum Domain"
   - file: deploy-daml/infrastructure-architecture/high-availability/main-menu
     subtrees:
-    - hidden: True
+    - hidden: False
       titlesonly: True
       entries:
       - file: deploy-daml/infrastructure-architecture/high-availability/basic-ha/intro
         subtrees:
-        - hidden: True
+        - hidden: False
           titlesonly: True
           entries:
           - file: deploy-daml/infrastructure-architecture/high-availability/basic-ha/overview
@@ -971,7 +1114,7 @@ subtrees:
           - file: deploy-daml/infrastructure-architecture/high-availability/basic-ha/domain
       - file: deploy-daml/infrastructure-architecture/high-availability/production
         subtrees:
-        - hidden: True
+        - hidden: False
           titlesonly: True
           entries:
           - file: deploy-daml/infrastructure-architecture/high-availability/ha-and-scaling/introduction
@@ -1004,10 +1147,10 @@ subtrees:
   - file: canton/usermanual/monitoring
     title: "Monitoring Best Practices"
     entries:
-    - file: ops/common-metrics
-      title: "Common Metrics"
     - file: canton/usermanual/example_monitoring_setup
       title: "Example Monitoring Setup"
+    - file: canton/usermanual/monitoring_glossary
+      title: "Glossary"
   - file: canton/usermanual/identity_management
     title: "Identity Management"
   - file: operate-a-daml-ledger/common-tasks/index
@@ -1056,7 +1199,7 @@ subtrees:
 - caption: "Help"
   entries:
 
-  - file: canton/usermanual/error_codes.rst
+  - file: canton/reference/error_codes
     title: "Error Codes"
   - file: daml/troubleshooting
     title: "Troubleshooting"
@@ -1263,7 +1406,7 @@ subtrees:
         - file: canton/architecture/research
           title: "Research Publications"
         - file: canton/architecture/security
-          title: "Security"
+          title: "Security Architecture"
         - file: ops/system_architecture_faq
           title: "System Architecture FAQ"
       - file: canton/usermanual/FAQ
@@ -1276,11 +1419,5 @@ subtrees:
 
   - file: concepts/interoperability
     title: "Daml Ledger Interoperability"
-  - file: tools/export/index
-    title: "Ledger Export"
   - file: tools/non-repudiation
     title: "Non-repudiation"
-  - file: tools/visual
-    title: "Visualizing Daml Contracts"
-  - file: app-dev/custom-views/index
-    title: "Custom Views"

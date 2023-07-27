@@ -381,7 +381,7 @@ Where:
 
 See the following blog post for more details about error handling best practices: `REST API Error Codes 101 <https://blog.restcase.com/rest-api-error-codes-101/>`_.
 
-See :doc:`The Ledger API error codes </canton/usermanual/error_codes>` for more details about error codes from Ledger API.
+See :doc:`The Ledger API error codes </canton/reference/error_codes>` for more details about error codes from Ledger API.
 
 Successful Response, HTTP Status: 200 OK
 ========================================

@@ -3,11 +3,15 @@
 
 .. _explicit-contract-disclosure:
 
-Explicit Contract Disclosure (Experimental)
+Explicit Contract Disclosure (Alpha)
 ###########################################
 
-Canton 2.7 introduces explicit contract disclosure as a feature
-that allows you to seamlessly delegate contract read rights to a non-stakeholder using off-ledger data distribution.
+In Daml, you must specify upfront who can view data using `observer` annotations on contracts. To change who can see the data, you would typically need to rewrite the contract (eg an asset) with a new annotation. Canton 2.7 introduces explicit contract disclosure as a feature that allows you to seamlessly delegate contract read rights to a non-stakeholder using off-ledger data distribution. This supports efficient, scalable data sharing on the ledger. 
+
+Here are some use cases that illustrate how you might benefit from explicit contract disclosure:
+
+- You want to provide proof of the price data for a stock transaction. Instead of subscribing to price updates and potentially being inundated with thousands of price updates every minute, you could serve the price data though a traditional Web 2.0 API. You can then use that API to feed only the current price back into the ledger at the time of use. You still get the same validation and security, but reduce the amount of data being transferred manyfold.
+- You want to run an open market on ledger. Rather than making all bids and asks explicitly visible to all marketplace users, you serve market data though standard Web 2.0 APIs. At the point of use, the available bids and asks are fed back into the transactions to get the same activeness and correctness guarantees that would be provided had they been shared though the observer mechanism.
 
 Toggle the ``explicit-disclosure-unsafe`` flag in the participant configuration as shown below
 to use disclosed contracts in command submission by means of explicit contract disclosure.

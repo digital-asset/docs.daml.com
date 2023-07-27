@@ -4,8 +4,8 @@
 Daml.Finance.Lifecycle
 ######################
 
-This package contains the *implementation* of lifecycle related processes. It contains the
-following modules:
+This package contains the *implementation* of lifecycle related processes. It contains the following
+modules:
 
 - :ref:`Effect <module-daml-finance-lifecycle-effect-1975>`:
   A contract encoding the *consequences of a lifecycle event* for one unit of the target
@@ -35,11 +35,11 @@ Check out the :doc:`Lifecycling tutorial <../../tutorials/getting-started/lifecy
 description on how lifecycling works in practice, including how to
 :ref:`Claim <type-daml-finance-interface-lifecycle-rule-claim-claim-29284>` an
 :ref:`Effect <type-daml-finance-interface-lifecycle-effect-effect-69649>`.
-There is also the tutorial :doc:`How to implement a Contingent Claims-based instrument <../../tutorials/advanced-topics/instrument-modeling/contingent-claims-instrument>`,
+There is also the tutorial
+:doc:`How to implement a Contingent Claims-based instrument <../../tutorials/advanced-topics/instrument-modeling/contingent-claims-instrument>`,
 which describes how to create an
 :ref:`Effect <type-daml-finance-interface-lifecycle-effect-effect-69649>`.
-For a description of ``Distribution`` and
-``Replacement``, check out the
+For a description of ``Distribution`` and ``Replacement``, check out the
 `Instrument/Equity/Test <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Equity/Test>`_
 folder. It demonstrates how to create and lifecycle a cash dividend, and how to handle corporate
 actions like mergers and stock splits.

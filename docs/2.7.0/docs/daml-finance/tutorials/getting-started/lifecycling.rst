@@ -59,14 +59,14 @@ Then we create a new version of the *token* instrument, which is required for de
 distribution event. This is what the instrument holders will receive when processing the lifecycle
 event later in the tutorial.
 
-.. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Lifecycling.daml
+.. literalinclude:: ../../quickstart-finance/daml/Scripts/Lifecycling.daml
   :language: daml
   :start-after: -- NEW_VERSION_BEGIN
   :end-before: -- NEW_VERSION_END
 
 Next, we create two lifecycle rules:
 
-.. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Lifecycling.daml
+.. literalinclude:: ../../quickstart-finance/daml/Scripts/Lifecycling.daml
   :language: daml
   :start-after: -- LIFECYCLE_RULES_BEGIN
   :end-before: -- LIFECYCLE_RULES_END
@@ -80,14 +80,14 @@ Next, we create two lifecycle rules:
 
 We then create a distribution event describing the terms of the dividend to be paid.
 
-.. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Lifecycling.daml
+.. literalinclude:: ../../quickstart-finance/daml/Scripts/Lifecycling.daml
   :language: daml
   :start-after: -- CREATE_EVENT_BEGIN
   :end-before: -- CREATE_EVENT_END
 
 Now we can process the distribution event using the distribution rule.
 
-.. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Lifecycling.daml
+.. literalinclude:: ../../quickstart-finance/daml/Scripts/Lifecycling.daml
   :language: daml
   :start-after: -- LIFECYCLE_EVENT_BEGIN
   :end-before: -- LIFECYCLE_EVENT_END
@@ -96,7 +96,7 @@ The result of this is an effect describing the per-unit asset movements to be ex
 holders. Each holder can now present their holding to *claim* the effect and instruct settlement of
 the associated entitlements.
 
-.. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Lifecycling.daml
+.. literalinclude:: ../../quickstart-finance/daml/Scripts/Lifecycling.daml
   :language: daml
   :start-after: -- CLAIM_EVENT_BEGIN
   :end-before: -- CLAIM_EVENT_END
@@ -108,7 +108,7 @@ In our example of a cash dividend, only a single instruction is generated: the m
 the bank to the token holder. This instruction along with its batch is settled the usual way, as
 described in the previous :doc:`Settlement <settlement>` tutorial.
 
-.. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Lifecycling.daml
+.. literalinclude:: ../../quickstart-finance/daml/Scripts/Lifecycling.daml
   :language: daml
   :start-after: -- EFFECT_SETTLEMENT_BEGIN
   :end-before: -- EFFECT_SETTLEMENT_END
@@ -144,6 +144,28 @@ process up to the implementation.
 * The party executing settlement can be chosen as well, as described in the previous tutorial on
   :doc:`Settlement <settlement>`.
 
+Which party should take the role as *lifecycler*?
+=================================================
+
+From a design perspective, a lifecycler is often the party that defines the lifecycle events
+happening on an instrument (although they can be different). In the simplified example above, it is
+the bank. In a more realistic example, it would probably be the issuer.
+In some special cases, if we really need the owner to be the lifecycler, we can use a delegation
+contract.
+
+The lifecycler is currently trusted with:
+
+* Timely and complete Event processing
+* Providing accurate Observations
+
+Which party is the provider of the Effect?
+==========================================
+
+Most of the time the provider of the Effect is the lifecycler. However, in some cases we may want to
+avoid disclosing the claimed holdings to the lifecycler. The provider of the Effect gets to see all
+holdings claimed against that one Effect contract. If we wish to avoid that, we then need a
+different effect provider.
+
 Can an instrument act as its own lifecycle rule?
 ================================================
 
@@ -158,6 +180,16 @@ out into rule contracts:
   distributions. Then, at a later point, the issuer might decide to start paying dividends. They can
   now simply add a distribution rule to the running system to enable this new lifecycle event for
   their instrument without affecting the actual live instrument itself (or any holdings on it).
+
+Can I integrate a holding ownership change (of the target instrument) within lifecycling?
+=========================================================================================
+
+Lifecycling will not change the ownership of the target instrument. You should use the
+:doc:`Transfer <transfer>` pattern to do a delivery-versus-payment as a separate step from the
+lifecycling.
+
+However, there usually is a change of ownership of the other consumed/produced instruments when
+lifecycling (e.g. when paying out a dividend cash is moved from one party to another).
 
 Summary
 *******

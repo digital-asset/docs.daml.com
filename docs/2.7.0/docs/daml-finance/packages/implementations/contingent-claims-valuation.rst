@@ -13,3 +13,6 @@ to facilitate integration with pricing and risk frameworks. The following module
   representation
 - :ref:`MathML <module-contingentclaims-valuation-mathml-30102>`: Typeclass definition to map an
   expression in the MathML presentation format
+
+Changelog
+*********

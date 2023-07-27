@@ -11,3 +11,6 @@ utility functions. They are defined in these modules:
   An interface for managing the visibility of contracts for non-authorizing parties
 - :ref:`Common <module-daml-finance-interface-util-common-43703>`:
   Different utility functions related to interfaces and assertions
+
+Changelog
+*********

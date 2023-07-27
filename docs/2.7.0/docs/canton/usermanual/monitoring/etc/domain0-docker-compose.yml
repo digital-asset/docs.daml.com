@@ -1,0 +1,19 @@
+
+services:
+  domain0:
+    image: digitalasset/canton-open-source:2.5.1
+    container_name: domain0
+    hostname: domain0
+    volumes:
+      - ./domain0.conf:/canton/etc/domain0.conf
+    command: daemon --log-profile container --config etc/domain0.conf
+    expose:
+      - "10018"
+      - "10019"
+      - "10020"
+    ports:
+      - "10018:10018"    
+      - "10019:10019"    
+      - "10020:10020"    
+
+

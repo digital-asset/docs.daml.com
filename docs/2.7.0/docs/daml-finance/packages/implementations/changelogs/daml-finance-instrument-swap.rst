@@ -4,6 +4,18 @@
 Daml.Finance.Instrument.Swap - Changelog
 ########################################
 
+Version 0.3.0
+*************
+
+- Update of SDK version and dependencies
+
+- The `Create` choice on the instrument factories returns the corresponding interface (rather than the base instrument interface)
+
+- Make use of the `requires` keyword to enforce the interface hierarchy (in particular the `asDisclosure` and
+  `asBaseInstrument` implementations were removed)
+
+- `FpmlSwap` now accepts a non-zero rate fixing lag
+
 Version 0.2.1
 *************
 

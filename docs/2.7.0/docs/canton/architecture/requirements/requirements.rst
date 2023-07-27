@@ -1,9 +1,7 @@
 ..
-     Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates
+   Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates.
 ..
-    
-..
-     Proprietary code. All rights reserved.
+   Proprietary code. All rights reserved.
 
 .. _requirements:
 
@@ -129,9 +127,6 @@ and design limitations :ref:`later in the section
   can resend change requests in case of a restart without adding the
   changes to the ledger twice.
 
-  .. todo::
-      #. `Change request deduplication / disaster recovery <https://github.com/DACH-NY/canton/issues/156>`_
-
   .. _bounded-decision-time-hlreq:
 
 * **Bounded decision time**. I want to be able to learn within some
@@ -178,7 +173,7 @@ and design limitations :ref:`later in the section
   of the validity requirement on the shared ledger can be violated for
   contracts with no honestly represented signatories, even if I am an observer on the contract.
 
-  .. 
+  ..
      **Exception 2**: The aspects :ref:`key uniqueness <contract-key-uniqueness>` and :ref:`key assertion validity <contract-key-assertion-validity>`
      of the validity requirement on the shared ledger can be violated for
      keys with no honestly represented maintainers, even if I am a non-maintainer stakeholder of contracts with that key.
@@ -333,7 +328,7 @@ and design limitations :ref:`later in the section
 
   .. _seek-support-for-notifications-hlreq:
 
-* **Seek support for notifications**. I want to be able to receive 
+* **Seek support for notifications**. I want to be able to receive
   notifications (about ledger changes and about the decisions on
   my change requests) only from a particular known offset, so that I can
   synchronize my application state with the set of active contracts on
@@ -381,7 +376,7 @@ therefore the Daml compiler will not emit an error or warning if a resource limi
   **Definition:** The maximum number of levels (except for the top-level) in a transaction tree.
 
   **Example:** The following transaction has a depth of 2:
-  
+
   .. image:: ./images/action-structure-paint-offer.svg
      :align: left
      :width: 70%
@@ -446,12 +441,12 @@ section <requirements-exceptions>`.
   action (according to the ledger privacy model) may learn the following:
 
   * How deeply lies the action within a ledger commit.
-    
+
   * How many sibling actions each parent action has.
-    
+
   * The transaction identifiers (but not the transactions' contents)
     that have created the contracts used by the action.
-  
+
   **Design limitation 2**: Domain entities operated by trusted third
   parties may learn the hierarchical structure and stakeholders of all
   actions of the ledger (but none of the contents of the contracts,
@@ -894,7 +889,7 @@ section <requirements-exceptions>`.
   .. todo::
     #. `Large transaction support <https://github.com/DACH-NY/canton/issues/210>`_.
 
-.. _resilience-to-erronous-behavior-hlreq:
+.. _resilience-to-erroneous-behavior-hlreq:
 
 * **Resilience to erroneous behavior**. I want that the system
   to be resilient against erroneous behavior of users and participants
@@ -903,7 +898,7 @@ section <requirements-exceptions>`.
   This item is scheduled on the roadmap.
 
   .. todo::
-    #. `Resilience to errorenous behaviour <https://github.com/DACH-NY/canton/issues/211>`_.
+    #. `Resilience to erroneous behaviour <https://github.com/DACH-NY/canton/issues/211>`_.
 
 .. _resilience-to-faulty-domain-behavior-hlreq:
 

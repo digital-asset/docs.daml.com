@@ -13,7 +13,7 @@ in the following modules:
 - :ref:`Factory <module-daml-finance-instrument-generic-factory-42712>`:
   Factory implementation to instantiate generic instruments
 - :ref:`Lifecycle.Rule <module-daml-finance-instrument-generic-lifecycle-rule-68537>`:
-  Rule to process a time update event for generic instruments
+  Rule to process a lifecycle event for generic instruments
 
 The tutorial :doc:`How To Model and Lifecycle Generic Instruments <../../tutorials/payoff-modeling/generic-extension>`
 describes how a :doc:`Contingent Claims <../../concepts/contingent-claims>` payoff is defined and

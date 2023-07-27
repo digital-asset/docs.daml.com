@@ -6,6 +6,9 @@ Daml.Finance.Interface.Types.Common
 
 This package contains common type definitions. They are defined in the following modules:
 
-- :ref:`Common <module-daml-finance-interface-types-common-types-55444>`:
+- :ref:`Types <module-daml-finance-interface-types-common-types-55444>`:
   Various types related to keys, observers, parties, identifiers and quantities, which are
   commonly used in several packages
+
+Changelog
+*********

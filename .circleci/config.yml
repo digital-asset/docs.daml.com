@@ -151,6 +151,27 @@ jobs:
              --run bash \<<'EOF'
              set -euo pipefail
 
+             DIR=$(pwd)
+
+             to_version_json_format() (
+                 sed 's/\(.*\)/"\1"/' | jq -sc '[.[] | {(.): .} ] | add'
+             )
+             make_hidden() (
+                 $DIR/bin/list-hidden-versions | to_version_json_format
+             )
+             make_dropdown() (
+                 dev=$(cd docs; echo * | tr ' ' '\n' | sort -V | tail -1)
+                 cat $DIR/dropdown_versions \
+                  | to_version_json_format
+                  #\
+                  #| jq --arg dev "$dev" \
+                  #     '
+                  #     .
+                  #     | to_entries
+                  #     | [.[0], {"key": $dev, "value": ($dev + " preview")}] + .[1:]
+                  #     | from_entries'
+             )
+
              root=$(cat root)
              cd docs
              for v in *; do
@@ -173,8 +194,8 @@ jobs:
              sha=$(git log -n1 --format=%H docs/$root)
              upload=$(mktemp -d)
              echo $sha > $upload/sha
-             cat dropdown_versions | sed 's/\(.*\)/"\1"/' | jq -sc '[.[] | {(.): .} ] | add' > $upload/versions.json
-             bin/list-hidden-versions | sed 's/\(.*\)/"\1"/' | jq -sc '[.[] | {(.): .} ] | add' > $upload/snapshots.json
+             make_dropdown > $upload/versions.json
+             make_hidden > $upload/snapshots.json
              if [ "$(curl -s https://docs.daml.com/sha)" = "$sha" ]; then
                  echo "root is up-to-date ($root, $sha)."
                  for f in snapshots versions; do
@@ -192,7 +213,7 @@ jobs:
                  echo "updating root to $root (sha: $sha)"
                  echo " -> creating local folder"
                  tar xf /tmp/workspace/html-$root.tar.gz -C $upload --strip-components=1
-                 cat dropdown_versions | sed 's/\(.*\)/"\1"/' | jq -sc '[.[] | {(.): .} ] | add' > $upload/versions.json
+                 make_dropdown > $upload/versions.json
                  echo -n $(cat root) > $upload/latest
                  echo " -> removing old version"
                  for f in $(aws s3 ls s3://docs-daml-com/ \

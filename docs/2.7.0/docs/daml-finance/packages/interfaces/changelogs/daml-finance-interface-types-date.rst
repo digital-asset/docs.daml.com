@@ -4,6 +4,11 @@
 Daml.Finance.Interface.Types.Date - Changelog
 #############################################
 
+Version 2.0.1
+*************
+
+- Update of SDK version and dependencies
+
 Version 2.0.0
 *************
 

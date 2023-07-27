@@ -8,3 +8,6 @@ This package contains the *root interface* for all instruments. It contains the 
 
 - :ref:`Instrument <module-daml-finance-interface-instrument-base-instrument-57320>`:
   Root instrument abstraction containing basic properties that every instrument exhibits
+
+Changelog
+*********

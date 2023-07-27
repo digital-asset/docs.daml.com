@@ -11,21 +11,21 @@ Key Concepts
 Daml
 ====
 
-Daml is a platform for building and running sophisticated, multi-party applications. At its core, it contains a smart contract `language <#daml-language>`__ and `tooling <#developer-tools>`__ 
-that defines the schema, semantics, and execution of transactions between parties. Daml includes `Canton <#canton-ledger>`__, a privacy-enabled distributed ledger that is enhanced when deployed 
+Daml is a platform for building and running sophisticated, multi-party applications. At its core, it contains a smart contract `language <#daml-language>`__ and `tooling <#developer-tools>`__
+that defines the schema, semantics, and execution of transactions between parties. Daml includes `Canton <#canton-ledger>`__, a privacy-enabled distributed ledger that is enhanced when deployed
 with complementary blockchains.
 
 Daml Language
 =============
 
-The Daml language is a purpose-built language for rapid development of composable multi-party applications. It is a modern, ergonomically designed functional language that carefully avoids many 
+The Daml language is a purpose-built language for rapid development of composable multi-party applications. It is a modern, ergonomically designed functional language that carefully avoids many
 of the pitfalls that hinder multi-party application development in other languages.
 
 Daml Ledger
 ===========
 
 A Daml ledger is a distributed ledger system running `Daml smart contracts <#contract>`__ according to the :doc:`Daml ledger model </concepts/ledger-model/index>` and exposes the Daml Ledger APIs.
-All current implementations of Daml ledgers consist of a Daml driver that utilises an underlying Synchronization Technology to either implement the Daml ledger directly, or to run the Canton protocol.
+All current implementations of Daml ledgers consist of a Daml driver that utilizes an underlying Synchronization Technology to either implement the Daml ledger directly, or to run the Canton protocol.
 
 Canton Ledger
 -------------
@@ -35,7 +35,7 @@ A Canton ledger is a privacy-enabled Daml ledger implemented using the Canton ap
 Canton Protocol
 ===============
 
-The Canton protocol is the technology which synchronizes `participant nodes <#participant-node>`__ across any Daml-enabled blockchain or database.  The Canton protocol not only makes Daml 
+The Canton protocol is the technology which synchronizes `participant nodes <#participant-node>`__ across any Daml-enabled blockchain or database.  The Canton protocol not only makes Daml
 applications portable between different underlying `synchronization technologies <#synchronization-technology>`__, but also allows applications to transact with each other across them.
 
 .. Synchronization technology.  Not 'Environment', 'Infrastructure layer', 'Messaging layer', 'Topology layer', 'Underlying <enter-any-previous-term>'
@@ -43,13 +43,13 @@ applications portable between different underlying `synchronization technologies
 Synchronization Technology
 ==========================
 
-The syncronization technology is the database or blockchain that Daml uses for synchronization, messaging, and topology. Daml runs on a range of synchronization technologies, from centralized 
+The synchronization technology is the database or blockchain that Daml uses for synchronization, messaging, and topology. Daml runs on a range of synchronization technologies, from centralized
 databases to fully distributed deployments, and users can employ the technology that best suits their technical and operational needs.
 
 Daml Drivers
 ============
 
-Daml drivers enable a `ledger <#daml-ledger>`__ to be implemented on top of different `synchronization technologies <#synchronization-technology>`__; a database or distributed ledger technology. 
+Daml drivers enable a `ledger <#daml-ledger>`__ to be implemented on top of different `synchronization technologies <#synchronization-technology>`__; a database or distributed ledger technology.
 
 Daml Language Concepts
 **********************
@@ -96,7 +96,7 @@ For full documentation on choices, see :doc:`/daml/reference/choices`.
 Consuming Choice
 ----------------
 
-A **consuming choice** means that, when the choices is exercised, the `contract <#contract>`__ it is on will be `archived <#active-contract-archived-contract>`__. The alternative is a `nonconsuming choice <#nonconsuming-choice>`__.
+A **consuming choice** means that, when the choice is exercised, the `contract <#contract>`__ it is on will be `archived <#active-contract-archived-contract>`__. The alternative is a `nonconsuming choice <#nonconsuming-choice>`__.
 
 Consuming choices can be `preconsuming <#preconsuming-choice>`__ or `postconsuming <#postconsuming-choice>`__.
 
@@ -206,10 +206,10 @@ A Daml update is the composition of update actions created with one of the items
      - ``k -> Update (Optional (ContractId c))``
      - All key maintainers
 
-At runtime, the Daml execution engine computes the required authorizing parties from this mapping. It also computes which parties have given authorization to the update in question. A party is giving authorization to an update in one of two ways:
+At runtime, the Daml execution engine computes the required authorizing parties from this mapping. It also computes which parties have given authorization to the update in question. A party gives authorization to an update in one of two ways:
 
 - It is the signatory of the contract that contains the update action.
-- It is element of the controllers executing the choice containing the update action.
+- It is an element of the controllers executing the choice containing the update action.
 
 Only if all required parties have given their authorization to an update action, the update action is well-authorized and therefore executed. A missing authorization leads to the abortion of the update action and the failure of the containing transaction.
 
@@ -225,7 +225,7 @@ For documentation, see :doc:`/daml/stdlib/index`.
 Agreement
 =========
 
-An **agreement** is part of a `contract <#contract>`__. It is text that explains what the contract represents.
+An **agreement** is part of a `contract <#contract>`__. It is the text that explains what the contract represents.
 
 It can be used to clarify the legal intent of a contract, but this text isn't evaluated programmatically.
 
@@ -276,7 +276,7 @@ See :ref:`testing-using-script`.
 Contract Key
 ============
 
-A **contract key** allows you to uniquely identify a `contract <#contract>`__ of a particular `template <#template>`__, similarly to a primary key in a database table.
+A **contract key** allows you to uniquely identify a `contract <#contract>`__ of a particular `template <#template>`__, similar to a primary key in a database table.
 
 A contract key requires a `maintainer <#maintainer>`__: a simple key would be something like a tuple of text and maintainer, like ``(accountId, bank)``.
 
@@ -342,14 +342,14 @@ Building Applications
 Application, Ledger Client, Integration
 =======================================
 
-**Application**, **ledger client** and **integration** are all terms for an application that sits on top of the `ledger <#daml-ledger>`__. These usually `read from the ledger <#reading-from-the-ledger>`_, `send commands <#submitting-commands-writing-to-the-ledger>`__ to the ledger, or both.
+**Application**, **ledger client**, and **integration** are all terms for an application that sits on top of the `ledger <#daml-ledger>`__. These usually `read from the ledger <#reading-from-the-ledger>`_, `send commands <#submitting-commands-writing-to-the-ledger>`__ to the ledger, or both.
 
 There's a lot of information available about application development, starting with the :doc:`/app-dev/app-arch` page.
 
 Ledger API
 ==========
 
-The **Ledger API** is an API that's exposed by any `ledger <#daml-ledger>`__ on a participant node. Users access and manipulate the ledger state through the leger API.
+The **Ledger API** is an API that's exposed by any `ledger <#daml-ledger>`__ on a participant node. Users access and manipulate the ledger state through the Ledger API.
 An alternative name for the Ledger API is the **gRPC Ledger API** if disambiguation from other technologies is needed.
 See :doc:`/app-dev/ledger-api` page.
 It includes the following :doc:`services </app-dev/services>`.
@@ -438,13 +438,13 @@ A **command** is an instruction to add a transaction to the `ledger <#daml-ledge
 Participant Node
 ================
 
-The participant node is a server that provides users a consistent programmatic access to a ledger through the `Ledger API <#ledger-api>`__. The participant nodes handles transaction signing and 
+The participant node is a server that provides users with consistent programmatic access to a ledger through the `Ledger API <#ledger-api>`__. The participant nodes handle transaction signing and
 validation, such that users don't have to deal with cryptographic primitives but can trust the participant node that the data they are observing has been properly verified to be correct.
 
 Sub-transaction Privacy
 =======================
 
-Sub-transaction privacy is where participants to a transaction only `learn about the subset of the transaction <https://docs.daml.com/concepts/ledger-model/ledger-privacy.html>`__ they are 
+Sub-transaction privacy is where participants in a transaction only `learn about the subset of the transaction <https://docs.daml.com/concepts/ledger-model/ledger-privacy.html>`__ they are
 directly involved in, but not about any other part of the transaction. This applies to both the content of the transaction as well as other involved participants.
 
 Daml-LF
@@ -461,7 +461,7 @@ As a user, you don't need to interact with Daml-LF directly. But internally, it'
 Composability
 =============
 
-Composability is the ability of a participant to extend an existing system with new Daml applications or new topologies unilaterally without requiring cooperation from anyone except the 
+Composability is the ability of a participant to extend an existing system with new Daml applications or new topologies unilaterally without requiring cooperation from anyone except the
 directly involved participants who wish to be part of the new application functionality.
 
 .. _trust-domain:
@@ -480,6 +480,7 @@ Canton Concepts
 
 Sync Domain
 ===========
+
 
 The synchronization (sync) domain provides total ordered, guaranteed delivery multi-cast to the participants. This means that participant nodes communicate with each other by sending end-to-end encrypted messages 
 through the sync domain. 

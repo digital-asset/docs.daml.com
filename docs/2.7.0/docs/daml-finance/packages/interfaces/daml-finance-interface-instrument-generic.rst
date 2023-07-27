@@ -11,3 +11,6 @@ It contains the following modules:
   Instrument interface for generic instruments
 - :ref:`Factory <module-daml-finance-interface-instrument-generic-factory-11761>`:
   Factory interface to instantiate generic instruments
+
+Changelog
+*********

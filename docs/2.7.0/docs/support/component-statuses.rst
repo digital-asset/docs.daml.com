@@ -280,9 +280,6 @@ Developer Tools
    * - Daml Documentation Generation (``daml damlc docs``)
      - Labs
      -
-   * - :doc:`Daml Model Visualization </tools/visual>` (``daml damlc visual`` and ``daml damlc visual-web``)
-     - Labs
-     -
    * - ``daml doctest``
      - Labs
      -
@@ -306,9 +303,6 @@ Developer Tools
      -
    * - ``daml script`` :doc:`CLI to run Scripts against live ledgers. </daml-script/index>`
      - Stable
-     -
-   * - ``daml ledger export script`` :doc:`CLI extract Daml Script from ledgers. </tools/export/index>`
-     - Alpha
      -
    * - **Navigator**
      -

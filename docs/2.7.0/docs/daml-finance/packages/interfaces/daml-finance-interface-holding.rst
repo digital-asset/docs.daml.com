@@ -14,8 +14,7 @@ modules:
 - :ref:`Fungible <module-daml-finance-interface-holding-fungible-63712>`:
   Interface for a fungible holding which allows splitting and merging
 - :ref:`Transferable <module-daml-finance-interface-holding-transferable-88121>`:
-  Interface for a transferable holding, i.e., where ownership can be transferred to other
-  parties
+  Interface for a transferable holding, i.e., where ownership can be transferred to other parties
 - :ref:`Util <module-daml-finance-interface-holding-util-81618>`:
   Utility functions related to holdings, e.g., getting the amount or the instrument of a holding
 
@@ -28,3 +27,6 @@ The following diagram shows the incoming and outgoing dependencies for this pack
 
 .. image:: ../../images/daml_finance_interface_holding.png
    :alt: A diagram showing the incoming and outgoing dependencies of the package.
+
+Changelog
+*********
