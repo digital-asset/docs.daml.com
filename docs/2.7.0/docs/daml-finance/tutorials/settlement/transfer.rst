@@ -19,7 +19,7 @@ involves allocating and approving instructions. Instead, a "direct" transfer of 
 between two parties, such as Alice and Bob. This transfer debits the sending account and atomically
 credits the receiving account.
 
-Next, we'll explore how to configure controllers responsible for authorizing incoming and outgoing
+Next, we will explore how to configure the controllers responsible for authorizing incoming and outgoing
 transfers of holdings to an account.
 
 Configuring Account Controllers
