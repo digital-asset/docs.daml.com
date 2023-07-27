@@ -50,7 +50,7 @@ set up Alice's and Bob's account controllers, as outlined in the table above.
 
 The last step of the setup script creates a transfer request of a holding from Alice to Bob:
 
-.. literalinclude:: ../../settlement/daml/Scripts/Transfer.daml
+.. literalinclude:: ../../finance-settlement/daml/Scripts/Transfer.daml
   :language: daml
   :start-after: -- SETUP_TRANSFER_REQUEST_BEGIN
   :end-before: -- SETUP_TRANSFER_REQUEST_END
@@ -58,7 +58,7 @@ The last step of the setup script creates a transfer request of a holding from A
 The transfer `Request` template is designed for the stepwise collection of the necessary
 authorizations for transferring a holding to a new owner:
 
-.. literalinclude:: ../../settlement/daml/Workflow/Request.daml
+.. literalinclude:: ../../finance-settlement/daml/Workflow/Request.daml
   :language: daml
   :start-after: -- TRANSFER_REQUEST_BEGIN
   :end-before: -- TRANSFER_REQUEST_END
@@ -89,14 +89,14 @@ Discretionary
 The `runDiscretionaryTransfer` script specifies that the custodian controls both incoming and
 outgoing transfers:
 
-.. literalinclude:: ../../quickstart-finance/daml/Scripts/Transfer.daml
+.. literalinclude:: ../../finance-settlement/daml/Scripts/Transfer.daml
   :language: daml
   :start-after: -- SETUP_DISCRETIONARY_TRANSFER_BEGIN
   :end-before: -- SETUP_DISCRETIONARY_TRANSFER_END
 
 Following the setup, the Bank can execute the transfer single-handedly:
 
-.. literalinclude:: ../../quickstart-finance/daml/Scripts/Transfer.daml
+.. literalinclude:: ../../finance-settlement/daml/Scripts/Transfer.daml
   :language: daml
   :start-after: -- DISCRETIONARY_TRANSFER_BEGIN
   :end-before: -- DISCRETIONARY_TRANSFER_END
@@ -106,7 +106,7 @@ Sovereign
 
 In the `runSovereignTransfer` script, the owner controls both incoming and outgoing transfers:
 
-.. literalinclude:: ../../quickstart-finance/daml/Scripts/Transfer.daml
+.. literalinclude:: ../../finance-settlement/daml/Scripts/Transfer.daml
   :language: daml
   :start-after: -- SETUP_SOVEREIGN_TRANSFER_BEGIN
   :end-before: -- SETUP_SOVEREIGN_TRANSFER_END
@@ -114,7 +114,7 @@ In the `runSovereignTransfer` script, the owner controls both incoming and outgo
 As Alice is the outgoing controller of the sending account, and Bob is the incoming controller of
 the receiving account, both need to authorize the transfer:
 
-.. literalinclude:: ../../quickstart-finance/daml/Scripts/Transfer.daml
+.. literalinclude:: ../../finance-settlement/daml/Scripts/Transfer.daml
   :language: daml
   :start-after: -- SOVEREIGN_TRANSFER_BEGIN
   :end-before: -- SOVEREIGN_TRANSFER_END
@@ -125,14 +125,14 @@ Unilateral
 In our final example script, `runUnilateralTransfer`, the owner controls outgoing transfers, while
 incoming transfers require no additional authorization:
 
-.. literalinclude:: ../../quickstart-finance/daml/Scripts/Transfer.daml
+.. literalinclude:: ../../finance-settlement/daml/Scripts/Transfer.daml
   :language: daml
   :start-after: -- SETUP_UNILATERAL_TRANSFER_BEGIN
   :end-before: -- SETUP_UNILATERAL_TRANSFER_END
 
 Once the setup is complete, Alice can independently execute the transfer to Bob:
 
-.. literalinclude:: ../../quickstart-finance/daml/Scripts/Transfer.daml
+.. literalinclude:: ../../finance-settlement/daml/Scripts/Transfer.daml
   :language: daml
   :start-after: -- UNILATERAL_TRANSFER_BEGIN
   :end-before: -- UNILATERAL_TRANSFER_END
