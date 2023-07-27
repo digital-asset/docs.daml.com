@@ -36,7 +36,8 @@ Next Steps
 
 The following tutorials are available:
 
-* The :doc:`Enhance Transfers <transfer>` tutorial builds upon the
+* The :doc:`Enhanced Transfers <transfer>` tutorial builds upon the
   basic :doc:`transfer <../getting-started/transfer>` tutorial from the getting-started section.
   Specifically, we explore how to configure the controllers that need to authorize incoming
   transfers (credits) and outgoing transfers (debits) to and from an account, respectively.
+* Internal Settlement
