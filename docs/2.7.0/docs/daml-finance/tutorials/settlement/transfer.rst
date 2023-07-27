@@ -35,7 +35,7 @@ controller settings:
 | Script                   | Incoming     | Outgoing                         |
 |                          | Controllers  | Controllers                      |
 +==========================+==============+==================================+
-| runDualControlTransfer   | Anyone       | Both (owner and custodian) |
+| runDualControlTransfer   | Anyone       | Both (owner and custodian)       |
 |                          |              |                                  |
 | runDiscretionaryTran     | Custodian    | Custodian                        |
 |                          |              |                                  |

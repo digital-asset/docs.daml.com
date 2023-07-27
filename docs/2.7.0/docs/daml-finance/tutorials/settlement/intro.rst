@@ -34,7 +34,7 @@ On Windows-based systems execute:
 Next Steps
 **********
 
-The following tutorial is available:
+The following tutorials are available:
 
 * The :doc:`Enhance Transfers <transfer>` tutorial builds upon the
   basic :doc:`transfer <../getting-started/transfer>` tutorial from the getting-started section.
