@@ -7,7 +7,7 @@ Internal Settlement
 This tutorial builds upon the concepts introduced in the
 :doc:`Settlement <../getting-started/settlement>` getting-started tutorial. Compared to our previous
 :doc:`Enhanced Transfers <transfer>` tutorial, which demonstrated the "direct" transfer of a holding
-between sender to receiver (at a single custodian), it delves further into the settlement mechanism
+from sender to receiver (at a single custodian), it delves further into the settlement mechanism
 with a batch and related instructions. This intricate process enables the adjustment of record books
 across multiple entities and instrument holdings simultaneously.
 
