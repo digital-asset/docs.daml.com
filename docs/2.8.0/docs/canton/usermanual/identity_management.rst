@@ -467,6 +467,24 @@ If you want to prevent a user from accessing the ledger API it may be better to 
 
 .. _canton-add-party-to-a-participant:
 
+
+Configure a default Participant Admin
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Fresh participant nodes come with a default participant admin user called ``participant_admin``, which
+can be used to bootstrap other users.
+You might prefer to have an admin user with a different user id ready on a participant startup.
+For such situations, you can specify an additional participant admin user with the user id of your choice.
+
+.. note:: If a user with the specified id already exists, then no additional user will be created,
+          even if the preexisting user was not an admin user.
+
+.. code-block:: none
+   :caption: additional-admin.conf
+
+   canton.participants.myparticipant.ledger-api.user-management-service.additional-admin-user-id = "my-admin-id"
+
+
 Adding a new Party to a Participant
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The simplest operation is adding a new party to a participant. For this, we add it normally at the topology manager

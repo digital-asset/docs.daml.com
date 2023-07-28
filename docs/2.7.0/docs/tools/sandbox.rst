@@ -53,68 +53,13 @@ authorization service and the path to the certificate.
        //   jwt-rs-256-crt
        //   jwt-es-256-crt
        //   jwt-es-512-crt
+       //   jwt-rs-256-jwks with an additional url
+       //   unsafe-jwt-hmac-256 with an additional secret
        type = jwt-rs-256-crt
        certificate = my-certificate.cert
    }]
 
-- ``jwt-rs-256-crt``.
-  The sandbox will expect all tokens to be signed with RS256 (RSA Signature with SHA-256) with the public key loaded from the given X.509 certificate file.
-  Both PEM-encoded certificates (text files starting with ``-----BEGIN CERTIFICATE-----``)
-  and DER-encoded certificates (binary files) are supported.
-
-- ``jwt-es-256-crt``.
-  The sandbox will expect all tokens to be signed with ES256 (ECDSA using P-256 and SHA-256) with the public key loaded from the given X.509 certificate file.
-  Both PEM-encoded certificates (text files starting with ``-----BEGIN CERTIFICATE-----``)
-  and DER-encoded certificates (binary files) are supported.
-
-- ``jwt-es-512-crt``.
-  The sandbox will expect all tokens to be signed with ES512 (ECDSA using P-521 and SHA-512) with the public key loaded from the given X.509 certificate file.
-  Both PEM-encoded certificates (text files starting with ``-----BEGIN CERTIFICATE-----``)
-  and DER-encoded certificates (binary files) are supported.
-
-Instead of specifying the path to a certificate, you can also a
-`JWKS <https://tools.ietf.org/html/rfc7517>`__ URL. In that case, the
-sandbox will expect all tokens to be signed with RS256 (RSA Signature
-with SHA-256) with the public key loaded from the given JWKS URL.
-
-.. code-block:: none
-   :caption: auth.conf
-
-   canton.participants.sandbox.ledger-api.auth-services = [{
-       type = jwt-rs-256-jwks
-       url = "https://path.to/jwks.key"
-   }]
-
-.. warning::
-
-  For testing purposes only, you can also specify a shared secret. In
-  that case, the sandbox will expect all tokens to be signed with
-  HMAC256 with the given plaintext secret. This is not considered safe for production.
-
-.. code-block:: none
-   :caption: auth.conf
-
-   canton.participants.sandbox.ledger-api.auth-services = [{
-       type = unsafe-jwt-hmac-256
-       secret = "not-safe-for-production"
-   }]
-
-.. note:: To prevent man-in-the-middle attacks, it is highly recommended to use
-          TLS with server authentication as described in :ref:`sandbox-tls` for
-          any request sent to the Ledger API in production.
-
-Fresh participant nodes come with a default participant admin user called ``participant_admin``, which
-can be used to bootstrap other users.
-You might prefer to have an admin user with a different user id ready on a participant startup.
-For such situations, you can specify an additional participant admin user with the user id of your choice.
-
-.. note:: If a user with the specified id already exists, then no additional user will be created,
-          even if the preexisting user was not an admin user.
-
-.. code-block:: none
-   :caption: additional-admin.conf
-
-   canton.participants.sandbox.ledger-api.user-management-service.additional-admin-user-id = "my-admin-id"
+The settings under ``auth-services`` are described in detail in `API configuration documentation </canton/usermanual/apis.html#jwt-authorization>`__
 
 
 Generate JSON Web Tokens (JWT)
