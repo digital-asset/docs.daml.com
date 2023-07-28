@@ -10,14 +10,13 @@ Fabric Domain
 
 The Canton-on-Fabric integration runs a Canton domain where events are sequenced using the `Hyperledger Fabric <https://hyperledger-fabric.readthedocs.io/en/latest/whatis.html>`_ ledger.
 
-
 Tutorial
 --------
 
 To run the demo Canton Fabric deployment, you will need access to the following:
 
 
-- a Daml Enterprise release for access to the example files and the Canton binary
+- to a Daml Enterprise with drivers release for access to the example files and the Canton binary
 - :ref:`Canton Enterprise docker repository <docker-instructions>` access, in order to obtain the Canton docker image
 
 Also make sure to have docker and docker-compose installed.
