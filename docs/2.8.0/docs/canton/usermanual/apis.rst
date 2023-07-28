@@ -141,33 +141,31 @@ group starts with ``ledger-api`` instead of ``admin-api``.
 JWT Authorization
 ^^^^^^^^^^^^^^^^^
 
-The Ledger Api supports `JWT <https://jwt.io/>`_ based authorization checks. Please consult the
-`Daml SDK manual <https://docs.daml.com/tools/sandbox.html#sandbox-authorization>`_
-to understand the various configuration options and their security aspects. Canton exposes precisely the same
-JWT authorization options as explained therein.
+The Ledger Api supports `JWT <https://jwt.io/>`_ based authorization checks as described in the
+:doc:`Authorization documentation </app-dev/authorization>`.
 
 In order to enable JWT authorization checks, your safe configuration options are
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/03-advanced-configuration/api/jwt/certificate.conf
 
 - ``jwt-rs-256-crt``.
-  The sandbox will expect all tokens to be signed with RS256 (RSA Signature with SHA-256) with the public key loaded from the given X.509 certificate file.
+  The participant will expect all tokens to be signed with RS256 (RSA Signature with SHA-256) with the public key loaded from the given X.509 certificate file.
   Both PEM-encoded certificates (text files starting with ``-----BEGIN CERTIFICATE-----``)
   and DER-encoded certificates (binary files) are supported.
 
 - ``jwt-es-256-crt``.
-  The sandbox will expect all tokens to be signed with ES256 (ECDSA using P-256 and SHA-256) with the public key loaded from the given X.509 certificate file.
+  The participant will expect all tokens to be signed with ES256 (ECDSA using P-256 and SHA-256) with the public key loaded from the given X.509 certificate file.
   Both PEM-encoded certificates (text files starting with ``-----BEGIN CERTIFICATE-----``)
   and DER-encoded certificates (binary files) are supported.
 
 - ``jwt-es-512-crt``.
-  The sandbox will expect all tokens to be signed with ES512 (ECDSA using P-521 and SHA-512) with the public key loaded from the given X.509 certificate file.
+  The participant will expect all tokens to be signed with ES512 (ECDSA using P-521 and SHA-512) with the public key loaded from the given X.509 certificate file.
   Both PEM-encoded certificates (text files starting with ``-----BEGIN CERTIFICATE-----``)
   and DER-encoded certificates (binary files) are supported.
 
 Instead of specifying the path to a certificate, you can also a
 `JWKS <https://tools.ietf.org/html/rfc7517>`__ URL. In that case, the
-sandbox will expect all tokens to be signed with RS256 (RSA Signature
+participant will expect all tokens to be signed with RS256 (RSA Signature
 with SHA-256) with the public key loaded from the given JWKS URL.
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/03-advanced-configuration/api/jwt/jwks.conf
