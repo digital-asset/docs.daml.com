@@ -26,7 +26,7 @@ Prerequisites
 ^^^^^^^^^^^^^
 
 To run the demo, you will need access
-to a Daml Enterprise with drivers release, the
+to a Daml Enterprise release with drivers, the
 :ref:`Canton docker repository <docker-instructions>`, as well as having docker, docker-compose, and Hyperledger Besu
 (`instructions here <https://besu.hyperledger.org/en/stable/HowTo/Get-Started/Installation-Options/Install-Binaries>`_)
 installed.
@@ -36,7 +36,7 @@ Introduction
 ^^^^^^^^^^^^
 
 The demo Ethereum deployment can be found inside the examples
-directory of the Canton Drivers release. Unpack the Canton Drivers release
+directory of the Daml Enterprise release with drivers. Unpack the Canton Drivers release
 and then ``cd`` into ``examples/e03-ethereum-sequencer``.
 
 The script ``./run.sh`` from the folder ``examples``
@@ -254,7 +254,21 @@ Manual deployment
 If you want to manually deploy ``Sequencer.sol`` to your Ethereum network, the file
 ``<<canton-drivers-release>>/examples/e03-ethereum-sequencer/qbft-testnet/Sequencer.bin-runtime``
 contains the compiled Solidity code you need to deploy. For Besu, for example, you will need to specify the contents of ``Sequencer.bin-runtime`` in ``"code": "..."`` as documented `here <https://besu.hyperledger.org/stable/private-networks/how-to/configure/contracts>`_.
-This can also be seen in the ``generate-testnet.sh``. When code is added to the genesis block, the constructor is not used to initiate, so we need to do values instanced with ``"storage": "..."``.
+This can also be seen in the ``generate-testnet.sh``.
+
+When a contract is deployed using the ``genesis.json`` the constructor is never called. Therefore any variables initialized as part of the construct needs to be set using the ``"storage": "..."``.
+
+.. code-block:: none
+
+    "alloc": {
+         "0x0af0238112db255e1a2c8a6c1cd4e122c56bbc38": {
+               "code": "'"$contractCode"'",
+               "storage": {
+                "4": "0x312e302e3100000000000000000000000000000000000000000000000000000a"
+               }
+         }
+
+the above alloc block from the ``genesis.json`` deploys the contract code and initializes any fields needed.
 
 Requirements for the Ethereum Network
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
