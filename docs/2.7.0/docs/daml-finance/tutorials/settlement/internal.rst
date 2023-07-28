@@ -42,7 +42,7 @@ The approval methods entail taking delivery of a holding to an account (``TakeDe
 immediately nullifying the holding (``DebitSender``), and passing the holding through (as
 allocation) to another instruction (``PassThroughTo``).
 
-Each script kicks off with ``runSetupInternalSettlement`` which initiates parties, an instrument
+Each script kicks off with ``runSetupInternalSettlement`` which initiates parties, a cash instrument
 issued by the Central Bank, accounts for Alice, Bob, and Charlie at a Bank, and a settlement
 factory:
 
