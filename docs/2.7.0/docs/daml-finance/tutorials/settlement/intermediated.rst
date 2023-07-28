@@ -51,7 +51,7 @@ These steps are converted into a batch and instructions:
 
 .. literalinclude:: ../../finance-settlement/daml/Scripts/Intermediated.daml
   :language: daml
-  :start-after: -- WRAPPED_TRANSFERS_INSTRUCT_START
+  :start-after: -- WRAPPED_TRANSFERS_INSTRUCT_BEGIN
   :end-before: -- WRAPPED_TRANSFERS_INSTRUCT_END
 
 The following diagram visualizes this pre- and post-settlement of the batch, where ``>`` signifies
