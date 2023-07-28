@@ -16,7 +16,7 @@ This tutorial features two example scripts, ``runWrappedTransfersSettlement`` an
 custodians.
 
 Each script commences with ``runSetupIntermediatedSettlement``, initiating parties, establishing an
-instrument issued by the Central Bank, and setting up an account hierarchy rooted in the Central
+instrument issued by the Central Bank, and setting up an account hierarchy rooted at the Central
 Bank. This hierarchy includes two custodian banks, Bank1 and Bank2, and their respective clients
 Alice, Bob, and Charlie. Holdings are created for Alice@Bank1, Bank1@CentralBank, and Charlie@Bank2:
 
