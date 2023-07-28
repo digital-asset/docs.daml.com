@@ -98,7 +98,7 @@ and approving, debiting the sender and crediting the receiver, respectively:
   :end-before: -- CREDIT_DEBIT_SETTLE_END
 
 We could have made the Bank approve and allocate its instructions by taking delivery to an account
-it owns and pledging a holding where it acts as the custodian. However, this would necessitate
+it owns and pledging a holding where it acts as the custodian. However, this would require the creation of
 "dummy" accounts and holdings, which can be avoided using the ``DebitSender`` and ``CreditReceiver``
 methods. These methods are exclusively accessible to the custodian.
 
