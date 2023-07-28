@@ -19,7 +19,7 @@ incorporating more than one instrument as an exercise.
 Understanding Internal Settlement with Examples
 ***********************************************
 
-To start, let us briefly revist the concept of a
+To start, let us briefly revisit the concept of a
 :ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>`, which consists of one or
 more :ref:`Instructions <type-daml-finance-interface-settlement-instruction-instruction-30569>`.
 Each instruction signifies a
