@@ -12,7 +12,7 @@ with a batch and related instructions. This intricate process enables the adjust
 across multiple entities and instrument holdings simultaneously.
 
 In this tutorial, we will limit the complexity by focusing on a single custodian and the transfer of
-a singular instrument. The next tutorial will explore the broader scenario involving multiple
+a single instrument. The next tutorial will explore the broader scenario involving multiple
 custodians. Eager learners are encouraged to extend this tutorial and the following one by
 incorporating more than one instrument as an exercise.
 
