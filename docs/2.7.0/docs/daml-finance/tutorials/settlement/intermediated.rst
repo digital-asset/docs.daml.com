@@ -53,7 +53,7 @@ These steps are converted into a batch and instructions:
   :end-before: -- WRAPPED_TRANSFERS_INSTRUCT_END
 
 The following diagram visualizes this pre- and post-settlement of the batch, where ``>`` signifies
-settlement instructions, and stars (*) represents the holdings::
+settlement instructions, and stars (``*``) represents the holdings::
 
         Central Bank                         Central Bank
         */       \                           */        \
