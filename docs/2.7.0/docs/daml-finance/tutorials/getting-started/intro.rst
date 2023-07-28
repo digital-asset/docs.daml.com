@@ -57,3 +57,29 @@ Finally, you can start Daml Studio to inspect the code and run the project's scr
 .. code-block:: shell
 
    daml studio
+
+.. _structure-of-code-dependencies:
+
+Structure of the Code and Dependencies
+**************************************
+
+The project includes
+
+- four workflows defined in the ``Workflows`` folder
+- four Daml scripts defined in the ``Scripts`` folder
+
+The ``Workflows`` encapsulate the core business logic of the application, whereas the ``Scripts``
+are meant to be executed on a one-off basis.
+
+As you can see from the import list, modules in the ``Workflows`` folder depend only on
+*interface* packages of Daml Finance (the packages that start with ``Daml.Finance.Interface.*``).
+
+This is important, as it decouples the user-defined business logic from the template implementations
+used in Daml Finance, which makes it easier to upgrade the application. The user-defined business
+logic in the ``Workflows`` will not need to be modified nor re-compiled to work with
+upgraded (ie., newer versions of) *implementation* packages.
+
+On the other hand, modules in the ``Scripts`` folder depend on both the *interface* packages and
+the *implementation* packages (in this case, ``Daml.Finance.Account``, ``Daml.Finance.Holding``,
+and ``Daml.Finance.Instrument.Token``). This is not problematic as scripts are meant to be run only
+once when the application is initialized.

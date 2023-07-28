@@ -6,7 +6,7 @@ Holdings
 
 This tutorial introduces the core asset model of the library through a simple example. The purpose
 is to illustrate the concepts of :ref:`account <account>`, :ref:`instrument <instrument>`, and
-:ref:`holding <holding>`, as well as showing how to work with Daml interfaces.
+:ref:`holding <holding>`, as well as to show some useful patterns when working with Daml interfaces.
 
 We are going to:
 
@@ -37,41 +37,6 @@ Bearer Tokens vs Holdings
   asset.
 * Holdings, on the other hand, *restrict* the ownership of the asset to parties that have an account
   (a vetted relationship) at a custodian.
-
-.. _structure-of-code-dependencies:
-
-Structure of the Code and Dependencies
-**************************************
-
-The code includes
-
-- four workflows defined in the ``Workflows`` folder
-- four Daml scripts defined in the ``Scripts`` folder
-
-The ``Workflows`` encapsulate the core business logic of the application, whereas the ``Scripts``
-are meant to be executed on a one-off basis.
-
-If you take a closer look at the ``Workflows``, you will recognize three propose / accept patterns
-to:
-
-- create an account
-- make a deposit to the account
-
-The ``Transfer`` and `DvP`` workflows will be used in the next tutorials, so please ignore those for
-now.
-
-Modules in the ``Workflows`` folder depend only on *interface* packages of ``daml-finance`` (the
-packages that start with ``Daml.Finance.Interface.*``), as you can see from the import list.
-
-This is important, as it decouples the user-defined business logic from the template implementations
-used in ``daml-finance`` which makes it easier to upgrade the application. The user-defined business
-logic in the ``Workflows`` will not need to be modified nor re-compiled to work with
-upgraded (ie., newer versions of) *implementation* packages.
-
-On the other hand, modules in the ``Scripts`` folder depend on both the *interface* packages and
-the *implementation* packages (in this case, ``Daml.Finance.Account``, ``Daml.Finance.Holding``,
-and ``Daml.Finance.Instrument.Token``). This is not problematic as scripts are meant to be run only
-once when the application is initialized.
 
 Sample Code
 ***********
