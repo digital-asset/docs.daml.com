@@ -142,7 +142,7 @@ Summary
 *******
 
 By the end of this tutorial, you should have a good grasp on how to apply various allocation and
-approval methods at a single custodian. The key points are:
+approval methods to instructions. The key points are:
 
 * A custodian can utilize the ``DebitSender`` and ``CreditReceiver`` methods to bypass the need for
   "dummy" accounts and holdings when approving and allocating instructions, respectively.
