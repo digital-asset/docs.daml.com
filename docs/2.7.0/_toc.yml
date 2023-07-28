@@ -333,16 +333,58 @@ subtrees:
           entries:
           - file: daml-finance/packages/interfaces/daml-finance-interface-holding
             title: "Daml.Finance.Interface.Holding"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-holding.rst
+                title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-account
             title: "Daml.Finance.Interface.Account"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-account.rst
+                title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-settlement
             title: "Daml.Finance.Interface.Settlement"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-settlement.rst
+                title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-lifecycle
             title: "Daml.Finance.Interface.Lifecycle"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-lifecycle.rst
+                title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-base
             title: "Daml.Finance.Interface.Instrument.Base"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-instrument-base.rst
+                title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-claims
             title: "Daml.Finance.Interface.Claims"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-claims.rst
+                title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-data
             title: "Daml.Finance.Interface.Data"
             subtrees:
@@ -354,6 +396,13 @@ subtrees:
                 title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-types-common
             title: "Daml.Finance.Interface.Types.Common"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-types-common.rst
+                title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-types-date
             title: "Daml.Finance.Interface.Types.Date"
             subtrees:
@@ -365,8 +414,22 @@ subtrees:
                 title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-util
             title: "Daml.Finance.Interface.Util"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-util.rst
+                title: "Changelog"
           - file: daml-finance/packages/interfaces/contingent-claims-core
             title: "ContingentClaims.Core"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/interfaces/changelogs/contingent-claims-core.rst
+                title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-bond
             title: "Daml.Finance.Interface.Instrument.Bond"
             subtrees:
@@ -378,10 +441,31 @@ subtrees:
                 title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-equity
             title: "Daml.Finance.Interface.Instrument.Equity"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-instrument-equity.rst
+                title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-generic
             title: "Daml.Finance.Interface.Instrument.Generic"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-instrument-generic.rst
+                title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-option
             title: "Daml.Finance.Interface.Instrument.Option"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-instrument-option.rst
+                title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-swap
             title: "Daml.Finance.Interface.Instrument.Swap"
             subtrees:
@@ -393,6 +477,13 @@ subtrees:
                 title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-token
             title: "Daml.Finance.Interface.Instrument.Token"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-instrument-token.rst
+                title: "Changelog"
       - file: daml-finance/packages/implementations/index
         title: "Implementation Packages"
         subtrees:
@@ -465,8 +556,22 @@ subtrees:
                 title: "Changelog"
           - file: daml-finance/packages/implementations/contingent-claims-lifecycle
             title: "ContingentClaims.Lifecycle"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/implementations/changelogs/contingent-claims-lifecycle.rst
+                title: "Changelog"
           - file: daml-finance/packages/implementations/contingent-claims-valuation
             title: "ContingentClaims.Valuation"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/implementations/changelogs/contingent-claims-valuation.rst
+                title: "Changelog"
           - file: daml-finance/packages/implementations/daml-finance-instrument-bond
             title: "Daml.Finance.Instrument.Bond"
             subtrees:
@@ -496,6 +601,13 @@ subtrees:
                 title: "Changelog"
           - file: daml-finance/packages/implementations/daml-finance-instrument-option
             title: "Daml.Finance.Instrument.Option"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/implementations/changelogs/daml-finance-instrument-option.rst
+                title: "Changelog"
           - file: daml-finance/packages/implementations/daml-finance-instrument-swap
             title: "Daml.Finance.Instrument.Swap"
             subtrees:
@@ -532,6 +644,11 @@ subtrees:
           title: "Settlement"
         - file: daml-finance/tutorials/getting-started/lifecycling
           title: "Lifecycling"
+      - file: daml-finance/tutorials/settlement/intro
+        title: "Settlement"
+        entries:
+        - file: daml-finance/tutorials/settlement/transfer
+          title: "Enhanced Transfers"
       - file: daml-finance/tutorials/lifecycling/intro
         title: "Lifecycling"
         entries:
@@ -1294,7 +1411,7 @@ subtrees:
         - file: canton/architecture/research
           title: "Research Publications"
         - file: canton/architecture/security
-          title: "Security"
+          title: "Security Architecture"
         - file: ops/system_architecture_faq
           title: "System Architecture FAQ"
       - file: canton/usermanual/FAQ

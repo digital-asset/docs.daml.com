@@ -582,6 +582,58 @@ This includes instructions on how to set AWS Cloud Trail or Cloud Watch Alarms
 to keep track of usage of KMS keys or of performed crypto operations. Errors resulting from the use of
 KMS keys are logged in Canton.
 
+Logging
+^^^^^^^
+
+For further auditability, Canton can be configured to log every call made to the AWS KMS.
+To enable this feature, set the ``audit-logging`` field of the KMS configuration to ``true``.
+By default, when using a file-based logging configuration, such logs will be written into the main canton log file.
+To write them to a dedicated log file, set the ``KMS_LOG_FILE_NAME`` environment variable or ``--kms-log-file-name`` CLI
+flag to the path of the file.
+These and other parameters can be configured using environment variables or CLI flags:
+
+.. list-table:: KMS logging configuration
+   :widths: 20 20 40 20
+   :header-rows: 1
+
+   * - Environment variable
+     - CLI Flag
+     - Purpose
+     - Default
+   * - KMS_LOG_FILE_NAME
+     - --kms-log-file-name
+     - Path to a dedicated KMS log file
+     - not set
+   * - KMS_LOG_IMMEDIATE_FLUSH
+     - --kms-log-immediate-flush
+     - When true, logs will be immediately flushed to the KMS log file
+     - true
+   * - KMS_LOG_FILE_ROLLING_PATTERN
+     - --kms-log-file-rolling-pattern
+     - Pattern to use when using the rolling file strategy to roll KMS log files
+     - yyyy-MM-dd
+   * - KMS_LOG_FILE_HISTORY
+     - --kms-log-file-history
+     - Maximum number of KMS log files to keep when using the rolling file strategy
+     - 0 (i.e. no limit)
+
+Sample of an AWS KMS audit log:
+
+.. code-block:: none
+
+    2023-07-13 17:03:05,475 [ScalaTest-run-running-AwsKmsTest] INFO  c.d.c.c.k.a.a.AwsRequestResponseLogger:AwsKmsTest tid:58c038e94d0d8e139b968c3a180dc62f - Sending request: EncryptRequest(Plaintext=** Redacted plaintext placeholder **, KeyId=alias/canton-kms-test-key, EncryptionAlgorithm=SYMMETRIC_DEFAULT) to https://kms.us-east-1.amazonaws.com/
+    2023-07-13 17:03:05,593 [aws-java-sdk-NettyEventLoop-1-14] INFO  c.d.c.c.k.a.a.AwsRequestResponseLogger:AwsKmsTest tid:58c038e94d0d8e139b968c3a180dc62f - Received response [dcd72bce-9cbd-453b-9023-2dab235b54fe] - EncryptResponse(CiphertextBlob=** Ciphertext placeholder **, KeyId=arn:aws:kms:us-east-1:724647588434:key/407d44eb-c05a-46cc-a8b9-448771a86e57, EncryptionAlgorithm=SYMMETRIC_DEFAULT). Original request EncryptRequest(Plaintext=** Redacted plaintext placeholder **, KeyId=alias/canton-kms-test-key, EncryptionAlgorithm=SYMMETRIC_DEFAULT)
+    2023-07-13 17:03:05,594 [ScalaTest-run-running-AwsKmsTest] INFO  c.d.c.c.k.a.a.AwsRequestResponseLogger:AwsKmsTest tid:58c038e94d0d8e139b968c3a180dc62f - Sending request: EncryptRequest(Plaintext=** Redacted plaintext placeholder **, KeyId=alias/canton-kms-test-key, EncryptionAlgorithm=SYMMETRIC_DEFAULT) to https://kms.us-east-1.amazonaws.com/
+    2023-07-13 17:03:05,716 [aws-java-sdk-NettyEventLoop-1-14] INFO  c.d.c.c.k.a.a.AwsRequestResponseLogger:AwsKmsTest tid:58c038e94d0d8e139b968c3a180dc62f - Received response [0ebc56db-e407-421e-838d-d93af5957559] - EncryptResponse(CiphertextBlob=** Ciphertext placeholder **, KeyId=arn:aws:kms:us-east-1:724647588434:key/407d44eb-c05a-46cc-a8b9-448771a86e57, EncryptionAlgorithm=SYMMETRIC_DEFAULT). Original request EncryptRequest(Plaintext=** Redacted plaintext placeholder **, KeyId=alias/canton-kms-test-key, EncryptionAlgorithm=SYMMETRIC_DEFAULT)
+    2023-07-13 17:03:05,717 [ScalaTest-run-running-AwsKmsTest] INFO  c.d.c.c.k.a.a.AwsRequestResponseLogger:AwsKmsTest tid:58c038e94d0d8e139b968c3a180dc62f - Sending request: DecryptRequest(CiphertextBlob=** Ciphertext placeholder **, KeyId=alias/canton-kms-test-key, EncryptionAlgorithm=SYMMETRIC_DEFAULT) to https://kms.us-east-1.amazonaws.com/
+    2023-07-13 17:03:05,830 [aws-java-sdk-NettyEventLoop-1-14] INFO  c.d.c.c.k.a.a.AwsRequestResponseLogger:AwsKmsTest tid:58c038e94d0d8e139b968c3a180dc62f - Received response [081ab77f-7475-4426-8464-e6c0893e5a97] - DecryptResponse(Plaintext=** Redacted plaintext placeholder **, KeyId=arn:aws:kms:us-east-1:724647588434:key/407d44eb-c05a-46cc-a8b9-448771a86e57, EncryptionAlgorithm=SYMMETRIC_DEFAULT). Original request DecryptRequest(CiphertextBlob=** Ciphertext placeholder **, KeyId=alias/canton-kms-test-key, EncryptionAlgorithm=SYMMETRIC_DEFAULT)
+    2023-07-13 17:03:05,831 [ScalaTest-run-running-AwsKmsTest] INFO  c.d.c.c.k.a.a.AwsRequestResponseLogger:AwsKmsTest tid:58c038e94d0d8e139b968c3a180dc62f - Sending request: DecryptRequest(CiphertextBlob=** Ciphertext placeholder **, KeyId=alias/canton-kms-test-key, EncryptionAlgorithm=SYMMETRIC_DEFAULT) to https://kms.us-east-1.amazonaws.com/
+    2023-07-13 17:03:05,948 [aws-java-sdk-NettyEventLoop-1-14] INFO  c.d.c.c.k.a.a.AwsRequestResponseLogger:AwsKmsTest tid:58c038e94d0d8e139b968c3a180dc62f - Received response [b918d4f7-8008-4549-a5e1-e80378509600] - DecryptResponse(Plaintext=** Redacted plaintext placeholder **, KeyId=arn:aws:kms:us-east-1:724647588434:key/407d44eb-c05a-46cc-a8b9-448771a86e57, EncryptionAlgorithm=SYMMETRIC_DEFAULT). Original request DecryptRequest(CiphertextBlob=** Ciphertext placeholder **, KeyId=alias/canton-kms-test-key, EncryptionAlgorithm=SYMMETRIC_DEFAULT)
+
+Note that sensitive data is removed before logging.
+If the Canton trace id is available, it will appear on the log line. This can be used to correlate Canton requests with KMS requests.
+Furthermore, for the AWS KMS, the AWS request ID is added to the response log lines in between brackets.
+
 Ledger-API Authorization
 ------------------------
 
