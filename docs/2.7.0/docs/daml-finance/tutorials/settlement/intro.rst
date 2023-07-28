@@ -49,4 +49,7 @@ The following tutorials are available:
   delivery of a holding to an account (``TakeDelivery``), immediately nullifying the holding
   (``DebitSender``), and passing the holding through (as allocation) to another instruction
   (``PassThroughTo``).
-
+* The :doc:`Intermediated Settlement <internal>` tutorial builds upon the
+  :doc:`Internal Settlement <internal>` tutorial and, in particular, shows how to make use of a
+  ``RouteProvider`` to settle instructions across account hierarchies involving more than one
+  custodian.
