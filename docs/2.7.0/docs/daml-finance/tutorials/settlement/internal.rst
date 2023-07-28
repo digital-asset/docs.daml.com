@@ -114,7 +114,7 @@ can be allocated to a subsequent instruction. We again use two instructions, ``i
   :start-after: -- PASS_THROUGH_INSTRUCT_BEGIN
   :end-before: -- PASS_THROUGH_INSTRUCT_END
 
-As in previous examples, Alice allocates by pledging a holding, and Bob approves by taking delivery
+Like in the previous examples, Alice allocates by pledging a holding, and Bob approves by taking delivery
 to his account. The intermediary, Charlie, allocates using
 ``PassThroughTo (charlieAccount, instruction2)`` and approves with
 ``PassThroughFrom (charlieAccount, instruction1)``, essentially enabling the holding Charlie
