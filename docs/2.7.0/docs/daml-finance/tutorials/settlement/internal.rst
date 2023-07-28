@@ -51,7 +51,7 @@ factory:
   :start-after: -- WRAPPED_TRANSFER_SETUP_BEGIN
   :end-before: -- WRAPPED_TRANSFER_SETUP_END
 
-The settlement factory is employed by a party, known as the requestor, to create a batch and
+The settlement factory is employed by a party, known as the `requestor`, to create a batch and
 instructions from a list of routed steps. In the scripts, the requestor is also responsible for
 settling the batch once all instructions have been allocated and approved.
 
