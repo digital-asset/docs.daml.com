@@ -105,7 +105,7 @@ methods. These methods are exclusively accessible to the custodian.
 Pass Through
 ============
 
-The final script of this tutorial demonstrates how holdings received in the same settlement process
+The final script of this tutorial demonstrates how holdings received as part of the same settlement process
 can be allocated to a subsequent instruction. We again use two instructions, ``instruction1`` and
 ``instruction2``, but now with Charlie as the intermediary:
 
