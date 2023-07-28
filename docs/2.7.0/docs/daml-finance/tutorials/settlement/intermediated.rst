@@ -25,7 +25,7 @@ Alice, Bob, and Charlie. Holdings are created for Alice@Bank1, Bank1@CentralBank
   :start-after: -- WRAPPED_TRANSFERS_SETUP_BEGIN
   :end-before: -- WRAPPED_TRANSFERS_SETUP_END
 
-The below diagram illustrates the setup, where edges represent accounts and stars (*) denote
+The below diagram illustrates the setup, where edges represent accounts and stars (``*``) denote
 holdings::
 
         Central Bank
