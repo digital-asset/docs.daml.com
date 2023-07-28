@@ -26,7 +26,9 @@ Alice, Bob, and Charlie. Holdings are created for Alice@Bank1, Bank1@CentralBank
   :end-before: -- WRAPPED_TRANSFERS_SETUP_END
 
 The below diagram illustrates the setup, where edges represent accounts and stars (``*``) denote
-holdings::
+holdings:
+
+.. code-block:: none
 
         Central Bank
         */       \
@@ -53,7 +55,9 @@ These steps are converted into a batch and instructions:
   :end-before: -- WRAPPED_TRANSFERS_INSTRUCT_END
 
 The following diagram visualizes this pre- and post-settlement of the batch, where ``>`` signifies
-settlement instructions, and stars (``*``) represents the holdings::
+settlement instructions, and stars (``*``) represents the holdings:
+
+.. code-block:: none
 
         Central Bank                         Central Bank
         */       \                           */        \
@@ -94,7 +98,9 @@ action, where each step is transformed into a sequence of routed steps
 * S2 -> (D, T2, C)
 
 where T1 and T2 denote settlements by transfers, D represents a Debit, and C signifies a Credit. The
-diagram below depicts the effects of the discovery and settlement process::
+diagram below depicts the effects of the discovery and settlement process:
+
+.. code-block:: none
 
                                        Central Bank                   Central Bank
                        "Discover"      */   T2   \       "Settle"      /       *\
