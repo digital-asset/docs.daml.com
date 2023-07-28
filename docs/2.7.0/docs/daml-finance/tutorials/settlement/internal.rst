@@ -8,8 +8,8 @@ This tutorial builds upon the concepts introduced in the
 :doc:`Settlement <../getting-started/settlement>` getting-started tutorial. Compared to our previous
 :doc:`Enhanced Transfers <transfer>` tutorial, which demonstrated the "direct" transfer of a holding
 from sender to receiver (at a single custodian), it delves further into the settlement mechanism
-with a batch and related instructions. This intricate process enables the adjustment of record books
-across multiple entities and instrument holdings simultaneously.
+with a batch and related instructions. This process enables the adjustment of record books across
+multiple entities and instrument holdings simultaneously.
 
 In this tutorial, we will limit the complexity by focusing on a single custodian and the transfer of
 a single instrument. The next tutorial will explore the broader scenario involving multiple
@@ -19,8 +19,9 @@ incorporating more than one instrument as an exercise.
 Understanding Internal Settlement with Examples
 ***********************************************
 
-To start, let us briefly revisit the concept of a
-:ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>`, which consists of one or
+To start, let us briefly revist the settlement process which was explained in the
+:doc:`Settlement <../../concepts/settlement>` section.
+A :ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>` consists of one or
 more :ref:`Instructions <type-daml-finance-interface-settlement-instruction-instruction-30569>`.
 Each instruction signifies a
 :ref:`RoutedStep <type-daml-finance-interface-settlement-types-routedstep-10086>`, delineating the
