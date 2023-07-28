@@ -149,5 +149,5 @@ approval methods at a single custodian. The key points are:
 * A holding settled via an intermediary at the same custodian can be passed through, thus
   eliminating the requirement for the intermediary to possess the holding upfront.
 
-In the forthcoming tutorial, we will delve into more complex settlement transactions involving
+In the forthcoming tutorial, we will delve into more complex settlement transactions involving a transfer across
 multiple custodians.
