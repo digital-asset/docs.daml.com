@@ -651,6 +651,8 @@ subtrees:
           title: "Enhanced Transfers"
         - file: daml-finance/tutorials/settlement/internal
           title: "Internal Settlement"
+        - file: daml-finance/tutorials/settlement/intermediated
+          title: "Intermediated Settlement"
       - file: daml-finance/tutorials/lifecycling/intro
         title: "Lifecycling"
         entries:
