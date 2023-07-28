@@ -46,7 +46,7 @@ Each script kicks off with ``runSetupInternalSettlement`` which initiates partie
 issued by the Central Bank, accounts for Alice, Bob, and Charlie at a Bank, and a settlement
 factory:
 
-.. literalinclude:: ../../settlement/daml/Scripts/Internal.daml
+.. literalinclude:: ../../finance-settlement/daml/Scripts/Internal.daml
   :language: daml
   :start-after: -- WRAPPED_TRANSFER_SETUP_BEGIN
   :end-before: -- WRAPPED_TRANSFER_SETUP_END
@@ -61,7 +61,7 @@ Wrapped Transfer
 The first example encapsulates a transfer from Alice to Bob, from our previous
 :doc:`Enhanced Transfers <transfer>` tutorial, by creating a batch and a single instruction:
 
-.. literalinclude:: ../../settlement/daml/Scripts/Internal.daml
+.. literalinclude:: ../../finance-settlement/daml/Scripts/Internal.daml
   :language: daml
   :start-after: -- WRAPPED_TRANSFER_INSTRUCT_BEGIN
   :end-before: -- WRAPPED_TRANSFER_INSTRUCT_END
@@ -69,7 +69,7 @@ The first example encapsulates a transfer from Alice to Bob, from our previous
 Here, Alice allocates by pledging a holding, Bob approves by taking delivery to his account at the
 Bank, and the requestor finally settles the batch:
 
-.. literalinclude:: ../../settlement/daml/Scripts/Internal.daml
+.. literalinclude:: ../../finance-settlement/daml/Scripts/Internal.daml
   :language: daml
   :start-after: -- WRAPPED_TRANSFER_SETTLE_BEGIN
   :end-before: -- WRAPPED_TRANSFER_SETTLE_END
@@ -83,7 +83,7 @@ Credit and Debit
 An alternative approach to transfer the holding from Alice to Bob includes the Bank as an
 intermediary.
 
-.. literalinclude:: ../../settlement/daml/Scripts/Internal.daml
+.. literalinclude:: ../../finance-settlement/daml/Scripts/Internal.daml
   :language: daml
   :start-after: -- CREDIT_DEBIT_INSTRUCT_BEGIN
   :end-before: -- CREDIT_DEBIT_INSTRUCT_END
@@ -92,7 +92,7 @@ Similar to the previous scenario, Alice allocates by pledging a holding, and Bob
 delivery to his account. However, in this case, the Bank plays an intermediary role by allocating
 and approving, debiting the sender and crediting the receiver, respectively:
 
-.. literalinclude:: ../../settlement/daml/Scripts/Internal.daml
+.. literalinclude:: ../../finance-settlement/daml/Scripts/Internal.daml
   :language: daml
   :start-after: -- CREDIT_DEBIT_SETTLE_BEGIN
   :end-before: -- CREDIT_DEBIT_SETTLE_END
@@ -109,7 +109,7 @@ The final script of this tutorial demonstrates how holdings received in the same
 can be allocated to a subsequent instruction. We again use two instructions, ``instruction1`` and
 ``instruction2``, but now with Charlie as the intermediary:
 
-.. literalinclude:: ../../settlement/daml/Scripts/Internal.daml
+.. literalinclude:: ../../finance-settlement/daml/Scripts/Internal.daml
   :language: daml
   :start-after: -- PASS_THROUGH_INSTRUCT_BEGIN
   :end-before: -- PASS_THROUGH_INSTRUCT_END
@@ -120,7 +120,7 @@ to his account. The intermediary, Charlie, allocates using
 ``PassThroughFrom (charlieAccount, instruction1)``, essentially enabling the holding Charlie
 receives from Alice to pass-through to Bob:
 
-.. literalinclude:: ../../settlement/daml/Scripts/Internal.daml
+.. literalinclude:: ../../finance-settlement/daml/Scripts/Internal.daml
   :language: daml
   :start-after: -- PASS_THROUGH_SETTLE_BEGIN
   :end-before: -- PASS_THROUGH_SETTLE_END
