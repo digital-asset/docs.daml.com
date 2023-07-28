@@ -52,7 +52,7 @@ These steps are converted into a batch and instructions:
   :start-after: -- WRAPPED_TRANSFERS_INSTRUCT_START
   :end-before: -- WRAPPED_TRANSFERS_INSTRUCT_END
 
-The following diagram visualizes this pre- and post-settlement of the batch, where > signifies
+The following diagram visualizes this pre- and post-settlement of the batch, where ``>`` signifies
 settlement instructions, and stars (*) represents the holdings::
 
         Central Bank                         Central Bank
