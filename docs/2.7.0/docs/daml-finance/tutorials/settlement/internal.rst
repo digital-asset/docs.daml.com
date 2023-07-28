@@ -128,7 +128,7 @@ receives from Alice to pass-through to Bob:
 The significant advantage of the pass-through method is that Charlie doesn't need any holdings
 upfront as he's at a net zero position for incoming and outgoing holdings in this settlement process.
 
-Note that the Bank could have utilized the pass-through approach to achieve the same result, but it
+Note that the Bank could have utilized the pass-through approach to achieve the same result in the previous script, but it
 would still require a "dummy" account.
 
 Run the Script
