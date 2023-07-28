@@ -11,7 +11,7 @@ settlement involving a multi-level account hierarchy across different custodians
 Understanding Intermediated Settlement with Examples
 ****************************************************
 
-This tutorial features two exemplary scripts, ``runWrappedTransfersSettlement`` and
+This tutorial features two example scripts, ``runWrappedTransfersSettlement`` and
 ``runRouteProviderSettlement``, illustrating how to settle a batch with multiple instructions and
 custodians.
 
