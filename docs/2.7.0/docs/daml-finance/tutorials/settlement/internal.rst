@@ -131,13 +131,6 @@ upfront as he's at a net zero position for incoming and outgoing holdings in thi
 Note that the Bank could have utilized the pass-through approach to achieve the same result in the previous script, but it
 would still require a "dummy" account.
 
-Run the Script
-**************
-
-The code for this tutorial can be executed via the ``runWrappedTransferSettlement``,
-``runCreditDebitSettlement``, and ``runPassThroughSettlement`` functions in the ``Internal.daml``
-module.
-
 Summary
 *******
 
