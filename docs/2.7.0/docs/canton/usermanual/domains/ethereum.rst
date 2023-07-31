@@ -256,7 +256,7 @@ If you want to manually deploy ``Sequencer.sol`` to your Ethereum network, the f
 contains the compiled Solidity code you need to deploy. For Besu, for example, you will need to specify the contents of ``Sequencer.bin-runtime`` in ``"code": "..."`` as documented `here <https://besu.hyperledger.org/stable/private-networks/how-to/configure/contracts>`_.
 This can also be seen in the ``generate-testnet.sh``.
 
-When a contract is deployed using the ``genesis.json`` the constructor is never called. Therefore any variables initialized as part of the construct needs to be set using the ``"storage": "..."``.
+When a contract is deployed using the ``genesis.json``, the constructor is never called. Therefore, any variables initialized as part of the construct need to be set using the ``"storage": "..."``.
 
 .. code-block:: none
 
