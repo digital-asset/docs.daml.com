@@ -16,7 +16,7 @@ Tutorial
 To run the demo Canton Fabric deployment, you will need access to the following:
 
 
-- a Daml Enterprise with drivers release for access to the example files and the Canton binary
+- a Daml Enterprise release with drivers for access to the example files and the Canton binary
 - :ref:`Canton Enterprise docker repository <docker-instructions>` access, in order to obtain the Canton docker image
 
 Also make sure to have docker and docker-compose installed.
