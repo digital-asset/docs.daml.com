@@ -209,8 +209,8 @@ The account can be created with arbitrary
 In our examples, we typically let accounts be owners-controlled, i.e., both the current owner and
 the new owner must authorize transfers.
 
-Examples
-********
+Example setups
+**************
 
 We can now look at a few examples of how real-world rights and obligations can be modeled using the
 Daml Finance asset model.
