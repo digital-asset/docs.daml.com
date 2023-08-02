@@ -1,0 +1,222 @@
+{
+  "565" : {
+    "command" : "",
+    "output" : ""
+  },
+  "416" : {
+    "command" : "participant1.ledger_api.users.get(user.id)",
+    "output" : "res9: User = User(\n  id = \"myuser\",\n  primaryParty = None,\n  isActive = true,\n  annotations = Map(\"baz\" -> \"bar\", \"description\" -> \"This is a new description\"),\n  identityProviderId = \"\"\n)"
+  },
+  "591" : {
+    "command" : "",
+    "output" : ""
+  },
+  "428" : {
+    "command" : "participant1.ledger_api.users.rights.grant(id = user.id, actAs = Set(alice, bob), readAs = Set(eve), participantAdmin = true)",
+    "output" : "res11: UserRights = UserRights(\n  actAs = Set(bob::12207af325a3...),\n  readAs = Set(eve::12207af325a3...),\n  participantAdmin = true,\n  identityProviderAdmin = false\n)"
+  },
+  "590" : {
+    "command" : "",
+    "output" : ""
+  },
+  "393" : {
+    "command" : "",
+    "output" : ""
+  },
+  "618" : {
+    "command" : "participant2.domains.disconnect_all()",
+    "output" : ""
+  },
+  "402" : {
+    "command" : "participant1.ledger_api.users.get(\"myuser\", identityProviderId=\"idp-id1\")",
+    "output" : "res6: User = User(\n  id = \"myuser\",\n  primaryParty = None,\n  isActive = true,\n  annotations = Map(\"baz\" -> \"bar\", \"description\" -> \"This is a new description\"),\n  identityProviderId = \"idp-id1\"\n)"
+  },
+  "557" : {
+    "command" : "repair.party_migration.step3_enable_on_target(alice, participant2)",
+    "output" : ""
+  },
+  "673" : {
+    "command" : "",
+    "output" : ""
+  },
+  "446" : {
+    "command" : "participant1.ledger_api.users.list(filterUser = \"my\")",
+    "output" : "res15: UsersPage = UsersPage(\n  users = Vector(\n    User(\n      id = \"myotheruser\",\n      primaryParty = None,\n      isActive = true,\n      annotations = Map(),\n      identityProviderId = \"\"\n    ),\n    User(\n      id = \"myuser\",\n      primaryParty = None,\n      isActive = true,\n      annotations = Map(\"baz\" -> \"bar\", \"description\" -> \"This is a new description\"),\n      identityProviderId = \"\"\n    )\n  ),\n  nextPageToken = \"\"\n)"
+  },
+  "667" : {
+    "command" : "repair.party_migration.step2_import_acs(participant2, \"alice.acs.gz\")",
+    "output" : ""
+  },
+  "659" : {
+    "command" : "participant1.repair.download(Set(alice), \"alice.acs.gz\", filterDomainId=\"mydomain\", timestamp = Some(timestamp))",
+    "output" : ""
+  },
+  "645" : {
+    "command" : "participant1.health.ping(participant1.id)",
+    "output" : "res6: Duration = 635 milliseconds"
+  },
+  "518" : {
+    "command" : "",
+    "output" : ""
+  },
+  "408" : {
+    "command" : "participant1.ledger_api.users.get(\"myuser\", identityProviderId=\"\")",
+    "output" : "res8: User = User(\n  id = \"myuser\",\n  primaryParty = None,\n  isActive = true,\n  annotations = Map(\"baz\" -> \"bar\", \"description\" -> \"This is a new description\"),\n  identityProviderId = \"\"\n)"
+  },
+  "597" : {
+    "command" : "participant2.topology.party_to_participant_mappings.authorize(TopologyChangeOp.Add, alice, participant2.id, RequestSide.To, ParticipantPermission.Submission)",
+    "output" : "res2: com.google.protobuf.ByteString = <ByteString@f166652 size=554 contents=\"\\n\\247\\004\\n\\327\\001\\n\\322\\001\\n\\317\\001\\022 065F3gyr8JKybE1s2NaUZw37lRbPTwaw2...\">"
+  },
+  "372" : {
+    "command" : "val user = participant1.ledger_api.users.create(id = \"myuser\", actAs = Set(alice), readAs = Set(bob), primaryParty = Some(alice), participantAdmin = false, isActive = true, annotations = Map(\"foo\" -> \"bar\", \"description\" -> \"This is a description\"))",
+    "output" : "user : User = User(\n  id = \"myuser\",\n  primaryParty = Some(value = alice::12207af325a3...),\n  isActive = true,\n  annotations = Map(\"foo\" -> \"bar\", \"description\" -> \"This is a description\"),\n  identityProviderId = \"\"\n)"
+  },
+  "460" : {
+    "command" : "participant1.ledger_api.users.list(\"myotheruser\")",
+    "output" : "res17: UsersPage = UsersPage(users = Vector(), nextPageToken = \"\")"
+  },
+  "439" : {
+    "command" : "participant1.ledger_api.users.rights.list(user.id)",
+    "output" : "res13: UserRights = UserRights(\n  actAs = Set(alice::12207af325a3...),\n  readAs = Set(bob::12207af325a3..., eve::12207af325a3...),\n  participantAdmin = false,\n  identityProviderAdmin = false\n)"
+  },
+  "678" : {
+    "command" : "",
+    "output" : ""
+  },
+  "546" : {
+    "command" : "repair.party_migration.step2_import_acs(participant2, \"alice.acs.gz\")",
+    "output" : ""
+  },
+  "598" : {
+    "command" : "",
+    "output" : ""
+  },
+  "392" : {
+    "command" : "",
+    "output" : ""
+  },
+  "407" : {
+    "command" : "participant1.ledger_api.users.update_idp(\"myuser\", sourceIdentityProviderId=\"idp-id1\", targetIdentityProviderId=\"\")",
+    "output" : ""
+  },
+  "566" : {
+    "command" : "",
+    "output" : ""
+  },
+  "551" : {
+    "command" : "participant2.domains.reconnect(\"mydomain\")",
+    "output" : "res6: Boolean = true"
+  },
+  "541" : {
+    "command" : "participant2.domains.disconnect(\"mydomain\")",
+    "output" : ""
+  },
+  "558" : {
+    "command" : "",
+    "output" : ""
+  },
+  "530" : {
+    "command" : "repair.party_migration.step1_hold_and_store_acs(alice, participant1, targetParticipantId, \"alice.acs.gz\")",
+    "output" : "res3: Map[DomainId, Long] = Map()"
+  },
+  "391" : {
+    "command" : "val updatedUser = participant1.ledger_api.users.update(id = user.id, modifier = user => { user.copy(primaryParty = None, annotations = user.annotations.updated(\"description\", \"This is a new description\").removed(\"foo\").updated(\"baz\", \"bar\")) })",
+    "output" : "updatedUser : User = User(\n  id = \"myuser\",\n  primaryParty = None,\n  isActive = true,\n  annotations = Map(\"baz\" -> \"bar\", \"description\" -> \"This is a new description\"),\n  identityProviderId = \"\"\n)"
+  },
+  "445" : {
+    "command" : "participant1.ledger_api.users.create(id = \"myotheruser\")",
+    "output" : "res14: User = User(\n  id = \"myotheruser\",\n  primaryParty = None,\n  isActive = true,\n  annotations = Map(),\n  identityProviderId = \"\"\n)"
+  },
+  "672" : {
+    "command" : "participant2.domains.reconnect_all()",
+    "output" : ""
+  },
+  "362" : {
+    "command" : "",
+    "output" : ""
+  },
+  "434" : {
+    "command" : "participant1.ledger_api.users.rights.revoke(id = user.id, actAs = Set(bob), readAs = Set(alice), participantAdmin = true)",
+    "output" : "res12: UserRights = UserRights(\n  actAs = Set(bob::12207af325a3...),\n  readAs = Set(),\n  participantAdmin = true,\n  identityProviderAdmin = false\n)"
+  },
+  "631" : {
+    "command" : "participant1.parties.list(\"Alice\")",
+    "output" : "res5: Seq[ListPartiesResult] = Vector(\n  ListPartiesResult(\n    party = Alice::1220df7d96ce...,\n    participants = Vector(\n      ParticipantDomains(\n        participant = PAR::participant2::1220a532b115...,\n        domains = Vector(\n          DomainPermission(domain = mydomain::1220a35ef9f4..., permission = Submission)\n        )\n      ),\n      ParticipantDomains(\n        participant = PAR::participant1::1220df7d96ce...,\n        domains = Vector(\n          DomainPermission(domain = mydomain::1220a35ef9f4..., permission = Submission)\n        )\n      )\n    )\n  )\n)"
+  },
+  "552" : {
+    "command" : "",
+    "output" : ""
+  },
+  "626" : {
+    "command" : "participant1.topology.party_to_participant_mappings.authorize(TopologyChangeOp.Add, alice, participant2.id, RequestSide.From, ParticipantPermission.Submission)",
+    "output" : "res4: com.google.protobuf.ByteString = <ByteString@56f89b1b size=556 contents=\"\\n\\251\\004\\n\\327\\001\\n\\322\\001\\n\\317\\001\\022 LJCGYk1KGUI0bPaSEJHCulUglzsQ3lIr2...\">"
+  },
+  "455" : {
+    "command" : "participant1.ledger_api.users.delete(\"myotheruser\")",
+    "output" : ""
+  },
+  "563" : {
+    "command" : "participant1.domains.disconnect(\"mydomain\")",
+    "output" : ""
+  },
+  "653" : {
+    "command" : "val timestamp = participant1.topology.party_to_participant_mappings.list(filterStore=\"mydomain\", filterParty=\"Alice\").map(_.context.validFrom).max",
+    "output" : "timestamp : Instant = 2023-06-22T12:42:10.034684Z"
+  },
+  "589" : {
+    "command" : "val alice = participant1.parties.enable(\"Alice\")",
+    "output" : "alice : PartyId = Alice::1220df7d96ce..."
+  },
+  "531" : {
+    "command" : "",
+    "output" : ""
+  },
+  "516" : {
+    "command" : "",
+    "output" : ""
+  },
+  "465" : {
+    "command" : "participant1.ledger_api.users.update(\"myuser\", user => user.copy(isActive = false))",
+    "output" : "res18: User = User(\n  id = \"myuser\",\n  primaryParty = None,\n  isActive = false,\n  annotations = Map(\"baz\" -> \"bar\", \"description\" -> \"This is a new description\"),\n  identityProviderId = \"\"\n)"
+  },
+  "363" : {
+    "command" : "val Seq(alice, bob, eve) = Seq(\"alice\", \"bob\", \"eve\").map(p => participant1.parties.enable(name = p, waitForDomain = DomainChoice.All))",
+    "output" : "Seq(alice, bob, eve) : Seq[PartyId] = List(alice::12207af325a3..., bob::12207af325a3..., eve::12207af325a3...)"
+  },
+  "524" : {
+    "command" : "val targetParticipantId = participant2.id",
+    "output" : "targetParticipantId : ParticipantId = PAR::participant2::12207334a68d..."
+  },
+  "588" : {
+    "command" : "",
+    "output" : ""
+  },
+  "517" : {
+    "command" : "val alice = participant1.parties.enable(\"Alice\")",
+    "output" : "alice : PartyId = Alice::12204dc1e4c4..."
+  },
+  "632" : {
+    "command" : "",
+    "output" : ""
+  },
+  "401" : {
+    "command" : "participant1.ledger_api.users.update_idp(\"myuser\", sourceIdentityProviderId=\"\", targetIdentityProviderId=\"idp-id1\")",
+    "output" : ""
+  },
+  "422" : {
+    "command" : "participant1.ledger_api.users.rights.list(user.id)",
+    "output" : "res10: UserRights = UserRights(\n  actAs = Set(alice::12207af325a3...),\n  readAs = Set(bob::12207af325a3...),\n  participantAdmin = false,\n  identityProviderAdmin = false\n)"
+  },
+  "373" : {
+    "command" : "",
+    "output" : ""
+  },
+  "564" : {
+    "command" : "repair.party_migration.step4_clean_up_source(alice, participant1, \"alice.acs.gz\")",
+    "output" : ""
+  },
+  "400" : {
+    "command" : "participant1.ledger_api.identity_provider_config.create(\"idp-id1\", isDeactivated = false, jwksUrl = \"http://someurl\", issuer = \"issuer1\", audience = None)",
+    "output" : "res4: com.digitalasset.canton.ledger.api.domain.IdentityProviderConfig = IdentityProviderConfig(\n  identityProviderId = Id(value = \"idp-id1\"),\n  isDeactivated = false,\n  jwksUrl = JwksUrl(value = \"http://someurl\"),\n  issuer = \"issuer1\",\n  audience = None\n)"
+  }
+}

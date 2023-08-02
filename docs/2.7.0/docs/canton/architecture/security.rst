@@ -3,10 +3,10 @@
 ..
    Proprietary code. All rights reserved.
 
-.. _security:
+.. _security_architecture:
 
-Security
-========
+Security Architecture
+=====================
 
 .. _kms_architecture:
 
