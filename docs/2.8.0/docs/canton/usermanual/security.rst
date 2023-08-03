@@ -324,7 +324,7 @@ namespace. From a security standpoint, it is therefore critical to keep the name
 be achieved by moving the key off the node for offline storage. The identity management system can still be used by
 creating a new key and an appropriate intermediate certificate. The following steps illustrate how:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/CryptoIntegrationTest.scala
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/CryptoIntegrationTest.scala
    :language: scala
    :start-after: architecture-handbook-entry-begin: ExportKeyForOfflineStorage
    :end-before: architecture-handbook-entry-end: ExportKeyForOfflineStorage
@@ -333,7 +333,7 @@ creating a new key and an appropriate intermediate certificate. The following st
 When the root namespace key is required, it can be imported again on the original node or
 on another, using the following steps:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/CryptoIntegrationTest.scala
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/CryptoIntegrationTest.scala
    :language: scala
    :start-after: architecture-handbook-entry-begin: ImportFromOfflineStorage
    :end-before: architecture-handbook-entry-end: ImportFromOfflineStorage
