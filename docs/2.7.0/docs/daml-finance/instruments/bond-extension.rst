@@ -87,7 +87,7 @@ Now that we have defined the terms we can create the bond instrument:
   :end-before: -- CREATE_FIXED_RATE_BOND_INSTRUMENT_END
 
 Once this is done, you can create a holding on it using
-:ref:`Account.credit <module-daml-finance-interface-account-account-92922>`.
+:ref:`Account.Credit <module-daml-finance-interface-account-account-92922>`.
 
 Floating Rate
 =============
