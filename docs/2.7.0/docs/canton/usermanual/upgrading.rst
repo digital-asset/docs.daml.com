@@ -184,8 +184,8 @@ Version Specific Notes
 
 Upgrade to Release 2.7
 ^^^^^^^^^^^^^^^^^^^^^^
-Version 2.7 will slightly extend the database schema used. Therefore, you will have to perform the :ref:`database migration steps <migrating_the_database>`.
-Alternatively, you can enable the new "migrate and start" mode of Canton, which will trigger an automatic update of the database schema
+Version 2.7 slightly extends the database schema. Therefore, you will have to perform the :ref:`database migration steps <migrating_the_database>`.
+Alternatively, you can enable the new "migrate and start" mode in Canton, which triggers an automatic update of the database schema
 when a new minor version is deployed.
 This mode can be enabled by setting the appropriate storage parameter:
 
@@ -193,8 +193,8 @@ This mode can be enabled by setting the appropriate storage parameter:
 
     canton.X.Y.storage.parameters.migrate-and-start = yes
 
-In order to benefit from the new security features brought by protocol version 5,
-you will have to :ref:`upgrade the domain accordingly <canton_domain_protocol_version_upgrading>`.
+To benefit from the new security features in protocol version 5,
+you must :ref:`upgrade the domain accordingly <canton_domain_protocol_version_upgrading>`.
 
 Breaking changes around console commands
 """"""""""""""""""""""""""""""""""""""""
@@ -204,7 +204,7 @@ The command keys.secret.rotate_wrapper_key now returns a different error code.
 An INVALID_WRAPPER_KEY_ID error has been replaced by an INVALID_KMS_KEY_ID error.
 
 **Adding sequencer connection**
-The configuration of the Sequencer Client has been updated to accommodate multiple sequencers and their endpoints:
+The configuration of the sequencer client has been updated to accommodate multiple sequencers and their endpoints:
 method `addConnection` has been renamed to `addEndpoints` to better reflect the fact that it modifies an endpoint for the sequencer.
 
 Hence, command to add a new sequencer connection to the mediator would be changed to:
@@ -216,16 +216,16 @@ Hence, command to add a new sequencer connection to the mediator would be change
     )
 
 
-Unique Contract Keys Deprecation
-""""""""""""""""""""""""""""""""
-The unique-contract-keys parameters for both participant and domain nodes are now marked as deprecated.
+Unique contract key deprecation
+"""""""""""""""""""""""""""""""
+The unique-contract-keys parameters for both participant and sync domain nodes are now marked as deprecated.
 As of this release, the meaning and default value (true) remain unchanged.
 However, contract key uniqueness will not be available in the next major version, featuring multi-domain connectivity.
 If you are already setting this key to false explicitly (preview), this behavior will be the default one after the configuration key is removed.
 If you don't explicitly set this value to false, you are encouraged to evaluate evolving your existing applications and services to avoid relying on this feature.
 You can read more on the topic in the :ref:`documentation <canton_keys>`.
 
-Causality Tracking
+Causality tracking
 """"""""""""""""""
 An obsolete early access feature to enable causality tracking, related to preview multi-domain, was removed. If you enabled it, you need to remove the following config lines, as they will not compile anymore:
 
@@ -236,7 +236,7 @@ An obsolete early access feature to enable causality tracking, related to previe
 
 Besu and Fabric drivers
 """""""""""""""""""""""
-In order to allow for independent updates of the different components, we have  separated out the drivers into a separate jar, which needs to be loaded into a separate classpath.
+In order to allow for independent updates of the different components, we have moved the drivers into a separate jar, which needs to be loaded into a separate classpath.
 As a result, deployments that use Fabric or Besu need to additionally download the jar and place it in the appropriate directory.
 Please :ref:`consult the installation documentation <canton-enterprise-drivers>` on how to obtain this additional jar.
 
