@@ -120,6 +120,8 @@ parsed successfully.
 The command line option ``--manual-start`` will ensure that the node is not started automatically,
 as we first need to migrate the database.
 
+.. _migrating_the_database:
+
 Migrating the Database
 ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -179,6 +181,92 @@ Finally, you can ping the participant to see if the system is operational
 
 Version Specific Notes
 ~~~~~~~~~~~~~~~~~~~~~~
+
+Upgrade to Release 2.7
+^^^^^^^^^^^^^^^^^^^^^^
+Version 2.7 slightly extends the database schema. Therefore, you will have to perform the :ref:`database migration steps <migrating_the_database>`.
+Alternatively, you can enable the new "migrate and start" mode in Canton, which triggers an automatic update of the database schema
+when a new minor version is deployed.
+This mode can be enabled by setting the appropriate storage parameter:
+
+.. code:: bash
+
+    canton.X.Y.storage.parameters.migrate-and-start = yes
+
+To benefit from the new security features in protocol version 5,
+you must :ref:`upgrade the domain accordingly <canton_domain_protocol_version_upgrading>`.
+
+Breaking changes around console commands
+""""""""""""""""""""""""""""""""""""""""
+
+**Key rotation**
+The command keys.secret.rotate_wrapper_key now returns a different error code.
+An INVALID_WRAPPER_KEY_ID error has been replaced by an INVALID_KMS_KEY_ID error.
+
+**Adding sequencer connection**
+The configuration of the sequencer client has been updated to accommodate multiple sequencers and their endpoints:
+method `addConnection` has been renamed to `addEndpoints` to better reflect the fact that it modifies an endpoint for the sequencer.
+
+Hence, command to add a new sequencer connection to the mediator would be changed to:
+
+.. code:: bash
+
+    mediator1.sequencer_connection.modifyConnections(
+        _.addEndpoints(SequencerAlias.Default, connection)
+    )
+
+
+Unique contract key deprecation
+"""""""""""""""""""""""""""""""
+The unique-contract-keys parameters for both participant and sync domain nodes are now marked as deprecated.
+As of this release, the meaning and default value (true) remain unchanged.
+However, contract key uniqueness will not be available in the next major version, featuring multi-domain connectivity.
+If you are already setting this key to false explicitly (preview), this behavior will be the default one after the configuration key is removed.
+If you don't explicitly set this value to false, you are encouraged to evaluate evolving your existing applications and services to avoid relying on this feature.
+You can read more on the topic in the :ref:`documentation <canton_keys>`.
+
+Causality tracking
+""""""""""""""""""
+An obsolete early access feature to enable causality tracking, related to preview multi-domain, was removed. If you enabled it, you need to remove the following config lines, as they will not compile anymore:
+
+.. code:: bash
+
+    participants.participant.init.parameters.unsafe-enable-causality-tracking = true
+    participants.participant.parameters.enable-causality-tracking = true
+
+Besu and Fabric drivers
+"""""""""""""""""""""""
+In order to allow for independent updates of the different components, we have moved the drivers into a separate jar, which needs to be loaded into a separate classpath.
+As a result, deployments that use Fabric or Besu need to additionally download the jar and place it in the appropriate directory.
+Please :ref:`consult the installation documentation <canton-enterprise-drivers>` on how to obtain this additional jar.
+
+Ledger API error codes
+""""""""""""""""""""""
+
+The error codes and metadata of GRPC errors returned as part of failed command interpretation from the Ledger API have been updated to include more information.
+Previously, most errors from the Daml engine would be given as either `GenericInterpretationError` or `InvalidArgumentInterpretationError`.
+They now all have their own codes and encode relevant information in the GRPC Status metadata.
+Specific error changes are as follows:
+* `GenericInterpretationError` (Code: `DAML_INTERPRETATION_ERROR`) with GRPC status `FAILED_PRECONDITION` is now split into:
+
+    * `DisclosedContractKeyHashingError` (Code: `DISCLOSED_CONTRACT_KEY_HASHING_ERROR`) with GRPC status `FAILED_PRECONDITION`
+    * `UnhandledException` (Code: `UNHANDLED_EXCEPTION`) with GRPC status `FAILED_PRECONDITION`
+    * `InterpretationUserError` (Code: `INTERPRETATION_USER_ERROR`) with GRPC status `FAILED_PRECONDITION`
+    * `TemplatePreconditionViolated` (Code: `TEMPLATE_PRECONDITION_VIOLATED`) with GRPC status `INVALID_ARGUMENT`
+
+* `InvalidArgumentInterpretationError` (Code: `DAML_INTERPRETER_INVALID_ARGUMENT`) with GRPC status `INVALID_ARGUMENT` is now split into:
+
+    * `CreateEmptyContractKeyMaintainers` (Code: `CREATE_EMPTY_CONTRACT_KEY_MAINTAINERS`) with GRPC status `INVALID_ARGUMENT`
+    * `FetchEmptyContractKeyMaintainers` (Code: `FETCH_EMPTY_CONTRACT_KEY_MAINTAINERS`) with GRPC status `INVALID_ARGUMENT`
+    * `WronglyTypedContract` (Code: `WRONGLY_TYPED_CONTRACT`) with GRPC status `FAILED_PRECONDITION`
+    * `ContractDoesNotImplementInterface` (Code: `CONTRACT_DOES_NOT_IMPLEMENT_INTERFACE`) with GRPC status `INVALID_ARGUMENT`
+    * `ContractDoesNotImplementRequiringInterface` (Code: `CONTRACT_DOES_NOT_IMPLEMENT_REQUIRING_INTERFACE`) with GRPC status `INVALID_ARGUMENT`
+    * `NonComparableValues` (Code: `NON_COMPARABLE_VALUES`) with GRPC status `INVALID_ARGUMENT`
+    * `ContractIdInContractKey` (Code: `CONTRACT_ID_IN_CONTRACT_KEY`) with GRPC status `INVALID_ARGUMENT`
+    * `ContractIdComparability` (Code: `CONTRACT_ID_COMPARABILITY`) with GRPC status `INVALID_ARGUMENT`
+    * `InterpretationDevError` (Code: `INTERPRETATION_DEV_ERROR`) with GRPC status `FAILED_PRECONDITION`
+
+* The `ContractKeyNotVisible` error (previously encapsulated by `GenericInterpretationError`) is now transformed into a `ContractKeyNotFound` to avoid information leaking.
 
 Upgrade to Release 2.5
 ^^^^^^^^^^^^^^^^^^^^^^

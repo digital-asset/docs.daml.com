@@ -4,6 +4,7 @@
    Proprietary code. All rights reserved.
 
 .. enterprise-only::
+.. _canton-enterprise-drivers:
 
 Enterprise Drivers
 ==================
