@@ -120,6 +120,8 @@ parsed successfully.
 The command line option ``--manual-start`` will ensure that the node is not started automatically,
 as we first need to migrate the database.
 
+.. _migrating_the_database:
+
 Migrating the Database
 ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -182,8 +184,7 @@ Version Specific Notes
 
 Upgrade to Release 2.7
 ^^^^^^^^^^^^^^^^^^^^^^
-Version 2.7 will slightly extend the database schema used. Therefore, you will have to perform the
-database migration steps.
+Version 2.7 will slightly extend the database schema used. Therefore, you will have to perform the :ref:`database migration steps <migrating_the_database>`.
 Alternatively, you can enable the new "migrate and start" mode of Canton, which will trigger an automatic update of the database schema
 when a new minor version is deployed.
 This mode can be enabled by setting the appropriate storage parameter:
@@ -194,12 +195,6 @@ This mode can be enabled by setting the appropriate storage parameter:
 
 In order to benefit from the new security features brought by protocol version 5,
 you will have to :ref:`upgrade the domain accordingly <canton_domain_protocol_version_upgrading>`.
-
-Activation of unsupported features
-""""""""""""""""""""""""""""""""""
-
-In order to activate unsupported features, you now need to explicitly enable dev-version-support on the domain (in addition to the non-standard config flag).
-More information can be found in the :ref:`documentation <how-do-i-enable-unsupported-features>`.
 
 Breaking changes around console commands
 """"""""""""""""""""""""""""""""""""""""
@@ -256,7 +251,7 @@ Specific error changes are as follows:
 
     * `DisclosedContractKeyHashingError` (Code: `DISCLOSED_CONTRACT_KEY_HASHING_ERROR`) with GRPC status `FAILED_PRECONDITION`
     * `UnhandledException` (Code: `UNHANDLED_EXCEPTION`) with GRPC status `FAILED_PRECONDITION`
-    * `UserError` (Code: `USER_ERROR`) with GRPC status `FAILED_PRECONDITION`
+    * `InterpretationUserError` (Code: `INTERPRETATION_USER_ERROR`) with GRPC status `FAILED_PRECONDITION`
     * `TemplatePreconditionViolated` (Code: `TEMPLATE_PRECONDITION_VIOLATED`) with GRPC status `INVALID_ARGUMENT`
 
 * `InvalidArgumentInterpretationError` (Code: `DAML_INTERPRETER_INVALID_ARGUMENT`) with GRPC status `INVALID_ARGUMENT` is now split into:
@@ -269,7 +264,7 @@ Specific error changes are as follows:
     * `NonComparableValues` (Code: `NON_COMPARABLE_VALUES`) with GRPC status `INVALID_ARGUMENT`
     * `ContractIdInContractKey` (Code: `CONTRACT_ID_IN_CONTRACT_KEY`) with GRPC status `INVALID_ARGUMENT`
     * `ContractIdComparability` (Code: `CONTRACT_ID_COMPARABILITY`) with GRPC status `INVALID_ARGUMENT`
-    * `DevError` (Code: `DEV_ERROR`) with GRPC status `FAILED_PRECONDITION`
+    * `InterpretationDevError` (Code: `INTERPRETATION_DEV_ERROR`) with GRPC status `FAILED_PRECONDITION`
 
 * The `ContractKeyNotVisible` error (previously encapsulated by `GenericInterpretationError`) is now transformed into a `ContractKeyNotFound` to avoid information leaking.
 
