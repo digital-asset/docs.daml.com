@@ -40,8 +40,8 @@ Canton can, :ref:`if enabled <kms_setup>`, offer confidentiality at rest for the
 Short-term keys do not require additional protection because they are derived from a secret that is already
 transmitted and stored in an encrypted form using a long-term public encryption key.
 
-Long-term keys should include an operational security policy that requires to rotate these keys periodically
-or if one of them has been considered compromised.
+Long-term keys should be governed by an operational security policy with a requirement to rotate these keys periodically
+or if one of them is compromised.
 
 .. _kms_requirements:
 
@@ -101,7 +101,7 @@ Externalize Private Keys With a Key Management Service
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Canton can also protect private keys by outsourcing their generation and storage to a KMS, making use of
-of a its API to perform the necessary crypto operations such as decryption and signing. This protection
+of its API to perform necessary crypto operations such as decryption and signing. This protection
 safeguards against malicious adversaries that, besides access to the storage layer, can also
 access the node’s system and inspect its memory. Using a KMS's underlying monitoring framework
 (e.g. AWS CloudTrail Logs or GCP Cloud Audit Logs) in combination with Canton logging also offers a
@@ -126,13 +126,13 @@ Besides offering a secure platform to create, manage, and control cryptographic 
 - Enforcement of key usage/authorization policies;
 - Access to the key usage authorization logs;
 - Multi-region keys that allow for the replication of keys in multiple regions for disaster recovery;
-- Automatic rotation of keys. Note that both AWS and GCP transparently select the appropriate KMS key to use so they can be safely rotated without any code changes.
+- Automatic rotation of keys. Note that both AWS and GCP transparently select the appropriate KMS key to use, so they can be safely rotated without any code changes.
 
 KMS Wrapper Key Rotation
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 `AWS <https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html>`_ and `GCP <https://cloud.google.com/kms/docs/key-rotation>`_ KMS offer two different ways to rotate keys, either automatically or manually.
-By default every symmetric key newly created by these KMSs are set for automatic rotation
+By default, every symmetric key created by these KMSs is set for automatic rotation
 (yearly for AWS, and user-defined for GPC) where only the key material is changed.
 The properties of the KMS key do not change and there is no need to re-encrypt the data with the newly rotated key.
 Management of different key versions is done seamlessly and no changes are necessary in Canton.
@@ -155,8 +155,9 @@ KMS Key Rotation
 
 When Canton's signing and encryption keys are off-sourced to a KMS (rather than encrypted at rest with a KMS wrapper key)
 their rotation has to be operated manually. Neither AWS or GCP provide automatic asymmetric key rotation.
-Nevertheless, this can be easily achieved by requesting a :ref:`standard rotation of Canton's keys <rotating-canton-keys>`,
-which in this particular case will also involve the rotation of the underlying KMS key.
+Manual key rotation is achieved by requesting either: (1) a :ref:`standard rotation of Canton's keys <rotating-canton-keys>`,
+which in this particular case also involves the rotation of the underlying KMS key, or (2) a :ref:`rotation to a
+previously generate KMS key <manual-kms-key-rotation>`.
 
 Satisfied Requirements
 ~~~~~~~~~~~~~~~~~~~~~~

@@ -74,7 +74,7 @@ if you wish to know how Canton can protect private keys whilst they remain inter
 :ref:`Externalize Private Keys With a Key Management Service <kms_external_architecture>`
 for more details on how Canton can enable private keys to be generated and stored by an external KMS.
 
-The following section :ref:`Key Management Service Setup <kms_setup>` describes how to enable KMS for Canton
+The following section :ref:`Key Management Service Setup <kms_setup>` describes how to enable KMS support in Canton
 and how to setup each of these two modes of operation.
 
 Public Key Distribution using Topology Management
@@ -481,7 +481,7 @@ with the following list of authorized actions:
 
 If you plan to use cross-account key usage then the permission for key rotation in Canton, namely `kms:CreateKey`, does not have to be configured as it does not apply in that use case.
 
-To be able to make the API calls to the AWS KMS, Canton uses the `standard AWS credential access
+To make the API calls to the AWS KMS, Canton uses the `standard AWS credential access
 <https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html>`_. For example, the standard
 environment variables of `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` can
 be used. Alternatively, you can specify an AWS profile file (e.g. use a temporary access
@@ -489,11 +489,11 @@ profile credentials - `sts`).
 
 For GCP, Canton uses a `GCP service account
 <https://cloud.google.com/docs/authentication/provide-credentials-adc#local-user-cred>`_. For example,
-standard environment variable `GOOGLE_APPLICATION_CREDENTIALS` can be used after
+the standard environment variable `GOOGLE_APPLICATION_CREDENTIALS` can be used after
 setting up a local Application Default Credentials (ADC) file for our service account.
 
 The protection and rotation of
-the credentials for accessing AWS or GCP are a responsibility of the node operator.
+the credentials for AWS or GCP are the responsibility of the node operator.
 
 Canton Configuration for Encrypted Private Key Storage
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -526,8 +526,8 @@ Please be aware that an AWS KMS key needs to be configured with the following se
 
 Similarly, for GCP KMS we can use:
 
-- Key name: `“test-key”`
-- Key RN (Resource Name): `“projects/gcp-kms-testing/locations/us-east1/keyRings/canton-test-keys/cryptoKeys/test-key/cryptoKeyVersions/1”`
+- Key name: `test-key`
+- Key RN (Resource Name): `projects/gcp-kms-testing/locations/us-east1/keyRings/canton-test-keys/cryptoKeys/test-key/cryptoKeyVersions/1`
 
 And your key needs to be configured with the following settings:
 
@@ -641,10 +641,12 @@ be aware that using the key id is not enough and we are required to register the
 Finally, we need to initialize our :ref:`domain <manually-init-domain>` and
 :ref:`participants <manually-init-participant>` using the previously registered keys.
 
+.. _manual-kms-key-rotation:
+
 Manual KMS key rotation
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-Canton keys can still be manually rotated even if externally stored in a KMS.
+Canton keys can still be manually rotated even if they are externally stored in a KMS.
 To do that we can use the same :ref:`standard rotate
 key commands <rotating-canton-keys>` or, if we already have a KMS key to rotate to, run the following command:
 
@@ -654,8 +656,8 @@ key commands <rotating-canton-keys>` or, if we already have a KMS key to rotate 
    :end-before: user-manual-entry-end: RotateKmsNodeKey
    :dedent:
 
-Both AWS and GCP do not offer automatic rotation of asymmetric keys so, contrary to the wrapper key rotation,
-the node operator needs to be responsible for periodically rotating the keys.
+Neither AWS or GCP offer automatic rotation of asymmetric keys so, unlike the wrapper key rotation,
+the node operator needs to be responsible for periodically rotating these keys.
 
 Auditability
 ^^^^^^^^^^^^
@@ -665,7 +667,7 @@ AWS and GCP provide tools to monitor KMS keys. For AWS to set automatic external
 This includes instructions on how to set AWS Cloud Trail or Cloud Watch Alarms
 to keep track of usage of KMS keys or of performed crypto operations.
 For GCP you can refer to the `GCP official documentation
-<https://cloud.google.com/kms/docs/audit-logging>`_ for information on how logging is done.
+<https://cloud.google.com/kms/docs/audit-logging>`_ for information on logging.
 Errors resulting from the use of KMS keys are logged in Canton.
 
 Logging
