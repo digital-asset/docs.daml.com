@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Getting Started
-###############
+Getting Started tutorials
+#########################
 
 This section explains how some key concepts of Daml Finance work in practice. It combines a step by
 step description of different workflows with supporting Daml code.
@@ -30,7 +30,7 @@ Open a terminal and run:
    daml new quickstart-finance --template quickstart-finance
 
 This creates a new folder with contents from our template. Navigate to the folder and then run the
-following to download the required ``daml-finance`` packages:
+following to download the required Daml Finance packages:
 
 .. code-block:: shell
 
