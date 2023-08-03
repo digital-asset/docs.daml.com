@@ -17,6 +17,8 @@ Content
   architecture, as well as targeted use cases
 * :doc:`Concepts <concepts/index>`: explanation of the main concepts used throughout the library,
   and how they fit together
+* :doc:`Instruments <instruments/intro>`: description of the instruments that are
+  included in Daml Finance and can be used out of the box
 * :doc:`Packages <packages/index>`: documentation for each individual package and its contained
   modules
 * :doc:`Tutorials <tutorials/getting-started/intro>`: step-by-step implementation guides across
