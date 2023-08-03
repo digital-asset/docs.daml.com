@@ -273,8 +273,8 @@ the following command for example:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/topology/KeyManagementIntegrationTest.scala
    :language: scala
-   :start-after: architecture-handbook-entry-begin: RotateNodeKey
-   :end-before: architecture-handbook-entry-end: RotateNodeKey
+   :start-after: user-manual-entry-begin: RotateNodeKey
+   :end-before: user-manual-entry-end: RotateNodeKey
    :dedent:
 
 On a participant node both the signing and encryption key pairs are rotated. On a domain and domain manager node only
@@ -286,8 +286,8 @@ manager authorizes the key rotation and a reference needs to be passed in to the
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/topology/KeyManagementIntegrationTest.scala
    :language: scala
-   :start-after: architecture-handbook-entry-begin: RotateNodeKey2
-   :end-before: architecture-handbook-entry-end: RotateNodeKey2
+   :start-after: user-manual-entry-begin: RotateNodeKey2
+   :end-before: user-manual-entry-end: RotateNodeKey2
    :dedent:
 
 Namespace Intermediate Key Management
@@ -401,8 +401,8 @@ node's configuration file. A KMS is configured in the following way:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/encrypted-store-enabled-tagged.conf
    :language: none
-   :start-after: user-manual-entry-begin: KmsConfig
-   :end-before: user-manual-entry-end: KmsConfig
+   :start-after: user-manual-entry-begin: AwsKmsConfig
+   :end-before: user-manual-entry-end: AwsKmsConfig
 
 - ``type`` specifies which KMS to use: currently only `aws` is supported.
 
