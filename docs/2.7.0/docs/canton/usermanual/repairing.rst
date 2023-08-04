@@ -106,7 +106,7 @@ and run the following commands from the "canton-X.Y.Z" directory to set up the i
 This sets up an "exportLedger" with a set of parties consisting of painters, house owners, and banks along with a
 handful of paint offer contracts and IOUs.
 
-Define the following helper functions useful to extract parties and contracts via the ledger api:
+Define the following helper functions useful to extract parties and contracts via the ledger API:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/repair/DataMigrationDamlLedgerToCantonRepairIntegrationTest.scala
    :start-after: user-manual-entry-begin: ImportHelperFunctions
@@ -421,7 +421,7 @@ Importing existing Contracts
 You may have existing contracts, parties, and DARs in other Daml Participant Nodes (such as the
 `Daml sandbox <https://docs.daml.com/tools/sandbox.html>`__) that you want to import into your Canton-based participant
 node.
-To address this need, you can extract contracts and associated parties via the ledger api, modify contracts, parties,
+To address this need, you can extract contracts and associated parties via the ledger API, modify contracts, parties,
 and daml archived as needed, and upload the data to Canton using the :ref:`Canton Console <canton_console>`.
 
 You can also import existing contracts from Canton as that is useful as part of Canton upgrades across major versions

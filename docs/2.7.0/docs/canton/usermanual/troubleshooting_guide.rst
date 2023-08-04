@@ -101,7 +101,7 @@ Key Knowledge
 
 * **Canton Transaction Processing Steps**
 
-     Canton transaction processing has the following key steps involved. When we debug, we obviously try to find out which of the steps fails / is slow / faulty. This can help you to narrow down the component and the issue. As all the message exchange happens via the sequencer, you effectively observe whether the information came into the node and where the action that the node was supposed to take was taken by responding with a message to the sequencer (or emitting a command result on the ledger api). The phases are:
+     Canton transaction processing has the following key steps involved. When we debug, we obviously try to find out which of the steps fails / is slow / faulty. This can help you to narrow down the component and the issue. As all the message exchange happens via the sequencer, you effectively observe whether the information came into the node and where the action that the node was supposed to take was taken by responding with a message to the sequencer (or emitting a command result on the ledger API). The phases are:
 
           * Phase 1: Submitting participant prepares the confirmation request based on the “Daml command input”. The confirmation request is sent to the sequencer, addressing the mediator and the validating participants.
 
@@ -299,7 +299,7 @@ Auth Errors
 For security reasons, Canton removes all details from auth errors. On the client side, you usually only see
 ``PERMISSION_DENIED/An error occurred. Please contact the operator and inquire about the request <no-correlation-id>``, so you need to inspect server logs to debug auth errors.
 
-To use an auth-enabled ledger api, the caller needs to attach an access token to the gRPC request. These tokens are attached in the ``Authorization`` HTTP header. To see headers attached to incoming and outgoing requests, you need to set the log level to ``TRACE``. ``ApiRequestLogger`` will then output log lines containing ``received headers`` or ``sending response headers``.
+To use an auth-enabled ledger API, the caller needs to attach an access token to the gRPC request. These tokens are attached in the ``Authorization`` HTTP header. To see headers attached to incoming and outgoing requests, you need to set the log level to ``TRACE``. ``ApiRequestLogger`` will then output log lines containing ``received headers`` or ``sending response headers``.
 
 Filter-in expressions for lnav:
 

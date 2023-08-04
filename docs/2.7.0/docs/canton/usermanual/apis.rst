@@ -131,7 +131,7 @@ For example, to configure a participant's ledger API limit to 20MB:
 Participant Configuration
 -------------------------
 
-Ledger Api
+Ledger API
 ~~~~~~~~~~
 The configuration of the ledger API is similar to the admin API configuration, except that the
 group starts with ``ledger-api`` instead of ``admin-api``.
@@ -141,7 +141,7 @@ group starts with ``ledger-api`` instead of ``admin-api``.
 JWT Authorization
 ^^^^^^^^^^^^^^^^^
 
-The Ledger Api supports `JWT <https://jwt.io/>`_ based authorization checks as described in the
+The Ledger API supports `JWT <https://jwt.io/>`_ based authorization checks as described in the
 :doc:`Authorization documentation </app-dev/authorization>`.
 
 In order to enable JWT authorization checks, your safe configuration options are
@@ -206,7 +206,7 @@ given in seconds and can be defined as in the example configuration below:
 Configuring the Target Audience for JWT Authorization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The default audience (``aud`` field in the audience based token) for authenticating on the Ledger Api using JWT is
+The default audience (``aud`` field in the audience based token) for authenticating on the Ledger API using JWT is
 ``https://daml.com/participant/jwt/aud/participant/${participantId}``. Other audiences can be configured explicitly
 using the custom target audience configuration option:
 
@@ -219,7 +219,7 @@ Domain Configurations
 .. _public-api-configuration:
 
 
-Public Api
+Public API
 ~~~~~~~~~~
 The domain configuration requires the same configuration of the ``admin-api`` as the participant.
 Next to the ``admin-api``, we need to configure the ``public-api``, which is the api where
