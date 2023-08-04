@@ -283,11 +283,11 @@ monitoring configuration:
    :start-after: user-manual-entry-begin: IsActiveHealthCheck
    :end-before: user-manual-entry-end: IsActiveHealthCheck
 
-Once running this server will report a http 200 status code on a http/1 GET request to `/health` if the participant
+Once running this server will report a HTTP 200 status code on a HTTP/1 GET request to `/health` if the participant
 is currently the active replica.
 Otherwise, an error will be returned.
 
-To use a load balancer it must support http/1 health checks for routing requests on a separate http/2 (gRPC) server.
+To use a load balancer it must support HTTP/1 health checks for routing requests on a separate HTTP/2 (gRPC) server.
 This is possible with `HAProxy <http://www.haproxy.org/>`__ using the following example configuration::
 
   global

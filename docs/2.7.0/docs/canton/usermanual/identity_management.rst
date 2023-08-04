@@ -174,7 +174,7 @@ summarise the process here step by step:
 
 1. The administrator of an existing participant needs to invoke the ``domains.register`` command to add a new domain.
    The mandatory arguments are a domain *alias* (used internally to refer to a particular connection) and the
-   sequencer connection URL (http or https) including an optional port *http[s]://hostname[:port]/path*.
+   sequencer connection URL (``http`` or ``https``) including an optional port *http[s]://hostname[:port]/path*.
    Optional are a certificates path for a custom TLS certificate chain (otherwise the default jre root certificates
    are used) and the *domain id* of a domain. The *domain id* is the unique identifier of the domain that can
    be defined to prevent man-in-the-middle attacks (very similar to an ssh key fingerprint).
