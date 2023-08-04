@@ -17,7 +17,7 @@ the tools to
 
 The following tutorials are available:
 
-* The :doc:`Basic Builders <builders>` tutorial introduces the basic Contingent Claims builders.
+* The :doc:`Basic Builders <basic-builders>` tutorial introduces the basic Contingent Claims builders.
 
 * The :doc:`Observations <observations>` tutorial shows how to model market observables, such as
   interest rates or equity spot prices.

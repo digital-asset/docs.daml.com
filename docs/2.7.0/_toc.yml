@@ -665,8 +665,8 @@ subtrees:
       - file: daml-finance/tutorials/payoff-modeling/intro
         title: "Payoff Modeling"
         entries:
-        - file: daml-finance/tutorials/payoff-modeling/basic-combinators
-          title: "Basic combinators"
+        - file: daml-finance/tutorials/payoff-modeling/basic-builders
+          title: "Basic builders"
         - file: daml-finance/tutorials/payoff-modeling/observations
           title: "Observations"
         - file: daml-finance/tutorials/payoff-modeling/generic-extension
