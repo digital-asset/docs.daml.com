@@ -7,7 +7,7 @@ Basic builders
 This tutorial introduces the basic claim constructors and shows how to use them to
 describe a payoff in terms of the future cashflows between the claim's owner and their counterparty.
 At the end of this section, you should be able to model payoffs such as fixed rate bonds and
-currency forwards.
+FX forwards.
 
 You can use the ``PayoffBuilder`` module to follow along and test the claims described
 below.
@@ -168,10 +168,10 @@ at maturity. This can be represented as follows
 
 for ``d1 ≤ d2 ≤ maturity``.
 
-Currency Forward
-================
+FX Forward
+==========
 
-As an exercise, try to model a currency forward, which is a contractual agreement between two
+As an exercise, try to model an FX Forward, which is a contractual agreement between two
 parties to exchange a pair of currencies at a set rate on a future date.
 
 Summary
