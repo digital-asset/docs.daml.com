@@ -112,6 +112,8 @@ This downloads all required packages and builds the project. You can then run:
 
 to open the code editor and inspect the code.
 
+.. _daml-finance-demo-app:
+
 Demo Application
 ****************
 
