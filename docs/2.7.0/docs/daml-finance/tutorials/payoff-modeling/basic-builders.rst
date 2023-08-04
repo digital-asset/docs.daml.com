@@ -64,7 +64,7 @@ and run the script to obtain
   " => 1.0 USD"
   "GIVING"
 
-When we lifecycle as of ``2023 Aug 01`` a payment of 1 ``USD`` is received by the owner. This
+When we lifecycle as of ``01 Aug 2023`` a payment of 1 ``USD`` is received by the owner. This
 is recorded in the corresponding ``Effect`` contract.
 The claim becomes then worthless (it becomes the ``zero`` claim) and any subsequent
 lifecycling yields no additional effect.
