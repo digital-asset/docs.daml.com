@@ -94,7 +94,7 @@ Running the Create Daml App Example
 
 Once Canton is running, start the HTTP JSON API:
 
-* Connected to the ledger api on port ``12011`` (corresponding to Alice's participant)
+* Connected to the ledger API on port ``12011`` (corresponding to Alice's participant)
 * And connected to the UI on the default expected port ``7575``
 
 .. code-block:: bash

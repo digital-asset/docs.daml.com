@@ -725,12 +725,12 @@ Furthermore, for the AWS KMS, the AWS request ID is added to the response log li
 Ledger-API Authorization
 ------------------------
 
-The Ledger Api provides :ref:`authorization support <ledger-api-jwt-configuration>` using `JWT <https://jwt.io>`_
+The Ledger API provides :ref:`authorization support <ledger-api-jwt-configuration>` using `JWT <https://jwt.io>`_
 tokens. While the JWT token authorization allows third party applications to be authorized properly, it poses some issues
 for Canton internal services such as the `PingService` or the `DarService`, which are used to manage domain wide
 concerns. Therefore Canton generates a new admin bearer token (64 bytes, randomly generated, hex-encoded) on each startup,
 which is communicated to these services internally and used by these services to
-authorize themselves on the Ledger Api. The admin token allows to act as any party registered on that participant node.
+authorize themselves on the Ledger API. The admin token allows to act as any party registered on that participant node.
 
 The admin token is only used within the same process. Therefore, in order to obtain this token, an attacker needs to be
 able to either dump the memory or capture the network traffic, which typically only a privileged user can do.

@@ -732,15 +732,15 @@ propagates through the system. Ultimately, the component fully describing the to
 is the topology providing service client (TPSC). Therefore, we can track the propagation from the
 command until it reaches the IPSC.
 
-* **CLI/GRPC Topology Management Request** - The topology management system is accessible
+* **CLI/gRPC Topology Management Request** - The topology management system is accessible
   through the *topology_manager_write_service*, the *topology_manager_read_service* and
-  the *topology_aggregation_service*, which are GRPC based services. The Canton shell exposes
+  the *topology_aggregation_service*, which are gRPC based services. The Canton shell exposes
   all these services directly through appropriate commands.
 
 * **Topology Manager Write Service** - In order to change the topology state,
   an administrator needs to create a new topology transaction and authorize it by signing
   it with an eligible key. These authorization commands are externally accessible using the
-  write service, exposing the GRPC API.
+  write service, exposing the gRPC API.
 
 * **Participant Topology Manager** - Every participant has a local topology manager. The participant
   can populate the store either by importing authorized transactions or creating new authorized
@@ -786,7 +786,7 @@ command until it reaches the IPSC.
   messages and receives the identity updates. The client inspects the message, validates the signatures
   and appends the topology transaction to the topology state.
 
-* **Topology Aggregation Service** - Inspect via GRPC the aggregated topology state as exposed by the IPSC internally.
+* **Topology Aggregation Service** - Inspect via gRPC the aggregated topology state as exposed by the IPSC internally.
 
 Not direct part of the transaction flow, but essential components for topology management are the following components:
 
@@ -801,7 +801,7 @@ Not direct part of the transaction flow, but essential components for topology m
 
 * **Topology Manager Read Service** - The topology manager read service just serves inspection purposes
   in order to look deeply into the topology state. The read service plugs directly into a topology store
-  and exposes the content via GRPC.
+  and exposes the content via gRPC.
 
 
 

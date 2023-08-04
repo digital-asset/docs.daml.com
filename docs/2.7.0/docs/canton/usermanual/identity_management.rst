@@ -126,7 +126,7 @@ is added:
 1. The ``participant.parties.enable`` function determines the unique identifier of the participant: ``participant.id``.
 2. The party name is built as ``name::<namespace>``, where the ``namespace`` is the one of the participant.
 3. A new party to participant mapping is authorized on the Admin Api: ``participant.topology.party_to_participant_mappings.authorize(...)``
-4. The ``ParticipantTopologyManager`` gets invoked by the GRPC request, creating a new ``SignedTopologyTransaction`` and
+4. The ``ParticipantTopologyManager`` gets invoked by the gRPC request, creating a new ``SignedTopologyTransaction`` and
    tests whether the authorization can be added to the local topology state. If it can, the new topology transaction
    is added to the store.
 5. The ``ParticipantTopologyDispatcher`` picks up the new transaction and requests the addition on all domains via the
@@ -174,12 +174,12 @@ summarise the process here step by step:
 
 1. The administrator of an existing participant needs to invoke the ``domains.register`` command to add a new domain.
    The mandatory arguments are a domain *alias* (used internally to refer to a particular connection) and the
-   sequencer connection URL (http or https) including an optional port *http[s]://hostname[:port]/path*.
+   sequencer connection URL (``http`` or ``https``) including an optional port *http[s]://hostname[:port]/path*.
    Optional are a certificates path for a custom TLS certificate chain (otherwise the default jre root certificates
    are used) and the *domain id* of a domain. The *domain id* is the unique identifier of the domain that can
    be defined to prevent man-in-the-middle attacks (very similar to an ssh key fingerprint).
 
-2. The participant opens a GRPC channel to the ``SequencerConnectService``.
+2. The participant opens a gRPC channel to the ``SequencerConnectService``.
 
 3. The participant contacts the ``SequencerConnectService`` and checks if using the domain requires signing
    specific terms of services. If required, the terms of service are displayed to the user and an approval is
@@ -231,7 +231,7 @@ summarise the process here step by step:
 
 11. Using the created authentication token, the participant starts to use the *SequencerService*. On the domain side,
     the domain verifies the authenticity and validity of the token by verifying that the token is the expected one and
-    is signed by the participant's signing key. The token is used to authenticate every GRPC invocation and needs
+    is signed by the participant's signing key. The token is used to authenticate every gRPC invocation and needs
     to be renewed regularly.
 
 12. The participant sets up the ``ParticipantTopologyDispatcher``, which is the process that tries to push all topology transactions

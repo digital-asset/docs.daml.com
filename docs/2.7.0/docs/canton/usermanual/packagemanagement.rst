@@ -14,7 +14,7 @@ Uploading DARs
 
 To use a Daml application on a participant, you need to upload it to your participant node. The application always
 comes packaged as one or more DARs that need to be uploaded in the order of their dependency. There are two ways to
-upload DARs to a Canton node: either via the `Ledger Api <https://docs.daml.com/app-dev/grpc/proto-docs.html#com-daml-ledger-api-v1-packageservice>`__,
+upload DARs to a Canton node: either via the `Ledger API <https://docs.daml.com/app-dev/grpc/proto-docs.html#com-daml-ledger-api-v1-packageservice>`__,
 or through Canton :ref:`console command <dars.upload>`:
 
 .. snippet:: package_dar_removal

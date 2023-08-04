@@ -185,7 +185,7 @@ want to expose details of the backend sequencers to clients.
 An advanced deployment could also support elastically scaling the number of sequencers available and dynamically
 reconfigure the load balancer for this updated set.
 
-An example `HAProxy <http://www.haproxy.org/>`__ configuration for exposing GRPC services without TLS looks like::
+An example `HAProxy <http://www.haproxy.org/>`__ configuration for exposing gRPC services without TLS looks like::
 
   frontend domain_frontend
     bind 1234 proto h2
@@ -202,7 +202,7 @@ An example `HAProxy <http://www.haproxy.org/>`__ configuration for exposing GRPC
 
 Please note that for quick failover, you also need to add HTTP health checks, as
 otherwise, you have to wait for the TCP timeout to occur before failover happens. The public API of the sequencer
-exposes the standard `GRPC health endpoints <https://github.com/grpc/grpc/blob/master/doc/health-checking.md>`__, but
+exposes the standard `gRPC health endpoints <https://github.com/grpc/grpc/blob/master/doc/health-checking.md>`__, but
 these are currently not supported by HAProxy, hence you need to fall-back on the HTTP / health endpoint.
 
 Client-side load balancing
@@ -283,11 +283,11 @@ monitoring configuration:
    :start-after: user-manual-entry-begin: IsActiveHealthCheck
    :end-before: user-manual-entry-end: IsActiveHealthCheck
 
-Once running this server will report a http 200 status code on a http/1 GET request to `/health` if the participant
+Once running this server will report a HTTP 200 status code on a HTTP/1 GET request to `/health` if the participant
 is currently the active replica.
 Otherwise, an error will be returned.
 
-To use a load balancer it must support http/1 health checks for routing requests on a separate http/2 (GRPC) server.
+To use a load balancer it must support HTTP/1 health checks for routing requests on a separate HTTP/2 (gRPC) server.
 This is possible with `HAProxy <http://www.haproxy.org/>`__ using the following example configuration::
 
   global
