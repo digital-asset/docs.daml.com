@@ -273,8 +273,8 @@ the following command for example:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/topology/KeyManagementIntegrationTest.scala
    :language: scala
-   :start-after: architecture-handbook-entry-begin: RotateNodeKey
-   :end-before: architecture-handbook-entry-end: RotateNodeKey
+   :start-after: user-manual-entry-begin: RotateNodeKey
+   :end-before: user-manual-entry-end: RotateNodeKey
    :dedent:
 
 On a participant node both the signing and encryption key pairs are rotated. On a domain and domain manager node only
@@ -286,8 +286,8 @@ manager authorizes the key rotation and a reference needs to be passed in to the
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/topology/KeyManagementIntegrationTest.scala
    :language: scala
-   :start-after: architecture-handbook-entry-begin: RotateNodeKey2
-   :end-before: architecture-handbook-entry-end: RotateNodeKey2
+   :start-after: user-manual-entry-begin: RotateNodeKeys2
+   :end-before: user-manual-entry-end: RotateNodeKeys2
    :dedent:
 
 Namespace Intermediate Key Management
@@ -324,7 +324,7 @@ namespace. From a security standpoint, it is therefore critical to keep the name
 be achieved by moving the key off the node for offline storage. The identity management system can still be used by
 creating a new key and an appropriate intermediate certificate. The following steps illustrate how:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/CryptoIntegrationTest.scala
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/CryptoIntegrationTest.scala
    :language: scala
    :start-after: architecture-handbook-entry-begin: ExportKeyForOfflineStorage
    :end-before: architecture-handbook-entry-end: ExportKeyForOfflineStorage
@@ -333,7 +333,7 @@ creating a new key and an appropriate intermediate certificate. The following st
 When the root namespace key is required, it can be imported again on the original node or
 on another, using the following steps:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/CryptoIntegrationTest.scala
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/CryptoIntegrationTest.scala
    :language: scala
    :start-after: architecture-handbook-entry-begin: ImportFromOfflineStorage
    :end-before: architecture-handbook-entry-end: ImportFromOfflineStorage
@@ -401,8 +401,8 @@ node's configuration file. A KMS is configured in the following way:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/encrypted-store-enabled-tagged.conf
    :language: none
-   :start-after: user-manual-entry-begin: KmsConfig
-   :end-before: user-manual-entry-end: KmsConfig
+   :start-after: user-manual-entry-begin: AwsKmsConfig
+   :end-before: user-manual-entry-end: AwsKmsConfig
 
 - ``type`` specifies which KMS to use: currently only `aws` is supported.
 
