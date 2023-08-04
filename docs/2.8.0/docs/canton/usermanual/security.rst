@@ -286,8 +286,8 @@ manager authorizes the key rotation and a reference needs to be passed in to the
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/topology/KeyManagementIntegrationTest.scala
    :language: scala
-   :start-after: user-manual-entry-begin: RotateNodeKey2
-   :end-before: user-manual-entry-end: RotateNodeKey2
+   :start-after: user-manual-entry-begin: RotateNodeKeys2
+   :end-before: user-manual-entry-end: RotateNodeKeys2
    :dedent:
 
 Namespace Intermediate Key Management
