@@ -163,7 +163,7 @@ In order to enable JWT authorization checks, your safe configuration options are
   Both PEM-encoded certificates (text files starting with ``-----BEGIN CERTIFICATE-----``)
   and DER-encoded certificates (binary files) are supported.
 
-Instead of specifying the path to a certificate, you can also a
+Instead of specifying the path to a certificate, you can also use a
 `JWKS <https://tools.ietf.org/html/rfc7517>`__ URL. In that case, the
 participant will expect all tokens to be signed with RS256 (RSA Signature
 with SHA-256) with the public key loaded from the given JWKS URL.
