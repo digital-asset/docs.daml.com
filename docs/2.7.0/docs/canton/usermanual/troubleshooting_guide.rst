@@ -183,7 +183,7 @@ Log Files
 
 * **Use the API Request Logger to Locate the Component**
 
-     One key logging component is the ``ApiRequestLogger``. This component is injected into the GRPC library and will log every incoming and outgoing request / message. Therefore, we can easily observe when a transaction left a node and when it arrived at a subsequent node. If api logging is turned on, the api request logger will print the full detail of all the GRPC messages into the log files.
+     One key logging component is the ``ApiRequestLogger``. This component is injected into the gRPC library and will log every incoming and outgoing request / message. Therefore, we can easily observe when a transaction left a node and when it arrived at a subsequent node. If api logging is turned on, the api request logger will print the full detail of all the gRPC messages into the log files.
 
 Using LNAV to View Log Files
 ----------------------------

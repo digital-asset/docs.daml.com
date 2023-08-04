@@ -243,28 +243,28 @@ Please :ref:`consult the installation documentation <canton-enterprise-drivers>`
 Ledger API error codes
 """"""""""""""""""""""
 
-The error codes and metadata of GRPC errors returned as part of failed command interpretation from the Ledger API have been updated to include more information.
+The error codes and metadata of gRPC errors returned as part of failed command interpretation from the Ledger API have been updated to include more information.
 Previously, most errors from the Daml engine would be given as either `GenericInterpretationError` or `InvalidArgumentInterpretationError`.
-They now all have their own codes and encode relevant information in the GRPC Status metadata.
+They now all have their own codes and encode relevant information in the gRPC Status metadata.
 Specific error changes are as follows:
-* `GenericInterpretationError` (Code: `DAML_INTERPRETATION_ERROR`) with GRPC status `FAILED_PRECONDITION` is now split into:
+* `GenericInterpretationError` (Code: `DAML_INTERPRETATION_ERROR`) with gRPC status `FAILED_PRECONDITION` is now split into:
 
-    * `DisclosedContractKeyHashingError` (Code: `DISCLOSED_CONTRACT_KEY_HASHING_ERROR`) with GRPC status `FAILED_PRECONDITION`
-    * `UnhandledException` (Code: `UNHANDLED_EXCEPTION`) with GRPC status `FAILED_PRECONDITION`
-    * `InterpretationUserError` (Code: `INTERPRETATION_USER_ERROR`) with GRPC status `FAILED_PRECONDITION`
-    * `TemplatePreconditionViolated` (Code: `TEMPLATE_PRECONDITION_VIOLATED`) with GRPC status `INVALID_ARGUMENT`
+    * `DisclosedContractKeyHashingError` (Code: `DISCLOSED_CONTRACT_KEY_HASHING_ERROR`) with gRPC status `FAILED_PRECONDITION`
+    * `UnhandledException` (Code: `UNHANDLED_EXCEPTION`) with gRPC status `FAILED_PRECONDITION`
+    * `InterpretationUserError` (Code: `INTERPRETATION_USER_ERROR`) with gRPC status `FAILED_PRECONDITION`
+    * `TemplatePreconditionViolated` (Code: `TEMPLATE_PRECONDITION_VIOLATED`) with gRPC status `INVALID_ARGUMENT`
 
-* `InvalidArgumentInterpretationError` (Code: `DAML_INTERPRETER_INVALID_ARGUMENT`) with GRPC status `INVALID_ARGUMENT` is now split into:
+* `InvalidArgumentInterpretationError` (Code: `DAML_INTERPRETER_INVALID_ARGUMENT`) with gRPC status `INVALID_ARGUMENT` is now split into:
 
-    * `CreateEmptyContractKeyMaintainers` (Code: `CREATE_EMPTY_CONTRACT_KEY_MAINTAINERS`) with GRPC status `INVALID_ARGUMENT`
-    * `FetchEmptyContractKeyMaintainers` (Code: `FETCH_EMPTY_CONTRACT_KEY_MAINTAINERS`) with GRPC status `INVALID_ARGUMENT`
-    * `WronglyTypedContract` (Code: `WRONGLY_TYPED_CONTRACT`) with GRPC status `FAILED_PRECONDITION`
-    * `ContractDoesNotImplementInterface` (Code: `CONTRACT_DOES_NOT_IMPLEMENT_INTERFACE`) with GRPC status `INVALID_ARGUMENT`
-    * `ContractDoesNotImplementRequiringInterface` (Code: `CONTRACT_DOES_NOT_IMPLEMENT_REQUIRING_INTERFACE`) with GRPC status `INVALID_ARGUMENT`
-    * `NonComparableValues` (Code: `NON_COMPARABLE_VALUES`) with GRPC status `INVALID_ARGUMENT`
-    * `ContractIdInContractKey` (Code: `CONTRACT_ID_IN_CONTRACT_KEY`) with GRPC status `INVALID_ARGUMENT`
-    * `ContractIdComparability` (Code: `CONTRACT_ID_COMPARABILITY`) with GRPC status `INVALID_ARGUMENT`
-    * `InterpretationDevError` (Code: `INTERPRETATION_DEV_ERROR`) with GRPC status `FAILED_PRECONDITION`
+    * `CreateEmptyContractKeyMaintainers` (Code: `CREATE_EMPTY_CONTRACT_KEY_MAINTAINERS`) with gRPC status `INVALID_ARGUMENT`
+    * `FetchEmptyContractKeyMaintainers` (Code: `FETCH_EMPTY_CONTRACT_KEY_MAINTAINERS`) with gRPC status `INVALID_ARGUMENT`
+    * `WronglyTypedContract` (Code: `WRONGLY_TYPED_CONTRACT`) with gRPC status `FAILED_PRECONDITION`
+    * `ContractDoesNotImplementInterface` (Code: `CONTRACT_DOES_NOT_IMPLEMENT_INTERFACE`) with gRPC status `INVALID_ARGUMENT`
+    * `ContractDoesNotImplementRequiringInterface` (Code: `CONTRACT_DOES_NOT_IMPLEMENT_REQUIRING_INTERFACE`) with gRPC status `INVALID_ARGUMENT`
+    * `NonComparableValues` (Code: `NON_COMPARABLE_VALUES`) with gRPC status `INVALID_ARGUMENT`
+    * `ContractIdInContractKey` (Code: `CONTRACT_ID_IN_CONTRACT_KEY`) with gRPC status `INVALID_ARGUMENT`
+    * `ContractIdComparability` (Code: `CONTRACT_ID_COMPARABILITY`) with gRPC status `INVALID_ARGUMENT`
+    * `InterpretationDevError` (Code: `INTERPRETATION_DEV_ERROR`) with gRPC status `FAILED_PRECONDITION`
 
 * The `ContractKeyNotVisible` error (previously encapsulated by `GenericInterpretationError`) is now transformed into a `ContractKeyNotFound` to avoid information leaking.
 

@@ -99,19 +99,19 @@ as the output can be very verbose and may impact the performance of your applica
 Keep Alive
 ----------
 In order to prevent load-balancers or firewalls from terminating long running RPC calls in the event of some silence on the
-connection, all GRPC connections enable keep-alive by default. An example configuration for an adjusted setting is given below:
+connection, all gRPC connections enable keep-alive by default. An example configuration for an adjusted setting is given below:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/integration-testing/src/main/resources/include/participant2.conf
    :start-after: architecture-handbook-entry-begin: KeepAliveSettings
    :end-before: architecture-handbook-entry-end: KeepAliveSettings
 
-GRPC client connections are configured with ``keep-alive-client``, with two settings: ``time``, and ``timeout``.
-The effect of the ``time`` and ``timeout`` settings are described in the `GRPC documentation <https://grpc.github.io/grpc-java/javadoc/io/grpc/ManagedChannelBuilder.html#keepAliveTime-long-java.util.concurrent.TimeUnit>`__.
+gRPC client connections are configured with ``keep-alive-client``, with two settings: ``time``, and ``timeout``.
+The effect of the ``time`` and ``timeout`` settings are described in the `gRPC documentation <https://grpc.github.io/grpc-java/javadoc/io/grpc/ManagedChannelBuilder.html#keepAliveTime-long-java.util.concurrent.TimeUnit>`__.
 
 Servers can additionally change another setting: ``permit-keep-alive-time``. This specifies the most aggressive keep-alive time
 that a client is permitted to use. If a client uses keep-alive ``time`` that is more aggressive than the ``permit-keep-alive-time``, the connection will be terminated with a GOAWAY frame with "too_many_pings" as the debug data.
-This setting is described in more detail in the `GRPC documentation <https://grpc.github.io/grpc-java/javadoc/io/grpc/netty/NettyServerBuilder.html#permitKeepAliveTime-long-java.util.concurrent.TimeUnit>`__
-and `GRPC manual page <https://github.com/grpc/grpc/blob/master/doc/keepalive.md>`__.
+This setting is described in more detail in the `gRPC documentation <https://grpc.github.io/grpc-java/javadoc/io/grpc/netty/NettyServerBuilder.html#permitKeepAliveTime-long-java.util.concurrent.TimeUnit>`__
+and `gRPC manual page <https://github.com/grpc/grpc/blob/master/doc/keepalive.md>`__.
 
 Max Inbound Message Size
 ------------------------
