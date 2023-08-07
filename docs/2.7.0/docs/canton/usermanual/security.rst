@@ -398,8 +398,8 @@ KMS support can be enabled for a new installation (i.e., during the node
 bootstrap) or for an existing deployment.
 When the KMS is enabled after a node has been running, the keys are (a) encrypted and stored in this encrypted form
 in the Canton node's database, or (b) transparently replaced by external KMS keys. For
-scenario (a) this process is done transparently, while in (b) d :ref:`a node needs to be migrated <participant_kms_migration>`
-if the key schemes being used do no match the current supported keys for KMS.
+scenario (a) this process is done transparently, while in (b) :ref:`a node needs to be migrated <participant_kms_migration>`
+if the key schemes being used do not match the current supported keys for KMS.
 
 .. _backup-kms:
 
@@ -649,7 +649,7 @@ Participant Node Migration to KMS Crypto Provider
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To migrate an existing participant node connected to a domain with a non KMS-compatible provider
-and start using KMS external keys we need to manually execute the following steps.
+and start using KMS external keys, we need to manually execute the following steps.
 The general idea is to replicate our old node into a :ref:`new one that uses a KMS provider and connects to
 a KMS-compatible domain <full-kms-configuration>` (e.g. running JCE with KMS supported encryption and
 signing keys).
