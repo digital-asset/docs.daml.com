@@ -99,19 +99,19 @@ as the output can be very verbose and may impact the performance of your applica
 Keep Alive
 ----------
 In order to prevent load-balancers or firewalls from terminating long running RPC calls in the event of some silence on the
-connection, all GRPC connections enable keep-alive by default. An example configuration for an adjusted setting is given below:
+connection, all gRPC connections enable keep-alive by default. An example configuration for an adjusted setting is given below:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/integration-testing/src/main/resources/include/participant2.conf
    :start-after: architecture-handbook-entry-begin: KeepAliveSettings
    :end-before: architecture-handbook-entry-end: KeepAliveSettings
 
-GRPC client connections are configured with ``keep-alive-client``, with two settings: ``time``, and ``timeout``.
-The effect of the ``time`` and ``timeout`` settings are described in the `GRPC documentation <https://grpc.github.io/grpc-java/javadoc/io/grpc/ManagedChannelBuilder.html#keepAliveTime-long-java.util.concurrent.TimeUnit>`__.
+gRPC client connections are configured with ``keep-alive-client``, with two settings: ``time``, and ``timeout``.
+The effect of the ``time`` and ``timeout`` settings are described in the `gRPC documentation <https://grpc.github.io/grpc-java/javadoc/io/grpc/ManagedChannelBuilder.html#keepAliveTime-long-java.util.concurrent.TimeUnit>`__.
 
 Servers can additionally change another setting: ``permit-keep-alive-time``. This specifies the most aggressive keep-alive time
 that a client is permitted to use. If a client uses keep-alive ``time`` that is more aggressive than the ``permit-keep-alive-time``, the connection will be terminated with a GOAWAY frame with "too_many_pings" as the debug data.
-This setting is described in more detail in the `GRPC documentation <https://grpc.github.io/grpc-java/javadoc/io/grpc/netty/NettyServerBuilder.html#permitKeepAliveTime-long-java.util.concurrent.TimeUnit>`__
-and `GRPC manual page <https://github.com/grpc/grpc/blob/master/doc/keepalive.md>`__.
+This setting is described in more detail in the `gRPC documentation <https://grpc.github.io/grpc-java/javadoc/io/grpc/netty/NettyServerBuilder.html#permitKeepAliveTime-long-java.util.concurrent.TimeUnit>`__
+and `gRPC manual page <https://github.com/grpc/grpc/blob/master/doc/keepalive.md>`__.
 
 Max Inbound Message Size
 ------------------------
@@ -131,7 +131,7 @@ For example, to configure a participant's ledger API limit to 20MB:
 Participant Configuration
 -------------------------
 
-Ledger Api
+Ledger API
 ~~~~~~~~~~
 The configuration of the ledger API is similar to the admin API configuration, except that the
 group starts with ``ledger-api`` instead of ``admin-api``.
@@ -141,7 +141,7 @@ group starts with ``ledger-api`` instead of ``admin-api``.
 JWT Authorization
 ^^^^^^^^^^^^^^^^^
 
-The Ledger Api supports `JWT <https://jwt.io/>`_ based authorization checks as described in the
+The Ledger API supports `JWT <https://jwt.io/>`_ based authorization checks as described in the
 :doc:`Authorization documentation </app-dev/authorization>`.
 
 In order to enable JWT authorization checks, your safe configuration options are
@@ -163,7 +163,7 @@ In order to enable JWT authorization checks, your safe configuration options are
   Both PEM-encoded certificates (text files starting with ``-----BEGIN CERTIFICATE-----``)
   and DER-encoded certificates (binary files) are supported.
 
-Instead of specifying the path to a certificate, you can also a
+Instead of specifying the path to a certificate, you can also use a
 `JWKS <https://tools.ietf.org/html/rfc7517>`__ URL. In that case, the
 participant will expect all tokens to be signed with RS256 (RSA Signature
 with SHA-256) with the public key loaded from the given JWKS URL.
@@ -206,7 +206,7 @@ given in seconds and can be defined as in the example configuration below:
 Configuring the Target Audience for JWT Authorization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The default audience (``aud`` field in the audience based token) for authenticating on the Ledger Api using JWT is
+The default audience (``aud`` field in the audience based token) for authenticating on the Ledger API using JWT is
 ``https://daml.com/participant/jwt/aud/participant/${participantId}``. Other audiences can be configured explicitly
 using the custom target audience configuration option:
 
@@ -219,7 +219,7 @@ Domain Configurations
 .. _public-api-configuration:
 
 
-Public Api
+Public API
 ~~~~~~~~~~
 The domain configuration requires the same configuration of the ``admin-api`` as the participant.
 Next to the ``admin-api``, we need to configure the ``public-api``, which is the api where

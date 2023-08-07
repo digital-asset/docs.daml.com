@@ -254,9 +254,9 @@ Manual deployment
 If you want to manually deploy ``Sequencer.sol`` to your Ethereum network, the file
 ``<<canton-drivers-release>>/examples/e03-ethereum-sequencer/qbft-testnet/Sequencer.bin-runtime``
 contains the compiled Solidity code you need to deploy. For Besu, for example, you will need to specify the contents of ``Sequencer.bin-runtime`` in ``"code": "..."`` as documented `here <https://besu.hyperledger.org/stable/private-networks/how-to/configure/contracts>`_.
-This can also be seen in the ``generate-testnet.sh``.
+This can also be seen in the ``generate-testnet.sh`` script.
 
-When a contract is deployed using the ``genesis.json``, the constructor is never called. Therefore, any variables initialized as part of the construct need to be set using the ``"storage": "..."``.
+When a contract is deployed using the ``genesis.json``, the constructor is never called. Therefore, any variables initialized as part of the constructor need to be set using the ``"storage": "..."`` configuration block.
 
 .. code-block:: none
 
@@ -268,7 +268,7 @@ When a contract is deployed using the ``genesis.json``, the constructor is never
                }
          }
 
-the above alloc block from the ``genesis.json`` deploys the contract code and initializes any fields needed.
+The above ``alloc`` block from the ``genesis.json`` deploys the contract code and initializes any fields needed.
 
 Requirements for the Ethereum Network
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -32,7 +32,7 @@ or the two following CLI options (deprecated):
     is omitted, the default value ``2003`` will be used.
 
   - ``prometheus://<server_host>[:<server_port>]``: renders captured metrics
-    on a http endpoint in accordance with the prometheus protocol. If the port
+    on a HTTP endpoint in accordance with the Prometheus protocol. If the port
     is omitted, the default value ``55001`` will be used. The metrics will be
     available under the address ``http://<server_host>:<server_port>/metrics``.
 

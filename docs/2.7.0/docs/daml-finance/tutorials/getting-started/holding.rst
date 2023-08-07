@@ -162,10 +162,17 @@ Deposit Cash in Alice’s Account
 We can now deposit cash in Alice’s account. It is possible to create a holding directly using the
 ``Fungible`` template:
 
-.. literalinclude:: /_templates/quickstart-finance/daml/Scripts/Holding.daml
-  :language: daml
-  :start-after: -- CREATE_ALICE_DIRECT_HOLDING_BEGIN
-  :end-before: -- CREATE_ALICE_DIRECT_HOLDING_END
+.. code-block:: daml
+
+  aliceHoldingRequest <- submit alice do
+    createCmd HoldingRequest with
+      instrument = instrumentKey
+      account = aliceAccount
+      amount = 1000.0
+      owner = alice
+      custodian = bank
+
+  aliceHoldingCid <- submit bank do exerciseCmd aliceHoldingRequest Accept
 
 However, this makes the application dependent on the implementation package. As explained in
 :ref:`Application Architecture <application-architecture>`, it is better to depend on the interface
