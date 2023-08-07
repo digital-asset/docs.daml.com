@@ -196,16 +196,21 @@ This mode can be enabled by setting the appropriate storage parameter:
 To benefit from the new security features in protocol version 5,
 you must :ref:`upgrade the domain accordingly <canton_domain_protocol_version_upgrading>`.
 
+Activation of unsupported features
+""""""""""""""""""""""""""""""""""
+In order to activate unsupported features, you now need to explicitly enable `dev-version-support` on the domain (in addition to the non-standard config flag).
+More information can be found in the :ref:`documentation <how-do-i-enable-unsupported-features>`.
+
 Breaking changes around console commands
 """"""""""""""""""""""""""""""""""""""""
 
 **Key rotation**
-The command keys.secret.rotate_wrapper_key now returns a different error code.
-An INVALID_WRAPPER_KEY_ID error has been replaced by an INVALID_KMS_KEY_ID error.
+The command ``keys.secret.rotate_wrapper_key`` now returns a different error code.
+An ``INVALID_WRAPPER_KEY_ID`` error has been replaced by an ``INVALID_KMS_KEY_ID`` error.
 
 **Adding sequencer connection**
 The configuration of the sequencer client has been updated to accommodate multiple sequencers and their endpoints:
-method `addConnection` has been renamed to `addEndpoints` to better reflect the fact that it modifies an endpoint for the sequencer.
+method ``addConnection`` has been renamed to ``addEndpoints`` to better reflect the fact that it modifies an endpoint for the sequencer.
 
 Hence, command to add a new sequencer connection to the mediator would be changed to:
 
@@ -240,33 +245,40 @@ In order to allow for independent updates of the different components, we have m
 As a result, deployments that use Fabric or Besu need to additionally download the jar and place it in the appropriate directory.
 Please :ref:`consult the installation documentation <canton-enterprise-drivers>` on how to obtain this additional jar.
 
+Removal of deploy_sequencer_contract
+""""""""""""""""""""""""""""""""""""
+The command ``deploy_sequencer_contract`` has been removed and exchanged with a deployment through genesis block in examples.
+The ``deploy_sequencer_contract``, while convenient, is ill-suited for any production environment and can cause more damage than harm.
+The deployment of a sequencing contract should only happen once on the blockchain;
+however, adding deployment as part of the bootstrapping script would cause a redeployment each time bootstrapping is done.
+
+
 Ledger API error codes
 """"""""""""""""""""""
-
-The error codes and metadata of GRPC errors returned as part of failed command interpretation from the Ledger API have been updated to include more information.
-Previously, most errors from the Daml engine would be given as either `GenericInterpretationError` or `InvalidArgumentInterpretationError`.
-They now all have their own codes and encode relevant information in the GRPC Status metadata.
+The error codes and metadata of gRPC errors returned as part of failed command interpretation from the Ledger API have been updated to include more information.
+Previously, most errors from the Daml engine would be given as either ``GenericInterpretationError`` or ``InvalidArgumentInterpretationError``.
+They now all have their own codes and encode relevant information in the gRPC Status metadata.
 Specific error changes are as follows:
-* `GenericInterpretationError` (Code: `DAML_INTERPRETATION_ERROR`) with GRPC status `FAILED_PRECONDITION` is now split into:
+* ``GenericInterpretationError`` (Code: ``DAML_INTERPRETATION_ERROR``) with gRPC status ``FAILED_PRECONDITION`` is now split into:
 
-    * `DisclosedContractKeyHashingError` (Code: `DISCLOSED_CONTRACT_KEY_HASHING_ERROR`) with GRPC status `FAILED_PRECONDITION`
-    * `UnhandledException` (Code: `UNHANDLED_EXCEPTION`) with GRPC status `FAILED_PRECONDITION`
-    * `InterpretationUserError` (Code: `INTERPRETATION_USER_ERROR`) with GRPC status `FAILED_PRECONDITION`
-    * `TemplatePreconditionViolated` (Code: `TEMPLATE_PRECONDITION_VIOLATED`) with GRPC status `INVALID_ARGUMENT`
+    * ``DisclosedContractKeyHashingError`` (Code: ``DISCLOSED_CONTRACT_KEY_HASHING_ERROR``) with gRPC status ``FAILED_PRECONDITION``
+    * ``UnhandledException`` (Code: ``UNHANDLED_EXCEPTION``) with gRPC status ``FAILED_PRECONDITION``
+    * ``InterpretationUserError`` (Code: ``INTERPRETATION_USER_ERROR``) with gRPC status ``FAILED_PRECONDITION``
+    * ``TemplatePreconditionViolated`` (Code: ``TEMPLATE_PRECONDITION_VIOLATED``) with gRPC status ``INVALID_ARGUMENT``
 
-* `InvalidArgumentInterpretationError` (Code: `DAML_INTERPRETER_INVALID_ARGUMENT`) with GRPC status `INVALID_ARGUMENT` is now split into:
+* ``InvalidArgumentInterpretationError`` (Code: ``DAML_INTERPRETER_INVALID_ARGUMENT``) with gRPC status ``INVALID_ARGUMENT`` is now split into:
 
-    * `CreateEmptyContractKeyMaintainers` (Code: `CREATE_EMPTY_CONTRACT_KEY_MAINTAINERS`) with GRPC status `INVALID_ARGUMENT`
-    * `FetchEmptyContractKeyMaintainers` (Code: `FETCH_EMPTY_CONTRACT_KEY_MAINTAINERS`) with GRPC status `INVALID_ARGUMENT`
-    * `WronglyTypedContract` (Code: `WRONGLY_TYPED_CONTRACT`) with GRPC status `FAILED_PRECONDITION`
-    * `ContractDoesNotImplementInterface` (Code: `CONTRACT_DOES_NOT_IMPLEMENT_INTERFACE`) with GRPC status `INVALID_ARGUMENT`
-    * `ContractDoesNotImplementRequiringInterface` (Code: `CONTRACT_DOES_NOT_IMPLEMENT_REQUIRING_INTERFACE`) with GRPC status `INVALID_ARGUMENT`
-    * `NonComparableValues` (Code: `NON_COMPARABLE_VALUES`) with GRPC status `INVALID_ARGUMENT`
-    * `ContractIdInContractKey` (Code: `CONTRACT_ID_IN_CONTRACT_KEY`) with GRPC status `INVALID_ARGUMENT`
-    * `ContractIdComparability` (Code: `CONTRACT_ID_COMPARABILITY`) with GRPC status `INVALID_ARGUMENT`
-    * `InterpretationDevError` (Code: `INTERPRETATION_DEV_ERROR`) with GRPC status `FAILED_PRECONDITION`
+    * ``CreateEmptyContractKeyMaintainers`` (Code: ``CREATE_EMPTY_CONTRACT_KEY_MAINTAINERS``) with gRPC status ``INVALID_ARGUMENT``
+    * ``FetchEmptyContractKeyMaintainers`` (Code: ``FETCH_EMPTY_CONTRACT_KEY_MAINTAINERS``) with gRPC status ``INVALID_ARGUMENT``
+    * ``WronglyTypedContract`` (Code: ``WRONGLY_TYPED_CONTRACT``) with gRPC status ``FAILED_PRECONDITION``
+    * ``ContractDoesNotImplementInterface`` (Code: ``CONTRACT_DOES_NOT_IMPLEMENT_INTERFACE``) with gRPC status ``INVALID_ARGUMENT``
+    * ``ContractDoesNotImplementRequiringInterface`` (Code: ``CONTRACT_DOES_NOT_IMPLEMENT_REQUIRING_INTERFACE``) with gRPC status ``INVALID_ARGUMENT``
+    * ``NonComparableValues`` (Code: ``NON_COMPARABLE_VALUES``) with gRPC status ``INVALID_ARGUMENT``
+    * ``ContractIdInContractKey`` (Code: ``CONTRACT_ID_IN_CONTRACT_KEY``) with gRPC status ``INVALID_ARGUMENT``
+    * ``ContractIdComparability`` (Code: ``CONTRACT_ID_COMPARABILITY``) with gRPC status ``INVALID_ARGUMENT``
+    * ``InterpretationDevError`` (Code: ``INTERPRETATION_DEV_ERROR``) with gRPC status ``FAILED_PRECONDITION``
 
-* The `ContractKeyNotVisible` error (previously encapsulated by `GenericInterpretationError`) is now transformed into a `ContractKeyNotFound` to avoid information leaking.
+* The ``ContractKeyNotVisible`` error (previously encapsulated by ``GenericInterpretationError``) is now transformed into a ``ContractKeyNotFound`` to avoid information leaking.
 
 Upgrade to Release 2.5
 ^^^^^^^^^^^^^^^^^^^^^^
