@@ -571,6 +571,44 @@ where `xyzKmsKeyId` is the KMS identifier for a specific key (e.g. AWS KMS Key A
 Finally, we need to initialize our :ref:`domain <manually-init-domain>` and
 :ref:`participants <manually-init-participant>` using the previously registered keys.
 
+.. _live_provider_migration:
+
+Live Provider Migration
+^^^^^^^^^^^^^^^^^^^^^^^
+
+To migrate a live participant node connected to a domain with a non KMS-compatible provider
+and start using KMS external keys we need to manually execute the following steps.
+The general idea is to replicate our old node into a new one that uses a KMS provider and connects to a KMS-compatible
+domain (e.g. running JCE with KMS supported encryption and signing keys).
+
+First, we need to delegate the namespace of the old participant to the new participant:
+
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/KmsMigrationIntegrationTest.scala
+   :language: scala
+   :start-after: user-manual-entry-begin: KmsSetupNamespaceDelegation
+   :end-before: user-manual-entry-end: KmsSetupNamespaceDelegation
+   :dedent:
+
+Secondly, we must recreate all parties of the old participant in the new participant:
+
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/KmsMigrationIntegrationTest.scala
+   :language: scala
+   :start-after: user-manual-entry-begin: KmsSetupNamespaceDelegation
+   :end-before: user-manual-entry-end: KmsSetupNamespaceDelegation
+   :dedent:
+
+Finally, we need to transfer the active contracts for each party from the old participant to the new one and
+connect to the new domain:
+
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/KmsMigrationIntegrationTest.scala
+   :language: scala
+   :start-after: user-manual-entry-begin: KmsMigrateACSofParties
+   :end-before: user-manual-entry-end: KmsMigrateACSofParties
+   :dedent:
+
+After all these steps, we have a new participant node with its keys stored and managed by a KMS connected to a domain
+that is able to communicate using the appropriate key schemes.
+
 .. _manual-aws-ksm-key-rotation:
 
 Auditability

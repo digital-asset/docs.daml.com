@@ -661,7 +661,7 @@ First, we need to delegate the namespace of the old participant to the new parti
 
 Secondly, we must recreate all parties of the old participant in the new participant:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/RecreatePartiesInNewParticipant.scala
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/KmsMigrationIntegrationTest.scala
    :language: scala
    :start-after: user-manual-entry-begin: KmsSetupNamespaceDelegation
    :end-before: user-manual-entry-end: KmsSetupNamespaceDelegation
@@ -670,7 +670,7 @@ Secondly, we must recreate all parties of the old participant in the new partici
 Finally, we need to transfer the active contracts for each party from the old participant to the new one and
 connect to the new domain:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/RecreatePartiesInNewParticipant.scala
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/KmsMigrationIntegrationTest.scala
    :language: scala
    :start-after: user-manual-entry-begin: KmsMigrateACSofParties
    :end-before: user-manual-entry-end: KmsMigrateACSofParties
