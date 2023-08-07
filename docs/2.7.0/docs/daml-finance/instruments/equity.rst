@@ -121,7 +121,7 @@ Currently, there are two different ways this can be modeled in the library:
 The preferred way is to model this using the following two components:
 
 - A dividend option instrument, which describes the economic terms of the rights a shareholder
-  receives. The page on the :doc:`Option Instrument package <option-instrument>` describes how to
+  receives. The page on the :doc:`Option Instrument package <option>` describes how to
   create a physically settled :ref:`Dividend <module-daml-finance-instrument-option-dividend-instrument-7333>`
   option.
 - The ``DeclareDistribution`` choice to distribute the above option instrument in the correct
@@ -174,7 +174,7 @@ be modeled using two components:
 - An option instrument, which describes the economic terms of the rights a shareholder receives.
   For example, this could be a European option with a strike price below the current spot price, and
   a maturity three weeks in the future.
-  The page on the :doc:`Option Instrument package <option-instrument>` describes how to create a
+  The page on the :doc:`Option Instrument package <option>` describes how to create a
   physically settled European option.
 - The ``DeclareDistribution`` choice to distribute the above option instrument in the correct
   proportion (e.g. 3 option contracts for each 10 shares held). This can be done in the same way as

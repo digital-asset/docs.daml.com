@@ -29,7 +29,7 @@ following modules:
   Utility functions for options
 
 Check out the page on
-:doc:`How to use the Option Instrument packages <../../instruments/option-instrument>`
+:doc:`How to use the Option Instrument packages <../../instruments/option>`
 for a description of how to use the these instruments in practice.
 
 Changelog

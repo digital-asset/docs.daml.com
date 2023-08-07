@@ -14,7 +14,7 @@ Prerequisites
 *************
 
 Swap instruments share many similarities with Bond instruments. This page builds on the page for the
-:doc:`Bond Instruments <bond-instrument>`. Please, check it out before reading the Swap specifics
+:doc:`Bond Instruments <bond>`. Please, check it out before reading the Swap specifics
 below.
 
 How To Create a Swap Instrument

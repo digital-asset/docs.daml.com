@@ -35,7 +35,7 @@ modules:
   Factory implementation to instantiate interest rate swaps
 
 Check out the page on
-:doc:`How to use the Swap Instrument packages <../../instruments/swap-instrument>`
+:doc:`How to use the Swap Instrument packages <../../instruments/swap>`
 for a description of how to use these instruments in practice.
 
 Changelog

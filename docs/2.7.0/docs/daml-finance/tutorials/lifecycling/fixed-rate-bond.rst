@@ -45,7 +45,7 @@ Instrument and Holding
 For the purpose of showcasing time-based lifecycling, we need a suitable sample instrument.
 :ref:`Fixed rate bonds <module-daml-finance-instrument-bond-fixedrate-instrument-67993>`
 pay a constant coupon rate at the end of each coupon period. The
-:doc:`Bond Instrument packages <../../instruments/bond-instrument>` page describes this instrument
+:doc:`Bond Instrument packages <../../instruments/bond>` page describes this instrument
 in more detail. Here, we briefly show how to create the bond instrument using a factory:
 
 .. literalinclude:: ../../finance-lifecycling/daml/Scripts/FixedRateBond.daml
