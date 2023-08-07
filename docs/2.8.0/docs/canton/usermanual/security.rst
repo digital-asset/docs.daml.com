@@ -598,8 +598,8 @@ Secondly, we must recreate all parties of the old participant in the new partici
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/kms/KmsMigrationIntegrationTest.scala
    :language: scala
-   :start-after: user-manual-entry-begin: KmsSetupNamespaceDelegation
-   :end-before: user-manual-entry-end: KmsSetupNamespaceDelegation
+   :start-after: user-manual-entry-begin: KmsRecreatePartiesInNewParticipant
+   :end-before: user-manual-entry-end: KmsRecreatePartiesInNewParticipant
    :dedent:
 
 Finally, we need to transfer the active contracts of all the parties from the old participant to the new one and
