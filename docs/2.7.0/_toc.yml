@@ -305,16 +305,16 @@ subtrees:
   - file: daml-finance/instruments/intro
     title: "Instruments"
     entries:
-    - file: daml-finance/instruments/bond-extension
-      title: "Bond Extension"
-    - file: daml-finance/instruments/equity-extension
-      title: "Equity Extension"
-    - file: daml-finance/instruments/option-extension
-      title: "Option Extension"
-    - file: daml-finance/instruments/swap-extension
-      title: "Swap Extension"
     - file: daml-finance/instruments/token-instrument
       title: "Token Instrument"
+    - file: daml-finance/instruments/bond-instrument
+      title: "Bond Instruments"
+    - file: daml-finance/instruments/equity-instrument
+      title: "Equity Instruments"
+    - file: daml-finance/instruments/option-instrument
+      title: "Option Instruments"
+    - file: daml-finance/instruments/swap-instrument
+      title: "Swap Instruments"
     - file: daml-finance/instruments/generic-instrument
       title: "Generic Instrument"
   - file: daml-finance/packages/index

@@ -28,9 +28,9 @@ following modules:
 - :ref:`Util <module-daml-finance-instrument-option-util-7008>`:
   Utility functions for options
 
-Check out the tutorial on
-:doc:`How to use the Option extension package <../../instruments/option-extension>`
-for a description of how to use the option extension in practice.
+Check out the page on
+:doc:`How to use the Option Instrument packages <../../instruments/option-instrument>`
+for a description of how to use the these instruments in practice.
 
 Changelog
 *********

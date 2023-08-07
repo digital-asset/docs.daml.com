@@ -11,7 +11,7 @@ explain what each instrument does and how to set it up.
 Bonds
 *****
 
-The following instruments are included in the :doc:`Bond Extension <bond-extension>`:
+The following instruments are included in the :doc:`Bond Instrument package <bond-instrument>`:
 
 - Fixed rate bonds
 - Floating rate bonds
@@ -22,14 +22,14 @@ The following instruments are included in the :doc:`Bond Extension <bond-extensi
 Equites
 *******
 
-The following instruments are included in the :doc:`Equity Extension <equity-extension>`:
+The following instruments are included in the :doc:`Equity Instrument package <equity-instrument>`:
 
 - Equities (can also be used to model ETFs)
 
 Options
 *******
 
-The following instruments are included in the :doc:`Option Extension <option-extension>`:
+The following instruments are included in the :doc:`Option Instrument package <option-instrument>`:
 
 - Cash-settled European options
 - Physically-settled European options
@@ -39,7 +39,7 @@ The following instruments are included in the :doc:`Option Extension <option-ext
 Swaps
 *****
 
-The following instruments are included in the :doc:`Swap Extension <swap-extension>`:
+The following instruments are included in the :doc:`Swap Instrument package <swap-instrument>`:
 
 - Interest rate swaps
 - Currency swaps

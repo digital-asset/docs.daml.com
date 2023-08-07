@@ -36,8 +36,8 @@ In order to demonstrate the
 sample instrument.
 :ref:`Callable bonds <module-daml-finance-instrument-bond-callable-instrument-83330>` pay coupons as
 long as the bond has not been called by the issuer.
-The :doc:`Bond Extension tutorial <../../instruments/bond-extension>` describes this instrument in
-more detail. Here, we briefly show how to create the bond instrument using a factory:
+The :doc:`Bond Instrument packages <../../instruments/bond-instrument>` page describes this
+instrument in more detail. Here, we briefly show how to create the bond instrument using a factory:
 
 .. literalinclude:: ../../finance-lifecycling/daml/Scripts/CallableBond.daml
   :language: daml
