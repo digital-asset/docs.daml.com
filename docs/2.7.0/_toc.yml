@@ -669,8 +669,6 @@ subtrees:
           title: "Basic builders"
         - file: daml-finance/tutorials/payoff-modeling/observations
           title: "Observations"
-        - file: daml-finance/tutorials/payoff-modeling/generic-extension
-          title: "How To Model and Lifecycle Generic Instruments"
       - file: daml-finance/tutorials/advanced-topics/intro
         title: "Advanced Topics"
         entries:

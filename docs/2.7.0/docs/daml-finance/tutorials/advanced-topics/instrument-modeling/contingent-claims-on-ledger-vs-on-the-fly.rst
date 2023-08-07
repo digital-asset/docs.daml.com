@@ -13,8 +13,8 @@ We have seen two different ways of modeling a fixed coupon bond using
 Explicitly Storing the Contingent Claims Tree on the Ledger
 ===========================================================
 
-When we use the :doc:`Generic extension <../../payoff-modeling/generic-extension>`, we create the claims tree at
-instrument inception and store this representation explicitly on the ledger. Since the tree is
+When we use the :doc:`Generic Instrument <../../../instruments/generic>`, we create the claims tree
+at instrument inception and store this representation explicitly on the ledger. Since the tree is
 stored statically it can only change if the instrument is updated on ledger. For example, after a
 coupon payment a new version of the instrument (excluding the coupon just paid) supersedes the
 previous version. However, in the event of a change in a holiday calendar (which could be used to
