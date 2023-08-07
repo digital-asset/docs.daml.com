@@ -521,7 +521,7 @@ You can optionally pass a wrapper key id to change to or let Canton generate a n
 KMS configuration. If you wish to change the key specification (e.g. enable multi region) you are required
 to update the configuration before rotating the wrapper key.
 
-.. _full-kms-configuration
+.. _full-kms-configuration:
 
 Canton Configuration for External Key Storage and Usage
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

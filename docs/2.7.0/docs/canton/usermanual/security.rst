@@ -585,7 +585,7 @@ You can optionally pass a wrapper key id to change to or let Canton generate a n
 KMS configuration. Changing the key specification (e.g. enable multi region) during rotation is for now
 only possible with AWS, by updating the configuration before rotating the wrapper key.
 
-.. _full-kms-configuration
+.. _full-kms-configuration:
 
 Canton Configuration for External Key Storage and Usage
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
