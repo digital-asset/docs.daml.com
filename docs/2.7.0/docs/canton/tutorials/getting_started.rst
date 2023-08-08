@@ -80,8 +80,8 @@ Then, run
    bin/canton --help
 
 to see the command line options that Canton supports. Alternatively to
-`bin/canton` you can also start Canton directly with `java -jar
-lib/canton-*.jar` assuming all other jar dependencies are in the `lib` folder
+``bin/canton``, you can also start Canton directly with ``java -jar
+lib/canton-*.jar``, assuming all other jar dependencies are in the ``lib`` folder,
 too.
 
 Next, run
