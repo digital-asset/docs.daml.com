@@ -7,13 +7,14 @@ Transfer
 This tutorial builds on the previous chapter, which introduced :ref:`account <account>`,
 :ref:`instrument <instrument>`, and :ref:`holding <holding>`.
 
-We are now going to transfer a holding from Alice to Bob.
+We are now going to transfer the holding that we created in the previous tutorial
+from Alice to Bob.
 
-Run the Transfer Script
-***********************
+Run the Script
+**************
 
 Let us now explore the ``Transfer`` script step-by-step. It builds on the previous
-:doc:`Holding <holding>` tutorial script in the sense that the same accounts and the existing
+:doc:`Holdings <holdings>` tutorial script in the sense that the same accounts and the existing
 holdings are used.
 
 Transfer Cash from Alice to Bob
@@ -148,8 +149,7 @@ you can use the :ref:`Account.exerciseInterfaceByKey
 Summary
 *******
 
-You know how to setup basic accounts, holdings and instruments. You also learned how to perform a
-simple transfer. The key concepts to take away are:
+You now learned how to perform a simple transfer. The key concepts to take away are:
 
 * Holdings represent the ownership of a financial instrument at a custodian.
 * Transfers change ownership of a holding.
