@@ -70,27 +70,6 @@ the Daml transaction level.
 Non-Functional Requirements
 ===========================
 
-Performance
------------
-
-The performance targets cover the entire Canton system and are not broken down
-to individual component performance targets.
-
-  .. _perf-alpha-domain-req:
-
-* Canton Alpha-level Performance: 5 transactions/second (tps) with up to 3
-  second latency.
-
-  .. _perf-beta-domain-req:
-
-* Canton Beta-level Performance: 20 tps with up to 1s latency.
-
-.. TODO(soren): What is the Canton GA performance target?
-
-Throughput is measured with a simple Daml workflow where one participant node
-creates a contract and another participant node must observe the contract.
-Performance is measured using the Daml Ledger API test tool.
-
 Reliability
 -----------
 
