@@ -5,7 +5,7 @@ How to Implement a Contingent Claims-Based Instrument
 #####################################################
 
 In this chapter we will look at how to create a strongly typed instrument, which leverages the
-:doc:`Contingent Claims <../../../concepts/contingent-claims>` library. As an example, we will see how
+:doc:`Contingent Claims <../../../instruments/generic/contingent-claims>` library. As an example, we will see how
 the
 :ref:`fixed rate bond instrument <module-daml-finance-instrument-bond-fixedrate-instrument-67993>`
 is implemented in Daml Finance. The goal is that you will learn how to implement your own instrument
@@ -31,7 +31,7 @@ rate instrument:
   :end-before: -- FIXED_RATE_BOND_TEMPLATE_END
 
 These template variables describe the payoff of the fixed rate bond. They will be used to create a
-:doc:`Contingent Claims <../../../concepts/contingent-claims>` tree, which is the internal
+:doc:`Contingent Claims <../../../instruments/generic/contingent-claims>` tree, which is the internal
 representation used for modelling and lifecycling in Daml Finance. Note that this tree is not part
 of the template above. Instead, it will be created dynamically, as described in the next sections.
 
@@ -76,7 +76,7 @@ Keywords like
 :ref:`scale <function-contingentclaims-core-claim-scale-79608>`,
 :ref:`one <function-contingentclaims-core-claim-one-13168>` and
 :ref:`give <function-contingentclaims-core-claim-give-6964>`
-are defined in the :doc:`Contingent Claims documentation <../../../concepts/contingent-claims>`.
+are defined in the :doc:`Contingent Claims documentation <../../../instruments/generic/contingent-claims>`.
 
 How to Define the Coupon Claims
 ===============================

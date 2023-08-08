@@ -5,7 +5,7 @@ Daml.Finance.Instrument.Generic
 ###############################
 
 This package contains the *implementation* of generic,
-:doc:`Contingent Claims <../../concepts/contingent-claims>` based instruments, defined
+:doc:`Contingent Claims <../../instruments/generic/contingent-claims>` based instruments, defined
 in the following modules:
 
 - :ref:`Instrument <module-daml-finance-instrument-generic-instrument-67364>`:

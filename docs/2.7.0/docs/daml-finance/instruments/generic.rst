@@ -6,7 +6,7 @@ How to use the Generic Instrument packages
 
 The :doc:`Generic Instrument<../packages/implementations/daml-finance-instrument-generic>`
 provides a flexible framework to model and lifecycle custom payoffs in Daml Finance.
-It encapsulates the :doc:`Contingent Claims <../concepts/contingent-claims>` library, which gives us
+It encapsulates the :doc:`Contingent Claims <generic/contingent-claims>` library, which gives us
 the tools to model the economic terms of the payoff.
 
 To follow the code snippets used in this page in Daml Studio, you can
@@ -56,7 +56,7 @@ Alternatively, if you want to model a European Option instead, you can define th
   :end-before: -- CREATE_CC_OPTION_INSTRUMENT_VARIABLES_END
 
 This uses the :ref:`european <function-contingentclaims-core-builders-european-99265>` builder
-function, which is included in :doc:`Contingent Claims <../concepts/contingent-claims>`.
+function, which is included in :doc:`Contingent Claims <generic/contingent-claims>`.
 
 Compared to the bond, where the passage of time results in a coupon payment being due, the
 option instrument requires a manual *Election*: the holder of the instrument holding needs to choose

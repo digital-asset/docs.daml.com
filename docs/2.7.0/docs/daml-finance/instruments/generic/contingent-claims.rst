@@ -12,14 +12,15 @@ represented by a tree of :ref:`Claims <type-contingentclaims-core-internal-claim
 which describe future cashflows between two parties as well as the conditions under which these
 cashflows occur.
 
-:ref:`ContingentClaims.Lifecycle <module-contingentclaims-lifecycle-lifecycle-72039>`
-offers lifecycling capabilities, as well as a valuation semantics to map a claim to a mathematical
-expression that can be used for no-arbitrage pricing.
+The library offers lifecycling capabilities, as well as an (experimental) valuation semantics to
+map a claim to a mathematical expression that can be used for no-arbitrage pricing.
 
 An example of how to create and lifecycle contracts using Contingent Claims can be found in
-:doc:`this tutorial <../tutorials/advanced-topics/instrument-modeling/contingent-claims-instrument>`.
+:doc:`this tutorial <../../tutorials/advanced-topics/instrument-modeling/contingent-claims-instrument>`.
 
-In the following we present a user guide for getting started with ``Contingent Claims``-based
+.. check if link still makes sense
+
+In the following we present a user guide for getting started with Contingent Claims instrument
 modeling. It is meant to teach the basics of the framework, but does not cover every aspect. The
 work is based on the papers [Cit1]_ and [Cit2]_, and we recommend that you refer to these for an
 in-depth understanding of how it works.
@@ -31,7 +32,7 @@ The approach taken in the papers is to model financial instruments by their cash
 be familiar to anyone having taken a course in corporate finance or valuation. Let’s start with an
 example:
 
-.. image:: ../images/contingent_claims_cashflows.png
+.. image:: ../../images/contingent_claims_cashflows.png
    :alt: Image showing cashflows along a time axis. There are five arrow depicting smaller
          cashflows, and one final arrow representing a larger (redemption) payment.
 
@@ -102,7 +103,7 @@ Additionally, there are several constructors which were not used in the above ex
 
 The tree produced by our expression (corresponding to the cashflow figure above) looks like this:
 
-.. image:: ../images/contingent_claims_tree.png
+.. image:: ../../images/contingent_claims_tree.png
    :alt: Image showing a tree made up of the above described nodes types.
 
 Composition and Extensibility
@@ -228,7 +229,7 @@ Let’s go back to our fixed-rate bond example, above. We want to process the co
 is a function in ```Lifecycle.daml`` <./daml/ContingentClaims/Lifecycle.daml>`__ for doing just
 this:
 
-.. literalinclude:: ../src/main/daml/ContingentClaims/Lifecycle/Lifecycle.daml
+.. literalinclude:: ../../src/main/daml/ContingentClaims/Lifecycle/Lifecycle.daml
   :language: daml
   :start-after: -- CLAIMS_LIFECYCLE_BEGIN
   :end-before: -- CLAIMS_LIFECYCLE_END
@@ -237,7 +238,7 @@ This may look daunting, but let’s look at an example in
 ```ContingentClaims/Test/FinancialContract.daml``
 to see this in action:
 
-.. literalinclude:: ../src/test/daml/ContingentClaims/Test/FinancialContract.daml
+.. literalinclude:: ../../src/test/daml/ContingentClaims/Test/FinancialContract.daml
   :language: daml
   :start-after: -- CLAIMS_LIFECYCLE_TEST_BEGIN
   :end-before: -- CLAIMS_LIFECYCLE_TEST_END
@@ -254,7 +255,7 @@ any assets that need to be settled. In our running bond example, we would extrac
 from the first payment, and return it, along with the rest of the tree, after that branch has been
 pruned (depicted greyed-out below):
 
-.. image:: ../images/contingent_claims_tree_lifecycle.png
+.. image:: ../../images/contingent_claims_tree_lifecycle.png
    :alt: Image showing the same tree as above, with parts of the tree greyed out.
 
 You may wonder why we’ve separated the settlement procedure from the lifecycling function. The
