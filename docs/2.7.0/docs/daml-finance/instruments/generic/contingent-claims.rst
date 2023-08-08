@@ -15,10 +15,8 @@ cashflows occur.
 The library offers lifecycling capabilities, as well as an (experimental) valuation semantics to
 map a claim to a mathematical expression that can be used for no-arbitrage pricing.
 
-An example of how to create and lifecycle contracts using Contingent Claims can be found in
-:doc:`this tutorial <../../tutorials/advanced-topics/instrument-modeling/contingent-claims-instrument>`.
-
-.. check if link still makes sense
+Examples of how to create and lifecycle contracts using Contingent Claims can be found in the
+:doc:`Payoff Modeling tutorial <../../tutorials/payoff-modeling/intro>`.
 
 In the following we present a user guide for getting started with Contingent Claims instrument
 modeling. It is meant to teach the basics of the framework, but does not cover every aspect. The
@@ -226,8 +224,8 @@ a different use case: the lifecycling (aka safekeeping, processing corporate act
 instruments.
 
 Let’s go back to our fixed-rate bond example, above. We want to process the coupon payments. There
-is a function in ```Lifecycle.daml`` <./daml/ContingentClaims/Lifecycle.daml>`__ for doing just
-this:
+is a function in the :ref:`Lifecycle module <module-contingentclaims-lifecycle-lifecycle-72039>`
+for doing exactly this:
 
 .. literalinclude:: ../../src/main/daml/ContingentClaims/Lifecycle/Lifecycle.daml
   :language: daml
@@ -235,7 +233,7 @@ this:
   :end-before: -- CLAIMS_LIFECYCLE_END
 
 This may look daunting, but let’s look at an example in
-```ContingentClaims/Test/FinancialContract.daml``
+`ContingentClaims/Test/FinancialContract.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/ContingentClaims/Test/FinancialContract.daml>`_
 to see this in action:
 
 .. literalinclude:: ../../src/test/daml/ContingentClaims/Test/FinancialContract.daml
