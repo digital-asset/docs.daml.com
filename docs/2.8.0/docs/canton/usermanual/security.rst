@@ -380,9 +380,11 @@ Running Canton with a KMS
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 KMS support can be enabled for a new installation (i.e., during the node
-bootstrap) or for an existing deployment that is transparently updated to use KMS.
+bootstrap) or for an existing deployment.
 When the KMS is enabled after a node has been running, the keys are (a) encrypted and stored in this encrypted form
-in the Canton node's database, or (b) transparently replaced by external KMS keys.
+in the Canton node's database, or (b) transparently replaced by external KMS keys. For
+scenario (a) this process is done transparently, while in (b) :ref:`a node needs to be migrated <participant_kms_migration>`
+if the key schemes being used do not match the current supported keys for KMS.
 
 .. _backup-kms:
 
@@ -519,6 +521,8 @@ You can optionally pass a wrapper key id to change to or let Canton generate a n
 KMS configuration. If you wish to change the key specification (e.g. enable multi region) you are required
 to update the configuration before rotating the wrapper key.
 
+.. _full-kms-configuration:
+
 Canton Configuration for External Key Storage and Usage
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -570,6 +574,45 @@ where `xyzKmsKeyId` is the KMS identifier for a specific key (e.g. AWS KMS Key A
 
 Finally, we need to initialize our :ref:`domain <manually-init-domain>` and
 :ref:`participants <manually-init-participant>` using the previously registered keys.
+
+.. _participant_kms_migration:
+
+Participant Node Migration to KMS Crypto Provider
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To migrate an existing participant node connected to a domain with a non KMS-compatible provider
+and start using KMS external keys, we need to manually execute the following steps.
+The general idea is to replicate the old node into a :ref:`new one that uses a KMS provider and connects to
+a KMS-compatible domain <full-kms-configuration>` (e.g. running JCE with KMS supported encryption and
+signing keys).
+
+First, we need to delegate the namespace of the old participant to the new participant:
+
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/kms/KmsMigrationIntegrationTest.scala
+   :language: scala
+   :start-after: user-manual-entry-begin: KmsSetupNamespaceDelegation
+   :end-before: user-manual-entry-end: KmsSetupNamespaceDelegation
+   :dedent:
+
+Secondly, we must recreate all parties of the old participant in the new participant:
+
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/kms/KmsMigrationIntegrationTest.scala
+   :language: scala
+   :start-after: user-manual-entry-begin: KmsRecreatePartiesInNewParticipant
+   :end-before: user-manual-entry-end: KmsRecreatePartiesInNewParticipant
+   :dedent:
+
+Finally, we need to transfer the active contracts of all the parties from the old participant to the new one and
+connect to the new domain:
+
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/kms/KmsMigrationIntegrationTest.scala
+   :language: scala
+   :start-after: user-manual-entry-begin: KmsMigrateACSofParties
+   :end-before: user-manual-entry-end: KmsMigrateACSofParties
+   :dedent:
+
+The end result is a new participant node with its keys stored and managed by a KMS connected to a domain
+that is able to communicate using the appropriate key schemes.
 
 .. _manual-aws-ksm-key-rotation:
 
