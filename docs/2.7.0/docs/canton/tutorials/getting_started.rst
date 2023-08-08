@@ -46,7 +46,6 @@ The extracted archive has the following structure:
   ├── daml
   ├── dars
   ├── demo
-  ├── deployment
   ├── drivers (enterprise)
   ├── examples
   ├── lib
@@ -56,7 +55,6 @@ The extracted archive has the following structure:
 - ``daml``: contains the source code for some sample smart contracts
 - ``dars``: contains the compiled and packaged code of the above contracts
 - ``demo``: contains everything needed to run the interactive Canton demo
-- ``deployment``: contains a few example deployments to cloud or docker
 - ``examples``: contains sample configuration and script files for the Canton console
 - ``lib``: contains the Java executables (JARs) needed to run Canton
 
@@ -81,7 +79,11 @@ Then, run
 
    bin/canton --help
 
-to see the command line options that Canton supports.
+to see the command line options that Canton supports. Alternatively to
+`bin/canton` you can also start Canton directly with `java -jar
+lib/canton-*.jar` assuming all other jar dependencies are in the `lib` folder
+too.
+
 Next, run
 
 .. code-block:: bash
