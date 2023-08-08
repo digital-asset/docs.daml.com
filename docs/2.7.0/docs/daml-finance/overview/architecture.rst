@@ -31,14 +31,14 @@ The interface layer consists of the following packages:
 - ``Daml.Finance.Interface.Lifecycle`` defines interfaces used for instrument lifecycling
 - ``Daml.Finance.Interface.Instrument.*`` contains interfaces used for different instrument types
 - ``Daml.Finance.Interface.Claims`` contains interfaces used for
-  :doc:`Contingent Claims <../concepts/contingent-claims>` based instrument types
+  :doc:`Contingent Claims <../instruments/generic/contingent-claims>` based instrument types
 - ``Daml.Finance.Interface.Data`` defines interfaces related to reference data
 - ``Daml.Finance.Interface.Types.Common`` provides common types
 - ``Daml.Finance.Interface.Types.Date`` provides types related to dates
 - ``Daml.Finance.Interface.Util`` defines utilities and interfaces used by other interface
   packages.
 - ``ContingentClaims.Core`` contains types for representing
-  :doc:`Contingent Claims <../concepts/contingent-claims>` tree structures.
+  :doc:`Contingent Claims <../instruments/generic/contingent-claims>` tree structures.
 
 Implementation Layer
 ********************
@@ -62,12 +62,12 @@ The implementation layer consists of the following packages:
 - ``Daml.Finance.Instrument.*`` contains implementations for various instrument types
 - ``Daml.Finance.Data`` includes templates used to store reference data on the ledger
 - ``Daml.Finance.Claims`` contains utility functions relating to
-  :doc:`Contingent Claims <../concepts/contingent-claims>` based instruments and lifecycling
+  :doc:`Contingent Claims <../instruments/generic/contingent-claims>` based instruments and lifecycling
 - ``Daml.Finance.Util`` provides a set of pure utility functions mainly for date manipulation
 - ``ContingentClaims.Lifecycle`` provides lifecycle utility functions for
-  :doc:`Contingent Claims <../concepts/contingent-claims>` based instruments
+  :doc:`Contingent Claims <../instruments/generic/contingent-claims>` based instruments
 - ``ContingentClaims.Valuation`` contains experimental functions to transform
-  :doc:`Contingent Claims <../concepts/contingent-claims>` instrument trees into a mathematical
+  :doc:`Contingent Claims <../instruments/generic/contingent-claims>` instrument trees into a mathematical
   representation suitable for integration with pricing and risk frameworks
 
 Versioning and Compatibility

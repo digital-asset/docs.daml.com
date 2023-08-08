@@ -6,7 +6,7 @@ Intermediated Lifecycling of an Instrument
 
 This tutorial describes the :ref:`lifecycle <lifecycling>` flow of an instrument with an
 intermediary party between the issuer and the investor. We will use the a
-:doc:`Generic Instrument<../../payoff-modeling/generic-extension>`, but the same concepts apply to other instrument
+:doc:`Generic Instrument <../../../instruments//generic>`, but the same concepts apply to other instrument
 types as well.
 
 We will illustrate the following steps:
@@ -26,11 +26,11 @@ is the starting point of this tutorial. It contains an example for both non-atom
 settlement of lifecycle effects. In this tutorial we will focus on the non-atomic settlement, but we
 will mention atomic settlement towards the end.
 
-Create a Fixed-Rate Bond Instrument
-***********************************
+Create the Instrument
+*********************
 
-We start by defining a fixed rate bond, which pays a 4% p.a. coupon with a 6M coupon period. This is
-explained in the :doc:`Generic Instrument<../../payoff-modeling/generic-extension>` tutorial.
+We start by using a :doc:`Generic Instrument <../../../instruments/generic>` to model a fixed rate
+bond paying a 4% p.a. coupon with a 6M coupon period.
 
 Define an Intermediated Settlement Route
 ****************************************

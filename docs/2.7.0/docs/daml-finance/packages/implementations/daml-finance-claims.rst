@@ -5,7 +5,7 @@ Daml.Finance.Claims
 ###################
 
 This package contains utility functions that facilitate building and working with
-:doc:`Contingent Claims <../../concepts/contingent-claims>` based instruments. It includes the
+:doc:`Contingent Claims <../../instruments/generic/contingent-claims>` based instruments. It includes the
 following modules:
 
 - :ref:`Lifecycle.Rule <module-daml-finance-claims-lifecycle-rule-53980>`:
@@ -17,7 +17,7 @@ following modules:
 - :ref:`Util.Lifecycle <module-daml-finance-claims-util-lifecycle-9534>`:
   Defines different types of events and how to lifecycle them
 - :ref:`Util.Builders <module-daml-finance-claims-util-builders-48637>`:
-  Utility functions related to creating :doc:`Contingent Claims <../../concepts/contingent-claims>`,
+  Utility functions related to creating :doc:`Contingent Claims <../../instruments/generic/contingent-claims>`,
   e.g. for bonds/swaps
 - :ref:`Util.Date <module-daml-finance-claims-util-date-40505>`:
   Utility functions related to dates and schedule periods, which are used to define claims.

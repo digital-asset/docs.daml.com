@@ -300,8 +300,6 @@ subtrees:
         title: "Settlement"
       - file: daml-finance/concepts/lifecycling
         title: "Lifecycling"
-      - file: daml-finance/concepts/contingent-claims
-        title: "Contingent Claims"
   - file: daml-finance/instruments/intro
     title: "Instruments"
     entries:
@@ -317,6 +315,9 @@ subtrees:
       title: "Swap Instruments"
     - file: daml-finance/instruments/generic
       title: "Generic Instrument"
+      entries:
+      - file: daml-finance/instruments/generic/contingent-claims
+        title: "Contingent Claims"
   - file: daml-finance/packages/index
     title: "Packages"
     subtrees:
@@ -669,8 +670,6 @@ subtrees:
           title: "Basic builders"
         - file: daml-finance/tutorials/payoff-modeling/observations
           title: "Observations"
-        - file: daml-finance/tutorials/payoff-modeling/generic-extension
-          title: "How To Model and Lifecycle Generic Instruments"
       - file: daml-finance/tutorials/advanced-topics/intro
         title: "Advanced Topics"
         entries:
