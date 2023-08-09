@@ -62,9 +62,9 @@ Key Generation and Storage
 
 Keys can either be generated in the node and stored in the node's primary storage or generated and stored by
 an external key management system (KMS).
-We currently support a version of Canton that can use AWS KMS to either:
-(a) :ref:`protect Canton's private keys at rest <kms_envelope_architecture>`
-or (b) :ref:`generate and store the private keys itself <kms_external_architecture>`.
+We currently support a version of Canton that can use a KMS to either:
+(a) `protect Canton's private keys at rest`
+or (b) `generate and store the private keys itself`.
 This version is available only as part of Daml Enterprise.
 
 You can find more background information on this key management feature in
@@ -74,7 +74,7 @@ if you wish to know how Canton can protect private keys whilst they remain inter
 :ref:`Externalize Private Keys With a Key Management Service <kms_external_architecture>`
 for more details on how Canton can enable private keys to be generated and stored by an external KMS.
 
-The following section :ref:`Key Management Service Setup <kms_setup>` describes how to enable AWS KMS for Canton
+The following section :ref:`Key Management Service Setup <kms_setup>` describes how to enable KMS support in Canton
 and how to setup each of these two modes of operation.
 
 Public Key Distribution using Topology Management
@@ -263,7 +263,7 @@ Cryptographic Key Management
 Rotating Canton Node Keys
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Canton supports rotating of node keys (signing and encryption) during live
+Canton supports rotation of node keys (signing and encryption) during live
 operation through its topology management. In order to ensure continuous
 operation, the new key is added first and then the previous key is removed.
 
@@ -273,8 +273,8 @@ the following command for example:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/topology/KeyManagementIntegrationTest.scala
    :language: scala
-   :start-after: user-manual-entry-begin: RotateNodeKey
-   :end-before: user-manual-entry-end: RotateNodeKey
+   :start-after: user-manual-entry-begin: RotateNodeKeys
+   :end-before: user-manual-entry-end: RotateNodeKeys
    :dedent:
 
 On a participant node both the signing and encryption key pairs are rotated. On a domain and domain manager node only
@@ -288,6 +288,22 @@ manager authorizes the key rotation and a reference needs to be passed in to the
    :language: scala
    :start-after: user-manual-entry-begin: RotateNodeKeys2
    :end-before: user-manual-entry-end: RotateNodeKeys2
+   :dedent:
+
+We can also individually rotate a key by running the following command for example:
+
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/topology/KeyManagementIntegrationTest.scala
+   :language: scala
+   :start-after: user-manual-entry-begin: RotateNodeKey
+   :end-before: user-manual-entry-end: RotateNodeKey
+   :dedent:
+
+A fingerprint of a key can be retrieved from the list of public keys:
+
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/topology/KeyManagementIntegrationTest.scala
+   :language: scala
+   :start-after: user-manual-entry-begin: ListPublicKeys
+   :end-before: user-manual-entry-end: ListPublicKeys
    :dedent:
 
 Namespace Intermediate Key Management
@@ -372,9 +388,8 @@ and then use its API to securely sign an decrypt messages. A Canton node still s
 the corresponding public keys in its stores so that it can verify signatures and
 encrypt messages without having to rely on the KMS.
 
-The KMS integration is currently only enabled for `Amazon Web Services (AWS)
-KMS` in Canton Enterprise. Other KMS integration options
-(e.g., `Google Cloud Provider (GCP) KMS` or other on-premise solutions) will be supported in the future.
+The KMS integration is currently enabled for `Amazon Web Services (AWS)
+KMS` and `Google Cloud Provider (GCP) KMS` in Canton Enterprise.
 
 Running Canton with a KMS
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -388,16 +403,19 @@ if the key schemes being used do not match the current supported keys for KMS.
 
 .. _backup-kms:
 
-Note: In scenario (a), then the AWS KMS keys used to encrypt the private keys need
-to live as long as the Canton database backups, so care must be taken when
-deleting database backup files or KMS keys. Otherwise, a Canton node restored from a database
-backup may try to decrypt the private keys with a `KMS wrapper key` that was previously deleted.
+.. note::
+    In scenario (a), the KMS keys used to encrypt the private keys need
+    to live as long as the Canton database backups, so care must be taken when
+    deleting database backup files or KMS keys. Otherwise, a Canton node restored from a database
+    backup may try to decrypt the private keys with a `KMS wrapper key` that was previously deleted.
 
 Canton Configuration of a KMS
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Like other Canton capabilities, KMS integration is enabled within a Canton
-node's configuration file. A KMS is configured in the following way:
+node's configuration file. A KMS for AWS or GCP is configured in the following way:
+
+- ``type`` specifies which KMS to use.
 
 .. _kms_config:
 
@@ -406,42 +424,76 @@ node's configuration file. A KMS is configured in the following way:
    :start-after: user-manual-entry-begin: AwsKmsConfig
    :end-before: user-manual-entry-end: AwsKmsConfig
 
-- ``type`` specifies which KMS to use: currently only `aws` is supported.
-
 Specific to AWS:
 
 - ``region`` specifies which region the AWS KMS is bound to.
 - ``multi-region-key`` flag enables the replication of keys generated by the KMS. With replication turned on, the operator can replicate a key from one region to another (Note: replication of a key is not done automatically by Canton) and change the region configured in Canton at a later point in time without any other key rotation required. **The standard single-region approach is applicable for most scenarios**.
 
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/encrypted-store-enabled-tagged.conf
+   :language: none
+   :start-after: user-manual-entry-begin: GcpKmsConfig
+   :end-before: user-manual-entry-end: GcpKmsConfig
+
+Specific to GCP:
+
+- ``location-id`` specifies which region the GCP KMS is bound to.
+- ``project-id`` specifies which project are we binding to.
+- ``keyRingId`` specifies the keyring to use. Contrary to AWS, multi region keys are enabled for an entire keyring. Therefore, the KMS operator is responsible for setting the keyring correctly depending on the systems' needs.
+
 Configure AWS Credentials and Permissions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-When using AWS KMS to directly encrypt the private keys stored in Canton, the AWS KMS needs to be configured
+When using a KMS to envelope encrypt the private keys stored in Canton, it needs to be configured
 with the following list of authorized actions (i.e. IAM permissions):
 
-    - `kms:CreateKey`
-    - `kms:Encrypt`
-    - `kms:Decrypt`
-    - `kms:DescribeKey`
++-------------------------------------------+-------------------------------------------+
+| **AWS**                                   | **GCP**                                   |
++===========================================+===========================================+
+| `kms:CreateKey`                           | `cloudkms.cryptoKeyVersions.create`       |
++-------------------------------------------+-------------------------------------------+
+| `kms:TagResource`                         | `-`                                       |
++-------------------------------------------+-------------------------------------------+
+| `kms:Encrypt`                             | `cloudkms.cryptoKeyVersions.useToEncrypt` |
++-------------------------------------------+-------------------------------------------+
+| `kms:Decrypt`                             | `cloudkms.cryptoKeyVersions.useToDecrypt` |
++-------------------------------------------+-------------------------------------------+
+| `kms:DescribeKey`                         | `cloudkms.cryptoKeys.get`                 |
++-------------------------------------------+-------------------------------------------+
 
-When we rely on AWS KMS to generate, store, and manage the necessary private keys, it must be configured
+When we rely on a KMS to generate, store, and manage the necessary private keys, it must be configured
 with the following list of authorized actions:
 
-    - `kms:CreateKey`
-    - `kms:Decrypt`
-    - `kms:Sign`
-    - `kms:DescribeKey`
-    - `kms:GetPublicKey`
++-------------------------------------------+-------------------------------------------+
+| **AWS**                                   | **GCP**                                   |
++===========================================+===========================================+
+| `kms:CreateKey`                           | `cloudkms.cryptoKeyVersions.create`       |
++-------------------------------------------+-------------------------------------------+
+| `kms:TagResource`                         | `-`                                       |
++-------------------------------------------+-------------------------------------------+
+| `kms:Decrypt`                             | `cloudkms.cryptoKeyVersions.useToDecrypt` |
++-------------------------------------------+-------------------------------------------+
+| `kms:Sign`                                | `cloudkms.cryptoKeyVersions.useToEncrypt` |
++-------------------------------------------+-------------------------------------------+
+| `kms:DescribeKey`                         | `cloudkms.cryptoKeyVersions.useToSign`    |
++-------------------------------------------+-------------------------------------------+
+| `kms:GetPublicKey`                        | `cloudkms.cryptoKeyVersions.viewPublicKey`|
++-------------------------------------------+-------------------------------------------+
 
 If you plan to use cross-account key usage then the permission for key rotation in Canton, namely `kms:CreateKey`, does not have to be configured as it does not apply in that use case.
 
-Canton uses the `standard AWS credential access
-<https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html>`_ to
-be able to make the API calls to the AWS KMS. For example, the standard
+To make the API calls to the AWS KMS, Canton uses the `standard AWS credential access
+<https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html>`_. For example, the standard
 environment variables of `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` can
 be used. Alternatively, you can specify an AWS profile file (e.g. use a temporary access
-profile credentials - `sts`). The protection and rotation of
-the credentials for accessing AWS is a responsibility of the node operator.
+profile credentials - `sts`).
+
+For GCP, Canton uses a `GCP service account
+<https://cloud.google.com/docs/authentication/provide-credentials-adc#local-user-cred>`_. For example,
+the standard environment variable `GOOGLE_APPLICATION_CREDENTIALS` can be used after
+setting up a local Application Default Credentials (ADC) file for our service account.
+
+The protection and rotation of
+the credentials for AWS or GCP are the responsibility of the node operator.
 
 Canton Configuration for Encrypted Private Key Storage
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -472,10 +524,20 @@ Please be aware that an AWS KMS key needs to be configured with the following se
 - Key specification: `SYMMETRIC_DEFAULT <https://docs.aws.amazon.com/kms/latest/developerguide/asymmetric-key-specs.html>`_
 - Key usage: `ENCRYPT_DECRYPT <https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#symmetric-cmks>`_
 
-If no ``wrapper-key-id`` is specified Canton creates a symmetric key in the KMS. After subsequent restarts the operator does not need to specify the identifier for the newly
+Similarly, for GCP KMS we can use:
+
+- Key name: `test-key`
+- Key RN (Resource Name): `projects/gcp-kms-testing/locations/us-east1/keyRings/canton-test-keys/cryptoKeys/test-key/cryptoKeyVersions/1`
+
+And your key needs to be configured with the following settings:
+
+- Key algorithm: `GOOGLE_SYMMETRIC_ENCRYPTION <https://cloud.google.com/kms/docs/algorithms>`_
+- Key purpose: `ENCRYPT_DECRYPT`
+
+If no ``wrapper-key-id`` is specified, Canton creates a symmetric key in the KMS. After subsequent restarts the operator does not need to specify the identifier for the newly
 created key; Canton stores the generated wrapper key id in the database.
 
-An example with a pre-defined KMS key is shown below:
+An example with a pre-defined AWS KMS key is shown below:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/encrypted-store-enabled-tagged.conf
    :language: none
@@ -504,30 +566,33 @@ you must restart the nodes with an updated configuration that includes
 For subsequent restarts we recommend deleting all encrypted private key store configurations
 including the KMS one.
 
+.. _manual-kms-wrapper-key-rotation:
+
 Manual wrapper key rotation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Currently AWS KMS offers a yearly automatic KMS key rotation. Canton extends
-this by enabling node administrators to manually rotate the AWS KMS wrapper
+Currently AWS and GCP offer automatic KMS symmetric key rotation (yearly for AWS and user-defined for GCP).
+Canton extends this by enabling node administrators to manually rotate the KMS wrapper
 key using the following command:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/kms/RotateWrapperKeyIntegrationTest.scala
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/RotateWrapperKeyIntegrationTest.scala
    :language: scala
    :start-after: user-manual-entry-begin: ManualWrapperKeyRotation
    :end-before: user-manual-entry-end: ManualWrapperKeyRotation
    :dedent:
 
 You can optionally pass a wrapper key id to change to or let Canton generate a new key based on the current
-KMS configuration. If you wish to change the key specification (e.g. enable multi region) you are required
-to update the configuration before rotating the wrapper key.
+KMS configuration. Changing the key specification (e.g. enable multi region) during rotation is for now
+only possible with AWS, by updating the configuration before rotating the wrapper key.
 
 .. _full-kms-configuration:
 
 Canton Configuration for External Key Storage and Usage
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In the example below we configure a Canton participant node (called ``participant1``) to generate and
-store private keys in an external KMS. Besides the previously presented :ref:`AWS KMS configuration <kms_config>`
+In the example below, we configure a Canton participant node (called ``participant1``) to generate and
+store private keys in an external KMS. Besides the previously presented :ref:`KMS configuration <kms_config>`
+(in this example we use AWS, but GCP is set similarly)
 you only need to specify the correct crypto provider ``kms`` and ensure that the remaining nodes, in particular
 the connected domain, runs with the correct schemes:
 
@@ -540,7 +605,7 @@ Therefore, a node running with a ``kms`` provider is only ever able to communica
 a ``kms`` or ``jce`` providers. Furthermore, the nodes have to be explicitly configured to use the
 KMS supported algorithms as the required algorithms.
 
-AWS KMS only supports the :ref:`following cryptographic schemes <canton_supported_keys>`.
+AWS and GCP KMSs only support the :ref:`following cryptographic schemes <canton_supported_keys>`.
 
 .. todo::
       #. `Enable revert for a KMS provider <https://github.com/DACH-NY/canton/issues/13635>`_
@@ -569,8 +634,11 @@ For example for a participant we would run:
    :language: scala
    :start-after: user-manual-entry-begin: ManualRegisterKmsKeys
    :end-before: user-manual-entry-end: ManualRegisterKmsKeys
+   :dedent:
 
-where `xyzKmsKeyId` is the KMS identifier for a specific key (e.g. AWS KMS Key ARN).
+where `xyzKmsKeyId` is the KMS identifier for a specific key (e.g. `KMS Key RN`). If we are using, for example,
+`AWS cross account keys <https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html>`_
+be aware that using the key id is not enough and we are required to register the key using its `ARN`.
 
 Finally, we need to initialize our :ref:`domain <manually-init-domain>` and
 :ref:`participants <manually-init-participant>` using the previously registered keys.
@@ -614,16 +682,34 @@ connect to the new domain:
 The end result is a new participant node with its keys stored and managed by a KMS connected to a domain
 that is able to communicate using the appropriate key schemes.
 
-.. _manual-aws-ksm-key-rotation:
+.. _manual-kms-key-rotation:
+
+Manual KMS key rotation
+^^^^^^^^^^^^^^^^^^^^^^^
+
+Canton keys can still be manually rotated even if they are externally stored in a KMS.
+To do that we can use the same :ref:`standard rotate
+key commands <rotating-canton-keys>` or, if we already have a KMS key to rotate to, run the following command:
+
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/RotateAwsKmsKeyIntegrationTest.scala
+   :language: scala
+   :start-after: user-manual-entry-begin: RotateKmsNodeKey
+   :end-before: user-manual-entry-end: RotateKmsNodeKey
+   :dedent:
+
+Neither AWS or GCP offer automatic rotation of asymmetric keys so, unlike the wrapper key rotation,
+the node operator needs to be responsible for periodically rotating these keys.
 
 Auditability
 ^^^^^^^^^^^^
 
-AWS provides  tools to monitor KMS keys. To set automatic external logging, refer to the `official documentation
-<https://docs.aws.amazon.com/kms/latest/developerguide/monitoring-overview.html>`_.
+AWS and GCP provide tools to monitor KMS keys. For AWS to set automatic external logging, refer to the
+`AWS official documentation <https://docs.aws.amazon.com/kms/latest/developerguide/monitoring-overview.html>`_.
 This includes instructions on how to set AWS Cloud Trail or Cloud Watch Alarms
-to keep track of usage of KMS keys or of performed crypto operations. Errors resulting from the use of
-KMS keys are logged in Canton.
+to keep track of usage of KMS keys or of performed crypto operations.
+For GCP you can refer to the `GCP official documentation
+<https://cloud.google.com/kms/docs/audit-logging>`_ for information on logging.
+Errors resulting from the use of KMS keys are logged in Canton.
 
 Logging
 ^^^^^^^
@@ -680,12 +766,12 @@ Furthermore, for the AWS KMS, the AWS request ID is added to the response log li
 Ledger-API Authorization
 ------------------------
 
-The Ledger Api provides :ref:`authorization support <ledger-api-jwt-configuration>` using `JWT <https://jwt.io>`_
+The Ledger API provides :ref:`authorization support <ledger-api-jwt-configuration>` using `JWT <https://jwt.io>`_
 tokens. While the JWT token authorization allows third party applications to be authorized properly, it poses some issues
 for Canton internal services such as the `PingService` or the `DarService`, which are used to manage domain wide
 concerns. Therefore Canton generates a new admin bearer token (64 bytes, randomly generated, hex-encoded) on each startup,
 which is communicated to these services internally and used by these services to
-authorize themselves on the Ledger Api. The admin token allows to act as any party registered on that participant node.
+authorize themselves on the Ledger API. The admin token allows to act as any party registered on that participant node.
 
 The admin token is only used within the same process. Therefore, in order to obtain this token, an attacker needs to be
 able to either dump the memory or capture the network traffic, which typically only a privileged user can do.
