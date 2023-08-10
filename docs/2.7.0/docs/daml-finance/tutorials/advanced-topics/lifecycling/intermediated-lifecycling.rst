@@ -4,19 +4,19 @@
 Intermediated Lifecycling of an Instrument
 ##########################################
 
-This tutorial describes the :ref:`lifecycle <lifecycling>` flow of an instrument with an
+This tutorial describes the :ref:`lifecycling <lifecycling>` flow of an instrument with an
 intermediary party between the issuer and the investor. We will use the a
-:doc:`Generic Instrument <../../../instruments//generic>`, but the same concepts apply to other instrument
-types as well.
+:doc:`Generic Instrument <../../../instruments/generic>`, but the same concepts apply to other
+instrument types as well.
 
 We will illustrate the following steps:
 
-#. Creating a fixed-rate bond instrument
+#. Creating a Generic Instrument modeling a fixed rate bond
 #. Defining an intermediated settlement route
 #. Defining a suitable lifecycle event
-#. Lifecycling the bond instrument
-#. Non-atomic settlement
-#. Atomic settlement
+#. Lifecycling the instrument
+#. Non-atomic settlement of the lifecycle effects
+#. Atomic settlement of the lifecycle effects
 
 To follow the script used in this tutorial, you can
 `clone the Daml Finance repository <https://github.com/digital-asset/daml-finance>`_. In particular,
