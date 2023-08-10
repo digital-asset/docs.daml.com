@@ -1429,6 +1429,8 @@ subtrees:
 - caption: "Early Access"
   entries:
 
+  - file: query/pqs-user-guide
+    title: "Querying and Accessing Ledger Data"
   - file: concepts/interoperability
     title: "Daml Ledger Interoperability"
   - file: tools/non-repudiation
