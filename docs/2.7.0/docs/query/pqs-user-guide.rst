@@ -93,8 +93,8 @@ Meeting Prerequisites
 
 Here are the prerequisites to run PQS:
 
--  A PostgreSQL database that can be reached from the PQS. Note that PQS uses the JSONB data type for storing JSON data, which requires Postgres versions 11, 13, and 15 are tested daily.
--  An empty database (recommended) to avoid schema and table collisions. To see which tables to expect, see `Output format. <https://digitalasset.atlassian.net/wiki/spaces/ETX/pages/2939289605/Scribe+Early+Access#>`__
+-  A PostgreSQL database that can be reached from the PQS. Note that PQS uses the JSONB data type for storing JSON data, which requires Postgres versions 11, 13, and 15.
+-  An empty database (recommended) to avoid schema and table collisions.
 -  Daml ledger as the source of events. While m/TLS is supported, auth tokens are yet to be implemented.
 -  Installation of `The Daml Enterprise SDK <https://docs.daml.com/getting-started/installation.html#install-daml-enterprise>`__.
 
