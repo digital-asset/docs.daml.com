@@ -654,4 +654,4 @@ If the database is not available before the transaction stream is started, the P
 
 To fix this, make sure that the database exists and is accessible from where you are running the PQS. Also, ensure that the database username and password are correct and that the credentials to connect to the database from the network address are set properly.
 
-If the database connection is broken while the transaction stream was already running, you will see a similar message in the logs, but it will be repeated. The transaction stream will be restarted with an exponential backoff. This gives the database, network or any other troubled resource to get back into shape. Once everything is in order, the stream will continue without any need for manual intervention.
+If the database connection is broken while the transaction stream was already running, you will see a similar message in the logs, but it will be repeated. The transaction stream will be restarted with an exponential backoff. This gives the database, network, or any other troubled resource time to get back into shape. Once everything is in order, the stream will continue without any need for manual intervention.
