@@ -500,6 +500,7 @@ Canton Configuration for Encrypted Private Key Storage
 
 In the example below the encrypted private key storage
 integration is enabled for a participant node (called ``participant1``).
+The same applies for any other node, such as a domain manager, a mediator or a sequencer.
 
 The most important setting that enables an encrypted private key storage using a
 KMS is ''type = kms''. This is shown below. If this is not specified, Canton
@@ -564,7 +565,8 @@ you must restart the nodes with an updated configuration that includes
     We strongly advise against this as it will force Canton to decrypt its private keys and store them in clear.
 
 For subsequent restarts we recommend deleting all encrypted private key store configurations
-including the KMS one.
+including the KMS one. We have forced the manual configuration of the `reverted` flag to prevent any unwanted
+decryption of the database (e.g. by unintentionally deleting the KMS configuration).
 
 .. _manual-kms-wrapper-key-rotation:
 
@@ -582,8 +584,11 @@ key using the following command:
    :dedent:
 
 You can optionally pass a wrapper key id to change to or let Canton generate a new key based on the current
-KMS configuration. Changing the key specification (e.g. enable multi region) during rotation is for now
-only possible with AWS, by updating the configuration before rotating the wrapper key.
+KMS configuration.
+
+.. note::
+    Changing the key specification (e.g. enable multi region) during rotation is for now
+    only possible with AWS, by updating the configuration before rotating the wrapper key.
 
 .. _full-kms-configuration:
 
