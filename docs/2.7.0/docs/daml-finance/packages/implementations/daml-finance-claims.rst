@@ -9,8 +9,8 @@ This package contains utility functions that facilitate building and working wit
 following modules:
 
 - :ref:`Lifecycle.Rule <module-daml-finance-claims-lifecycle-rule-53980>`:
-  Rule to process a lifecycle event for instruments that are modelled using
-  :doc:`On-the-Fly claims <../../tutorials/advanced-topics/instrument-modeling/contingent-claims-on-ledger-vs-on-the-fly>`
+  Rule to process a lifecycle event for instruments that build a
+  :doc:`Contingent Claims tree dynamically <../../tutorials/advanced-topics/instrument-modeling/contingent-claims-instrument>`.
 - :ref:`Util <module-daml-finance-claims-util-5254>`:
   Contains utility functions for claims, e.g., checking the content of a claim and converting the
   claim time

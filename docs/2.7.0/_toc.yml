@@ -674,11 +674,9 @@ subtrees:
         title: "Advanced Topics"
         entries:
         - file: daml-finance/tutorials/advanced-topics/lifecycling/intermediated-lifecycling
-          title: "Intermediated Lifecycling of a Generic Instrument"
+          title: "Intermediated Lifecycling of an Instrument"
         - file: daml-finance/tutorials/advanced-topics/instrument-modeling/contingent-claims-instrument
-          title: "How to Implement a Contingent Claims-Based Instrument"
-        - file: daml-finance/tutorials/advanced-topics/instrument-modeling/contingent-claims-on-ledger-vs-on-the-fly
-          title: "Contingent Claims Tree on Ledger vs On-the-Fly Creation"
+          title: "Leverage Contingent Claims in custom Instrument implementations"
   - file: daml-finance/reference/index
     title: "Reference"
     subtrees:
