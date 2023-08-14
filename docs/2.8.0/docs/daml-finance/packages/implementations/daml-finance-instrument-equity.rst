@@ -11,12 +11,9 @@ This package contains the *implementation* of equity instruments, defined in the
 - :ref:`Factory <module-daml-finance-instrument-equity-factory-96899>`:
   Factory implementation to instantiate equities
 
-Check out the tutorial on
-:doc:`How to use the Equity extension package <../../instruments/equity-extension>`.
-
-For a detailed explanation of the equity extension, check out the
-`Instrument/Equity/Test <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Equity/Test>`_
-folder. It demonstrates how to originate an equity instrument, how to create and lifecycle a cash
+For a detailed explanation of this package, check out the page on
+:doc:`How to use the Equity Instrument packages <../../instruments/equity>`.
+It demonstrates how to originate an equity instrument, how to create and lifecycle a cash
 dividend, and how to handle corporate actions like mergers and stock splits.
 
 Changelog

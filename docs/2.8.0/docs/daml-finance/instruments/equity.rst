@@ -1,16 +1,16 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-How to Use the Equity Extension Package
-#######################################
+How to use the Equity Instrument packages
+#########################################
 
-To follow the script used in this tutorial, you can
-`clone the Daml Finance repository <https://github.com/digital-asset/daml-finance>`_. In particular,
-the
+To follow the code snippets used in this page in Daml Studio, you can
+`clone the Daml Finance repository <https://github.com/digital-asset/daml-finance>`_ and run the
+scripts included in the
 `Instrument/Equity/Test/ <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Equity/Test/>`_
-folder is the starting point of this tutorial.
+folder.
 
-How to Use the Equity Extension in Your Application
+How to use an Equity Instrument in your application
 ***************************************************
 
 As explained in the :ref:`Getting Started <structure-of-code-dependencies>` section and on the
@@ -19,13 +19,13 @@ layer of Daml Finance. For equities this means that you should only include the
 :doc:`equity interface package <../packages/interfaces/daml-finance-interface-instrument-equity>`.
 
 Your initialization scripts are an exception, since they are only run once when your app is
-initialized. This creates the necessary factories. Your app can then create equity instruments
-through these factory interfaces.
+initialized. These are used to create the necessary instrument factories. Your app can then create
+equity instruments through these factory contracts.
 
 The Equity Interface
 ********************
 
-The equity extension supports different lifecycle related events, for example dividends, stock
+The equity instrument supports different lifecycle events, such as dividends, stock
 splits and mergers. These are modeled using the choices on the
 :ref:`Equity interface <module-daml-finance-interface-instrument-equity-instrument-13224>`,
 namely ``DeclareDistribution``, ``DeclareReplacement`` and ``DeclareStockSplit``. We will now
@@ -121,8 +121,9 @@ Currently, there are two different ways this can be modeled in the library:
 The preferred way is to model this using the following two components:
 
 - A dividend option instrument, which describes the economic terms of the rights a shareholder
-  receives. The :doc:`Option Tutorial <option-extension>` describes how to create a physically
-  settled :ref:`Dividend <module-daml-finance-instrument-option-dividend-instrument-7333>` option.
+  receives. The page on the :doc:`Option Instrument package <option>` describes how to
+  create a physically settled :ref:`Dividend <module-daml-finance-instrument-option-dividend-instrument-7333>`
+  option.
 - The ``DeclareDistribution`` choice to distribute the above option instrument in the correct
   proportion (e.g. 1 option contract for each share held). This can be done in the same way as the
   `Bonus Issue <#bonus-issue>`__  example described earlier, just change the ``perUnitDistribution``
@@ -173,8 +174,8 @@ be modeled using two components:
 - An option instrument, which describes the economic terms of the rights a shareholder receives.
   For example, this could be a European option with a strike price below the current spot price, and
   a maturity three weeks in the future.
-  The :doc:`Option Tutorial <option-extension>` describes how to create a physically settled
-  European option.
+  The page on the :doc:`Option Instrument package <option>` describes how to create a
+  physically settled European option.
 - The ``DeclareDistribution`` choice to distribute the above option instrument in the correct
   proportion (e.g. 3 option contracts for each 10 shares held). This can be done in the same way as
   the Bonus Issue example described earlier, just change the ``perUnitDistribution`` line to

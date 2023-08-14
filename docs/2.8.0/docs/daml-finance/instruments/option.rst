@@ -46,7 +46,7 @@ Now that the terms have been defined, you can create the option instrument:
   :end-before: -- CREATE_EUROPEAN_OPTION_INSTRUMENT_END
 
 Once this is done, you can create a holding on it using
-:ref:`Account.credit <module-daml-finance-interface-account-account-92922>`.
+:ref:`Account.Credit <module-daml-finance-interface-account-account-92922>`.
 
 If the close price of AAPL on the expiry date is above the *strike* price, the option holder would
 profit from exercising the option and buying the stock at the strike price. The value of the option
@@ -108,7 +108,7 @@ Now that the terms have been defined, you can create the option instrument:
   :end-before: -- CREATE_EUROPEAN_PHYSICAL_OPTION_INSTRUMENT_END
 
 Once this is done, you can create a holding on it using
-:ref:`Account.credit <module-daml-finance-interface-account-account-92922>`.
+:ref:`Account.Credit <module-daml-finance-interface-account-account-92922>`.
 
 Compared to the
 :ref:`EuropeanCash option <module-daml-finance-instrument-option-europeancash-instrument-22074>`
@@ -150,7 +150,7 @@ Now that the terms have been defined, you can create the option instrument:
   :end-before: -- CREATE_BARRIER_EUROPEAN_OPTION_INSTRUMENT_END
 
 Once this is done, you can create a holding on it using
-:ref:`Account.credit <module-daml-finance-interface-account-account-92922>`.
+:ref:`Account.Credit <module-daml-finance-interface-account-account-92922>`.
 
 Compared to the
 :ref:`EuropeanCash option <module-daml-finance-instrument-option-europeancash-instrument-22074>`
@@ -192,7 +192,7 @@ Now that the terms have been defined, you can create the option instrument:
   :end-before: -- CREATE_DIVIDEND_OPTION_INSTRUMENT_END
 
 Once this is done, you can create a holding on it using
-:ref:`Account.credit <module-daml-finance-interface-account-account-92922>`.
+:ref:`Account.Credit <module-daml-finance-interface-account-account-92922>`.
 
 On the expiry date, the option holder will make an *Election* out of the available choices. The
 lifecycling of this option works in the same way as for

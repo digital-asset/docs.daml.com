@@ -10,7 +10,7 @@ scripts included in the
 `Instrument/Equity/Test/ <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Equity/Test/>`_
 folder.
 
-How to use an Equity Instrument in Your application
+How to use an Equity Instrument in your application
 ***************************************************
 
 As explained in the :ref:`Getting Started <structure-of-code-dependencies>` section and on the
