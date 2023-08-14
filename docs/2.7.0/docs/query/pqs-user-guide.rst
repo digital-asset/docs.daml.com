@@ -32,6 +32,8 @@ The current limitations of the EA version are:
 -  PQS has not been performance optimized, so it is not yet ready for large- or high-throughput queries.
 -  As is typical of EA releases, backward compatibility between EA releases may be sacrificed to make improvements in the user experience and design of PQS. You may need to make adjustments in your use through the EA period.
 
+Future early access releases will remove or reduce these limitations.  Please check back to this section for announcements of a new early access release.
+
 Overview
 ********
 
@@ -186,8 +188,8 @@ You can discover commands and parameters through the embedded ``--help`` (rememb
       --config file                              Path to configuration overrides via an external HOCON file (optional)
       --pipeline-party string                    Ledger party identifier to connect as
       --pipeline-filter string                   Filter expression determining which templates and interfaces to include (default: *)
-      --pipeline-ledger-start [enum | string]    Start offset (default: KnownEnd)
-      --pipeline-ledger-end [enum | string]      End offset (default: Infinity)
+      --pipeline-ledger-start [enum | string]    Start offset (default: Latest)
+      --pipeline-ledger-stop [enum | string]     Stop offset (default: Never)
       --pipeline-datasource enum                 Ledger API service to use as data source (default: TransactionStream)
       --logger-level enum                        Log level (default: Info)
       --logger-mappings map                      Custom mappings for log levels
@@ -235,10 +237,10 @@ NOTE: Only ``postgres-document`` is currently implemented, with ``postgres-relat
 The ``-pipeline-ledger-start`` argument is an enum with the following possible values:
 
 -  ``Latest``: Use latest offset that is known or resume where it left off. This is the default behavior, where streaming starts at the latest known end. The first time you start, this will result in PQS calling ``ActiveContractService`` to get a state snapshot, which it will load into the ``_creates`` table. It will then start streaming creates, archives, and (optionally) exercises from the offset of that ``ActiveContractService``. When you restart PQS, it will start from the point it last left off. You should always use this mode on restart.
--  ``Genesis``: Use the first original offset of the ledger. This causes PQS to try to start from offset ``0``. It allows you to load historic creates, archives or (optionally) exercises from a ledger that already has data on it. If you try to restart on an already populated database in this mode, PQS will warn you because it would have to overwrite data.
+-  ``Genesis``: Use the first original offset of the ledger. This causes PQS to try to start from offset ``0``. It allows you to load historic creates, archives or (optionally) exercises from a ledger that already has data on it. If you try to restart on an already populated database in this mode, PQS will rewrite data if it needs to.
 -  ``Oldest``: Use the oldest available (unpruned) offset on the ledger or resume where it left off.
 
-The ``-pipeline-party`` argument is a filter that restricts the data to that visible to the supplied list of party identifiers. If no filter is supplied, then all permitted parties will be included. ``--pipeline-party`` will allow you to filter that down to a subset of the accessible parties. Restarting with a changed set of parties may be possible, but is not encouraged.
+The ``-pipeline-party`` argument is a filter that restricts the data to that visible to the supplied list of party identifiers. At the moment, this is a mandatory field. ``--pipeline-party`` will allow you to filter that down to a subset of the accessible parties. Restarting with a changed set of parties may be possible, but is not encouraged.
 
 PQS is able to start and finish at prescribed ledger offsets, specified by the arguments ``--pipeline-ledger-start`` and ``--pipeline-ledger-stop``. The ``./scribe.jar pipeline --help-verbose`` command provides extensive help information.
 
