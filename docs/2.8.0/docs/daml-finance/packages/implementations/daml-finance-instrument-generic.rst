@@ -5,7 +5,7 @@ Daml.Finance.Instrument.Generic
 ###############################
 
 This package contains the *implementation* of generic,
-:doc:`Contingent Claims <../../concepts/contingent-claims>` based instruments, defined
+:doc:`Contingent Claims <../../instruments/generic/contingent-claims>` based instruments, defined
 in the following modules:
 
 - :ref:`Instrument <module-daml-finance-instrument-generic-instrument-67364>`:
@@ -15,9 +15,10 @@ in the following modules:
 - :ref:`Lifecycle.Rule <module-daml-finance-instrument-generic-lifecycle-rule-68537>`:
   Rule to process a lifecycle event for generic instruments
 
-The tutorial :doc:`How To Model and Lifecycle Generic Instruments <../../tutorials/payoff-modeling/generic-extension>`
-describes how a :doc:`Contingent Claims <../../concepts/contingent-claims>` payoff is defined and
-lifecycled in practice.
+Check out the page on
+:doc:`How to use the Generic Instrument packages <../../instruments/generic>`
+as well as the :doc:`Payoff modeling tutorial <../../tutorials/payoff-modeling/intro>`
+to learn how to use this instrument in practice.
 
 Changelog
 *********

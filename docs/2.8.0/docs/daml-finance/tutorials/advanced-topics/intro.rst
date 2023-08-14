@@ -9,10 +9,9 @@ scenarios.
 
 The following tutorials are available:
 
-* The :doc:`Intermediated Lifecycling <lifecycling/intermediated-lifecycling>` tutorial demonstrates how to
-  lifecycle a generic instrument with an intermediary party between the issuer and the investor.
-* The :doc:`Contingent Claims Instrument <instrument-modeling/contingent-claims-instrument>` tutorial describes how to
-  create a new contingent-claim-based instrument type (similar to the bond instruments that you saw in the Bond Extension
-  tutorial).
-* The :doc:`On ledger vs on-the-fly <instrument-modeling/contingent-claims-on-ledger-vs-on-the-fly>` tutorial helps you
-  to decide whether to explicitly store the claims tree on the ledger or generate it on-the-fly.
+* The :doc:`Intermediated Lifecycling <lifecycling/intermediated-lifecycling>` tutorial demonstrates
+  how to lifecycle an instrument with an intermediary party between the issuer and the investor.
+
+* The :doc:`Contingent Claims Instrument <instrument-modeling/contingent-claims-instrument>`
+  tutorial describes how to leverage the Contingent Claims library to lifecycle custom instrument
+  implementations.

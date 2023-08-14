@@ -1,20 +1,21 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-How To Use the Swap Extension Package
-#####################################
+How To Use the Swap Instrument Packages
+#######################################
 
-To follow the script used in this tutorial, you can
-`clone the Daml Finance repository <https://github.com/digital-asset/daml-finance>`_. In particular,
-the Swap test folder
+To follow the code snippets used in this page in Daml Studio, you can
+`clone the Daml Finance repository <https://github.com/digital-asset/daml-finance>`_ and run the
+scripts included in the
 `Instrument/Swap/Test/ <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Swap/Test/>`_
-is the starting point of this tutorial.
+folder.
 
 Prerequisites
 *************
 
-The Swap extension has many similarities with the Bond extension. This tutorial builds on the
-:doc:`Bond Tutorial <bond-extension>`. Please check it out before reading the Swap specifics below.
+Swap instruments share many similarities with Bond instruments. This page builds on the page for the
+:doc:`Bond Instruments <bond>`. Please, check it out before reading the Swap specifics
+below.
 
 How To Create a Swap Instrument
 *******************************
@@ -22,7 +23,7 @@ How To Create a Swap Instrument
 There are different types of swaps, which differ both in the way regular payments are defined and
 whether notional is exchanged. In order to create a swap instrument, you first have to decide what
 type of swap you need. The
-:doc:`swap extension package <../packages/implementations/daml-finance-instrument-swap>`
+:doc:`swap instrument package <../packages/implementations/daml-finance-instrument-swap>`
 currently supports the following types of swaps:
 
 Interest Rate
@@ -80,7 +81,7 @@ Now that we have defined the terms we can create the swap instrument:
   :end-before: -- CREATE_INTEREST_RATE_SWAP_INSTRUMENT_END
 
 Once this is done, you can create a holding on it using
-:ref:`Account.credit <module-daml-finance-interface-account-account-92922>`.
+:ref:`Account.Credit <module-daml-finance-interface-account-account-92922>`.
 The owner of the holding receives the floating leg (and pays the fix leg).
 
 Currency

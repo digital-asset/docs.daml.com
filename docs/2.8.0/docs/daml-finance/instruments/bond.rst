@@ -1,17 +1,17 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-How to Use the Bond Extension Package
-#####################################
+How to use the Bond Instrument packages
+#######################################
 
-To follow the script used in this tutorial, you can
-`clone the Daml Finance repository <https://github.com/digital-asset/daml-finance>`_. In particular,
-the
+To follow the code snippets used in this page in Daml Studio, you can
+`clone the Daml Finance repository <https://github.com/digital-asset/daml-finance>`_ and run the
+scripts included in the
 `Instrument/Bond/Test <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Bond/Test>`_
-folder is the starting point of this tutorial.
+folder.
 
-How to Use the Bond Extension in Your Application
-*************************************************
+How to use a Bond Instrument in Your application
+************************************************
 
 As explained in the :ref:`Getting Started <structure-of-code-dependencies>` section and on the
 :doc:`Architecture <../overview/architecture>` page, your app should only depend on the interface
@@ -19,15 +19,15 @@ layer of Daml Finance. For bonds this means that you should only include the
 :doc:`bond interface package <../packages/interfaces/daml-finance-interface-instrument-bond>`.
 
 Your initialization scripts are an exception, since they are only run once when your app is
-initialized. This creates the necessary factories. Your app can then create bonds through these
-factory interfaces.
+initialized. These are used to create the necessary instrument factories. Your app can then create
+bond instruments through these factory contracts.
 
 How to Create a Bond Instrument
 *******************************
 
 There are different types of bonds, which mainly differ in the way the coupon is defined. In order
 to create a bond instrument you first have to decide what type of bond you need. The
-:doc:`bond extension package <../packages/implementations/daml-finance-instrument-bond>`
+:doc:`bond instrument package <../packages/implementations/daml-finance-instrument-bond>`
 currently supports the following bond types:
 
 Fixed Rate
@@ -87,7 +87,7 @@ Now that we have defined the terms we can create the bond instrument:
   :end-before: -- CREATE_FIXED_RATE_BOND_INSTRUMENT_END
 
 Once this is done, you can create a holding on it using
-:ref:`Account.credit <module-daml-finance-interface-account-account-92922>`.
+:ref:`Account.Credit <module-daml-finance-interface-account-account-92922>`.
 
 Floating Rate
 =============
