@@ -32,10 +32,11 @@ Open a terminal and run:
 
 .. code-block:: shell
 
-   daml new payoff-modeling --template=payoff-modeling
+   daml new finance-payoff-modeling --template=finance-payoff-modeling
 
-This creates a new folder with contents from our template. Navigate to the ``payoff-modeling``
-folder and then run the following to download the required Daml Finance packages:
+This creates a new folder with contents from our template. Navigate to the
+``finance-payoff-modeling`` folder and then run the following to download the required
+Daml Finance packages:
 
 .. code-block:: shell
 
