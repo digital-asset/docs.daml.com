@@ -300,23 +300,24 @@ subtrees:
         title: "Settlement"
       - file: daml-finance/concepts/lifecycling
         title: "Lifecycling"
-      - file: daml-finance/concepts/contingent-claims
-        title: "Contingent Claims"
   - file: daml-finance/instruments/intro
     title: "Instruments"
-    subtrees:
-    - hidden: False
-      titlesonly: True
-      maxdepth: 1
+    entries:
+    - file: daml-finance/instruments/token
+      title: "Token Instrument"
+    - file: daml-finance/instruments/bond
+      title: "Bond Instruments"
+    - file: daml-finance/instruments/equity
+      title: "Equity Instruments"
+    - file: daml-finance/instruments/option
+      title: "Option Instruments"
+    - file: daml-finance/instruments/swap
+      title: "Swap Instruments"
+    - file: daml-finance/instruments/generic
+      title: "Generic Instrument"
       entries:
-      - file: daml-finance/instruments/bond-extension
-        title: "Bond Extension"
-      - file: daml-finance/instruments/equity-extension
-        title: "Equity Extension"
-      - file: daml-finance/instruments/option-extension
-        title: "Option Extension"
-      - file: daml-finance/instruments/swap-extension
-        title: "Swap Extension"
+      - file: daml-finance/instruments/generic/contingent-claims
+        title: "Contingent Claims"
   - file: daml-finance/packages/index
     title: "Packages"
     subtrees:
@@ -636,14 +637,23 @@ subtrees:
       - file: daml-finance/tutorials/getting-started/intro
         title: "Getting Started"
         entries:
-        - file: daml-finance/tutorials/getting-started/holding
-          title: "Holding"
+        - file: daml-finance/tutorials/getting-started/holdings
+          title: "Holdings"
         - file: daml-finance/tutorials/getting-started/transfer
           title: "Transfer"
         - file: daml-finance/tutorials/getting-started/settlement
           title: "Settlement"
         - file: daml-finance/tutorials/getting-started/lifecycling
           title: "Lifecycling"
+      - file: daml-finance/tutorials/settlement/intro
+        title: "Settlement"
+        entries:
+        - file: daml-finance/tutorials/settlement/transfer
+          title: "Enhanced Transfers"
+        - file: daml-finance/tutorials/settlement/internal
+          title: "Internal Settlement"
+        - file: daml-finance/tutorials/settlement/intermediated
+          title: "Intermediated Settlement"
       - file: daml-finance/tutorials/lifecycling/intro
         title: "Lifecycling"
         entries:
@@ -656,17 +666,17 @@ subtrees:
       - file: daml-finance/tutorials/payoff-modeling/intro
         title: "Payoff Modeling"
         entries:
-        - file: daml-finance/tutorials/payoff-modeling/generic-extension
-          title: "How To Model and Lifecycle Generic Instruments"
+        - file: daml-finance/tutorials/payoff-modeling/basic-builders
+          title: "Basic builders"
+        - file: daml-finance/tutorials/payoff-modeling/observations
+          title: "Observations"
       - file: daml-finance/tutorials/advanced-topics/intro
         title: "Advanced Topics"
         entries:
         - file: daml-finance/tutorials/advanced-topics/lifecycling/intermediated-lifecycling
-          title: "Intermediated Lifecycling of a Generic Instrument"
+          title: "Intermediated Lifecycling of an Instrument"
         - file: daml-finance/tutorials/advanced-topics/instrument-modeling/contingent-claims-instrument
-          title: "How to Implement a Contingent Claims-Based Instrument"
-        - file: daml-finance/tutorials/advanced-topics/instrument-modeling/contingent-claims-on-ledger-vs-on-the-fly
-          title: "Contingent Claims Tree on Ledger vs On-the-Fly Creation"
+          title: "Leverage Contingent Claims in custom Instrument implementations"
   - file: daml-finance/reference/index
     title: "Reference"
     subtrees:
