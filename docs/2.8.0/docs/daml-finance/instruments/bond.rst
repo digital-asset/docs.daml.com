@@ -10,7 +10,7 @@ scripts included in the
 `Instrument/Bond/Test <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Bond/Test>`_
 folder.
 
-How to use a Bond Instrument in Your application
+How to use a Bond Instrument in your application
 ************************************************
 
 As explained in the :ref:`Getting Started <structure-of-code-dependencies>` section and on the

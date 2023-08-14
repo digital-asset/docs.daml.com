@@ -9,7 +9,7 @@ To follow the script used in this tutorial, you can
 the Bond test folder ``src/test/daml/Daml/Finance/Instrument/Bond/Test/`` is the starting point
 of this tutorial.
 
-How to Use the Bond Extension in Your Application
+How to Use the Bond Extension in your Application
 *************************************************
 
 As explained in the :ref:`Getting Started <structure-of-code-dependencies>` section and on the
