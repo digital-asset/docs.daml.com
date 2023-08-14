@@ -39,9 +39,9 @@ Open a terminal and run:
 
 .. code-block:: shell
 
-   daml new tutorial-settlement --template=tutorial-settlement
+   daml new finance-settlement --template=finance-settlement
 
-This creates a new folder with contents from our template. Navigate to the ``tutorial-settlement``
+This creates a new folder with contents from our template. Navigate to the ``finance-settlement``
 folder and then run the following to download the required Daml Finance packages:
 
 .. code-block:: shell
