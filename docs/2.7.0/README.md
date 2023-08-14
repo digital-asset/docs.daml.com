@@ -76,4 +76,4 @@ bump
 
 :information_desk_person: DEPRECATED: For interested parties, the `deps` function renders a list of recent snapshot updates with the latest at the end of the list. Run `deps list daml` or `deps list canton` to see them.
 
-5. Changes to `main` are reflected immediately on the live (versioned) website. When a new or updated version is built it pulls all of the docs changes submitted for each prefix (version). For example, the url resulting from building the documentation in the `docs/2.6.0` folder is https://docs.daml.com/2.6.0.
+5. Changes to `main` are reflected immediately on the live (versioned) website. When a new or updated version is built it pulls all of the docs changes submitted for each prefix (version). For example, the url resulting from building the documentation in the `docs/2.7.0` folder is https://docs.daml.com/2.7.0.
