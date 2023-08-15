@@ -92,7 +92,7 @@ custodian, unlike the routed steps.
 
 To convert the settlement steps S1 and S2 into routed steps, we engage a route provider. The
 provider suggests preferable routes to the Central Bank for each client. During the "Discover"
-action, where each step is transformed into a sequence of routed steps
+action, each step is transformed into a sequence of routed steps
 
 * S1 -> (T1)
 * S2 -> (D, T2, C)
