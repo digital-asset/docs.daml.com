@@ -517,7 +517,7 @@ By default, logging omits details to avoid writing sensitive data into log files
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/logging-event-details.conf
 
-This turns on payload logging in the ``ApiRequestLogger``, which records every GRPC API invocation, and turns on detailed logging of the ``SequencerClient`` and the transaction trees. Please note that all additional events are logged at ``DEBUG`` level.
+This turns on payload logging in the ``ApiRequestLogger``, which records every gRPC API invocation, and turns on detailed logging of the ``SequencerClient`` and the transaction trees. Please note that all additional events are logged at ``DEBUG`` level.
 
 .. note::
 
@@ -599,7 +599,7 @@ Traces
 
 Traces contain operations that are each represented by a span. A trace is a directed acyclic graph (DAG) of spans, where the edges between spans are defined as parent/child relationships (the definitions come from the `Opentelemetry glossary <https://opentelemetry.io/docs/concepts/glossary/>`_).
 
-Canton reports several types of traces. One example: every Canton console command that interacts with the Admin API starts a trace whose initial span last for the entire duration of the command, including the GRPC call to the specific Admin API endpoint.
+Canton reports several types of traces. One example: every Canton console command that interacts with the Admin API starts a trace whose initial span last for the entire duration of the command, including the gRPC call to the specific Admin API endpoint.
 
 .. figure:: ./images/ping-trace.jpg
    :width: 100%
@@ -611,7 +611,7 @@ Traces of Daml command submissions are important. The trace illustrated in the f
 
 In some cases, spans may start later than the end of their parents, due to asynchronous processing. This typically occurs when a new operation is placed on a queue to be handled later, which immediately frees the parent span and ends it.
 
-The initial span (span 1) covers the duration of the ping operation. In span 2, the GrpcPingService in the participant node handles a GRPC request made by the console. It also lasts for the duration of the ping operation.
+The initial span (span 1) covers the duration of the ping operation. In span 2, the GrpcPingService in the participant node handles a gRPC request made by the console. It also lasts for the duration of the ping operation.
 
 The Canton ping consists of three Daml commands:
 
@@ -624,7 +624,7 @@ The Canton ping consists of three Daml commands:
 
 The submission of the first of the three Daml commands (the creation of the Ping contract) starts at span 3 in the example trace. Due to a limitation explained in the next section, the other two Daml command submissions are not linked to this trace. It is possible to find them separately. In any case, span 2 will only complete once the three Daml commands are completed.
 
-At span 3, the participant node is on the client side of the ledger API. In other use cases, it could be an application integrated with the participant. This span lasts for the duration of the GRPC call, which is received on the server side in span 4 and handled by the ``CantonSyncService`` in span 5. The request is then received and acknowledged, but not fully processed. It is processed asynchronously later, which means that spans 3 through 5 will complete before the request is handled.
+At span 3, the participant node is on the client side of the ledger API. In other use cases, it could be an application integrated with the participant. This span lasts for the duration of the gRPC call, which is received on the server side in span 4 and handled by the ``CantonSyncService`` in span 5. The request is then received and acknowledged, but not fully processed. It is processed asynchronously later, which means that spans 3 through 5 will complete before the request is handled.
 
 Missing steps from the trace (which account for part of the gap between spans 5 and 6) are:
 

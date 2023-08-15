@@ -101,7 +101,7 @@ Key Knowledge
 
 * **Canton Transaction Processing Steps**
 
-     Canton transaction processing has the following key steps involved. When we debug, we obviously try to find out which of the steps fails / is slow / faulty. This can help you to narrow down the component and the issue. As all the message exchange happens via the sequencer, you effectively observe whether the information came into the node and where the action that the node was supposed to take was taken by responding with a message to the sequencer (or emitting a command result on the ledger api). The phases are:
+     Canton transaction processing has the following key steps involved. When we debug, we obviously try to find out which of the steps fails / is slow / faulty. This can help you to narrow down the component and the issue. As all the message exchange happens via the sequencer, you effectively observe whether the information came into the node and where the action that the node was supposed to take was taken by responding with a message to the sequencer (or emitting a command result on the ledger API). The phases are:
 
           * Phase 1: Submitting participant prepares the confirmation request based on the “Daml command input”. The confirmation request is sent to the sequencer, addressing the mediator and the validating participants.
 
@@ -140,14 +140,20 @@ Log Files
           therefore timed out err-context:{location=SubmissionTrackingData.scala:175,
           timestamp=2022-10-19T17:45:56.393151Z}
 
-     In above example, we see the trace id twice: ``tid:d5df95972a95b5ff00cb5cc3346c545f`` and ``NOT_SEQUENCED_TIMEOUT(2,d5df9597)``. By filtering according to the ``trace-id``, you can find almost all log statements that relate to a particular command. Unfortunately, the ledger-api server does not yet log the ``trace-id``. Therefore, sometimes, we also need to find out the command id of a transaction. You can do that by grepping for the “rosetta stone”, which is one particular log line that contains both strings::
+     In above example, we see the trace id twice: ``tid:d5df95972a95b5ff00cb5cc3346c545f`` and ``NOT_SEQUENCED_TIMEOUT(2,d5df9597)``. By filtering according to the ``trace-id``, you can find almost all log statements that relate to a particular command. However, sometimes, we also need to find out the command id of a transaction. You can do that by grepping for the “rosetta stone”, which is one particular log line that contains both strings::
 
-          2022-10-19 17:45:20,630 [⋮] DEBUG
-          c.d.c.p.s.CantonSyncService:SimplestPingIntegrationTestInMemory/participant=participant1
-          tid:d5df95972a95b5ff00cb5cc3346c545f - Received submit-transaction
-          5ec48477-b440-4175-a1f8-d8373d5108ef-ping-5838bf58-5e1d-4ccc-869b-0607bed42fc7
+          2023-07-04 12:03:26,517 [⋮] INFO
+          c.d.c.p.a.s.c.CommandSubmissionServiceImpl:participant=participant1
+          tid:35e389f0e41fd0273443dd866ff9e347 - Submitting commands for interpretation,
+          commands -> {readAs: [], deduplicationPeriod: {duration: 'PT168H'},
+          submittedAt: '2023-07-04T10:03:26.514885Z', ledgerId: 'participant1',
+          applicationId: 'CSsubmitAndWaitBasic',
+          submissionId: 'CSsubmitAndWaitBasic-alpha-410b4d7b1b585-submission-0',
+          actAs: ['CSsubmitAndWaitBasic-alpha-410b4d7b1b585-party-0::122035bd93d74879ce582adf5aa04a809b4b20618d39c1a9c2a17d35c29ab1ed098f'],
+          commandId: 'CSsubmitAndWaitBasic-alpha-410b4d7b1b585-command-0',
+          workflowId: 'CSsubmitAndWaitBasic-410b4d7b1b585'}.
 
-     The first string is again the trace id and the second one is the command id. Ideally, you then subsequently filter for command-id and trace-id.
+     The first string is again the trace id. Additionally, the commandId of the transaction, the applicationId, the submissionId and the workflowId are logged and can be used to filter the logs.
 
 * **Extract the Context of a Log Message**
 
@@ -167,21 +173,6 @@ Log Files
           - Preparing batch for transaction submission
 
 
-     * Some classes use a different format for logging the context. This time, the context comes after the log message::
-
-          2022-11-02 11:13:27,017 [⋮] INFO  c.d.p.i.p.ParallelIndexerSubscription - Storing
-          Accept transaction 1220cea6b84e95a707025b866ffe7c36c0406759ef1494726d434b079b7d950dab15
-          , context: {test: "AuthorizationIntegrationTestDefault", participant: "participant1",
-          offset: "00000000000000000e", update: {submissionTime: "1970-01-01T00:00:00Z",
-          recordTime: "1970-01-01T00:00:00.000433Z", completion: {actAs :
-          ["participant1::1220565a4c91e7218b71d9f8f48fb7913680caeef6182aa0136427c08344e7528a34"]
-          , commandId : "94b7354f-9c6d-42bb-affe-441631e24a10-ack-d73e5645-286c-4853-bb5d-dfb40f62f94f",
-          submissionId: "17f795ef-511b-418b-9375-17b40af5d059", deduplicationPeriod : {offset:
-          "000000000000000001"}, applicationId : "admin-ping"}, workflowId: "admin-ping",
-          transactionId: "1220cea6b84e95a707025b866ffe7c36c0406759ef1494726d434b079b7d950dab15"
-          , ledgerTime: "1970-01-01T00:00:00Z"}}
-
-
 * **Compare with a Happy Path Successful Logging Trace**
 
      Many components will log something and it is impossible to document every micro-step that happens (as this is also subject to change). But it makes sense to compare a failure trace with a successful transaction trace. To get such a trace, you start up a canton “simple topology” example setup and run a simple::
@@ -192,7 +183,7 @@ Log Files
 
 * **Use the API Request Logger to Locate the Component**
 
-     One key logging component is the ``ApiRequestLogger``. This component is injected into the GRPC library and will log every incoming and outgoing request / message. Therefore, we can easily observe when a transaction left a node and when it arrived at a subsequent node. If api logging is turned on, the api request logger will print the full detail of all the GRPC messages into the log files.
+     One key logging component is the ``ApiRequestLogger``. This component is injected into the gRPC library and will log every incoming and outgoing request / message. Therefore, we can easily observe when a transaction left a node and when it arrived at a subsequent node. If api logging is turned on, the api request logger will print the full detail of all the gRPC messages into the log files.
 
 Using LNAV to View Log Files
 ----------------------------
@@ -308,7 +299,7 @@ Auth Errors
 For security reasons, Canton removes all details from auth errors. On the client side, you usually only see
 ``PERMISSION_DENIED/An error occurred. Please contact the operator and inquire about the request <no-correlation-id>``, so you need to inspect server logs to debug auth errors.
 
-To use an auth-enabled ledger api, the caller needs to attach an access token to the gRPC request. These tokens are attached in the ``Authorization`` HTTP header. To see headers attached to incoming and outgoing requests, you need to set the log level to ``TRACE``. ``ApiRequestLogger`` will then output log lines containing ``received headers`` or ``sending response headers``.
+To use an auth-enabled ledger API, the caller needs to attach an access token to the gRPC request. These tokens are attached in the ``Authorization`` HTTP header. To see headers attached to incoming and outgoing requests, you need to set the log level to ``TRACE``. ``ApiRequestLogger`` will then output log lines containing ``received headers`` or ``sending response headers``.
 
 Filter-in expressions for lnav:
 

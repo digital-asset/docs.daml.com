@@ -9,7 +9,7 @@ To follow the script used in this tutorial, you can
 the Equity test folder ``src/test/daml/Daml/Finance/Instrument/Equity/Test/`` is the starting point
 of this tutorial.
 
-How to Use the Equity Extension in Your Application
+How to Use the Equity Extension in your Application
 ***************************************************
 
 As explained in the :ref:`Getting Started <structure-of-code-dependencies>` section and on the
