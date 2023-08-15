@@ -41,7 +41,7 @@ controller settings:
 |                          |              |                                  |
 | runSovereignTransfer     | Owner        | Owner                            |
 |                          |              |                                  |
-| runUnilateralTranser     | Anyone       | Owner                            |
+| runUnilateralTransfer    | Anyone       | Owner                            |
 +--------------------------+--------------+----------------------------------+
 
 Each script begins by running a setup script ``runSetupTransferRequestWith`` that requests a
