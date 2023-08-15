@@ -37,7 +37,7 @@ a required input to each claim.
 One
 ===
 
-The ``one`` constructor is used to deliver to the owner of the contract one unit of another
+The ``one`` constructor is used to deliver to the owner of the contract one unit of a specified
 instrument. For instance, the claim
 
 .. literalinclude:: ../../finance-payoff-modeling/daml/Examples/BasicCombinators.daml
@@ -47,7 +47,7 @@ instrument. For instance, the claim
 
 gives the owner an "immediate" right to receive one unit of the ``USD`` instrument.
 
-We can observe that by lifecycling the claim: we define a set of lifecycle dates
+We can verify that by lifecycling the claim: we define a set of lifecycle dates
 
 .. literalinclude:: ../../finance-payoff-modeling/daml/Examples/BasicCombinators.daml
   :language: daml
@@ -66,8 +66,8 @@ and run the script to obtain
 
 When we lifecycle as of ``01 Aug 2023`` a payment of 1 ``USD`` is received by the owner. This
 is recorded in the corresponding ``Effect`` contract.
-The claim becomes then worthless (it becomes the ``zero`` claim) and any subsequent
-lifecycling yields no additional effect.
+The claim then becomes worthless (it becomes the ``zero`` claim) and any subsequent
+lifecycling yields no additional effects.
 
 Scale
 =====
@@ -118,7 +118,7 @@ When the claim is lifecycled, we obtain
 When you want to additively combine more than two claims, you can use the ``andList`` constructor.
 
 When
-===
+====
 
 The ``when`` constructor is used to introduce a time shift, delaying the acquisition of another claim
 to a point in the future when a certain predicate is met. For instance, the claim
@@ -130,7 +130,7 @@ to a point in the future when a certain predicate is met. For instance, the clai
 
 pays one ``USD`` once the maturity date is reached, but not before.
 
-When this is lifecycled before maturity, no effects is generated. On the other hand, once we
+When this is lifecycled before maturity, no effect is generated. On the other hand, once we
 reach maturity we observe
 
 .. code-block:: none
