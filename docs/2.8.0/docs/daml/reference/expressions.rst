@@ -124,18 +124,9 @@ To bind values or functions to be in scope beneath the expression, use the block
    :start-after: -- BEGIN_LET_EXPRESSION
    :end-before: -- END_LET_EXPRESSION
 
-You can use ``let`` inside ``do`` blocks:
+You can also use ``let`` inside ``do`` blocks:
 
 .. literalinclude:: ../code-snippets/Snippets.daml
    :language: daml
    :start-after: -- BEGIN_LET_IN_DO
    :end-before: -- END_LET_IN_DO
-
-Lastly, a ``template`` may contain a single ``let`` block.
-
-.. literalinclude:: ../code-snippets/Snippets.daml
-   :language: daml
-   :start-after: -- BEGIN_LET_IN_TEMPLATE
-   :end-before: -- END_LET_IN_TEMPLATE
-
-.. TODO: check you can still have a let block inside a template?
