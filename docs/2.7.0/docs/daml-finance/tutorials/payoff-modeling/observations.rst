@@ -10,8 +10,8 @@ Equity forward payoff
 The payoff of financial derivatives depends on the performance of a certain underlying in the
 future. As an example, consider an equity forward contract where a party agrees to purchase one
 stock of Apple at a predetermined date and price in the future. The contract buyer will make a
-profit if the market price of the stock is greater than the purchase price they pay. making a loss
-otherwise.
+profit if the market price of the stock is greater than the purchase price they pay (and make a loss
+otherwise).
 
 This payoff can be written as follows
 
@@ -20,7 +20,7 @@ This payoff can be written as follows
   :start-after: -- FWD_CLAIM_SETUP_START
   :end-before: -- FWD_CLAIM_SETUP_END
 
-In this example, the predetermined purchase price (strike price) is of ``195 USD``.
+In this example, the predetermined purchase price (strike price) is ``195 USD``.
 
 ``Observe "AAPL"`` is used to represent the time-dependent market price of Apple, which is unknown
 at trade inception.
@@ -54,7 +54,7 @@ building blocks can be combined together using standard algebraic operations (``
 
 In the example above, once the maturity date is reached the sub-claim
 ``scale (Observe "AAPL" - Const 195.0) $ one "USD"`` is acquired and the value of the observation
-is looked up on the table for that maturity date.
+is looked up in the table for that maturity date.
 
 Floating Rate Note
 ******************
@@ -108,6 +108,6 @@ As an exercise, try to model
 Summary
 *******
 
-You now know how to setup payoffs dependent on complex time-dependent market observables.
+You now know how to setup payoffs containing complex time-dependent market observables.
 You have the tools to model a large set of financial products, such as forwards and most interest
-rate swaps variations.
+rate swap variations.
