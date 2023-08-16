@@ -71,8 +71,8 @@ executed). For a contract of template ``T``, the ``self`` binding is of type
 
 .. _daml-ref-template-let:
 
-Template-local Definitions
-**************************
+Template-local Definitions (Deprecated)
+***************************************
 
 .. literalinclude:: ../code-snippets/Reference.daml
    :language: daml
@@ -104,40 +104,45 @@ Template-local Definitions
      Instead, use plain top level definitions, taking parameters
      for the contract fields or body ("this") if necessary.
 
-   Users are strongly encouraged to rewrite their code to avoid this feature.
-   Such a rewrite would involve replacing each template-local definition with a
-   regular top level definition. If the old definition made use of contract
-   fields or the contract body ("this"), those won't be in scope at the top
-   level, so the new definition should take them as parameters.
-   Correspondingly, the use sites of these definitions should supply the
-   appropriate values as arguments.
+Migrating
+=========
 
-   This warning is controlled by the warning flag ``template-let``, which means
-   that it can be disabled independently of other warnings. This is especially
-   useful for gradually migrating code that used this syntax.
+Users are strongly encouraged to rewrite their code to avoid this feature. Such
+a rewrite would involve replacing each template-local definition with a regular
+top level definition. If the old definition made use of contract fields or the
+contract body ("this"), those won't be in scope at the top level, so the new
+definition should take them as parameters. Correspondingly, the use sites of
+these definitions should supply the appropriate values as arguments.
 
-   To disable the warning within a Daml file, add the following line at the top of
-   the file:
+Disabling the warning
+=====================
 
-   .. code-block:: daml
+This warning is controlled by the warning flag ``template-let``, which means
+that it can be disabled independently of other warnings. This is especially
+useful for gradually migrating code that used this syntax.
 
-     {-# OPTIONS_GHC -Wno-template-let #-}
+To disable the warning within a Daml file, add the following line at the top of
+the file:
 
-   To disable it for an entire Daml project, add the following entry to the
-   ``build-options`` field of the project's ``daml.yaml`` file
+.. code-block:: daml
 
-   .. code-block:: yaml
+  {-# OPTIONS_GHC -Wno-template-let #-}
 
-     build-options:
-     - --ghc-option=-Wno-template-let
+To disable it for an entire Daml project, add the following entry to the
+``build-options`` field of the project's ``daml.yaml`` file
 
-   Within a project where the warning has been disabled as described above, it can
-   be reenabled for a single Daml file by adding the following line at the top of
-   the file:
+.. code-block:: yaml
 
-   .. code-block:: daml
+  build-options:
+  - --ghc-option=-Wno-template-let
 
-     {-# OPTIONS_GHC -Wtemplate-let #-}
+Within a project where the warning has been disabled as described above, it can
+be reenabled for a single Daml file by adding the following line at the top of
+the file:
+
+.. code-block:: daml
+
+  {-# OPTIONS_GHC -Wtemplate-let #-}
 
 .. _daml-ref-signatories:
 
