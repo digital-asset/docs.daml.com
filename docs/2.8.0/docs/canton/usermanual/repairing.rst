@@ -7,20 +7,20 @@ Repairing Nodes
 ===============
 
 The Canton platform is generally built to self-heal and automatically recover from issues.
-As such, if there is a situation where some degradation can be expected, there should
-be some code that yields graceful degradation and automated recovery from said issues.
+As such, if there is a situation where some degradation can be expected, there exists
+a mechanism that yields graceful degradation and automated recovery from said issues.
 
 Common examples are database outages (retry until success) or network outages (failover
 and reconnect until success).
 
-Canton should report such issues as warnings to alert an operator about the degradation of
-its dependencies, but generally, should not require any manual intervention to recover from
+Canton reports such issues as warnings to alert the operator about the degradation of
+its dependencies, but generally, does not require any manual intervention to recover from
 a degradation.
 
-However, not all situations can be foreseen and corruptions of systems can
+However, not all situations can be foreseen and corruption of systems can
 always happen in unanticipated ways. Therefore,
-Canton can always be manually repaired somehow. This means that
-whatever the corruption is, there are a series of operational steps that can be made in
+Canton can always be manually repaired. This means that
+whatever the corruption is, there is always a series of operational steps that can be made in
 order to recover the correct state of a node.
 If several nodes in the distributed system are affected,
 it may be necessary to coordinate the recovery among the affected nodes.
@@ -54,7 +54,7 @@ your own as you risk severe data corruption.
 Keep in mind that the corruption of the system state may not have been discovered immediately; thus, the corruption may
 have leaked out through the APIs to the applications using the corrupted node.
 Bringing the node back into a correct state with respect to the other nodes in the distributed system can
-therefore make the application state inconsistent with the nodes state. Accordingly, the application
+therefore make the application state inconsistent with the node's state. Accordingly, the application
 should either re-initialize itself from the repaired state or itself offer tools to fix inconsistencies.
 
 Preparation
@@ -65,12 +65,12 @@ contracts to Canton also requires creating corresponding parties and uploading D
 
 - Contracts are often interdependent requiring care to honor dependencies such that the set of imported contracts is
   internally consistent. This requires particular attention if you choose to modify contracts prior to their import.
-- Additionally use of `divulgence <https://docs.daml.com/concepts/ledger-model/ledger-privacy.html#divulgence-when-non-stakeholders-see-contracts>`__
-  in the original ledger has likely introduced non-obvious dependencies that may impede exercising contract choices after
-  import. As a result such divulged contracts need to be re-divulged as part of the import (by exercising existing choices
-  or if there are no-side-effect-free choices that re-divulge the necessary contracts by extending your Daml models with
+- Additionally, the use of `divulgence <https://docs.daml.com/concepts/ledger-model/ledger-privacy.html#divulgence-when-non-stakeholders-see-contracts>`__
+  in the original ledger could have likely introduced non-obvious dependencies that may impede exercising contract choices after
+  import. As a result, such divulged contracts need to be re-divulged as part of the import (by exercising existing choices
+  or, if there are no-side-effect-free choices that re-divulge the necessary contracts, by extending your Daml models with
   new choices).
-- Party Ids have a stricter format on Canton than on non-Canton ledgers ending with a required "fingerprint" suffix, so
+- Party Ids have a strict format on Canton ledgers ending with a required "fingerprint" suffix, so
   at a minimum, you will need to "remap" party ids.
 - :ref:`Canton contract keys <canton_keys>` do not have to be unique, so if your Daml models rely on uniqueness,
   consider extending the models using :ref:`these strategies <canton_keys_workarounds>` or limit your Canton Participants
@@ -89,8 +89,11 @@ With the above requirements in mind, you are ready to plan and execute the follo
 Importing an actual Ledger
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To follow along with this guide, ensure you have :ref:`installed and unpacked the Canton release bundle <installation>`
-and run the following commands from the "canton-X.Y.Z" directory to set up the initial topology.
+To follow along with this guide, ensure you have :ref:`installed and unpacked the Canton release bundle <installation>`.
+Install and configure a postgres database for 2 domains and 4 participant nodes following the steps
+described in :ref:`Persistence using Postgres <persistence_using_postgres>`. Make sure that your Postgres has enough
+"max_connections" configured to serve effectively 6 canton nodes as required by this example.
+Finally, run the following commands from the "canton-X.Y.Z" directory to set up the initial topology.
 
 .. code-block:: bash
 
@@ -100,7 +103,7 @@ and run the following commands from the "canton-X.Y.Z" directory to set up the i
     bin/canton \
       -c $IMPORT/participant1.conf,$IMPORT/participant2.conf,$IMPORT/participant3.conf,$IMPORT/participant4.conf \
       -c $IMPORT/domain-export-ledger.conf,$IMPORT/domain-import-ledger.conf \
-      -c $CONF/storage/h2.conf,$IMPORT/enable-preview-commands.conf \
+      -c $CONF/storage/postgres.conf,$IMPORT/enable-preview-commands.conf \
       --bootstrap $IMPORT/import-ledger-init.canton
 
 This sets up an "exportLedger" with a set of parties consisting of painters, house owners, and banks along with a
@@ -206,7 +209,7 @@ and run the following commands from the "canton-X.Y.Z" directory to set up the i
     export REPAIR="$CANTON/examples/07-repair"
     bin/canton \
       -c $REPAIR/participant1.conf,$REPAIR/participant2.conf,$REPAIR/domain-repair-lost.conf,$REPAIR/domain-repair-new.conf \
-      -c $CONF/storage/h2.conf,$REPAIR/enable-preview-commands.conf \
+      -c $CONF/storage/postgres.conf,$REPAIR/enable-preview-commands.conf \
       --bootstrap $REPAIR/domain-repair-init.canton
 
 To simplify the demonstration, this not only sets up the starting topology of
