@@ -502,7 +502,7 @@ Canton Configuration for Encrypted Private Key Storage
 
 In the example below the encrypted private key storage
 integration is enabled for a participant node (called ``participant1``).
-The same applies for any other node, such as a domain manager, a mediator or a sequencer.
+The same applies for any other node, such as a sync domain manager, a mediator, or a sequencer.
 
 The most important setting that enables an encrypted private key storage using a
 KMS is ''type = kms''. This is shown below. If this is not specified, Canton
@@ -567,7 +567,7 @@ you must restart the nodes with an updated configuration that includes
     We strongly advise against this as it will force Canton to decrypt its private keys and store them in clear.
 
 For subsequent restarts we recommend deleting all encrypted private key store configurations
-including the KMS one. We have forced the manual configuration of the `reverted` flag to prevent any unwanted
+including the KMS store. We have forced the manual configuration of the `reverted` flag to prevent any unwanted
 decryption of the database (e.g. by unintentionally deleting the KMS configuration).
 
 .. _manual-kms-wrapper-key-rotation:
