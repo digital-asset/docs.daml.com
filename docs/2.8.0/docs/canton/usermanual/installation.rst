@@ -104,6 +104,8 @@ you forgot to add the persistence mixin configuration file.
 
     Please also consult the more :ref:`detailed section on persistence configurations <persistence-config>`.
 
+.. _persistence_using_postgres:
+
 Persistence using Postgres
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
