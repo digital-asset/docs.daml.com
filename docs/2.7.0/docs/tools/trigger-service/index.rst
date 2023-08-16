@@ -154,6 +154,21 @@ alongside a few annotations with regards to the meaning of the configuration key
         // Authorization timeout. Defaults to 60 seconds.
         authorization-timeout = 60s
       }
+
+      // Optional. Trigger service ledger API client TLS configuration. By default TLS configuration is disabled.
+      //tls-config {
+      //   enabled = "true"
+      //
+      //   // the certificate to be used by the server
+      //   cert-chain-file = "/path/to/participant.crt"
+      //
+      //   // private key of the server
+      //   private-key-file = "/path/to/participant.pem"
+      //
+      //   // trust collection, which means that all client certificates that will be verified using the trusted
+      //   // certificates in this store. If omitted, the JVM default trust store is used.
+      //   trust-collection-file = "/path/to/root-ca.crt"
+      //}
     }
 
 The Trigger Service can also be started using command line arguments as shown below. The command ``daml trigger-service --help`` lists all available parameters.
