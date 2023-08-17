@@ -1080,6 +1080,8 @@ subtrees:
             title: "Daml.Finance.Util.Date.Schedule"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Util-Disclosure
             title: "Daml.Finance.Util.Disclosure"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Util-Lockable
+            title: "Daml.Finance.Util.Lockable"
 
 - caption: "Deploy Daml"
   entries:
