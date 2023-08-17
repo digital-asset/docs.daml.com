@@ -13,8 +13,8 @@ is the starting point of this tutorial.
 How To Create a Structured Product Instrument
 *********************************************
 
-In order to create an structured product instrument, you first have to decide what type of payoff
-you need. The
+In order to create a structured product instrument, you first have to decide what type of payoff you
+need. The
 :doc:`structured product extension package <../packages/implementations/daml-finance-instrument-structured-product>`
 currently supports the following types of payoffs:
 
@@ -23,15 +23,15 @@ Barrier Reverse Convertible
 
 The
 :ref:`BarrierReverseConvertible <module-daml-finance-instrument-structuredproduct-barrierreverseconvertible-instrument-95793>`
-instrument models cash-settled, auto-exercising barrier reverse convertible (BRC). It can be seen as
-a long fixed coupon bond and a short Down-And-In put option.
+instrument models cash-settled, auto-exercising barrier reverse convertible (BRC) instruments. It
+can be seen as a long fixed coupon bond and a short Down-And-In put option.
 
 As an example, consider a BRC that pays a fixed 5% coupon rate and has a barrier level of 30 USD. If
 the underlying ever trades below this level, the put option is knocked in (activated). This would
 reduce the redemption amount if the underlying closes below the strike price at expiry.
 
 This example is taken from
-`Instrument/Option/Test/EuropeanCash.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Option/Test/EuropeanCash.daml>`_
+`Instrument/StructuredProduct/Test/BarrierReverseConvertible.daml <src/test/daml/Daml/Finance/Instrument/StructuredProduct/Test/BarrierReverseConvertible.daml>`_
 , where all the details are available.
 
 You start by defining the terms:
@@ -71,7 +71,8 @@ How do I calculate settlement payments for a structured product?
 ================================================================
 
 Similar to a fixed coupon bond, a BRC instrument needs to be lifecycled on the coupon dates and at
-expiry, in order to calculate the payments. This is described in the
+expiry, in order to calculate the corresponding payments. This is described in the
 :doc:`Lifecycling <../tutorials/lifecycling/fixed-rate-bond>` tutorial.
-In addition, the instrument needs to be lifecycled regularly during its lifetime to record any
-barrier breach, which would impact the redemption payment.
+In addition, if the instrument has a barrier (which is the case for a BRC), it needs to be
+lifecycled regularly during its lifetime to record any barrier breach, which would impact the
+redemption payment.
