@@ -800,6 +800,10 @@ subtrees:
             title: "Daml.Finance.Instrument.Option.EuropeanPhysical.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-EuropeanPhysical-Instrument
             title: "Daml.Finance.Instrument.Option.EuropeanPhysical.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-StructuredProduct-BarrierReverseConvertible-Factory
+            title: "Daml.Finance.Instrument.StructuredProduct.BarrierReverseConvertible.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-StructuredProduct-BarrierReverseConvertible-Instrument
+            title: "Daml.Finance.Instrument.StructuredProduct.BarrierReverseConvertible.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Asset-Factory
             title: "Daml.Finance.Instrument.Swap.Asset.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Asset-Instrument
@@ -932,6 +936,14 @@ subtrees:
             title: "Daml.Finance.Interface.Instrument.Option.EuropeanPhysical.Types"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Types
             title: "Daml.Finance.Interface.Instrument.Option.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduct-BarrierReverseConvertible-Factory
+            title: "Daml.Finance.Interface.Instrument.StructuredProduct.BarrierReverseConvertible.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-OptStructuredProduction-BarrierReverseConvertible-Instrument
+            title: "Daml.Finance.Interface.Instrument.StructuredProduct.BarrierReverseConvertible.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduct-BarrierReverseConvertible-Types
+            title: "Daml.Finance.Interface.Instrument.StructuredProduct.BarrierReverseConvertible.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduct-Types
+            title: "Daml.Finance.Interface.Instrument.StructuredProduct.Types"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Asset-Factory
             title: "Daml.Finance.Interface.Instrument.Swap.Asset.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Asset-Instrument
