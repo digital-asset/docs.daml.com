@@ -104,13 +104,12 @@ Template-local Definitions (Deprecated)
      Instead, use plain top level definitions, taking parameters
      for the contract fields or body ("this") if necessary.
 
-Migrating
+Migration
 =========
 
-Users are strongly encouraged to rewrite their code to avoid this feature. Such
-a rewrite would involve replacing each template-local definition with a regular
-top level definition. If the old definition made use of contract fields or the
-contract body ("this"), those won't be in scope at the top level, so the new
+Users are strongly encouraged to rewrite their code to avoid this feature. This involves replacing each template-local definition with a regular
+top-level definition. If the old definition made use of contract fields or the
+contract body ("this"), the new
 definition should take them as parameters. Correspondingly, the use sites of
 these definitions should supply the appropriate values as arguments.
 
