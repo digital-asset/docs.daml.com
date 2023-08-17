@@ -108,6 +108,48 @@ body ("this"), the new definition should take them as parameters.
 Correspondingly, the use sites of these definitions should supply the
 appropriate values as arguments.
 
+For example, consider the template ``Person`` below. It defines and uses a
+template-local binding ``fullName``, which now triggers the deprecation warning.
+
+.. code-block:: daml
+  template Person
+    with
+      owner : Party
+      first : Text
+      last : Text
+    where
+      signatory owner
+      let fullName = last <> ", " <> first
+      nonconsuming choice GetDescription : ()
+        controller owner
+        do
+          let desc = "An account owned by " <> fullName <> "."
+          debug desc
+
+To ensure this code keeps working after the feature is removed, ``fullName``
+should be defined as a top-level function, and its use site now passes ``this``
+explicitly.
+
+.. code-block:: daml
+  fullName : Person -> Text
+  fullName Person {first, last} = last <> ", " <> first
+  -- takes 'Person' as an explicit parameter and unpacks required fields
+
+  template Person
+    with
+      owner : Party
+      first : Text
+      last : Text
+    where
+      signatory owner
+      nonconsuming choice GetDescriptionV3 : ()
+        controller owner
+        do
+          -- let bindings in choice bodies are unaffected
+          let desc = "An account owned by " <> fullName this <> "."
+                                               -- 'this' is passed explicitly
+          debug desc
+
 Disabling the warning
 =====================
 
