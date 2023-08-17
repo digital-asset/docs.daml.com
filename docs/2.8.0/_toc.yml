@@ -938,7 +938,7 @@ subtrees:
             title: "Daml.Finance.Interface.Instrument.Option.Types"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduct-BarrierReverseConvertible-Factory
             title: "Daml.Finance.Interface.Instrument.StructuredProduct.BarrierReverseConvertible.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduction-BarrierReverseConvertible-Instrument
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduct-BarrierReverseConvertible-Instrument
             title: "Daml.Finance.Interface.Instrument.StructuredProduct.BarrierReverseConvertible.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduct-BarrierReverseConvertible-Types
             title: "Daml.Finance.Interface.Instrument.StructuredProduct.BarrierReverseConvertible.Types"
