@@ -26,7 +26,7 @@ The
 instrument models cash-settled, auto-exercising barrier reverse convertible (BRC) instruments. It
 can be seen as a long fixed coupon bond and a short Down-And-In put option.
 
-As an example, consider a BRC that pays a fixed 5% coupon rate and has a barrier level of 30 USD. If
+For example, consider a BRC that pays a fixed 5% coupon rate and has a barrier level of 30 USD. If
 the underlying ever trades below this level, the put option is knocked in (activated). This would
 reduce the redemption amount if the underlying closes below the strike price at expiry.
 
