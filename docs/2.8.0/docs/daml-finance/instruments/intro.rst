@@ -48,6 +48,14 @@ The following instruments are included in the :doc:`Swap Instrument package <swa
 - Asset swaps
 - FpML swaps (supports the above swap types using the FpML schema)
 
+Structured Products
+*******************
+
+The following instruments are included in the
+:doc:`Structured Products Instrument package <structured-products>`:
+
+- Barrier reverse convertible
+
 Other Instruments
 *****************
 
