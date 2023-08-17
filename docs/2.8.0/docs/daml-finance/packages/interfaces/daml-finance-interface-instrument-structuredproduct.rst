@@ -14,7 +14,7 @@ contains the following modules:
 - :ref:`BarrierReverseConvertible.Types <module-daml-finance-interface-instrument-structuredproduct-barrierreverseconvertible-types-21839>`:
   Type definitions to support barrier reverse convertibles
 - :ref:`Types <module-daml-finance-interface-instrument-structuredproduct-types-79453>`:
-  Type definitions common to several instruments in this package
+  Type definitions common to instruments in this package
 
 Changelog
 *********
