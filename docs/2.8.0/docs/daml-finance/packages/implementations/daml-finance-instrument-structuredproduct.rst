@@ -1,0 +1,20 @@
+.. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. SPDX-License-Identifier: Apache-2.0
+
+Daml.Finance.Instrument.StructuredProduct
+#########################################
+
+This package contains the *implementation* of different structured product types, defined in the
+following modules:
+
+- :ref:`BarrierReverseConvertible.Instrument <module-daml-finance-instrument-structuredproduct-barrierreverseconvertible-factory-6075>`:
+  Instrument implementation for barrier reverse convertibles
+- :ref:`BarrierReverseConvertible.Factory <module-daml-finance-instrument-structuredproduct-barrierreverseconvertible-instrument-95793>`:
+  Factory implementation to instantiate barrier reverse convertibles
+
+Check out the page on
+:doc:`How to use the Structured Products package <../../instruments/structured-products>`
+for a description of how to use the these instruments in practice.
+
+Changelog
+*********
