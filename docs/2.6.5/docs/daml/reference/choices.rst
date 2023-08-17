@@ -205,8 +205,8 @@ result in the following warning:
 Migrating
 =========
 
-Users are strongly encouraged to rewrite their choices using ``choice``
-first syntax. This is a schema for such a rewrite:
+Users are strongly encouraged to adapt their choices to use ``choice``
+first syntax. This is a schema to adapt affected code:
 
 #. For each ``controller ... can`` block,
 

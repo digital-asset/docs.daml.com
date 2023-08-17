@@ -107,11 +107,12 @@ Template-local Definitions (Deprecated)
 Migration
 =========
 
-Users are strongly encouraged to rewrite their code to avoid this feature. This involves replacing each template-local definition with a regular
-top-level definition. If the old definition made use of contract fields or the
-contract body ("this"), the new
-definition should take them as parameters. Correspondingly, the use sites of
-these definitions should supply the appropriate values as arguments.
+Users are strongly encouraged to adapt their code to avoid this feature. This
+involves replacing each template-local definition with a regular top-level
+definition. If the old definition made use of contract fields or the contract
+body ("this"), the new definition should take them as parameters.
+Correspondingly, the use sites of these definitions should supply the
+appropriate values as arguments.
 
 Disabling the warning
 =====================
