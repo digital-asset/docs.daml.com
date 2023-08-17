@@ -150,21 +150,21 @@ explicitly.
                                                -- 'this' is passed explicitly
           debug desc
 
-Disabling the warning
-=====================
+Turning off the warning
+=======================
 
 This warning is controlled by the warning flag ``template-let``, which means
-that it can be disabled independently of other warnings. This is especially
+that it can be toggled independently of other warnings. This is especially
 useful for gradually migrating code that used this syntax.
 
-To disable the warning within a Daml file, add the following line at the top of
+To turn off the warning within a Daml file, add the following line at the top of
 the file:
 
 .. code-block:: daml
 
   {-# OPTIONS_GHC -Wno-template-let #-}
 
-To disable it for an entire Daml project, add the following entry to the
+To turn it off for an entire Daml project, add the following entry to the
 ``build-options`` field of the project's ``daml.yaml`` file
 
 .. code-block:: yaml
@@ -172,9 +172,9 @@ To disable it for an entire Daml project, add the following entry to the
   build-options:
   - --ghc-option=-Wno-template-let
 
-Within a project where the warning has been disabled as described above, it can
-be reenabled for a single Daml file by adding the following line at the top of
-the file:
+Within a project where the warning has been turned off via the ``daml.yaml``
+file, it can be turned back on for individual Daml files by adding the following
+line at the top of each file:
 
 .. code-block:: daml
 
