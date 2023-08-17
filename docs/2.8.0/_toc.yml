@@ -311,6 +311,8 @@ subtrees:
       title: "Equity Instruments"
     - file: daml-finance/instruments/option
       title: "Option Instruments"
+    - file: daml-finance/instruments/structured-product
+      title: "Structured Products"
     - file: daml-finance/instruments/swap
       title: "Swap Instruments"
     - file: daml-finance/instruments/generic
@@ -467,6 +469,8 @@ subtrees:
               entries:
               - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-instrument-option.rst
                 title: "Changelog"
+          - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-structuredproduct
+            title: "Daml.Finance.Interface.Instrument.StructuredProduct"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-swap
             title: "Daml.Finance.Interface.Instrument.Swap"
             subtrees:
@@ -609,6 +613,8 @@ subtrees:
               entries:
               - file: daml-finance/packages/implementations/changelogs/daml-finance-instrument-option.rst
                 title: "Changelog"
+          - file: daml-finance/packages/implementations/daml-finance-instrument-structuredproduct
+            title: "Daml.Finance.Instrument.StructuredProduct"
           - file: daml-finance/packages/implementations/daml-finance-instrument-swap
             title: "Daml.Finance.Instrument.Swap"
             subtrees:
