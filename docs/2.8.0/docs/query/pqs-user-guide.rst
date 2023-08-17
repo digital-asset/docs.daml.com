@@ -32,6 +32,8 @@ The current limitations of the EA version are:
 -  PQS has not been performance optimized, so it is not yet ready for large- or high-throughput queries.
 -  As is typical of EA releases, backward compatibility between EA releases may be sacrificed to make improvements in the user experience and design of PQS. You may need to make adjustments in your use through the EA period.
 
+Future early access releases will remove or reduce these limitations.  Please check back to this section for announcements of a new early access release.
+
 Overview
 ********
 
@@ -186,8 +188,8 @@ You can discover commands and parameters through the embedded ``--help`` (rememb
       --config file                              Path to configuration overrides via an external HOCON file (optional)
       --pipeline-party string                    Ledger party identifier to connect as
       --pipeline-filter string                   Filter expression determining which templates and interfaces to include (default: *)
-      --pipeline-ledger-start [enum | string]    Start offset (default: KnownEnd)
-      --pipeline-ledger-end [enum | string]      End offset (default: Infinity)
+      --pipeline-ledger-start [enum | string]    Start offset (default: Latest)
+      --pipeline-ledger-stop [enum | string]     Stop offset (default: Never)
       --pipeline-datasource enum                 Ledger API service to use as data source (default: TransactionStream)
       --logger-level enum                        Log level (default: Info)
       --logger-mappings map                      Custom mappings for log levels
