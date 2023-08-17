@@ -36,6 +36,14 @@ The following instruments are included in the :doc:`Option Instrument package <o
 - Barrier options
 - Dividend options
 
+Structured Products
+*******************
+
+The following instruments are included in the
+:doc:`Structured Products Instrument package <structured-product>`:
+
+- Barrier reverse convertible
+
 Swaps
 *****
 
@@ -47,14 +55,6 @@ The following instruments are included in the :doc:`Swap Instrument package <swa
 - Credit default swaps
 - Asset swaps
 - FpML swaps (supports the above swap types using the FpML schema)
-
-Structured Products
-*******************
-
-The following instruments are included in the
-:doc:`Structured Products Instrument package <structured-products>`:
-
-- Barrier reverse convertible
 
 Other Instruments
 *****************
