@@ -1036,6 +1036,8 @@ subtrees:
             title: "Daml.Finance.Interface.Util.Common"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Util-Disclosure
             title: "Daml.Finance.Interface.Util.Disclosure"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Util-Lockable
+            title: "Daml.Finance.Interface.Util.Lockable"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Effect
             title: "Daml.Finance.Lifecycle.Effect"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Election
