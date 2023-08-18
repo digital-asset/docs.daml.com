@@ -15,7 +15,7 @@ How To Create a Structured Product Instrument
 
 In order to create a structured product instrument, you first have to decide what type of payoff you
 need. The
-:doc:`structured product extension package <../packages/implementations/daml-finance-instrument-structuredproduct>`
+:doc:`structured product instrument packages <../packages/implementations/daml-finance-instrument-structuredproduct>`
 currently supports the following types of payoffs:
 
 Barrier Reverse Convertible
