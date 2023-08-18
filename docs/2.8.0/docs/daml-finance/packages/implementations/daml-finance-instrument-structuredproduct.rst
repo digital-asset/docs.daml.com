@@ -8,7 +8,7 @@ This package contains the *implementation* of different structured product types
 following modules:
 
 - :ref:`BarrierReverseConvertible.Instrument <module-daml-finance-instrument-structuredproduct-barrierreverseconvertible-instrument-95793>`:
-  Instrument implementation for barrier reverse convertibles
+  Instrument implementation for Barrier Reverse Convertibles
 - :ref:`BarrierReverseConvertible.Factory <module-daml-finance-instrument-structuredproduct-barrierreverseconvertible-factory-6075>`:
   Factory implementation to instantiate Barrier Reverse Convertibles
 
