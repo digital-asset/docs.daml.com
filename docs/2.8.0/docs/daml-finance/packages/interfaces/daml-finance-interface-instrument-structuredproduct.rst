@@ -8,7 +8,7 @@ This package contains the *interface* definitions for various structured product
 contains the following modules:
 
 - :ref:`BarrierReverseConvertible.Instrument <module-daml-finance-interface-instrument-structuredproduct-barrierreverseconvertible-instrument-73562>`:
-  Instrument interface for barrier reverse convertibles
+  Instrument interface for Barrier Reverse Convertibles
 - :ref:`BarrierReverseConvertible.Factory <module-daml-finance-interface-instrument-structuredproduct-barrierreverseconvertible-factory-31742>`:
   Factory interface to instantiate barrier reverse convertibles
 - :ref:`BarrierReverseConvertible.Types <module-daml-finance-interface-instrument-structuredproduct-barrierreverseconvertible-types-21839>`:
