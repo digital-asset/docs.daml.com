@@ -311,6 +311,8 @@ subtrees:
       title: "Equity Instruments"
     - file: daml-finance/instruments/option
       title: "Option Instruments"
+    - file: daml-finance/instruments/structured-product
+      title: "Structured Products"
     - file: daml-finance/instruments/swap
       title: "Swap Instruments"
     - file: daml-finance/instruments/generic
@@ -467,6 +469,8 @@ subtrees:
               entries:
               - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-instrument-option.rst
                 title: "Changelog"
+          - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-structuredproduct
+            title: "Daml.Finance.Interface.Instrument.StructuredProduct"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-swap
             title: "Daml.Finance.Interface.Instrument.Swap"
             subtrees:
@@ -609,6 +613,8 @@ subtrees:
               entries:
               - file: daml-finance/packages/implementations/changelogs/daml-finance-instrument-option.rst
                 title: "Changelog"
+          - file: daml-finance/packages/implementations/daml-finance-instrument-structuredproduct
+            title: "Daml.Finance.Instrument.StructuredProduct"
           - file: daml-finance/packages/implementations/daml-finance-instrument-swap
             title: "Daml.Finance.Instrument.Swap"
             subtrees:
@@ -794,8 +800,10 @@ subtrees:
             title: "Daml.Finance.Instrument.Option.EuropeanPhysical.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-EuropeanPhysical-Instrument
             title: "Daml.Finance.Instrument.Option.EuropeanPhysical.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-Util
-            title: "Daml.Finance.Instrument.Option.Util"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-StructuredProduct-BarrierReverseConvertible-Factory
+            title: "Daml.Finance.Instrument.StructuredProduct.BarrierReverseConvertible.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-StructuredProduct-BarrierReverseConvertible-Instrument
+            title: "Daml.Finance.Instrument.StructuredProduct.BarrierReverseConvertible.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Asset-Factory
             title: "Daml.Finance.Instrument.Swap.Asset.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Asset-Instrument
@@ -928,6 +936,14 @@ subtrees:
             title: "Daml.Finance.Interface.Instrument.Option.EuropeanPhysical.Types"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Types
             title: "Daml.Finance.Interface.Instrument.Option.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduct-BarrierReverseConvertible-Factory
+            title: "Daml.Finance.Interface.Instrument.StructuredProduct.BarrierReverseConvertible.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduct-BarrierReverseConvertible-Instrument
+            title: "Daml.Finance.Interface.Instrument.StructuredProduct.BarrierReverseConvertible.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduct-BarrierReverseConvertible-Types
+            title: "Daml.Finance.Interface.Instrument.StructuredProduct.BarrierReverseConvertible.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduct-Types
+            title: "Daml.Finance.Interface.Instrument.StructuredProduct.Types"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Asset-Factory
             title: "Daml.Finance.Interface.Instrument.Swap.Asset.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Asset-Instrument
@@ -1020,6 +1036,8 @@ subtrees:
             title: "Daml.Finance.Interface.Util.Common"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Util-Disclosure
             title: "Daml.Finance.Interface.Util.Disclosure"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Util-Lockable
+            title: "Daml.Finance.Interface.Util.Lockable"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Effect
             title: "Daml.Finance.Lifecycle.Effect"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Election
@@ -1062,6 +1080,8 @@ subtrees:
             title: "Daml.Finance.Util.Date.Schedule"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Util-Disclosure
             title: "Daml.Finance.Util.Disclosure"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Util-Lockable
+            title: "Daml.Finance.Util.Lockable"
 
 - caption: "Deploy Daml"
   entries:

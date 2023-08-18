@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-How to use the Bond Instrument packages
-#######################################
+How to use the Bond Instrument package
+######################################
 
 To follow the code snippets used in this page in Daml Studio, you can
 `clone the Daml Finance repository <https://github.com/digital-asset/daml-finance>`_ and run the

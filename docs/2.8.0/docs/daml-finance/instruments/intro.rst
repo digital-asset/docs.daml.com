@@ -36,6 +36,14 @@ The following instruments are included in the :doc:`Option Instrument package <o
 - Barrier options
 - Dividend options
 
+Structured Products
+*******************
+
+The following instruments are included in the
+:doc:`Structured Products Instrument package <structured-product>`:
+
+- Barrier reverse convertible
+
 Swaps
 *****
 

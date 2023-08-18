@@ -25,8 +25,6 @@ following modules:
   Instrument implementation for physically settled European options
 - :ref:`EuropeanPhysical.Factory <module-daml-finance-instrument-option-europeanphysical-factory-58032>`:
   Factory implementation to instantiate physically settled European options
-- :ref:`Util <module-daml-finance-instrument-option-util-7008>`:
-  Utility functions for options
 
 Check out the page on
 :doc:`How to use the Option Instrument packages <../../instruments/option>`
