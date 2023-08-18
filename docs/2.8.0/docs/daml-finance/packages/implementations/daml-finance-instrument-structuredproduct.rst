@@ -10,7 +10,7 @@ following modules:
 - :ref:`BarrierReverseConvertible.Instrument <module-daml-finance-instrument-structuredproduct-barrierreverseconvertible-instrument-95793>`:
   Instrument implementation for barrier reverse convertibles
 - :ref:`BarrierReverseConvertible.Factory <module-daml-finance-instrument-structuredproduct-barrierreverseconvertible-factory-6075>`:
-  Factory implementation to instantiate barrier reverse convertibles
+  Factory implementation to instantiate Barrier Reverse Convertibles
 
 Check out the page on
 :doc:`How to use the Structured Products package <../../instruments/structured-product>`
