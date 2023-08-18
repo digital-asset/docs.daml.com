@@ -112,6 +112,7 @@ For example, consider the template ``Person`` below. It defines and uses a
 template-local binding ``fullName``, which now triggers the deprecation warning.
 
 .. code-block:: daml
+
   template Person
     with
       owner : Party
@@ -131,6 +132,7 @@ should be defined as a top-level function, and its use site now passes ``this``
 explicitly.
 
 .. code-block:: daml
+
   fullName : Person -> Text
   fullName Person {first, last} = last <> ", " <> first
   -- takes 'Person' as an explicit parameter and unpacks required fields
