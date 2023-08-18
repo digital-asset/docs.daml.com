@@ -2,7 +2,7 @@
 .. SPDX-License-Identifier: Apache-2.0
 
 How To Use the Structured Product Instrument Packages
-###################################################
+#####################################################
 
 To follow the script used in this tutorial, you can
 `clone the Daml Finance repository <https://github.com/digital-asset/daml-finance>`_. In particular,
