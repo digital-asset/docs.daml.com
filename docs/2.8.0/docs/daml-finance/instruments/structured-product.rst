@@ -10,7 +10,7 @@ the Structured Product test folder
 `Instrument/StructuredProduct/Test/ <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/StructuredProduct/Test/>`_
 is the starting point of this tutorial.
 
-How To Create a Structured Product Instrument
+How to create a Structured Product Instrument
 *********************************************
 
 In order to create a structured product instrument, you first have to decide what type of payoff you
