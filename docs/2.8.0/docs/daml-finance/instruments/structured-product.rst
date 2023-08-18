@@ -1,7 +1,7 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-How To Use the Structured Product Instrument Package
+How to use the Structured Product Instrument package
 ####################################################
 
 To follow the script used in this tutorial, you can
