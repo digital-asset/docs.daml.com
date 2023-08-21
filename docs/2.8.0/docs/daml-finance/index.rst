@@ -43,7 +43,7 @@ The following is a suggested learning path to get productive quickly:
 Packages
 ********
 
-This section details the list of released packages for each Daml SDK release. It also provides
+This section details the list of released and deprecated packages. It also provides
 status information for each package according to the
 `Daml Ecosystem convention <https://docs.daml.com/support/status-definitions.html>`_.
 
