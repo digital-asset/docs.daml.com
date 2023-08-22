@@ -86,6 +86,15 @@ first coupon:
   :start-after: -- CREATE_CLOCK_UPDATE_EVENT_BEGIN
   :end-before: -- CREATE_CLOCK_UPDATE_EVENT_END
 
+Note that it is the bank that actively creates this clock update event. This results in more control
+when to actually process the coupon payment. One could also use ledger time, but that would cause
+problems in some cases, for example:
+
+- A system is down when the coupon should be processed. Processing it the next day is difficult if
+  ledger time is automatically used.
+- The coupon payment depends on market data, which the data provider occasionally provides with a
+  delay. Retroactively processing this is simpler if the lifecycler can provide the today date.
+
 Now, we have what we need to actually lifecycle the bond. The ``Evolve`` choice of the lifecycle
 rule is exercised to process the time event:
 
