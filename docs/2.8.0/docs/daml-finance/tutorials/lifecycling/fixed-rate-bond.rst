@@ -90,9 +90,9 @@ Note that it is the bank that actively creates a
 :ref:`DateClockUpdateEvent <module-daml-finance-data-time-dateclockupdate-48859>`.
 This results in more control when to actually process the coupon payment. One could also use
 :ref:`LedgerTime <module-daml-finance-data-time-ledgertime-84639>`,
-but that would cause problems in some cases, for example:
+but that could cause problems in some scenarios, for example:
 
-- A system is down when the coupon should be processed. Processing it the next day is difficult if
+- The system is down when the coupon should be processed. Processing it the next day is difficult if
   ledger time is automatically used.
 - A global ledger containing trades from regions in different time zones may require flexibility
   regarding when, in relation to ledger time, to process coupons and other events.
