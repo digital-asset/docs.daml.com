@@ -93,7 +93,8 @@ This results in more control when to actually process the coupon payment. One co
 but that could cause problems in some scenarios, for example:
 
 - The system is down when the coupon should be processed. Processing it the next day is difficult if
-  ledger time is automatically used.
+  ledger time is automatically used, because the date returned from the ledger no longer matches the
+  intended lifecycling date.
 - A global ledger containing trades from regions in different time zones may require flexibility
   regarding when, in relation to ledger time, to process coupons and other events.
 - The coupon payment depends on market data, which the data provider occasionally provides with a
