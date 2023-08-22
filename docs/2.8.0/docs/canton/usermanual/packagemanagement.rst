@@ -66,7 +66,7 @@ synchronise on a transaction that uses packages contained in a certain DAR, we n
 have uploaded the same DAR before the transaction was submitted.
 
 If one of the involved participants doesn't know about a certain DAR, then the transaction will bounce with an error
-PACKAGE_NO_VETTED_BY_RECIPIENTS.
+PACKAGE_NOT_VETTED_BY_RECIPIENTS.
 
 This error goes back to the fact that both participants not only upload the DAR, but also publicly declare towards
 their peers that they are ready to receive transactions referring to certain packages. This declaration happens
