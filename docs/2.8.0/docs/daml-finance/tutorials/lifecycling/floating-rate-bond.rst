@@ -68,6 +68,10 @@ rate level can be positive or negative. In our example, we have a negative inter
   :end-before: -- CREATE_FLOATING_RATE_OBSERVATIONS_END
 
 In our case, the bank then creates the observation on the ledger.
+The :ref:`Observation <module-daml-finance-data-numeric-observation-78761>` implements the
+:ref:`NumericObservable <module-daml-finance-interface-lifecycle-observable-numericobservable-67288>`
+interface, which is used during lifecycling.
+
 
 In order to lifecycle a coupon payment, we need a lifecycle rule that defines how to process all
 time events. We also need a time event corresponding to the date of the first coupon. Both of these
