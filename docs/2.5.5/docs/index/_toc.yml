@@ -370,7 +370,7 @@ subtrees:
       - file: canton/usermanual/connectivity
         title: "Sequencer Connections"
       - file: canton/usermanual/repairing
-        title: "Repair the Topology Information"
+        title: "Repair Nodes"
 
 - caption: "Daml Finance"
   titlesonly: True
