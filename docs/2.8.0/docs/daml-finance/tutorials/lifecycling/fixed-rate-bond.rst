@@ -92,8 +92,10 @@ problems in some cases, for example:
 
 - A system is down when the coupon should be processed. Processing it the next day is difficult if
   ledger time is automatically used.
+- A global ledger containing trades from regions in different time zones may require flexibility
+  regarding when, in relation to ledger time, to process coupons and other events.
 - The coupon payment depends on market data, which the data provider occasionally provides with a
-  delay. Retroactively processing this is simpler if the lifecycler can provide the today date.
+  delay. Retroactively processing this is simpler if the lifecycler can provide the *today* date.
 
 Now, we have what we need to actually lifecycle the bond. The ``Evolve`` choice of the lifecycle
 rule is exercised to process the time event:
