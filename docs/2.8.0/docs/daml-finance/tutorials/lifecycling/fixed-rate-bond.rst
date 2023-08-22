@@ -86,9 +86,11 @@ first coupon:
   :start-after: -- CREATE_CLOCK_UPDATE_EVENT_BEGIN
   :end-before: -- CREATE_CLOCK_UPDATE_EVENT_END
 
-Note that it is the bank that actively creates this clock update event. This results in more control
-when to actually process the coupon payment. One could also use ledger time, but that would cause
-problems in some cases, for example:
+Note that it is the bank that actively creates a
+:ref:`DateClockUpdateEvent <module-daml-finance-data-time-dateclockupdate-48859>`.
+This results in more control when to actually process the coupon payment. One could also use
+:ref:`LedgerTime <module-daml-finance-data-time-ledgertime-84639>`,
+but that would cause problems in some cases, for example:
 
 - A system is down when the coupon should be processed. Processing it the next day is difficult if
   ledger time is automatically used.
