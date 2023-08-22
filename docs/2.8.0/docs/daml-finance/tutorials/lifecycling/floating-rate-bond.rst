@@ -72,7 +72,6 @@ The :ref:`Observation <module-daml-finance-data-numeric-observation-78761>` impl
 :ref:`NumericObservable <module-daml-finance-interface-lifecycle-observable-numericobservable-67288>`
 interface, which is used during lifecycling.
 
-
 In order to lifecycle a coupon payment, we need a lifecycle rule that defines how to process all
 time events. We also need a time event corresponding to the date of the first coupon. Both of these
 are the same as in the previous tutorial using a fixed rate bond, so we will reuse them from there.

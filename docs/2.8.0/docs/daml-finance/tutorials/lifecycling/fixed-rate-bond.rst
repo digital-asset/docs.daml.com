@@ -99,6 +99,12 @@ but that would cause problems in some cases, for example:
 - The coupon payment depends on market data, which the data provider occasionally provides with a
   delay. Retroactively processing this is simpler if the lifecycler can provide the *today* date.
 
+Both the :ref:`LedgerTime <module-daml-finance-data-time-ledgertime-84639>` and the
+:ref:`DateClock <module-daml-finance-data-time-dateclock-65212>`
+implement the
+:ref:`TimeObservable <module-daml-finance-interface-lifecycle-observable-timeobservable-45971>`
+interface, which is used during lifecycling.
+
 Now, we have what we need to actually lifecycle the bond. The ``Evolve`` choice of the lifecycle
 rule is exercised to process the time event:
 
