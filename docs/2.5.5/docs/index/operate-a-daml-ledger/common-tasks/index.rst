@@ -8,7 +8,7 @@ Common Operational Tasks
    :titlesonly:
 
    Add a Party <https://docs.daml.com/canton/usermanual/identity_management.html#adding-a-new-party-to-a-participant>
-   Repair the Topology Information </canton/usermanual/repairing>
+   Repair Nodes </canton/usermanual/repairing>
    Manage DARs and Packages </canton/usermanual/packagemanagement>
    Upgrade To a New Release </canton/usermanual/upgrading>
    Configure Auth0 Middleware (With Example Configuration) </tools/trigger-service/auth0_example>
