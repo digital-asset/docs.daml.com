@@ -164,7 +164,7 @@ election and *electorIsOwner = True*, then only a holding where *owner = alice* 
 Frequently Asked Questions
 **************************
 
-When is a Generic Instrument preferred over a strongly typed one?
+When is a Generic Instrument preferred over a bond or swap?
 =================================================================
 
 The previously described strongly typed instruments (e.g. :doc:`Bonds <bond>` and
