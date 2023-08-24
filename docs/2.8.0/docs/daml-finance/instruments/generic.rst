@@ -167,9 +167,9 @@ Frequently Asked Questions
 When is a Generic Instrument preferred over a bond or swap?
 =================================================================
 
-The previously described strongly typed instruments (e.g. :doc:`Bonds <bond>` and
-:doc:`Swaps <swap>`) have the advantage that the instrument terms are reflected as template
-variables. Also, the name of the template directly indicates what type of instrument it is.
+The previously described instruments (e.g. :doc:`Bonds <bond>` and :doc:`Swaps <swap>`) have the
+advantage that the instrument terms are reflected as template variables. Also, the name of the
+template directly indicates what type of instrument it is.
 
 The Generic instrument has the advantage that it provides a flexible framework for defining new
 payoffs in an ad-hoc manner. This can be useful for prototyping or in a structuring context. It also
