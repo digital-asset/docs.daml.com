@@ -37,6 +37,8 @@ The following is a suggested learning path to get productive quickly:
 #. Learn how to
    :doc:`use the instrument packages to model different financial instruments <instruments/intro>`
 #. Explore the :ref:`Daml Finance Demo Application <daml-finance-demo-app>`
+#. Ask questions in the `Forum <https://discuss.daml.com/tag/daml-finance>`_ or read existing
+   discussions
 
 .. _releases:
 
