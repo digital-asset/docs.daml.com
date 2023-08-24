@@ -165,7 +165,7 @@ Frequently Asked Questions
 **************************
 
 When is a Generic Instrument preferred over a bond or swap?
-=================================================================
+===========================================================
 
 The previously described instruments (e.g. :doc:`Bonds <bond>` and :doc:`Swaps <swap>`) have the
 advantage that the instrument terms are reflected as template variables. Also, the name of the
