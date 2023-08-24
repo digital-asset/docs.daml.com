@@ -86,6 +86,20 @@ first coupon:
   :start-after: -- CREATE_CLOCK_UPDATE_EVENT_BEGIN
   :end-before: -- CREATE_CLOCK_UPDATE_EVENT_END
 
+Note that it is the bank that actively creates a
+:ref:`DateClockUpdateEvent <module-daml-finance-data-time-dateclockupdate-48859>`.
+This results in more control when to actually process the coupon payment. One could also use
+:ref:`LedgerTime <module-daml-finance-data-time-ledgertime-84639>`,
+but that could cause problems in some scenarios, for example:
+
+- The system is down when the coupon should be processed. Processing it the next day is difficult if
+  ledger time is automatically used, because the date returned from the ledger no longer matches the
+  intended lifecycling date.
+- A global ledger containing trades from regions in different time zones may require flexibility
+  regarding when, in relation to ledger time, to process coupons and other events.
+- The coupon payment depends on market data, which the data provider occasionally provides with a
+  delay. Retroactively processing this is simpler if the lifecycler can provide the *today* date.
+
 Now, we have what we need to actually lifecycle the bond. The ``Evolve`` choice of the lifecycle
 rule is exercised to process the time event:
 
@@ -93,6 +107,11 @@ rule is exercised to process the time event:
   :language: daml
   :start-after: -- LIFECYCLE_BOND_BEGIN
   :end-before: -- LIFECYCLE_BOND_END
+
+Both the :ref:`LedgerTime <module-daml-finance-data-time-ledgertime-84639>` and the
+:ref:`DateClock <module-daml-finance-data-time-dateclock-65212>` implement the
+:ref:`TimeObservable <module-daml-finance-interface-lifecycle-observable-timeobservable-45971>`
+interface, which is used by ``Evolve`` to specify the current time for the lifecycling.
 
 The result of this is an effect describing the per-unit asset movements to be executed for bond
 holders. Each holder can now present their holding to *claim* the effect and instruct settlement of
