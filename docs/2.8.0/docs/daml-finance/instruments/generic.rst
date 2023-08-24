@@ -173,4 +173,4 @@ template directly indicates what type of instrument it is.
 
 The Generic instrument has the advantage that it provides a flexible framework for defining new
 payoffs in an ad-hoc manner. This can be useful for prototyping or in a structuring context. It also
-enables one-off trades for which a strongly typed instrument is not (yet) available.
+enables one-off trades for which no other instrument is available.
