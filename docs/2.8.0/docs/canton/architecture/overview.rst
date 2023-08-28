@@ -107,7 +107,7 @@ In Canton, committing the example transaction consists of two steps:
    Based on the check's result, a subset of recipients,
    called **confirming participants** then prepares a (positive or negative)
    **mediator response** for each view separately. A **confirmation policy**
-   associated with the request specifies which participants need to confirm,
+   associated with the request specifies which participants must confirm,
    given the transaction's informees.
 
    The confirming participants send their responses to a **mediator**,
