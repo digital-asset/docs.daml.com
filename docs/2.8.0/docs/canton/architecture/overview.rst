@@ -509,7 +509,7 @@ At a high level, the mediator:
 - sends the result message.
 
 For auditability, the mediator also persists every finalized request
-together with its verdict in a long term storage
+together with its verdict in long-term storage
 and allows an auditor to retrieve messages from this storage.
 
 .. _overview-identity-manager:
