@@ -101,7 +101,7 @@ In Canton, committing the example transaction consists of two steps:
 
    4. consensus (guaranteeing that participants commit projections of the same transaction)
 
-   Conformance, authorization, authenticity, transparency, and consensus problems only arise due to submitter malice.
+   Conformance, authorization, authenticity, transparency, and consensus problems arise only due to submitter malice.
    Consistency problems can arise with no malice. For example, the Iou
    that is to be transferred to Bob might simply have already been spent.
    Based on the check's result, a subset of recipients,
