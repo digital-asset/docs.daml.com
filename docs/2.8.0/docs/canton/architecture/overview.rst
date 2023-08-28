@@ -489,7 +489,7 @@ envelope.
 In the implementation, the recipients of an envelope are not a set of members (as indicated above),
    but a forest of sets of members.
    A member receives an envelope if it appears somewhere in the recipient forest.
-   A member sees the nodes of the forest that contain itself as a recipient as well as all descendants of such nodes;
+   A member sees the nodes of the forest that contain itself as a recipient (as well as all descendants of such nodes),
    but it does not see the ancestors of such nodes.
    This feature is used to support bcc-style addressing of envelopes.
 
