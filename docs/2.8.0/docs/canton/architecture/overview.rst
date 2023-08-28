@@ -244,7 +244,7 @@ The lock indicates that the contract might be archived.
 When the mediator's decision arrives later, the contract is either archived or unlocked,
 depending on whether the transaction is committed or rolled back.
 Transactions that attempt to use a locked (i.e., potentially archived) contract are rejected.
-This design decision is based on the assumption that transactions are typically accepted;
+This design decision is based on the optimistic assumption that transactions are typically accepted;
 the later conflicting transaction can therefore be pessimistically rejected.
 
 The next three diagrams illustrate locking and pessimistic rejections
@@ -536,26 +536,26 @@ The following diagram shows the main components of a participant.
    :align: center
    :width: 100%
 
-A ledger application uses the ledger API (at the top of the diagram) to send commands to a participant and
+A ledger application uses the **ledger API** (at the top of the diagram) to send **commands** to a participant and
 to receive the corresponding events.
-The command submission service receives a command, parses it, and performs some basic validation.
-Next, the command is submitted to DAMLe (DAML engine), which translates it to a transaction;
-a command consists only of a root node whereas a transaction also recursively contains all consequences of all exercise actions.
-Then, the domain router chooses a domain that is suitable for executing the transaction.
+The **command submission service** receives a command, parses it, and performs some basic validation.
+Next, the command is submitted to **DAMLe (DAML engine)**, which translates it to a **transaction**;
+a **command** consists only of a **root node** whereas a **transaction** also recursively contains all **consequences** of all exercise actions.
+Then, the **domain router** chooses a domain that is suitable for executing the transaction.
 
-The transaction processor translates the transaction to a confirmation request;
+The **transaction processor** translates the transaction to a **confirmation request**;
 in particular, it computes the view decomposition, embeds the transaction into a Merkle tree, and
 creates different envelopes tailored to the different members validating the request.
-It uses the sequencer client to send the confirmation request to the mediator and all participants involved in the transaction.
+It uses the **sequencer client** to send the confirmation request to the mediator and all participants involved in the transaction.
 
-The transaction processor also uses the sequencer client to receive confirmation requests from the domain,
-to send mediator responses, and to receive the result messages from the mediator.
+The **transaction processor** also uses the sequencer client to **receive confirmation requests** from the domain,
+to **send mediator responses,** and to **receive the result messages** from the mediator.
 
-The multi domain event log stores for every request if has been committed vs. rolled back.
-It also stores an order on the events coming from the domains the participant is connected to.
-The parallel indexer subscription reads events from the multi domain event log and stores them in a format that is optimized for fast read access.
-The command completion service allows ledger applications to read the completions corresponding to the commands it has previously submitted.
-The transaction service provides a stream of all transactions that have been committed to the virtual shared ledger and are visible to the participant.
+The **multi-domain event log** stores the **completion event** for every request (commit vs. rollback).
+It also stores the order of events coming from the domains the participant is connected to.
+The **parallel indexer subscription** reads events from the multi-domain event log and stores them in a format that is optimized for **fast read access.**
+The **command completion service** allows ledger applications to read the completions corresponding to the commands it has previously submitted.
+The **transaction service** provides a stream of all transactions that have been committed to the virtual shared ledger and are visible to the participant.
 
 .. _system-model-and-trust-assumptions:
 
