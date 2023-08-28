@@ -467,7 +467,7 @@ We now list the high-level requirements on the sequencer.
 
 **Ordering:** The sequencer provides a `global total-order
 multicast <http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.85.3282&rep=rep1&type=pdf>`__
-where envelopes are uniquely time-stamped and the global ordering is
+where envelopes are uniquely timestamped and the global ordering is
 derived from the timestamps. Instead of delivering a single envelope, the
 sequencer provides batching, that is, a
 list of individual envelopes are submitted. All these envelopes get the
