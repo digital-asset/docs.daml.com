@@ -470,7 +470,7 @@ multicast <http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.85.3282&rep=
 where envelopes are uniquely timestamped and the global ordering is
 derived from the timestamps. Instead of delivering a single envelope, the
 sequencer provides batching, that is, a
-list of individual envelopes are submitted. All these envelopes get the
+list of individual envelopes are submitted. All of these envelopes get the
 timestamp of the batch they are contained in. Each envelope may
 have a different set of recipients; the envelopes in each recipient's batch
 are in the same order as in the sent batch.
