@@ -240,7 +240,7 @@ Conflict Detection
 
 Participants detect conflicts between concurrent transactions by locking the contracts that a transaction consumes.
 The participant locks a contract when it validates the confirmation request of a transaction that archives the contract.
-The lock indicates that the contract will possibly be archived.
+The lock indicates that the contract might be archived.
 When the mediator's decision arrives later, the contract is either archived or unlocked,
 depending on whether the transaction is committed or rolled back.
 When a transaction wants to use a locked (i.e. possibly archived) contract, then this transaction will be rejected.
