@@ -508,7 +508,7 @@ At a high level, the mediator:
 - computes the mediator verdict (approve / reject / timed out) according to the confirmation policy, and
 - sends the result message.
 
-Additionally, for auditability the mediator persists every finalized request
+For auditability, the mediator also persists every finalized request
 together with its verdict in a long term storage
 and allows an auditor to retrieve messages from this storage.
 
