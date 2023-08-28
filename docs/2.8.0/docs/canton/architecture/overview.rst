@@ -104,7 +104,7 @@ In Canton, committing the example transaction consists of two steps:
    Conformance, authorization, authenticity, transparency, and consensus problems arise only due to submitter malice.
    Consistency problems can arise with no malice. For example, the Iou
    that is to be transferred to Bob might simply have already been spent.
-   Based on the check's result, a subset of recipients,
+   Based on the check's result, a subset of recipients
    called **confirming participants** then prepares a (positive or negative)
    **mediator response** for each view separately. A **confirmation policy**
    associated with the request specifies which participants must confirm,
