@@ -335,7 +335,7 @@ of the transaction).
 
 There is only a bounded relationship between these times, ensuring that the `ledger time` must be
 in a pre-defined bound around the `record time`. The tolerance is defined on the domain
-as a domain parameter, known to all participants
+as a domain parameter, known to all participants:
 
 .. code-block:: bash
 
