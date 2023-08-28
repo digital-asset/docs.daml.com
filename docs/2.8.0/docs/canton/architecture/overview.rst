@@ -13,8 +13,8 @@ illustrate the high-level flows, entities (defining trust domains) and
 components. We then state the trust assumptions we make on the
 different entities, and the assumptions on communication links.
 
-Canton is designed to fulfill its :ref:`high-level requirements <requirements>` and we assume that the reader
-is familiar with the Daml language and the :ref:`hierarchical transactions <actions-and-transactions>` of the
+Canton is designed to fulfill its :ref:`high-level requirements <requirements>.` Before reading this section, you should be
+familiar with the Daml language and the :ref:`hierarchical transactions <actions-and-transactions>` of the
 DA ledger model.
 
 
