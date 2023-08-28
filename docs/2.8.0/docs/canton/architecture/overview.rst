@@ -529,7 +529,7 @@ A canonical example is a participant run by a trusted market operator.
 Participant-internal Canton Components
 --------------------------------------
 
-The below diagram shows the main components of a participant.
+The following diagram shows the main components of a participant.
 
 .. https://lucid.app/lucidchart/effe03fe-e952-49e2-abc7-ac7a4cc56211/edit?page=0_0&invitationId=inv_f3433f52-c2ec-4854-9b36-58942657f191#
 .. image:: ./images/overview/canton-participant-components.svg
