@@ -1197,8 +1197,6 @@ subtrees:
         title: "Configure Auth0 Middleware (With Example Configuration)"
       - file: canton/usermanual/security
         title: "Security & Key Management"
-  - file: operate-a-daml-ledger/infrastructure-automation/index
-    title: "Infrastructure Automation (Node and Domain)"
   - file: canton/usermanual/performance
     title: "Scaling and Performance"
   - file: operate-a-daml-ledger/advanced-operations/index
