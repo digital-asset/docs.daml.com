@@ -485,7 +485,7 @@ A recipient only learns the identities of recipients
 on a particular envelope from a batch if it is itself a recipient of that
 envelope.
 
-.. note:: 
+.. note::
 In the implementation, the recipients of an envelope are not a set of members (as indicated above),
    but a forest of sets of members.
    A member receives an envelope if it appears somewhere in the recipient forest.
@@ -551,7 +551,7 @@ It uses the **sequencer client** to send the confirmation request to the mediato
 The **transaction processor** also uses the sequencer client to **receive confirmation requests** from the domain,
 to **send mediator responses,** and to **receive the result messages** from the mediator.
 
-The **multi-domain event log** stores the **completion event** for every request (commit vs. rollback).
+The **multi-domain event log** stores every committed request and every rollback.
 It also stores the order of events coming from the domains the participant is connected to.
 The **parallel indexer subscription** reads events from the multi-domain event log and stores them in a format that is optimized for **fast read access.**
 The **command completion service** allows ledger applications to read the completions corresponding to the commands it has previously submitted.
