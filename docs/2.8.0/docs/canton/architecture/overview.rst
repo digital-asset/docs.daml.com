@@ -13,8 +13,8 @@ illustrate the high-level flows, entities (defining trust domains) and
 components. We then state the trust assumptions we make on the
 different entities, and the assumptions on communication links.
 
-Canton is designed to fulfill its :ref:`high-level requirements <requirements>` and we assume that the reader 
-is familiar with the Daml language and the :ref:`hierarchical transactions <actions-and-transactions>` of the 
+Canton is designed to fulfill its :ref:`high-level requirements. <requirements>` Before reading this section, you should be
+familiar with the Daml language and the :ref:`hierarchical transactions <actions-and-transactions>` of the
 DA ledger model.
 
 
@@ -84,7 +84,7 @@ In Canton, committing the example transaction consists of two steps:
 .. _canton-overview-confirmation-response:
 
 2. The recipients then check the validity of the views that they receive.
-   The validity checks cover three aspects:
+   The validity checks cover four aspects:
 
    1. validity as :ref:`defined <da-model-validity>` in the DA ledger
       model: :ref:`consistency <da-model-consistency>`, (mainly: no
@@ -93,24 +93,25 @@ In Canton, committing the example transaction consists of two steps:
       :ref:`authorization <da-model-authorization>` (guaranteeing that
       the actors and submitters are allowed to perform the view's action)
 
-   2. authenticity (guaranteeing that the actors and submitters are
+   2. authenticity (guaranteeing that the submitters are
       who they claim to be).
 
    3. transparency (guaranteeing that participants who should be
       notified get notified).
 
-   Conformance, authorization, authenticity and transparency problems only arise due to submitter malice.
+   4. consensus (guaranteeing that participants commit projections of the same transaction)
+
+   Conformance, authorization, authenticity, transparency, and consensus problems arise only due to submitter malice.
    Consistency problems can arise with no malice. For example, the Iou
-   that is to be transferred to Bob might simply have already been spent
-   (assuming that we do not use the "locking" technique in Daml).
-   Based on the check's result, a subset of recipients,
-   called **confirmers** then prepares a (positive or negative)
-   **confirmation response** for each view separately. A **confirmation policy**
-   associated with the request specifies which participants are confirmers,
+   that is to be transferred to Bob might simply have already been spent.
+   Based on the check's result, a subset of recipients
+   called **confirming participants** then prepares a (positive or negative)
+   **mediator response** for each view separately. A **confirmation policy**
+   associated with the request specifies which participants must confirm,
    given the transaction's informees.
 
-   The confirmers send their responses to a **mediator**,
-   another special entity that aggregates the responses into a single decision
+   The confirming participants send their responses to a **mediator**,
+   another special entity that aggregates the responses into a single verdict
    for the entire confirmation request. The mediator
    serves to hide the participants' identities from each other (so
    that Bank and SR do not need to know that they are part of the same transaction).
@@ -129,7 +130,7 @@ In Canton, committing the example transaction consists of two steps:
       In the informee tree for the mediator, all transaction contents are blinded.
 
    From this, the mediator
-   derives which (positive) confirmation responses are necessary
+   derives which (positive) mediator responses are necessary
    in order to decide the confirmation request as **approved**.
 
    Requests submitted by malicious participants can contain bogus views.
@@ -172,7 +173,7 @@ the participants of Bank and A) in the same order, even with Byzantine
 submitters.
 This has the following implications:
 
-#. The correct confirmation response for each view is always uniquely determined,
+#. The correct mediator response for each view is always uniquely determined,
    because Daml is deterministic.
    However, for performance reasons, we allow occasional incorrect negative responses,
    when participants start behaving in a Byzantine fashion or under contention.
@@ -201,12 +202,12 @@ offline, or simply refusing to respond. The main ways we cope with this
 problem are as follows:
 
 - We use timeouts: if a transaction’s validity cannot be determined
-  after a timeout (which is a domain-wide constant),
+  after a timeout (which is a domain-wide parameter),
   the transaction is rejected.
 
-- If a confirmation request times out,
+.. - If a confirmation request times out,
   the system informs the participant submitting the request on which participants have failed to send a
-  confirmation response.
+  mediator response.
   This allows the submitting participant to take out of band actions against misbehaviour.
 
 - Flexible confirmation policies:
@@ -227,54 +228,10 @@ problem are as follows:
   signatories and actors are required to confirm. This requires a lower level of trust compared to the
   VIP confirmation policy sacrificing liveness when participants hosting
   signatories or actors are unresponsive.
-  Another policy (being deprecated) is
+  Another policy is
   the *full confirmation policy*, in which all informees are required
   to confirm. This requires the lowest level of trust, but sacrifices
   liveness when some of the involved participants are unresponsive.
-
-- In the future, we will support attestators, which can be thought of as on-demand VIP participants.
-  Instead of constructing Daml models so that VIP parties are informees on every action, attestators are only used
-  on-demand.
-  The participants who wish to have the transaction committed must disclose sufficient amount of history to provide the
-  attestator with unequivocal evidence of a subtransaction's validity.
-  The attestator's statement then substitutes the confirmations of the unresponsive participants.
-
-The following image shows the state transition diagram of a confirmation
-request; all states except for Submitted are final.
-
-.. https://www.lucidchart.com/documents/edit/ad23766c-eae0-41d2-8c15-524c1c1602e9
-.. image:: ./images/overview/confirmation-request-state-transitions.svg
-   :align: center
-   :width: 80%
-
-A confirmation request can be rejected for several reasons:
-
-Multiple domains
-  The transaction tried to use contracts
-  created on different Canton domains.
-  Multi-domain transactions are currently not supported.
-
-Timeout
-  Insufficient confirmations have been received within the timeout
-  window to declare the transaction as accepted according to the
-  confirmation policy.
-  This happens due to one of the involved participants being unresponsive.
-  The request then times out and is aborted.
-  In the future, we will add a feature where aborts can be triggered by the submitting party, or anyone else
-  who controls a contract in the submitted transaction.
-  The aborts still have to happen after the timeout, but are not mandatory.
-  Additionally, attestators can be used to supplant the confirmations from the unresponsive participants.
-
-Inconsistency
-  It conflicts with an earlier pending request, i.e., a request that has neither been approved nor rejected yet.
-  Canton currently implements a simple **pessimistic**
-  :ref:`conflict resolution policy <conflict-detection-overview>`,
-  which always fails the later request, even if the earlier
-  request itself gets rejected at some later point.
-
-Conflicting responses
-  Conflicting responses were received. In Canton, this only happens when one of
-  the participants is Byzantine.
 
 .. _conflict-detection-overview:
 
@@ -282,11 +239,11 @@ Conflict Detection
 ~~~~~~~~~~~~~~~~~~
 
 Participants detect conflicts between concurrent transactions by locking the contracts that a transaction consumes.
-The participant locks a contract when it receives the confirmation request of a transaction that archives the contract.
-The lock indicates that the contract is possibly archived.
-When the mediator's decision arrives later, the contract is unlocked again - and archived if the transaction was approved.
-When a transaction wants to use a possibly archived contract, then this transaction will be rejected in the current
-version of Canton.
+The participant locks a contract when it validates the confirmation request of a transaction that archives the contract.
+The lock indicates that the contract might be archived.
+When the mediator's decision arrives later, the contract is either archived or unlocked,
+depending on whether the transaction is committed or rolled back.
+Transactions that attempt to use a locked (i.e., potentially archived) contract are rejected.
 This design decision is based on the optimistic assumption that transactions are typically accepted;
 the later conflicting transaction can therefore be pessimistically rejected.
 
@@ -344,7 +301,7 @@ Consequently, the `Bank` and, for consistency, `A` lock `c1` until the mediator 
    An approval for `c1`\ 's archival and a rejection for `c2`\ 's archival.
    The diagrams omit this technicality.
 
-The third diagram shows how locking and pessimistic rejections can lead to incorrect negative responses.
+The third diagram shows how locking and pessimistic rejections can lead to unnecessary rejections.
 Now, the painter's acceptance of `tx1` is sequenced before Alice's retraction like in the :ref:`first diagram <pessimistically-rejected-conflict1>`,
 but the Iou between `A` and the `Bank` has already been archived earlier.
 The painter receives only the view for `c2`, since `P` is not a stakeholder of the Iou `c1`.
@@ -377,14 +334,15 @@ is assigned by the sequencer when registering the confirmation request (initial 
 of the transaction).
 
 There is only a bounded relationship between these times, ensuring that the `ledger time` must be
-in a pre-defined bound around the `record time`. The tolerance (``max_skew``) is defined on the domain
-as a domain parameter, known to all participants
+in a pre-defined bound around the `record time`. The tolerance is defined on the domain
+as a domain parameter, known to all participants:
 
 .. code-block:: bash
 
    canton.domains.mydomain.parameters.ledger-time-record-time-tolerance
 
-The bounds are symmetric in Canton, so ``min_skew`` equals ``max_skew``, equal to above parameter.
+The bounds are symmetric in Canton, so the Canton domain parameter ``ledger-time-record-time-tolerance`` equals
+the ``skew_min`` and ``skew_max`` parameters from the ledger model.
 
 .. note::
 
@@ -392,7 +350,7 @@ The bounds are symmetric in Canton, so ``min_skew`` equals ``max_skew``, equal t
    a per domain property and this cannot be properly exposed on the respective ledger API endpoint.
 
 Checking that the `record time` is within the required bounds is done by the validating participants
-and is visible to everyone. The sequencer does not know what was timestamped and therefore doesn't perform
+and is visible to everyone. The sequencer does not know the `ledger time` and therefore cannot perform
 this validation.
 
 Therefore, a submitting participant cannot control the output of a transaction depending on `record time`,
@@ -425,7 +383,7 @@ In particular, the second leg's structure, contents, and recipients are complete
 
 The subview that creates the transferred Iou has a similar structure,
 except that the hash ``0x738f...`` is now unblinded into the view content and the parent view's **Exercise** action is represented by its hash ``0x8912...``
-   
+
 .. figure:: ./images/overview/dvp-create-iou-view.svg
    :align: center
    :width: 80%
@@ -495,7 +453,7 @@ certificate authority.
 We assume that the participant trusts this infrastructure, that is, that the participant and its identity management belong
 to the same trust domain.
 Some participant nodes can be designated as **VIP nodes**, meaning
-that they are operated by trusted parties. Such nodes are important
+that they are operated by trusted organizations. Such nodes are important
 for the VIP confirmation policy.
 
 The generic term **member** will refer to either a domain entity or a participant node.
@@ -509,23 +467,31 @@ We now list the high-level requirements on the sequencer.
 
 **Ordering:** The sequencer provides a `global total-order
 multicast <http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.85.3282&rep=rep1&type=pdf>`__
-where messages are uniquely time-stamped and the global ordering is
-derived from the timestamps. Instead of delivering a single message, the
-sequencer provides message batching, that is, a
-list of individual messages are submitted. All these messages get the
-timestamp of the batch they are contained in. Each message may
-have a different set of recipients; the messages in each recipient's batch
+where envelopes are uniquely timestamped and the global ordering is
+derived from the timestamps. Instead of delivering a single envelope, the
+sequencer provides batching, that is, a
+list of individual envelopes are submitted. All of these envelopes get the
+timestamp of the batch they are contained in. Each envelope may
+have a different set of recipients; the envelopes in each recipient's batch
 are in the same order as in the sent batch.
 
 **Evidence:** The sequencer provides the recipients with a
-cryptographic proof of authenticity for every message batch it
-delivers, including evidence on the order of batches.
+cryptographic proof of authenticity for every batch it
+delivers, including evidence on the order of envelopes.
 
 **Sender and Recipient Privacy:** The recipients
 do not learn the identity of the submitting participant.
 A recipient only learns the identities of recipients
-on a particular message from a batch if it is itself a recipient of that
-message.
+on a particular envelope from a batch if it is itself a recipient of that
+envelope.
+
+.. note::
+   In the implementation, the recipients of an envelope are not a set of members (as indicated above),
+   but a forest of sets of members.
+   A member receives an envelope if it appears somewhere in the recipient forest.
+   A member sees the nodes of the forest that contain itself as a recipient (as well as all descendants of such nodes),
+   but it does not see the ancestors of such nodes.
+   This feature is used to support bcc-style addressing of envelopes.
 
 Mediator
 ~~~~~~~~
@@ -537,13 +503,13 @@ participants, while preserving the participants' privacy,
 by not revealing their identities to each other.
 At a high level, the mediator:
 
-- collects confirmation responses from participants,
+- collects mediator responses from participants,
 - validates them according to the Canton protocol,
-- computes the conclusions (approve / reject / timed out) according to the confirmation policy, and
+- computes the mediator verdict (approve / reject / timed out) according to the confirmation policy, and
 - sends the result message.
 
-Additionally, for auditability, the mediator persists every received
-message (containing informee information or confirmation responses) in long term storage
+For auditability, the mediator also persists every finalized request
+together with its verdict in long-term storage
 and allows an auditor to retrieve messages from this storage.
 
 .. _overview-identity-manager:
@@ -563,100 +529,48 @@ A canonical example is a participant run by a trusted market operator.
 Participant-internal Canton Components
 --------------------------------------
 
-Canton uses the Daml-on-X architecture, to promote code reuse.
-In this architecture, the participant node is broken down into a set of services, all but one of which are reused among ledger implementations.
-This ledger-specific service is called the Ledger Synchronization Service (LSS), which Canton
-implements using its protocol.
-This implementation is further broken down
-into multiple components. We now describe the interface and
-properties of each component. The following figure shows the
-interaction between the different components and the relation to the
-existing Ledger API’s command and event services.
+The following diagram shows the main components of a participant.
 
-.. https://www.lucidchart.com/documents/edit/8f0e701c-ca0a-4b59-8426-43fb3f4d0de2
+.. https://lucid.app/lucidchart/effe03fe-e952-49e2-abc7-ac7a4cc56211/edit?page=0_0&invitationId=inv_f3433f52-c2ec-4854-9b36-58942657f191#
 .. image:: ./images/overview/canton-participant-components.svg
    :align: center
    :width: 100%
 
-We next explain each component in turn.
+A ledger application uses the **ledger API** (at the top of the diagram) to send **commands** to a participant and
+to receive the corresponding events.
+The **command submission service** receives a command, parses it, and performs some basic validation.
+Next, the command is submitted to **DAMLe (DAML engine)**, which translates it to a **transaction**;
+a **command** consists only of a **root node** whereas a **transaction** also recursively contains all **consequences** of all exercise actions.
+Then, the **domain router** chooses a domain that is suitable for executing the transaction.
 
-.. _transaction-component:
+The **transaction processor** translates the transaction to a **confirmation request**;
+in particular, it computes the view decomposition, embeds the transaction into a Merkle tree, and
+creates different envelopes tailored to the different members validating the request.
+It uses the **sequencer client** to send the confirmation request to the mediator and all participants involved in the transaction.
 
-Transactions
-~~~~~~~~~~~~
+The **transaction processor** also uses the sequencer client to **receive confirmation requests** from the domain,
+to **send mediator responses,** and to **receive the result messages** from the mediator.
 
-This is the central component of LSS within Canton. We describe
-the main tasks below.
-
-**Submission and Segregation:** A Daml transaction has a tree-like
-structure. The :ref:`ledger privacy model <da-model-privacy>` defines
-which parts of a transaction are visible to which party, and thus participant. Each
-recipient obtains only the subtransaction (projection) it is entitled
-to see; other parts of the transaction are never shared with the
-participant, not even in an encrypted form. Furthermore, depending on
-the confirmation policy, some informees are marked as
-confirmers. In addition to distributing the transaction projections
-among participants, the submitter informs the mediator about the
-informees and confirmers of the transaction.
-
-**Validity and Confirmations Responses:** Each informee of a
-requested transaction performs local checks on the validity of its
-visible subtransaction. The informees check that their provided
-projection conforms to the Daml semantics, and the ledger authorization
-model. Additionally, they check whether the request conflicts with an
-earlier request that is accepted or is not yet decided. Based on this,
-they send their responses (one for each of their views), together with
-the informee information for their projection, to the
-mediator.
-When the other participants or domain entities do not behave according to the protocol (for example, not sending
-timely confirmation responses, or sending malformed requests), the transaction processing component raises alarms.
-
-**Confirmation Result Processing**. Based on the result message
-from the mediator, the transaction component commits or aborts
-the requested transaction.
-
-Sequencer Client
-~~~~~~~~~~~~~~~~
-
-The sequencer client handles the connection to the sequencer,
-ensures in-order delivery and stores the cryptographic proofs of
-authenticity for the messages from the sequencer.
-
-Identity Client
-~~~~~~~~~~~~~~~
-
-The identity client handles the messages coming from the domain topology manager, and verifies the validity of the
-received identity information changes (for example, the validity of public key delegations).
+The **multi-domain event log** stores every committed request and every rollback.
+It also stores the order of events coming from the domains the participant is connected to.
+The **parallel indexer subscription** reads events from the multi-domain event log and stores them in a format that is optimized for **fast read access.**
+The **command completion service** allows ledger applications to read the completions corresponding to the commands it has previously submitted.
+The **transaction service** provides a stream of all transactions that have been committed to the virtual shared ledger and are visible to the participant.
 
 .. _system-model-and-trust-assumptions:
 
-System Model And Trust Assumptions
+Trust Assumptions
 ----------------------------------
 
 The different sets of rules that Canton domains specify affect the
 security and liveness properties in different ways. In this section,
 we summarize the system model that we assume, as well as the trust
-assumptions. Some trust assumptions are dependent on the domain rules,
-which we indicate in the text.
+assumptions.
 As specified in the :ref:`high-level requirements <requirements-functional>`, the system provides guarantees only to
 honestly represented parties.
 Hence, every party must fully trust its
 participant (but no other participants) to execute the protocol correctly. In particular, signatures by participant
 nodes may be deemed as evidence of the party's action in the transaction protocol.
-
-System Model
-~~~~~~~~~~~~
-
-We assume that pairwise communication is possible between any two system
-members. The links connecting the participant nodes to the sequencers
-and the referees are assumed to be *mostly timely*: there exists a known
-bound 𝛅 on the delay such that the overwhelming majority of messages
-exchanged between the participant and the sequencer are delivered within 𝛅.
-Domain entities are assumed to have clocks
-that are closely synchronized (up to some known bound) for an
-overwhelming majority of time. Finally, we assume that the participants
-know a probability distribution over the message latencies within
-the system.
 
 .. _trust-assumptions:
 
@@ -671,8 +585,8 @@ These assumptions are relevant for all system properties, except for privacy.
 
 - The mediator is trusted to produce and distribute all results correctly.
 
-- The topology managers of honest participants (including the underlying public key
-  infrastructure, if any) are operating correctly.
+- The domain topology manager (including the underlying public key
+  infrastructure, if any) is operating correctly.
 
 When a transaction is submitted with the VIP confirmation policy (in
 which case every action in the transaction must have at least one VIP
@@ -724,7 +638,7 @@ The following common assumptions are relevant for privacy:
 
    #. timestamps of messages
 
--  The informees of a part of a transaction are trusted with not
+-  The informees of a view are trusted with not
    violating the privacy of the other stakeholders in that same part.
    In particular, the submitter is trusted with choosing strong randomness
    for transaction and contract IDs. Note that this assumption is not relevant
@@ -732,7 +646,7 @@ The following common assumptions are relevant for privacy:
 
 When a transaction is submitted with the VIP confirmation policy,
 every action in the transaction must have at least one VIP
-informee. Thus, the VIP informee is automatically privy
+informee. Thus, the VIP informees of the root actions are automatically privy
 to the entire contents of the transaction, according to the
 :ref:`ledger privacy model <da-model-privacy>`.
 
@@ -746,10 +660,7 @@ time, and no unnecessary rejections:
 - All the domain entities in Canton (the sequencer, the mediator,
   and the topology manager) are highly available.
 
-- The sequencer is trusted to deliver the messages timely and
-  fairly (as measured by the probability distribution over the latencies).
-
-- The domain topology manager forwards all identity updates correctly.
+- The sequencer is trusted to deliver the messages timely and fairly.
 
 - Participants hosting confirming parties according to the confirmation policy are
   assumed to be highly available and responding correctly.
