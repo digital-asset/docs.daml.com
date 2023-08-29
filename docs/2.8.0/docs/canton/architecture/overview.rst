@@ -13,7 +13,7 @@ illustrate the high-level flows, entities (defining trust domains) and
 components. We then state the trust assumptions we make on the
 different entities, and the assumptions on communication links.
 
-Canton is designed to fulfill its :ref:`high-level requirements <requirements>.` Before reading this section, you should be
+Canton is designed to fulfill its :ref:`high-level requirements. <requirements>` Before reading this section, you should be
 familiar with the Daml language and the :ref:`hierarchical transactions <actions-and-transactions>` of the
 DA ledger model.
 
@@ -486,7 +486,7 @@ on a particular envelope from a batch if it is itself a recipient of that
 envelope.
 
 .. note::
-In the implementation, the recipients of an envelope are not a set of members (as indicated above),
+   In the implementation, the recipients of an envelope are not a set of members (as indicated above),
    but a forest of sets of members.
    A member receives an envelope if it appears somewhere in the recipient forest.
    A member sees the nodes of the forest that contain itself as a recipient (as well as all descendants of such nodes),
