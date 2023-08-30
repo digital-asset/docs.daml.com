@@ -147,7 +147,7 @@ contract stakeholders and witnesses.
    :end-before: user-manual-entry-end: ImportAcs
    :dedent:
 
-Finally reconnect to the domain.
+Finally, reconnect to the domain.
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/repair/DataMigrationDamlLedgerToCantonRepairIntegrationTest.scala
    :start-after: user-manual-entry-begin: ReconnectAfterImportAcs
