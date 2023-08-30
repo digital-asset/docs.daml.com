@@ -147,6 +147,13 @@ contract stakeholders and witnesses.
    :end-before: user-manual-entry-end: ImportAcs
    :dedent:
 
+Finally, reconnect to the domain.
+
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/repair/DataMigrationDamlLedgerToCantonRepairIntegrationTest.scala
+   :start-after: user-manual-entry-begin: ReconnectAfterImportAcs
+   :end-before: user-manual-entry-end: ReconnectAfterImportAcs
+   :dedent:
+
 To demonstrate that the imported ledger works, let's have each of the house owners accept one of the painters' offer to
 paint their house.
 
