@@ -160,3 +160,17 @@ This creates lifecycle effects, which can be claimed and settled in the usual wa
 :doc:`Getting Started: Lifecycling <../tutorials/getting-started/lifecycling>`). However, the holding contract
 used to claim the effect must be compatible with the election that has been made: if Alice made an
 election and *electorIsOwner = True*, then only a holding where *owner = alice* will be accepted.
+
+Frequently Asked Questions
+**************************
+
+When is a Generic Instrument preferred over a bond or swap?
+===========================================================
+
+The previously described instruments (e.g. :doc:`Bonds <bond>` and :doc:`Swaps <swap>`) have the
+advantage that the instrument terms are reflected as template variables. Also, the name of the
+template directly indicates what type of instrument it is.
+
+The Generic instrument has the advantage that it provides a flexible framework for defining new
+payoffs in an ad-hoc manner. This can be useful for prototyping or in a structuring context. It also
+enables one-off trades for which no other instrument is available.

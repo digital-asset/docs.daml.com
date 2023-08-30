@@ -42,6 +42,16 @@ applied to Token Instruments.
 The :doc:`Lifecycling <../tutorials/getting-started/lifecycling>`
 section of the Getting Started tutorial shows how this is done in detail.
 
+Frequently Asked Questions
+**************************
 
+How do I transfer or trade a Token Instrument?
+==============================================
 
+When you have created a holding on a token instrument this can be transferred to another party.
+This is described in the
+:doc:`Getting Started: Transfer <../tutorials/getting-started/transfer>` tutorial.
 
+In order to trade a token (transfer it in exchange for cash) you can also initiate a delivery versus
+payment with atomic settlement. This is described in the
+:doc:`Getting Started: Settlement <../tutorials/getting-started/settlement>` tutorial.
