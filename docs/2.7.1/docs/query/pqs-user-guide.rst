@@ -28,11 +28,26 @@ The Early Access (EA) release allows users to learn about the architecture and p
 
 The current limitations of the EA version are:
 
--  PQS does not currently support OAuth, but this is expected to be closed shortly.
 -  PQS has not been performance optimized, so it is not yet ready for large- or high-throughput queries.
 -  As is typical of EA releases, backward compatibility between EA releases may be sacrificed to make improvements in the user experience and design of PQS. You may need to make adjustments in your use through the EA period.
 
 Future early access releases will remove or reduce these limitations.  Please check back to this section for announcements of a new early access release.
+
+Early Access Release Versions
+=============================
+
+The historical table below lists the Early Access releases of the Participant Query Store that are available. Click on the date to download the JAR.
+
++---------------+--------------------------------+
+| Date          | Description                    |
++===============+================================+
+| `2023-08-09`_ | Iniital early access release.  |
++---------------+--------------------------------+
+| `2023-08-31`_ | Added OAuth support.           |
++---------------+--------------------------------+
+
+.. _2023-08-09: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B2986-e45c930.tar.gz
+.. _2023-08-31: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B3614-6b5f082.tar.gz
 
 Overview
 ********
@@ -120,7 +135,16 @@ To connect to a participant node, you might need to provide TLS certificates. To
 Authorizing PQS
 ===============
 
-If you are running PQS against a participant node's ledger API that verifies authorization, you must provide credentials for the `OAuth Client Authentication Flow <https://auth0.com/docs/get-started/authentication-and-authorization-flow/client-credentials-flow>`__.
+If you are running PQS against a participant node's ledger API that verifies authorization, you must provide credentials for the `OAuth Client Authentication Flow <https://auth0.com/docs/get-started/authentication-and-authorization-flow/client-credentials-flow>`__.  For example:
+
+.. code-block:: bash
+
+  $ ./scribe.jar pipeline ledger postgres-document \
+      --source-ledger-auth OAuth \
+      --pipeline-oauth-clientid my_client_id \
+      --pipeline-oauth-clientsecret deadbeef \
+      --pipeline-oauth-cafile ca.crt \
+      --pipeline-oauth-endpoint https://my-auth-server/token
 
 The type of access token that PQS expects is Audience / Scope based tokens (see “\ `User Access Tokens <https://docs.daml.com/app-dev/authorization.html#user-access-tokens>`__\ ” for more information).
 
