@@ -181,8 +181,7 @@ Finally, you can ping the participant to see if the system is operational
 .. snippet:: migrating_participant
     .. success:: participant.health.ping(participant)
 
-The ping command involves a create, subsequent exercise and archive of two contracts
-between the admin parties, which means that the full ledger functionality is tested end-to-end.
+The ping command creates two contracts between the admin parties, then exercises and archives them -- providing an end-to-end test of ledger functionality.
 
 Version Specific Notes
 ~~~~~~~~~~~~~~~~~~~~~~
