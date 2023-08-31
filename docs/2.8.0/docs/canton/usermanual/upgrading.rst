@@ -133,8 +133,8 @@ observe the following Flyway error:
     .. failure:: participant.start()
 
 The database schema definitions are versioned and hashed. This error informs us about the current
-database schema version and how many migrations need to be applied. This check runs on every
-startup of the node, so if the node starts, the migrations were successful.
+database schema version and how many migrations need to be applied. This check runs at
+startup, so if the node starts, the migrations were successful.
 
 We can now force the migration to a new schema using:
 
