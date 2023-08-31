@@ -141,7 +141,7 @@ We can now force the migration to a new schema using:
 .. snippet:: migrating_participant
     .. success:: participant.db.migrate()
 
-You can also configure the :ref:`migrations to be applied automatically <migrate_and_start_mode>`.
+You can also :ref:`configure the migrations to be applied automatically <migrate_and_start_mode>`.
 Please note that you need to ensure that the user account the node is using to access the database
 allows to change the database schema. How long the migration takes depends on the version
 of the binary (see migration notes), the size of the database and the performance of the database server.
