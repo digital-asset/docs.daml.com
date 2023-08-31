@@ -382,9 +382,9 @@ must be unique.
 Therefore, the protocol upgrade process boils down to:
 
 - Deploy a new domain next to the old domain. Ensure that the new domain is using the desired protocol version.
-  Ensure that you are using different databases (or at least different schemas in the same database)
-  for all the domain nodes (mediator, sequencer node and topology manager), channel names, smart contract addresses etc.
-  It must be a completely separate, new domain (albeit you can reuse your DLT backend as long
+  Also make sure to use different databases (or at least different schemas in the same database)
+  for the domain nodes (mediator, sequencer node, and topology manager), channel names, smart contract addresses, etc.
+  The new domain must be completely separate, but you can reuse your DLT backend as long
   as you use different sequencer contract addresses or Fabric channels).
 - Instruct the participants individually using the hard domain migration to use the new domain.
 
