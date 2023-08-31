@@ -385,7 +385,7 @@ Therefore, the protocol upgrade process boils down to:
   Also make sure to use different databases (or at least different schemas in the same database)
   for the domain nodes (mediator, sequencer node, and topology manager), channel names, smart contract addresses, etc.
   The new domain must be completely separate, but you can reuse your DLT backend as long
-  as you use different sequencer contract addresses or Fabric channels).
+  as you use different sequencer contract addresses or Fabric channels.
 - Instruct the participants individually using the hard domain migration to use the new domain.
 
 Note: to use the same database with different schemas for the old and the new domain, set the `currentSchema` either in the JDBC URL or as a parameter in `storage.config.properties`.
