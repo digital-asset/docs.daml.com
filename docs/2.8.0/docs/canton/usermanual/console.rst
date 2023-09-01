@@ -92,6 +92,9 @@ in the command submission and completion subscription requests. This affects the
 - ledger_api.completions.list_with_checkpoint
 - ledger_api.completions.subscribe
 
+.. note:: If you want to know more about the authorization please read the following article
+   about the :ref:`authorization tokens <user-access-tokens>`
+
 Node References
 ---------------
 
