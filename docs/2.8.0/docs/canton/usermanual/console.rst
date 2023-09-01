@@ -122,6 +122,8 @@ to get an overview of the commands and command groups that exist. ``help()`` wor
 (e.g. ``participant1.domains.help()``) or can be used to search for particular functions (``help("list")``)
 or to get detailed help explanation for each command (``participant1.parties.help("list")``).
 
+.. _migrate_and_start_mode:
+
 Lifecycle Operations
 --------------------
 

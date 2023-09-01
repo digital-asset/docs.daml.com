@@ -133,13 +133,15 @@ observe the following Flyway error:
     .. failure:: participant.start()
 
 The database schema definitions are versioned and hashed. This error informs us about the current
-database schema version and how many migrations need to be applied.
+database schema version and how many migrations need to be applied. This check runs at
+startup, so if the node starts, the migrations were successful.
 
 We can now force the migration to a new schema using:
 
 .. snippet:: migrating_participant
     .. success:: participant.db.migrate()
 
+You can also :ref:`configure the migrations to be applied automatically <migrate_and_start_mode>`.
 Please note that you need to ensure that the user account the node is using to access the database
 allows to change the database schema. How long the migration takes depends on the version
 of the binary (see migration notes), the size of the database and the performance of the database server.
@@ -178,6 +180,8 @@ Finally, you can ping the participant to see if the system is operational
 
 .. snippet:: migrating_participant
     .. success:: participant.health.ping(participant)
+
+The ping command creates two contracts between the admin parties, then exercises and archives them -- providing an end-to-end test of ledger functionality.
 
 Version Specific Notes
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -378,9 +382,10 @@ must be unique.
 Therefore, the protocol upgrade process boils down to:
 
 - Deploy a new domain next to the old domain. Ensure that the new domain is using the desired protocol version.
-  Ensure that you are using different databases (or at least different schemas in the same database), channel names, smart contract addresses etc.
-  It must be a completely separate domain (albeit you can reuse your DLT backend as long
-  as you use different sequencer contract addresses or Fabric channels).
+  Also make sure to use different databases (or at least different schemas in the same database)
+  for the domain nodes (mediator, sequencer node, and topology manager), channel names, smart contract addresses, etc.
+  The new domain must be completely separate, but you can reuse your DLT backend as long
+  as you use different sequencer contract addresses or Fabric channels.
 - Instruct the participants individually using the hard domain migration to use the new domain.
 
 Note: to use the same database with different schemas for the old and the new domain, set the `currentSchema` either in the JDBC URL or as a parameter in `storage.config.properties`.
