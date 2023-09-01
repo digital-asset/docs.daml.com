@@ -56,7 +56,7 @@ Finance:
   ``get-dependencies`` script that downloads the Daml Finance packages. This allows you to learn
   Daml Finance at the same time.
 - Advanced users can download Daml Finance directly from the
-  `Releases <https://github.com/digital-asset/daml-finance/releases>`_ section of the repo, either
+  `Releases section of the repo <https://github.com/digital-asset/daml-finance/releases>`_, either
   the individual packages that your application needs or a bundle containing all packages.
 
 Current Release
