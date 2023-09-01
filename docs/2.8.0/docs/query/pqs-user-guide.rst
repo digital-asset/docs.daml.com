@@ -36,7 +36,7 @@ Future early access releases will remove or reduce these limitations.  Please ch
 Early Access Release Versions
 =============================
 
-The historical table below lists the Early Access releases of the Participant Query Store that are available. Click on the date to download the JAR.
+The historical table below lists the available Early Access releases of the Participant Query Store. Click the date to download the JAR.
 
 +---------------+--------------------------------+
 | Date          | Description                    |
