@@ -41,7 +41,7 @@ The historical table below lists the available Early Access releases of the Part
 +---------------+--------------------------------+
 | Date          | Description                    |
 +===============+================================+
-| `2023-08-09`_ | Iniital early access release.  |
+| `2023-08-09`_ | Initial early access release.  |
 +---------------+--------------------------------+
 | `2023-08-31`_ | Added OAuth support.           |
 +---------------+--------------------------------+
