@@ -45,12 +45,26 @@ The following is a suggested learning path to get productive quickly:
 Packages
 ********
 
-This section details the list of released and deprecated packages. It also provides
-status information for each package according to the
-`Daml Ecosystem convention <https://docs.daml.com/support/status-definitions.html>`_.
+How to Download
+===============
+
+Daml Finance is distributed as a set of packages. There are two main ways how to download Daml
+Finance:
+
+- New users are recommended to follow the
+  :doc:`Getting started <tutorials/getting-started/intro>` tutorial, which also contains a
+  ``get-dependencies`` script that downloads the Daml Finance packages. This allows you to learn
+  Daml Finance at the same time.
+- Advanced users can download Daml Finance directly from the
+  `Releases section of the repo <https://github.com/digital-asset/daml-finance/releases>`_, either
+  the individual packages that your application needs or a bundle containing all packages.
 
 Current Release
 ===============
+
+This section details the list of released and deprecated packages. It also provides
+status information for each package according to the
+`Daml Ecosystem convention <https://docs.daml.com/support/status-definitions.html>`_.
 
 The current Daml Finance release requires the use of Daml SDK v2.5 or later.
 
