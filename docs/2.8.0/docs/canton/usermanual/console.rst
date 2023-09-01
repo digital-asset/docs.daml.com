@@ -64,6 +64,9 @@ If you want to generate a skeleton remote configuration of a normal config file,
 
 However, you might have then to edit the config and adjust the hostname.
 
+TLS and Authorization
+^^^^^^^^^^^^^^^^^^^^^
+
 For production use cases, in particular if the Admin Api is not just bound to localhost, we recommend to enable
 :ref:`TLS <tls-configuration>` with mutual authentication.
 
