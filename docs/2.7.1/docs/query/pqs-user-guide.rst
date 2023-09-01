@@ -135,7 +135,7 @@ To connect to a participant node, you might need to provide TLS certificates. To
 Authorizing PQS
 ===============
 
-If you are running PQS against a participant node's ledger API that verifies authorization, you must provide credentials for the `OAuth Client Authentication Flow <https://auth0.com/docs/get-started/authentication-and-authorization-flow/client-credentials-flow>`__.  For example:
+If you are running PQS against a participant node's ledger API that verifies authorization, you must provide credentials for the `OAuth Client Credentials Flow <https://auth0.com/docs/get-started/authentication-and-authorization-flow/client-credentials-flow>`__.  For example:
 
 .. code-block:: bash
 
