@@ -6,8 +6,8 @@ Daml.Finance.Interface.Types.Date
 
 Financial instruments, especially those related to interest rates, often depend on periodic
 schedules. For example, consider a fixed rate bond with a coupon that should be paid every three
-months. Such a regular schedule sometimes results in a payment date that falls on a weekend or on
-another holiday. Those dates need to be adjusted to a business date, according to the terms of the
+months. Such a regular schedule sometimes results in a payment date falling on a weekend or on
+another holiday. Those dates need to be adjusted to business dates, according to the terms of the
 instrument.
 
 This package contains types related to dates, in particular how to define regular schedules and how
@@ -20,7 +20,7 @@ modules:
   Type class that specifies what can be converted to UTC time
 - :ref:`DayCount <module-daml-finance-interface-types-date-daycount-90980>`:
   Type to specify the conventions used to calculate day count fractions. These are used to define
-  interest accrued during each schedule period, for example for a bond or a swap.
+  the interest accrued during each schedule period, for example for a bond or a swap.
 - :ref:`RollConvention <module-daml-finance-interface-types-date-rollconvention-76363>`:
   Types to define date periods and how to roll dates
 - :ref:`Schedule <module-daml-finance-interface-types-date-schedule-61944>`:
