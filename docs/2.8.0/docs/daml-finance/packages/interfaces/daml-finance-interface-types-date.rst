@@ -4,18 +4,30 @@
 Daml.Finance.Interface.Types.Date
 #################################
 
-This package contains types related to dates. They are defined in the following modules:
+Financial instruments, especially those related to interest rates, often depend on periodic
+schedules. For example, consider a fixed rate bond with a coupon that should be paid every three
+months. Such a regular schedule sometimes results in a payment date falling on a weekend or on
+a holiday. Those dates need to be adjusted to business dates, according to the terms of the
+instrument.
 
-- :ref:`Date.Calendar <module-daml-finance-interface-types-date-calendar-23555>`:
+This package contains types related to dates, in particular how to define regular schedules and how
+dates should be adjusted when they fall on non-business days. They are defined in the following
+modules:
+
+- :ref:`Calendar <module-daml-finance-interface-types-date-calendar-23555>`:
   Types for holiday calendar data and how to adjust non-business days
-- :ref:`Date.Classes <module-daml-finance-interface-types-date-classes-73544>`:
+- :ref:`Classes <module-daml-finance-interface-types-date-classes-73544>`:
   Type class that specifies what can be converted to UTC time
-- :ref:`Date.DayCount <module-daml-finance-interface-types-date-daycount-90980>`:
-  Type to specify the conventions used to calculate day count fractions
-- :ref:`Date.RollConvention <module-daml-finance-interface-types-date-rollconvention-76363>`:
+- :ref:`DayCount <module-daml-finance-interface-types-date-daycount-90980>`:
+  Type to specify the conventions used to calculate day count fractions. These are used to define
+  the interest accrued during each schedule period, for example for a bond or a swap.
+- :ref:`RollConvention <module-daml-finance-interface-types-date-rollconvention-76363>`:
   Types to define date periods and how to roll dates
-- :ref:`Date.Schedule <module-daml-finance-interface-types-date-schedule-61944>`:
+- :ref:`Schedule <module-daml-finance-interface-types-date-schedule-61944>`:
   Types to define date schedules
+
+Check out the :ref:`Fixed rate bond documentation <fixed-rate-bond-tutorial-section>`
+for a description of how to use the these date related types in practice.
 
 Changelog
 *********

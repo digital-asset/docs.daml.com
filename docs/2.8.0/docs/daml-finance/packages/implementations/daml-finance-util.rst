@@ -4,8 +4,9 @@
 Daml.Finance.Util
 #################
 
-This package mainly contains utility functions related to dates, lists, maps, and disclosure. They
-are defined in the following modules:
+This package primarily contains utility functions related to dates (see the
+:doc:`interface docs <../interfaces/daml-finance-interface-types-date>` for an introduction), lists,
+maps, and disclosure. They are defined in the following modules:
 
 - :ref:`Date.Calendar <module-daml-finance-util-date-calendar-17588>`:
   Functions regarding dates and holiday calendars (business vs non-business days)
@@ -19,6 +20,8 @@ are defined in the following modules:
   Various functions related to lists and maps, which are used in several packages
 - :ref:`Disclosure <module-daml-finance-util-disclosure-73352>`:
   Utility functions related to disclosure, e.g., to add or remove observers
+- :ref:`Lockable <module-daml-finance-util-lockable-3360>`:
+  Default implementation for the locking of holdings (acquire, release and validation check).
 
 Changelog
 *********
