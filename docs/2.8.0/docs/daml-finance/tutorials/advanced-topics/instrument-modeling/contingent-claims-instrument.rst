@@ -169,8 +169,8 @@ choice of the
 
 This ensures that the next time the instrument is lifecycled, the current coupon is no longer
 included. This also works for other types of events, for example a barrier hit on a derivative
-instrument: if such an event is ever lifecycled it will persist on (a new version of) the instrument
-, ensuring that it will not be forgotten when the instrument is lifecycled in the future.
+instrument: if such an event is ever lifecycled it will persist on (a new version of) the
+instrument, ensuring that it will not be forgotten when the instrument is lifecycled in the future.
 
 Including market observables
 ============================
