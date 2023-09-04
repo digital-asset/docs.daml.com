@@ -4,7 +4,8 @@
 Daml.Finance.Util
 #################
 
-This package mainly contains utility functions related to dates, lists, maps, and disclosure. They
+This package mainly contains utility functions related to
+:doc:`dates <../interfaces/daml-finance-interface-types-date>`, lists, maps, and disclosure. They
 are defined in the following modules:
 
 - :ref:`Date.Calendar <module-daml-finance-util-date-calendar-17588>`:
