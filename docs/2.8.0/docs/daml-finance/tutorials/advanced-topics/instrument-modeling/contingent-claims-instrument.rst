@@ -155,6 +155,9 @@ Let us break its implementation apart to describe what happens in more detail:
     :start-after: -- BOND_PROCESS_CLOCK_UPDATE_LIFECYCLE_BEGIN
     :end-before: -- BOND_PROCESS_CLOCK_UPDATE_LIFECYCLE_END
 
+The ``Dynamic.Instrument`` Interface
+=============================
+
 In the ``tryCreateNewInstrument`` part above, we create a new version of the instrument containing
 the updated ``lastEventTimestamp`` (and also including all previous events up until now). This is
 done by exercising the
