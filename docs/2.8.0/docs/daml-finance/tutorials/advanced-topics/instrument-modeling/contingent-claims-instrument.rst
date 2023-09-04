@@ -12,14 +12,16 @@ implementations. The :doc:`Bond <../../../instruments/bond>` and
 :doc:`Swap <../../../instruments/swap>` instruments, for example, leverage Contingent Claims
 behind the scenes to calculate pending coupon payments.
 
-Let us explore in detail how the :ref:`fixed rate bond instrument <module-daml-finance-instrument-bond-fixedrate-instrument-67993>`
+Let us explore in detail how the
+:ref:`fixed rate bond instrument <module-daml-finance-instrument-bond-fixedrate-instrument-67993>`
 is implemented in Daml Finance. The goal is for you to learn how to implement and lifecycle your own
 instrument template, should you need an instrument type that is not already implemented in the
 library.
 
 To follow the code snippets used in this tutorial in Daml Studio, you can clone the
 `Daml Finance repository <https://github.com/digital-asset/daml-finance>`_ and take a look at how
-the :ref:`Bond Instrument template <type-daml-finance-instrument-bond-fixedrate-instrument-instrument-23814>`
+the
+:ref:`Bond Instrument template <type-daml-finance-instrument-bond-fixedrate-instrument-instrument-23814>`
 is implemented.
 In order to see how lifecycling is performed, you can run the script in the
 `Instrument/Bond/Test/FixedRate.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Bond/Test/FixedRate.daml>`_
@@ -47,7 +49,8 @@ representation we wish to use for lifecycling.
 Note that the Contingent Claims tree is not a part of the template above, instead it will be created
 dynamically upon request.
 
-In order do that, we implement the :ref:`Claims interface <module-daml-finance-interface-claims-claim-82866>`.
+In order do that, we implement the
+:ref:`Claims interface <module-daml-finance-interface-claims-claim-82866>`.
 This interface provides access to a generic mechanism to process coupon payments and redemptions.
 It will work in a similar way for the majority of instrument types, regardless of their specific
 economic terms.
@@ -64,16 +67,17 @@ The ``getClaims`` function is where we define the payoff of the instrument.
 
 * First, we calculate the coupon payment dates by rolling out a periodic coupon schedule.
 
-* The payment dates are then used to build claim sub-tree for the coupon payments.
+* The payment dates are then used to build claim sub-trees for the coupon payments.
 
 * A claim sub-tree for the final redemption is also created.
 
-* Finally, the coupon and redemption sub-trees are joined. Together, they yield the desired economic terms for the bond.
+* Finally, the coupon and redemption sub-trees are joined. Together, they yield the desired economic
+  terms for the bond.
 
 How to define the redemption claim
 **********************************
 
-The the redemption claim depends on the currency and the maturity date of the bond.
+The redemption claim depends on the currency and the maturity date of the bond.
 
 .. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/Util/Builders.daml
   :language: daml
@@ -113,7 +117,7 @@ Evolving the Instrument over time
 The bond instrument gives the holder the right to receive future coupons and the redemption amount.
 At issuance, all coupons are due. However, after the first coupon is paid, the holder of the
 instrument is no longer entitled to receive it again.
-the ``lastEventTimestamp`` field in our template is used to keep track of the latest executed coupon
+The ``lastEventTimestamp`` field in our template is used to keep track of the latest executed coupon
 payment.
 
 Evolution of the instrument over time (and calculation of the corresponding lifecycle effects) can
@@ -150,6 +154,26 @@ Let us break its implementation apart to describe what happens in more detail:
     :language: daml
     :start-after: -- BOND_PROCESS_CLOCK_UPDATE_LIFECYCLE_BEGIN
     :end-before: -- BOND_PROCESS_CLOCK_UPDATE_LIFECYCLE_END
+
+The ``Dynamic.Instrument`` Interface
+====================================
+
+In the ``tryCreateNewInstrument`` part above, we create a new version of the instrument containing
+the updated ``lastEventTimestamp`` (and also including all previous events up until now). This is
+done by exercising the
+:ref:`CreateNewVersion <type-daml-finance-interface-claims-dynamic-instrument-createnewversion-36931>`
+choice of the
+:ref:`Dynamic.Instrument interface <module-daml-finance-interface-claims-claim-82866>`:
+
+  .. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/Lifecycle/Rule.daml
+    :language: daml
+    :start-after: -- CREATE_NEW_DYNAMIC_INSTRUMENT_VERSION_BEGIN
+    :end-before: -- CREATE_NEW_DYNAMIC_INSTRUMENT_VERSION_END
+
+This ensures that the next time the instrument is lifecycled, the current coupon is no longer
+included. This also works for other types of events, for example a barrier hit on a derivative
+instrument: if such an event is ever lifecycled it will persist on (a new version of) the
+instrument, ensuring that it will not be forgotten when the instrument is lifecycled in the future.
 
 Including market observables
 ============================
