@@ -19,6 +19,8 @@ are defined in the following modules:
   Various functions related to lists and maps, which are used in several packages
 - :ref:`Disclosure <module-daml-finance-util-disclosure-73352>`:
   Utility functions related to disclosure, e.g., to add or remove observers
+- :ref:`Lockable <module-daml-finance-util-lockable-3360>`:
+  Default implementation for the locking of holdings (acquire, release and validation check).
 
 Changelog
 *********
