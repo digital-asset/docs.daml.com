@@ -225,15 +225,12 @@ Choices
 
 .. literalinclude:: ../code-snippets/Reference.daml
    :language: daml
-   :start-after: -- start template choice snippet
-   :end-before: -- end template choice snippet
+   :start-after: -- start new template choice snippet
+   :end-before: -- end new template choice snippet
 
 - A right that the contract gives the controlling party. Can be *exercised*.
 - This is essentially where all the logic of the template goes.
 - By default, choices are *consuming*: that is, exercising the choice archives the contract, so no further choices can be exercised on it. You can make a choice non-consuming using the ``nonconsuming`` keyword.
-- There are two ways of specifying a choice: start with the ``choice`` keyword or start with the ``controller`` keyword.
-
-  Starting with ``choice`` lets you pass in a ``Party`` to use as a controller. But you must make sure to add that party as an ``observer``.
 - See :doc:`choices` for full reference information.
 
 .. _daml-ref-serializable-types:
