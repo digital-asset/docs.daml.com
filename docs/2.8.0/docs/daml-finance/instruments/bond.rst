@@ -30,6 +30,8 @@ to create a bond instrument you first have to decide what type of bond you need.
 :doc:`bond instrument package <../packages/implementations/daml-finance-instrument-bond>`
 currently supports the following bond types:
 
+.. _fixed-rate-bond-tutorial-section:
+
 Fixed Rate
 ==========
 

@@ -26,5 +26,8 @@ modules:
 - :ref:`Schedule <module-daml-finance-interface-types-date-schedule-61944>`:
   Types to define date schedules
 
+Check out the :ref:`Fixed rate bond documentation <fixed-rate-bond-tutorial-section>`
+for a description of how to use the these date related types in practice.
+
 Changelog
 *********
