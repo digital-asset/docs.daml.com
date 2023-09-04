@@ -156,7 +156,11 @@ Let us break its implementation apart to describe what happens in more detail:
     :end-before: -- BOND_PROCESS_CLOCK_UPDATE_LIFECYCLE_END
 
 In the ``tryCreateNewInstrument`` part above, we create a new version of the instrument containing
-the updated ``lastEventTimestamp`` (and also including all previous events up until now):
+the updated ``lastEventTimestamp`` (and also including all previous events up until now). This is
+done by exercising the
+:ref:`CreateNewVersion <type-daml-finance-interface-claims-dynamic-instrument-createnewversion-36931_>`
+choice of the
+:ref:`Dynamic.Instrument interface <module-daml-finance-interface-claims-claim-82866>`:
 
   .. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/Lifecycle/Rule.daml
     :language: daml
