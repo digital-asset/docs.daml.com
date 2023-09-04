@@ -7,7 +7,7 @@ Daml.Finance.Interface.Types.Date
 Financial instruments, especially those related to interest rates, often depend on periodic
 schedules. For example, consider a fixed rate bond with a coupon that should be paid every three
 months. Such a regular schedule sometimes results in a payment date falling on a weekend or on
-another holiday. Those dates need to be adjusted to business dates, according to the terms of the
+a holiday. Those dates need to be adjusted to business dates, according to the terms of the
 instrument.
 
 This package contains types related to dates, in particular how to define regular schedules and how
