@@ -56,7 +56,7 @@ Choice Name
 
 - The name of the choice. Must begin with a capital letter.
 - If you're using choice-first, preface with ``choice``. Otherwise, this isn't needed.
-- Must be unique in your project. Choices in different templates can't have the same name.
+- Must be unique in the module. Different templates defined in the same module cannot share a choice name.
 - If you're using controller-first, you can have multiple choices after one ``can``, for tidiness. However, note that this syntax is deprecated and will be removed in a future version of Daml.
 
 .. _daml-ref-controllers:

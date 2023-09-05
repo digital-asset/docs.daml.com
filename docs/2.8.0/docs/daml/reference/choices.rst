@@ -18,7 +18,7 @@ Choice Name
 
 - ``choice`` keyword
 - The name of the choice. Must begin with a capital letter.
-- Must be unique in your project. Choices in different templates can't have the same name.
+- Must be unique in the module. Different templates defined in the same module cannot share a choice name.
 
 .. _daml-ref-controllers:
 
