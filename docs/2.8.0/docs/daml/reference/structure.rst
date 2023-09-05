@@ -75,7 +75,7 @@ template body
 Choice Structure
 ****************
 
-Here's the structure of a choice inside a template:
+Here is the structure of a choice inside a template:
 
 .. literalinclude:: ../code-snippets/Structure.daml
    :language: daml

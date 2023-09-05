@@ -37,14 +37,14 @@ Controllers
 
 .. warning::
 
-  You **must** make sure that the controller parties are observers (or signatories) of the contract, otherwise they won't be able to see the contract (and therefore won't be able to exercise the choice).
+  You **must** make sure that the controller parties are observers (or signatories) of the contract, otherwise they cannot see the contract (and therefore cannot exercise the choice).
 
 .. _daml-ref-choice-observers:
 
 Choice Observers
 ****************
 
-It is possible for *choice observers* to be attached to a choice using the ``observer`` keyword. The choice observers are a list of parties that, in addition to the stakeholders, will see all consequences of the action.
+*Choice observers* can be attached to a choice using the ``observer`` keyword. The choice observers are a list of parties who are not stakeholders but who see all the consequences of the action.
 
 .. literalinclude:: ../code-snippets/Structure.daml
    :language: daml
