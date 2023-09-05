@@ -70,8 +70,7 @@ TLS and Authorization
 For production use cases, in particular if the Admin Api is not just bound to localhost, we recommend to enable
 :ref:`TLS <tls-configuration>` with mutual authentication.
 
-It is possible to use the remote console in the installations that utilize authorization. In that case, it is
-necessary to provide a valid access token. This can be achieved by modifying the configuration or by adding
+The remote console can be used in installations that utilize authorization, so long as it has a valid access token. This can be achieved by modifying the configuration or by adding
 an option to the remote console's launch command as in the following snippet:
 
 .. code-block:: bash
@@ -81,8 +80,8 @@ an option to the remote console's launch command as in the following snippet:
        -C canton.remote-participants.<remote-participant-name>.token="<encoded-and-signed-access-token-as-string>" \
        --bootstrap <some-script>
 
-The remote console will use the token in its interactions with the ledger api of the target participant.
-Moreover, it will extract the user id from the token and use it to populate the applicationId field
+The remote console uses the token in its interactions with the ledger API of the target participant.
+It also extracts the user id from the token and uses it to populate the applicationId field
 in the command submission and completion subscription requests. This affects the following console commands:
 
 - ledger_api.commands.submit

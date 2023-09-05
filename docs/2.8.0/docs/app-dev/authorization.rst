@@ -281,7 +281,7 @@ The ``public`` right is implicitly granted to any request bearing a non-expired 
 Encoding and Signature
 ======================
 
-Access tokens conforming to the JWT specification will be embedded in a larger json structure with a separate
+Access tokens conforming to the JWT specification are embedded in a larger JSON structure with a separate
 header and payload.
 
 .. code-block:: json
@@ -297,13 +297,13 @@ header and payload.
       "exp": 1300819380
    }
 
-Together they will then be base64 encoded forming the stem of the final token. Subsequently, the stem will
-be signed using the cryptographic algorithm identified in the header. The signature itself will also be
-base64 encoded and appended to the stem. The resulting character string will take shape similar to
+Together they are then base64 encoded, forming the final token's stem. Subsequently, the stem is
+signed using the cryptographic algorithm identified in the header. The signature itself is also
+base64-encoded and appended to the stem. The resulting character string takes a shape similar to
 
 .. code-block:: bash
 
    eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwczovL2RhbWwuY29tL2p3dC9hdWQvcGFydGljaXBhbnQvc29tZVBhcnRpY2lwYW50SWQiLCJzdWIiOiJzb21lVXNlcklkIiwiaXNzIjoic29tZUlkcElkIiwiZXhwIjoxMzAwODE5MzgwfQ.DLVPehRLt8WiddI6mwUU1lqIgRbysLK34mgkuzSDQTThCXlEY_S57SHKEQHw-Pai0Y0OeGP7wNsT6uq51vBVbRNfxOLwy5owQRm3LEeTbSXMjnnPVrtRrhelVQCsH2AcV4J4bbrAe6YfKGYFBXZOfeRL3Gy7KIplcfxDZekHdPD8lhwK8AkvAR4IaOX72Q5jhjB2yOY9IwpVxx-pN0vWCqmxTbQqnIpSGo185Y0f38nKZeofGT5jcJZaSv7z4Ks15gs9gm1pHorEL6TZLCbX7T064hQeTBFea-kxQlUkcfcgmUOMAmA05_4a8fdFz2uHq5km7ylp6pUITogN5MJ-_CVFEwOD0GveOgiUJBBMHDBjq_V_DfRE4nZ04tFQ0DDthWpMd0F59JFIhmjZSZT9DWppj6G7VBWpu9aIFPefyX--2U_aO0Smt_dBBV5A6pvbIgX6ITF2tjEvvOCLHtLKmNTlP8cclna70DCsDIrojNVDMFpLXYLvsP6DhQWkGaRb-nz0hLjQE_PtuQzSexrZG5d8tHFS351E2-aUVTKoJuEGHH3n1it-d9yHdt4fAynIbhWUVAervxc-oXyrA3-uafrxbIiQCpnw0kQ8K-HwJpkfz_Yqf-luI1FaRiPT9F-cYzwvceNf2_2hhmiuGiYp3rVIPwkFAuBc1vgpPiWSNLc
 
-Note that the generation of the access tokens in the right format is typically delegated to the identity provider
-systems. It is unlikely that the client application developers will have to deal with it directly.
+Note that access token generation in the correct format is typically delegated to the identity provider
+systems. Client application developers are unlikely to need to deal with it directly.
