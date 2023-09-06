@@ -38,16 +38,21 @@ Early Access Release Versions
 
 The historical table below lists the available Early Access releases of the Participant Query Store. Click the date to download the JAR.
 
-+---------------+--------------------------------+
-| Date          | Description                    |
-+===============+================================+
-| `2023-08-09`_ | Initial early access release.  |
-+---------------+--------------------------------+
-| `2023-08-31`_ | Added OAuth support.           |
-+---------------+--------------------------------+
++---------------+-----------------------------------------------------+
+| Date          | Description                                         |
++===============+=====================================================+
+| `2023-08-09`_ | Initial early access release.                       |
++---------------+-----------------------------------------------------+
+| `2023-08-31`_ | Added OAuth support.                                |
++---------------+-----------------------------------------------------+
+| `2023-09-06`_ | Documentation updated.  Added *`*PQS Schema Design* |
+|               | *Offset Management*, *Querying Patterns*, *Advanced |
+|               | Querying Topics** sections.                         |
++---------------+-----------------------------------------------------+
 
 .. _2023-08-09: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B2986-e45c930.tar.gz
 .. _2023-08-31: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B3614-6b5f082.tar.gz
+.. _2023-09-06: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B3614-6b5f082.tar.gz
 
 Overview
 ********
@@ -73,6 +78,51 @@ A contract on the ledger is either created or archived. The relationships betwee
 -  Archived contracts have pointers to the transaction in which they were archived.
 
 Transactions on the ledger are inserted into PostgreSQL concurrently, for high performance. Consistency (for readers) is provided through a watermark mechanism that indicates a consistent offset from which readers can consume for a fully consistent ledger. These details are managed for readers through the functions available in PostgreSQL. Depending on your needs, readers may wish to use or bypass these mechanisms, depending on the type of query and consistency required.
+
+PQS Schema Design
+=================
+
+PQS is not directly involved in querying/reading the datastore - the
+application is free to query it, such as via JDBC.  The objectives of the
+schema design is to facilitate:
+
+-  *Scaleable writes*: transactions are written in parallel, ensuring that
+   writes do not need to be sequential.
+-  *Scaleable reads*: queries are able to be parallelized, and are not
+   blocked by writes. They produce sensible query plans, that do not
+   produce unnecessary table scans.
+-  *Ease of use*: readers are able to use familiar tools and techniques to
+   query the datastore, without needing to understand the specifics of
+   the schema design. Instead they are able to use simple entry-points
+   that provide access to data in familar ways. In particular, readers
+   do not need to navigate the offset-based model.
+-  *Read consistency*: readers are able to achieve the level of
+   consistency that they require, including consistency with other
+   ledger datastores, or ledger commands that have been executed.
+
+To facilitate these objectives, the following principles have been used:
+
+-  *Append-only*: only INSERTs are used, and no UPDATEs or DELETEs are
+   used in transaction processin.
+-  *Offset-based*: all physical tables are indexed by offset, meaning that
+   all ledger data is known in terms of the offset in which it was
+   committed to the ledger.
+-  *Implicit offset*: readers can opt for queries with implicit offset,
+   meaning they can ignore the role of offset in their queries - but
+   still provide a stable view of the ledger data. Much like PostgreSQL
+   provides MVCC capabilities without the reader needing to understand
+   the underlying implementation, we seek to provide a similar
+   experience for readers of the ledger data.
+-  *Idempotent*: PQS is designed to be restarted at any time, and will
+   not impact the integrity of the data. This is achieved by using the
+   offset-based model and ensuring that (other than the datastore
+   itself) PQS is stateless.
+-  *Watermarks*: PQS maintains a watermark of the latest contigous
+   offset, representing the point of the ledger that has been fully
+   processed. This is used to ensure that the ledger data has read
+   consistency, without needing readers to perform pathalogical table
+   scans to achieve this. This resolves the uncertainty created by the
+   parallel writes.
 
 JSON Data
 =========
@@ -112,7 +162,7 @@ Here are the prerequisites to run PQS:
 
 -  A PostgreSQL database that can be reached from the PQS. Note that PQS uses the JSONB data type for storing JSON data, which requires Postgres versions 11, 13, and 15.
 -  An empty database (recommended) to avoid schema and table collisions.
--  Daml ledger as the source of events. While m/TLS is supported, auth tokens are yet to be implemented.
+-  Daml ledger as the source of events. m/TLS is supported for the participant node ledger API.  Alternatively, it can run against the ``Sandbox``.
 -  Installation of `The Daml Enterprise SDK <https://docs.daml.com/getting-started/installation.html#install-daml-enterprise>`__.
 
 Deploying the Scribe Component
@@ -275,7 +325,7 @@ Querying the Datastore
 ======================
 
 Offset Management
------------------
+=================
 
 The following functions control the temporal perspective of the ledger,
 considering how you wish to consider time as a scope for your queries.
@@ -300,11 +350,11 @@ PostgreSQL session will execute:
    Returns an error if the nominated offset is not yet available.
    Function returns the actual offset used.
 -  ``set_oldest(offset)``: nominates the offset of the oldest events to
-   include in query scope. If NULL then it uses the oldest available.
+   include in query scope. If ``NULL`` then it uses the oldest available.
    Function returns the actual offset used. If the supplied offset is
    beyond what is available, an error occurs.
 -  ``get_offset(time)``: a helper function to determine the offset of a
-   given time (or interval prior to now).
+   given ``time`` (or interval prior to now).
 
 Under this temporal scope, the following `table
 functions <https://www.postgresql.org/docs/current/queries-table-expressions.html>`__
@@ -322,7 +372,7 @@ offsets removed.
 -  ``exercises(name)``: exercise events that occurred between the oldest
    and latest offset
 
-The functions also allow the user to focus on the
+The functions allow the user to focus on the
 templates/interfaces/choices they wish to query, without concern for
 `PostgreSQL name
 limits <https://www.postgresql.org/docs/current/sql-syntax-lexical.html#:~:text=maximum%20identifier%20length%20is%2063%20bytes>`__.
@@ -333,12 +383,18 @@ specified:
    ``<package-id>:<module>:<template|interface|choice>``
 -  Partially qualified: ``<module>:<template|interface|choice>``
 
-Querying Patterns
-~~~~~~~~~~~~~~~~~
 
-   Scenario: A user who wants to query most recent available state of
-   the ledger. This user treats the ledger Active Contract Set as a
-   virtual database table, and is not concerned with offsets.
+Querying Patterns
+=================
+
+Several common ways to use the table functions are described next.
+
+Query the Most Recent Available State of the Ledger
+---------------------------------------------------
+
+A user who wants to query most recent available state of the ledger. This user
+treats the ledger Active Contract Set as a virtual database table, and is not
+concerned with offsets because they want the latest result.
 
 This user simply wants to query the (latest) state of the ledger,
 without consideration for offsets. Querying is inherently limited to one
@@ -356,9 +412,9 @@ administrator:
      FROM active('Test.User:User') AS "user"
      WHERE NOT "user"."admin";
 
-By using PostgreSQL’s JSONB querying capabilities, we can joining with
-the related ``Alias`` template to provide an overview of all users and
-their aliases:
+By using PostgreSQL’s JSONB querying capabilities, we can join with the
+related ``Alias`` template to provide an overview of all users and their
+aliases:
 
 .. code-block:: sql
 
@@ -381,11 +437,12 @@ the available history:
      FROM archive('Test.User:User') AS a
        JOIN create('Test.User:User') AS c USING contract_id;
 
-..
+Query the Ledger as of a Known Historical Point in Time
+-------------------------------------------------------
 
-   Scenario: A report writer wants to query the ledger as of a known
-   historical point in time, to ensure that consistent data is provided
-   regardless of where the ledger subsequently evolved.
+A report writer wants to query the ledger as of a known historical point in
+time, to ensure that consistent data is provided regardless of where the
+ledger subsequently evolved.
 
 This user can obtain a point-in-time view of the ledger, to see all
 non-admin ``User`` templates that were active at that point in time:
@@ -416,21 +473,26 @@ active at the snapshot time
          ON "user".payload->>'user_id' = alias.payload->>'user_id'
      WHERE NOT "user".admin;
 
-..
+Query the Ledger from Fixed, Known Offsets
+------------------------------------------
 
-   Scenario: An automation user who wants to query from fixed known
-   offsets, still wants to write their query in the same familiar way.
+An automation user who wants to query from fixed known offsets, still wants to
+write their query in the same familiar way.
 
 .. code-block:: sql
 
    -- fails if the datastore has not yet reached the given offset
    set_latest("00000001250");
 
-The above queries will now observe active contracts as-at the given
+The queries will now observe active contracts as-at the given
 offset. Therefore the example queries presented above are unchanged.
 
-   Scenario: A user wants to present a limited amount of history to
-   their users
+
+Set the Oldest Offset
+---------------------
+
+A user wants to present a limited amount of history to
+their users.  
 
 If readers wish to limit the event history, they can also call:
 
@@ -442,20 +504,25 @@ If readers wish to limit the event history, they can also call:
 This adjustment in scope does not affect the example queries presented
 above.
 
-   A user wants to present a time-based view to their users, to provide
-   reports based on point-in-time rather than offsets
+Set the Oldest and Latest Offset by Time Value
+----------------------------------------------
+
+A user wants to present a time-based view to their users, to provide reports
+based on point-in-time rather than offsets
 
 .. code-block:: sql
 
    set_latest(get_offset(TIMESTAMP '2020-03-13 00:00:00+0'))
    set_oldest(get_offset(INTERVAL '14 days')); -- history of the past 14 days
 
-..
 
-   An website user who wants to query active contracts, after having
-   completed a command (write) which has updated the ledger. The user
-   does not want to see a version of the ledger prior to the command
-   being executed.
+Set the Minimum Offset for Consistency
+--------------------------------------
+
+A website user who wants to query active contracts, after having
+completed a command (write) which has updated the ledger. The user
+does not want to see a version of the ledger prior to the command
+being executed.
 
 .. code-block:: sql
 
@@ -464,10 +531,12 @@ above.
    -- If it has an even more recent offset (eg. 00000001355) - this will be used instead.
    set_latest_minimum("00000001350");
 
-..
 
-   A user who wants to enquire where the datastore is up to, in terms of
-   offset availability.
+Widest Available Offset Range for Querying
+------------------------------------------
+
+A user wants to enquire where the datastore is up to, in terms of
+offset availability.
 
 Here the user asks for the very latest and oldest offsets available to
 be used, and in the process returns what these offsets are:
@@ -476,35 +545,34 @@ be used, and in the process returns what these offsets are:
 
    SELECT set_latest(NULL) AS latest_offset, set_oldest(NULL) AS oldest_offset;
 
+
 Advanced Querying Topics
-------------------------
+========================
 
 Reading
-~~~~~~~
+-------
 
 As outlined, there are two distinct approaches used when querying ledger
-data in the datastore:
+data in the datastore:  state or events.
 
-State
-^^^^^
-
-State, in the form of the Active Contract Set, by the function
+**State**, in the form of the Active Contract Set, by the function
 ``active(name)`` uses the latest offset only, using the following rules:
 
--  creation_offset <= latest_offset; AND
--  no archive_offset <= latest_offset
+.. code-block:: none
 
-Events
-^^^^^^
+  creation_offset <= latest_offset; AND
+  no archive_offset <= latest_offset
 
-Events (create, exercise, archive) make use of the range oldest and
+**Events** (create, exercise, archive) make use of the range oldest and
 latest offset:
 
--  event_offset <= latest_offset; AND
--  event_offset >= oldest_offset
+.. code-block:: none
+
+  event_offset <= latest_offset; AND
+  event_offset >= oldest_offset
 
 Write Pipeline
-~~~~~~~~~~~~~~
+--------------
 
 Only advanced users should be concerned with the manner in which the
 write pipeline is implemented. The above Read API takes into
@@ -513,13 +581,13 @@ therefore the above Read API is the recommended way to query the
 datastore. However, for completeness we provide the following
 information.
 
-A Daml transaction is a collection of events that take effec t on the
+A Daml transaction is a collection of events that take effect on the
 ledger atomically. However it needs to be noted that for performance
 reasons, these transactions are written to the datastore *in parallel*,
 and whilst the datastore is written to in a purely append-only fashion,
 it is not guaranteed that these transactions will become visible to
 readers in order. The offset-based model makes the database’s isolation
-level irrelevant - so the loosest model (read uncommitted) is not
+level irrelevant - so the loosest model (``read uncommitted``) is not
 harmful.
 
 The first thing to consider when querying the datastore is the type of
@@ -533,21 +601,33 @@ parallel-writing method.
 
 When consistency is required, the reader must be aware of the offset
 from which they are reading. This will ensure they do not also read
-further offsets that are present - but their precedents are not yet
-present.
+further offsets that are present - but their precedent events are not yet
+stored in the database.
 
-This is achieved by providing a function that returns the latest
-checkpoint offset:
-
-achieve the level of consistency that you require, including
+To achieve the level of consistency that you require, including
 read-consistency with other ledger data or commands you have executed.
 This is achieved by providing a function that returns the latest
 checkpoint offset:
 
+.. code-block:: none
+
+   -- utility functions
+   create or replace function latest_checkpoint()
+   returns table ("offset" _transactions."offset"%type, ix _transactions.ix%type) as $$
+     select max(groups."offset") as "offset", max(groups."ix") as ix
+     from (SELECT ix - ROW_NUMBER() OVER (ORDER BY ix) as delta, * FROM _transactions) groups
+     group by groups.delta
+     order by groups.delta
+     limit 1;
+
+   $$ language sql;
+   create or replace function first_checkpoint()
+   returns table ("offset" _transactions."offset"%type, ix _transactions.ix%type) as $$
+     select t."offset" as "offset", t."ix" as ix from _transactions t order by ix limit 1;
 
 
-Note that the Archive table represents all Archive choices in the given
-namespace. ie. User.Archive and Alias.Archive in the User namespace.
+Note that the ``Archive`` table represents all ``Archive`` choices in the given
+namespace. ie. ``User.Archive`` and ``Alias.Archive`` in the ``User`` namespace.
 
 JSON Format
 ===========
