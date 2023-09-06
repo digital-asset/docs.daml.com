@@ -10,7 +10,7 @@ Audience
 This content is targeted primarily for individuals with the following skills & experience:
 
 * Basic hands-on experience with deploying and managing applications running on `Kubernetes <https://kubernetes.io/>`_.
-* Deployed applications packaged as `Helm charts <https://helm.sh/>`_.
+* Deploying applications packaged as `Helm charts <https://helm.sh/>`_.
 * Strong understanding of operational concepts of the chosen cloud provider, particularly monitoring and observability.
 * Basic know-how of deployment and configuration of the chosen cloud provider's components to adhere to tight security requirements, including setting up an IDP provider (Auth0, Azure AD, etc.), certificate issuer (GCP CA Service, AWS Private CA, etc.).
 

@@ -5,7 +5,7 @@ Provisioning Cloud Resources with Terraform
 ###########################################
 
 .. note::
-   All the resources created will be private, nothing is being exposed over the public internet.
+   All the resources created are private, nothing is being exposed over the public internet.
 
 Objectives
 **********
