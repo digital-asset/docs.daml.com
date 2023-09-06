@@ -271,6 +271,314 @@ PQS is able to start and finish at prescribed ledger offsets, specified by the a
 PQS Development
 ***************
 
+Querying the Datastore
+======================
+
+Offset Management
+-----------------
+
+The following functions control the temporal perspective of the ledger,
+considering how you wish to consider time as a scope for your queries.
+You may wish to:
+
+-  Effectively ignore time; simply query the *latest available* state
+-  Query the state of the ledger at a specific time in history
+-  Query the ledger events across a time range - eg. an audit-trail
+-  Query the ledger in a way that preserves consistency with other
+   interactions you have had with the ledger (reader or writer)
+
+The following functions allow you to control the temporal scope of the
+ledger, which establishes the context in which subsequent queries in the
+PostgreSQL session will execute:
+
+-  ``set_latest(offset)``: nominates the offset of the latest data to
+   include in observing the ledger. If NULL then it uses the very latest
+   available. The actual offset that will be used, is returned. If the
+   supplied offset is beyond what is available, an error occurs.
+-  ``set_latest_minimum(offset)``: provides the minimum offset that
+   should be used, but a more recent offset will always be chosen.
+   Returns an error if the nominated offset is not yet available.
+   Function returns the actual offset used.
+-  ``set_oldest(offset)``: nominates the offset of the oldest events to
+   include in query scope. If NULL then it uses the oldest available.
+   Function returns the actual offset used. If the supplied offset is
+   beyond what is available, an error occurs.
+-  ``get_offset(time)``: a helper function to determine the offset of a
+   given time (or interval prior to now).
+
+Under this temporal scope, the following `table
+functions <https://www.postgresql.org/docs/current/queries-table-expressions.html>`__
+allow access to the ledger and are used directly in queries. They are
+designed to be used in a similar manner to tables or views, and allow
+users to focus on the data they wish to query, with the impact of
+offsets removed.
+
+-  ``active(name)``: active instances of the target contracts/interfaces
+   that existed at the time of the latest offset
+-  ``creates(name)``: create events that occurred between the oldest and
+   latest offset
+-  ``archives(name)``: archive events that occurred between the oldest
+   and latest offset
+-  ``exercises(name)``: exercise events that occurred between the oldest
+   and latest offset
+
+The functions also allow the user to focus on the
+templates/interfaces/choices they wish to query, without concern for
+`PostgreSQL name
+limits <https://www.postgresql.org/docs/current/sql-syntax-lexical.html#:~:text=maximum%20identifier%20length%20is%2063%20bytes>`__.
+The ``name`` parameter can be used with or without the package
+specified:
+
+-  Fully qualified:
+   ``<package-id>:<module>:<template|interface|choice>``
+-  Partially qualified: ``<module>:<template|interface|choice>``
+
+Querying Patterns
+~~~~~~~~~~~~~~~~~
+
+   Scenario: A user who wants to query most recent available state of
+   the ledger. This user treats the ledger Active Contract Set as a
+   virtual database table, and is not concerned with offsets.
+
+This user simply wants to query the (latest) state of the ledger,
+without consideration for offsets. Querying is inherently limited to one
+datasource, as the user has no control over the actual offset that will
+be used.
+
+In this scenario the user wishes to query all Daml templates of ``User``
+within the ``Test.User`` templates, where the user is not an
+administrator:
+
+.. code-block:: sql
+
+   set_offset_latest(NULL);
+   SELECT *
+     FROM active('Test.User:User') AS "user"
+     WHERE NOT "user"."admin";
+
+By using PostgreSQL’s JSONB querying capabilities, we can joining with
+the related ``Alias`` template to provide an overview of all users and
+their aliases:
+
+.. code-block:: sql
+
+   set_latest(NULL);
+   SELECT "user".*, alias.*
+     FROM active('Test.User:User') AS "user"
+       LEFT JOIN active('Test.User:Alias') AS alias
+         ON "user".payload->>'user_id' = alias.payload->>'user_id';
+
+Historical events can also be accessed; by default all the history in
+the datastore is available for querying. The following query will return
+the data associated with all ``User`` contracts that were archived in
+the available history:
+
+.. code-block:: sql
+
+   set_latest(NULL);
+   set_oldest(NULL);
+   SELECT c.*
+     FROM archive('Test.User:User') AS a
+       JOIN create('Test.User:User') AS c USING contract_id;
+
+..
+
+   Scenario: A report writer wants to query the ledger as of a known
+   historical point in time, to ensure that consistent data is provided
+   regardless of where the ledger subsequently evolved.
+
+This user can obtain a point-in-time view of the ledger, to see all
+non-admin ``User`` templates that were active at that point in time:
+
+.. code-block:: sql
+
+   set_latest(get_offset('2020-01-01 00:00:00+0'));
+   SELECT "user".*
+     FROM active('Test.User:User') AS "user"
+     WHERE NOT "user".admin;
+
+In addition the user can then query the history of the ledger, to see
+how many aliases had have existed for each of these users who were
+active at the snapshot time
+
+.. code-block:: sql
+
+   set_latest(get_offset('2020-01-01 00:00:00+0'));
+   set_oldest(NULL);
+   WITH "users" AS (
+     SELECT  "user".*
+       FROM active('Test.User:User') AS "user"
+       WHERE NOT "user".admin
+   )
+   SELECT "user".user_id, COUNT(alias.*) AS alias_count
+     FROM active('Test.User:User') AS "user"
+       JOIN create('Test.User:Alias') AS alias
+         ON "user".payload->>'user_id' = alias.payload->>'user_id'
+     WHERE NOT "user".admin;
+
+..
+
+   Scenario: An automation user who wants to query from fixed known
+   offsets, still wants to write their query in the same familiar way.
+
+.. code-block:: sql
+
+   -- fails if the datastore has not yet reached the given offset
+   set_latest("00000001250");
+
+The above queries will now observe active contracts as-at the given
+offset. Therefore the example queries presented above are unchanged.
+
+   Scenario: A user wants to present a limited amount of history to
+   their users
+
+If readers wish to limit the event history, they can also call:
+
+.. code-block:: sql
+
+   -- fails if this offset has already been pruned
+   set_oldest("00000000500");
+
+This adjustment in scope does not affect the example queries presented
+above.
+
+   A user wants to present a time-based view to their users, to provide
+   reports based on point-in-time rather than offsets
+
+.. code-block:: sql
+
+   set_latest(get_offset(TIMESTAMP '2020-03-13 00:00:00+0'))
+   set_oldest(get_offset(INTERVAL '14 days')); -- history of the past 14 days
+
+..
+
+   An website user who wants to query active contracts, after having
+   completed a command (write) which has updated the ledger. The user
+   does not want to see a version of the ledger prior to the command
+   being executed.
+
+.. code-block:: sql
+
+   -- The user just executed a command at offset #00000001350.
+   -- This function call will fail if the datastore has not yet reached this offset, in order to provide consistent reads.
+   -- If it has an even more recent offset (eg. 00000001355) - this will be used instead.
+   set_latest_minimum("00000001350");
+
+..
+
+   A user who wants to enquire where the datastore is up to, in terms of
+   offset availability.
+
+Here the user asks for the very latest and oldest offsets available to
+be used, and in the process returns what these offsets are:
+
+.. code-block:: sql
+
+   SELECT set_latest(NULL) AS latest_offset, set_oldest(NULL) AS oldest_offset;
+
+Advanced Querying Topics
+------------------------
+
+Reading
+~~~~~~~
+
+As outlined, there are two distinct approaches used when querying ledger
+data in the datastore:
+
+State
+^^^^^
+
+State, in the form of the Active Contract Set, by the function
+``active(name)`` uses the latest offset only, using the following rules:
+
+-  creation_offset <= latest_offset; AND
+-  no archive_offset <= latest_offset
+
+Events
+^^^^^^
+
+Events (create, exercise, archive) make use of the range oldest and
+latest offset:
+
+-  event_offset <= latest_offset; AND
+-  event_offset >= oldest_offset
+
+Write Pipeline
+~~~~~~~~~~~~~~
+
+Only advanced users should be concerned with the manner in which the
+write pipeline is implemented. The above Read API takes into
+consideration the manner in which the write pipeline is implemented, and
+therefore the above Read API is the recommended way to query the
+datastore. However, for completeness we provide the following
+information.
+
+A Daml transaction is a collection of events that take effec t on the
+ledger atomically. However it needs to be noted that for performance
+reasons, these transactions are written to the datastore *in parallel*,
+and whilst the datastore is written to in a purely append-only fashion,
+it is not guaranteed that these transactions will become visible to
+readers in order. The offset-based model makes the database’s isolation
+level irrelevant - so the loosest model (read uncommitted) is not
+harmful.
+
+The first thing to consider when querying the datastore is the type of
+read consistency required. If there is no need for consistency (eg.
+reading a historical contract - regardless of lifetime) then payload
+tables can be queried directly, without any consideration of offset.
+Another example could be a liveness metric query that calculates the
+number of transactions in the datastore over the past minute. Again,
+this could be entirely valid without consideration of the
+parallel-writing method.
+
+When consistency is required, the reader must be aware of the offset
+from which they are reading. This will ensure they do not also read
+further offsets that are present - but their precedents are not yet
+present.
+
+This is achieved by providing a function that returns the latest
+checkpoint offset:
+
+achieve the level of consistency that you require, including
+read-consistency with other ledger data or commands you have executed.
+This is achieved by providing a function that returns the latest
+checkpoint offset:
+
+
+
+Note that the Archive table represents all Archive choices in the given
+namespace. ie. User.Archive and Alias.Archive in the User namespace.
+
+JSON Format
+===========
+
+PQS stores create and exercise arguments using a `Daml-LF JSON-based encoding <https://docs.daml.com/json-api/lf-value-specification.html#daml-lf-json-encoding>`__ of Daml-LF values. An overview of the encoding is provided below. For more details, refer to `the Daml-LF page <https://docs.daml.com/json-api/lf-value-specification.html#daml-lf-json-encoding>`__.
+
+Values on the ledger can be primitive types, user-defined records, or variants. An extracted contract is represented in the database as a record of its create argument. The fields of that record are primitive types, other records, or variants. A contract can be a recursive structure of arbitrary depth.
+
+These types are translated to `JSON types <https://json-schema.org/understanding-json-schema/reference/index.html>`__ as follows:
+
+Primitive types
+---------------
+
+- ``ContractID``: Represented as `string <https://json-schema.org/understanding-json-schema/reference/string.html>`__.
+- ``Int64``: Represented as `string <https://json-schema.org/understanding-json-schema/reference/string.html>`__.
+- ``Decimal``: Represented as `string <https://json-schema.org/understanding-json-schema/reference/string.html>`__.
+- ``List``: Represented as `array <https://json-schema.org/understanding-json-schema/reference/array.html>`__.
+- ``Text``: Represented as `string <https://json-schema.org/understanding-json-schema/reference/string.html>`__.
+- ``Date``: Days since the Unix epoch. represented as `integer <https://json-schema.org/understanding-json-schema/reference/numeric.html#integer>`__.
+- ``Time``: Microseconds since the UNIX epoch. Represented as `number <https://json-schema.org/understanding-json-schema/reference/numeric.html#number>`__.
+- ``Bool``: Represented as `boolean <https://json-schema.org/understanding-json-schema/reference/boolean.html>`__.
+- ``Party``: Represented as `string <https://json-schema.org/understanding-json-schema/reference/string.html>`__.
+- ``Unit`` and ``Empty``: Represented as empty records.
+- ``Optional``: Represented as `object <https://json-schema.org/understanding-json-schema/reference/object.html>`__. It is a Variant with two possible constructors: ``None`` and ``Some``.
+
+User-defined types
+------------------
+
+- ``Record``: Represented as `object <https://json-schema.org/understanding-json-schema/reference/object.html>`__, where each create parameter's name is a key, and the parameter's value is the JSON-encoded value.
+- ``Variant``: Represented as `object <https://json-schema.org/understanding-json-schema/reference/object.html>`__, using the ``{constructor: body}`` format, such as ``{"Left": true}``.
+
 Display of Metadata-Inferred Database Schema
 ============================================
 
@@ -402,36 +710,6 @@ The following schema is representative for the exported ledger data. It is subje
      );
 
 Note that the Archive table represents all Archive choices in the given namespace, such as ``User.Archive`` and ``Alias.Archive`` in the User namespace.
-
-JSON Format
-===========
-
-PQS stores create and exercise arguments using a `Daml-LF JSON-based encoding <https://docs.daml.com/json-api/lf-value-specification.html#daml-lf-json-encoding>`__ of Daml-LF values. An overview of the encoding is provided below. For more details, refer to `the Daml-LF page <https://docs.daml.com/json-api/lf-value-specification.html#daml-lf-json-encoding>`__.
-
-Values on the ledger can be primitive types, user-defined records, or variants. An extracted contract is represented in the database as a record of its create argument. The fields of that record are primitive types, other records, or variants. A contract can be a recursive structure of arbitrary depth.
-
-These types are translated to `JSON types <https://json-schema.org/understanding-json-schema/reference/index.html>`__ as follows:
-
-Primitive types
----------------
-
-- ``ContractID``: Represented as `string <https://json-schema.org/understanding-json-schema/reference/string.html>`__.
-- ``Int64``: Represented as `string <https://json-schema.org/understanding-json-schema/reference/string.html>`__.
-- ``Decimal``: Represented as `string <https://json-schema.org/understanding-json-schema/reference/string.html>`__.
-- ``List``: Represented as `array <https://json-schema.org/understanding-json-schema/reference/array.html>`__.
-- ``Text``: Represented as `string <https://json-schema.org/understanding-json-schema/reference/string.html>`__.
-- ``Date``: Days since the Unix epoch. represented as `integer <https://json-schema.org/understanding-json-schema/reference/numeric.html#integer>`__.
-- ``Time``: Microseconds since the UNIX epoch. Represented as `number <https://json-schema.org/understanding-json-schema/reference/numeric.html#number>`__.
-- ``Bool``: Represented as `boolean <https://json-schema.org/understanding-json-schema/reference/boolean.html>`__.
-- ``Party``: Represented as `string <https://json-schema.org/understanding-json-schema/reference/string.html>`__.
-- ``Unit`` and ``Empty``: Represented as empty records.
-- ``Optional``: Represented as `object <https://json-schema.org/understanding-json-schema/reference/object.html>`__. It is a Variant with two possible constructors: ``None`` and ``Some``.
-
-User-defined types
-------------------
-
-- ``Record``: Represented as `object <https://json-schema.org/understanding-json-schema/reference/object.html>`__, where each create parameter's name is a key, and the parameter's value is the JSON-encoded value.
-- ``Variant``: Represented as `object <https://json-schema.org/understanding-json-schema/reference/object.html>`__, using the ``{constructor: body}`` format, such as ``{"Left": true}``.
 
 PQS Optimization
 ****************
