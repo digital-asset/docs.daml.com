@@ -51,6 +51,36 @@ could in principle stay untouched.
 For an example where the Factory pattern is used, check out the
 :doc:`Holdings tutorial <../tutorials/getting-started/holdings>`.
 
+.. _reference-pattern:
+
+Reference pattern
+-----------------
+
+The Reference pattern is used to leverage the functionalities of :ref:`Contract Keys <contractkeys>`
+when working with interfaces. This is required as there is currently no built-in support at the
+language level for interface keys.
+
+We want for instance to use an
+:ref:`InstrumentKey <constr-daml-finance-interface-types-common-types-instrumentkey-32970>` to
+identify instruments across a number of implementing templates.
+
+To do that, we define a `Reference` template that
+ - is keyed by the `InstrumentKey`
+ - contains the interface contract id of the target instrument
+
+We can then fetch an interface "by key" by 
+ - fetching the `Reference` template by key (``fetchByKey``)
+ - reading and ``fetch``-ing the stored contract id
+
+.. image:: ../images/reference_pattern.png
+   :alt: Example using the reference pattern to fetch an interface "by key".
+
+Similarly, this pattern also lets us exercise a choice on an interface "by key".
+
+The Reference pattern is currently used in Daml Finance for instruments and accounts, where we
+ensure that a template and its companion `Reference` template are kept in sync. It is however
+important to understand this pattern should you implement custom instruments or accounts.
+
 .. _getview:
 
 View of an interface contract and the `GetView` choice
