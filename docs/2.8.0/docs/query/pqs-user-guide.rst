@@ -385,6 +385,7 @@ Querying Patterns
 =================
 
 Several common ways to use the table functions are described next which are:
+
 - Use the most recent available state of the ledger
 - Query the ledger using a point in time
 - Query the ledger from a fixed offset
@@ -392,6 +393,7 @@ Several common ways to use the table functions are described next which are:
 - Set the oldest and latest offset by time value
 - Set a minimum offset for consistency
 - Use the widest available offset range for querying
+
 Of course, these can be combined or altered based on the purpose of the query.
 
 Use the Most Recent Available State of the Ledger
