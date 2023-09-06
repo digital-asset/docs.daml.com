@@ -45,9 +45,9 @@ The historical table below lists the available Early Access releases of the Part
 +---------------+-----------------------------------------------------+
 | `2023-08-31`_ | Added OAuth support.                                |
 +---------------+-----------------------------------------------------+
-| `2023-09-06`_ | Documentation updated.  Added *`*PQS Schema Design* |
+| `2023-09-06`_ | Documentation updated.  Added *PQS Schema Design*,  |
 |               | *Offset Management*, *Querying Patterns*, *Advanced |
-|               | Querying Topics** sections.                         |
+|               | Querying Topics* sections.                          |
 +---------------+-----------------------------------------------------+
 
 .. _2023-08-09: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B2986-e45c930.tar.gz
@@ -311,21 +311,18 @@ NOTE: Only ``postgres-document`` is currently implemented, with ``postgres-relat
 The ``-pipeline-ledger-start`` argument is an enum with the following possible values:
 
 -  ``Latest``: Use latest offset that is known or resume where it left off. This is the default behavior, where streaming starts at the latest known end. The first time you start, this will result in PQS calling ``ActiveContractService`` to get a state snapshot, which it will load into the ``_creates`` table. It will then start streaming creates, archives, and (optionally) exercises from the offset of that ``ActiveContractService``. When you restart PQS, it will start from the point it last left off. You should always use this mode on restart.
--  ``Genesis``: Use the first original offset of the ledger. This causes PQS to try to start from offset ``0``. It allows you to load historic creates, archives or (optionally) exercises from a ledger that already has data on it. If you try to restart on an already populated database in this mode, PQS will warn you because it would have to overwrite data.
+-  ``Genesis``: Use the first original offset of the ledger. This causes PQS to try to start from offset ``0``. It allows you to load historic creates, archives or (optionally) exercises from a ledger that already has data on it. If you try to restart on an already populated database in this mode, PQS will rewrite data if it needs to.
 -  ``Oldest``: Use the oldest available (unpruned) offset on the ledger or resume where it left off.
 
-The ``-pipeline-party`` argument is a filter that restricts the data to that visible to the supplied list of party identifiers. If no filter is supplied, then all permitted parties will be included. ``--pipeline-party`` will allow you to filter that down to a subset of the accessible parties. Restarting with a changed set of parties may be possible, but is not encouraged.
+The ``-pipeline-party`` argument is a filter that restricts the data to that visible to the supplied list of party identifiers. At the moment, this is a mandatory field. ``--pipeline-party`` will allow you to filter that down to a subset of the accessible parties. Restarting with a changed set of parties may be possible, but is not encouraged.
 
 PQS is able to start and finish at prescribed ledger offsets, specified by the arguments ``--pipeline-ledger-start`` and ``--pipeline-ledger-stop``. The ``./scribe.jar pipeline --help-verbose`` command provides extensive help information.
 
 PQS Development
 ***************
 
-Querying the Datastore
-======================
-
-Offset Management
-=================
+Offset Management for Querying
+==============================
 
 The following functions control the temporal perspective of the ledger,
 considering how you wish to consider time as a scope for your queries.
@@ -387,9 +384,17 @@ specified:
 Querying Patterns
 =================
 
-Several common ways to use the table functions are described next.
+Several common ways to use the table functions are described next which are:
+- Use the most recent available state of the ledger
+- Query the ledger using a point in time
+- Query the ledger from a fixed offset
+- Set the oldest offset to consider
+- Set the oldest and latest offset by time value
+- Set a minimum offset for consistency
+- Use the widest available offset range for querying
+Of course, these can be combined or altered based on the purpose of the query.
 
-Query the Most Recent Available State of the Ledger
+Use the Most Recent Available State of the Ledger
 ---------------------------------------------------
 
 A user who wants to query most recent available state of the ledger. This user
@@ -437,8 +442,8 @@ the available history:
      FROM archive('Test.User:User') AS a
        JOIN create('Test.User:User') AS c USING contract_id;
 
-Query the Ledger as of a Known Historical Point in Time
--------------------------------------------------------
+Query the Ledger Using a Point in Time
+--------------------------------------
 
 A report writer wants to query the ledger as of a known historical point in
 time, to ensure that consistent data is provided regardless of where the
@@ -473,8 +478,8 @@ active at the snapshot time
          ON "user".payload->>'user_id' = alias.payload->>'user_id'
      WHERE NOT "user".admin;
 
-Query the Ledger from Fixed, Known Offsets
-------------------------------------------
+Query the Ledger from a Fixed Offset
+------------------------------------
 
 An automation user who wants to query from fixed known offsets, still wants to
 write their query in the same familiar way.
@@ -484,12 +489,12 @@ write their query in the same familiar way.
    -- fails if the datastore has not yet reached the given offset
    set_latest("00000001250");
 
-The queries will now observe active contracts as-at the given
+The queries will now observe active contracts from the given
 offset. Therefore the example queries presented above are unchanged.
 
 
-Set the Oldest Offset
----------------------
+Set the Oldest Offset to Consider
+---------------------------------
 
 A user wants to present a limited amount of history to
 their users.  
@@ -516,8 +521,8 @@ based on point-in-time rather than offsets
    set_oldest(get_offset(INTERVAL '14 days')); -- history of the past 14 days
 
 
-Set the Minimum Offset for Consistency
---------------------------------------
+Set a Minimum Offset for Consistency
+------------------------------------
 
 A website user who wants to query active contracts, after having
 completed a command (write) which has updated the ledger. The user
@@ -532,8 +537,8 @@ being executed.
    set_latest_minimum("00000001350");
 
 
-Widest Available Offset Range for Querying
-------------------------------------------
+Use the Widest Available Offset Range for Querying
+--------------------------------------------------
 
 A user wants to enquire where the datastore is up to, in terms of
 offset availability.
