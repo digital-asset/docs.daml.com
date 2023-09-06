@@ -1,0 +1,27 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: daml-enterprise
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: "https://github.com/DACH-NY/0-to-k8-canton-doc-temp-space.git"
+    targetRevision: "main"
+    path: src/argocd/daml-enterprise
+    helm:
+      valuesObject:
+        spec:
+          sources:
+            values:
+              # Target forked git repository, commit your changes to a new branch
+              repoURL: "https://github.com/<github_handle>/0-to-k8-canton-doc-temp-space.git"
+              targetRevision: "<new_branch_name>"
+  destination:
+    namespace: argocd
+    server: "https://kubernetes.default.svc"
+  syncPolicy:
+    automated: {}
