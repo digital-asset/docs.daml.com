@@ -97,7 +97,7 @@ schema design is to facilitate:
    the schema design; in particular, they need not navigate the offset-based model.
 -  *Read consistency*: readers are able to achieve the level of
    consistency that they require, including consistency with other
-   ledger datastores, or ledger commands that have been executed.
+   ledger datastores or with ledger commands that have been executed.
 
 To facilitate these objectives, the following principles have been used:
 
