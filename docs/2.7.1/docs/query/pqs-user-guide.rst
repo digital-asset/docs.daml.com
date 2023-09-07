@@ -600,7 +600,7 @@ The first thing to consider when querying the datastore is the type of
 read consistency required. If there is no need for consistency (eg.
 reading a historical contract - regardless of lifetime) then payload
 tables can be queried directly, without any consideration of offset.
-Another example could be a liveness metric query that calculates the
+Another example is a liveness metric query that calculates the
 number of transactions in the datastore over the past minute. Again,
 this could be entirely valid without consideration of the
 parallel-writing method.
