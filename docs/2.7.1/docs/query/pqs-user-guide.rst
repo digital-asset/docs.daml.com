@@ -258,31 +258,36 @@ You can discover commands and parameters through the embedded ``--help`` (rememb
       postgres-relational Postgres database (w/ relational payload representation)
 
     Options:
-      --config file                              Path to configuration overrides via an external HOCON file (optional)
-      --pipeline-party string                    Ledger party identifier to connect as
-      --pipeline-filter string                   Filter expression determining which templates and interfaces to include (default: *)
-      --pipeline-ledger-start [enum | string]    Start offset (default: Latest)
-      --pipeline-ledger-stop [enum | string]     Stop offset (default: Never)
-      --pipeline-datasource enum                 Ledger API service to use as data source (default: TransactionStream)
-      --logger-level enum                        Log level (default: Info)
-      --logger-mappings map                      Custom mappings for log levels
-      --logger-format enum                       Log output format (default: Plain)
-      --logger-pattern [enum | string]           Log pattern (default: Plain)
-      --target-postgres-host string              Postgres host (default: localhost)
-      --target-postgres-tls-mode enum            SSL mode required for Postgres connectivity (default: Disable)
-      --target-postgres-tls-cert file            Client's certificate (optional)
-      --target-postgres-tls-key file             Client's private key (optional)
-      --target-postgres-tls-cafile file          Trusted Certificate Authority (CA) certificate (optional)
-      --target-postgres-autoapplyschema boolean  Apply metadata inferred schema on startup (default: true)
-      --target-postgres-password string          Postgres user password (default: ********)
-      --target-postgres-username string          Postgres user name (default: postgres)
-      --target-postgres-database string          Postgres database (default: postgres)
-      --target-postgres-port int                 Postgres port (default: 5432)
-      --source-ledger-host string                Ledger API host (default: localhost)
-      --source-ledger-tls-cafile file            Trusted Certificate Authority (CA) certificate (optional)
-      --source-ledger-tls-cert file              Client's certificate (leave empty if embedded into private key file) (optional)
-      --source-ledger-tls-key file               Client's private key (leave empty for server-only TLS) (optional)
-      --source-ledger-port int                   Ledger API port (default: 6865)
+      --config file                                Path to configuration overrides via an external HOCON file (optional)
+      --pipeline-parties string                    Daml party identifiers to filter on (comma-separated) (default: List())
+      --pipeline-oauth-clientid string             Client's identifier (optional)
+      --pipeline-oauth-cafile file                 Trusted Certificate Authority (CA) certificate (optional)
+      --pipeline-oauth-endpoint uri                Token endpoint URL (optional)
+      --pipeline-oauth-clientsecret string         Client's secret (optional)
+      --pipeline-filter string                     Filter expression determining which templates and interfaces to include (default: *)
+      --pipeline-ledger-start [enum | string]      Start offset (default: Latest)
+      --pipeline-ledger-stop [enum | string]       Stop offset (default: Never)
+      --pipeline-datasource enum                   Ledger API service to use as data source (default: TransactionStream)
+      --logger-level enum                          Log level (default: Info)
+      --logger-mappings map                        Custom mappings for log levels
+      --logger-format enum                         Log output format (default: Plain)
+      --logger-pattern [enum | string]             Log pattern (default: Plain)
+      --target-postgres-host string                Postgres host (default: localhost)
+      --target-postgres-tls-mode enum              SSL mode required for Postgres connectivity (default: Disable)
+      --target-postgres-tls-cert file              Client's certificate (optional)
+      --target-postgres-tls-key file               Client's private key (optional)
+      --target-postgres-tls-cafile file            Trusted Certificate Authority (CA) certificate (optional)
+      --target-postgres-autoapplyschema boolean    Apply metadata inferred schema on startup (default: true)
+      --target-postgres-password string            Postgres user password (default: ********)
+      --target-postgres-username string            Postgres user name (default: postgres)
+      --target-postgres-database string            Postgres database (default: postgres)
+      --target-postgres-port int                   Postgres port (default: 5432)
+      --source-ledger-host string                  Ledger API host (default: localhost)
+      --source-ledger-auth enum                    Authorisation mode (default: NoAuth)
+      --source-ledger-tls-cafile file              Trusted Certificate Authority (CA) certificate (optional)
+      --source-ledger-tls-cert file                Client's certificate (leave empty if embedded into private key file) (optional)
+      --source-ledger-tls-key file                 Client's private key (leave empty for server-only TLS) (optional)
+      --source-ledger-port int                     Ledger API port (default: 6865)
 
 For more help, use the command:
 
@@ -295,15 +300,15 @@ Following is an example of a basic command to run PQS to extract all data, inclu
 .. code-block:: bash
 
     $ ./scribe.jar pipeline ledger postgres-document \
-    --pipeline-party=Alice \
-    --pipeline-datasource=TransactionTreeStream \
-    --source-ledger-host=localhost \
-    --source-ledger-port=6865 \
-    --target-postgres-host=localhost \
-    --target-postgres-port=5432 \
-    --target-postgres-database=postgres \
-    --target-postgres-username=postgres \
-    --target-postgres-password=postgres
+    --pipeline-parties Alice::12209942561b94adc057995f9ffca5a0b974953e72ba25e0eb158e05c801149639b9 \
+    --pipeline-datasource TransactionTreeStream \
+    --source-ledger-host localhost \
+    --source-ledger-port 6865 \
+    --target-postgres-host localhost \
+    --target-postgres-port 5432 \
+    --target-postgres-database postgres \
+    --target-postgres-username postgres \
+    --target-postgres-password postgres
 
 NOTE: Only ``postgres-document`` is currently implemented, with ``postgres-relational`` to follow soon.
 
@@ -313,7 +318,7 @@ The ``-pipeline-ledger-start`` argument is an enum with the following possible v
 -  ``Genesis``: Use the first original offset of the ledger. This causes PQS to try to start from offset ``0``. It allows you to load historic creates, archives or (optionally) exercises from a ledger that already has data on it. If you try to restart on an already populated database in this mode, PQS will rewrite data if it needs to.
 -  ``Oldest``: Use the oldest available (unpruned) offset on the ledger or resume where it left off.
 
-The ``-pipeline-party`` argument is a filter that restricts the data to that visible to the supplied list of party identifiers. At the moment, this is a mandatory field. ``--pipeline-party`` will allow you to filter that down to a subset of the accessible parties. Restarting with a changed set of parties may be possible, but is not encouraged.
+You will need to supply the Party(s) you wish to include in your ledger, where you are unauthenticated since there is no 'user' to connect your list of ``readAs`` Party's with.   The ``-pipeline-parties`` argument is used for this and it acts as a filter that restricts the data to that visible to the supplied list of party identifiers.  ``--pipeline-parties`` allows you to filter that down to a subset of the accessible parties. Restarting with a changed set of parties may be possible, but is not encouraged.  An example is ``--pipeline-parties Alice::12209942561b94adc057995f9ffca5a0b974953e72ba25e0eb158e05c801149639b9``.  If there is more than one party, then list all of the full party identifiers in a comma-separated list.
 
 PQS is able to start and finish at prescribed ledger offsets, specified by the arguments ``--pipeline-ledger-start`` and ``--pipeline-ledger-stop``. The ``./scribe.jar pipeline --help-verbose`` command provides extensive help information.
 
