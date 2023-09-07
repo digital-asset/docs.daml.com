@@ -607,7 +607,7 @@ parallel-writing method.
 
 When consistency is required, the reader must be aware of the offset
 from which they are reading. This will ensure they do not also read
-further offsets that are present - but their precedent events are not yet
+further offsets that are present, but their precedent events are not yet
 stored in the database.
 
 To achieve the level of consistency that you require, including
