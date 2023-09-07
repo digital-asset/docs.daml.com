@@ -606,7 +606,7 @@ this could be entirely valid without consideration of the
 parallel-writing method.
 
 When consistency is required, the reader must be aware of the offset
-from which they are reading. This will ensure they do not also read
+from which they are reading. This ensures they do not also read
 further offsets that are present, but their precedent events are not yet
 stored in the database.
 
