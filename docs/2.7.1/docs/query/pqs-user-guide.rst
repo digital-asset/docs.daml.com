@@ -91,11 +91,10 @@ schema design is to facilitate:
 -  *Scaleable reads*: queries can be parallelized, and are not
    blocked by writes. They produce sensible query plans, that do not
    produce unnecessary table scans.
--  *Ease of use*: readers are able to use familiar tools and techniques to
-   query the datastore, without needing to understand the specifics of
-   the schema design. Instead they are able to use simple entry-points
-   that provide access to data in familar ways. In particular, readers
-   do not need to navigate the offset-based model.
+-  *Ease of use*: readers use familiar tools and techniques to
+   query the datastore and simple entry points
+   that provide access to data in familiar ways. They do not need to understand the specifics of
+   the schema design; in particular, they need not navigate the offset-based model.
 -  *Read consistency*: readers are able to achieve the level of
    consistency that they require, including consistency with other
    ledger datastores, or ledger commands that have been executed.
