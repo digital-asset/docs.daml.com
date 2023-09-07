@@ -88,7 +88,7 @@ schema design is to facilitate:
 
 -  *Scaleable writes*: transactions are written in parallel, ensuring that
    writes do not need to be sequential.
--  *Scaleable reads*: queries are able to be parallelized, and are not
+-  *Scaleable reads*: queries can be parallelized, and are not
    blocked by writes. They produce sensible query plans, that do not
    produce unnecessary table scans.
 -  *Ease of use*: readers are able to use familiar tools and techniques to
