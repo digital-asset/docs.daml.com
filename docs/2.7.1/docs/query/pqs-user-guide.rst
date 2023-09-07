@@ -86,7 +86,7 @@ PQS is not directly involved in querying/reading the datastore - the
 application is free to query it, such as via JDBC.  The objectives of the
 schema design is to facilitate:
 
--  *Scaleable writes*: transactions are written in parallel, ensuring that
+-  *Scaleable writes*: transactions are written in parallel, so
    writes do not need to be sequential.
 -  *Scaleable reads*: queries can be parallelized, and are not
    blocked by writes. They produce sensible query plans, that do not
