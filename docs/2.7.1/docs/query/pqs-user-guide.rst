@@ -86,20 +86,21 @@ PQS is not directly involved in querying/reading the datastore - the
 application is free to query it, such as via JDBC.  The objectives of the
 schema design is to facilitate:
 
--  *Scaleable writes*: transactions are written in parallel, so
+-  *Scaleable writes*: transactions are written in parallel, ensuring that
    writes do not need to be sequential.
--  *Scaleable reads*: queries can be parallelized, and are not
-   blocked by writes. They produce sensible query plans that do not
-   result in unnecessary table scans.
--  *Ease of use*: readers use familiar tools and techniques to
-   query the datastore and simple entry points
-   that provide access to data in familiar ways. They do not need to understand the specifics of
-   the schema design; in particular, they need not navigate the offset-based model.
+-  *Scaleable reads*: queries are able to be parallelized, and are not
+   blocked by writes. They produce sensible query plans, that do not
+   produce unnecessary table scans.
+-  *Ease of use*: readers are able to use familiar tools and techniques to
+   query the datastore, without needing to understand the specifics of
+   the schema design. Instead they are able to use simple entry-points
+   that provide access to data in familar ways. In particular, readers
+   do not need to navigate the offset-based model.
 -  *Read consistency*: readers are able to achieve the level of
    consistency that they require, including consistency with other
-   ledger datastores or with ledger commands that have been executed.
+   ledger datastores, or ledger commands that have been executed.
 
-The following principles are used to facilitate these objectives:
+To facilitate these objectives, the following principles have been used:
 
 -  *Append-only*: only INSERTs are used, and no UPDATEs or DELETEs are
    used in transaction processin.
@@ -198,6 +199,8 @@ If you are running PQS against a participant node's ledger API that verifies aut
 The type of access token that PQS expects is Audience / Scope based tokens (see “\ `User Access Tokens <https://docs.daml.com/app-dev/authorization.html#user-access-tokens>`__\ ” for more information).
 
 Scribe will obtain tokens from the Authorization Server on startup, and it will reauthenticate before the token expires. If Scribe fails authorization, it will terminate with an error for the service orchestration infrastructure to respond appropriately.
+
+If you are unauthenticated then you will need to supply the Party(s) you wish to include in your PQS since there is no 'user' to connect your list of ``readAs`` Party's with.   The ``-pipeline-parties`` argument is used for this and it acts as a filter that restricts the data to that visible to the supplied list of party identifiers.  ``--pipeline-parties`` allows you to filter that down to a subset of the accessible parties. An example is ``--pipeline-parties Alice::12209942561b94adc057995f9ffca5a0b974953e72ba25e0eb158e05c801149639b9``.  If there is more than one party, then list all of the full party identifiers in a comma-separated list.
 
 Setting Up PostgreSQL
 =====================
@@ -317,8 +320,6 @@ The ``-pipeline-ledger-start`` argument is an enum with the following possible v
 -  ``Latest``: Use latest offset that is known or resume where it left off. This is the default behavior, where streaming starts at the latest known end. The first time you start, this will result in PQS calling ``ActiveContractService`` to get a state snapshot, which it will load into the ``_creates`` table. It will then start streaming creates, archives, and (optionally) exercises from the offset of that ``ActiveContractService``. When you restart PQS, it will start from the point it last left off. You should always use this mode on restart.
 -  ``Genesis``: Use the first original offset of the ledger. This causes PQS to try to start from offset ``0``. It allows you to load historic creates, archives or (optionally) exercises from a ledger that already has data on it. If you try to restart on an already populated database in this mode, PQS will rewrite data if it needs to.
 -  ``Oldest``: Use the oldest available (unpruned) offset on the ledger or resume where it left off.
-
-You will need to supply the Party(s) you wish to include in your ledger, where you are unauthenticated since there is no 'user' to connect your list of ``readAs`` Party's with.   The ``-pipeline-parties`` argument is used for this and it acts as a filter that restricts the data to that visible to the supplied list of party identifiers.  ``--pipeline-parties`` allows you to filter that down to a subset of the accessible parties. Restarting with a changed set of parties may be possible, but is not encouraged.  An example is ``--pipeline-parties Alice::12209942561b94adc057995f9ffca5a0b974953e72ba25e0eb158e05c801149639b9``.  If there is more than one party, then list all of the full party identifiers in a comma-separated list.
 
 PQS is able to start and finish at prescribed ledger offsets, specified by the arguments ``--pipeline-ledger-start`` and ``--pipeline-ledger-stop``. The ``./scribe.jar pipeline --help-verbose`` command provides extensive help information.
 
