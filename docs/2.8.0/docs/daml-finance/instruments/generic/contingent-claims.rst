@@ -9,8 +9,8 @@ Introduction
 
 Contingent Claims is a library for modeling financial instruments in Daml. An instrument is
 represented by a tree of :ref:`Claims <type-contingentclaims-core-internal-claim-claim-35538>`,
-which describe future cashflows between two parties as well as the conditions under which these
-cashflows occur.
+which describe future contractual events (cashflows and other `effects <#lifecycling-effect>`__)
+between two parties as well as the conditions under which these contractual events occur.
 
 The library offers lifecycling capabilities, as well as an (experimental) valuation semantics to
 map a claim to a mathematical expression that can be used for no-arbitrage pricing.
@@ -60,7 +60,8 @@ There are a couple of things to consider.
 First note that the constructors of this data type create a tree structure. The leaf constructors
 are ``zero`` and ``one a``, and the other constructors create branches (observe they call
 ``Claim a`` recursively). The constructors are just functions, and can be combined to produce
-complex cashflows. For example, to represent the above bond, we could write the following:
+complex `effects <#lifecycling-effect>`__. For example, to represent the above bond, we could write
+the following:
 
 .. code-block:: shell
 
