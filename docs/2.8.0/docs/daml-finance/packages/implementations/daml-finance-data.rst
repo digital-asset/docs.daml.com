@@ -18,9 +18,9 @@ This package implements templates containing reference data. It includes the fol
   lifecycle processing rules
 - :ref:`Time.DateClockUpdate <module-daml-finance-data-time-dateclockupdate-48859>`:
   A contract representing passing of (market) time that can be used to trigger contractual,
-  time-based cashflows, like interest payments on a bond. It is, for example, used to drive the
-  evolution and lifecycling of :doc:`Contingent Claims <../../instruments/generic/contingent-claims>`-based
-  instruments.
+  time-based `effects <#lifecycling-effect>`__, like interest payments on a bond. It is, for
+  example, used to drive the evolution and lifecycling of
+  :doc:`Contingent Claims <../../instruments/generic/contingent-claims>`-based instruments.
 - :ref:`Time.LedgerTime <module-daml-finance-data-time-ledgertime-84639>`:
   A time observable which uses ledger time
 

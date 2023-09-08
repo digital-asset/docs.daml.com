@@ -26,7 +26,8 @@ In this example, the predetermined purchase price (strike price) is ``195 USD``.
 at trade inception.
 
 When lifecycling the claim at maturity, we must provide the observed market value for the
-observable ``AAPL`` in order to resolve the claim's cashflows.
+observable ``AAPL`` in order to resolve the claim's cashflows and other
+`effects <#lifecycling-effect>`__.
 
 .. literalinclude:: ../../finance-payoff-modeling/daml/Examples/BasicCombinators.daml
   :language: daml
