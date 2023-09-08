@@ -8,7 +8,8 @@ This section contains an introduction to the Daml Finance :doc:`Generic Instrume
 which provides a flexible framework to structure custom payoffs and lifecycle them on the ledger.
 
 The Generic Instrument encapsulates the :doc:`Contingent Claims <../../instruments/generic/contingent-claims>`
-library, which models the economic terms of an instrument based on its future cashflows.
+library, which models the economic terms of an instrument based on its future cashflows and other
+contractual events.
 
 The tutorials introduce the Contingent Claims modeling framework in a practical way and give you
 the tools to

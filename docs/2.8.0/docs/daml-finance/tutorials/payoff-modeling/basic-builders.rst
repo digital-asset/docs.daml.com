@@ -5,7 +5,8 @@ Basic builders
 ##############
 
 This tutorial introduces the basic claim constructors and shows how to use them to
-describe a payoff in terms of the future cashflows between the claim's owner and their counterparty.
+describe a payoff in terms of the future cashflows and other `effects <#lifecycling-effect>`__
+between the claim's owner and their counterparty.
 At the end of this section, you should be able to model payoffs such as fixed rate bonds and
 FX forwards.
 
@@ -23,8 +24,8 @@ Builders
 Zero
 ====
 
-The ``zero`` constructor is used to indicate the absence of cashflows. We can setup this very simple
-initial payoff as follows
+The ``zero`` constructor is used to indicate the absence of cashflows and other contractual events.
+We can setup this very simple initial payoff as follows
 
 .. literalinclude:: ../../finance-payoff-modeling/daml/Examples/BasicCombinators.daml
   :language: daml
@@ -72,7 +73,8 @@ lifecycling yields no additional effects.
 Scale
 =====
 
-The ``scale`` constructor is used to multiply a claim's cashflows by a certain factor.
+The ``scale`` constructor is used to multiply a claim's `effects <#lifecycling-effect>`__ by a
+certain factor.
 
 .. literalinclude:: ../../finance-payoff-modeling/daml/Examples/BasicCombinators.daml
   :language: daml
@@ -92,9 +94,10 @@ As expected, lifecycling now yields
 Give, And
 =========
 
-The ``and`` constructor is used to sum cashflows from multiple sub-claims.
+The ``and`` constructor is used to sum `effects <#lifecycling-effect>`__ from multiple sub-claims.
 
-``give`` is used to exchange rights and obligations, flipping the direction of cashflows.
+``give`` is used to exchange rights and obligations, flipping the direction of
+`effects <#lifecycling-effect>`__.
 
 We can define a very simple FX trade as follows, where the owner receives ``EUR`` in exchange
 for ``USD``.

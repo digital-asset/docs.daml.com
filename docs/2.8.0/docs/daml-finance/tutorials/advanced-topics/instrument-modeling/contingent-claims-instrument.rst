@@ -145,10 +145,10 @@ Let us break its implementation apart to describe what happens in more detail:
     :start-after: -- BOND_PROCESS_CLOCK_UPDATE_LIFECYCLE_FASTFORWARD_BEGIN
     :end-before: -- BOND_PROCESS_CLOCK_UPDATE_LIFECYCLE_FASTFORWARD_END
 
-* Finally, we lifecycle the current instrument state to calculate pending cashflows. If there are
-  such cashflows (for example when a coupon payment is due), we create a
-  :ref:`Lifecycle Effect <module-daml-finance-lifecycle-effect-1975>` for it, which can then be
-  claimed and settled.
+* Finally, we lifecycle the current instrument state to calculate pending
+  `effects <#lifecycling-effect>`__. If there are such effects (for example when a coupon payment is
+  due), we create a :ref:`Lifecycle Effect <module-daml-finance-lifecycle-effect-1975>` for it,
+  which can then be claimed and settled.
 
   .. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/Lifecycle/Rule.daml
     :language: daml
