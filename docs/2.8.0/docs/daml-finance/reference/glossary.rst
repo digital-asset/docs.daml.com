@@ -96,3 +96,16 @@ Lifecycling refers to the evolution of `Instruments <#instrument>`__ over their 
 
 Lifecycling can deal with intrinsic events, like contractual cash flows, and/or extrinsic events
 like corporate actions or elections.
+
+.. _lifecycling-effect:
+
+Lifecycling effect
+------------------
+
+A Lifecycling effect refers to the output of `Lifecycling <#lifecycling>`__. Depending on the nature
+of the instrument being lifecycled, the effect(s) can be of different types:
+
+- cash flow (e.g. a bond coupon)
+- other distributions (e.g. shares resulting from a bonus issue)
+- exchange of principal (e.g the FX transaction resulting from a foreign exchange swap)
+- exchange of other assets (e.g shares vs cash resulting from a physically settled option)
