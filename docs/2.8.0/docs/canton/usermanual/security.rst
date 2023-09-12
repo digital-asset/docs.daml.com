@@ -767,7 +767,7 @@ Note that sensitive data is removed before logging.
 The general log format is as follows:
 
 ``tid:<canton_trace_id> - Sending request [<canton_kms_request_id>]: <request details>``
-``tid:<canton_trace_id> - Received response [<canton_kms_request_id>]: [Aws-Id: <aws_request_id>]: <response details>``
+``tid:<canton_trace_id> - Received response [<canton_kms_request_id>]: [Aws-Id: <aws_request_id>] - <response details>``
 
 Ledger-API Authorization
 ------------------------
