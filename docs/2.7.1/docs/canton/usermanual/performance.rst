@@ -235,10 +235,10 @@ Measure memory usage, CPU usage and disk throughput and improve your hardware as
 For simplicity, it makes sense to start on a single machine.
 Once the resources of a machine are becoming a bottleneck, distribute your nodes and databases to different machines.
 
-Try to make sure that the latency between a Canton node and its database is very low (ideally in the order of microseconds).
-Prefer hosting a Canton node and its database on the same machine.
-This is likely faster than running several Canton nodes on the same machine and the databases on a separate machine;
-for, the latency between Canton nodes is much less performance critical than the latency between a Canton node and its database.
+Try to make sure that the latency between a Canton node and its database is
+very low (ideally in the order of microseconds). The latency between Canton
+nodes has a much lower impact on throughput than the latency between a Canton
+node and its database.
 
 Optimize the configuration of your database, and make sure the database has sufficient memory and is stored on SSD disks with a very high throughput.
 For Postgres, `this online tool <https://pgtune.leopard.in.ua/>`_ is a good starting point for finding reasonable parameters.
