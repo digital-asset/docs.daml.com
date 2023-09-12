@@ -79,8 +79,8 @@ Here is the structure of a choice inside a template:
 
 .. literalinclude:: ../code-snippets/Structure.daml
    :language: daml
-   :start-after: -- start of new choice snippet
-   :end-before: -- end of new choice snippet
+   :start-after: -- start of choice snippet
+   :end-before: -- end of choice snippet
    :dedent: 4
 
 :ref:`consumption annotation <daml-ref-consumability>`

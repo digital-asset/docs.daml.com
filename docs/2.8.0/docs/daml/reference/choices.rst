@@ -13,8 +13,8 @@ Choice Name
 
 .. literalinclude:: ../code-snippets/Reference.daml
    :language: daml
-   :start-after: -- start new choice name snippet
-   :end-before: -- end new choice name snippet
+   :start-after: -- start choice name snippet
+   :end-before: -- end choice name snippet
 
 - ``choice`` keyword
 - The name of the choice. Must begin with a capital letter.
@@ -27,8 +27,8 @@ Controllers
 
 .. literalinclude:: ../code-snippets/Reference.daml
    :language: daml
-   :start-after: -- start new controller snippet
-   :end-before: -- end new controller snippet
+   :start-after: -- start controller snippet
+   :end-before: -- end controller snippet
 
 - ``controller`` keyword
 - The controller is a comma-separated list of values, where each value is either a party or a collection of parties.
@@ -48,8 +48,8 @@ Choice Observers
 
 .. literalinclude:: ../code-snippets/Structure.daml
    :language: daml
-   :start-after: -- start of new choice observer snippet
-   :end-before: -- end of new choice observer snippet
+   :start-after: -- start of choice observer snippet
+   :end-before: -- end of choice observer snippet
 
 .. _daml-ref-consumability:
 
@@ -63,8 +63,8 @@ Preconsuming Choices
 
 .. literalinclude:: ../code-snippets/Reference.daml
    :language: daml
-   :start-after: -- start new preconsuming snippet
-   :end-before: -- end new preconsuming snippet
+   :start-after: -- start preconsuming snippet
+   :end-before: -- end preconsuming snippet
 
 - ``preconsuming`` keyword. Optional.
 - Makes a choice pre-consuming: the contract is archived before the body of the exercise is executed.
@@ -78,8 +78,8 @@ Postconsuming Choices
 
 .. literalinclude:: ../code-snippets/Reference.daml
    :language: daml
-   :start-after: -- start new postconsuming snippet
-   :end-before: -- end new postconsuming snippet
+   :start-after: -- start postconsuming snippet
+   :end-before: -- end postconsuming snippet
 
 - ``postconsuming`` keyword. Optional.
 - Makes a choice post-consuming: the contract is archived after the body of the exercise is executed.
@@ -92,8 +92,8 @@ Non-consuming Choices
 
 .. literalinclude:: ../code-snippets/Reference.daml
    :language: daml
-   :start-after: -- start new nonconsuming snippet
-   :end-before: -- end new nonconsuming snippet
+   :start-after: -- start nonconsuming snippet
+   :end-before: -- end nonconsuming snippet
 
 - ``nonconsuming`` keyword. Optional.
 - Makes a choice non-consuming: that is, exercising the choice does not archive the contract.
@@ -116,8 +116,8 @@ Choice Arguments
 
 .. literalinclude:: ../code-snippets/Reference.daml
    :language: daml
-   :start-after: -- start new choice params snippet
-   :end-before: -- end new choice params snippet
+   :start-after: -- start choice params snippet
+   :end-before: -- end choice params snippet
 
 - ``with`` keyword.
 - Choice arguments are similar in structure to :ref:`daml-ref-template-parameters`: a :ref:`record type <daml-ref-record-types>`.
