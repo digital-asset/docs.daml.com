@@ -762,11 +762,12 @@ Sample of an AWS KMS audit log:
     2023-09-12 15:44:54,554 [aws-java-sdk-NettyEventLoop-1-2] INFO  c.d.c.c.k.a.a.AwsRequestResponseLogger:participant=participant1 tid:40d47592f1bd50f37e6804fbdff404dd - Received response [e28450df3a98ea23]: [Aws-Id: 7085bcf3-1a36-4048-a38b-014b441afa11] - SignResponse(KeyId=arn:aws:kms:us-east-1:724647588434:key/f23b5b37-b4e8-494d-b2bc-1fca12308c99, Signature=** Signature message text placeholder **, SigningAlgorithm=ECDSA_SHA_256)
     2023-09-12 15:44:54,559 [env-execution-context-29] INFO  c.d.c.c.k.a.a.AwsRequestResponseLogger:participant=participant1 tid:40d47592f1bd50f37e6804fbdff404dd - Sending request [d2bf1145aa2b3e4f]: SignRequest(KeyId=f23b5b37-b4e8-494d-b2bc-1fca12308c99, Message=** Sign message text placeholder **, MessageType=RAW, SigningAlgorithm=ECDSA_SHA_256) to https://kms.us-east-1.amazonaws.com/
     2023-09-12 15:44:54,671 [aws-java-sdk-NettyEventLoop-1-2] INFO  c.d.c.c.k.a.a.AwsRequestResponseLogger:participant=participant1 tid:40d47592f1bd50f37e6804fbdff404dd - Received response [d2bf1145aa2b3e4f]: [Aws-Id: c377f818-753b-4934-82ef-1b01f8e123cf] - SignResponse(KeyId=arn:aws:kms:us-east-1:724647588434:key/f23b5b37-b4e8-494d-b2bc-1fca12308c99, Signature=** Signature message text placeholder **, SigningAlgorithm=ECDSA_SHA_256)
-    2023-09-12 15:44:54,672 [env-execution-context-29] DEBUG c.d.c.s.c.t.GrpcSequencerClientTransport:participant=participant1/domainId=da::1220a3168a1b tid:40d47592f1bd50f37e6804fbdff404dd - Sending request send-async-versioned/cc89bb7b-1e9a-4726-857c-d451636e77b6 to sequencer.
 
 Note that sensitive data is removed before logging.
-If the Canton trace id is available, it will appear on the log line. This can be used to correlate Canton requests with KMS requests.
-Furthermore, for the AWS KMS, the AWS request ID is added to the response log lines in between brackets.
+The general log format is as follows:
+
+``tid:<canton_trace_id> - Sending request [<canton_kms_request_id>]: <request details>``
+``tid:<canton_trace_id> - Received response [<canton_kms_request_id>]: [Aws-Id: <aws_request_id>]: <response details>``
 
 Ledger-API Authorization
 ------------------------
