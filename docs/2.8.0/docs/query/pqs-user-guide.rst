@@ -201,7 +201,7 @@ The type of access token that PQS expects is Audience / Scope based tokens (see 
 Scribe will obtain tokens from the Authorization Server on startup, and it will reauthenticate before the token expires. If Scribe fails authorization, it will terminate with an error for the service orchestration infrastructure to respond appropriately.
 
 
-The autentication of PQS needs to match the participant nodes setup.  For
+The authentication of PQS needs to match the participant nodes (PN) setup.  For
 example, if PQS is run with authentication by setting OAuth and the PN is not
 configured to use authentication, then an error will result.  The error will
 have a message like ``requests with an empty user-id are only supported if
