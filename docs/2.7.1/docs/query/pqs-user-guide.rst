@@ -330,7 +330,7 @@ The ``--pipeline-filter string`` option needs a filter expression to determine
 which templates and interfaces to include.  A filter expression is a simple wildcard
 inclusion statement with basic boolean logic, where whitespace is ignored.  Below are some examples:
 
-- ``*``: everything which is the default
+- ``*``: everything, which is the default
 - ``a.b.c.Bar``: just this one fully qualified name
 - ``a.b.c.*``: all under the ``a.b.c`` namespace
 - ``deadbeef..:a.b.c.Foo`` just this one fully qualified name from this specific package ID
