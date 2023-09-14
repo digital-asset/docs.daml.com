@@ -143,7 +143,7 @@ The coupon rate in this example also has a 0% floor and a 1.5% cap. This is conf
 the cap or floor to *None* if it does not apply.
 
 The fixed rate is fairly simple to define, but the floating rate requires more inputs. A
-:ref:`FloatingRate <type-daml-finance-interface-instrument-bond-types-floatingrate-34915>`
+:ref:`FloatingRate <type-daml-finance-interface-instrument-types-floatingrate-floatingrate-77836>`
 data type is used to specify which reference rate should be used and on which date the reference
 rate is fixed for each coupon period.
 
@@ -162,7 +162,7 @@ amount).
 In addition to the Libor/Euribor style reference rates, compounded SOFR and similar reference rates
 are also supported. In order to optimize performance, these compounded rates are calculated via a
 (pre-computed) continuously compounded index, as described in the
-:ref:`ReferenceRateTypeEnum <type-daml-finance-interface-instrument-bond-types-referenceratetypeenum-64956>`.
+:ref:`ReferenceRateTypeEnum <type-daml-finance-interface-instrument-types-floatingrate-referenceratetypeenum-97197>`.
 For example, here is how *daily compounded SOFR* can be specified using the *SOFR Index*:
 
 .. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml
