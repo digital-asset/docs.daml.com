@@ -115,7 +115,7 @@ The simple configuration shown above, like that of the domain owner, can expand 
 Upload the distributed application DAR files
 ============================================
 
-Check the documentation for information on how to `upload DAR files </deploy/generic_ledger.html>`__.
+Check the documentation for information on how to :doc:`upload DAR files </deploy/generic_ledger>`.
 
 
 Site Reliability Engineer (SRE)
@@ -133,7 +133,7 @@ Monitoring normally consists of the following activities:
 * Parse out trace IDs from the log files.
 * Keep logs for audit.
 
-Check the documentation for more information on `monitoring </canton/usermanual/monitoring.html>`__.
+Check the documentation for more information on :doc:`monitoring </canton/usermanual/monitoring>`.
 
 .. rubric:: Footnotes
 
