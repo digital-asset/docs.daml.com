@@ -133,7 +133,7 @@ Monitoring normally consists of the following activities:
 * Parse out trace IDs from the log files.
 * Keep logs for audit.
 
-Check the documentation for more information on :dod:`monitoring </canton/usermanual/monitoring>`.
+Check the documentation for more information on :doc:`monitoring </canton/usermanual/monitoring>`.
 
 .. rubric:: Footnotes
 
