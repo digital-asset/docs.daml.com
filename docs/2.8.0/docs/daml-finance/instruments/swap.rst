@@ -49,7 +49,7 @@ We start by defining the terms:
 The floating leg depends on a reference rate, which is specified in the
 :ref:`FloatingRate <type-daml-finance-interface-instrument-types-floatingrate-floatingrate-77836>`
 data structure. It supports two types of reference rates, which are configurable using the
-:ref:``ReferenceRateTypeEnum <type-daml-finance-interface-instrument-types-floatingrate-referenceratetypeenum-97197>`:
+:ref:`ReferenceRateTypeEnum <type-daml-finance-interface-instrument-types-floatingrate-referenceratetypeenum-97197>`:
 
 - Libor/Euribor style rates with a single fixing
 - SOFR style reference rates (using a compounded index)
