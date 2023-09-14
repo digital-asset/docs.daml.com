@@ -46,8 +46,13 @@ We start by defining the terms:
   :start-after: -- CREATE_INTEREST_RATE_SWAP_VARIABLES_BEGIN
   :end-before: -- CREATE_INTEREST_RATE_SWAP_VARIABLES_END
 
-The floating leg depends on a reference rate, which is defined by the *referenceRateId* variable.
-The value of the reference rate is observed at the beginning of each payment period.
+The floating leg depends on a reference rate, which is specified in the
+:ref:`FloatingRate <type-daml-finance-interface-instrument-types-floatingrate-floatingrate-77836>`
+data structure. It supports two types of reference rates, which are configurable using the
+:ref:`ReferenceRateTypeEnum <type-daml-finance-interface-instrument-types-floatingrate-referenceratetypeenum-97197>`:
+
+- Libor/Euribor style rates with a single fixing
+- SOFR style reference rates (using a compounded index)
 
 The *ownerReceivesFix* variable is used to specify whether a holding owner of this instrument
 receives the fix or the floating leg.

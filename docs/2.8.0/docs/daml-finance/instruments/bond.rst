@@ -105,6 +105,12 @@ Here is an example of a bond paying Euribor 3M + 1.1% p.a. with a 3M coupon peri
   :start-after: -- CREATE_FLOATING_RATE_BOND_VARIABLES_BEGIN
   :end-before: -- CREATE_FLOATING_RATE_BOND_VARIABLES_END
 
+The instrument supports two types of reference rates, which are configurable using the
+:ref:`ReferenceRateTypeEnum <type-daml-finance-interface-instrument-types-floatingrate-referenceratetypeenum-97197>`:
+
+- Libor/Euribor style rates with a single fixing
+- SOFR style reference rates (using a compounded index)
+
 Using these terms we can create the floating rate bond instrument:
 
 .. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Bond/Test/Util.daml
@@ -137,7 +143,7 @@ The coupon rate in this example also has a 0% floor and a 1.5% cap. This is conf
 the cap or floor to *None* if it does not apply.
 
 The fixed rate is fairly simple to define, but the floating rate requires more inputs. A
-:ref:`FloatingRate <type-daml-finance-interface-instrument-bond-types-floatingrate-34915>`
+:ref:`FloatingRate <type-daml-finance-interface-instrument-types-floatingrate-floatingrate-77836>`
 data type is used to specify which reference rate should be used and on which date the reference
 rate is fixed for each coupon period.
 
@@ -156,7 +162,7 @@ amount).
 In addition to the Libor/Euribor style reference rates, compounded SOFR and similar reference rates
 are also supported. In order to optimize performance, these compounded rates are calculated via a
 (pre-computed) continuously compounded index, as described in the
-:ref:`ReferenceRateTypeEnum <type-daml-finance-interface-instrument-bond-types-referenceratetypeenum-64956>`.
+:ref:`ReferenceRateTypeEnum <type-daml-finance-interface-instrument-types-floatingrate-referenceratetypeenum-97197>`.
 For example, here is how *daily compounded SOFR* can be specified using the *SOFR Index*:
 
 .. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml

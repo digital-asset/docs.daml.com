@@ -489,6 +489,8 @@ subtrees:
               entries:
               - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-instrument-token.rst
                 title: "Changelog"
+          - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-types
+            title: "Daml.Finance.Interface.Instrument.Types"
       - file: daml-finance/packages/implementations/index
         title: "Implementation Packages"
         subtrees:
@@ -898,8 +900,6 @@ subtrees:
             title: "Daml.Finance.Interface.Instrument.Bond.ZeroCoupon.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-ZeroCoupon-Types
             title: "Daml.Finance.Interface.Instrument.Bond.ZeroCoupon.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-Types
-            title: "Daml.Finance.Interface.Instrument.Bond.Types"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Equity-Factory
             title: "Daml.Finance.Interface.Instrument.Equity.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Equity-Instrument
@@ -988,6 +988,8 @@ subtrees:
             title: "Daml.Finance.Interface.Instrument.Token.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Token-Types
             title: "Daml.Finance.Interface.Instrument.Token.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Types-FloatingRate
+            title: "Daml.Finance.Interface.Instrument.Types.FloatingRate"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Effect
             title: "Daml.Finance.Interface.Lifecycle.Effect"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Election
@@ -1026,6 +1028,8 @@ subtrees:
             title: "Daml.Finance.Interface.Types.Date.Calendar"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Date-Classes
             title: "Daml.Finance.Interface.Types.Date.Classes"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Date-DateOffset
+            title: "Daml.Finance.Interface.Types.Date.DateOffset"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Date-DayCount
             title: "Daml.Finance.Interface.Types.Date.DayCount"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Date-RollConvention
