@@ -199,6 +199,12 @@ The type of access token that PQS expects is Audience / Scope based tokens (see 
 
 Scribe will obtain tokens from the Authorization Server on startup, and it will reauthenticate before the token expires. If Scribe fails authorization, it will terminate with an error for the service orchestration infrastructure to respond appropriately.
 
+The autentication of PQS needs to match the participant nodes setup.  For
+example, if PQS is run with authentication by setting OAuth and the PN is not
+configured to use authentication, then an error will result.  The error will
+have a message like "“requests with an empty user-id are only supported if
+there is an authenticated user”.
+
 Setting Up PostgreSQL
 =====================
 
@@ -315,7 +321,23 @@ The ``-pipeline-ledger-start`` argument is an enum with the following possible v
 
 The ``-pipeline-party`` argument is a filter that restricts the data to that visible to the supplied list of party identifiers. At the moment, this is a mandatory field. ``--pipeline-party`` will allow you to filter that down to a subset of the accessible parties. Restarting with a changed set of parties may be possible, but is not encouraged.
 
-PQS is able to start and finish at prescribed ledger offsets, specified by the arguments ``--pipeline-ledger-start`` and ``--pipeline-ledger-stop``. The ``./scribe.jar pipeline --help-verbose`` command provides extensive help information.
+PQS is able to start and finish at prescribed ledger offsets, specified by the
+arguments ``--pipeline-ledger-start`` and ``--pipeline-ledger-stop``. The
+``./scribe.jar pipeline --help-verbose`` command provides extensive help
+information.
+
+The ``--pipeline-filter string`` option needs a filter expression to determine
+which templates and interfaces to include.  A filter expression is a simple wildcard
+inclusion statement with basic boolean logic where whitespace is ignored.  Below are some examples:
+
+- ``*``: everything which is the default
+- ``a.b.c.Bar``: just this one fully qualified name
+- ``a.b.c.*``: all under this namespace
+- ``deadbeef..:a.b.c.Foo`` just this one fully qualified name from this specific package-id
+- ``!a.b.c.Bar``: everything except this fully qualified name
+- ``a.b.c.Foo & a.b.c.Bar``: this is an error because it can't be both
+- ``(a.b.c.Foo | a.b.c.Bar)``: these two fully qualified names
+- ``(a.b.c.* & !(a.b.c.Foo | a.b.c.Bar) | g.e.f.Baz)``: everything in ``a.b.c`` except for ``Foo`` and ``Bar``, and include ``g.e.f.Baz``
 
 PQS Development
 ***************
