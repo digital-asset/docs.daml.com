@@ -105,6 +105,12 @@ Here is an example of a bond paying Euribor 3M + 1.1% p.a. with a 3M coupon peri
   :start-after: -- CREATE_FLOATING_RATE_BOND_VARIABLES_BEGIN
   :end-before: -- CREATE_FLOATING_RATE_BOND_VARIABLES_END
 
+The instrument supports two types of reference rates, which are configurable using the
+:ref:``ReferenceRateTypeEnum <type-daml-finance-interface-instrument-types-floatingrate-referenceratetypeenum-97197>`:
+
+- Libor/Euribor style rates with a single fixing
+- SOFR style reference rates (using a compounded index)
+
 Using these terms we can create the floating rate bond instrument:
 
 .. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Bond/Test/Util.daml
