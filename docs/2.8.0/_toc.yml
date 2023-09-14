@@ -491,10 +491,6 @@ subtrees:
                 title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-types
             title: "Daml.Finance.Interface.Instrument.Types"
-            subtrees:
-            - hidden: False
-              titlesonly: True
-              maxdepth: 1
       - file: daml-finance/packages/implementations/index
         title: "Implementation Packages"
         subtrees:
@@ -904,8 +900,6 @@ subtrees:
             title: "Daml.Finance.Interface.Instrument.Bond.ZeroCoupon.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-ZeroCoupon-Types
             title: "Daml.Finance.Interface.Instrument.Bond.ZeroCoupon.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-Types
-            title: "Daml.Finance.Interface.Instrument.Bond.Types"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Equity-Factory
             title: "Daml.Finance.Interface.Instrument.Equity.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Equity-Instrument
