@@ -202,8 +202,8 @@ Scribe will obtain tokens from the Authorization Server on startup, and it will 
 The autentication of PQS needs to match the participant nodes setup.  For
 example, if PQS is run with authentication by setting OAuth and the PN is not
 configured to use authentication, then an error will result.  The error will
-have a message like "“requests with an empty user-id are only supported if
-there is an authenticated user”.
+have a message like ``requests with an empty user-id are only supported if
+there is an authenticated user``.
 
 Setting Up PostgreSQL
 =====================
@@ -328,16 +328,16 @@ information.
 
 The ``--pipeline-filter string`` option needs a filter expression to determine
 which templates and interfaces to include.  A filter expression is a simple wildcard
-inclusion statement with basic boolean logic where whitespace is ignored.  Below are some examples:
+inclusion statement with basic boolean logic, where whitespace is ignored.  Below are some examples:
 
 - ``*``: everything which is the default
 - ``a.b.c.Bar``: just this one fully qualified name
-- ``a.b.c.*``: all under this namespace
-- ``deadbeef..:a.b.c.Foo`` just this one fully qualified name from this specific package-id
+- ``a.b.c.*``: all under the ``a.b.c`` namespace
+- ``deadbeef..:a.b.c.Foo`` just this one fully qualified name from this specific package ID
 - ``!a.b.c.Bar``: everything except this fully qualified name
 - ``a.b.c.Foo & a.b.c.Bar``: this is an error because it can't be both
 - ``(a.b.c.Foo | a.b.c.Bar)``: these two fully qualified names
-- ``(a.b.c.* & !(a.b.c.Foo | a.b.c.Bar) | g.e.f.Baz)``: everything in ``a.b.c`` except for ``Foo`` and ``Bar``, and include ``g.e.f.Baz``
+- ``(a.b.c.* & !(a.b.c.Foo | a.b.c.Bar) | g.e.f.Baz)``: everything in ``a.b.c`` except for ``Foo`` and ``Bar``, and also include ``g.e.f.Baz``
 
 PQS Development
 ***************
