@@ -489,6 +489,12 @@ subtrees:
               entries:
               - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-instrument-token.rst
                 title: "Changelog"
+          - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-types
+            title: "Daml.Finance.Interface.Instrument.Types"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
       - file: daml-finance/packages/implementations/index
         title: "Implementation Packages"
         subtrees:
@@ -988,6 +994,8 @@ subtrees:
             title: "Daml.Finance.Interface.Instrument.Token.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Token-Types
             title: "Daml.Finance.Interface.Instrument.Token.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Types-FloatingRate
+            title: "Daml.Finance.Interface.Instrument.Types.FloatingRate"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Effect
             title: "Daml.Finance.Interface.Lifecycle.Effect"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Election
