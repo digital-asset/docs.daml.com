@@ -18,6 +18,9 @@ modules:
   Types for holiday calendar data and how to adjust non-business days
 - :ref:`Classes <module-daml-finance-interface-types-date-classes-73544>`:
   Type class that specifies what can be converted to UTC time
+- :ref:`DateOffset <module-daml-finance-interface-types-date-dateoffset-40136>`:
+  Types for date offsets that can be used e.g. to specify a rate fixing date relative to the reset
+  date in terms of a business days offset and an associated set of financial business centers.
 - :ref:`DayCount <module-daml-finance-interface-types-date-daycount-90980>`:
   Type to specify the conventions used to calculate day count fractions. These are used to define
   the interest accrued during each schedule period, for example for a bond or a swap.

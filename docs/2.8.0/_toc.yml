@@ -1028,6 +1028,8 @@ subtrees:
             title: "Daml.Finance.Interface.Types.Date.Calendar"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Date-Classes
             title: "Daml.Finance.Interface.Types.Date.Classes"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Date-DateOffset
+            title: "Daml.Finance.Interface.Types.Date.DateOffset"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Date-DayCount
             title: "Daml.Finance.Interface.Types.Date.DayCount"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Date-RollConvention
