@@ -11,7 +11,7 @@ Steps
 ==============================
 
 .. note::
-   The Terraform scripts were used to parameterize the Helm values. If standalone Helm deployment is done without Terraform the value file has to be customized manually. The template value file can be found in ``http-json.yaml``.
+   The Terraform scripts were used to parameterize the Helm values. If standalone Helm deployment is done without Terraform the value file has to be customized manually. The template value file can be found in :download:`http-json.yaml`.
 
 .. code-block:: yaml
 

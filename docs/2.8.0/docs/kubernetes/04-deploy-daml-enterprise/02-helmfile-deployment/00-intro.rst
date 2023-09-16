@@ -35,8 +35,3 @@ Automated Deployment
 
      cd src/helmfile/
      helmfile apply --skip-diff-on-install
-
-Manual Deployment
-*****************
-
-You can go to `src/helmfile/ <https://github.com/DACH-NY/0-to-k8-canton-doc-temp-space/tree/main/src/helmfile>`_ and inspect `helmfile.yaml <https://github.com/DACH-NY/0-to-k8-canton-doc-temp-space/blob/main/src/helmfile/helmfile.yaml>`_ and its `values <https://github.com/DACH-NY/0-to-k8-canton-doc-temp-space/tree/main/src/helmfile/values>`_.

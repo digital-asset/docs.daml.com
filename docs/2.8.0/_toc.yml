@@ -1168,11 +1168,11 @@ subtrees:
               titlesonly: True
               entries:
               - file: kubernetes/04-deploy-daml-enterprise/01-helm-deployment/02-participant-deployment
-                title: "Install ``canton-participant`` Chart"
+                title: "Install canton-participant Chart"
               - file: kubernetes/04-deploy-daml-enterprise/01-helm-deployment/03-domain-deployment
-                title: "Install ``canton-domain`` Chart"
+                title: "Install canton-domain Chart"
               - file: kubernetes/04-deploy-daml-enterprise/01-helm-deployment/04-daml-http-json-deployment
-                title: "Install ``daml-http-json`` Chart"
+                title: "Install daml-http-json Chart"
           - file: kubernetes/04-deploy-daml-enterprise/02-helmfile-deployment/00-intro
             title: "Helmfile Deployment of Daml Enterprise"
           - file: kubernetes/04-deploy-daml-enterprise/03-argocd-deployment/01-argocd-deployment

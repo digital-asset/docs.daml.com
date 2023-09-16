@@ -18,7 +18,7 @@ Steps
 ======================================================
 
 .. note::
-   The Terraform scripts were used to parameterize the Helm values. If standalone Helm deployment is done without Terraform, the value file has to be customized manually. The value file can be found under ``domain.yaml``.
+   The Terraform scripts were used to parameterize the Helm values. If standalone Helm deployment is done without Terraform, the value file has to be customized manually. The value file can be found under :download:`domain.yaml`.
 
 .. code-block:: yaml
 

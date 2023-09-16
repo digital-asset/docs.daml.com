@@ -14,7 +14,7 @@ Objectives
 Prerequisites
 *************
 
-* Access to the ``digitalasset-docker.jfrog.io/canton-enterprise`` repository.
+* Access to the Daml Enterprise Artifactory (``digitalasset-docker.jfrog.io/canton-enterprise``) repository.
 * Running `Argo CD server <https://argo-cd.readthedocs.io/en/stable/getting_started/#1-install-argo-cd>`_.
 * Argo CD CLI authenticated into the Argo CD server.
 * Running Kubernetes cluster (1.24+) in which you have access to

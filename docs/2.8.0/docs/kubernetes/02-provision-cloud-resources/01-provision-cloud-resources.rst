@@ -73,7 +73,7 @@ To configure Terraform for your Azure subscription, follow the below steps:
 
 * Create your own backend configuration
 
-* Copy and customize variables the file ``sample.tfvars``, use the resource group you just created, you can use the file name ``terraform.tfvars`` to avoid passing argument ``--var-file=/path/to/file.tfvars`` each run.
+* Copy and customize variables the file :download:`sample.tfvars`, use the resource group you just created, you can use the file name ``terraform.tfvars`` to avoid passing argument ``--var-file=/path/to/file.tfvars`` each run.
 
 .. note::
    There are multiple ways to `configure the backend <https://developer.hashicorp.com/terraform/language/settings/backends/configuration>`_ and manage different environments (development, staging, production, etc.) within the same repository, you should pick the appropriate solution for your needs! For local testing the `default backend <https://developer.hashicorp.com/terraform/language/settings/backends/configuration#default-backend>`_ suffices.

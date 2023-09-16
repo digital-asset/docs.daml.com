@@ -15,10 +15,6 @@ Steps
 1. Set Up Repo for Argo CD
 ==========================
 
-.. code-block:: bash
-
-   argocd repo add https://github.com/DACH-NY/0-to-k8-canton-doc-temp-space.git "${ARGO_ARGS[@]}" --username (USER) --password (PASS)
-
 2. Customize Argo CD Application
 ================================
 
@@ -28,7 +24,7 @@ Branch out from the ``main`` branch and customize the Argo CD application:
 
    git checkout -b <branch-name>
 
-The Argo CD application file ``daml-enterprise.yaml`` can be customized before applying. The file contains comments and examples on how to customize the application.
+The Argo CD application file :download:`daml-enterprise.yaml` can be customized before applying. The file contains comments and examples on how to customize the application.
 
 .. code-block:: bash
 
