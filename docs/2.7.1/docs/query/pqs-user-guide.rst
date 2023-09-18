@@ -49,10 +49,15 @@ The historical table below lists the available Early Access releases of the Part
 |               | *Offset Management*, *Querying Patterns*, *Advanced |
 |               | Querying Topics* sections.                          |
 +---------------+-----------------------------------------------------+
+| `2023-09-18`_ | Documentation updated.  Updated command line        |
+|               | options and added information about using           |
+|               | ``--pipeline-filter`` option.                       |
++---------------+-----------------------------------------------------+
 
 .. _2023-08-09: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B2986-e45c930.tar.gz
 .. _2023-08-31: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B3614-6b5f082.tar.gz
 .. _2023-09-06: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B3614-6b5f082.tar.gz
+.. _2023-09-18: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B3614-6b5f082.tar.gz
 
 Overview
 ********
