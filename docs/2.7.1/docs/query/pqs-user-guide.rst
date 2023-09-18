@@ -49,10 +49,15 @@ The historical table below lists the available Early Access releases of the Part
 |               | *Offset Management*, *Querying Patterns*, *Advanced |
 |               | Querying Topics* sections.                          |
 +---------------+-----------------------------------------------------+
+| `2023-09-18`_ | Documentation updated.  Updated command line        |
+|               | options and added information about using           |
+|               | ``--pipeline-filter`` option.                       |
++---------------+-----------------------------------------------------+
 
 .. _2023-08-09: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B2986-e45c930.tar.gz
 .. _2023-08-31: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B3614-6b5f082.tar.gz
 .. _2023-09-06: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B3614-6b5f082.tar.gz
+.. _2023-09-18: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B3614-6b5f082.tar.gz
 
 Overview
 ********
@@ -88,18 +93,19 @@ schema design is to facilitate:
 
 -  *Scaleable writes*: transactions are written in parallel, so
    writes do not need to be sequential.
--  *Scaleable reads*: queries can be parallelized, and are not
-   blocked by writes. They produce sensible query plans that do not
-   result in unnecessary table scans.
--  *Ease of use*: readers use familiar tools and techniques to
-   query the datastore and simple entry points
-   that provide access to data in familiar ways. They do not need to understand the specifics of
-   the schema design; in particular, they need not navigate the offset-based model.
+-  *Scaleable reads*: queries can be parallelized and are not
+   blocked by writes. They produce sensible query plans with no
+   unnecessary table scans.
+-  *Ease of use*: readers are able to use familiar tools and techniques to
+   query the datastore, without needing to understand the specifics of
+   the schema design. Simple entry points
+   provide access to data in familiar ways. In particular, readers
+   do not need to navigate the offset-based model.
 -  *Read consistency*: readers are able to achieve the level of
    consistency that they require, including consistency with other
-   ledger datastores or with ledger commands that have been executed.
+   ledger datastores, or with ledger commands that have been executed.
 
-The following principles are used to facilitate these objectives:
+The following principles apply:
 
 -  *Append-only*: only INSERTs are used, and no UPDATEs or DELETEs are
    used in transaction processin.
@@ -199,6 +205,8 @@ The type of access token that PQS expects is Audience / Scope based tokens (see 
 
 Scribe will obtain tokens from the Authorization Server on startup, and it will reauthenticate before the token expires. If Scribe fails authorization, it will terminate with an error for the service orchestration infrastructure to respond appropriately.
 
+If you are not authenticated, there is no user to connect to a list of ``readAs`` parties, so you must specify the parties using the ``-pipeline-parties`` argument. This argument acts as a filter, restricting the data to only what's visible to the supplied list of party identifiers. To specify multiple parties, provide the party identifiers in a comma-separated list. Example: ``--pipeline-parties Alice::12209942561b94adc057995f9ffca5a0b974953e72ba25e0eb158e05c801149639b9``
+
 The authentication of PQS needs to match the participant nodes (PN) setup.  For
 example, if PQS is run with authentication by setting OAuth and the PN is not
 configured to use authentication, then an error will result.  The error will
@@ -264,31 +272,36 @@ You can discover commands and parameters through the embedded ``--help`` (rememb
       postgres-relational Postgres database (w/ relational payload representation)
 
     Options:
-      --config file                              Path to configuration overrides via an external HOCON file (optional)
-      --pipeline-party string                    Ledger party identifier to connect as
-      --pipeline-filter string                   Filter expression determining which templates and interfaces to include (default: *)
-      --pipeline-ledger-start [enum | string]    Start offset (default: Latest)
-      --pipeline-ledger-stop [enum | string]     Stop offset (default: Never)
-      --pipeline-datasource enum                 Ledger API service to use as data source (default: TransactionStream)
-      --logger-level enum                        Log level (default: Info)
-      --logger-mappings map                      Custom mappings for log levels
-      --logger-format enum                       Log output format (default: Plain)
-      --logger-pattern [enum | string]           Log pattern (default: Plain)
-      --target-postgres-host string              Postgres host (default: localhost)
-      --target-postgres-tls-mode enum            SSL mode required for Postgres connectivity (default: Disable)
-      --target-postgres-tls-cert file            Client's certificate (optional)
-      --target-postgres-tls-key file             Client's private key (optional)
-      --target-postgres-tls-cafile file          Trusted Certificate Authority (CA) certificate (optional)
-      --target-postgres-autoapplyschema boolean  Apply metadata inferred schema on startup (default: true)
-      --target-postgres-password string          Postgres user password (default: ********)
-      --target-postgres-username string          Postgres user name (default: postgres)
-      --target-postgres-database string          Postgres database (default: postgres)
-      --target-postgres-port int                 Postgres port (default: 5432)
-      --source-ledger-host string                Ledger API host (default: localhost)
-      --source-ledger-tls-cafile file            Trusted Certificate Authority (CA) certificate (optional)
-      --source-ledger-tls-cert file              Client's certificate (leave empty if embedded into private key file) (optional)
-      --source-ledger-tls-key file               Client's private key (leave empty for server-only TLS) (optional)
-      --source-ledger-port int                   Ledger API port (default: 6865)
+      --config file                                Path to configuration overrides via an external HOCON file (optional)
+      --pipeline-parties string                    Daml party identifiers to filter on (comma-separated) (default: List())
+      --pipeline-oauth-clientid string             Client's identifier (optional)
+      --pipeline-oauth-cafile file                 Trusted Certificate Authority (CA) certificate (optional)
+      --pipeline-oauth-endpoint uri                Token endpoint URL (optional)
+      --pipeline-oauth-clientsecret string         Client's secret (optional)
+      --pipeline-filter string                     Filter expression determining which templates and interfaces to include (default: *)
+      --pipeline-ledger-start [enum | string]      Start offset (default: Latest)
+      --pipeline-ledger-stop [enum | string]       Stop offset (default: Never)
+      --pipeline-datasource enum                   Ledger API service to use as data source (default: TransactionStream)
+      --logger-level enum                          Log level (default: Info)
+      --logger-mappings map                        Custom mappings for log levels
+      --logger-format enum                         Log output format (default: Plain)
+      --logger-pattern [enum | string]             Log pattern (default: Plain)
+      --target-postgres-host string                Postgres host (default: localhost)
+      --target-postgres-tls-mode enum              SSL mode required for Postgres connectivity (default: Disable)
+      --target-postgres-tls-cert file              Client's certificate (optional)
+      --target-postgres-tls-key file               Client's private key (optional)
+      --target-postgres-tls-cafile file            Trusted Certificate Authority (CA) certificate (optional)
+      --target-postgres-autoapplyschema boolean    Apply metadata inferred schema on startup (default: true)
+      --target-postgres-password string            Postgres user password (default: ********)
+      --target-postgres-username string            Postgres user name (default: postgres)
+      --target-postgres-database string            Postgres database (default: postgres)
+      --target-postgres-port int                   Postgres port (default: 5432)
+      --source-ledger-host string                  Ledger API host (default: localhost)
+      --source-ledger-auth enum                    Authorisation mode (default: NoAuth)
+      --source-ledger-tls-cafile file              Trusted Certificate Authority (CA) certificate (optional)
+      --source-ledger-tls-cert file                Client's certificate (leave empty if embedded into private key file) (optional)
+      --source-ledger-tls-key file                 Client's private key (leave empty for server-only TLS) (optional)
+      --source-ledger-port int                     Ledger API port (default: 6865)
 
 For more help, use the command:
 
@@ -301,15 +314,15 @@ Following is an example of a basic command to run PQS to extract all data, inclu
 .. code-block:: bash
 
     $ ./scribe.jar pipeline ledger postgres-document \
-    --pipeline-party=Alice \
-    --pipeline-datasource=TransactionTreeStream \
-    --source-ledger-host=localhost \
-    --source-ledger-port=6865 \
-    --target-postgres-host=localhost \
-    --target-postgres-port=5432 \
-    --target-postgres-database=postgres \
-    --target-postgres-username=postgres \
-    --target-postgres-password=postgres
+    --pipeline-parties Alice::12209942561b94adc057995f9ffca5a0b974953e72ba25e0eb158e05c801149639b9 \
+    --pipeline-datasource TransactionTreeStream \
+    --source-ledger-host localhost \
+    --source-ledger-port 6865 \
+    --target-postgres-host localhost \
+    --target-postgres-port 5432 \
+    --target-postgres-database postgres \
+    --target-postgres-username postgres \
+    --target-postgres-password postgres
 
 NOTE: Only ``postgres-document`` is currently implemented, with ``postgres-relational`` to follow soon.
 
@@ -318,8 +331,6 @@ The ``-pipeline-ledger-start`` argument is an enum with the following possible v
 -  ``Latest``: Use latest offset that is known or resume where it left off. This is the default behavior, where streaming starts at the latest known end. The first time you start, this will result in PQS calling ``ActiveContractService`` to get a state snapshot, which it will load into the ``_creates`` table. It will then start streaming creates, archives, and (optionally) exercises from the offset of that ``ActiveContractService``. When you restart PQS, it will start from the point it last left off. You should always use this mode on restart.
 -  ``Genesis``: Use the first original offset of the ledger. This causes PQS to try to start from offset ``0``. It allows you to load historic creates, archives or (optionally) exercises from a ledger that already has data on it. If you try to restart on an already populated database in this mode, PQS will rewrite data if it needs to.
 -  ``Oldest``: Use the oldest available (unpruned) offset on the ledger or resume where it left off.
-
-The ``-pipeline-party`` argument is a filter that restricts the data to that visible to the supplied list of party identifiers. At the moment, this is a mandatory field. ``--pipeline-party`` will allow you to filter that down to a subset of the accessible parties. Restarting with a changed set of parties may be possible, but is not encouraged.
 
 PQS is able to start and finish at prescribed ledger offsets, specified by the
 arguments ``--pipeline-ledger-start`` and ``--pipeline-ledger-stop``. The
