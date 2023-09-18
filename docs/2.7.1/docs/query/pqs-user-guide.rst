@@ -105,7 +105,7 @@ schema design is to facilitate:
    consistency that they require, including consistency with other
    ledger datastores, or ledger commands that have been executed.
 
-To facilitate these objectives, the following principles have been used:
+The following principles apply:
 
 -  *Append-only*: only INSERTs are used, and no UPDATEs or DELETEs are
    used in transaction processin.
