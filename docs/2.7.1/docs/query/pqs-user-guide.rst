@@ -91,7 +91,7 @@ PQS is not directly involved in querying/reading the datastore - the
 application is free to query it, such as via JDBC.  The objectives of the
 schema design is to facilitate:
 
--  *Scaleable writes*: transactions are written in parallel, ensuring that
+-  *Scaleable writes*: transactions are written in parallel, so
    writes do not need to be sequential.
 -  *Scaleable reads*: queries can be parallelized and are not
    blocked by writes. They produce sensible query plans with no
@@ -103,7 +103,7 @@ schema design is to facilitate:
    do not need to navigate the offset-based model.
 -  *Read consistency*: readers are able to achieve the level of
    consistency that they require, including consistency with other
-   ledger datastores, or ledger commands that have been executed.
+   ledger datastores, or with ledger commands that have been executed.
 
 The following principles apply:
 
