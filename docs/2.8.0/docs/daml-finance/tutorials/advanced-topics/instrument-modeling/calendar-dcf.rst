@@ -9,10 +9,10 @@ standard conventions. These are used internally in instruments like Bonds and Sw
 are use cases where it could be useful to understand these in more detail, for example if you want
 to:
 
-- understand and validate the implementation of current Daml Finance instruments
 - develop your own instruments that depend on schedules, business day shifts and/or day count
   conventions
-- compose existing daml finance instruments, for example a set of zero coupon bonds according to a
+- understand and validate the implementation of current Daml Finance instruments
+- compose existing daml finance instruments, for example define multiple zero coupon bonds according to a
   specific schedule of expiries
 - use this calendar and schedule related functionality for non-financial use cases
 
@@ -78,16 +78,62 @@ RollConvention
 The RollConvention module provides utility functions to add a period to a given date:
 
 For example, you can add a day, week, month or a year to a given date:
-addPeriod
 
-This can also handle edge cases, for example in case of a monthly roll to a date that may not exist:
-addPeriod jan 31 to end of feb
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+  :language: daml
+  :start-after: -- TEST_ADD_PERIOD_DAY_WEEK_MONTH_YEAR_BEGIN
+  :end-before: -- TEST_ADD_PERIOD_DAY_WEEK_MONTH_YEAR_END
 
-Sometimes, it is important to adjust the period according to a specific market convention:
-next jan 31 to end of feb
+This can also handle edge cases, for example in case of a monthly roll to a date that may not exist,
+because the resulting month has fewer days than the starting month:
 
-Similarly, it is also possible to get the previous period:
-previous
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+  :language: daml
+  :start-after: -- TEST_ADD_PERIOD_MONTH_END_EDGE_CASE_BEGIN
+  :end-before: -- TEST_ADD_PERIOD_MONTH_END_EDGE_CASE_END
+
+If you need to *subtract* a period, just use a negative offset:
+
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+  :language: daml
+  :start-after: -- TEST_ADD_PERIOD_NEGATIVE_OFFSET_BEGIN
+  :end-before: -- TEST_ADD_PERIOD_NEGATIVE_OFFSET_END
+
+Sometimes, it is important to find the start date of the next period according to a specific market
+convention, as described in RollConventionEnum (link). For example, for an end-of-month roll:
+
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+  :language: daml
+  :start-after: -- TEST_NEXT_EOM_BEGIN
+  :end-before: -- TEST_NEXT_EOM_END
+
+Alternatively, we can also define a roll to a specific day of the month:
+
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+  :language: daml
+  :start-after: -- TEST_NEXT_DOM1_BEGIN
+  :end-before: -- TEST_NEXT_DOM1_END
+
+If the destination month does not have enough days, it will default to the last day of the month:
+
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+  :language: daml
+  :start-after: -- TEST_NEXT_DOM_PAST_EOM_BEGIN
+  :end-before: -- TEST_NEXT_DOM_PAST_EOM_END
+
+This also takes leap days into account:
+
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+  :language: daml
+  :start-after: -- TEST_NEXT_DOM_PAST_EOFEB_BEGIN
+  :end-before: -- TEST_NEXT_DOM_PAST_EOFEB_END
+
+Similarly, it is also possible to roll to the *previous* period:
+
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+  :language: daml
+  :start-after: -- TEST_PREVIOUS_DOM_FROM_EOFEB_BEGIN
+  :end-before: -- TEST_PREVIOUS_DOM_FROM_EOFEB_END
 
 Schedule
 ========
