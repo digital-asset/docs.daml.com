@@ -19,22 +19,58 @@ to:
 Calendar
 ========
 
-The Calendar module contains various utility functions related to business days and date adjustments.
+The Calendar (link) module contains various utility functions related to business days and date adjustments.
 
-For example, given a current date and a holiday calendar, we can check whether it is a business day:
-isBusinessDay
+Business days and non-business days are distinguished by defining a holiday calendar, for example:
+
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+  :language: daml
+  :start-after: -- CREATE_HOLIDAY_CALENDAR_DATA_BEGIN
+  :end-before: -- CREATE_HOLIDAY_CALENDAR_DATA_END
+
+This HolidayCalendarData (link) type describes which dates are non-business days.
+
+We can now check whether a given date is a business day:
+
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+  :language: daml
+  :start-after: -- TEST_IS_BUSINESS_DAY_BEGIN
+  :end-before: -- TEST_IS_BUSINESS_DAY_END
 
 It is also possible to get the previous and the next business day:
-previousBusinessDay, nextBusinessDay
+
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+  :language: daml
+  :start-after: -- TEST_PREVIOUS_BUSINESS_DAY_BEGIN
+  :end-before: -- TEST_PREVIOUS_BUSINESS_DAY_END
+
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+  :language: daml
+  :start-after: -- TEST_NEXT_BUSINESS_DAY_BEGIN
+  :end-before: -- TEST_NEXT_BUSINESS_DAY_END
 
 Quite often, we are required to find out the date of a given number of business days in the future:
-addBusinessDays
+
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+  :language: daml
+  :start-after: -- TEST_ADD_BUSINESS_DAYS_BEGIN
+  :end-before: -- TEST_ADD_BUSINESS_DAYS_END
 
 This also works with business days in the past, just pass in a negative offset:
-addBusinessDays
+
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+  :language: daml
+  :start-after: -- TEST_ADD_BUSINESS_DAYS_NEGATIVE_OFFSET_BEGIN
+  :end-before: -- TEST_ADD_BUSINESS_DAYS_NEGATIVE_OFFSET_END
 
 Finally, it is also possible to adjust a date according to a given business day convention:
-adjustDate
+
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+  :language: daml
+  :start-after: -- TEST_ADJUST_DATE_BEGIN
+  :end-before: -- TEST_ADJUST_DATE_END
+
+The different conventions are described in the BusinessDayConventionEnum (link).
 
 RollConvention
 ==============
