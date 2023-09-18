@@ -200,9 +200,37 @@ to the following schedule:
 
 This bond will not have the same number of days in each period, which will typically result in a
 different coupon amounts for the periods. There are various market conventions for this, severeral
-of which are supported using the DayCountConventionEnum.
+of which are supported using the DayCountConventionEnum (link).
 
-For example, consider the Act360 day count convention:
+For example, consider the schedule with a short initial stub in the previous chapter. If we want to
+calculate the Act360 day count convention:
 
-This can be used to determine the coupon of amount in this period:
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+  :language: daml
+  :start-after: -- CALCULATE_ACT360_DCF_PERIOD1_BEGIN
+  :end-before: -- CALCULATE_ACT360_DCF_PERIOD1_END
 
+This corresponds to the 2M short initial stub period. The day count fraction can be used to calculate
+a bond coupon or a swap payment for the given period, by multiplying it with the yearly interest rate
+of the instrument, e.g. 4% per annum.
+
+We can compare this initial day count fraction with the 2nd and 3rd period of this schedule, which are both regular (3M):
+
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+  :language: daml
+  :start-after: -- CALCULATE_ACT360_DCF_PERIOD2AND3_BEGIN
+  :end-before: -- CALCULATE_ACT360_DCF_PERIOD2AND3_END
+
+These day count fractions are clearly greater than the one of the first period, since they correspond
+to 3M instead of 2M. They differ slightly, because they do not have exact same number of days.
+
+In addition to Act360, the DayCountConventionEnum (link) also supports several other day count conventions.
+Some of them can be computed using calcDcf, using only a start and an end date as an input, as described above.
+Others, e.g. ActActISDA, require additional information. They can be calculated using the calcPeriodDcf
+function instead, which also contains stub information as well as the schedule end date and the payment
+frequency:
+
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+  :language: daml
+  :start-after: -- CALCULATE_ACTACTISDA_DCF_SCHEDULE_PERIOD_BEGIN
+  :end-before: -- CALCULATE_ACTACTISDA_DCF_SCHEDULE_PERIOD_END
