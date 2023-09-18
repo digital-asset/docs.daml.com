@@ -205,7 +205,7 @@ The type of access token that PQS expects is Audience / Scope based tokens (see 
 
 Scribe will obtain tokens from the Authorization Server on startup, and it will reauthenticate before the token expires. If Scribe fails authorization, it will terminate with an error for the service orchestration infrastructure to respond appropriately.
 
-If you are unauthenticated then you will need to supply the Party(s) you wish to include in your PQS since there is no 'user' to connect your list of ``readAs`` Party's with.   The ``-pipeline-parties`` argument is used for this and it acts as a filter that restricts the data to that visible to the supplied list of party identifiers.  ``--pipeline-parties`` allows you to filter that down to a subset of the accessible parties. An example is ``--pipeline-parties Alice::12209942561b94adc057995f9ffca5a0b974953e72ba25e0eb158e05c801149639b9``.  If there is more than one party, then list all of the full party identifiers in a comma-separated list.
+If you are not authenticated, there is no user to connect to a list of ``readAs`` parties, so you must specify the parties using the ``-pipeline-parties`` argument. This argument acts as a filter, restricting the data to only what's visible to the supplied list of party identifiers. To specify multiple parties, provide the party identifiers in a comma-separated list. Example: ``--pipeline-parties Alice::12209942561b94adc057995f9ffca5a0b974953e72ba25e0eb158e05c801149639b9``
 
 The authentication of PQS needs to match the participant nodes (PN) setup.  For
 example, if PQS is run with authentication by setting OAuth and the PN is not
