@@ -141,17 +141,55 @@ Schedule
 While the above RollConvention functions can be useful on their own, they are often required in the
 context of rolling out a schedule. This functionality is included in the Schedule module.
 
-For example, let us define a periodic schedule
+For example, let us define a periodic 3M schedule that rolls on the 30th of the month:
 
-We can then roll out this schedule to get the specific start and end date for each period. These
-dates are both available as adjusted and unadjusted.
-createSchedule
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+  :language: daml
+  :start-after: -- CREATE_PERIODIC_SCHEDULE_BEGIN
+  :end-before: -- CREATE_PERIODIC_SCHEDULE_END
 
-An important aspect of schedules is the concept of stub periods. For example, consider a yearly
-schedule between Jan 15 2023 and May 15 2025. Clearly, regular periods are not sufficient here.
-Instead, we need to define a stub period, so that the rest of the schedule is regular:
-periodic schedule
-createSchedule
+We would expect this period schedule to correspond to four periods of 3M each:
+
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+  :language: daml
+  :start-after: -- CREATE_EXPECTED_SCHEDULE_RESULT_BEGIN
+  :end-before: -- CREATE_EXPECTED_SCHEDULE_RESULT_END
+
+Now, let us roll out this schedule to get the specific start and end date for each period, and
+compare it to the expected result:
+
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+  :language: daml
+  :start-after: -- CREATE_SCHEDULE_BEGIN
+  :end-before: -- CREATE_SCHEDULE_END
+
+An important aspect of schedules is the concept of stub periods. The above schedule only had regular
+3M periods. However, if the sample schedule would start one month later:
+
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+  :language: daml
+  :start-after: -- CREATE_PERIODIC_SCHEDULE_WITH_STUB_BEGIN
+  :end-before: -- CREATE_PERIODIC_SCHEDULE_WITH_STUB_END
+
+it would only have 11 months in total, which is does not match with neither
+3 nor 4 regular 3M periods. Instead, we need to define a stub period, so that the rest of the schedule is regular.
+In the example above, we did this by defining a start date for the first regular period. This implies a short initial
+stub period, in our case 2 months. We would expect the following schedule:
+
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+  :language: daml
+  :start-after: -- CREATE_EXPECTED_SCHEDULE_RESULT_WITH_STUB_BEGIN
+  :end-before: -- CREATE_EXPECTED_SCHEDULE_RESULT_WITH_STUB_END
+
+Different stub types can be configured using the StubPeriodTypeEnum (link) data type.
+
+Again, let us roll out this schedule to get the and
+compare it to the expected result:
+
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+  :language: daml
+  :start-after: -- CREATE_SCHEDULE_WITH_STUB_BEGIN
+  :end-before: -- CREATE_SCHEDULE_WITH_STUB_END
 
 DayCount
 ========
