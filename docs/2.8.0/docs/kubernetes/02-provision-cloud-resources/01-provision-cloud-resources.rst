@@ -1,0 +1,268 @@
+.. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. SPDX-License-Identifier: Apache-2.0
+
+Provisioning Cloud Resources with Terraform
+###########################################
+
+.. note::
+   All the resources created are private, nothing is being exposed over the public internet.
+
+Objectives
+**********
+
+This section of the guide focuses on the following objectives:
+
+* Configure Azure access and `configure Terraform <https://www.terraform.io/>`_.
+* Create resources in your Azure subscription required for deploying Daml Enterprise.
+* Initialize databases and configure Kubernetes secrets.
+* Copy Daml Enterprise images into Azure Container Registry.
+
+The following diagram provides an overview of the target state that the Terraform configuration is aiming to achieve. For details, please consult the `Terraform configuration files <https://github.com/DACH-NY/0-to-k8-canton-doc-temp-space/tree/main/src/terraform>`_ and the :ref:`default IPv4 addressing plan <default-addressing-plan>`.
+
+.. image:: ../images/azure.png
+   :alt: Azure Infrastructure Overview
+
+Prerequisites
+*************
+
+* `jq <https://jqlang.github.io/jq/download/>`_ [\ ``1.5+``\ ]
+* `Azure CLI <https://learn.microsoft.com/en-us/cli/azure/install-azure-cli>`_ [latest]
+* `Terraform <https://developer.hashicorp.com/terraform/downloads>`_ [\ ``1.4+``\ ]
+* `regctl <https://github.com/regclient/regclient/blob/main/docs/install.md>`_ [\ ``0.4``\ +]
+* `PostgreSQL interactive terminal <https://www.postgresql.org/download/>`_ [\ ``14+``\ ]
+* `Kubernetes command-line tool <https://kubernetes.io/docs/tasks/tools/>`_ [\ ``1.25+``\ ]
+* `Helm <https://helm.sh/docs/intro/install/>`_ [\ ``3.9+``\ ]
+* `Helmfile (optional) <https://helmfile.readthedocs.io/>`_ [\ ``0.150+``\ ]
+
+Steps
+*****
+
+.. note::
+   All the below steps assume that your working directory is ``src/terraform``.
+
+Create SSH Key for Accessing Bastion
+====================================
+
+You need to provide an existing SSH key pair to access the proxy (aka bastion) that will be created, you can create a new one using this command:
+
+.. code-block:: sh
+
+   ssh-keygen -m PEM -t rsa -b 4096 -f /path/to/ssh/key -C 'bastion@zero.k8s'
+
+Set Up Your Azure Account
+=========================
+
+Log in to Azure and select the target subscription (if you have multiple ones):
+
+.. code-block:: bash
+
+   az login
+   az account list
+   az account set --subscription <subscription_id>
+
+Configure Terraform
+===================
+
+To configure Terraform for your Azure subscription, follow the below steps:
+
+* You need to provide an existing Azure resource group, you can create a new one using this command:
+
+  .. code-block:: bash
+
+     az group create --name <resource_group_name> --location <location>
+
+* Create your own backend configuration
+
+* Copy and customize variables the file :download:`sample.tfvars`, use the resource group you just created, you can use the file name ``terraform.tfvars`` to avoid passing argument ``--var-file=/path/to/file.tfvars`` each run.
+
+.. note::
+   There are multiple ways to `configure the backend <https://developer.hashicorp.com/terraform/language/settings/backends/configuration>`_ and manage different environments (development, staging, production, etc.) within the same repository, you should pick the appropriate solution for your needs! For local testing the `default backend <https://developer.hashicorp.com/terraform/language/settings/backends/configuration#default-backend>`_ suffices.
+
+To learn more about Terraform, please consult the `official Terraform documentation <https://developer.hashicorp.com/terraform/tutorials>`_.
+
+Initialize Terraform and Preview Execution Plan
+===============================================
+
+To initialize Terraform and the directory containing Terraform configuration files:
+
+.. code-block:: sh
+
+   terraform init
+   terraform plan
+
+The last command displays the Terraform execution plan, which indicates the changes that Terraform intends to make to your Azure subscription.
+
+Apply Changes Proposed in the Execution Plan
+============================================
+
+To apply the proposed changes in the execution plan, use the below command:
+
+.. code-block:: bash
+
+   terraform apply
+
+.. note::
+   It takes 15 to 20 minutes to create an AKS cluster on your first Terraform apply.
+
+Access to Kubernetes API
+========================
+
+There are different ways to configure access to the Kubernetes API using the CLI. Choose one option and proceed.
+
+a) Using a kubectl configuration context (recommended)
+------------------------------------------------------
+
+* Open new terminal to make an SSH tunnel (available on ``localhost:44443``\ ):
+
+  .. code-block:: bash
+
+     make kubectl-proxy
+
+* Merge and switch to the new ``kubectl`` configuration (aka ``kubeconfig``\ ) to your AKS cluster using the SSH tunnel:
+
+  .. code-block:: bash
+
+     ./bootstraps/merge-kubeconfig.sh
+
+* Run commands ``kubectl``\ , ``helm``\ , ``helmfile``\ , etc. as usual
+
+b) Targeting the kubectl configuration file
+-------------------------------------------
+
+* Open new terminal to make an SSH tunnel (available on ``localhost:44443``\ ):
+
+  .. code-block:: bash
+
+     make kubectl-proxy
+
+* Set Kubernetes CLI configuration file (lost if you use a new/different terminal)
+
+  .. code-block:: bash
+
+     export KUBECONFIG="$(pwd)/outputs/kube/ssh.config"
+
+* Run commands ``kubectl``\ , ``helm``\ , ``helmfile``\ , etc. as usual
+
+Access to PostgreSQL
+====================
+
+To enable accessing to the provisioned PostgreSQL server:
+
+* Open a new terminal to make an SSH tunnel (available on ``localhost:5432``\ )
+
+  .. code-block:: bash
+
+     make psql-proxy
+
+* To connect to the PostgreSQL server using admin credentials:
+
+  .. code-block:: bash
+
+     make psql
+
+Set up PostgreSQL & Kubernetes secrets
+======================================
+
+To complete the PostgreSQL server setup required for deploying Daml Enterprise components, creating roles/database, storing passwords into Key Vault, and creating Kubernetes secrets:
+
+.. code-block:: bash
+
+   ./bootstraps/postgresql.sh
+
+Copy Container Images to Azure Container Registry
+=================================================
+
+To copy container images from Digital Asset's Artifactory to ACR, run the following:
+
+.. code-block:: bash
+
+   ./bootstraps/clone-images.sh <daml-enterprise-version>
+
+Next Steps
+**********
+
+Now you should have all cloud resources provisioned and set up, so you may proceed to :doc:`Deploy Dependencies <../03-deploy-dependencies/00-intro>`.
+
+Deployment Details
+******************
+
+Interacting with deployment
+===========================
+
+To help you interact with the deployment, we have added a ``Makefile`` under ``src/terraform``. You may list all the supported commands available by invoking ``make help`` or simply ``make``.
+
+Access to bastion/proxy
+=======================
+
+To connect to the bastion VM provisioned using SSH:
+
+.. code-block:: sh
+
+   make bastion
+
+.. note::
+   Only the public IP of the machine used to run Terraform apply is allowed to connect by default, you can provide a static array of public IPs with Terraform variable ``admin_public_ips``.
+
+.. _default-addressing-plan:
+
+Default Private IPv4 Addressing Plan
+====================================
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - CIDR
+     - Start
+     - End
+     - Available IPs
+   * - Virtual network
+     - ``10.0.0.0/16``
+     - ``10.0.0.0``
+     - ``10.0.255.255``
+     - ``65536``
+   * - Public subnet
+     - ``10.0.0.0/19``
+     - ``10.0.0.0``
+     - ``10.0.31.255``
+     - ``8192``
+   * - Private subnet
+     - ``10.0.32.0/19``
+     - ``10.0.32.0``
+     - ``10.0.63.255``
+     - ``8191``
+   * - AKS internal load balancer
+     - ``10.0.63.1/32``
+     - ``10.0.63.1``
+     - ``10.0.63.1``
+     - ``1``
+   * - AKS pods
+     - ``10.0.64.0/19``
+     - ``10.0.64.0``
+     - ``10.0.95.255``
+     - ``8192``
+   * - AKS services
+     - ``10.0.96.0/22``
+     - ``10.0.96.0``
+     - ``10.0.99.255``
+     - ``1024``
+   * - AKS ingresses
+     - ``10.0.100.0/22``
+     - ``10.0.100.0``
+     - ``10.0.103.255``
+     - ``1024``
+   * - Database subnet
+     - ``10.0.104.0/24``
+     - ``10.0.104.0``
+     - ``10.0.104.255``
+     - ``256``
+   * - Space (1)
+     - ``10.0.105.0/17``
+     - ``10.0.105.0``
+     - ``10.0.127.255``
+     - ``5888``
+   * - Space (2)
+     - ``10.0.128.0/17``
+     - ``10.0.128.0``
+     - ``10.0.255.255``
+     - ``32768``
