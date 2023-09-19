@@ -54,7 +54,7 @@ The historical table below lists the available Early Access releases of the Part
 |               | ``--pipeline-filter`` option.                       |
 +---------------+-----------------------------------------------------+
 | `2023-09-19`_ | New release. JDBC driver fix to not inject ``?``.   |
-|               | ``--target-postgres-autoapplyschema`` renamed to     |
+|               | ``--target-postgres-autoapplyschema`` renamed to    |
 |               | ``--target-schema-autoapply``                       |
 +---------------+-----------------------------------------------------+
 
