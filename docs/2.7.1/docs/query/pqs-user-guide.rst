@@ -53,11 +53,16 @@ The historical table below lists the available Early Access releases of the Part
 |               | options and added information about using           |
 |               | ``--pipeline-filter`` option.                       |
 +---------------+-----------------------------------------------------+
+| `2023-09-19`_ | New release. JDBC drvier fix to not inject ``?``.   |
+|               | ``--target-postgres-autoapplyschema`` renamd to     |
+|               | ``--target-schema-autoapply``                       |
++---------------+-----------------------------------------------------+
 
 .. _2023-08-09: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B2986-e45c930.tar.gz
 .. _2023-08-31: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B3614-6b5f082.tar.gz
 .. _2023-09-06: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B3614-6b5f082.tar.gz
 .. _2023-09-18: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B3614-6b5f082.tar.gz
+.. _2023-09-19: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B4004-3b542d2.tar.gz
 
 Overview
 ********
@@ -291,11 +296,11 @@ You can discover commands and parameters through the embedded ``--help`` (rememb
       --target-postgres-tls-cert file              Client's certificate (optional)
       --target-postgres-tls-key file               Client's private key (optional)
       --target-postgres-tls-cafile file            Trusted Certificate Authority (CA) certificate (optional)
-      --target-postgres-autoapplyschema boolean    Apply metadata inferred schema on startup (default: true)
       --target-postgres-password string            Postgres user password (default: ********)
       --target-postgres-username string            Postgres user name (default: postgres)
       --target-postgres-database string            Postgres database (default: postgres)
       --target-postgres-port int                   Postgres port (default: 5432)
+      --target-schema-autoapply boolean            Apply metadata inferred schema on startup (default: true)
       --source-ledger-host string                  Ledger API host (default: localhost)
       --source-ledger-auth enum                    Authorisation mode (default: NoAuth)
       --source-ledger-tls-cafile file              Trusted Certificate Authority (CA) certificate (optional)

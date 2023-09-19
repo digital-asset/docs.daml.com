@@ -53,11 +53,16 @@ The historical table below lists the available Early Access releases of the Part
 |               | options and added information about using           |
 |               | ``--pipeline-filter`` option.                       |
 +---------------+-----------------------------------------------------+
+| `2023-09-19`_ | New release. JDBC drvier fix to not inject ``?``.   |
+|               | ``--target-postgres-autoapplyschema`` renamd to     |
+|               | ``--target-schema-autoapply``                       |
++---------------+-----------------------------------------------------+
 
 .. _2023-08-09: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B2986-e45c930.tar.gz
 .. _2023-08-31: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B3614-6b5f082.tar.gz
 .. _2023-09-06: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B3614-6b5f082.tar.gz
 .. _2023-09-18: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B3614-6b5f082.tar.gz
+.. _2023-09-19: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B4004-3b542d2.tar.gz
 
 Overview
 ********
@@ -91,21 +96,21 @@ PQS is not directly involved in querying/reading the datastore - the
 application is free to query it, such as via JDBC.  The objectives of the
 schema design is to facilitate:
 
--  *Scaleable writes*: transactions are written in parallel, ensuring that
+-  *Scaleable writes*: transactions are written in parallel, so
    writes do not need to be sequential.
--  *Scaleable reads*: queries are able to be parallelized, and are not
-   blocked by writes. They produce sensible query plans, that do not
-   produce unnecessary table scans.
+-  *Scaleable reads*: queries can be parallelized and are not
+   blocked by writes. They produce sensible query plans with no
+   unnecessary table scans.
 -  *Ease of use*: readers are able to use familiar tools and techniques to
    query the datastore, without needing to understand the specifics of
-   the schema design. Instead they are able to use simple entry-points
-   that provide access to data in familar ways. In particular, readers
+   the schema design. Simple entry points
+   provide access to data in familiar ways. In particular, readers
    do not need to navigate the offset-based model.
 -  *Read consistency*: readers are able to achieve the level of
    consistency that they require, including consistency with other
-   ledger datastores, or ledger commands that have been executed.
+   ledger datastores, or with ledger commands that have been executed.
 
-To facilitate these objectives, the following principles have been used:
+The following principles apply:
 
 -  *Append-only*: only INSERTs are used, and no UPDATEs or DELETEs are
    used in transaction processin.
@@ -291,11 +296,11 @@ You can discover commands and parameters through the embedded ``--help`` (rememb
       --target-postgres-tls-cert file              Client's certificate (optional)
       --target-postgres-tls-key file               Client's private key (optional)
       --target-postgres-tls-cafile file            Trusted Certificate Authority (CA) certificate (optional)
-      --target-postgres-autoapplyschema boolean    Apply metadata inferred schema on startup (default: true)
       --target-postgres-password string            Postgres user password (default: ********)
       --target-postgres-username string            Postgres user name (default: postgres)
       --target-postgres-database string            Postgres database (default: postgres)
       --target-postgres-port int                   Postgres port (default: 5432)
+      --target-schema-autoapply boolean            Apply metadata inferred schema on startup (default: true)
       --source-ledger-host string                  Ledger API host (default: localhost)
       --source-ledger-auth enum                    Authorisation mode (default: NoAuth)
       --source-ledger-tls-cafile file              Trusted Certificate Authority (CA) certificate (optional)
@@ -623,7 +628,7 @@ information.
 A Daml transaction is a collection of events that take effect on the
 ledger atomically. However it needs to be noted that for performance
 reasons these transactions are written to the datastore *in parallel*,
-and although the datastore is written to in a purely append-only fashion,
+and while the datastore is written to in a purely append-only fashion,
 it is not guaranteed that these transactions will become visible to
 readers in order. The offset-based model makes the database’s isolation
 level irrelevant - so the loosest model (``read uncommitted``) is not
