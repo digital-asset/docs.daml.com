@@ -628,7 +628,7 @@ information.
 A Daml transaction is a collection of events that take effect on the
 ledger atomically. However it needs to be noted that for performance
 reasons these transactions are written to the datastore *in parallel*,
-and while the datastore is written to in a purely append-only fashion,
+and although the datastore is written to in a purely append-only fashion,
 it is not guaranteed that these transactions will become visible to
 readers in order. The offset-based model makes the database’s isolation
 level irrelevant - so the loosest model (``read uncommitted``) is not
