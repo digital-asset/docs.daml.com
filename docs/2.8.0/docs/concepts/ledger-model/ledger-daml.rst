@@ -60,10 +60,7 @@ is a triple of:
 #. the template arguments
 
 The signatories of a Daml contract are derived from the template arguments and the explicit signatory annotations on the contract template.
-The contract observers are also derived from the template arguments and include:
-
-1. the observers as explicitly annotated on the template
-2. all controllers `c` of every choice defined using the syntax :code:`controller c can...` (as opposed to the syntax :code:`choice ... controller c`)
+The contract observers are those explicitly defined in the template using the ``observer`` keyword.
 
 For example, the following template exactly describes the contract model
 of a simple IOU with a unit amount, shown earlier.
