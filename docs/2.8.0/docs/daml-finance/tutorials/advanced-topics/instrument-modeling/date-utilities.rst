@@ -87,7 +87,7 @@ utility functions to add a period to a given date.
 
 For example, you can add a day, week, month or a year to a given date:
 
-.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/RollConvention.daml
   :language: daml
   :start-after: -- TEST_ADD_PERIOD_DAY_WEEK_MONTH_YEAR_BEGIN
   :end-before: -- TEST_ADD_PERIOD_DAY_WEEK_MONTH_YEAR_END
@@ -95,14 +95,14 @@ For example, you can add a day, week, month or a year to a given date:
 This function can also handle edge cases, for example when adding a period of one month to a date
 that may not exist, because the resulting month has fewer days than the starting month:
 
-.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/RollConvention.daml
   :language: daml
   :start-after: -- TEST_ADD_PERIOD_MONTH_END_EDGE_CASE_BEGIN
   :end-before: -- TEST_ADD_PERIOD_MONTH_END_EDGE_CASE_END
 
 If you need to *subtract* a period, just use a negative offset:
 
-.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/RollConvention.daml
   :language: daml
   :start-after: -- TEST_ADD_PERIOD_NEGATIVE_OFFSET_BEGIN
   :end-before: -- TEST_ADD_PERIOD_NEGATIVE_OFFSET_END
@@ -114,35 +114,35 @@ The *Roll convention* specifies which date to use in the next period.
 
 For example, we can define an end-of-month roll:
 
-.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/RollConvention.daml
   :language: daml
   :start-after: -- TEST_NEXT_EOM_BEGIN
   :end-before: -- TEST_NEXT_EOM_END
 
 Alternatively, we can also define a roll to a specific day of the month:
 
-.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/RollConvention.daml
   :language: daml
   :start-after: -- TEST_NEXT_DOM1_BEGIN
   :end-before: -- TEST_NEXT_DOM1_END
 
 If the resulting month does not have enough days, it will default to the last day of the month:
 
-.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/RollConvention.daml
   :language: daml
   :start-after: -- TEST_NEXT_DOM_PAST_EOM_BEGIN
   :end-before: -- TEST_NEXT_DOM_PAST_EOM_END
 
 This function also takes leap days into account:
 
-.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/RollConvention.daml
   :language: daml
   :start-after: -- TEST_NEXT_DOM_PAST_EOFEB_BEGIN
   :end-before: -- TEST_NEXT_DOM_PAST_EOFEB_END
 
 Similarly, it is possible to roll to the *previous* period:
 
-.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/RollConvention.daml
   :language: daml
   :start-after: -- TEST_PREVIOUS_DOM_FROM_EOFEB_BEGIN
   :end-before: -- TEST_PREVIOUS_DOM_FROM_EOFEB_END
@@ -163,7 +163,7 @@ A schedule can be used to represent different aspects of a financial instrument,
 
 For example, let us define a periodic 3M schedule that rolls on the 30th of the month:
 
-.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Schedule.daml
   :language: daml
   :start-after: -- CREATE_PERIODIC_SCHEDULE_BEGIN
   :end-before: -- CREATE_PERIODIC_SCHEDULE_END
@@ -171,7 +171,7 @@ For example, let us define a periodic 3M schedule that rolls on the 30th of the 
 Since there is one year between the start and the end date, we would expect this periodic schedule
 to correspond to four periods of 3M each:
 
-.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Schedule.daml
   :language: daml
   :start-after: -- CREATE_EXPECTED_SCHEDULE_RESULT_BEGIN
   :end-before: -- CREATE_EXPECTED_SCHEDULE_RESULT_END
@@ -185,7 +185,7 @@ we also get an adjusted date, which must fall on a business day.
 Now, let us roll out this schedule to get the specific start and end date for each period, and
 compare it to the expected result:
 
-.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Schedule.daml
   :language: daml
   :start-after: -- CREATE_SCHEDULE_BEGIN
   :end-before: -- CREATE_SCHEDULE_END
@@ -193,7 +193,7 @@ compare it to the expected result:
 An important aspect of schedules is the concept of *stub periods*. The above schedule only had
 regular 3M periods. However, if the sample schedule would start one month later:
 
-.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Schedule.daml
   :language: daml
   :start-after: -- CREATE_PERIODIC_SCHEDULE_WITH_STUB_BEGIN
   :end-before: -- CREATE_PERIODIC_SCHEDULE_WITH_STUB_END
@@ -203,7 +203,7 @@ Instead, we need to define a stub period, so that the rest of the schedule is re
 In the example above, we did this by defining a start date for the first regular period. This
 implies a short initial stub period, in our case 2 months. We would expect the following schedule:
 
-.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Schedule.daml
   :language: daml
   :start-after: -- CREATE_EXPECTED_SCHEDULE_RESULT_WITH_STUB_BEGIN
   :end-before: -- CREATE_EXPECTED_SCHEDULE_RESULT_WITH_STUB_END
@@ -215,7 +215,7 @@ schedule, as well as whether the stub period should be longer or shorter than a 
 
 Let us roll out this schedule, which includes a stub period, and compare it to the expected result:
 
-.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Schedule.daml
   :language: daml
   :start-after: -- CREATE_SCHEDULE_WITH_STUB_BEGIN
   :end-before: -- CREATE_SCHEDULE_WITH_STUB_END
@@ -241,7 +241,7 @@ which are supported using the
 For example, consider the schedule with a short initial stub in the previous section. Assume we want
 to use the ``Act360`` day count convention:
 
-.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/DayCount.daml
   :language: daml
   :start-after: -- CALCULATE_ACT360_DCF_PERIOD1_BEGIN
   :end-before: -- CALCULATE_ACT360_DCF_PERIOD1_END
@@ -253,7 +253,7 @@ interest rate of the instrument, e.g. 4% per annum.
 We can compare this initial day count fraction with those of the 2nd and 3rd periods of this
 schedule, which are both regular (3M):
 
-.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/DayCount.daml
   :language: daml
   :start-after: -- CALCULATE_ACT360_DCF_PERIOD2AND3_BEGIN
   :end-before: -- CALCULATE_ACT360_DCF_PERIOD2AND3_END
@@ -273,7 +273,7 @@ They can be calculated using the
 instead, which takes a schedule period (containing stub information) as input, as well as the
 schedule end date and the payment frequency:
 
-.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
+.. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/DayCount.daml
   :language: daml
   :start-after: -- CALCULATE_ACTACTISDA_DCF_SCHEDULE_PERIOD_BEGIN
   :end-before: -- CALCULATE_ACTACTISDA_DCF_SCHEDULE_PERIOD_END
