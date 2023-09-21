@@ -212,6 +212,31 @@ using the custom target audience configuration option:
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/ledger-api-target-audience.conf
 
+Ledger API Caches
+^^^^^^^^^^^^^^^^^
+
+The ``max-contract-state-cache-size`` and ``max-contract-key-state-cache-size`` parameters control the sizes of the
+ledger api contract and contract key caches respectively. Modifying these parameters changes the likelihood that a
+transaction using a contract or a contract-key that was recently accessed (created or read) can still find it in the
+memory rather than need to query it from the database. Larger caches might be of interest when there is a big pool of
+ambient contracts that are consistently being fetched or used for non consuming exercises. It may also benefit those
+use cases where a big pool of contracts is being rotated through a create -> archive -> create-successor cycle.
+Consider adjusting these parameters explicitly if the performance of your specific workflow depends on large caches.
+
+.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/03-advanced-configuration/api/large-ledger-api-cache.conf
+
+Max Transactions in the In-Memory Fan-Out
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The ``max-transactions-in-memory-fan-out-buffer-size`` parameter controls the size of the in-memory fan-out buffer.
+This buffer allows serving the transaction streams from memory as they are finalized, rather than from the database.
+You should choose this buffer to be large enough such that the likelihood of applications having to stream transactions
+from the database is low. Generally, having a 10s buffer is sensible. Therefore, if you expect a throughput of 20 tx/s,
+then setting this number to 200 is sensible. The new default setting of 1000 assumes 100 tx/s.
+Consider adjusting this parameters explicitly if the performance of your workflow foresees transaction rates larger
+than 100 tx/s.
+
+.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/03-advanced-configuration/api/large-in-memory-fan-out.conf
 
 Domain Configurations
 ---------------------
