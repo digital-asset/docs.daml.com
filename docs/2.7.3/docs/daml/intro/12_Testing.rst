@@ -623,7 +623,7 @@ to a report that ignores ``Archive`` choices in all cases:
 
 .. code-block::
 
-  > daml test --show-coverage
+  > daml test --show-coverage --coverage-ignore-choice ':Archive$'
   ...
   - Internal template choices
   7 defined
