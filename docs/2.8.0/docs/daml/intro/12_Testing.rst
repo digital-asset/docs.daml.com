@@ -194,7 +194,7 @@ Flags Controlling Report
 
 Enabling ``--show-coverage`` tells the final printed report to include the names of any templates, choices, and interfaces which are not covered. By default, the report only reports the percentage of coverage.
 
-You can remove choices from the rendered coverage report with ``--coverage-ignore-choice PATTERN``. Any choices whose fully qualified names match the regular expression in ``PATTERN`` will be excluded from the generated text. Choices defined in the local package have are fully qualified as ``<module>:<template>:<choice name>``, and choices defined in external packages are fully qualified as ``<package id>:<module>:<template>:<choice name>``. More details on this are available in `Excluding Choices from the Coverage Report`_.
+You can remove choices from the rendered coverage report with ``--coverage-ignore-choice PATTERN``. This flag's behaviour is further documented in `Excluding Choices from the Coverage Report`_.
 
 Define templates, choices, and interfaces
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -595,7 +595,7 @@ Excluding Choices from the Coverage Report
 
 Sometimes we would like to exclude choices from the printed coverage report. To do this, we can use the ``--coverage-ignore-choice PATTERN``. Any choice whose fully qualified name matches the regular expression in ``PATTERN`` will be removed from the coverage report.
 
-Choices defined in the local package have are fully qualified as ``<module>:<template>:<choice name>``, and choices defined in external packages are fully qualified as ``<package id>:<module>:<template>:<choice name>``.
+Choices defined in the local package are fully qualified as ``<module>:<template>:<choice name>``, and choices defined in external packages are fully qualified as ``<package id>:<module>:<template>:<choice name>``. By defining our pattern to match different sections in the fully qualified names of our choices, we can exclude choices based on package id, module, template, or name.
 
 Example: Excluding Archive Choices
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -637,12 +637,12 @@ to a report that ignores ``Archive`` choices in all cases:
 Example: Excluding Choices from a Specific Module
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To exclude a specific module, e.g. ``MyModule`` from coverage, we will want to match for the "module" portion of our fully qualified name. We can do this by specifying ``--coverage-ignore-choice '(^|:)MyModule:[^:]*:[^:]*$'`` - this matches for any template and any choice, matches for our module name, and ignores the possible leading package identifier.
+To exclude a specific module (for example ``MyModule``) from coverage, we will want to match for the "module" portion of our fully qualified name. We can do this by specifying ``--coverage-ignore-choice '(^|:)MyModule:[^:]*:[^:]*$'`` - this matches for any template and any choice, matches for our module name, and ignores any leading package identifier.
 
 Excluding Choices from Serialized Reports
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To ensure that serialized data always reflects full coverage information, the flag does *not* eliminate the choices from serialization via the ``--save-coverage`` flag. Serialized reports saved to a file always contain all information collected -- the ``--coverage-ignore-choice`` flag only excludes choices from the printed report. This means any text report generated from serialized data will need to specify ``--coverage-ignore-choice`` every time it is generated.
+To ensure that serialized data always reflects full coverage information, the flag does **not** eliminate the choices from serialization via the ``--save-coverage`` flag. Serialized reports saved to a file always contain all information collected -- the ``--coverage-ignore-choice`` flag only excludes choices from the printed report. This means any text report generated from serialized data will need to specify ``--coverage-ignore-choice`` every time it is generated.
 
 Next Up
 -------
