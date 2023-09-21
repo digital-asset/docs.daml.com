@@ -127,9 +127,10 @@ instruct settlement for:
 - The payment of the cash dividend amount corresponding to the number of stocks held
 
 Both legs of this settlement are grouped in a
-:ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>` to provide atomicity. This
-ensures that the investor can never claim a dividend twice, as after settlement they only hold the
-new version of the stock, which is not entitled to the dividend anymore.
+:ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>` to provide atomicity. The
+goal of the batch is to take a v1 holding and return a v2 holding + $10. This ensures that the
+investor can never claim a dividend twice, as after settlement they only hold the new version of the
+stock, which is not entitled to the dividend anymore.
 
 .. image:: ../images/lifecycle_claim_effect.png
    :alt: The investor claims the lifecycle effect through the claim rule, passing in their ACME v1
