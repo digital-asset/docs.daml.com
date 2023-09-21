@@ -74,7 +74,9 @@ The initial state looks as follows:
    :alt: The issuer issues the ACME instrument. The investor owns a holding of 1000 ACME shares
          (version 1). The holding references the instrument.
 
-We will now explain each step in the process in detail.
+We will now explain each step in the process in detail. The goal of this process is that every
+holder of a v1 "cum-dividend" instrument will afterwards have $10 (for each share held) and a v2
+"ex-dividend" instrument.
 
 Creating the event
 ==================
