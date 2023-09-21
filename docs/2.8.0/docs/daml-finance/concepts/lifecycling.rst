@@ -128,9 +128,9 @@ instruct settlement for:
 
 Both legs of this settlement are grouped in a
 :ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>` to provide atomicity. The
-goal of the batch is to take a v1 holding and return a v2 holding + $10. This ensures that the
-investor can never claim a dividend twice, as after settlement they only hold the new version of the
-stock, which is not entitled to the dividend anymore.
+goal of the batch is to take a v1 holding and return a v2 holding + $10 (for each share held). This
+ensures that the investor can never claim a dividend twice, as after settlement they only hold the
+new version of the stock, which is not entitled to the dividend anymore.
 
 .. image:: ../images/lifecycle_claim_effect.png
    :alt: The investor claims the lifecycle effect through the claim rule, passing in their ACME v1
@@ -175,6 +175,10 @@ properties of a lifecycle event:
 - The event providers
 - The event identifier and description
 - The event timestamp
+
+In the context of the dividend example above, this could be an Issuer that declares a "Cash
+Dividend" effective as of now. The :doc:`Lifecycling tutorial <lifecycling>` describes how these
+components are used in practice.
 
 Different implementations exist to cover typical event types:
 
@@ -221,14 +225,25 @@ Lifecycling of Contingent Claims based instruments can be divided into two categ
 Note that some instruments can require both types of lifecycling. An example of this is a callable
 bond that is callable only on some of the coupon dates.
 
+Effects
+=======
+
+An :ref:`Effect <type-daml-finance-interface-lifecycle-effect-effect-69649>` describes the asset
+movements resulting from a particular event. It specifies these movements per unit of a target
+instrument and version. Holdings on this specific instrument version entitle a holder to claim the
+effect, which results in the required asset movements to be instructed. In our dividend example
+above, this would describe the following asset movement: take a v1 holding and return a v2 holding
++ $10 (per unit held). The actual movement of these assets is described in the next section.
+
 Claim Rule
 ==========
 
 The :ref:`Claim Rule <type-daml-finance-interface-lifecycle-rule-claim-claim-29284>` is used to
 claim lifecycle effects and instruct settlement thereof. Each effect specifies a target instrument
-(and version), and holdings on this instrument (version) are required to claim an effect. This
-serves as proof of ownership such that there is no need for an issuer to take a consistent snapshot
-of holdings as of a specific date.
+(and version), and holdings on this instrument (version) are required to claim an effect. In our
+dividend example above, the v1 instrument is the target instrument. This serves as proof of
+ownership such that there is no need for an issuer to take a consistent snapshot of holdings as of a
+specific date.
 
 The output of the claim rule is a
 :ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>` and a set of
@@ -238,11 +253,3 @@ an atomic unit of settlement.
 Note that multiple holdings can be passed into the claim rule in order to instruct intermediated
 settlement of an effect, or to instruct atomic settlement for multiple asset holders at the same
 time.
-
-Effects
-=======
-
-An :ref:`Effect <type-daml-finance-interface-lifecycle-effect-effect-69649>` describes the asset
-movements resulting from a particular event. It specifies these movements per unit of a target
-instrument and version. Holdings on this specific instrument version entitle a holder to claim the
-effect, which results in the required asset movements to be instructed.
