@@ -114,6 +114,10 @@ we prevent holders from (accidentally or intentionally) claiming a particular ef
    :alt: The issuer processes the distribution event through the distribution rule, creating a
          lifecycle effect. The effect references ACME v1 as a target instrument.
 
+These components are described in more detail in the Components section below. For simplicity, we
+have chosen a dividend as an example here, but the same workflow can be used to process more
+advanced instruments.
+
 Claiming the effect
 ===================
 
