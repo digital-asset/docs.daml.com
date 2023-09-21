@@ -593,9 +593,9 @@ If a test failure causes one ``daml test`` to fail, other coverage results from 
 Excluding Choices from the Coverage Report
 ------------------------------------------
 
-Sometimes we would like to exclude choices from the printed coverage report. To do this, we can use the ``--coverage-ignore-choice PATTERN``. Any choice whose fully qualified name matches the regular expression in ``PATTERN`` will be removed from the coverage report.
+Sometimes we would like to exclude choices from the printed coverage report because we aren't interested in them. To do this, we can use the ``--coverage-ignore-choice PATTERN``. Any choice whose fully qualified name matches the regular expression in ``PATTERN`` will be removed from the coverage report. This means that the choice will not be included in counts of defined choices, nor in counts of exercised choices - it will be as if that choice did not exist.
 
-Choices defined in the local package are fully qualified as ``<module>:<template>:<choice name>``, and choices defined in external packages are fully qualified as ``<package id>:<module>:<template>:<choice name>``. By defining our pattern to match different sections in the fully qualified names of our choices, we can exclude choices based on package id, module, template, or name.
+The fully qualified name of a choice is different depending on whether the choice is defined in the local package or in an external package. Choices defined in the local package are fully qualified as ``<module>:<template>:<choice name>``. Choices defined in external packages are fully qualified as ``<package id>:<module>:<template>:<choice name>``. By defining our pattern to match different sections in the fully qualified names of our choices, we can exclude choices based on package id, module, template, or name.
 
 Example: Excluding Archive Choices
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
