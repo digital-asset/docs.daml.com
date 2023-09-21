@@ -74,9 +74,9 @@ The initial state looks as follows:
    :alt: The issuer issues the ACME instrument. The investor owns a holding of 1000 ACME shares
          (version 1). The holding references the instrument.
 
-We will now explain each step in the process in detail. The goal of this process is that every
-holder of a v1 "cum-dividend" instrument will afterwards have $10 (for each share held) and a v2
-"ex-dividend" instrument.
+We will now explain each step in the process in detail. The goal is that every holder of a v1
+"cum-dividend" instrument will afterwards have $10 (for each share held) and a v2 "ex-dividend"
+instrument.
 
 Creating the event
 ==================
@@ -95,6 +95,9 @@ can be used to create new instrument versions and associated lifecycle events.
 .. image:: ../images/lifecycle_create_event.png
    :alt: The issuer creates a new ACME v2 instrument. They also create a distribution
          event by declaring a dividend on the ACME v1 instrument.
+
+Note that there is only one instrument (the v1) paying a dividend, so there will be one distribution
+event.
 
 Processing the event
 =====================
