@@ -116,7 +116,8 @@ we prevent holders from (accidentally or intentionally) claiming a particular ef
 
 These components are described in more detail in the Components section below. For simplicity, we
 have chosen a dividend as an example here, but the same workflow can be used to process more
-advanced instruments.
+advanced instruments involving more complex calculations and where the resulting v2 instrument is
+automatically defined and produced.
 
 Claiming the effect
 ===================
