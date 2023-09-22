@@ -75,8 +75,8 @@ The initial state looks as follows:
          (version 1). The holding references the instrument.
 
 We will now explain each step in the process in detail. The goal is that every holder of a v1
-"cum-dividend" instrument will afterwards have $10 (for each unit of instrument held) and a holding on the v2 "ex-dividend"
-instrument.
+"cum-dividend" instrument will afterwards have $10 (for each unit of instrument held) and a holding
+on the v2 "ex-dividend" instrument.
 
 Creating the event
 ==================
