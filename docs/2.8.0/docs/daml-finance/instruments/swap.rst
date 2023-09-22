@@ -69,8 +69,9 @@ Just as for bonds, we can use these variables to create a
   :start-after: -- CREATE_PERIODIC_SCHEDULE_BEGIN
   :end-before: -- CREATE_PERIODIC_SCHEDULE_END
 
-Check out the :doc:`Date utility tutorial <instrument-modeling/contingent-claims-instrument>` for
-more details on calendars, schedules and day count utility functions.
+Check out the
+:doc:`Date utility tutorial <../tutorials/instrument-modeling/contingent-claims-instrument>`
+for more details on calendars, schedules and day count utility functions.
 
 Note that this instrument only has one periodic schedule, which is used for both the fixed and the
 floating leg.
