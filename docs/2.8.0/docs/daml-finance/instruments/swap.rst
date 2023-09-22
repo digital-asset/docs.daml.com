@@ -70,7 +70,7 @@ Just as for bonds, we can use these variables to create a
   :end-before: -- CREATE_PERIODIC_SCHEDULE_END
 
 Check out the
-:doc:`Date utility tutorial <../tutorials/instrument-modeling/contingent-claims-instrument>`
+:doc:`Date utility tutorial <../tutorials/advanced-topics/instrument-modeling/date-utilities>`
 for more details on calendars, schedules and day count utility functions.
 
 Note that this instrument only has one periodic schedule, which is used for both the fixed and the

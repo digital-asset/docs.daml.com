@@ -82,7 +82,7 @@ to note here:
   stub period.
 
 Check out the
-:doc:`Date utility tutorial <../tutorials/instrument-modeling/contingent-claims-instrument>`
+:doc:`Date utility tutorial <../tutorials/advanced-topics/instrument-modeling/date-utilities>`
 for more details on calendars, schedules and day count utility functions.
 
 Now that we have defined the terms we can create the bond instrument:
