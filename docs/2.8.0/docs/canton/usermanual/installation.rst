@@ -123,8 +123,8 @@ First, pull Postgres and start it up.
 
 .. code-block:: bash
 
-    docker pull postgres:11
-    docker run --rm --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432 postgres:11
+    docker pull postgres:14.8-bullseye
+    docker run --rm --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432 postgres:14.8-bullseye
 
 Then, you can run ``psql`` using:
 

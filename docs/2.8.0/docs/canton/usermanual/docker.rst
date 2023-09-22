@@ -97,7 +97,7 @@ container using the following, helpful command:
 .. code-block:: bash
 
     docker run -d --rm --name canton-postgres --shm-size=256mb --publish 5432:5432 -e POSTGRES_USER=test-user
-        -e POSTGRES_PASSWORD=test-password postgres:11 postgres -c max_connections=500
+        -e POSTGRES_PASSWORD=test-password postgres:14.8-bullseye postgres -c max_connections=500
 
 Please note that the ``--publish`` command allows us to pick the target port which we have to define in the
 Canton configuration file. The ``--rm`` will delete the data store once the docker container is killed. This is
