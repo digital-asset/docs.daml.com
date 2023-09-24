@@ -169,5 +169,5 @@ own first Daml application.
 #. Use the `Daml language reference docs <https://docs.daml.com/daml/reference/index.html>`__ to master Daml and build your own Daml model.
 #. Test your model using `Daml scripts <https://docs.daml.com/daml-script/index.html>`__.
 #. Create a simple UI following the example of the `Create Daml App <https://docs.daml.com/getting-started/index.html>`__ template used in this tutorial.
-#. See how to compose :ref:`workflows across multiple Canton domains <canton-composability>`.
+#. See how to compose :ref:`workflows across multiple Canton synchronization domains <canton-composability>`.
 #. Showcase your application on `the forum <https://discuss.daml.com/>`__.

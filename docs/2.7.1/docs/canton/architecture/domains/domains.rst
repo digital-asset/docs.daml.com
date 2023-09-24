@@ -5,10 +5,10 @@
 
 .. _domain-architecture:
 
-Domain Architecture and Integrations
-####################################
+Synchronization Domain Architecture and Integrations
+####################################################
 
-Recall the high-level topology with Canton domains being backed by different
+Recall the high-level topology with Canton sync domains being backed by different
 technologies, such as a relational database as well as block-chains like
 Hyperledger Fabric or Ethereum.
 
@@ -17,51 +17,51 @@ Hyperledger Fabric or Ethereum.
    :align: center
    :width: 80%
 
-In this chapter we define the requirements specific to a Canton domain, explain
-the generic domain architecture, as well as the concrete integrations for Canton
-domains.
+In this chapter we define the requirements specific to a Canton sync domain, explain
+the generic sync domain architecture, as well as the concrete integrations for Canton
+sync domains.
 
-Domain-specific Requirements
-****************************
+Synchronization Domain-specific Requirements
+********************************************
 
 The :ref:`high-level requirements <requirements>` define requirements for Canton
-in general, covering both participant and domains. This section categorizes and
-expands on these high-level requirements and defines domain-specific
-requirements, both functional and non-functional ones.
+in general, covering both participants and sync domains. This section categorizes and
+expands on these high-level requirements and defines
+requirements specific to the sync domain, both functional and non-functional ones.
 
 Functional Requirements
 =======================
 
-The domain contributes to the high-level functional requirements in terms of
-facilitating the synchronization of changes. As the domain can only see
+The sync domain contributes to the high-level functional requirements in terms of
+facilitating the synchronization of changes. As the sync domain can only see
 encrypted transactions, refer to transaction privacy in the non-functional
 requirements, the functional requirements are satisfied on a lower level than
 the Daml transaction level.
 
   .. _synchronization-domain-req:
 
-* **Synchronization:** The domain must facilitate the synchronization of the
+* **Synchronization:** The sync domain must facilitate the synchronization of the
   shared ledger among participants by establishing a total-order of
   transactions.
 
   .. _transparency-domain-req:
 
-* **Transparency:** The domain must inform the designated participants timely on
+* **Transparency:** The sync domain must inform the designated participants in a timely fashion on
   changes to the shared ledger.
 
   .. _finality-domain-req:
 
-* **Finality:** The domain must facilitate the synchronization of the shared
+* **Finality:** The sync domain must facilitate the synchronization of the shared
   ledger in an append-only fashion.
 
   .. _unnecessary-rejects-domain-req:
 
-* **No unnecessary rejections:** The domain should minimize unnecessary
+* **No unnecessary rejections:** The sync domain should minimize unnecessary
   rejections of valid transactions.
 
   .. _seek-support-domain-req:
 
-* **Seek support for notifications:** The domain must facilitate offset-based
+* **Seek support for notifications:** The sync domain must facilitate offset-based
   access to the notifications of the shared ledger.
 
 
@@ -73,45 +73,45 @@ Reliability
 
   .. _fail-over-domain-req:
 
-* **Seamless fail-over for domain entities:** All domain entities must be able
+* **Seamless fail-over for sync domain entities:** All sync domain entities must be able
   to tolerate crash faults up to a certain failure rate, e.g., 1 sequencer node
   out of 3 can fail without interruption.
 
   .. _resilience-domain-req:
 
-* **Resilience to faulty domain behavior:** The domain must be able to detect
-  and recover from failures of the domain entities, such as performing a
+* **Resilience to faulty sync domain behavior:** The sync domain must be able to detect
+  and recover from failures of the sync domain entities, such as performing a
   fail-over on crash failures or retrying operations on transient failures if
-  possible. The domain should tolerate byzantine failures of the domain
+  possible. The sync domain should tolerate byzantine failures of the sync domain
   entities.
 
   .. _backups-domain-req:
 
-* **Backups:** The state of the domain entities have to be backed up such that
-  in case of disaster recovery only minimal amount of data is lost.
+* **Backups:** The state of the sync domain entities have to be backed up such that
+  in case of disaster recovery only a minimal amount of data is lost.
 
   .. _disaster-recovery-domain-req:
 
-* **Site-wide disaster recovery:** In case of a failure of a data-center hosting
-  a domain, the system must be able to fail-over to another data-center and
+* **Site-wide disaster recovery:** In case of a failure of a datacenter hosting
+  a sync domain, the system must be able to fail over to another datacenter and
   recover operations.
 
   .. _resilience-participants-domain-req:
 
-* **Resilience to erroneous behavior:** The domain must be resilient to
-  erroneous behavior from the participants interacting with the domain.
+* **Resilience to erroneous behavior:** The sync domain must be resilient to
+  erroneous behavior from the participants interacting with the sync domain.
 
 Scalability
 -----------
 
   .. _horizontal-scalability-domain-req:
 
-* **Horizontal scalability:** The parallelizable domain entities and their
+* **Horizontal scalability:** The parallelizable sync domain entities and their
   sub-components must be able to horizontally scale.
 
   .. _large-tx-domain-req:
 
-* **Large transaction support:** The domain entities must be able to cope with
+* **Large transaction support:** The sync domain entities must be able to cope with
   large transactions and their resulting large payloads.
 
 Security
@@ -119,39 +119,39 @@ Security
 
   .. _compromise-recovery-domain-req:
 
-* **Domain entity compromise recovery:** In case of a compromise of a domain
-  entity, the domain must provide procedures to mitigate the impact of the
+* **Sync domain entity compromise recovery:** In case of a compromise of a sync domain
+  entity, the sync domain must provide procedures to mitigate the impact of the
   compromise and allow to restore operations.
 
   .. _standard-crypto-domain-req:
 
 * **Standards compliant cryptography:** All used cryptographic primitives and
-  their configurations must comply to approved standards and based on
+  their configurations must comply with approved standards and based on
   existing and audited implementations.
 
   .. _authnz-domain-req:
 
 * **Authentication and authorization:** The participants interacting with the
-  domain as well as the domain entities internal to the domain must authenticate
+  sync domain as well as the sync domain entities internal to the sync domain must authenticate
   themselves and have their appropriate permissions enforced.
 
   .. _secure-channel-domain-req:
 
 * **Secure channel (TLS):** All communication channels between the participants
-  and the domain as well as between the domain entities themselves have to
+  and the sync domain as well as between the sync domain entities themselves have to
   support a secure channel option using TLS, optionally with client
   certificate-based mutual authentication.
 
   .. _distributed-trust-domain-req:
 
-* **Distributed Trust:** The domain should be able to be operated by a
-  consortium in order to distribute the trust by the participants in the domain
+* **Distributed Trust:** The sync domain should be able to be operated by a
+  consortium in order to distribute the trust by the participants in the sync domain
   among many organizations.
 
   .. _transaction-privacy-domain-req:
 
-* **Transaction Metadata Privacy:** The domain entities must never learn the
-  content of the transactions. The domain entities should learn a limited amount
+* **Transaction Metadata Privacy:** The sync domain entities must never learn the
+  content of the transactions; they should only learn a limited amount
   of transaction metadata, such as structural properties of a transaction and
   involved stakeholders.
 
@@ -160,82 +160,82 @@ Manageability
 
   .. _garbage-collection-domain-req:
 
-* **Garbage collection:** The domain entities must provide ways to minimize the
+* **Garbage collection:** The sync domain entities must provide ways to minimize the
   amount of data kept on hot storage, in particular data that is only required
   for auditability can move to cold storage or data that has been processed and
   stored by the participants could be removed after a specific retention period.
 
   .. _upgradeability-domain-req:
 
-* **Upgradeability:** The domain as a whole or individual domain entities must
+* **Upgradeability:** The sync domain as a whole or individual sync domain entities must
   be able to upgrade with minimal downtime.
 
   .. _semantic-versioning-domain-req:
 
 * **Semantic versioning:** The interfaces, protocols, and persistent data
-  schemas of the domain entities must be versioned according to semantic
+  schemas of the sync domain entities must be versioned according to semantic
   versioning guidelines.
 
   .. _version-handshake-domain-req:
 
-* **Domain approved protocol versions:** The domain must offer and verify the
-  supported versions towards the participants. The domain must further ensure
-  that the domain entities operate on compatible versions.
+* **Domain approved protocol versions:** The sync domain must offer and verify the
+  supported versions towards the participants. The sync domain must further ensure
+  that the sync domain entities operate on compatible versions.
 
   .. _reuse-off-the-shelf-domain-req:
 
-* **Reuse off-the-shelf solutions:** The domain entities should use
+* **Reuse off-the-shelf solutions:** The sync domain entities should use
   off-the-shelf solutions for persistence, API specification, logging, and
   metrics.
 
   .. _metrics-domain-req:
 
-* **Metrics on communication and processing:** The domain entities must expose
+* **Metrics on communication and processing:** The sync domain entities must expose
   metrics on communication and processing to facilitate operations and trouble
   shooting.
 
   .. _health-monitoring-domain-req:
 
-* **Component health monitoring:** The domain entities must expose a health
+* **Component health monitoring:** The sync domain entities must expose a health
   endpoint for monitoring.
 
 
-Domain-Internal Components
-**************************
+Synchronization Domain Internal Components
+******************************************
 
-The following diagram shows the architecture and components of a Canton domain
-as well as how a participant node interacts with the domain.
+The following diagram shows the architecture and components of a Canton sync domain
+as well as how a participant node interacts with the sync domain.
 
 .. https://lucid.app/lucidchart/55638ee7-4fc8-46f2-af4f-a4752ad708d2/edit?invitationId=inv_6666f0bc-caaf-4065-9867-8e0348b63bca
 .. figure:: ./images/domain-arch.svg
    :align: center
    :width: 80%
 
-The domain consists of the following components:
+The sync domain consists of the following components:
 
-* **Domain Service:** The first point of contact for a participant node when
-  connecting to a domain. The participant performs a version handshake with the
-  domain service and discovers the available other services, such as the
-  sequencer. If the domain requires a service agreement to be accepted by
-  connecting participants, the domain service will provide the agreement.
+* **Synchronization Domain Service:** The first point of contact for a participant node when
+  connecting to a sync domain. The participant performs a version handshake with the
+  sync domain service and discovers the available other services, such as the
+  sequencer. If the sync domain requires a service agreement to be accepted by
+  connecting participants, the sync domain service provides the agreement.
 
-* **Domain Topology Service:** The domain topology services is responsible for
-  all topology management operations on a domain. The service provides the
+* **Topology Service:** The topology services are responsible for
+  all topology management operations on a sync domain. The service provides the
   essential topology state to a new participant node, i.e., the set of keys for
-  the domain entities to bootstrap the participant node. Furthermore,
-  participant nodes can upload their own topology transactions to the domain
+  the sync domain entities to bootstrap the participant node. Furthermore,
+  participant nodes can upload their own topology transactions to the
   topology service, which inspects and possibly approves and publishes those
-  topology transactions on the domain via the sequencer.
+  topology transactions on the sync domain via the sequencer.
 
 * **Sequencer Authentication Service:** A node can authenticate itself to the
   sequencer service either using a client certificate or using an authentication
   token. The sequencer authentication service issues such authentication tokens
   after performing a challenge-response protocol with the node. The node has to
-  sign the challenge with their private key corresponding to a public key that
-  has been approved and published by the domain identity service.
+  sign the challenge with its private key corresponding to a public key that
+  has been approved and published by the sync domain identity service.
 
 * **Sequencer Service:** The sequencer services establishes the total-order of
-  messages, including transactions, within a domain. The service implements a
+  messages, including transactions, within a sync domain. The service implements a
   total-order multicast, i.e., the sender of a message indicates the set of
   recipients to which the message is delivered. The order is established based
   on a unique timestamp assigned by the sequencer to each message.
@@ -249,16 +249,16 @@ The domain consists of the following components:
   The mediator provides privacy among the set of transaction stakeholders as
   the stakeholders do not communicate directly but always via the mediator.
 
-The domain operator is responsible to operate the domain infrastructure and
+The sync domain operator is responsible for operating the sync domain infrastructure and
 (optionally) also verifies and approves topology transactions, in particular to
-admit new participant nodes to a domain. The operator can either be a single
-entity managing the entire domain or a consortium of operators, refer to the
+admit new participant nodes to a sync domain. The operator can either be a single
+entity managing the entire sync domain or a consortium of operators, refer to the
 distributed trust security requirement.
 
 Drivers
 *******************
 
-Based on the set of domain internal components, a driver implements
+Based on the set of sync domain internal components, a driver implements
 one or more components based on a particular technology. The prime component is
 the sequencer service and its ordering functionality, with implementations
 ranging from a relational database to a distributed blockchain. Components can

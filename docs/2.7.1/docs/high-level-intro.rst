@@ -45,7 +45,7 @@ Daml is a platform and framework for building real-time multi-party systems, ena
 What Is a Multi-Party Application?
 **********************************
 
-A multi-party application is one in which data, and the rules and workflows that govern the data, are shared between two or more parties without any party having to give up sovereignty or any single party (including the application provider) being able to control or override the agreed rules of the system. A party could be a company, a department within a company, an organization, an individual or a person. The specific definition of a party will be unique to the application and the domain of that application.
+A multi-party application is one in which data, and the rules and workflows that govern the data, are shared between two or more parties without any party having to give up sovereignty or any single party (including the application provider) being able to control or override the agreed rules of the system. A party could be a company, a department within a company, an organization, an individual or a person. The specific definition of a party will be unique to the application and the synchronization (sync) domain of that application.
 
 A well-designed multi-party application provides several benefits:
  - a clean, consistent view of all data managed by the application across all parties
@@ -93,19 +93,19 @@ The Daml code that collectively makes up the data schema and rules for an applic
 
 Using the Daml language, developers define the schema for a virtual shared system of record (VSSR). A VSSR is the combined data from all parties involved in the application. The Canton protocol ensures that each party gets a unique view into the VSSR, which is their projection of the full system.
 
-In the execution model for Canton, each party of the application is hosted on a Participant Node (Diagram 1). The Participant Node stores the party’s unique projection and history of the shared system of record. Participant Nodes synchronize by running a consensus protocol (the Canton Protocol) between them. The protocol is executed by sending encrypted messages through Domains, which route messages and offer guaranteed delivery and order consistency. Domains are also units of access control and availability, meaning an application can be additionally protected from interference by other applications or malicious actors by synchronizing it only through a given domain, and restricting which participants can connect to it.
+In the execution model for Canton, each party of the application is hosted on a participant node (Diagram 1). The participant node stores the party’s unique projection and history of the shared system of record. Participant nodes synchronize by running a consensus protocol (the Canton Protocol) between them. The protocol is executed by sending encrypted messages through sync domains, which route messages and offer guaranteed delivery and order consistency. Sync domains are also units of access control and availability, meaning an application can be additionally protected from interference by other applications or malicious actors by synchronizing it only through a given sync domain, and restricting which participants can connect to it.
 
 Diagram 1:
 
 .. figure:: arch-intro-1.png
-   :alt: A Domain (center) with four Participant Nodes. Participant Node One hosts Party A; Participant Node Two hosts Party B; Participant Node Three hosts Party C; and Participant Node Four hosts Parties D, E, and F. The Domain can be centralized or distributed, public or private.
+   :alt: A sync domain (center) with four participant nodes. Participant Node One hosts Party A; Participant Node Two hosts Party B; Participant Node Three hosts Party C; and Participant Node Four hosts Parties D, E, and F. The sync domain can be centralized or distributed, public or private.
 
-In a composed solution, each domain is a sub-network. A Participant Node connects to one or more Domains, enabling transactions that span Domains (Diagram 2).
+In a composed solution, each sync domain is a sub-network. A participant node connects to one or more sync domains, enabling transactions that span sync domains (Diagram 2).
 
 Diagram 2:
 
 .. figure:: arch-intro-2.png
-   :alt: Three Domains with five Participant Nodes, each hosting one or more parties. Domains A (HL Fabric) and B (Ethereum) have two Domain Nodes each, while Domain C (SQL) has a single Domain Node. Each Participant Node can connect to different Domain Nodes across different Domains.
+   :alt: Three sync domains with five participant nodes, each hosting one or more parties. Sync Domains A (HL Fabric) and B (Ethereum) have two sync domain nodes each, while Sync Domain C (SQL) has a single sync domain node. Each participant node can connect to different sync domain nodes across different sync domains.
 
 
 Transfer Example Using Daml

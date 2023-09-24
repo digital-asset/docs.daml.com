@@ -81,7 +81,7 @@ Example
 
 This section describes how a web frontend can interact with the trigger service when authorization is required.
 Note, to avoid cross-origin requests and to enable sharing of cookies
-the web application and auth middleware should be exposed under the same domain,
+the web application and auth middleware should be exposed under the same sync domain,
 e.g. behind a shared reverse proxy.
 
 Let's start with a request to the :ref:`list running triggers <list-running-triggers>` endpoint.

@@ -130,8 +130,8 @@ We use following error details:
  - An optional ``com.google.rpc.RetryInfo`` containing retry interval with milliseconds resolution.
 
  - An optional ``com.google.rpc.ResourceInfo`` containing information about the resource the failure is based on.
-   Any request that fails due to some well-defined resource issues (such as contract, contract-key, package, party, template, domain, etc.) contains these.
-   Particular resources are implementation specific and vary across ledger implementations.
+   Any request that fails due to some well-defined resource issues (such as contract, contract-key, package, party, template, sync domain, etc.) contains these.
+   Particular resources are implementation-specific and vary across ledger implementations.
 
 Many errors will include more information,
 but there is no guarantee that additional information will be preserved across versions.
@@ -268,7 +268,7 @@ Therefore, to support automatic error processing, an application may:
 
 - parse the error information from the beginning of the description to obtain the error-id, the error category and the component.
 - use the gRPC-code to get the set of possible error categories.
-- if present, use the ``ResourceInfo`` included as ``Status.details``. Any request that fails due to some well-defined resource issues (contract, contract-key, package, party, template, domain) will contain these, calling out on what resource the failure is based on.
+- if present, use the ``ResourceInfo`` included as ``Status.details``. Any request that fails due to some well-defined resource issues (contract, contract-key, package, party, template, sync domain) will contain these, calling out on what resource the failure is based on.
 - use the ``RetryInfo`` to determine the recommended retry interval (or make this decision based on the category / gRPC code).
 - use the ``RequestInfo.id`` as the :ref:`correlation-id <tracing>`, included as ``Status.details``.
 - use the ``ErrorInfo.reason`` as error-id and ``ErrorInfo.metadata("category")`` as error category, included as ``Status.details``.
@@ -287,7 +287,7 @@ on the ledger state.
 Example
 *******
 
-If an application submits a Daml transaction that exceeds the size limits enforced on a domain, the command
+If an application submits a Daml transaction that exceeds the size limits enforced on a sync domain, the command
 will be rejected. Using the logs of one of our test cases, the participant node will log the following message:
 
 .. code::

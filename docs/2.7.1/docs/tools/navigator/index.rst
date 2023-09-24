@@ -209,7 +209,7 @@ To view template or contract details, click on a template or contract in the lis
 .. image:: images/contract-details.png
   :width: 85%
   :align: center
-  :alt: The Contract Details view displays the same information as the Template Details view as well as the name of the template the contract is based on and options to Call, Consolidate, Lock, Split, or Transfer the contract.
+  :alt: The Contract Details view displays the same information as the Template Details view as well as the name of the template the contract is based on and options to Call, Consolidate, Lock, Split, or Reassign the contract.
 
 Using Navigator
 ***************

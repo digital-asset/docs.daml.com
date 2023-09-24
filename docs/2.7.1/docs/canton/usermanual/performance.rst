@@ -21,19 +21,19 @@ The ledger state in Canton does not exist globally so there is no
 single node that, by design, hosts all contracts. Instead, participant nodes are
 involved in transactions that operate on the ledger state on a strict
 need-to-know basis (data minimization), only exchanging (encrypted)
-information on the domains used as coordination points for the given
+information on the sync domains used as coordination points for the given
 input contracts. For example, if participants Alice and Bank transact
-on an i-owe-you contract on domain A, another participant Bob, or
-another domain B, does not receive a single bit related to this
+on an i-owe-you contract on sync domain A, another participant Bob, or
+another sync domain B, does not receive a single bit related to this
 transaction. This is in contrast to blockchains, where each node has to
 process each block regardless of how active or directly affected
 they are by a given transaction. This lends itself to a
 micro-service approach that can scale horizontally.
 
 The micro-services deployment of Canton includes the set of
-participant and domain nodes (hereafter, "participant" or
-"participants" and "domain" or "domains" respectively), as well as the
-services internal to the domain (e.g., Topology Manager). In general,
+participant and sync domain nodes (hereafter, "participant" or
+"participants" and "sync domain" or "sync domains" respectively), as well as the
+services internal to the sync domain (e.g., Topology Manager). In general,
 each Canton micro-service follows the best practice of having its own
 local database which increases throughput. Deploying a service
 to its
@@ -50,18 +50,18 @@ early access feature). For example, if 100 parties are performing
 multi-lateral transactions with each other, then the system can
 reallocate parties to 10 participants with 10 parties each, or 100
 participants with 1 party each. As most of the computation occurs on
-the participants, a domain can sustain a very substantial load from
-multiple participants. If the domain were to be a bottleneck then the
+the participants, a sync domain can sustain a very substantial load from
+multiple participants. If the sync domain were to be a bottleneck then the
 Sequencer(s), Topology Manager, and Mediator can be run on their own
-compute server which increases the domain throughput. Therefore, new
+compute server which increases the sync domain throughput. Therefore, new
 compute servers with additional Canton nodes can be added to the
 network when needed, allowing the entire system to scale horizontally.
 
-If even more throughput is needed then the multiple-domain feature of
+If even more throughput is needed then the multiple-sync-domain feature of
 Canton can be leveraged to increase throughput. In a large and active network
-where a domain reaches the capacity limit, additional domains can be
+where a sync domain reaches the capacity limit, additional sync domains can be
 rolled out, such that the workflows can be sharded over the available
-domains (early access). This is a standard technique for load
+sync domains (early access). This is a standard technique for load
 balancing where the client application does the load balancing via sharding.
 
 If a single party is a bottleneck then the throughput can be increased
@@ -83,7 +83,7 @@ through which all transactions need to be validated introduces a
 bottleneck so it is also an anti-pattern to avoid.
 
 The bottom line is that a Canton system can scale out horizontally if
-commands involve only a small number of participants and domains.
+commands involve only a small number of participants and sync domains.
 
 
 .. enterprise-only::
@@ -114,7 +114,7 @@ Performance and Sizing
 ----------------------
 
 A Daml workflow can be computationally arbitrarily complex, performing lots of computation (cpu!) or fetching many
-contracts (io!), and involve different numbers of parties, participants, and domains. Canton nodes store their entire
+contracts (io!), and involve different numbers of parties, participants, and sync domains. Canton nodes store their entire
 data in the storage layer (database), with additional indexes. Every workflow and topology is different,
 and therefore, sizing requirements depend on the Daml application that is going to run, and on the resource
 requirements of the storage layer. Therefore, to obtain sizing estimates you must measure the resource usage
@@ -194,7 +194,7 @@ The exact estimation of the size usage of such indexes for each database layer i
    Please note that we do have plans to remove the storage duplication between the sync service and the indexer. Ideally,
    will be able to reduce the storage on the participant for this example from `5*Y` down to `3*Y`: once for the unencrypted created contract and twice for the two encrypted transaction views.
 
-Generally, to recover used storage, a participant and a domain can be pruned. Pruning is available on Canton Enterprise
+Generally, to recover used storage, a participant and a sync domain can be pruned. Pruning is available on Canton Enterprise
 through a :ref:`set of console commands <ledger-pruning-commands>` and allows removal of past events and archived contracts
 based on a timestamp. The storage usage of a Canton deployment can be kept constant by continuously removing
 obsolete data. Non-repudiation and auditability of the unpruned history are preserved due to the bilateral commitments.
@@ -217,7 +217,7 @@ In particular, avoid having a single master party that is involved in every comm
 
 If your participants are becoming a bottleneck, add more participant nodes to your system.
 Make sure that each block runs on its own participant.
-If your domain(s) are becoming a bottleneck, add more domain nodes and distribute the load evenly over all domains.
+If your sync domain(s) are becoming a bottleneck, add more sync domain nodes and distribute the load evenly over all sync domains.
 
 Prefer sending big commands with multiple actions (creates / exercises) over sending numerous small commands.
 Avoid sending unnecessary commands through the ledger API.
@@ -231,7 +231,7 @@ Hardware and Database
 Do not run Canton nodes with an in-memory storage or with an H2 storage in production or during performance tests.
 You may observe very good performance in the beginning, but performance can degrade substantially once the data stores fill up.
 
-Measure memory usage, CPU usage and disk throughput and improve your hardware as needed.
+Measure memory usage, CPU usage, and disk throughput and improve your hardware as needed.
 For simplicity, it makes sense to start on a single machine.
 Once the resources of a machine are becoming a bottleneck, distribute your nodes and databases to different machines.
 
@@ -265,7 +265,7 @@ In addition, take the next paragraph on resource limits into account.
 
 **Tune resource limits.** Resource limits are used to prevent ledger applications from overloading Canton by sending
 commands at an excessive rate.
-While resource limits are necessary to protect the system from denial of service attacks in a production environment,
+While resource limits are necessary to protect the system from denial-of-service attacks in a production environment,
 they can prevent Canton from achieving maximum throughput.
 Resource limits can be configured as follows from the Canton console:
 
@@ -303,8 +303,8 @@ commands getting rejected with the error code ``PARTICIPANT_BACKPRESSURE``.
 This avoids the extra cost of creating a new connection on every database query.
 Canton chooses a suitable connection pool by default.
 Configure the maximum number of connections such that the database is fully loaded, but not overloaded. Allocating
-too many database connections will lead to resource waste (each thread costs), context switching and contention on the
-database system, slowing the overall system down. You can notice this on the query latencies reported by canton going
+too many database connections will lead to resource waste (each thread costs), context switching, and contention on the
+database system, slowing the overall system down. You can notice this on the query latencies reported by Canton going
 up.
 
 Try to observe the ``db-storage.queue`` metrics. If they are large, then the system performance may benefit from
@@ -313,7 +313,7 @@ Detailed instructions can be found in the Section :ref:`max_connection_settings`
 
 **Throttling configuration for SequencerClient.**
 The ``SequencerClient`` is the component responsible for managing the connection of any member (participant,
-mediator, or topology manager) in a Canton network to the domain. Each domain can have multiple sequencers,
+mediator, or topology manager) in a Canton network to the sync domain. Each sync domain can have multiple sequencers,
 and the ``SequencerClient`` connects to one of them. However, there is a possibility that the ``SequencerClient``
 can become overwhelmed and struggle to keep up with the incoming messages. To address this issue, a configuration
 parameter called ``maximum-in-flight-event-batches`` is available:

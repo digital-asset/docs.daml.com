@@ -5,10 +5,10 @@
 
 .. enterprise-only::
 
-Fabric Domain
-=============
+Fabric Synchronization Domain
+=============================
 
-The Canton-on-Fabric integration runs a Canton domain where events are sequenced using the `Hyperledger Fabric <https://hyperledger-fabric.readthedocs.io/en/latest/whatis.html>`_ ledger.
+The Canton-on-Fabric integration runs a Canton sync domain where events are sequenced using the `Hyperledger Fabric <https://hyperledger-fabric.readthedocs.io/en/latest/whatis.html>`_ ledger.
 
 Tutorial
 --------
@@ -22,18 +22,18 @@ To run the demo Canton Fabric deployment, you will need access to the following:
 Also make sure to have docker and docker-compose installed.
 
 The following example explains how to set up Canton on Fabric using a topology with 2 sequencer nodes,
-(belonging to two different organizations) a domain manager, a mediator, and two participants nodes.
+(belonging to two different organizations) a topology manager, a mediator, and two participant nodes.
 
 The demo can be found in the examples directory of the Canton Enterprise release.
 Unpack the Canton Enterprise release and then ``cd`` into ``examples/e01-fabric-domain/canton-on-fabric``.
 
 Run the script ``./run.sh full``.
 
-The script will start the following:
+The script starts the following:
 
 1. A Fabric ledger with 2 peers and one orderer node.
 2. Two Canton Sequencer nodes that interact with the Fabric ledger.
-3. A Canton process running a Canton domain manager, a mediator, and 2 participants. The configuration for this Canton process is in ``config/canton/demo.conf``
+3. A Canton process running a Canton topology manager, a mediator, and two participants. The configuration for this Canton process is in ``config/canton/demo.conf``
 
 Once the script has finished setting up (you should see the ``canton`` service print "Successfully initialized Canton-on-Fabric" together with the Canton console startup message), you will be able to interact with the two participants using the config at ``config/remote/demo.conf``.
 
@@ -73,11 +73,11 @@ Depending on which options you choose, it will run a docker-compose command usin
 
 - ``docker-compose-ledger.yaml``: Sets up the Fabric ledger. You can see that there is a service in it called ``ledger-setup`` that is a service responsible for creating the crypto materials, setting up the channel and deploying the chaincode. It uses a customized and simplified version of the ``test-network`` from `fabric-samples <https://github.com/hyperledger/fabric-samples/tree/v2.0.0/test-network>`_ inside a docker container.
 - ``docker-compose-blockchain-explorer.yaml``: Runs a `blockchain explorer <https://github.com/hyperledger/blockchain-explorer>`_ that allows visualizing the Fabric ledger on the browser.
-- ``docker-compose-canton.yaml``: Runs all canton components: a domain manager, a mediator, the two Fabric sequencer(s) and two participants.
+- ``docker-compose-canton.yaml``: Runs all Canton components: a topology manager, a mediator, the two Fabric sequencer(s), and two participants.
 
-The bootstrapping process of the distributed domain is done by the
+The bootstrapping process of the distributed sync domain is done by the
 ``docker-compose-canton.yaml`` docker-compose file which uses the ``config/canton/demo.canton`` script.
-If you wish to learn more about this process please refer to :ref:`domain bootstrapping <domain_bootstrapping>`.
+If you wish to learn more about this process please refer to :ref:`sync domain bootstrapping <domain_bootstrapping>`.
 
 Run with Docker Compose
 ~~~~~~~~~~~~~~~~~~~~~~~

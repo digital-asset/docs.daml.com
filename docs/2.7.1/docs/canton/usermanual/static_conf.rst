@@ -9,9 +9,9 @@ Static Configuration
 ====================
 
 Canton differentiates between static and dynamic configuration. Static configuration is immutable and therefore has
-to be known from the beginning of the process start. An example for a static configuration are the connectivity
-parameters to the local persistence store or the port the admin-apis should bind to. On the other hand, connecting to a domain
-or adding parties however is not a static configuration and therefore is not set via the config file but through
+to be known from the beginning of the process. Examples for a static configuration are the connectivity
+parameters to the local persistence store or the port the admin-apis should bind to. On the other hand, connecting to a sync domain
+or adding parties is not a static configuration and therefore is not set via the config file but through
 :ref:`console commands <canton_console>` (or the :ref:`administration APIs <administration_apis>`).
 
 .. figure:: images/canton_node_initialization.png
@@ -26,11 +26,11 @@ format with some extensions:
   but behave as expected using ``ms``, ``s``, ``m``, ``h``, ``d`` to refer to milliseconds, seconds, minutes, hours and days.
   Durations have to be non-negative in our context.
 
-Canton does not run one node, but any number of nodes, be it domain or participant nodes in the same process. Therefore,
-the root configuration allows to define several instances of domain and participant nodes together with a set of
+Canton does not run one node, but any number of nodes, be it sync domain or participant nodes in the same process. Therefore,
+the root configuration allows you to define several instances of sync domain and participant nodes together with a set of
 general process parameters.
 
-A sample configuration file for two participant nodes and a single domain can be seen below.
+A sample configuration file for two participant nodes and a single sync domain can be seen below.
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/01-simple-topology/simple-topology.conf
 
@@ -59,7 +59,7 @@ versions.
 
 Advanced Configurations
 -----------------------
-Configuration files can be nested and combined together. First, using the ``include required`` directive (with relative paths), a
+Configuration files can be nested and combined. First, using the ``include required`` directive (with relative paths), a
 configuration file can include other configuration files.
 
 ::
@@ -97,8 +97,8 @@ Configuration Mixin
 
 Even more than multiple configuration files, we can leverage `PureConfig <https://github.com/pureconfig/pureconfig>`__
 to create shared configuration items that refer to environment variables.
-A handy example is the following, which allows to share database
-configuration settings in a setup involving several participant or domain nodes:
+A handy example is the following, which allows nodes to share database
+configuration settings in a setup involving several participant or sync domain nodes:
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/03-advanced-configuration/storage/postgres.conf
 
@@ -117,20 +117,20 @@ Such a definition can subsequently be referenced in the actual node definition:
 
 .. _multiple-domains-config:
 
-Multiple Domains
-----------------
+Multiple Synchronization Domains
+--------------------------------
 
-A Canton configuration allows to define multiple domains. Also, a Canton participant can connect to
-multiple domains. This is however only supported as a preview feature and not yet suitable for
+A Canton configuration allows you to define multiple sync domains. Also, a Canton participant can connect to
+multiple sync domains. This is however only supported as a preview feature and not yet suitable for
 production use.
 
-In particular, contract key uniqueness cannot be enforced over multiple domains. In this situation,
+In particular, contract key uniqueness cannot be enforced over multiple sync domains. In this situation,
 we need to turn contract key uniqueness off by setting
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/non-uck-mode.conf
 
 Please note that the setting is final and cannot be changed subsequently. We will provide a migration
-path once multi-domain is fully implemented.
+path once multi-sync-domain is fully implemented.
 
 Fail Fast Mode
 --------------

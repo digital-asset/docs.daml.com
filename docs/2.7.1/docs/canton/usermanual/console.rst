@@ -11,7 +11,7 @@ Canton Console
 Canton offers a console (REPL) where entities can be dynamically started and stopped, and a variety of administrative
 or debugging commands can be run.
 
-All console commands must be valid Scala (the console is built on `Ammonite <http://ammonite.io>`__ - a Scala based
+All console commands must be valid Scala (the console is built on `Ammonite <http://ammonite.io>`__ - a Scala-based
 scripting and `REPL <https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop>`__ framework). Note that we also
 define `a set of implicit type conversions <https://docs.daml.com/__VERSION__/canton/scaladoc/com/digitalasset/canton/console/ConsoleEnvironment$$Implicits.html>`__ to improve the console usability:
 notably, whenever a console command requires a `DomainAlias <https://docs.daml.com/__VERSION__/canton/scaladoc/com/digitalasset/canton/DomainAlias.html>`__, `Fingerprint <https://docs.daml.com/__VERSION__/canton/scaladoc/com/digitalasset/canton/crypto/Fingerprint.html>`__ or `Identifier <https://docs.daml.com/__VERSION__/canton/scaladoc/com/digitalasset/canton/topology/Identifier.html>`__, you can instead also call it with a ``String`` which will be automatically converted to the correct type
@@ -22,11 +22,11 @@ The ``examples/`` sub-directories contain some sample scripts, with the extensio
 .. contents:: Contents
    :local:
 
-Commands are organised by thematic groups. Some commands also need to be explicitly turned on via
+Commands are organized by thematic groups. Some commands also need to be explicitly turned on via
 configuration directives to be accessible.
 
 Some operations are available on both types of nodes, whereas some operations are specific to either participant
-or domain nodes. For consistency, we organise the manual by node type, which means that some commands will
+or sync domain nodes. For consistency, we organize the manual by node type, which means that some commands will
 appear twice. However, the detailed explanations are only given within the participant documentation.
 
 .. _canton_remote_console:
@@ -71,13 +71,13 @@ Node References
 ---------------
 
 To issue the command on a particular node, you must refer to it via its reference, which is a Scala variable.
-Named variables are created for all domain entities and participants using their configured identifiers.
+Named variables are created for all sync domain entities and participants using their configured identifiers.
 For example the sample ``examples/01-simple-topology/simple-topology.conf`` configuration file references the
 domain ``mydomain``, and participants ``participant1`` and ``participant2``.
-These are available in the console as ``mydomain``, ``participant1`` and ``participant2``.
+These are available in the console as ``mydomain``, ``participant1``, and ``participant2``.
 
 The console also provides additional generic references that allow you to consult a list
-of nodes by type. The generic node reference supports three subsets of each node type: local, remote
+of nodes by type. The generic node reference supports three subsets of each node type: local, remote,
 or all nodes of that type. For the participants, you can use:
 
 .. code-block:: scala
@@ -125,7 +125,7 @@ or to get detailed help explanation for each command (``participant1.parties.hel
 Lifecycle Operations
 --------------------
 
-These are supported by individual and sequences of domains and participants.
+These are supported by individual and sequences of sync domains and participants.
 If called on a sequence, operations will be called sequentially in the order of the sequence.
 For example:
 
@@ -133,7 +133,7 @@ For example:
 
    nodes.local.start()
 
-can be used to start all configured local domains and participants.
+can be used to start all configured local sync domains and participants.
 
 If the node is running with database persistence, it will support the database migration command (``db.migrate``).
 The migrations are performed automatically when the node is started for the first time.
@@ -147,8 +147,8 @@ using the following configuration option:
 
 Note that data continuity (and therefore database migration) is only guaranteed to work across minor and patch version updates.
 
-The domain, sequencer and mediator nodes might need extra setup to be fully functional.
-Check :ref:`domain bootstrapping <domain_bootstrapping>` for more details.
+The sync domain, sequencer, and mediator nodes might need extra setup to be fully functional.
+Check :ref:`sync domain bootstrapping <domain_bootstrapping>` for more details.
 
 Timeouts
 --------

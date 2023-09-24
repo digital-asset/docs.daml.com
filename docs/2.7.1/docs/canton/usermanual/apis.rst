@@ -7,7 +7,7 @@
 
 API Configuration
 =================
-A domain node exposes two main APIs: the admin-api and the public-api, while the participant node
+A sync domain node exposes two main APIs: the admin-api and the public-api, while the participant node
 exposes the ledger-api and the admin-api. In this section, we will explain what the APIs do and how
 they can be configured.
 
@@ -25,9 +25,9 @@ The ports are allocated according to the following scheme:
 
 Administration API
 ------------------
-The nature and scope of the admin api on participant and domain nodes has some overlap. As an example,
-you will find the same key management commands on the domain and the participant node API, whereas
-the participant has different commands to connect to several domains.
+The nature and scope of the admin api on participant and sync domain nodes has some overlap. As an example,
+you will find the same key management commands on the sync domain and the participant node API, whereas
+the participant has different commands to connect to several sync domains.
 
 The configuration currently is simple (see the TLS example below) and just takes an address and a port.
 The address defaults to ``127.0.0.1`` and a default port is assigned if not explicitly configured.
@@ -39,7 +39,7 @@ You should not expose the admin-api publicly in an unsecured way as it serves ad
 TLS Configuration
 -----------------
 
-Both, the Ledger API and the admin API provide the same TLS capabilities and can be configured using
+Both the Ledger API and the admin API provide the same TLS capabilities and can be configured using
 the same configuration directives. TLS provides end-to-end channel encryption between the server and
 client, and depending on the settings, server or mutual authentication. Ensure that the required TLS
 system dependencies are installed, e.g., `libcrypt1` on Ubuntu.
@@ -117,7 +117,7 @@ Max Inbound Message Size
 ------------------------
 
 The APIs exposed by both the participant (ledger API and admin API) as well as
-by the domain (public API and admin API) have an upper limit on incoming message
+by the sync domain (public API and admin API) have an upper limit on incoming message
 size. To increase this limit to accommodate larger payloads, the flag
 ``max-inbound-message-size`` has to be set for the respective API to the maximum
 message size in **bytes**.
@@ -213,15 +213,15 @@ using the custom target audience configuration option:
 .. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/ledger-api-target-audience.conf
 
 
-Domain Configurations
----------------------
+Synchronization Domain Configurations
+-------------------------------------
 
 .. _public-api-configuration:
 
 
 Public API
 ~~~~~~~~~~
-The domain configuration requires the same configuration of the ``admin-api`` as the participant.
+The sync domain configuration requires the same configuration of the ``admin-api`` as the participant.
 Next to the ``admin-api``, we need to configure the ``public-api``, which is the api where
 all participants connect.
 
@@ -230,7 +230,7 @@ Authentication Token
 Authentication of the restricted services is built into the public sequencer api, leveraging the
 participant signing keys. You don't need to do anything in order to set this up; it is enforced
 automatically and can't be turned off. The same mechanism is used to check the authentication of
-the domain topology manager and the mediator.
+the topology manager and the mediator.
 
 The token is generated during the handshake between the node and the sequencer. By default, it is valid for one hour.
 The nodes automatically renew the token in the background before it expires. The lifetime of the

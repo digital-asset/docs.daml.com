@@ -592,9 +592,9 @@ section <requirements-exceptions>`.
 
   .. _workflow-transfer-hlreq:
 
-* **Workflow transfer**. I want to be able to transfer the processing
+* **Workflow reassignment**. I want to be able to reassign the processing
   of any Daml contract that I am a stakeholder of or have delegation
-  rights on, from one domain to another domain that has been
+  rights on, from one synch domain to another sync domain that has been
   vetted as appropriate by all contract stakeholders through some
   procedure defined by the synchronization service, so that I can use
   domains with better performance, do load balancing and
@@ -603,7 +603,7 @@ section <requirements-exceptions>`.
   .. _workflow-composability-hlreq:
 
 * **Workflow composability**. I want to be able to atomically execute
-  steps (Daml actions) in different workflows across different domains, as long as
+  steps (Daml actions) in different workflows across different sync domains, as long as
   there exists a single domain to which all participants in all
   workflows are connected.
 
@@ -632,9 +632,9 @@ section <requirements-exceptions>`.
   improvements to the components and the protocol without stopping the
   system's operation.
 
-  **Design Limitation 1** When a domain needs to be upgraded to a new protocol
-  version a new domain is deployed and the participants migrate the active
-  contracts' synchronization to the new domain.
+  **Design Limitation 1** When a sync domain needs to be upgraded to a new protocol
+  version a new sync domain is deployed and the participants migrate the active
+  contracts' synchronization to the new sync domain.
 
   **Design Limitation 2** When a replicated node needs to be upgraded, all
   replicas of the node needs to be upgraded at the same time.
@@ -644,9 +644,9 @@ section <requirements-exceptions>`.
 
 .. _semantic-versioning-hlreq:
 
-* **Semantic versioning**. I want all interfaces, protocols and
+* **Semantic versioning**. I want all interfaces, protocols, and
   persistent data schemas to be versioned, so that version mismatches
-  are prevented. The versioning scheme must be semantic, so that
+  are prevented. The versioning scheme must be semantic so that
   breaking changes always bump the major versions.
 
   **Remark** Every change in the Canton protocol leads to a new major version of
@@ -663,11 +663,11 @@ section <requirements-exceptions>`.
   .. _domain-approved-protocol-versions-hlreq:
 
 * **Domain approved protocol versions**. I want domains to specify the
-  allowed set of protocol versions on the domain, so that old versions
-  of the protocol can be decommissioned, and that new versions can be
+  allowed set of protocol versions on the sync domain, so that old versions
+  of the protocol can be decommissioned and new versions can be
   introduced and rolled back if operational problems are discovered.
 
-  **Design limitation**: Initially, the domain can specify only a
+  **Design limitation**: Initially, the sync domain can specify only a
   single protocol version as allowed, which can change over time.
 
   .. _multiple-protocol-compatibility-hlreq:
@@ -675,7 +675,7 @@ section <requirements-exceptions>`.
 * **Multiple protocol compatibility**. I want new versions of system components
   to still support at least one previous major version of the synchronization
   protocol, so that entities capable of using newer versions of the protocol can
-  still use domains that specify only old versions as allowed.
+  still use sync domains that specify only old versions as allowed.
 
 .. _testability-participant-node-upgrades-historic-data-hlreq:
 
@@ -702,21 +702,21 @@ section <requirements-exceptions>`.
 
 .. _seamless-domain-entities-failover-hlreq:
 
-* **Seamless failover for domain entities**. I want the implementation of all
-  domain entities to include seamless failover capabilities, so that
+* **Seamless failover for synchronization domain entities**. I want the implementation of all
+  sync domain entities to include seamless failover capabilities, so that
   the system can continue operating uninterruptedly on the failure
-  of an instance of a domain entity.
+  of an instance of a sync domain entity.
 
 .. _backups-hlreq:
 
-* **Backups**. I want to be able to periodically backup
+* **Backups**. I want to be able to periodically back up
   the system state (ledger databases) so that it can be
   subsequently restored if required for disaster recovery purposes.
 
 .. _site-wide-disaster-recovery-hlreq:
 
 * **Site-wide disaster recovery**. I want the system to be built with
-  the ability to recover from a failure of an entire data center by
+  the ability to recover from the failure of an entire data center by
   moving the operations to a different data center, without loss of
   data.
 
@@ -738,8 +738,8 @@ section <requirements-exceptions>`.
 
 .. _domain-entity-compromise-recovery-hlreq:
 
-* **Domain entity corruption recovery**. I want to have a procedure
-  in place that can be followed to recover a malfunctioning or corrupted domain entity,
+* **Synchronization domain entity corruption recovery**. I want to have a procedure
+  in place that can be followed to recover a malfunctioning or corrupted sync domain entity,
   so that the system guarantees can be restored after the procedure
   is complete.
 
@@ -853,7 +853,7 @@ section <requirements-exceptions>`.
 .. _component-health-monitoring-hlreq:
 
 * **Component health monitoring**. I want the system to provide
-  monitoring information for every system component, so that I
+  monitoring information for every system component so that I
   am alerted when a component fails.
 
   This item is scheduled on the roadmap.
@@ -891,7 +891,7 @@ section <requirements-exceptions>`.
 
 .. _resilience-to-erroneous-behavior-hlreq:
 
-* **Resilience to erroneous behavior**. I want that the system
+* **Resilience to erroneous behavior**. I want the system
   to be resilient against erroneous behavior of users and participants
   such that I can entrust the system to handle my business.
 
@@ -902,9 +902,9 @@ section <requirements-exceptions>`.
 
 .. _resilience-to-faulty-domain-behavior-hlreq:
 
-* **Resilience to faulty domain behavior**. I want that the system
-  to be able to detect and recover from faulty behaviour of
-  domain components, such that occasional issues don't break the system
+* **Resilience to faulty synchronization domain behavior**. I want the system
+  to be able to detect and recover from faulty behavior of
+  sync domain components, such that occasional issues don't break the system
   permanently.
 
   This item is scheduled on the roadmap.
@@ -917,7 +917,7 @@ section <requirements-exceptions>`.
 Known limitations
 -----------------
 
-In this section, we explain current limitations of Canton that we intend to overcome in future versions.
+In this section, we explain the current limitations of Canton that we intend to overcome in future versions.
 
 Limitations that apply always
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -925,13 +925,13 @@ Limitations that apply always
 Missing Key features
 ^^^^^^^^^^^^^^^^^^^^
 
-* **Cross-domain transactions** currently require the submitter of the transaction to transfer all used contracts
-  to a common domain.
-  Cross-domain transactions without first transferring to a single domain are not supported yet.
-  Only the stakeholders of a contract may transfer the contract to a different domain.
-  Therefore, if a transaction spans several domains and makes use of delegation to non-stakeholders,
+* **Cross-sync-domain transactions** currently require the submitter of the transaction to reassign all used contracts
+  to a common sync domain.
+  Transactions that occur across multiple sync domains without first being reassigned to a single sync domain are not supported yet.
+  Only the stakeholders of a contract may reassign the contract to a different sync domain.
+  Therefore, if a transaction spans several sync domains and makes use of delegation to non-stakeholders,
   the submitter currently needs to coordinate with other participants to run the transaction,
-  because the submitter by itself cannot transfer all used contracts to a single domain.
+  because the submitter by itself cannot reassign all used contracts to a single sync domain.
 
 Reliability
 ^^^^^^^^^^^
@@ -942,22 +942,22 @@ Manageability
 ^^^^^^^^^^^^^
 
 * **Party migration** is still an experimental feature.
-  A party can already be migrated to a "fresh" participant that has not yet been connected to any domains.
+  A party can already be migrated to a "fresh" participant node that has not yet been connected to any sync domains.
   Party migration is currently a manual process that needs to be executed with some care.
 
 Security
 ^^^^^^^^
 
 * **Denial of service attacks:** We have not yet implemented all countermeasures
-  to denial of service attacks. However the domain already protects against
+  to denial of service attacks. However, the sync domain already protects against
   faulty participants sending too many requests and message size limits protect
   against malicious participants trying to send large amounts of data via a
-  domain. Further rate limit on the ledger API protects against malicious/faulty
+  sync domain. Further rate limit on the ledger API protects against malicious/faulty
   applications.
 
 * **Public identity information:**
-  The topology state of a domain (i.e., participants known to the domain and parties hosted by them) is known to
-  all participants connected to the domain.
+  The topology state of a sync domain (i.e., participants known to the sync domain and parties hosted by them) is known to
+  all participants connected to the sync domain.
 
 .. todo::
    #. `Only selectively disclose topology information <https://github.com/DACH-NY/canton/issues/1251>`_.
@@ -971,17 +971,17 @@ Manageability
 
 * **Multi-participant parties:**
   Hosting a party on several participants is an experimental feature.
-  If such a party is involved in a contract transfer, the transfer may result in a ledger fork,
-  because the ledger API is not able to represent the situation that a contract is transferred out of scope of a participant.
-  If one of the participants hosting a party is temporarily disabled, the participant may end up in an outdated state.
+  If such a party is involved in a contract reassignment, the reassignment may result in a ledger fork,
+  because the ledger API is not able to represent the situation that a contract is reassigned out of scope of a participant.
+  If one of the participant nodes hosting a party is temporarily deactivated, the participant may end up in an outdated state.
   The ledger API does not support managing parties hosted on several participants.
 
-* **Disabling parties:**
-  If a party is disabled on a participant, it will remain visible on the ledger API of the participant,
+* **Deactiving parties:**
+  If a party is deactivated on a participant, it will remain visible on the ledger API of the participant,
   although it cannot be used anymore.
 
 * **Pruning:**
-  The public API does not yet allow for pruning of contract transfers and
+  The public API does not yet allow for pruning of contract reassignments and
   rotated cryptographic keys. An offline participant can prevent the pruning of
   contracts by its counter-participants.
 
@@ -1038,7 +1038,7 @@ this case are just the list of transactions in the shared ledger.
    :width: 100%
 
 That is, the dishonestly represented painter can rescind the offer twice in the
-shared ledger, even though the offer is not active any more by the
+shared ledger, even though the offer is not active anymore by the
 time it is rescinded (and thus consumed) for the second time,
 violating the consistency criterion.
 Similarly, the dishonestly represented painter can rescind an offer that was never created in the first place.

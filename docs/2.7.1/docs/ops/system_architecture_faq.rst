@@ -17,8 +17,8 @@ Order consistent means that if Alice sends a message to Carol, Dave, and others,
 
 **Further Reading**:
 
-- `Requirements on Sequencer Domain Entity <../canton/architecture/overview.html#sequencer>`__
-- `Domain internal components <../canton/architecture/domains/domains.html#domain-internal-components>`__
+- `Requirements on Sequencer Synchronization Domain Entity <../canton/architecture/overview.html#sequencer>`__
+- `Synchronization Domain internal components <../canton/architecture/domains/domains.html#domain-internal-components>`__
 
 How does Canton process a transaction?
 //////////////////////////////////////
@@ -72,11 +72,11 @@ As discussed in ":ref:`where_golden_source`", the ledger data lives in two place
 
 As long as the entire ledger history in the sequencer backend is available, and you hold a participant's Participant Encryption Keys, it is possible to recover the participant from the underlying sequencer backend. So if you use a blockchain as the sequencer backend, and can ensure that that blockchain stays available and uncorrupted, you can always recover from participant data loss.
 
-Should your sequencer backend go down, but all participants are still up and running, you can continue running the system by coordinating all participant nodes to “migrate” active contracts to a new domain, with a new sequencer backend.
+Should your sequencer backend go down, but all participants are still up and running, you can continue running the system by coordinating all participant nodes to “migrate” active contracts to a new sync domain, with a new sequencer backend.
 
-Should the sequencer backend no longer have the full ledger history, for example due to a domain switch, or because of deliberate Ledger Pruning, participants can still recover from a combination of the partial sequencer backend and a state snapshot. Such a snapshot can come either from a backup, or from the participants' peers. At the time of writing this process is not fully automated but possible through Canton's repair endpoints.
+Should the sequencer backend no longer have the full ledger history, for example due to a sync domain switch, or because of deliberate Ledger Pruning, participants can still recover from a combination of the partial sequencer backend and a state snapshot. Such a snapshot can come either from a backup, or from the participants' peers. At the time of writing this process is not fully automated but possible through Canton's repair endpoints.
 
-To be able to get snapshots from peers securely, nodes regularly exchange “commitments” via the underlying sequencer backend. You can think of these as hashes of shared state. If Alice and Bob each run a participant, Alice's participant will regularly communicate a hash of the state it shares with Bob's participant and vice versa. As the state is the same, the hash will be the same. This provides real-time consistency checks, allows participants to detect faulty behaviour in domain components, and also helps recovery in the above scenario. Alice can ask Bob for a snapshot of her data shared with Bob, and check its correctness by comparing it to the commitment she made on the sequencer backend.
+To be able to get snapshots from peers securely, nodes regularly exchange “commitments” via the underlying sequencer backend. You can think of these as hashes of shared state. If Alice and Bob each run a participant, Alice's participant will regularly communicate a hash of the state it shares with Bob's participant and vice versa. As the state is the same, the hash will be the same. This provides real-time consistency checks, allows participants to detect faulty behavior in sync domain components, and also helps recovery in the above scenario. Alice can ask Bob for a snapshot of her data shared with Bob, and check its correctness by comparing it to the commitment she made on the sequencer backend.
 
 **Further Reading:**
 

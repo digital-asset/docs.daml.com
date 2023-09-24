@@ -159,7 +159,7 @@ Log Files
 
      The log lines often also contain the “context” of the component. Examples:
 
-     * This log line tells us which component of which participant (participant1) of which domain connection (da) has been emitting this log line. It also includes the trace id of the underlying request::
+     * This log line tells us which component of which participant (participant1) of which sync domain connection (da) has been emitting this log line. It also includes the trace id of the underlying request::
 
           2022-10-04 15:55:50,077 [⋮] DEBUG
           c.d.c.p.p.TransactionProcessingSteps:participant=participant1/domain=da

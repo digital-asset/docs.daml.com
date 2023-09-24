@@ -62,7 +62,7 @@ In this compose file, define the network that will be used to connect all the ru
 
 Postgres Setup
 ~~~~~~~~~~~~~~
-Using only a single Postgres container, create databases for the domain, along with Canton and index databases for each participant. To do this, mount `postgres-init.sql` into the Postgres-initialized directory. Note that in a production environment, passwords must not be inlined inside config.
+Using only a single Postgres container, create databases for the sync domain, along with Canton and index databases for each participant. To do this, mount `postgres-init.sql` into the Postgres-initialized directory. Note that in a production environment, passwords must not be inlined inside config.
 
 .. literalinclude:: ./monitoring/etc/postgres-docker-compose.yml
    :language: yaml
@@ -72,9 +72,9 @@ Using only a single Postgres container, create databases for the domain, along w
    :language: sql
    :caption: etc/postgres-init.sql 
 
-Domain Setup
-~~~~~~~~~~~~
-Run the domain with the `--log-profile container` that writes plain text to standard out at debug level.
+Synchronization Domain Setup
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Run the sync domain with the `--log-profile container` that writes plain text to standard out at debug level.
 
 .. literalinclude:: ./monitoring/etc/domain0-docker-compose.yml
    :language: yaml
@@ -85,7 +85,7 @@ Run the domain with the `--log-profile container` that writes plain text to stan
 
 Participant Setup
 ~~~~~~~~~~~~~~~~~
-The participant container has two files mapped into it on container creation. The `.conf` file provides details of the domain and database locations. An HTTP metrics endpoint is exposed that returns metrics in the `Prometheus Text Based Format <https://github.com/prometheus/docs/blob/main/content/docs/instrumenting/exposition_formats.md#text-based-format>`_. By default, participants do not connect to remote domains, so a bootstrap script is provided to accomplish that.
+The participant container has two files mapped into it on container creation. The `.conf` file provides details of the sync domain and database locations. An HTTP metrics endpoint is exposed that returns metrics in the `Prometheus Text-Based Format <https://github.com/prometheus/docs/blob/main/content/docs/instrumenting/exposition_formats.md#text-based-format>`_. By default, participants do not connect to remote sync domains, so a bootstrap script is provided to accomplish that.
 
 .. literalinclude:: ./monitoring/etc/participant1-docker-compose.yml
    :language: yaml
@@ -213,7 +213,7 @@ Note that the `Metric Count` dashboard referenced in the docker-compose.yml file
 Dependencies
 ~~~~~~~~~~~~
 
-There are startup dependencies between the Docker containers. For example, the domain needs to be running before the participant, and the database needs to run before the domain.
+There are startup dependencies between the Docker containers. For example, the sync domain needs to be running before the participant, and the database needs to run before the sync domain.
 
 The `yaml` anchor `x-logging` enabled GELF container logging and is duplicated across the containers where you want to capture logging output. Note that the host address is the host machine, not a network address (on OSX).
 
@@ -290,7 +290,7 @@ the :ref:`Getting Started <canton-getting-started>` guide.
 Kibana Log Monitoring
 ---------------------
 
-When Kibana is started for the first time, you must set up a data view to allow view the log data:
+When Kibana is started for the first time, you must set up a data view to allow you to view the log data:
 
    1. Navigate to `http://localhost:5601/ <http://localhost:5601/>`_.
    2. Click **Explore on my own**.

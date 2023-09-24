@@ -28,30 +28,30 @@ For application developers and operators
 ----------------------------------------
 Applications using Canton have the following guarantees:
 
-- Participants can be upgraded independently of each other and of applications and domains within a major release version.
-- Domain drivers can be upgraded independently of applications and connected participants within a major release version.
+- Participants can be upgraded independently of each other and of applications and sync domains within a major release version.
+- Sync domain drivers can be upgraded independently of applications and connected participants within a major release version.
 - Major versions of anything are supported for a minimum of 12 months from the release of the next major release version.
 
-As a result, applications written today can keep running unchanged for a minimum of 12 months while upgrading participants and domains within a major release version.
+As a result, applications written today can keep running unchanged for a minimum of 12 months while upgrading participants and sync domains within a major release version.
 See also the `versioning <https://docs.daml.com/support/releases.html#support-duration>`__ as well as `portability, compatibility and support duration guarantees <https://docs.daml.com/support/compatibility.html>`__ that hold for any Daml application.
 
-For Canton participant and domain operators
--------------------------------------------
+For Canton participant and synchronization domain operators
+-----------------------------------------------------------
 
-In addition to the Canton release version, the Canton protocol version is the most important version for participant and domain operators. It used to have 3 digits, but
-starting protocol version `4` it's represented by one digit.
+In addition to the Canton release version, the Canton protocol version is the most important version for participant and sync domain operators. It used to have 3 digits, but
+starting protocol version `4` it is represented by one digit.
 
 .. _protocol_version:
 
 Canton protocol version
 ~~~~~~~~~~~~~~~~~~~~~~~
 The Canton protocol determines how different Canton components interact with each other. We version it using the Canton protocol version (protocol version for short) and conceptually, two Canton components can interact (are interoperable) if they support the same protocol version.
-For example, a participant can connect to a domain if it supports the protocol version that is spoken on the domain, and a mediator can become the mediator for a domain, if it supports the protocol version required by the domain.
+For example, a participant can connect to a sync domain if it supports the protocol version that is spoken on the sync domain, and a mediator can become the mediator for a sync domain, if it supports the protocol version required by the sync domain.
 If two Canton components have the same major release version, they also share at least one protocol version and can thus interact with each other.
 
 A Canton component advertises the protocol versions it supports and always supports all previous protocol versions of the same major release line.
 That is, a participant or driver supporting a certain protocol version, is able to transact with all other participants or drivers supporting a lower or equal protocol version but may not be able to transact with participants or drivers supporting a higher Canton protocol if they are configured to use a more recent version of the protocol.
-For example, a release of a participant supporting protocol version `3` will be able to connect to all domains configured to use protocol version <= `3`. It won't be able to connect to a domain configured to use protocol version > `3`.
+For example, a release of a participant supporting protocol version `3` will be able to connect to all sync domains configured to use protocol version <= `3`. It won't be able to connect to a sync domain configured to use protocol version > `3`.
 As a result, minor and patch version upgrades of Canton components can be done independently without any loss of interoperability.
 
 To see the protocol versions a Canton component supports (e.g., `2` and `3`), run
@@ -70,7 +70,7 @@ The list of supported protocol versions for each minor version is the following:
 
 Features and protocol versions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Some Canton features are only available on domains running specific protocol versions.
+Some Canton features are only available on sync domains running specific protocol versions.
 The following table indicates the protocol versions required to use some features.
 
 .. list-table::
@@ -85,18 +85,18 @@ The following table indicates the protocol versions required to use some feature
 
 Configuring the protocol version
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-A Canton driver or domain operator is `able to configure <https://docs.daml.com/__VERSION__/canton/scaladoc/com/digitalasset/canton/domain/config/DomainParametersConfig.html>`__ the protocol version spoken on the domain (e.g. `3`). If the domain operator sets the protocol version spoken on a domain too high, they may exclude participants that don't support this protocol version yet.
+A Canton driver or sync domain operator is `able to configure <https://docs.daml.com/__VERSION__/canton/scaladoc/com/digitalasset/canton/domain/config/DomainParametersConfig.html>`__ the protocol version spoken on the sync domain (e.g. `3`). If the sync domain operator sets the protocol version spoken on a sync domain too high, they may exclude participants that don't support this protocol version yet.
 
-For example, if the domain operator sets the protocol version on a domain to 3, participants that only support protocol version 2 aren't able to connect to the domain.
-They would be able to connect and transact on the domain, if the protocol version set on the domain is set to 2 or lower.
-Note that if the participant and domain come from the same major release line, the domain will also support using
-protocol version 2. Thus, the domain could be configured such that the participant could connect to it
+For example, if the sync domain operator sets the protocol version on a sync domain to 3, participants that only support protocol version 2 cannot connect to the sync domain.
+They would be able to connect and transact on the sync domain if the protocol version set on the sync domain is set to 2 or lower.
+Note that if the participant and sync domain come from the same major release line, the sync domain will also support using
+protocol version 2. Thus, the sync domain could be configured such that the participant could connect to it.
 
 Minimum protocol version
 ~~~~~~~~~~~~~~~~~~~~~~~~
-Similar to how a domain operator is able to configure the protocol version spoken on a domain, a participant operator `is able to configure <https://docs.daml.com/__VERSION__/canton/scaladoc/com/digitalasset/canton/participant/config/ParticipantProtocolConfig.html>`__ a minimum protocol version for a participant.
-Configuring a minimum protocol version guarantees that a participant will only connect to domain that use at least this protocol version or a newer one.
-This is especially desirable to ensure that a participant only connects to domains that have certain security patches applied or that support particular protocol features.
+Similar to how a sync domain operator is able to configure the protocol version spoken on a domain, a participant operator `is able to configure <https://docs.daml.com/__VERSION__/canton/scaladoc/com/digitalasset/canton/participant/config/ParticipantProtocolConfig.html>`__ a minimum protocol version for a participant.
+Configuring a minimum protocol version guarantees that a participant will only connect to sync domains that use at least this protocol version or a newer one.
+This is especially desirable to ensure that a participant only connects to sync domains that have certain security patches applied or that support particular protocol features.
 
 Support and bug fixes
 ~~~~~~~~~~~~~~~~~~~~~

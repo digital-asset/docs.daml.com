@@ -169,7 +169,7 @@ Deployment Notes
 ~~~~~~~~~~~~~~~~
 
 The auth middleware API relies on sharing cookies between the auth middleware and the Daml application.
-One way to enable this is to expose the auth middleware and the Daml application under the same domain, e.g. through a reverse proxy.
+One way to enable this is to expose the auth middleware and the Daml application under the same sync domain, e.g. through a reverse proxy.
 Note that you will need to specify the external callback URI in that case using the ``--callback`` command-line flag.
 
 For example, assuming the following nginx configuration snippet:

@@ -16,7 +16,7 @@ nodes. It assumes that the configuration sets `auto-init = true` which leads to 
 generation of the default keys on a node's startup.
 
 The scope of cryptographic keys covers all Canton-protocol specific keys,
-private keys for TLS, as well as additional keys required for the domain
+private keys for TLS, as well as additional keys required for the sync domain
 integrations, e.g., with Besu.
 
 Supported Cryptographic Schemes in Canton
@@ -153,7 +153,7 @@ Instead of duplicating each view by directly encrypting the view for each
 recipient using their participant encryption public key, Canton derives a
 symmetric key for each view to encrypt that view. The key is derived using a
 HKDF from a secure seed that is only stored encrypted under the public
-encryption key of a participants. Thereby, only the encrypted seed is duplicated
+encryption key of a participant. Thereby, only the encrypted seed is duplicated
 but not a view.
 
 Ledger API TLS Key
@@ -163,33 +163,33 @@ The private key for the TLS server certificate is provided as a file, which can
 optionally be encrypted and the symmetric decryption key is fetched from a given
 URL.
 
-Domain Topology Manager Keys
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Synchronization Domain Topology Manager Keys
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Domain Namespace Signing Key
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Synchronization Domain Namespace Signing Key
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The domain topology manager governs the namespace of the domain and has a
+The sync domain topology manager governs the namespace of the sync domain and has a
 signing key pair for the namespace. The hash of the public key forms the
-namespace and all entities in the domain (mediator, sequencer, the topology
-manager itself) may have identities under the domain namespace.
+namespace and all entities in the sync domain (mediator, sequencer, the topology
+manager itself) may have identities under the sync domain namespace.
 
-The domain topology manager signs and thereby authorizes the following topology
+The sync domain topology manager signs and thereby authorizes the following topology
 transactions:
 
 - `NamespaceDelegation` to register the namespace public key for the new namespace
 - `OwnerToKeyMapping` to register both its own signing public key (see next
-  section) and the signing public keys of the other domain entities as part of
-  the domain onboarding
-- `ParticipantState` to enable a new participant on the domain
-- `MediatorDomainState` to enable a new mediator on the domain
+  section) and the signing public keys of the other sync domain entities as part of
+  the sync domain onboarding
+- `ParticipantState` to enable a new participant on the sync domain
+- `MediatorDomainState` to enable a new mediator on the sync domain
 
 Signing Key
 ^^^^^^^^^^^
 
-The domain topology manager is not part of the Canton transaction protocol, but
+The sync domain topology manager is not part of the Canton transaction protocol, but
 it receives topology transactions via the sequencer. Therefore, in addition to
-the domain namespace, the domain topology manager has a signing key pair, which
+the sync domain namespace, the sync domain topology manager has a signing key pair, which
 is registered in the topology state for the topology manager. This signing key
 is used to perform the challenge-response protocol of the sequencer.
 
@@ -242,16 +242,16 @@ key pair for the following:
 - Signing of transaction results, transfer results, and rejections of malformed
   mediator requests.
 
-Domain Node Keys
-~~~~~~~~~~~~~~~~
+Synchronization Domain Node Keys
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The domain node embeds a sequencer, mediator, and domain topology manager. The
+The sync domain node embeds a sequencer, mediator, and sync domain topology manager. The
 set of keys remains the same as for the individual nodes.
 
 Canton Console Keys
 ~~~~~~~~~~~~~~~~~~~
 
-When the Canton console runs separate from the node and mutual authentication is
+When the Canton console runs separately from the node and mutual authentication is
 configured on the Admin API, then the console requires a TLS client certificate
 and corresponding private key as a file.
 
@@ -263,11 +263,11 @@ Cryptographic Key Management
 Rotating Canton Node Keys
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Canton supports rotation of node keys (signing and encryption) during live
+Canton supports the rotation of node keys (signing and encryption) during live
 operation through its topology management. In order to ensure continuous
 operation, the new key is added first and then the previous key is removed.
 
-For participant nodes, domain nodes, and domain topology managers, the
+For participant nodes, sync domain nodes, and sync domain topology managers, the
 nodes can rotate their keys directly using their own identity manager with
 the following command for example:
 
@@ -277,11 +277,11 @@ the following command for example:
    :end-before: user-manual-entry-end: RotateNodeKeys
    :dedent:
 
-On a participant node both the signing and encryption key pairs are rotated. On a domain and domain manager node only
-the signing key pair, because they do not have a encryption key pair. Identity namespace root or intermediate keys are
+On a participant node both the signing and encryption key pairs are rotated. On a sync domain and sync domain manager node only
+the signing key pair is rotated, because they do not have a encryption key pair. Identity namespace root or intermediate keys are
 not rotated with this command, see below for commands on namespace key management.
 
-For sequencer and mediator nodes that are part of a domain, the domain topology
+For sequencer and mediator nodes that are part of a sync domain, the sync domain topology
 manager authorizes the key rotation and a reference needs to be passed in to the command, for example:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/topology/KeyManagementIntegrationTest.scala
@@ -358,7 +358,7 @@ on another, using the following steps:
 Identifier Delegation Key Management
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Identifier delegations work similar to namespace delegations, however a key is
+Identifier delegations work similarly to namespace delegations, however a key is
 only allowed to operate on a specific identity and not an entire namespace (cf.
 :ref:`Topology Transactions <topology_transactions>`).
 
@@ -438,7 +438,7 @@ Specific to GCP:
 
 - ``location-id`` specifies which region the GCP KMS is bound to.
 - ``project-id`` specifies which project are we binding to.
-- ``keyRingId`` specifies the keyring to use. Contrary to AWS, multi region keys are enabled for an entire keyring. Therefore, the KMS operator is responsible for setting the keyring correctly depending on the systems' needs.
+- ``keyRingId`` specifies the keyring to use. Contrary to AWS, multi-region keys are enabled for an entire keyring. Therefore, the KMS operator is responsible for setting the keyring correctly depending on the systems' needs.
 
 Configure AWS Credentials and Permissions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -583,7 +583,7 @@ key using the following command:
    :end-before: user-manual-entry-end: ManualWrapperKeyRotation
    :dedent:
 
-You can optionally pass a wrapper key id to change to or let Canton generate a new key based on the current
+You can optionally pass a wrapper key ID to change to or let Canton generate a new key based on the current
 KMS configuration.
 
 .. note::
@@ -599,7 +599,7 @@ In the example below, we configure a Canton participant node (called ``participa
 store private keys in an external KMS. Besides the previously presented :ref:`KMS configuration <kms_config>`
 (in this example we use AWS, but GCP is set similarly)
 you only need to specify the correct crypto provider ``kms`` and ensure that the remaining nodes, in particular
-the connected domain, runs with the correct schemes:
+the connected sync domain, runs with the correct schemes:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/kms-provider-tagged.conf
    :language: none
@@ -643,9 +643,9 @@ For example for a participant we would run:
 
 where `xyzKmsKeyId` is the KMS identifier for a specific key (e.g. `KMS Key RN`). If we are using, for example,
 `AWS cross account keys <https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html>`_
-be aware that using the key id is not enough and we are required to register the key using its `ARN`.
+be aware that using the key ID is not enough and we are required to register the key using its `ARN`.
 
-Finally, we need to initialize our :ref:`domain <manually-init-domain>` and
+Finally, we need to initialize our :ref:`sync domain <manually-init-domain>` and
 :ref:`participants <manually-init-participant>` using the previously registered keys.
 
 .. _participant_kms_migration:
@@ -653,10 +653,10 @@ Finally, we need to initialize our :ref:`domain <manually-init-domain>` and
 Participant Node Migration to KMS Crypto Provider
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To migrate an existing participant node connected to a domain with a non KMS-compatible provider
+To migrate an existing participant node connected to a sync domain with a non KMS-compatible provider
 and start using KMS external keys, we need to manually execute the following steps.
 The general idea is to replicate the old node into a :ref:`new one that uses a KMS provider and connects to
-a KMS-compatible domain <full-kms-configuration>` (e.g. running JCE with KMS supported encryption and
+a KMS-compatible sync domain <full-kms-configuration>` (e.g. running JCE with KMS supported encryption and
 signing keys).
 
 First, we need to delegate the namespace of the old participant to the new participant:
@@ -676,7 +676,7 @@ Secondly, we must recreate all parties of the old participant in the new partici
    :dedent:
 
 Finally, we need to transfer the active contracts of all the parties from the old participant to the new one and
-connect to the new domain:
+connect to the new sync domain:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/AwsKmsMigrationIntegrationTest.scala
    :language: scala
@@ -684,7 +684,7 @@ connect to the new domain:
    :end-before: user-manual-entry-end: KmsMigrateACSofParties
    :dedent:
 
-The end result is a new participant node with its keys stored and managed by a KMS connected to a domain
+The end result is a new participant node with its keys stored and managed by a KMS connected to a sync domain
 that is able to communicate using the appropriate key schemes.
 
 .. _manual-kms-key-rotation:
@@ -773,7 +773,7 @@ Ledger-API Authorization
 
 The Ledger API provides :ref:`authorization support <ledger-api-jwt-configuration>` using `JWT <https://jwt.io>`_
 tokens. While the JWT token authorization allows third party applications to be authorized properly, it poses some issues
-for Canton internal services such as the `PingService` or the `DarService`, which are used to manage domain wide
+for Canton internal services such as the `PingService` or the `DarService`, which are used to manage sync-domain-wide
 concerns. Therefore Canton generates a new admin bearer token (64 bytes, randomly generated, hex-encoded) on each startup,
 which is communicated to these services internally and used by these services to
 authorize themselves on the Ledger API. The admin token allows to act as any party registered on that participant node.

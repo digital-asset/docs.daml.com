@@ -40,7 +40,7 @@ Shared Database
 The replicas require a shared database for the following reasons:
 
 1. To share the command ID deduplication state of the Ledger API command submission service. This prevents double submission of commands in case of failover.
-2. To obtain consistent ledger offsets without which the application cannot seamlessly failover to another replica. The database stores ledger offsets in a non-deterministic manner based on the insertion order of publishing events in the multi-domain event log.
+2. To obtain consistent ledger offsets without which the application cannot seamlessly failover to another replica. The database stores ledger offsets in a non-deterministic manner based on the insertion order of publishing events in the multi-sync-domain event log.
 
 Leader Election
 ~~~~~~~~~~~~~~~
@@ -78,9 +78,9 @@ Prevent Passive Replica Activity
 .. IMPORTANT::
   Passive replicas do not hold the exclusive lock and cannot write to the shared database. 
 
-To avoid passive replicas attempting to write to the database - any such attempt fails and produces an error - we use a coarse-grained guard on domain connectivity and API services.
+To avoid passive replicas attempting to write to the database - any such attempt fails and produces an error - we use a coarse-grained guard on sync domain connectivity and API services.
 
-To prevent the passive replica from processing domain events, and ensure it rejects incoming Ledger API requests, we keep the passive replica disconnected from the domains as coarse-grained enforcement.
+To prevent the passive replica from processing sync domain events, and ensure it rejects incoming Ledger API requests, we keep the passive replica disconnected from the sync domains as coarse-grained enforcement.
 
 Lock Loss and Failover
 """"""""""""""""""""""
@@ -91,4 +91,4 @@ The active replica has a grace period in which it may rebuild the connection and
 
 The passive replicas continuously attempt to acquire the lock within a configurable interval. Once the lock is acquired, the participant replication manager sets the state of the successful replica to active.
 
-When a passive replica becomes active, it connects to previously connected domains to resume event processing. The new active replica accepts incoming requests, e.g. on the Ledger API which starts when the node becomes active. The former active replica, which is now passive, shuts down its Ledger API to stop accepting incoming requests.
+When a passive replica becomes active, it connects to previously connected sync domains to resume event processing. The new active replica accepts incoming requests, e.g. on the Ledger API which starts when the node becomes active. The former active replica, which is now passive, shuts down its Ledger API to stop accepting incoming requests.

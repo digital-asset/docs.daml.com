@@ -232,7 +232,7 @@ Incoming and outgoing ledgers are encoded as colors (green for Ledger 1 and yell
 .. note::
    As for ordinary causality graphs, the diagrams for multi-ledger causality graphs omit transitive edges for readability.
 
-As an example for a cross-domain transaction, consider the :ref:`split paint counteroffer workflow with the cross-domain transaction <cross-ledger-transaction>`.
+As an example for a cross-sync-domain transaction, consider the :ref:`split paint counteroffer workflow with the cross-sync-domain transaction <cross-ledger-transaction>`.
 The corresponding multi-ledger causality graph is shown below.
 The last transaction `tx4` is a cross-ledger transaction because its actions have more than one color.
 
@@ -387,7 +387,7 @@ Definition »Ledger-aware projection for transactions«
    Such a subaction `act'` may not be `Y`\ -labelled itself though, i.e., belong to a different ledger.
    If `P` is an informee of `act'`, the Participant Node will mark `act'` as merely being witnessed on `P`\ 's transaction stream, as explained below.
 
-The :ref:`cross-domain transaction in the split paint counteroffer workflow <counteroffer-interoperable-causality-graph>`, for example, has the following projections for Alice and the painter on the `Iou` ledger (yellow) and the painting ledger (green).
+The :ref:`cross-sync-domain transaction in the split paint counteroffer workflow <counteroffer-interoperable-causality-graph>`, for example, has the following projections for Alice and the painter on the `Iou` ledger (yellow) and the painting ledger (green).
 Here, the projections on the green ledger include the actions of the yellow ledger because a projection includes the subactions.
 
 .. https://www.lucidchart.com/documents/edit/f8ec5741-7a37-4cf5-92a9-bf7b3132ba8e

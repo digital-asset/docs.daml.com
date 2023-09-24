@@ -11,8 +11,8 @@ Installing Canton
 This guide will guide you through the process of setting up your Canton nodes to build a distributed Daml
 ledger. You will learn
 
-#. How to setup and configure a domain
-#. How to setup and configure one or more participant nodes
+#. How to set up and configure a sync domain
+#. How to set up and configure one or more participant nodes
 
 .. note::
 
@@ -21,7 +21,7 @@ ledger. You will learn
 
 
 This guide uses the example configurations you can find in the release bundle under ``example/03-advanced-configuration``
-and explains you how to leverage these examples for your purposes. Therefore, any file named in this guide
+and explains how to leverage these examples for your purposes. Therefore, any file named in this guide
 will refer to subdirectories of the advanced configuration example.
 
 
@@ -40,7 +40,7 @@ appropriate Canton artifact.
 Your Topology
 -------------
 The first question we need to address is what the topology is that you are going after. The Canton topology
-is made up of parties, participants and domains, as depicted in the following figure.
+is made up of parties, participants and sync domains, as depicted in the following figure.
 
 .. https://app.lucidchart.com/documents/edit/da3c4533-a787-4669-b1e9-2446996072dc/0_0
 .. figure:: ../images/topology.svg
@@ -48,16 +48,16 @@ is made up of parties, participants and domains, as depicted in the following fi
    :width: 80%
 
 The Daml code will run on the participant node and expresses smart contracts between parties.
-Parties are hosted on participant nodes. Participant nodes will synchronise their state with other
-participant nodes by exchanging messages with each other through domains. Domains are nodes that integrate
+Parties are hosted on participant nodes. Participant nodes will synchronize their state with other
+participant nodes by exchanging messages with each other through sync domains. Sync domains are nodes that integrate
 with the underlying storage technology such as databases or other distributed ledgers. As the Canton protocol
-is written in a way that assumes that Participant nodes don't trust each other, you would normally expect that
-every organisation runs only one participant node, except for scaling purposes.
+is written in a way that assumes that participant nodes don't trust each other, you would normally expect that
+every organization runs only one participant node, except for scaling purposes.
 
-If you want to build up a test-network for yourself, you need at least a participant node and a domain.
+If you want to build up a test-network for yourself, you need at least a participant node and a sync domain.
 
 ..
-   You can either use your own domain or leverage the :ref:`global domain <connect-global-domain>`.
+   You can either use your own sync domain or leverage the :ref:`global sync domain <connect-global-domain>`.
 
 .. todo::
    `Mention the global domain <https://github.com/DACH-NY/canton/issues/7564>`_
@@ -87,8 +87,8 @@ your node or persist using ``Postgres`` or ``Oracle`` databases.
 
 For this purpose, there are some storage :ref:`mixin configurations <configuration-mixin>` (``storage/``) defined. These storage mixins
 can be used with any of the node configurations. The in-memory configurations just work out of the
-box without further configuration. The database based persistence will be explained in a subsequent section,
-as you first need to initialise the database.
+box without further configuration. The database-based persistence will be explained in a subsequent section,
+as you first need to initialize the database.
 
 The mixins work by defining a shared variable which can be referenced by any node configuration
 
@@ -157,7 +157,7 @@ pass them using environment variables:
     export POSTGRES_USER=canton
     export POSTGRES_PASSWORD=supersafe
 
-If you want to run also other nodes with Postgres, you need to create additional databases, one for each.
+If you want to run other nodes with Postgres, you need to create additional databases, one for each.
 
 You can reset the database by dropping then re-creating it:
 
@@ -173,7 +173,7 @@ You can reset the database by dropping then re-creating it:
     for further options.
 
 If you are setting up a few nodes for a test network, you can use a little helper script to create the SQL commands
-to setup users and databases:
+to set up users and databases:
 
 .. code-block:: bash
 
@@ -204,12 +204,12 @@ While this would work, we recommend that you rename your node by changing the co
 
 .. note::
 
-    By default, the node will initialise itself automatically using the identity commands :ref:`identity-commands`.
-    As a result, the node will create the necessary keys and topology transactions and will initialise itself using
+    By default, the node will initialize itself automatically using the identity commands :ref:`identity-commands`.
+    As a result, the node will create the necessary keys and topology transactions and will initialize itself using
     the name used in the configuration file. Please consult the :ref:`identity management section <identity_management_user_manual>`
     for further information.
 
-This was everything necessary to startup your participant node. However, there are a few steps that you want to take care
+This was everything necessary to start up your participant node. However, there are a few steps that you want to take care
 of in order to secure the participant and make it usable.
 
 Secure the APIs
@@ -221,7 +221,7 @@ Secure the APIs
    configuration mixin.
 
 #. The participant node is managed through the administration API. If you use the console, almost all requests will
-   go through the administration API. We recommend that you setup mutual TLS authentication as described in
+   go through the administration API. We recommend that you set up mutual TLS authentication as described in
    the :ref:`TLS documentation section <tls-configuration>`.
 
 #. Applications and users will interact with the participant node using the ledger API. We recommend that you secure your
@@ -240,10 +240,10 @@ Canton distinguishes static from dynamic configuration.
 * :ref:`Static configuration <static_configuration>` are items which are not supposed to change and are therefore captured in the configuration file.
   An example is to which port to bind to.
 
-* Dynamic configuration are items such as Daml archives (DARs), domain connections or parties. All such changes are effected
+* Dynamic configuration are items such as Daml archives (DARs), sync domain connections, or parties. All such changes are effected
   through :ref:`console commands <canton_console>` (or the :ref:`administration APIs <administration_apis>`).
 
-If you don't know how to connect to domains, onboard parties or provision Daml code, please read the
+If you don't know how to connect to sync domains, onboard parties, or provision Daml code, please read the
 :ref:`getting started guide <canton-getting-started>`.
 
 .. todo::
@@ -251,39 +251,39 @@ If you don't know how to connect to domains, onboard parties or provision Daml c
 
 ..
   .. _connect-global-domain:
-  Connect to the Global Domain
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  We are currently operating a global domain. Right now, it is still a testnet, which we reset from time to time. You can
+  Connect to the Global Synchronization Domain
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  We are currently operating a global sync domain. Right now, it is still a testnet, which we reset from time to time. You can
   connect to it using
   ::
       participant1.domains.connect("global", "https://canton.global")
 
 
-Setting up a Domain
--------------------
-In order to setup a domain, you need to decide what kind of domain you want to run. We provide integrations for
-different domain infrastructures. These integrations have different levels of maturity. Your current options are
+Setting up a Synchronization Domain
+-----------------------------------
+In order to set up a sync domain, you need to decide what kind of sync domain you want to run. We provide integrations for
+different sync domain infrastructures. These integrations have different levels of maturity. Your current options are
 
-#. Postgres based domain (simplest choice)
-#. :ref:`Oracle based domain <oracle-domain>`
-#. Hyperledger Fabric based domain
-#. Ethereum based domain (demo)
+#. Postgres-based sync domain (simplest choice)
+#. :ref:`Oracle-based sync domain <oracle-domain>`
+#. Hyperledger Fabric-based sync domain
+#. Ethereum-based sync domain (demo)
 
-This section will explain how to setup an in-process based domain using Postgres. All other domains are a set of
-microservices and part of the Enterprise edition. In any case, you will need to operate the main domain
+This section will explain how to set up an in-process-based sync domain using Postgres. All other sync domains are a set of
+microservices and part of the Enterprise edition. In any case, you will need to operate the main sync domain
 process which is the point of contact where participants connect to for the initial handshake and parameter download.
-The details of how to set this up for other domains than the in-process based Postgres domain are covered by the individual documentations.
+The details of how to set this up for other sync domains than the in-process-based Postgres sync domain are covered by the individual documentations.
 
 .. note::
 
    Please contact us at sales@digitalasset.com to get access to the Fabric or Ethereum based integration.
 
 
-The domain requires independent of the underlying ledger a place to store some governance data (or also the messages in
-transit in the case of Postgres based domains). The configuration settings for this storage are equivalent to the
+The sync domain requires independent of the underlying ledger a place to store some governance data (or also the messages in
+transit in the case of Postgres-based sync domains). The configuration settings for this storage are equivalent to the
 settings used for the participant node.
 
-Once you have picked the storage type, you can start the domain using
+Once you have picked the storage type, you can start the sync domain using
 
 .. code-block:: bash
 
@@ -301,9 +301,9 @@ Next Steps
 ~~~~~~~~~~
 The above configuration provides you with an initial setup. Without going into details, the next steps would be:
 
-#. Configure who can join the domain by setting an appropriate permissioning strategy (default is "everyone can join").
-#. Configure domain parameters
-#. Setup a service agreements which any client connecting has to sign before using the domain.
+#. Configure who can join the sync domain by setting an appropriate permissioning strategy (default is "everyone can join").
+#. Configure sync domain parameters
+#. Set up a service agreement which any client connecting has to sign before using the sync domain.
 
 
 Multi-Node Setup

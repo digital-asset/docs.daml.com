@@ -7,14 +7,14 @@ Use Cases By Role
 Distributed Application Provider
 ********************************
 
-The distributed application provider is also the domain owner and the domain administrator. Their deployment activities come first since all other activities require a domain.
+The distributed application provider is also the sync domain owner and the sync domain administrator. Their deployment activities come first since all other activities require a sync domain.
 
-Deploy a domain
-===============
+Deploy a synchronization domain
+===============================
 
 The distributed application provider deploys the following components: 
 
-* The domain manager. 
+* The sync domain manager. 
 * The mediator. 
 * The sequencer. 
 * The HA-configured PostgreSQL managed service [#f1]_ that is the sequencer's backend. 
@@ -25,10 +25,10 @@ The distributed application provider deploys the following components:
    :width: 80%
 
 .. NOTE::
-    * The domain manager, mediator, and sequencer all have internal databases - not shown here - which should be HA-configured. 
-    * Also not shown, a bastion host (e.g. `Azure bastion host <https://azure.microsoft.com/en-us/products/azure-bastion/#overview>`_) can be configured for accessing the domain components. This provides an additional layer of security by limiting access to the domain. Additional production access controls may be needed.
+    * The sync domain manager, mediator, and sequencer all have internal databases - not shown here - which should be HA-configured. 
+    * Also not shown, a bastion host (e.g. `Azure bastion host <https://azure.microsoft.com/en-us/products/azure-bastion/#overview>`_) can be configured for accessing the sync domain components. This provides an additional layer of security by limiting access to the sync domain. Additional production access controls may be needed.
 
-The distributed application provider may choose to isolate the domain from their participant node as a security measure using a Virtual Network Gateway as shown. If this additional isolation is not required then the Virtual Network Gateway is not needed. A different type of networking component may be more appropriate - e.g. HAProxy, NGINX, etc. 
+The distributed application provider may choose to isolate the sync domain from their participant node as a security measure using a Virtual Network Gateway as shown. If this additional isolation is not required then the Virtual Network Gateway is not needed. A different type of networking component may be more appropriate - e.g. HAProxy, NGINX, etc. 
 
 The figure below shows the participant node and its ledger client.
 
@@ -37,7 +37,7 @@ The figure below shows the participant node and its ledger client.
    :align: center
    :width: 80%
 
-As mentioned, the distributed domain owner can add additional components which interact with the participant node. These components are normally deployed shortly after deploying the participant node. 
+As mentioned, the distributed sync domain owner can add additional components which interact with the participant node. These components are normally deployed shortly after deploying the participant node. 
 
 .. https://lucid.app/lucidchart/d3a7916c-acaa-419d-b7ef-9fcaaa040447/edit?invitationId=inv_b7a43920-f4af-4da9-88fc-5985f8083c95&page=0_0#
 .. image:: use-cases-3.png
@@ -47,9 +47,9 @@ As mentioned, the distributed domain owner can add additional components which i
 Connect a new participant node 
 ==============================
 
-We expect the domain to run in permissioned mode with allow-listing [#f2]_ enabled to only include participant nodes whose identities have been registered with the domain manager. This involves a data exchange between the distributed application provider and the distributed application user. 
+We expect the sync domain to run in permissioned mode with allow-listing [#f2]_ enabled to only include participant nodes whose identities have been registered with the sync domain manager. This involves a data exchange between the distributed application provider and the distributed application user. 
 
-The distributed application provider communicates specific information to a new distributed application user so that the user's participant node can join the application's domain. The figure below illustrates this exchange, with **Bob** as the application provider and **Alice** as the new application user. 
+The distributed application provider communicates specific information to a new distributed application user so that the user's participant node can join the application's sync domain. The figure below illustrates this exchange, with **Bob** as the application provider and **Alice** as the new application user. 
 
 .. https://lucid.app/lucidchart/d3a7916c-acaa-419d-b7ef-9fcaaa040447/edit?invitationId=inv_b7a43920-f4af-4da9-88fc-5985f8083c95&page=0_0#
 .. image:: use-cases-4.png
@@ -57,31 +57,31 @@ The distributed application provider communicates specific information to a new 
    :width: 80%
 
 1. Alice deploys a participant node - not shown.
-2. Alice extracts the participant node's unique identifier into a string. The id includes the display name for the participant plus a hash of the public identity signing key.
-3. Alice makes her participant id known to Bob through an external mechanism, e.g. email.
-4. Bob runs a console command which adds Alice's participant id to the domain allowlist and configures the appropriate node's permissions. An example command which gives default permissions is shown here:
+2. Alice extracts the participant node's unique identifier into a string. The ID includes the display name for the participant plus a hash of the public identity signing key.
+3. Alice makes her participant ID known to Bob through an external mechanism, e.g. email.
+4. Bob runs a console command which adds Alice's participant ID to the sync domain allowlist and configures the appropriate node's permissions. An example command which gives default permissions is shown here:
 
 .. code-block:: sh
 
     domainManager1.participants.set_state(participantIdFromString, ParticipantPermission.Submission, TrustLevel.Ordinary)
 
-5. Bob passes Alice the following information, which allows her to connect to the domain:
-    a. One, or more, sequencer endpoints - https urls.
+5. Bob passes Alice the following information, which allows her to connect to the sync domain:
+    a. One, or more, sequencer endpoints - https URLs.
     b. Certificate root public cert, if it's not a publicly signed CA.
-6. Alice picks a unique name for the domain that is local to her participant. This will be used in the connection command.
-7. Alice enters the information into the connection command ``connect_multi`` and connects to Bob's domain - not shown.
+6. Alice picks a unique name for the sync domain that is local to her participant. This will be used in the connection command.
+7. Alice enters the information into the connection command ``connect_multi`` and connects to Bob's sync domain - not shown.
 
 .. code-block:: sh
 
     participantAlise.domains.connect_multi("AliceDomainName", Seq(sequencer1, sequencer2))
 
 
-Prepare domain infrastructure for adding new participant nodes
-==============================================================
+Prepare synchronization domain infrastructure for adding new participant nodes
+==============================================================================
 
-A distributed application provider expands the use of their application by allowing more participant nodes to join their domain. A sequencer node is the gateway to the domain for all participant nodes. It follows that the policy on when to add a new sequencer is important and must be clearly defined. 
+A distributed application provider expands the use of their application by allowing more participant nodes to join their sync domain. A sequencer node is the gateway to the sync domain for all participant nodes. It follows that the policy on when to add a new sequencer is important and must be clearly defined. 
 
-As shown below, a domain may start with a sequencer node and then add more sequencer nodes as required. 
+As shown below, a sync domain may start with a sequencer node and then add more sequencer nodes as required. 
 
 .. https://lucid.app/lucidchart/d3a7916c-acaa-419d-b7ef-9fcaaa040447/edit?invitationId=inv_b7a43920-f4af-4da9-88fc-5985f8083c95&page=0_0#
 .. image:: use-cases-5.png
@@ -98,14 +98,14 @@ Distributed Application User
 
 The distributed application user deploys their own participant node and connects to the provider's public sequencer endpoint. There is some similarity here with the distributed application provider. However, the distributed application user's DAR files (i.e. business logic) may be a subset of the DAR files deployed by the distributed application provider.
 
-This setup is extendable. For example, the distributed application user may be interested in several distributed applications, and so connect their participant node to the related domains by deploying multiple DARs for the different applications' business logic. They may also write their own extensions that include additional DARs. These extensions do not impact the use cases described here.
+This setup is extendable. For example, the distributed application user may be interested in several distributed applications, and so connect their participant node to the related sync domains by deploying multiple DARs for the different applications' business logic. They may also write their own extensions that include additional DARs. These extensions do not impact the use cases described here.
 
 .. https://lucid.app/lucidchart/d3a7916c-acaa-419d-b7ef-9fcaaa040447/edit?invitationId=inv_b7a43920-f4af-4da9-88fc-5985f8083c95&page=0_0#
 .. image:: use-cases-6.png
    :align: center
    :width: 80%
 
-The simple configuration shown above, like that of the domain owner, can expand into a more capable deployment such as shown below by adding the HTTP JSON API server, trigger services, and OAuth2 middleware. 
+The simple configuration shown above, like that of the sync domain owner, can expand into a more capable deployment such as shown below by adding the HTTP JSON API server, trigger services, and OAuth2 middleware. 
 
 .. https://lucid.app/lucidchart/d3a7916c-acaa-419d-b7ef-9fcaaa040447/edit?invitationId=inv_b7a43920-f4af-4da9-88fc-5985f8083c95&page=0_0#
 .. image:: use-cases-7.png
@@ -124,7 +124,7 @@ Site Reliability Engineer (SRE)
 Monitor systems
 ===============
 
-The SRE's primary use case is monitoring. Monitoring is required on both the domain and participant nodes, although the scope is slightly different. 
+The SRE's primary use case is monitoring. Monitoring is required on both the sync domain and participant nodes, although the scope is slightly different. 
 
 Monitoring normally consists of the following activities:
 

@@ -394,7 +394,7 @@ a batch if it is itself a recipient of that message
 
 The Bob participant can decrypt the view and verify the stakeholders against the
 set of recipients on the sequencer message. The mapping between parties and
-participants is part of the topology state on the domain and therefore the
+participants is part of the topology state on the sync domain and therefore the
 resolution is deterministic across all nodes. Seeing that the Alice participant
 is not a recipient despite Alice being a signatory on the view, Bob's
 participant will reject the view if it is a VIP participant; in any case,

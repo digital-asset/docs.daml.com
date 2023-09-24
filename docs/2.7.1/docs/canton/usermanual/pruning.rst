@@ -8,13 +8,13 @@
 Ledger Pruning
 ==============
 
-Pruning refers to the selective removal of old, stale, or unneeded data from participant, domain sequencer, and mediator
+Pruning refers to the selective removal of old, stale, or unneeded data from participant, sync domain sequencer, and mediator
 nodes. Nodes operate continuously for an indefinite amount of time on a limited amount of storage. In addition, privacy
 demands may require removing Personally Identifiable Information (PII) upon request.
 
 Pruning participant nodes means removing archived contracts (and associated transactions and events). Pruning never
-removes active (i.e., non-archived) Daml contracts. For domain sequencers and mediators, pruning relates to the removal
-of processed messages. Participants and domain sequencers and mediators can have different pruning schedules set.
+removes active (i.e., non-archived) Daml contracts. For sync domain sequencers and mediators, pruning relates to the removal
+of processed messages. Participants and sync domain sequencers and mediators can have different pruning schedules set.
 
 Enable Automatic Pruning
 ------------------------
@@ -40,7 +40,7 @@ Refer to the cron specification to customize the pruning schedule. Here are a fe
    :dedent:
 
 For the maximum duration to specify a reliable pruning window "end time", the leading fields of the cron expression
-should should not be wildcards (`*`) as illustrated in the examples above. If the hour field is fixed, so should the
+should not be wildcards (`*`) as illustrated in the examples above. If the hour field is fixed, so should the
 fields for minute and second.
 
 Monitoring Pruning Progress
@@ -93,7 +93,7 @@ Current Limitations
   there is a default limitation that a system with idle but connected clients cannot be pruned with a retention window of less
   than 24 hours. As the topology manager connects to the sequencer but is often idle and only invoked on topology changes,
   this limitation manifests itself when pruning test environments where aggressive pruning windows of less
-  than 24 hours are used. This can be fixed by adjusting the domain-tracker time of the topology manager:
+  than 24 hours are used. This can be fixed by adjusting the sync domain-tracker time of the topology manager:
   ``canton.domains.mydomain.time-tracker.min-observation-duration = 1h``.
 - Pruning of participants requires the participant to have received a commitment from each counter-participant with which
   it shares a contract. If a participant becomes defunct and stops sending commitments, pruning of the participant will
