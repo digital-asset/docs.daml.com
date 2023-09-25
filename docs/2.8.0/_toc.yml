@@ -685,6 +685,8 @@ subtrees:
           title: "Intermediated Lifecycling of an Instrument"
         - file: daml-finance/tutorials/advanced-topics/instrument-modeling/contingent-claims-instrument
           title: "Leverage Contingent Claims in custom Instrument implementations"
+        - file: daml-finance/tutorials/advanced-topics/instrument-modeling/date-utilities
+          title: "Date Utility Functions: Calendar, Schedule, and Day Count"
   - file: daml-finance/reference/index
     title: "Reference"
     subtrees:

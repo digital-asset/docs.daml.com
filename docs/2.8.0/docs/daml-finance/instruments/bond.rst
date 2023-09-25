@@ -81,6 +81,9 @@ to note here:
   period start date is less than 12M (our regular coupon period), this implies a short initial
   stub period.
 
+For more information on calendar, schedule, and day count functions, see the
+:doc:`date utility functions tutorial <../tutorials/advanced-topics/instrument-modeling/date-utilities>`.
+
 Now that we have defined the terms we can create the bond instrument:
 
 .. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Bond/Test/Util.daml

@@ -69,6 +69,9 @@ Just as for bonds, we can use these variables to create a
   :start-after: -- CREATE_PERIODIC_SCHEDULE_BEGIN
   :end-before: -- CREATE_PERIODIC_SCHEDULE_END
 
+For more information on calendar, schedule, and day count functions, see the
+:doc:`date utility functions tutorial <../tutorials/advanced-topics/instrument-modeling/date-utilities>`.
+
 Note that this instrument only has one periodic schedule, which is used for both the fixed and the
 floating leg.
 It is also used for both the calculation period (to determine which floating rate to be used) and
