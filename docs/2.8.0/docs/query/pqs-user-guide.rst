@@ -983,10 +983,9 @@ deleting any data. To execute the pruning operation, you need to add the
 
    ./PQS.jar datastore postgres-document prune --prune-target <pruning_target> --prune-mode Force
 
-In addition to providing an offset as ``--prune-target``, a timestamp
-or duration can also be used as pruning cut-off. For example, to prune
-data older than 30 days (relative to now), you can use the following
-command:
+Instead of providing an offset as the ``--prune-target``, you can use a timestamp
+or duration as the pruning cutoff. For example, the following command prunes
+data older than 30 days (relative to now):
 
 ::
 
