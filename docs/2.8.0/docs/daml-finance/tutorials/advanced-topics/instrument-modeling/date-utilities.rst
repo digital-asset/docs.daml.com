@@ -267,10 +267,10 @@ In addition to ``Act360``, the
 supports several other day count conventions. You can compute some of them with
 :ref:`calcDcf <function-daml-finance-util-date-daycount-calcdcf-20432>`, using only a start and an
 end date as an input as shown above.
-Others, e.g. ``ActActISDA``, are a bit more complicated because they require additional information.
-They can be calculated using the
+Others, such as ``ActActISDA``, are a bit more complicated because they require additional information.
+You can calculate them using the
 :ref:`calcPeriodDcf <function-daml-finance-util-date-daycount-calcperioddcf-63067>` function
-instead, which takes a schedule period (containing stub information) as input, as well as the
+instead. This function takes a schedule period (containing stub information) as input, as well as the
 schedule end date and the payment frequency:
 
 .. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/DayCount.daml
