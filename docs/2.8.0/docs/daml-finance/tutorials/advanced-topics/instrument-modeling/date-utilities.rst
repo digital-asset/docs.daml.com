@@ -259,7 +259,7 @@ schedule, which are both regular (3M):
   :end-before: -- CALCULATE_ACT360_DCF_PERIOD2AND3_END
 
 These day count fractions are clearly greater than the one of the first period, since they
-correspond to 3M instead of 2M. Note that they differ slightly, because they do not contain the
+correspond to 3M instead of 2M. Note that they differ slightly: they do not contain the
 exact same number of days.
 
 In addition to ``Act360``, the
