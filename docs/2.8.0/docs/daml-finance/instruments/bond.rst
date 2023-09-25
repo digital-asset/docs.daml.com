@@ -81,9 +81,8 @@ to note here:
   period start date is less than 12M (our regular coupon period), this implies a short initial
   stub period.
 
-Check out the
-:doc:`Date utility tutorial <../tutorials/advanced-topics/instrument-modeling/date-utilities>`
-for more details on calendars, schedules and day count utility functions.
+For more information on calendar, schedule, and day count functions, see the
+:doc:`date utility functions tutorial <../tutorials/advanced-topics/instrument-modeling/date-utilities>`.
 
 Now that we have defined the terms we can create the bond instrument:
 
