@@ -384,13 +384,11 @@ hint (for example,
 
 Note that the separator is the pipe character (``|``), not a comma.
 
-Brackets are unnecessary for simple expressions.  A simple list is
-``--pipeline-parties="Alice_1::122055fc4b190e3ff438587b699495a4b6388e911e2305f7e013af160f49a76080ab
-|
-Alice_2::122053933e4803c2995e41faa8a29981ca0d1faf6b4ffbf917ba1edd0db133acb634
-| Peter-1::358400000000000000000000000`` Specifying the parties in a short
-form can be done by using the ``*`` as a wildcard.  For example,
-``--pipeline-parties="Alice* | *358400000000000000000000000"`` will select
+Brackets are unnecessary for simple expressions. Here's an example of a list (hashes truncated for readability):
+``--pipeline-parties="Alice_1::122055 | Alice_2::122053 | Peter-1::358400"`` 
+
+You can use the asterisk (``*``) as a wildcard. Using the same list example,
+``--pipeline-parties="Alice* | *358400"`` matches
 ``Alice_1``, ``Alice_2``, and ``Peter-1``. 
 
 More advanced expressions can make use of brackets, such as
