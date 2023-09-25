@@ -108,10 +108,10 @@ To *subtract* a period of time, use a negative offset:
   :start-after: -- TEST_ADD_PERIOD_NEGATIVE_OFFSET_BEGIN
   :end-before: -- TEST_ADD_PERIOD_NEGATIVE_OFFSET_END
 
-Sometimes, it is important to find the start date of the next period according to a specific market
+You might need to find the start date of the next period according to a specific market
 convention, as described in the
-:ref:`RollConventionEnum <type-daml-finance-interface-types-date-rollconvention-rollconventionenum-73360>`.
-The *Roll convention* specifies which date to use in the next period.
+:ref:`RollConventionEnum <type-daml-finance-interface-types-date-rollconvention-rollconventionenum-73360>` reference.
+The *Roll convention* specifies when the date is rolled.
 
 For example, you can define an end-of-month roll:
 
