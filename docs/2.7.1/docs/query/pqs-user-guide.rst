@@ -167,7 +167,7 @@ and Operators <https://www.postgresql.org/docs/12/functions-json.html>`__ in
 the PostgreSQL manual. The operators ``->``, ``->>``, ``#>``, ``#>>``, and
 ``@>`` may be of particular interest.
 
-This :ref:`section below <pqs-json-encoding>` summarizes how the ledger data is encoded in JSON.
+The :ref:`JSON Format section <pqs-json-encoding>` shows how the ledger data is encoded in JSON.
 
 Continuity
 ==========
