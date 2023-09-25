@@ -238,8 +238,8 @@ different coupon amounts for each period. There are various market conventions f
 which are supported using the
 :ref:`DayCountConventionEnum <type-daml-finance-interface-types-date-daycount-daycountconventionenum-67281>`.
 
-For example, consider the schedule with a short initial stub in the previous section. Assume we want
-to use the ``Act360`` day count convention:
+Consider the schedule with a short initial stub in the previous section. The following example
+uses the ``Act360`` day count convention:
 
 .. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/DayCount.daml
   :language: daml
