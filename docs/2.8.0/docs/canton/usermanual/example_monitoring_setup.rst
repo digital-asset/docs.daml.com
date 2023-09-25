@@ -232,7 +232,7 @@ The Docker images need to be pulled down before starting the network:
 * docker.elastic.co/logstash/logstash:8.5.1
 * gcr.io/cadvisor/cadvisor:v0.45.0
 * grafana/grafana:9.3.1-ubuntu
-* postgres:11.18-bullseye
+* postgres:14.8-bullseye
 * prom/prometheus:v2.40.6
 
 Running Docker Compose

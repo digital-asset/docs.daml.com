@@ -68,41 +68,20 @@ template body
     :ref:`choices <daml-ref-choice-structure>`
         ``choice NameOfChoice : ReturnType controller nameOfParty do``
 
-        or
-
-    	``controller nameOfParty can NameOfChoice : ReturnType do``
-
-        Defines choices that can be exercised. See `Choice structure`_ for what can go in a choice. Note that ``controller``-first syntax is deprecated and will be removed in a future version of Daml.
+        Defines choices that can be exercised. See `Choice structure`_ for what can go in a choice.
 
 .. _daml-ref-choice-structure:
 
 Choice Structure
 ****************
 
-Here's the structure of a choice inside a template. There are two ways of specifying a choice:
-
-- start with the ``choice`` keyword
-- start with the ``controller`` keyword
+Here is the structure of a choice inside a template:
 
 .. literalinclude:: ../code-snippets/Structure.daml
    :language: daml
    :start-after: -- start of choice snippet
    :end-before: -- end of choice snippet
    :dedent: 4
-
-:ref:`a controller (or controllers) <daml-ref-controllers>`
-    ``controller`` keyword
-
-    Who can exercise the choice.
-
-:ref:`choice observers <daml-ref-choice-observers>`
-    ``observer`` keyword
-
-    Optional. Additional parties that are guaranteed to be informed of an exercise of the choice.
-
-    To specify choice observers, you must start you choice with the ``choice`` keyword.
-
-    The optional ``observer`` keyword must precede the mandatory ``controller`` keyword.
 
 :ref:`consumption annotation <daml-ref-consumability>`
     Optionally one of ``preconsuming``, ``postconsuming``, ``nonconsuming``, which changes the behavior of the choice with respect to privacy and if and when the contract is archived.
@@ -117,7 +96,21 @@ Here's the structure of a choice inside a template. There are two ways of specif
 :ref:`choice arguments <daml-ref-choice-arguments>`
     ``with`` keyword
 
-    If you start your choice with ``choice`` and include a ``Party`` as a parameter, you can make that ``Party`` the ``controller`` of the choice. This is a feature called "flexible controllers", and it means you don't have to specify the controller when you create the contract - you can specify it when you exercise the choice. To exercise a choice, the party needs to be a signatory or an observer of the contract and must be explicitly declared as such.
+    If you include a ``Party`` as a choice argument, you can make that ``Party`` the ``controller`` of the choice. This means that the controller can be specified when the choice is exercised, rather than when the contract is created. For the exercise to work, the party needs to be able to see the contract, i.e. it must be an ``observer`` or a ``signatory``.
+
+:ref:`a controller (or controllers) <daml-ref-controllers>`
+    ``controller`` keyword
+
+    Who can exercise the choice.
+
+:ref:`choice observers <daml-ref-choice-observers>`
+    ``observer`` keyword
+
+    Optional. Additional parties that are guaranteed to be informed of an exercise of the choice.
+
+    To specify choice observers, you must start you choice with the ``choice`` keyword.
+
+    The optional ``observer`` keyword must precede the mandatory ``controller`` keyword.
 
 :ref:`a choice body <daml-ref-choice-body>`
     After ``do`` keyword

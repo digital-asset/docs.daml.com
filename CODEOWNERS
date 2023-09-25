@@ -1,0 +1,4 @@
+# https://help.github.com/articles/about-codeowners/
+# Note that accounts or teams mentioned must have WRITE access to the repository.
+
+* @digital-asset/daml-docs
