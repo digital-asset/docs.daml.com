@@ -1012,13 +1012,12 @@ argument:
 
    SELECT * FROM prune_to_offset('<offset>');
 
-The function will delete transactions and update active contracts as
-described above.
+This function deletes transactions and update active contracts as
+described :ref:`earlier in this section <pqs-pruning-behavior>`.
 
-You can use ``prune_to_offset`` in combination with the ``get_offset``
-function to prune data up to a specific timestamp or interval. For
-example, to prune data older than 30 days, you can use the following
-query:
+To prune data up to a specific timestamp or interval, use ``prune_to_offset`` 
+in combination with the ``get_offset`` function. For example, the following 
+query prunes data older than 30 days:
 
 .. code:: sql
 
