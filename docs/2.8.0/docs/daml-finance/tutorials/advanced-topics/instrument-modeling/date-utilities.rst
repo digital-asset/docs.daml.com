@@ -110,7 +110,8 @@ To *subtract* a period of time, use a negative offset:
 
 You might need to find the start date of the next period according to a specific market
 convention, as described in the
-:ref:`RollConventionEnum <type-daml-finance-interface-types-date-rollconvention-rollconventionenum-73360>` reference.
+:ref:`RollConventionEnum <type-daml-finance-interface-types-date-rollconvention-rollconventionenum-73360>`
+reference.
 The *Roll convention* specifies when the date is rolled.
 
 For example, you can define an end-of-month roll:
@@ -200,10 +201,12 @@ later:
   :start-after: -- CREATE_PERIODIC_SCHEDULE_WITH_STUB_BEGIN
   :end-before: -- CREATE_PERIODIC_SCHEDULE_WITH_STUB_END
 
-This schedule has only 11 months in it, which does not correspond to regular 3M periods (neither 3 nor 4 periods).
+This schedule has only 11 months in it, which does not correspond to regular 3M periods (neither 3
+nor 4 periods).
 To fix this, define a stub period.
 Using the preceding example, you could define a start date for the first regular period. (This
-implies a short initial stub period, in this case 2 months.) You would expect the following schedule:
+implies a short initial stub period, in this case 2 months.) You would expect the following
+schedule:
 
 .. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Schedule.daml
   :language: daml
