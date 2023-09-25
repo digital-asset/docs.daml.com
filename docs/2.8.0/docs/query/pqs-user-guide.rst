@@ -991,8 +991,7 @@ data older than 30 days (relative to now):
 
    ./PQS.jar datastore postgres-document prune --prune-target P30D
 
-To prune data up to a specific timestamp, you can use the following
-command:
+The following example prunes data up to a specific timestamp:
 
 ::
 
