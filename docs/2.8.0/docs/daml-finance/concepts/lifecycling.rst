@@ -236,7 +236,9 @@ Effects
 An :ref:`Effect <type-daml-finance-interface-lifecycle-effect-effect-69649>` describes the asset
 movements resulting from a particular event. It specifies these movements per unit of a target
 instrument and version. Holdings on this specific instrument version entitle a holder to claim the
-effect, which results in the required asset movements to be instructed. In our dividend example
+effect, which results in the required asset movements to be instructed.
+
+In our dividend example
 above, this would describe the following asset movement: take a v1 holding and return a v2 holding
 + $10 (per unit held). The actual movement of these assets is described in the next section.
 
