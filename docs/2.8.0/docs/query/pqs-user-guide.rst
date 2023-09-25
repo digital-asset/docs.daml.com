@@ -919,6 +919,8 @@ Active contracts are preserved under a new offset, while all other
 transaction-related data up to, and including the target offset is
 deleted.
 
+.. _prune_to_offset:
+
 The target offset, ie. the offset provided via ``--prune-target`` or as
 argument to ``prune_to_offset``, is the transaction with the highest
 offset that will be deleted by the pruning operation.

@@ -57,10 +57,10 @@ The historical table below lists the available Early Access releases of the Part
 |               | ``--target-postgres-autoapplyschema`` renamed to    |
 |               | ``--target-schema-autoapply``                       |
 +---------------+-----------------------------------------------------+
-| `2023-09-22`_ | New release. Environment variables now have the     |
-|               | prefix ``SCRIBE_`` to avoid name clashes. Added     |
-|               | pruning documentation and updated the               |
-|               | ``--pipeline-parties`` option.                      |
+| `2023-09-22`_ | New release. Added pruning documentation.           |
+|               | Environment variables now have ``SCRIBE_`` prefix   |
+|               | to avoid name clashes.  Updated the                 |
+|               | ``--pipeline-parties`` option information.          |
 +---------------+-----------------------------------------------------+
 
 .. _2023-08-09: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B2986-e45c930.tar.gz
@@ -167,7 +167,7 @@ and Operators <https://www.postgresql.org/docs/12/functions-json.html>`__ in
 the PostgreSQL manual. The operators ``->``, ``->>``, ``#>``, ``#>>``, and
 ``@>`` may be of particular interest.
 
-The :ref:`JSON Format section <pqs-json-encoding>` shows how the ledger data is encoded in JSON.
+This :ref:`section below <pqs-json-encoding>` summarizes how the ledger data is encoded in JSON.
 
 Continuity
 ==========
@@ -376,19 +376,21 @@ inclusion statement with basic boolean logic, where whitespace is ignored.  Belo
 - ``(a.b.c.* & !(a.b.c.Foo | a.b.c.Bar) | g.e.f.Baz)``: everything in ``a.b.c`` except for ``Foo`` and ``Bar``, and also include ``g.e.f.Baz``
 
 The ``--pipeline-parties`` option supports the same filter expressions as the
-``--pipeline-filter`` option. To filter for the parties ``alice::abc123...`` and
+``--pipeline-filter``. So to filter for two parties ``alice::abc123...`` and
 ``bob::def567...``, you could write ``--pipeline-parties="(alice* | bob*)"``.
-To indicate a specific party, include the hash after the party
-hint (for example,
+If you want to specify a specific party then include the hash behind the party
+hint (i.e.
 ``Alice_1::122055fc4b190e3ff438587b699495a4b6388e911e2305f7e013af160f49a76080ab``). 
 
-Note that the separator is the pipe character (``|``), not a comma.
+Please note that the separator is a pipe character (``|``) instead of comma.
 
-Brackets are unnecessary for simple expressions. Here's an example of a list (hashes truncated for readability):
-``--pipeline-parties="Alice_1::122055 | Alice_2::122053 | Peter-1::358400"`` 
-
-You can use the asterisk (``*``) as a wildcard. Using the same list example,
-``--pipeline-parties="Alice* | *358400"`` matches
+Brackets are unnecessary for simple expressions.  A simple list is
+``--pipeline-parties="Alice_1::122055fc4b190e3ff438587b699495a4b6388e911e2305f7e013af160f49a76080ab
+|
+Alice_2::122053933e4803c2995e41faa8a29981ca0d1faf6b4ffbf917ba1edd0db133acb634
+| Peter-1::358400000000000000000000000`` Specifying the parties in a short
+form can be done by using the ``*`` as a wildcard.  For example,
+``--pipeline-parties="Alice* | *358400000000000000000000000"`` will select
 ``Alice_1``, ``Alice_2``, and ``Peter-1``. 
 
 More advanced expressions can make use of brackets, such as
@@ -917,6 +919,8 @@ Active contracts are preserved under a new offset, while all other
 transaction-related data up to, and including the target offset is
 deleted.
 
+.. _prune_to_offset:
+
 The target offset, ie. the offset provided via ``--prune-target`` or as
 argument to ``prune_to_offset``, is the transaction with the highest
 offset that will be deleted by the pruning operation.
@@ -981,17 +985,15 @@ deleting any data. To execute the pruning operation, you need to add the
 
    ./PQS.jar datastore postgres-document prune --prune-target <pruning_target> --prune-mode Force
 
-In addition to providing an offset as ``--prune-target``, a timestamp
-or duration can also be used as pruning cut-off. For example, to prune
-data older than 30 days (relative to now), you can use the following
-command:
+Instead of providing an offset as the ``--prune-target``, you can use a timestamp
+or duration as the pruning cutoff. For example, the following command prunes
+data older than 30 days (relative to now):
 
 ::
 
    ./PQS.jar datastore postgres-document prune --prune-target P30D
 
-To prune data up to a specific timestamp, you can use the following
-command:
+The following example prunes data up to a specific timestamp:
 
 ::
 
@@ -1000,25 +1002,24 @@ command:
 Pruning with ``prune_to_offset``
 --------------------------------
 
-The ``prune_to_offset`` function is a PostgreSQL function that allows
-you to prune the ledger data up to a specified offset. It has the same
-behavior as the ``datastore postgres-document prune`` command, but does
-not feature a dry-run option.
+The ``prune_to_offset`` PostgreSQL function allows
+you to prune ledger data up to a specified offset. It has the same
+behavior as the ``datastore postgres-document prune`` command, except it does not
+offer dry runs.
 
-To use ``prune_to_offset``, you need to provide a offset as a text
+To use ``prune_to_offset``, provide an offset as a text
 argument:
 
 .. code:: sql
 
    SELECT * FROM prune_to_offset('<offset>');
 
-The function will delete transactions and update active contracts as
-described above.
+This function deletes transactions and update active contracts as
+described :ref:`earlier in this section <pqs-pruning-behavior>`.
 
-You can use ``prune_to_offset`` in combination with the ``get_offset``
-function to prune data up to a specific timestamp or interval. For
-example, to prune data older than 30 days, you can use the following
-query:
+To prune data up to a specific timestamp or interval, use ``prune_to_offset`` 
+in combination with the ``get_offset`` function. For example, the following 
+query prunes data older than 30 days:
 
 .. code:: sql
 
