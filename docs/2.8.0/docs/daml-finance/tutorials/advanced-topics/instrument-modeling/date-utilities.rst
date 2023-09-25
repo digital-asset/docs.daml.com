@@ -1,13 +1,13 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-How to use the calendar, schedule and day count utility functions
+How to use the calendar, schedule, and day count utility functions
 #################################################################
 
-The Daml Finance library contains date related utility functions that are used to implement industry
-standard conventions. These are mainly used internally in instruments like Bonds and Swaps. However,
-there are use cases where it would be helpful for users to understand these utility functions in
-more detail. For example if you want to:
+The Daml Finance library contains date-related utility functions for
+implementing industry-standard conventions. These functions are used
+internally in instruments like bonds and swaps, but they can also be helpful in
+your own custom use cases. For example, you can use these functions to:
 
 - develop your own instruments that depend on business day shifts, schedules, and/or day count
   conventions
