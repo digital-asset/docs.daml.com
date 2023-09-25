@@ -200,10 +200,10 @@ later:
   :start-after: -- CREATE_PERIODIC_SCHEDULE_WITH_STUB_BEGIN
   :end-before: -- CREATE_PERIODIC_SCHEDULE_WITH_STUB_END
 
-it would only have 11 months in total, which does not match with neither 3 nor 4 regular 3M periods.
-Instead, we need to define a stub period, so that the rest of the schedule is regular.
-In the example above, we did this by defining a start date for the first regular period. This
-implies a short initial stub period, in our case 2 months. We would expect the following schedule:
+This schedule has only 11 months in it, which does not correspond to regular 3M periods (neither 3 nor 4 periods).
+To fix this, define a stub period.
+Using the preceding example, you could define a start date for the first regular period. (This
+implies a short initial stub period, in this case 2 months.) You would expect the following schedule:
 
 .. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Schedule.daml
   :language: daml
