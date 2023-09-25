@@ -294,6 +294,6 @@ Here are some pointers regarding next steps, depending on what you want to do:
   implementation of the Bond package could be a good starting point. It is explained and linked
   in the :doc:`Contingent Claims Instrument <contingent-claims-instrument>` tutorial.
 - develop your own instruments that depend on business day shifts, schedules, or day count
-  conventions: the :doc:`Payoff Modelling <../payoff-modeling/intro>` tutorials describe the
+  conventions: the :doc:`Payoff Modelling <../../payoff-modeling/intro>` tutorials describe the
   Contingent Claims framework step by step. You can then create the dates for your instruments using
   the functions described in this tutorial.
