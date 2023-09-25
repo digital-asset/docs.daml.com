@@ -264,9 +264,9 @@ exact same number of days.
 
 In addition to ``Act360``, the
 :ref:`DayCountConventionEnum <type-daml-finance-interface-types-date-daycount-daycountconventionenum-67281>`
-also supports several other day count conventions. Some of them can be computed using
+supports several other day count conventions. You can compute some of them with
 :ref:`calcDcf <function-daml-finance-util-date-daycount-calcdcf-20432>`, using only a start and an
-end date as an input, as described above.
+end date as an input as shown above.
 Others, e.g. ``ActActISDA``, are a bit more complicated because they require additional information.
 They can be calculated using the
 :ref:`calcPeriodDcf <function-daml-finance-util-date-daycount-calcperioddcf-63067>` function
