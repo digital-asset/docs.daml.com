@@ -244,7 +244,7 @@ Claim Rule
 ==========
 
 The :ref:`Claim Rule <type-daml-finance-interface-lifecycle-rule-claim-claim-29284>` is used to
-claim lifecycle effects and instruct settlement thereof. Each effect specifies a target instrument
+claim lifecycle effects and instruct settlement of the resulting asset movements. Each effect specifies a target instrument
 (and version), and holdings on this instrument (version) are required to claim an effect. In our
 dividend example above, the v1 instrument is the target instrument. This serves as proof of
 ownership such that there is no need for an issuer to take a consistent snapshot of holdings as of a
