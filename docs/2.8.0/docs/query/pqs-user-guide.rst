@@ -1000,10 +1000,10 @@ The following example prunes data up to a specific timestamp:
 Pruning with ``prune_to_offset``
 --------------------------------
 
-The ``prune_to_offset`` function is a PostgreSQL function that allows
-you to prune the ledger data up to a specified offset. It has the same
-behavior as the ``datastore postgres-document prune`` command, but does
-not feature a dry-run option.
+The ``prune_to_offset`` PostgreSQL function allows
+you to prune ledger data up to a specified offset. It has the same
+behavior as the ``datastore postgres-document prune`` command, except it does not
+offer dry runs.
 
 To use ``prune_to_offset``, you need to provide a offset as a text
 argument:
