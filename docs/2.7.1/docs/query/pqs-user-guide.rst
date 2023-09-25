@@ -382,7 +382,7 @@ To indicate a specific party, include the hash after the party
 hint (for example,
 ``Alice_1::122055fc4b190e3ff438587b699495a4b6388e911e2305f7e013af160f49a76080ab``). 
 
-Please note that the separator is a pipe character (``|``) instead of comma.
+Note that the separator is the pipe character (``|``), not a comma.
 
 Brackets are unnecessary for simple expressions.  A simple list is
 ``--pipeline-parties="Alice_1::122055fc4b190e3ff438587b699495a4b6388e911e2305f7e013af160f49a76080ab
