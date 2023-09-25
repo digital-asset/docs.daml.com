@@ -9,12 +9,13 @@ implementing industry-standard conventions. These functions are used
 internally in instruments like bonds and swaps, but they can also be helpful in
 your own custom use cases. For example, you can use these functions to:
 
-- develop your own instruments that depend on business day shifts, schedules, and/or day count
-  conventions
-- understand and validate the implementation of existing Daml Finance instruments
-- compose existing Daml Finance instruments, for example define a series of zero coupon bonds
-  according to a specific schedule of expiries
-- use these calendar and schedule related functionalities for non-financial use cases
+- understand and validate the implementation of existing Daml Finance
+  instruments
+- compose existing Daml Finance instruments; for example, define a series of
+  zero-coupon bonds according to a specific schedule of maturity dates
+- develop your own instruments that depend on business day shifts, schedules,
+  or day count conventions
+- work with non-financial use cases
 
 Calendar
 ========
