@@ -133,7 +133,7 @@ instruct settlement for:
 
 Both legs of this settlement are grouped in a
 :ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>` to provide atomicity. The
-goal of the batch is to take a v1 holding and return a v2 holding + $10 (for each share held). This
+goal of the batch is to exchange a holding on the v1 instrument for a holding on the v2 instrument + $10 (for each share held). This
 ensures that the investor can never claim a dividend twice, as after settlement they only hold the
 new version of the stock, which is not entitled to the dividend anymore.
 
