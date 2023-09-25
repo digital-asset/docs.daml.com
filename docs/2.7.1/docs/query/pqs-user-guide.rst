@@ -376,10 +376,10 @@ inclusion statement with basic boolean logic, where whitespace is ignored.  Belo
 - ``(a.b.c.* & !(a.b.c.Foo | a.b.c.Bar) | g.e.f.Baz)``: everything in ``a.b.c`` except for ``Foo`` and ``Bar``, and also include ``g.e.f.Baz``
 
 The ``--pipeline-parties`` option supports the same filter expressions as the
-``--pipeline-filter``. So to filter for two parties ``alice::abc123...`` and
+``--pipeline-filter`` option. To filter for the parties ``alice::abc123...`` and
 ``bob::def567...``, you could write ``--pipeline-parties="(alice* | bob*)"``.
-If you want to specify a specific party then include the hash behind the party
-hint (i.e.
+To indicate a specific party, include the hash after the party
+hint (for example,
 ``Alice_1::122055fc4b190e3ff438587b699495a4b6388e911e2305f7e013af160f49a76080ab``). 
 
 Please note that the separator is a pipe character (``|``) instead of comma.
