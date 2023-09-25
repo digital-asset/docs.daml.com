@@ -74,6 +74,8 @@ applications in production, but they differ in terms of enterprise and non-funct
 Install Daml Open Source SDK
 ****************************
 
+.. _windows-sdk:
+
 Windows 10
 ==========
 
