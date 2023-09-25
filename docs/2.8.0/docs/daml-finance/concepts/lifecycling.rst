@@ -113,10 +113,10 @@ we prevent holders from (accidentally or intentionally) claiming a particular ef
    :alt: The issuer processes the distribution event through the distribution rule, creating a
          lifecycle effect. The effect references ACME v1 as a target instrument.
 
-These components are described in more detail in the Components section below. For simplicity, we
-have chosen a dividend as an example here, but the same workflow can be used to process more complex
-events. Note that the logic to create the new version of an instrument can also be encoded in the
-lifecycle rule.
+These components are described in more detail in the :ref:`Components <lifecycling-components>`
+section below. For simplicity, we have chosen a dividend as an example here, but the same workflow
+can be used to process more complex events. Note that the logic to create the new version of an
+instrument can also be encoded in the lifecycle rule.
 
 Claiming the effect
 ===================
@@ -166,6 +166,8 @@ The following picture shows the three asset movements involved in this particula
 
 The result of processing the settlement batch results in the investor receiving a 10000 USD
 dividend and 1000 shares of ``ACME`` v2 in return for their 1000 shares of ``ACME`` v1.
+
+.. _lifecycling-components:
 
 Components
 **********
