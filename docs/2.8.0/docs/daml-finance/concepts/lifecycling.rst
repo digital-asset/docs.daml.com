@@ -81,8 +81,7 @@ on the v2 "ex-dividend" instrument.
 Creating the event
 ==================
 
-The issuer first creates a new instance of the ``ACME`` instrument, assigning a new version. Note
-that the logic to create the new version of an instrument can also be encoded in the lifecycle rule.
+The issuer first creates a new instance of the ``ACME`` instrument, assigning a new version.
 The new version is then automatically produced when processing the event as described in the next
 step.
 
@@ -115,9 +114,9 @@ we prevent holders from (accidentally or intentionally) claiming a particular ef
          lifecycle effect. The effect references ACME v1 as a target instrument.
 
 These components are described in more detail in the Components section below. For simplicity, we
-have chosen a dividend as an example here, but the same workflow can be used to process more
-advanced instruments involving more complex calculations and where the resulting v2 instrument is
-automatically defined and produced.
+have chosen a dividend as an example here, but the same workflow can be used to process more complex
+events. Note that the logic to create the new version of an instrument can also be encoded in the
+lifecycle rule.
 
 Claiming the effect
 ===================
