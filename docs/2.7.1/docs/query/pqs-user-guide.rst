@@ -57,10 +57,10 @@ The historical table below lists the available Early Access releases of the Part
 |               | ``--target-postgres-autoapplyschema`` renamed to    |
 |               | ``--target-schema-autoapply``                       |
 +---------------+-----------------------------------------------------+
-| `2023-09-22`_ | New release. Added pruning documentation.           |
-|               | Environment variables now have ``SCRIBE_`` prefix   |
-|               | to avoid name clashes.  Updated the                 |
-|               | ``--pipeline-parties`` option information.          |
+| `2023-09-22`_ | New release. Environment variables now have the     |
+|               | prefix ``SCRIBE_`` to avoid name clashes. Added     |
+|               | pruning documentation and updated the               |
+|               | ``--pipeline-parties`` option.                      |
 +---------------+-----------------------------------------------------+
 
 .. _2023-08-09: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B2986-e45c930.tar.gz
