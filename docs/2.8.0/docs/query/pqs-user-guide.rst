@@ -1005,7 +1005,7 @@ you to prune ledger data up to a specified offset. It has the same
 behavior as the ``datastore postgres-document prune`` command, except it does not
 offer dry runs.
 
-To use ``prune_to_offset``, you need to provide a offset as a text
+To use ``prune_to_offset``, provide an offset as a text
 argument:
 
 .. code:: sql
