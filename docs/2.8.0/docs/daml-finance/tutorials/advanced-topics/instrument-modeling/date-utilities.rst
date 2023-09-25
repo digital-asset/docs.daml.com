@@ -23,16 +23,14 @@ Calendar
 The :ref:`Calendar <module-daml-finance-util-date-calendar-17588>` module contains various utility
 functions related to business days and date adjustments.
 
-Business days and non-business days are distinguished by defining a holiday calendar, for example:
+To distinguish business days and non-business days, set a holiday calendar. The :ref:`HolidayCalendarData <type-daml-finance-interface-types-date-calendar-holidaycalendardata-60004>`
+type defines the set of non-business days by specifying the days of the week that belong to the weekend,
+as well as the dates of designated holidays. The following example sets Saturday and Sunday as weekend days and specifies some additional holidays:
 
 .. literalinclude:: ../../../src/test/daml/Daml/Finance/Util/Test/Date/Calendar.daml
   :language: daml
   :start-after: -- CREATE_HOLIDAY_CALENDAR_DATA_BEGIN
   :end-before: -- CREATE_HOLIDAY_CALENDAR_DATA_END
-
-The :ref:`HolidayCalendarData <type-daml-finance-interface-types-date-calendar-holidaycalendardata-60004>`
-type describes the set of non-business days by defining which days of the week belong to the weekend
-and which dates are additional holidays.
 
 We can now check whether a given date is a business day:
 
