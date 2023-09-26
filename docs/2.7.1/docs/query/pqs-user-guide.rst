@@ -62,6 +62,9 @@ The historical table below lists the available Early Access releases of the Part
 |               | to avoid name clashes.  Updated the                 |
 |               | ``--pipeline-parties`` option information.          |
 +---------------+-----------------------------------------------------+
+| `2023-09-26`_ | New release.  The filter is now applied on the DB   |
+|               | functions, such as choices.                         |
++---------------+-----------------------------------------------------+
 
 .. _2023-08-09: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B2986-e45c930.tar.gz
 .. _2023-08-31: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B3614-6b5f082.tar.gz
@@ -69,6 +72,7 @@ The historical table below lists the available Early Access releases of the Part
 .. _2023-09-18: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B3614-6b5f082.tar.gz
 .. _2023-09-19: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B4004-3b542d2.tar.gz
 .. _2023-09-22: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B4057-a74e52c.tar.gz
+.. _2023-09-26: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B4073-9c286ff.tar.gz
 
 Overview
 ********
