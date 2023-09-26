@@ -283,3 +283,19 @@ the schedule end date and the payment frequency:
   :language: daml
   :start-after: -- CALCULATE_ACTACTISDA_DCF_SCHEDULE_PERIOD_BEGIN
   :end-before: -- CALCULATE_ACTACTISDA_DCF_SCHEDULE_PERIOD_END
+
+Summary
+=======
+
+You have learned about the date-related utility functions in the Daml Finance library.
+Here are some pointers regarding next steps, depending on what you want to do:
+
+- understand and validate the implementation of existing Daml Finance instruments: the
+  implementation of the Bond package could be a good starting point. It is explained and linked
+  in the
+  :doc:`How to leverage Contingent Claims in custom instrument implementations <contingent-claims-instrument>`
+  tutorial.
+- develop your own instruments that depend on business day shifts, schedules, or day count
+  conventions: the :doc:`Payoff Modelling <../../payoff-modeling/intro>` tutorials describe the
+  Contingent Claims framework step by step. You can then create the dates for your instruments using
+  the functions described in this tutorial.
