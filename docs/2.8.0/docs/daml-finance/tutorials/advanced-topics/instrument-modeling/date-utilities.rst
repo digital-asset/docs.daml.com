@@ -287,7 +287,7 @@ the schedule end date and the payment frequency:
 Summary
 =======
 
-You have learnt about the date-related utility functions in the Daml Finance library.
+You have learned about the date-related utility functions in the Daml Finance library.
 Here are some pointers regarding next steps, depending on what you want to do:
 
 - understand and validate the implementation of existing Daml Finance instruments: the
