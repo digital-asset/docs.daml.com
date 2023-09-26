@@ -211,13 +211,15 @@ on some of the coupon dates, will require two types of lifecycling:
 - :ref:`Election based lifecycling <election-based-lifecycling>` on coupon dates when the bond *is*
   callable.
 
-Inflation Linked
+Inflation-Linked
 ================
 
-:ref:`Inflation linked bonds <module-daml-finance-instrument-bond-inflationlinked-instrument-30250>`
-pay a fixed coupon rate at the end of every coupon period. The coupon is
-calculated based on a principal that is adjusted according to an inflation index, for example the
-Consumer Price Index (CPI) in the U.S.
+There are different types of inflation-linked bonds in the marketplace. The
+:ref:`Inflation-linked bonds <module-daml-finance-instrument-bond-inflationlinked-instrument-30250>`
+currently supported in Daml Finance pay a fixed coupon rate at the end of every coupon period. This
+corresponds to the payoff of e.g. Treasury Inflation-Protected Securities (TIPS) that are issued by
+the U.S. Treasury. The coupon is calculated based on a principal that is adjusted according to an
+inflation index, for example the Consumer Price Index (CPI) in the U.S.
 
 Here is an example of a bond paying 1.1% p.a. (on a CPI adjusted principal) with a 3M coupon period:
 
