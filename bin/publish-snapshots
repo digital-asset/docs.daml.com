@@ -68,9 +68,10 @@ for version in $snapshots; do
   then echo " -> Skipping, known broken."
   else
     base=${version%-*}
-    if [ -d docs/$base ]; then
+    base=${base%.*}
+    if [ -d docs/${base}* ]; then
       (
-        cd docs/$base
+        cd docs/${base}*
         canton=$(curl -H "Authorization: bearer $GITHUB_TOKEN" \
                       --fail \
                       --silent \
@@ -111,7 +112,7 @@ NIX
         if [ "${CI:-}" = "true" ]; then
           echo " -> Pushing to S3..."
           upload=$(mktemp -d)
-          tar xf workdir/target/html-$base.tar.gz -C $upload --strip-components=1
+          tar xf workdir/target/html-${base}*.tar.gz -C $upload --strip-components=1
           aws s3 cp $upload s3://docs-daml-com/$version --recursive --acl public-read --region us-east-1 --no-progress
           aws cloudfront create-invalidation --distribution-id E1U753I56ERH55 --paths "/$version/*"
         else
@@ -120,7 +121,7 @@ NIX
         echo "-> Done."
       )
     else
-      echo " -> No base version $base found for $version, unable to proceed."
+      echo " -> No base version ${base} found for $version, unable to proceed."
       exit 1
     fi
   fi
