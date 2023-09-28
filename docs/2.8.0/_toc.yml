@@ -172,6 +172,8 @@ subtrees:
               title: "Ping Pong Example"
             - file: app-dev/bindings-java/quickstart
               title: "Iou Quickstart Tutorial"
+            - file: app-dev/bindings-java/open-tracing
+              title: "Open Tracing in Ledger API Client Applications"
           - file: app-dev/bindings-python
             title: "Python Bindings"
           - file: app-dev/grpc/index

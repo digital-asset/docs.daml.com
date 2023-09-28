@@ -564,6 +564,8 @@ By default, Jaeger will expose port `16686` (for its UI, which can be seen in a 
 
 Make sure that all Canton nodes in the network report to the same Jaeger server to have an accurate view of the full traces. Also, ensure that the Jaeger server is reachable by all Canton nodes.
 
+Apart from jager, Canton nodes can also be configured to report in Zipkin or OTLP formats.
+
 Sampling
 ~~~~~~~~
 
