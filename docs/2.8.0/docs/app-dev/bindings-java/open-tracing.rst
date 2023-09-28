@@ -9,9 +9,9 @@ Open Tracing in Ledger API Client Applications
 Introduction
 ============
 
-Distributed tracing is a technique used for troubleshooting performance issues in a microservices environment like Daml Enterprise. Tracing in Canton has been introduced in an :ref:`page dedicated to monitoring <tracing>`. Current article describes how to write **Ledger API** client applications so that distributed traces and spans can seamlessly continue between the client and Canton software components.
+Distributed tracing is a technique used for troubleshooting performance issues in a microservices environment like Daml Enterprise. Tracing in Canton has been described in a :ref:`page dedicated to monitoring <tracing>`. Current article describes how to write **Ledger API** client applications so that distributed traces and spans can seamlessly continue between the client and Canton software components.
 
-To study in deail a **Ledger API** client application with OpenTelemetry support, see an `example on GitHub <https://github.com/digital-asset/ex-java-bindings-with-opentelemetry>`__.
+To study in detail a **Ledger API** client application with OpenTelemetry support, see an `example on GitHub <https://github.com/digital-asset/ex-java-bindings-with-opentelemetry>`__.
 
 The example implements a variation of the already familiar ``PingPong`` application, where every call to the **Ledger API** is decorated with an OpenTelemetry trace context. Additionally, it demonstrates how to retrieve the trace context from the past transactions.
 
@@ -19,7 +19,7 @@ If you want to familiarize yourself with the broader topic of open tracing you c
 
 
 Setting up OpenTelemetry Server
-==============================
+===============================
 
 In order to be able to observe the distributed tracing in action, you will need to start an OpenTelemetry backend server. Jaeger, zipkin or OTLP formats are all supported by Canton. To start a jager server you can use the following docker command
 
@@ -59,15 +59,13 @@ To use the OpenTelemetry libraries, add the following **Maven** dependencies to 
     </dependency>
 
 .. note::
-
-Replace ``x.y.z`` for both dependencies with the version that you want to use. You can find the available versions by checking
-the `Maven Central Repository <https://search.maven.org/artifact/io.opentelemetry/opentelemetry-api>`__ etc.
+    Replace ``x.y.z`` for both dependencies with the version that you want to use. You can find the available versions by checking the `Maven Central Repository <https://search.maven.org/artifact/io.opentelemetry/opentelemetry-api>`__ etc.
 
 
 Initializing
 ============
 
-An application that wants to use OpenTelemetry must initialize a number of global controller objects that orchestrate different aspects of the distributed tracing process such as span creation, propagation and export. The exact set of the controllers needed may vary fom application to application. You may draw some inspiration from the selection used in the example inside ``the OpenTelemetryUtil.createOpenTelemetry method <https://github.com/digital-asset/ex-java-bindings-with-opentelemetry/blob/master/src/main/java/examples/pingpong/codegen/OpenTelemetryUtil.java>`_. This is the minimum set required for a fully functional jaeger trace reporting.
+An application that wants to use OpenTelemetry must initialize a number of global controller objects that orchestrate different aspects of the distributed tracing process such as span creation, propagation and export. The exact set of the controllers needed may vary fom application to application. You may draw some inspiration from the selection used in the example inside `the OpenTelemetryUtil.createOpenTelemetry method <https://github.com/digital-asset/ex-java-bindings-with-opentelemetry/blob/master/src/main/java/examples/pingpong/codegen/OpenTelemetryUtil.java>`_. This is the minimum set required for a fully functional jaeger trace reporting.
 
 The next step is to initialize the GrpcTelemetry controller, which is responsible for propagation of the trace contexts inside the HTTP2 headers of the Grpc communication.
 
@@ -79,7 +77,7 @@ Conveniently, the example wraps the necessary initialization steps in the constr
 
 The GrpcTelemetry controller can construct client call interceptors that need to be mounted on top of the **Netty** channels used in the grpc communication. The example provides a useful helper method called ``withClientInterceptor`` that injects an interceptor at channel builder level
 
-.. code-clock:: java
+.. code-block:: java
 
     ManagedChannel channel =
       openTelemetry.withClientInterceptor(
