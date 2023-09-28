@@ -240,8 +240,7 @@ very low (ideally in the order of microseconds). The latency between Canton
 nodes has a much lower impact on throughput than the latency between a Canton
 node and its database.
 
-Optimize the configuration of your database, and make sure the database has sufficient memory and is stored on SSD disks with a very high throughput.
-For Postgres, `this online tool <https://pgtune.leopard.in.ua/>`_ is a good starting point for finding reasonable parameters.
+Please check the :ref:`Postgres persistence section <postgres-performance-tuning>` for tuning instructions.
 
 .. _performance_configuration:
 
@@ -299,17 +298,24 @@ as a result, the command processing consumes resources even though some commands
 If you choose lower resource limits, you may observe a lower latency, at the cost of lower throughput and
 commands getting rejected with the error code ``PARTICIPANT_BACKPRESSURE``.
 
+.. _size_of_connection_pools:
+
 **Size of connection pools.** Make sure that every node uses a connection pool to communicate with the database.
 This avoids the extra cost of creating a new connection on every database query.
-Canton chooses a suitable connection pool by default.
+Canton chooses a suitable connection pool by default, but for performance sensitive applications you may want to optimise.
 Configure the maximum number of connections such that the database is fully loaded, but not overloaded. Allocating
 too many database connections will lead to resource waste (each thread costs), context switching and contention on the
-database system, slowing the overall system down. You can notice this on the query latencies reported by canton going
-up.
+database system, slowing the overall system down. You can notice this on the query latencies reported by Canton going
+up (:ref:`check the trouble shooting guide<how_to_diagnose_slow_db_queries>`).
 
-Try to observe the ``db-storage.queue`` metrics. If they are large, then the system performance may benefit from
-tuning the number of database connections.
-Detailed instructions can be found in the Section :ref:`max_connection_settings`.
+Detailed instructions can also be found in the Section :ref:`max_connection_settings`.
+
+**Size of database task queue.** If you are seeing frequent ``RejectedExecutionExceptions`` when Canton queries the database,
+increase the size of the task queue, as described in Section :ref:`database_task_queue_full`. The rejection is otherwise
+harmless. It just points out that the database is overloaded.
+
+**Database Latency.** Ensure that the database latency is low. The higher the database latency, the lower the actual
+bandwidth and the lower the throughput of the system.
 
 **Throttling configuration for SequencerClient.**
 The ``SequencerClient`` is the component responsible for managing the connection of any member (participant,
@@ -342,13 +348,6 @@ configured maximum value.
 By monitoring these metrics, you can gain insights into the actual workload being processed and assess whether
 it is approaching the specified limit. This information is valuable for maintaining optimal ``SequencerClient``
 performance and preventing any potential bottlenecks or overload situations.
-
-**Size of database task queue.** If you are seeing frequent ``RejectedExecutionExceptions`` when Canton queries the database,
-increase the size of the task queue, as described in Section :ref:`database_task_queue_full`. The rejection is otherwise
-harmless. It just points out that the database is overloaded.
-
-**Database Latency.** Ensure that the database latency is low. The higher the database latency, the lower the actual
-bandwidth and the lower the throughput of the system.
 
 **Turn on High-Throughput Sequencer.** The database sequencer has a number of parameters that can be tuned. The trade-off
 is low-latency or high-throughput. In the low-latency setting, every submission will be immediately processed as a single
@@ -417,3 +416,73 @@ the ones recommended for smaller memory-footprints and are therefore also helpfu
 issues:
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/caching-configs.conf
+
+.. _model_tuning:
+
+Model Tuning
+------------
+
+How you write your Daml model has a large impact on the performance of your system. We've seen a good model running with 3000 ledger events / second (v2.7)
+on a single participant node. A bad model will reach a fraction of that. Therefore, it is important to understand the connection between the model 
+and the performance implications. This section aims to give a few guidelines.
+
+.. _model_tuning_views:
+
+Reduce the Number of Views
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+One key performance driver in Canton is the transaction structure resulting from the model. A Daml command is effectively 
+a "program" that computes a transaction structure. This transaction structure is then broken up by Canton into 
+pieces called "transaction views". The transaction views are then encrypted and sent to the participants who then confirm
+each view. Each view requires cryptography and creates additional payload that needs to be processed and validated. 
+
+As a result, the performance of your system directly depends on how many views the transaction creates. The number of views 
+of a transaction is logged on the participant side as a DEBUG log message: 
+
+.. code:: 
+   
+    Computed transaction tree with total=27 for #root-nodes=8
+
+If you submit a command (which can have multiple Daml commands), then every Daml command will create a new so-called "root-node",
+which in term creates a new view each time. 
+
+Just putting all Daml commands into a single batch command will not help, as you might still create lots of views.
+
+In the protocol up to version 5, Canton will create a view for every action node in the transaction tree if the informees change 
+between the node and its parent. Therefore, in order to minimise the number of views, you should try to minimise the number of 
+changes of informees. Informees are the signatories, observers of the contract and the stakeholders of the choice. 
+
+Instead of sending a batch with 20 exercise commands `Foo`, group the contracts you have by stakeholder and send one exercise 
+command on a generator contract with the list of contracts that in turn exercises the `Foo` choice per stakeholder group.
+
+If you write batch commands, group the operations on the ledger based on the informees and hide them behind a single choice 
+per informee group that performs a single batch operation. You can use choice observers to align informees if necessary. 
+
+The rule of thumb is: the number of views should depend on the number of stakeholder groups you have in your batch choice, 
+and be independent of the number of "batches" you process in parallel within one command.
+
+Reduce Ledger Events 
+~~~~~~~~~~~~~~~~~~~~
+The best optimisation is always to just not do something. A ledger is meant to store relevant data and coordinate different 
+parties. If you use the ledger as processing queue, you will run into performance issues, as each transaction view is cryptographically
+secured and processed quite extensively to ensure privacy and integrity, which is totally unnecessary for intermediate steps. The rule 
+of thumb is: if the output of a transaction submitted by a party is immediately consumed by the same party, then you are using the 
+ledger as a processing queue. Instead, restructure your command such that the two steps happen as one.
+
+Furthermore, each `create` will create a contract, causing data to be written to the ledger. Each `fetch` will cause the interpreter to halt 
+interpretation, asking the ledger for a contract, which in worst case requires a lookup in the database. As the interpretation 
+must happen sequentially, this will mean a one by one lookup of contracts, causing load and latency. Fetching data is important and 
+a key feature, but you should apply the same reasoning as you would for a database: A database lookup is expensive and should only be 
+done if necessary, ideally caching repetive computing results.
+
+As an example, if you have a high throughput process that always resolves some data by a chain `A -> B -> C -> D` (four fetches), then 
+change your model to use a single cache contract `ABCD`, only fetch that contract and ensure that there is a process that whenever one 
+of the contracts changes, `ABCD` is updated.
+
+Also, avoid unnecessary transient contracts, as they may cause additional views. `createAndExercise` is not a single command, 
+but translated to one create and an exercise. Use a `nonconsuming` choice instead, possibly with a choice observer if you need 
+to leave a trace on the ledger for audit purposes.
+
+Generally, using `lookupKey` is also discouraged. If you use `lookupByKey` for on-ledger deduplication, the lookup require a 
+database lookup, as in the absolut majority of the cases, the lookupByKey will resolve to `None`. Instead, use command deduplication 
+on the Ledger API. Second, the current `lookupByKey` will not be supported in a multi-domain deployment, as the current semantic 
+only works on a single-domain deployment and can not be translated 1:1 to multi-domain.

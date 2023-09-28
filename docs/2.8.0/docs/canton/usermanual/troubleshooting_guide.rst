@@ -332,7 +332,7 @@ How to obtain a performant system is :ref:`extensively documented <performance_c
 
 If you have followed that documentation, we can assume that:
 
-     * Your database pools are sufficiently sized: check metric ``db-storage.queue``.
+     * Your database pools are sufficiently sized: check metric ``db-storage.queue`` and you've :ref:`correctly setup your database<postgres-performance-tuning>`.
 
      * You have set the right settings with respect to:
 
@@ -358,7 +358,11 @@ If you have followed that documentation, we can assume that:
 
      * You are able to load the system fully. I.e. the load generator that you apply is submitting faster than the system can handle (i.e. you throttle using, for example, max 1000 pending commands, the latency grows linearly with num pending commands).
 
+     * You have optimised your model accordingly to reduce the transaction size.
+
 If you have done all that, you might have reached the limit of what the Canton version you are using can do. The next step is then to find out which component is creating the bottleneck. Generally, it is either one of the nodes or the database.
+
+.. _how_to_measure_db_performance:
 
 How to Measure Database Performance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -393,7 +397,7 @@ The information in here can be very useful:
      * ``saveWatermark(DbSequencerStore.scala:593)`` is really the query with the place in the source code that is being run
 
 Please note that the “execution time” of the query does not include “queuing time” in the connection pool. The time is really the time it took from sending to the JDBC driver to getting the result back.
-
+    
 Now, you do the following analysis:
 
      * if you have for example ``max-connections = 4`` and you log once a minute, if the total time of the queries approaches 240s, then you are obviously using up all db connections that are available.
@@ -401,6 +405,8 @@ Now, you do the following analysis:
      * if a single query runs for ``60s``, then that query might be a sequential bottleneck, as it has been running for 60s out of the 60s interval.
 
      * the mean time should also tell you roughly the db latency, as there are some cheap read queries that should run *< 1ms*. If these queries take a long time, then you know that the database has high latencies or is overloaded.
+
+     * all the queries should normally take between 5-15ms. If you see queries taking consistently longer (e.g. all of them 60 - 70ms), then your database system is overloaded, queuing too many database requests on the database. You might want to increase the database resources (CPUs) or reduce the number of connections. While seeming counter intuitive, but giving too many db connections to a node will reduce the throughput, not increase it.
 
 How to find the Bottleneck
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
