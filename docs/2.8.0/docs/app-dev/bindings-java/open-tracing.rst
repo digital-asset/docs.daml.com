@@ -18,8 +18,8 @@ The example implements a variation of the already familiar ``PingPong`` applicat
 If you want to familiarize yourself with the broader topic of open tracing you can start by consulting the official pages of `the OpenTelemetry project <https://opentelemetry.io/>`_. To find out more about java specifically, the documentation on `java OpenTelemetry instrumentation <https://opentelemetry.io/docs/instrumentation/java/>`_ is an excellent source of references and examples.
 
 
-Setting up OpenTelemetry Server
-===============================
+Setting Up OpenTelemetry Environment
+====================================
 
 In order to be able to observe the distributed tracing in action, you will need to start an OpenTelemetry backend server. Jaeger, zipkin or OTLP formats are all supported by Canton. To start a jager server you can use the following docker command
 
@@ -29,6 +29,22 @@ In order to be able to observe the distributed tracing in action, you will need 
       -p 16686:16686 \
       -p 14250:14250 \
       jaegertracing/all-in-one:1.22.0
+
+You also have to start Canton with OpenTelemetry exporting enabled. You can achieve it by defining a new ``jaeger.conf`` configuration file
+
+::
+
+    canton.monitoring.tracing.tracer.exporter {
+      type = jaeger
+      address = "localhost" // it's the default, so can be omitted
+      port = 14250 // it's the default, so can be omitted
+    }
+
+Next, you can launch a small Canton installation combining the ``jaeger.conf`` into the configuration mix.
+
+::
+
+    bin/canton -c examples/01-simple-topology/simple-topology.conf -c jaeger.conf
 
 Adding Project Dependencies
 ===========================
@@ -144,3 +160,11 @@ Finally, you generate a new span within the original context. You can use the al
     openTelemetry.runInNewSpan("follow", () ->
       submissionService.submit(SubmitRequest.toProto(ledgerId, commandsSubmission))
     )
+
+Putting It All Together
+=======================
+
+When the client applications follow the rules and pass the trace contexts in an uninterrupted manner, it becomes possible in jaeger UI to witness the entire workflow as one long succession of spans. The span diagram collected while running the example application is shown below
+
+.. figure:: quickstart/images/jaegerPingSpans.png
+      :alt: Jaeger UI showing the same trace context bouncing between client and Canton in multiple steps.
