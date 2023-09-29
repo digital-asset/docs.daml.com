@@ -9,19 +9,19 @@ Open Tracing in Ledger API Client Applications
 Introduction
 ============
 
-Distributed tracing is a technique used for troubleshooting performance issues in a microservices environment like Daml Enterprise. Tracing in Canton has been described in a :ref:`page dedicated to monitoring <tracing>`. Current article describes how to write **Ledger API** client applications so that distributed traces and spans can seamlessly continue between the client and Canton software components.
+Distributed tracing is a technique used for troubleshooting performance issues in a microservices environment like Daml Enterprise. Tracing in Canton has been described in a :ref:`page dedicated to monitoring <tracing>`. This guide describes how to write **Ledger API** client applications so that distributed traces and spans can seamlessly continue between the client and Canton software components.
 
-To study in detail a **Ledger API** client application with OpenTelemetry support, see an `example on GitHub <https://github.com/digital-asset/ex-java-bindings-with-opentelemetry>`__.
+To study a **Ledger API** client application with OpenTelemetry support in detail, see this `example on GitHub <https://github.com/digital-asset/ex-java-bindings-with-opentelemetry>`__.
 
-The example implements a variation of the already familiar ``PingPong`` application, where every call to the **Ledger API** is decorated with an OpenTelemetry trace context. Additionally, it demonstrates how to retrieve the trace context from the past transactions.
+The example implements a variation of the already familiar ``PingPong`` application where every call to the **Ledger API** is decorated with an OpenTelemetry trace context and demonstrates how to retrieve the trace context from past transactions.
 
-If you want to familiarize yourself with the broader topic of open tracing you can start by consulting the official pages of `the OpenTelemetry project <https://opentelemetry.io/>`_. To find out more about java specifically, the documentation on `java OpenTelemetry instrumentation <https://opentelemetry.io/docs/instrumentation/java/>`_ is an excellent source of references and examples.
+To familiarize yourself with the broader topic of open tracing, consult the official pages of `the OpenTelemetry project <https://opentelemetry.io/>`_. To find out more about open tracing in Java, the documentation on `Java OpenTelemetry instrumentation <https://opentelemetry.io/docs/instrumentation/java/>`_ is an excellent source of references and examples.
 
 
-Setting Up OpenTelemetry Environment
-====================================
+Set Up an OpenTelemetry Environment
+===================================
 
-In order to be able to observe the distributed tracing in action, you will need to start an OpenTelemetry backend server. Jaeger, zipkin or OTLP formats are all supported by Canton. To start a jager server you can use the following docker command
+To observe distributed tracing in action, you first need to start an OpenTelemetry backend server. Canton supports Jaeger, Zipkin, or OTLP formats. To start a Jaeger server you can use the following docker command:
 
 ::
 
@@ -30,7 +30,7 @@ In order to be able to observe the distributed tracing in action, you will need 
       -p 14250:14250 \
       jaegertracing/all-in-one:1.22.0
 
-You also have to start Canton with OpenTelemetry exporting enabled. You can achieve it by defining a new ``jaeger.conf`` configuration file
+You also have to start Canton with OpenTelemetry exporting enabled. You can achieve it by defining a new ``jaeger.conf`` configuration file:
 
 ::
 
@@ -40,14 +40,14 @@ You also have to start Canton with OpenTelemetry exporting enabled. You can achi
       port = 14250 // it's the default, so can be omitted
     }
 
-Next, you can launch a small Canton installation combining the ``jaeger.conf`` into the configuration mix.
+Next, launch a small Canton installation combining the ``jaeger.conf`` into the configuration mix:
 
 ::
 
     bin/canton -c examples/01-simple-topology/simple-topology.conf -c jaeger.conf
 
-Adding Project Dependencies
-===========================
+Add Project Dependencies
+========================
 
 To use the OpenTelemetry libraries, add the following **Maven** dependencies to your project's ``pom.xml``:
 
@@ -78,20 +78,20 @@ To use the OpenTelemetry libraries, add the following **Maven** dependencies to 
     Replace ``x.y.z`` for both dependencies with the version that you want to use. You can find the available versions by checking the `Maven Central Repository <https://search.maven.org/artifact/io.opentelemetry/opentelemetry-api>`__ etc.
 
 
-Initializing
-============
+Initialize
+==========
 
-An application that wants to use OpenTelemetry must initialize a number of global controller objects that orchestrate different aspects of the distributed tracing process such as span creation, propagation and export. The exact set of the controllers needed may vary fom application to application. You may draw some inspiration from the selection used in the example inside `the OpenTelemetryUtil.createOpenTelemetry method <https://github.com/digital-asset/ex-java-bindings-with-opentelemetry/blob/master/src/main/java/examples/pingpong/codegen/OpenTelemetryUtil.java>`_. This is the minimum set required for a fully functional jaeger trace reporting.
+An application that wants to use OpenTelemetry must initialize a number of global controller objects that orchestrate different aspects of the distributed tracing process such as span creation, propagation, and export. The exact set of controllers needed may vary from application to application. You may draw some inspiration from the selection used in the example inside `the OpenTelemetryUtil.createOpenTelemetry method <https://github.com/digital-asset/ex-java-bindings-with-opentelemetry/blob/master/src/main/java/examples/pingpong/codegen/OpenTelemetryUtil.java>`_. This is the minimum set required for a fully functional Jaeger trace reporting.
 
-The next step is to initialize the GrpcTelemetry controller, which is responsible for propagation of the trace contexts inside the HTTP2 headers of the Grpc communication.
+The next step is to initialize the GRPCTelemetry controller, which is responsible for the propagation of the trace contexts inside the HTTP2 headers of the gRPC communication.
 
-Conveniently, the example wraps the necessary initialization steps in the constructor of the OpenTelemetryUtil class. All you have to do is call
+The example wraps the necessary initialization steps in the constructor of the OpenTelemetryUtil class. All you have to do is call:
 
 .. code-block:: java
 
     OpenTelemetryUtil openTelemetry = new OpenTelemetryUtil(APP_ID);
 
-The GrpcTelemetry controller can construct client call interceptors that need to be mounted on top of the **Netty** channels used in the grpc communication. The example provides a useful helper method called ``withClientInterceptor`` that injects an interceptor at channel builder level
+The GRPCTelemetry controller can construct client call interceptors that need to be mounted on top of the **Netty** channels used in the gRPC communication. The example provides a useful helper method called ``withClientInterceptor`` that injects an interceptor at the channel builder level:
 
 .. code-block:: java
 
@@ -104,10 +104,10 @@ The GrpcTelemetry controller can construct client call interceptors that need to
 
 And with that, you are all set to start generating own spans, reporting them to the **Jaeger** server and also propagating them transparently to the **Ledger API**.
 
-Starting New Spans
-==================
+Start New Spans
+===============
 
-Before making a Grpc call, you must generate a new span that will cover the multi-component interaction that is about to be initiated. The example provides a useful combinator called ``runInNewSpan`` that wraps the execution of an arbitrary function in a newly generated span
+Before making a gRPC call, you must generate a new span to cover the multi-component interaction that is about to be initiated. The example provides a useful combinator called ``runInNewSpan`` that wraps the execution of an arbitrary function in a newly generated span:
 
 .. code-block:: java
 
@@ -120,18 +120,18 @@ Before making a Grpc call, you must generate a new span that will cover the mult
         }
     }
 
-You can use it on a command submission in the following manner
+You can use it on a command submission as follows:
 
 .. code-block:: java
 
     openTelemetry.runInNewSpan("createInitialContracts", () -> submissionService.submit(request));
 
-The Grpc interceptors that have been mounted at the initialization stage, will do the rest of the work behind the scenes making sure that the spans make it across to the Canton.
+The gRPC interceptors that were mounted at the initialization stage do the rest of the work behind the scenes making sure that the spans make it across to the Canton.
 
-Continuing Spans Across Different Applications
-==============================================
+Continue Spans Across Different Applications
+============================================
 
-Sometimes, you may wish to continue the same span across multiple daml transactions forming a single workflow. This may be especially interesting when different client application instances interact through the ledger and yet their entire conversation should be seen as a single coherent succession of spans. In that case, it is possible to extract the trace context associated with the past transactions from the Transaction, TransactionTree or Completion records that are returned from the following **Ledger API** calls
+Sometimes you may wish to continue the same span across multiple Daml transactions forming a single workflow. This may be especially interesting when different client application instances interact through the ledger and yet their entire conversation should be seen as a single coherent succession of spans. In that case, it is possible to extract the trace context associated with the past transactions from the Transaction, TransactionTree, or Completion records that are returned from the following **Ledger API** calls:
 
 * TransactionService.GetTransactions
 * TransactionService.GetTransactionTrees
@@ -141,19 +141,19 @@ Sometimes, you may wish to continue the same span across multiple daml transacti
 * TransactionService.GetFlatTransactionById
 * CompletionService.CompletionStream
 
-You can extract the context by using a helper function implemented in the example
+You can extract the context by using a helper function implemented in the example:
 
 .. code-block:: java
 
     Context extractedContext = openTelemetry.contextFromDamlTraceContext(tx.getTraceContext());
 
-The extracted context has to be elevated to the status of the current context. Doing this allows the continuation of the original trace context into the present operation. Again the example provides a convenient combinator for that
+The extracted context then has to be elevated to the status of the current context. Doing this allows the continuation of the original trace context into the present operation. Again the example provides a convenient combinator for that:
 
 .. code-block:: java
 
     openTelemetry.runInOpenTelemetryScope(extractedContext, () -> ... );
 
-Finally, you generate a new span within the original context. You can use the already familiar ``runInNewSpan`` method
+Finally, you generate a new span within the original context. You can use the already familiar ``runInNewSpan`` method:
 
 .. code-block:: java
 
@@ -161,10 +161,10 @@ Finally, you generate a new span within the original context. You can use the al
       submissionService.submit(SubmitRequest.toProto(ledgerId, commandsSubmission))
     )
 
-Putting It All Together
-=======================
+Put It All Together
+===================
 
-When the client applications follow the rules and pass the trace contexts in an uninterrupted manner, it becomes possible in jaeger UI to witness the entire workflow as one long succession of spans. The span diagram collected while running the example application is shown below
+When the client applications follow the rules and pass the trace contexts without interruption, it becomes possible to witness the entire workflow as one long succession of spans in Jaeger UI. The span diagram collected while running the example application is shown below:
 
 .. figure:: quickstart/images/jaegerPingSpans.png
       :alt: Jaeger UI showing the same trace context bouncing between client and Canton in multiple steps.
