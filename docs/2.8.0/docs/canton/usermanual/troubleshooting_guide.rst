@@ -358,7 +358,7 @@ If you have followed that documentation, we can assume that:
 
      * You are able to load the system fully. I.e. the load generator that you apply is submitting faster than the system can handle (i.e. you throttle using, for example, max 1000 pending commands, the latency grows linearly with num pending commands).
 
-     * You have optimised your model accordingly to reduce the transaction size.
+     * You have :ref:`optimized your model <model_tuning>` to reduce the transaction size.
 
 If you have done all that, you might have reached the limit of what the Canton version you are using can do. The next step is then to find out which component is creating the bottleneck. Generally, it is either one of the nodes or the database.
 

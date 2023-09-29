@@ -66,44 +66,43 @@ Note that all configuration properties for the database will be propagated to th
 Performance 
 ~~~~~~~~~~~
 
-Please note that your Postgres database setup will require appropriate tuning to achieve the desired performance. Canton 
-is a rather database heavy process. This section should give you a starting point for your tuning efforts. You may want to consult 
+Please note that your Postgres database setup requires appropriate tuning to achieve the desired performance. Canton 
+is rather database heavy. This section should give you a starting point for your tuning efforts. You may want to consult 
 the :ref:`troubleshooting section <how_to_measure_db_performance>` on how to analyse whether the database is a limiting factor. 
 
-This guide will give you a starting point. Ultimately, every use case is different and the exact resource requirements can not 
+This guide can give you a starting point for tuning. Ultimately, every use case is different and the exact resource requirements can not 
 be predicted, but have to be measured.
 
 First, ensure that the database you are using is appropriately sized for your use case. The number of cores depends on your 
-throughput requirements. The rule of thumb is 
-    * 1 db core per 1 participant core.
-    * 1 participant core for 30-100 ledger events (depends on the complexity of the commands).
+throughput requirements. The rule of thumb is:
+ 
+- 1 db core per 1 participant core.
+- 1 participant core for 30-100 ledger events per second (depends on the complexity of the commands).
 
 The memory requirements depend on your data retention period and the size of the data you are storing. Ideally, you monitor the 
-database index cache hit / miss ratio. If your instance needs to keep on loading indexes from the disk, the performance will be 
-poor. It might make sense to start with 128GB, run a long-running scale & performance test and `monitor the cache hit / miss ratio <https://www.postgresql.org/docs/current/monitoring-stats.html#MONITORING-PG-STATIO-ALL-INDEXES-VIEW>`__`
-of the Postgres database. 
+database index cache hit/miss ratio. If your instance needs to keep on loading indexes from the disk, performance suffers. 
+It might make sense to start with 128GB, run a long-running scale & performance test, and `monitor the cache hit/miss ratio <https://www.postgresql.org/docs/current/monitoring-stats.html#MONITORING-PG-STATIO-ALL-INDEXES-VIEW>`__.
 
-Most of the Canton indexes are contract-id based, which means that the index lookups are randomly distributed, for which spinning disks
-have a very poor performance. Use SSDs for your database. 
+Most Canton indexes are contract-id based, which means that the index lookups are randomly distributed. Solid state drives with 
+high throughput perform much better than spinning disks for this purpose. 
 
-Optimize the configuration of your database, and make sure the database has sufficient memory and is stored on SSD disks with a very high throughput.
 For Postgres, `this online tool <https://pgtune.leopard.in.ua/>`_ is a good starting point for finding reasonable parameters 
 (use online transaction processing system).
 
-Additionally to the initial configuration, we've made the following observations: Most indexes Canton uses are "hash based".
-Therefore, read and write access to these indexes is uniformly distributed. However, Postgres reads and writes indexes in 
+Beyond the initial configuration, we have made the following observations: Most indexes Canton uses are "hash based".
+Therfore, read and write access to these indexes is uniformly distributed. However, Postgres reads and writes indexes in 
 pages of 8kb, while a simple index might only be a couple of writes. Therefore, it is very important to be able to keep the 
-indexes in memory and only write updates to the disk from time to time, as otherwise, a simple change of 32 bytes requires 8kb IO
+indexes in memory and only write updates to the disk from time to time; otherwise, a simple change of 32 bytes requires 8kb IO
 operations. 
 
-Therefore, we configure the ``shared_buffers`` setting to hold 60-70% of the host memory rather than the default 
+We recommend configuring the ``shared_buffers`` setting to hold 60-70% of the host memory rather than the default 
 suggestion of 25%, as the Postgres caching appears to be more effective than the host based file access caching. 
 
 We also increase the following variables N times beyond their default: Increase the `checkpoint_timeout` such that 
 the flushing to disk includes several writes and not just one per page, accumulated over time, together with 
-a higher `max_wal_size` to ensure that the system does not premature flush before reaching the checkpoint_timeout
+a higher `max_wal_size` to ensure that the system does not prematurely flush before reaching the checkpoint_timeout
 We recommend that you monitor your system during load testing and tune the parameters accordingly to your use case.
-The downside of changing the checkpointing parameters is an increase of the downtime crash recovery takes. 
+The downside of changing the checkpointing parameters is that increase crash recovery takes longer. 
 
 .. _persistence-oracle:
 
@@ -500,7 +499,7 @@ If you are unsure how to size your connection pools,
 `this article <https://github.com/brettwooldridge/HikariCP/wiki/About-Pool-Sizing>`_
 may be a good starting point.
 
-As a rule of thumb, the number of connections should not be more then two times the number of CPUs on the database machine.
+Generally, the number of connections should be up to two times the number of CPUs on the database machine.
 
 The number of parallel indexer connections can be configured via
 

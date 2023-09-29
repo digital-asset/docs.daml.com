@@ -302,16 +302,16 @@ commands getting rejected with the error code ``PARTICIPANT_BACKPRESSURE``.
 
 **Size of connection pools.** Make sure that every node uses a connection pool to communicate with the database.
 This avoids the extra cost of creating a new connection on every database query.
-Canton chooses a suitable connection pool by default, but for performance sensitive applications you may want to optimise.
+Canton chooses a suitable connection pool by default, but for performance sensitive applications you may want to optimize.
 Configure the maximum number of connections such that the database is fully loaded, but not overloaded. Allocating
 too many database connections will lead to resource waste (each thread costs), context switching and contention on the
-database system, slowing the overall system down. You can notice this on the query latencies reported by Canton going
-up (:ref:`check the trouble shooting guide<how_to_diagnose_slow_db_queries>`).
+database system, slowing the overall system down. If this occurs, the query latencies reported by Canton go
+up (:ref:`check the troubleshooting guide<how_to_diagnose_slow_db_queries>`).
 
-Detailed instructions can also be found in the Section :ref:`max_connection_settings`.
+Detailed instructions on handling this issue can also be found in :ref:`max_connection_settings`.
 
 **Size of database task queue.** If you are seeing frequent ``RejectedExecutionExceptions`` when Canton queries the database,
-increase the size of the task queue, as described in Section :ref:`database_task_queue_full`. The rejection is otherwise
+increase the size of the task queue, as described in :ref:`database_task_queue_full`. The rejection is otherwise
 harmless. It just points out that the database is overloaded.
 
 **Database Latency.** Ensure that the database latency is low. The higher the database latency, the lower the actual
@@ -422,7 +422,7 @@ issues:
 Model Tuning
 ------------
 
-How you write your Daml model has a large impact on the performance of your system. We've seen a good model running with 3000 ledger events / second (v2.7)
+How you write your Daml model has a large impact on the performance of your system. There are instances of good models running with 3000 ledger events/second (v2.7)
 on a single participant node. A bad model will reach a fraction of that. Therefore, it is important to understand the connection between the model 
 and the performance implications. This section aims to give a few guidelines.
 
@@ -442,35 +442,92 @@ of a transaction is logged on the participant side as a DEBUG log message:
    
     Computed transaction tree with total=27 for #root-nodes=8
 
-If you submit a command (which can have multiple Daml commands), then every Daml command will create a new so-called "root-node",
-which in term creates a new view each time. 
+If you submit a ledger API command (which can have multiple Daml commands), then every Daml command will create one so-called root-node,
+(two for the ``CreateAndExercise`` command). Each root node creates one view. 
 
-Just putting all Daml commands into a single batch command will not help, as you might still create lots of views.
+Just putting all Daml commands into a single batch command does not help, as you might still create lots of views.
 
-In the protocol up to version 5, Canton will create a view for every action node in the transaction tree if the informees change 
-between the node and its parent. Therefore, in order to minimise the number of views, you should try to minimise the number of 
-changes of informees. Informees are the signatories, observers of the contract and the stakeholders of the choice. 
+In the protocol up to version 5, Canton creates a view for every action node in the transaction tree if the informees change 
+between the node and its parent. Therefore, in order to minimize the number of views, you should try to minimize the number of 
+changes of informees. Informees are roughly the signatories, observers of the contract and of the choice, and the controllers of the choice. 
 
-Instead of sending a batch with 20 exercise commands `Foo`, group the contracts you have by stakeholder and send one exercise 
+Instead of sending a batch with 20 exercise commands `Foo`, group your contracts by stakeholder and send one exercise 
 command on a generator contract with the list of contracts that in turn exercises the `Foo` choice per stakeholder group.
 
-If you write batch commands, group the operations on the ledger based on the informees and hide them behind a single choice 
-per informee group that performs a single batch operation. You can use choice observers to align informees if necessary. 
+If you write batch commands, group the operations on the ledger based on the informees and create a single choice and 
+batch operation per informee group. You can use choice observers to align informees if necessary. 
 
-The rule of thumb is: the number of views should depend on the number of stakeholder groups you have in your batch choice, 
-and be independent of the number of "batches" you process in parallel within one command.
+For example, if the below `doUpdate` is only visible to the `owner` party, then whether the `efficient` flag is set or not 
+will have a huge impact on the number of views created.
+
+.. code:: daml
+
+   doUpdate : Bool -> Party -> Party -> [ContractId Example] -> Update ()
+   doUpdate efficient owner obs batch = do 
+   if efficient then do 
+      -- Would be even more efficient if we can reuse the BatchFoo contract
+      batcher <- create BatchFoo with owner 
+      batcher `exercise` Run with batch = batch; obs = obs    
+   else do
+      -- Canton will create one view per exercise
+      forA_ batch (`exercise` Foo)    
+   pure ()
+
+   template Example
+   with 
+      owner : Party 
+      obs: Party 
+   where 
+      signatory owner 
+      observer obs 
+
+      choice Foo : ()
+         controller owner 
+         do 
+         return ()
+
+   template BatchFoo
+   with 
+      owner : Party 
+   where 
+      signatory owner 
+
+      choice Run : ()
+         with  
+         batch : [ContractId Example]
+         obs : Party
+         -- The observer here is a choice observer. Therefore, Canton will
+         -- ship a single view with the top node of this choice if the observer of the 
+         -- choice aligns with the observer of the contract.       
+         observer obs
+         controller owner 
+         do
+         forA_ batch (`exercise` Foo)
+
+
+As a rule, the number of views should depend on the number of stakeholder groups you have in your batch choice, 
+not the number of "batches" you process in parallel within one command.
+
+The informees for the different type of transaction tree nodes are (also see :ref:`da-model-projections`):
+   * create: signatories, observers 
+   * consuming exercise: signatories, observers, stakeholders of the choice (controller, choice observers)
+   * nonconsuming exercise: signatories, stakeholders of the choice (controller, choice observers), but not the observers of the contract
+   * fetch: signatories + actors of the fetch, which are all stakholders which are in the authorization context that the fetch executed in
+   * lookupByKey: only key maintainers
+
+.. _model_tuning_events:
 
 Reduce Ledger Events 
 ~~~~~~~~~~~~~~~~~~~~
 The best optimisation is always to just not do something. A ledger is meant to store relevant data and coordinate different 
-parties. If you use the ledger as processing queue, you will run into performance issues, as each transaction view is cryptographically
-secured and processed quite extensively to ensure privacy and integrity, which is totally unnecessary for intermediate steps. The rule 
-of thumb is: if the output of a transaction submitted by a party is immediately consumed by the same party, then you are using the 
+parties. If you use the ledger as processing queue, you run into performance issues, as each transaction view is cryptographically
+secured and processed extensively to ensure privacy and integrity, which is unnecessary for intermediate steps. The rule 
+is: if the output of a transaction submitted by a party is immediately consumed by the same party, then you are using the 
 ledger as a processing queue. Instead, restructure your command such that the two steps happen as one.
 
-Furthermore, each `create` will create a contract, causing data to be written to the ledger. Each `fetch` will cause the interpreter to halt 
-interpretation, asking the ledger for a contract, which in worst case requires a lookup in the database. As the interpretation 
-must happen sequentially, this will mean a one by one lookup of contracts, causing load and latency. Fetching data is important and 
+Furthermore, each `create` creates a contract, causing data to be written to the ledger. Each `fetch` causes the interpreter to halt 
+interpretation, asking the ledger for a contract, which in the worst case requires a lookup in the database. As the interpretation 
+must happen sequentially, this means a one-by-one lookup of contracts, causing load and latency. Fetching data is important and 
 a key feature, but you should apply the same reasoning as you would for a database: A database lookup is expensive and should only be 
 done if necessary, ideally caching repetive computing results.
 
@@ -482,7 +539,7 @@ Also, avoid unnecessary transient contracts, as they may cause additional views.
 but translated to one create and an exercise. Use a `nonconsuming` choice instead, possibly with a choice observer if you need 
 to leave a trace on the ledger for audit purposes.
 
-Generally, using `lookupKey` is also discouraged. If you use `lookupByKey` for on-ledger deduplication, the lookup require a 
-database lookup, as in the absolut majority of the cases, the lookupByKey will resolve to `None`. Instead, use command deduplication 
+Generally, using `lookupKey` is also discouraged. If you use `lookupByKey` for on-ledger deduplication, the lookup requires a 
+database lookup, as the lookupByKey will resolve to `None` in most cases. Instead, use command deduplication 
 on the Ledger API. Second, the current `lookupByKey` will not be supported in a multi-domain deployment, as the current semantic 
 only works on a single-domain deployment and can not be translated 1:1 to multi-domain.
