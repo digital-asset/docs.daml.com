@@ -81,6 +81,9 @@ export ARTIFACTORY_PASSWORD=Long_string_of_gibberish_abcdefghijklmnopqrstuvwxyzA
 These credentials will be used by every version under the `docs` folder. You
 only need to set them up once, at the top-level of the repo.
 
+> :warning: You need to have read access to the assembly repo on Artifactory.
+> If you don't, please send an email to help@ to request access.
+
 ## For each docs release
 
 When there is a change to the root website, the entire site needs to be reindexed for searching. This includes any time a new version of the docs is released. Until the reindexing is done, the site search engine may still bring up deleted and moved pages in search results. Then when a viewer clicks that search result, a 404 error is displayed. Google search will eventually catch up without intervention. Following are the steps to reindex the site search:
@@ -94,6 +97,6 @@ When there is a change to the root website, the entire site needs to be reindexe
 
 ## Questions
 
-If you have any questions or comments about these instructions, please reach out to the `#product-docs` channel and/or @katharine/@gary on Slack.
+If you have any questions or comments about these instructions, please reach out to the `#product-docs` channel, mentioning @gary, on Slack.
 
 Thank you :blush:
