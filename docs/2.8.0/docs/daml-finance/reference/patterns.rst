@@ -68,7 +68,7 @@ To do that, we define a `Reference` template that
  - is keyed by the `InstrumentKey`
  - contains the interface contract id of the target instrument
 
-We can then fetch an interface "by key" by 
+We can then fetch an interface "by key" by
  - fetching the `Reference` template by key (``fetchByKey``)
  - reading and ``fetch``-ing the stored contract id
 
@@ -77,9 +77,10 @@ We can then fetch an interface "by key" by
 
 Similarly, this pattern also lets us exercise a choice on an interface "by key".
 
-The Reference pattern is currently used in Daml Finance for instruments and accounts, where we
-ensure that a template and its companion `Reference` template are kept in sync. It is however
-important to understand this pattern should you implement custom instruments or accounts.
+The Reference pattern is currently used in Daml Finance for instruments, accounts, and the holding
+factory, where we ensure that a template and its companion `Reference` template are kept in sync.
+It is however important to understand this pattern should you implement custom instruments,
+accounts or holding factories.
 
 .. _getview:
 

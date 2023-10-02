@@ -64,9 +64,10 @@ In order to fully understand these instructions, we need to keep in mind the int
 used by our holding implementation.
 
 .. image:: ../../images/interface_hierarchy.png
-  :alt: A diagram of t he interface hierarchy. From left to right, Disclosure, Holding,
-        Transferable, and Fungible are each linked by arrows pointing left. Below is an arrow, also
-        pointing left, labelled Implements.
+  :alt: A diagram of the interface hierarchy. From left to right, Disclosure, Lockable, Holding,
+        and Transferable are each linked by arrows pointing left. Additionally, Fungible is located
+        above from Transferable, and has an arrow pointing to Holding. All arrows are labelled
+        Implements.
 
 We use ``coerceInterfaceContractId`` to convert the
 :ref:`Holding.I <type-daml-finance-interface-holding-base-base-14854>`
