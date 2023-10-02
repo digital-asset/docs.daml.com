@@ -97,6 +97,6 @@ When there is a change to the root website, the entire site needs to be reindexe
 
 ## Questions
 
-If you have any questions or comments about these instructions, please reach out to the `#product-docs` channel, mentionning @gary, on Slack.
+If you have any questions or comments about these instructions, please reach out to the `#product-docs` channel, mentioning @gary, on Slack.
 
 Thank you :blush:
