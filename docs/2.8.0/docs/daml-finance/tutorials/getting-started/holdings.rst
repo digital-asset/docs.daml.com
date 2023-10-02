@@ -37,8 +37,9 @@ Notice how the ``ContractId`` is immediately converted to an interface upon crea
 because our workflows, such as ``CreateAccount``, do not have any knowledge of concrete template
 implementations.
 
-Similarly, we instantiate a :ref:`holding factory <type-daml-finance-holding-factory-factory-67321>`,
-which is used within an account to create (``Credit``) holdings for any instrument.
+Similarly, we instantiate a
+:ref:`holding factory <type-daml-finance-holding-factory-factory-67321>`, which is used within an
+account to create (``Credit``) holdings for any instrument.
 
 .. literalinclude:: ../../quickstart-finance/daml/Scripts/Holding.daml
   :language: daml

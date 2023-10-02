@@ -54,7 +54,7 @@ interface using ``coerceInterfaceContractId``.
 
 Then, the ``Transfer`` choice, defined as part of the
 :ref:`Transferable <type-daml-finance-interface-holding-transferable-transferable-24986>`
-interface, is invoked.
+interface, is exercised.
 
 Finally, the new holding is converted back to a
 :ref:`Holding.I <type-daml-finance-interface-holding-holding-holding-36312>`
@@ -71,21 +71,17 @@ used by our holding implementation.
 
 We use ``coerceInterfaceContractId`` to convert the
 :ref:`Holding.I <type-daml-finance-interface-holding-holding-holding-36312>`
-to a
-:ref:`Transferable <type-daml-finance-interface-holding-transferable-transferable-24986>`.
-The success of this
-operation is not guaranteed and will result in a run-time error if the holding implementation at
-hand does not implement
+to a :ref:`Transferable <type-daml-finance-interface-holding-transferable-transferable-24986>`.
+The success of this operation is not guaranteed and will result in a run-time error if the holding
+implementation at hand does not implement
 :ref:`Transferable <type-daml-finance-interface-holding-transferable-transferable-24986>`.
 
 We use ``toInterfaceContractId`` to convert back to a
 :ref:`Holding <type-daml-finance-interface-holding-holding-holding-36312>`.
 This is because all
 :ref:`Transferable <type-daml-finance-interface-holding-transferable-transferable-24986>`\ s
-implement the
-:ref:`Holding.I <type-daml-finance-interface-holding-holding-holding-36312>` interface,
-so the validity of this operation is
-guaranteed at compile-time.
+implement the :ref:`Holding.I <type-daml-finance-interface-holding-holding-holding-36312>`
+interface, so the validity of this operation is guaranteed at compile-time.
 
 Why is Alice an observer on Bob’s account?
 ==========================================
