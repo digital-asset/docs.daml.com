@@ -37,17 +37,13 @@ Notice how the ``ContractId`` is immediately converted to an interface upon crea
 because our workflows, such as ``CreateAccount``, do not have any knowledge of concrete template
 implementations.
 
-Similarly, we define a :ref:`holding factory <type-daml-finance-holding-fungible-factory-35358>`,
-which is used within an account to create (``Credit``) holdings.
+Similarly, we instantiate a :ref:`holding factory <type-daml-finance-holding-factory-factory-67321>`,
+which is used within an account to create (``Credit``) holdings for any instrument.
 
 .. literalinclude:: ../../quickstart-finance/daml/Scripts/Holding.daml
   :language: daml
   :start-after: -- CREATE_HOLDING_FACTORY_BEGIN
   :end-before: -- CREATE_HOLDING_FACTORY_END
-
-This factory contract instantiates a specific implementation of holdings, which are defined in
-:ref:`Daml.Finance.Holding.Fungible <module-daml-finance-holding-fungible-7201>`
-and are both :ref:`fungible <fungibility>`, as well as :ref:`transferable <transferability>`.
 
 Finally, we create a factory template which is used to instantiate :ref:`token instruments
 <type-daml-finance-instrument-token-instrument-instrument-62305>`.
