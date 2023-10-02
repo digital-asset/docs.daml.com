@@ -121,7 +121,7 @@ These properties are exposed by letting a holding template implement the corresp
 :ref:`Transferable <type-daml-finance-interface-holding-transferable-transferable-24986>`,
 respectively).
 
-The library distinguishes 4 types of holdings, referred to as :ref:`Holding Standard
+The library distinguishes four types of holdings, referred to as :ref:`Holding Standard
 <type-daml-finance-interface-types-common-types-holdingstandard-38061>`\s, namely:
 
 1. `Fungible`: Holdings that are fungible only.
@@ -132,7 +132,7 @@ The library distinguishes 4 types of holdings, referred to as :ref:`Holding Stan
 Interfaces
 ==========
 
-Holding interfaces are defined in the ``Daml.Finance.Interface.Holding`` package, that consists of
+Holding interfaces are defined in the ``Daml.Finance.Interface.Holding`` package. It consists of
 the holding interfaces :ref:`base <module-daml-finance-interface-holding-base-24195>`,
 :ref:`transferable <module-daml-finance-interface-holding-transferable-88121>`, and
 :ref:`fungible <module-daml-finance-interface-holding-fungible-63712>`.
@@ -142,7 +142,7 @@ the holding interfaces :ref:`base <module-daml-finance-interface-holding-base-24
 Implementations
 ===============
 
-In ``Daml.Finance.Holding``, we provide implementations for each holding standard:
+``Daml.Finance.Holding`` provides implementations for each holding standard:
 
 - :ref:`fungible only <module-daml-finance-holding-fungible-7201>`
 - :ref:`transferable only <module-daml-finance-holding-transferable-43388>`
@@ -218,8 +218,8 @@ A base account implementation is provided in
 
 The account can be created with arbitrary
 :ref:`controllers <type-daml-finance-interface-account-account-controllers-36430>`
-(for incoming and outgoing transfers). In our examples, we typically let accounts be
-owners-controlled, i.e., both the current owner and the new owner must authorize transfers.
+(for incoming and outgoing transfers). Our examples typically let accounts be owners-controlled,
+i.e., both the current owner and the new owner must authorize transfers.
 
 The account also implements
 the :ref:`Lockable <module-daml-finance-interface-util-lockable-80915>` interface, enabling the
@@ -250,7 +250,7 @@ the former acting as ``owner`` and the latter as ``custodian``.
 Finally, the Retail Client is ``owner`` of a
 :ref:`transferable and fungible holding <module-daml-finance-holding-transferablefungible-77726>` at
 the Commercial Bank (i.e., the ``custodian`` in the contract). The holding references the currency
-instrument, as well as the account.
+instrument and the account.
 
 .. image:: ../images/asset_model_currency.png
    :alt: Currency asset setup.
