@@ -6,6 +6,9 @@ DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 cd $DIR/..
 
+if [ -d .python-env ]; then
+  rm -rf .python-env
+fi
 python3 -m venv .python-env
 source .python-env/bin/activate
 python -m pip install -r requirements.txt
