@@ -92,7 +92,8 @@ Deposit Cash in Alice’s Account
 
 We can now deposit cash in Alice’s account, using the ``CreditAccount`` workflow.
 Alice creates a request to deposit ``USD 1000`` at the Bank, the Bank then accepts the request and
-a corresponding :ref:`Holding <type-daml-finance-interface-holding-base-base-14854>` is created.
+a corresponding :ref:`Holding <type-daml-finance-interface-holding-holding-holding-36312>` is
+created.
 
 .. literalinclude:: ../../quickstart-finance/daml/Scripts/Holding.daml
   :language: daml
@@ -133,8 +134,7 @@ Why do we need factories?
 
 You might be wondering why we use account factories and holding factories instead of creating an
 :ref:`Account <type-daml-finance-account-account-account-12745>` or
-:ref:`Holding <type-daml-finance-holding-fungible-fungible-28517>`
-directly.
+:ref:`Holding <type-daml-finance-holding-transferablefungible-transferablefungible-83515>` directly.
 
 This is done to avoid having to reference the ``Daml.Finance.Holding`` package directly in the
 user workflows (and hence simplify upgrading procedures).

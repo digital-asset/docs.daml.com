@@ -48,7 +48,7 @@ If you look at the implementation of the ``Transfer`` workflow, you will notice 
   :end-before: -- DO_TRANSFER_END
 
 The first line converts the holding contract id (of type
-:ref:`ContractId Holding.I <type-daml-finance-interface-holding-base-base-14854>`) to the
+:ref:`ContractId Holding.I <type-daml-finance-interface-holding-holding-holding-36312>`) to the
 :ref:`Transferable.I <type-daml-finance-interface-holding-transferable-transferable-24986>`
 interface using ``coerceInterfaceContractId``.
 
@@ -57,7 +57,7 @@ Then, the ``Transfer`` choice, defined as part of the
 interface, is invoked.
 
 Finally, the new holding is converted back to a
-:ref:`Holding.I <type-daml-finance-interface-holding-base-base-14854>`
+:ref:`Holding.I <type-daml-finance-interface-holding-holding-holding-36312>`
 before it is returned. This is done using ``toInterfaceContractId``.
 
 In order to fully understand these instructions, we need to keep in mind the interface hierarchy
@@ -70,7 +70,7 @@ used by our holding implementation.
         Implements.
 
 We use ``coerceInterfaceContractId`` to convert the
-:ref:`Holding.I <type-daml-finance-interface-holding-base-base-14854>`
+:ref:`Holding.I <type-daml-finance-interface-holding-holding-holding-36312>`
 to a
 :ref:`Transferable <type-daml-finance-interface-holding-transferable-transferable-24986>`.
 The success of this
@@ -79,11 +79,11 @@ hand does not implement
 :ref:`Transferable <type-daml-finance-interface-holding-transferable-transferable-24986>`.
 
 We use ``toInterfaceContractId`` to convert back to a
-:ref:`Holding <type-daml-finance-interface-holding-base-base-14854>`.
+:ref:`Holding <type-daml-finance-interface-holding-holding-holding-36312>`.
 This is because all
 :ref:`Transferable <type-daml-finance-interface-holding-transferable-transferable-24986>`\ s
 implement the
-:ref:`Holding.I <type-daml-finance-interface-holding-base-base-14854>` interface,
+:ref:`Holding.I <type-daml-finance-interface-holding-holding-holding-36312>` interface,
 so the validity of this operation is
 guaranteed at compile-time.
 
