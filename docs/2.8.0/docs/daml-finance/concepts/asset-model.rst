@@ -131,7 +131,7 @@ The library distinguishes 4 types of holdings, referred to as holding standards,
 Interfaces
 ==========
 
-Holding interfaces are defined in the ``Daml.Finance.Interface.Holding`` package, and consists of
+Holding interfaces are defined in the ``Daml.Finance.Interface.Holding`` package, that consists of
 the holding interfaces :ref:`base <module-daml-finance-interface-holding-base-24195>`,
 :ref:`transferable <module-daml-finance-interface-holding-transferable-88121>`, and
 :ref:`fungible <module-daml-finance-interface-holding-fungible-63712>`.
