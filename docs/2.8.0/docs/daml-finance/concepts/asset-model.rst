@@ -133,7 +133,7 @@ Interfaces
 ==========
 
 Holding interfaces are defined in the ``Daml.Finance.Interface.Holding`` package. It consists of
-the holding interfaces :ref:`base <module-daml-finance-interface-holding-base-24195>`,
+the interfaces :ref:`holding <module-daml-finance-interface-holding-holding-64126>`,
 :ref:`transferable <module-daml-finance-interface-holding-transferable-88121>`, and
 :ref:`fungible <module-daml-finance-interface-holding-fungible-63712>`.
 
