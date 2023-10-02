@@ -79,7 +79,7 @@ Similarly, this pattern let you exercise a choice on an interface "by key".
 
 The Reference pattern is currently used in Daml Finance for instruments, accounts, and the holding
 factory. To maintain synchronization between a template and its corresponding `Reference`, we
-simultaneously create or archive instances of both. Additionally, if the contract id of the target
+simultaneously create (archive) instances of both. Additionally, if the contract id of the target
 template changes, we update the `Reference` instance accordingly.
 
 It is important to understand this pattern should you implement custom instruments, accounts or
