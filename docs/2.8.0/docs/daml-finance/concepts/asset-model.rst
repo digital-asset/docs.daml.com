@@ -121,7 +121,8 @@ These properties are exposed by letting a holding template implement the corresp
 :ref:`Transferable <type-daml-finance-interface-holding-transferable-transferable-24986>`,
 respectively).
 
-The library distinguishes 4 types of holdings, referred to as :ref:`Holding Standard <type-daml-finance-interface-types-common-types-holdingstandard-38061>`s, namely:
+The library distinguishes 4 types of holdings, referred to as :ref:`Holding Standard
+<type-daml-finance-interface-types-common-types-holdingstandard-38061>`\s, namely:
 
 1. `Fungible`: Holdings that are fungible only.
 2. `Transferable`: Holdings that are transferable only.
