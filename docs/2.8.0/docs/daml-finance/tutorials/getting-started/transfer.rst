@@ -48,43 +48,40 @@ If you look at the implementation of the ``Transfer`` workflow, you will notice 
   :end-before: -- DO_TRANSFER_END
 
 The first line converts the holding contract id (of type
-:ref:`ContractId Holding.I <type-daml-finance-interface-holding-base-base-14854>`) to the
+:ref:`ContractId Holding.I <type-daml-finance-interface-holding-holding-holding-36312>`) to the
 :ref:`Transferable.I <type-daml-finance-interface-holding-transferable-transferable-24986>`
 interface using ``coerceInterfaceContractId``.
 
 Then, the ``Transfer`` choice, defined as part of the
 :ref:`Transferable <type-daml-finance-interface-holding-transferable-transferable-24986>`
-interface, is invoked.
+interface, is exercised.
 
 Finally, the new holding is converted back to a
-:ref:`Holding.I <type-daml-finance-interface-holding-base-base-14854>`
+:ref:`Holding.I <type-daml-finance-interface-holding-holding-holding-36312>`
 before it is returned. This is done using ``toInterfaceContractId``.
 
 In order to fully understand these instructions, we need to keep in mind the interface hierarchy
 used by our holding implementation.
 
 .. image:: ../../images/interface_hierarchy.png
-  :alt: A diagram of t he interface hierarchy. From left to right, Disclosure, Holding,
-        Transferable, and Fungible are each linked by arrows pointing left. Below is an arrow, also
-        pointing left, labelled Implements.
+  :alt: A diagram of the interface hierarchy. From left to right, Disclosure, Lockable, Holding,
+        and Transferable are each linked by arrows pointing left. Additionally, Fungible is located
+        above from Transferable, and has an arrow pointing to Holding. All arrows are labeled
+        "requires".
 
 We use ``coerceInterfaceContractId`` to convert the
-:ref:`Holding.I <type-daml-finance-interface-holding-base-base-14854>`
-to a
-:ref:`Transferable <type-daml-finance-interface-holding-transferable-transferable-24986>`.
-The success of this
-operation is not guaranteed and will result in a run-time error if the holding implementation at
-hand does not implement
+:ref:`Holding.I <type-daml-finance-interface-holding-holding-holding-36312>`
+to a :ref:`Transferable <type-daml-finance-interface-holding-transferable-transferable-24986>`.
+The success of this operation is not guaranteed and will result in a run-time error if the holding
+implementation at hand does not implement
 :ref:`Transferable <type-daml-finance-interface-holding-transferable-transferable-24986>`.
 
 We use ``toInterfaceContractId`` to convert back to a
-:ref:`Holding <type-daml-finance-interface-holding-base-base-14854>`.
+:ref:`Holding <type-daml-finance-interface-holding-holding-holding-36312>`.
 This is because all
 :ref:`Transferable <type-daml-finance-interface-holding-transferable-transferable-24986>`\ s
-implement the
-:ref:`Holding.I <type-daml-finance-interface-holding-base-base-14854>` interface,
-so the validity of this operation is
-guaranteed at compile-time.
+implement the :ref:`Holding.I <type-daml-finance-interface-holding-holding-holding-36312>`
+interface, so the validity of this operation is guaranteed at compile-time.
 
 Why is Alice an observer on Bob’s account?
 ==========================================

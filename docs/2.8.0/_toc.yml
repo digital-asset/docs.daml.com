@@ -748,12 +748,16 @@ subtrees:
             title: "Daml.Finance.Data.Time.DateClockUpdate"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-Time-LedgerTime
             title: "Daml.Finance.Data.Time.LedgerTime"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Holding-BaseHolding
+            title: "Daml.Finance.Holding.BaseHolding"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Holding-Factory
+            title: "Daml.Finance.Holding.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Holding-Fungible
             title: "Daml.Finance.Holding.Fungible"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Holding-NonFungible
-            title: "Daml.Finance.Holding.NonFungible"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Holding-NonTransferable
-            title: "Daml.Finance.Holding.NonTransferable"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Holding-Transferable
+            title: "Daml.Finance.Holding.Transferable"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Holding-TransferableFungible
+            title: "Daml.Finance.Holding.TransferableFungible"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Holding-Util
             title: "Daml.Finance.Holding.Util"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-Callable-Factory
@@ -862,12 +866,12 @@ subtrees:
             title: "Daml.Finance.Interface.Data.Reference.HolidayCalendar.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Data-Reference-Time
             title: "Daml.Finance.Interface.Data.Reference.Time"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Holding-Base
-            title: "Daml.Finance.Interface.Holding.Base"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Holding-Factory
             title: "Daml.Finance.Interface.Holding.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Holding-Fungible
             title: "Daml.Finance.Interface.Holding.Fungible"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Holding-Holding
+            title: "Daml.Finance.Interface.Holding.Holding"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Holding-Transferable
             title: "Daml.Finance.Interface.Holding.Transferable"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Holding-Util
@@ -1044,6 +1048,8 @@ subtrees:
             title: "Daml.Finance.Interface.Util.Common"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Util-Disclosure
             title: "Daml.Finance.Interface.Util.Disclosure"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Util-InterfaceKey
+            title: "Daml.Finance.Interface.Util.InterfaceKey"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Util-Lockable
             title: "Daml.Finance.Interface.Util.Lockable"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Effect
