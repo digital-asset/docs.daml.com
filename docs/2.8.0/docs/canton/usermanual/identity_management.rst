@@ -710,16 +710,16 @@ Now, both participant host the party and can act on behalf of it.
 .. snippet:: party_on_two_nodes
     .. assert:: { val cycle = participant2.ledger_api.acs.await(alice, com.digitalasset.canton.participant.admin.workflows.PingPong.Cycle); participant2.ledger_api.commands.submit_flat(Seq(alice), Seq(cycle.contractId.exerciseRepeat().command)); true }
 
+.. _manually_initializing_node:
+
 Manually Initializing a Node
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 There are situations where a node should not be automatically initialized, but where we prefer to control
 each step of the initialization. For example, when a node in the setup does
-not control its own identity, or when we do not want to store the identity key on the node for security
-reasons.
+not control its own identity, when we do not want to store the identity key on the node for security
+reasons, or when we want to set our own keys (e.g. when keys are externally stored in a Key Management Service - KMS).
 
 In the following, we demonstrate the basic steps how to initialise a node:
-
-.. _manually-init-domain:
 
 Keys Initialization
 ^^^^^^^^^^^^^^^^^^^
@@ -731,6 +731,13 @@ The following steps describe how to manually generate the necessary Canton keys 
    :start-after: architecture-handbook-entry-begin: ManualInitKeys
    :end-before: architecture-handbook-entry-end: ManualInitKeys
    :dedent:
+
+.. note::
+   Be aware that in some particular use-cases you might want to register keys rather generate a new ones (e.g.
+   when we have pre-generated KMS keys that we want to use). Please refer to
+   :ref:`External Key Storage and Usage with a Key Management Service (KMS) <external_key_storage>` for more details.
+
+.. _manually-init-domain:
 
 Domain Initialization
 ^^^^^^^^^^^^^^^^^^^^^

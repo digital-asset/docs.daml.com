@@ -63,19 +63,14 @@ Key Generation and Storage
 Keys can either be generated in the node and stored in the node's primary storage or generated and stored by
 an external key management system (KMS).
 We currently support a version of Canton that can use a KMS to either:
-(a) `protect Canton's private keys at rest`
-or (b) `generate and store the private keys itself`.
+:ref:`(a) protect Canton's private keys at rest <encrypted_private_key_storage>`
+or :ref:`(b) generate and store the private keys itself <external_key_storage>`.
 This version is available only as part of Daml Enterprise.
 
 You can find more background information on this key management feature in
 :ref:`Secure Cryptographic Private Key Storage <kms_architecture>`.
-See :ref:`Protect Private Keys With Envelope Encryption and a Key Management Service <kms_envelope_architecture>`
-if you wish to know how Canton can protect private keys whilst they remain internally stored in Canton using a KMS, or
-:ref:`Externalize Private Keys With a Key Management Service <kms_external_architecture>`
-for more details on how Canton can enable private keys to be generated and stored by an external KMS.
 
-The following section :ref:`Key Management Service Setup <kms_setup>` describes how to enable KMS support in Canton
-and how to setup each of these two modes of operation.
+The following section :ref:`Key Management Service Setup <kms_setup>` describes how to configure KMS for Canton.
 
 Public Key Distribution using Topology Management
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -374,40 +369,15 @@ Key Management Service Setup
 .. enterprise-only::
 
 Canton supports using a Key Management Service (KMS) to increase security of
-stored private keys.
+stored private keys. There are currently **two independent ways** to use this service:
 
-The **first way** to do this is by (1) storing Canton's private keys in a node's database in an
-encrypted form and then (2) upon startup the KMS decrypts these keys for use
-by Canton. The unencrypted keys are stored in memory so this approach
-increases security without impacting performance. This is a common approach
-used by KMS vendors; using a symmetric encryption key, called the `KMS
-wrapper key`, to encrypt and decrypt the stored, private keys.
-
-The **second way** is to directly use a KMS to generate and store Canton's private keys
-and then use its API to securely sign an decrypt messages. A Canton node still stores
-the corresponding public keys in its stores so that it can verify signatures and
-encrypt messages without having to rely on the KMS.
+- :ref:`Encrypted Private Key Storage <encrypted_private_key_storage>`
+- :ref:`External Key Storage and Usage <external_key_storage>`
 
 The KMS integration is currently enabled for `Amazon Web Services (AWS)
 KMS` and `Google Cloud Provider (GCP) KMS` in Canton Enterprise.
 
-Running Canton with a KMS
-^^^^^^^^^^^^^^^^^^^^^^^^^
-
-KMS support can be enabled for a new installation (i.e., during the node
-bootstrap) or for an existing deployment.
-When the KMS is enabled after a node has been running, the keys are (a) encrypted and stored in this encrypted form
-in the Canton node's database, or (b) transparently replaced by external KMS keys. For
-scenario (a) this process is done transparently, while in (b) :ref:`a node needs to be migrated <participant_kms_migration>`
-if the key schemes being used do not match the current supported keys for KMS.
-
-.. _backup-kms:
-
-.. note::
-    In scenario (a), the KMS keys used to encrypt the private keys need
-    to live as long as the Canton database backups, so care must be taken when
-    deleting database backup files or KMS keys. Otherwise, a Canton node restored from a database
-    backup may try to decrypt the private keys with a `KMS wrapper key` that was previously deleted.
+.. _kms_config:
 
 Canton Configuration of a KMS
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -416,8 +386,6 @@ Like other Canton capabilities, KMS integration is enabled within a Canton
 node's configuration file. A KMS for AWS or GCP is configured in the following way:
 
 - ``type`` specifies which KMS to use.
-
-.. _kms_config:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/encrypted-store-enabled-tagged.conf
    :language: none
@@ -443,45 +411,9 @@ Specific to GCP:
 Configure AWS Credentials and Permissions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-When using a KMS to envelope encrypt the private keys stored in Canton, it needs to be configured
-with the following list of authorized actions (i.e. IAM permissions):
-
-+-------------------------------------------+-------------------------------------------+
-| **AWS**                                   | **GCP**                                   |
-+===========================================+===========================================+
-| `kms:CreateKey`                           | `cloudkms.cryptoKeyVersions.create`       |
-+-------------------------------------------+-------------------------------------------+
-| `kms:TagResource`                         | `-`                                       |
-+-------------------------------------------+-------------------------------------------+
-| `kms:Encrypt`                             | `cloudkms.cryptoKeyVersions.useToEncrypt` |
-+-------------------------------------------+-------------------------------------------+
-| `kms:Decrypt`                             | `cloudkms.cryptoKeyVersions.useToDecrypt` |
-+-------------------------------------------+-------------------------------------------+
-| `kms:DescribeKey`                         | `cloudkms.cryptoKeys.get`                 |
-+-------------------------------------------+-------------------------------------------+
-
-When we rely on a KMS to generate, store, and manage the necessary private keys, it must be configured
-with the following list of authorized actions:
-
-+-------------------------------------------+-------------------------------------------+
-| **AWS**                                   | **GCP**                                   |
-+===========================================+===========================================+
-| `kms:CreateKey`                           | `cloudkms.cryptoKeyVersions.create`       |
-+-------------------------------------------+-------------------------------------------+
-| `kms:TagResource`                         | `-`                                       |
-+-------------------------------------------+-------------------------------------------+
-| `kms:Decrypt`                             | `cloudkms.cryptoKeyVersions.useToDecrypt` |
-+-------------------------------------------+-------------------------------------------+
-| `kms:Sign`                                | `cloudkms.cryptoKeyVersions.useToEncrypt` |
-+-------------------------------------------+-------------------------------------------+
-| `kms:DescribeKey`                         | `cloudkms.cryptoKeyVersions.useToSign`    |
-+-------------------------------------------+-------------------------------------------+
-| `kms:GetPublicKey`                        | `cloudkms.cryptoKeyVersions.viewPublicKey`|
-+-------------------------------------------+-------------------------------------------+
-
-If you plan to use cross-account key usage then the permissions for key rotation in Canton, namely
-`kms:CreateKey` and `kms:TagResource`,
-do not have to be configured as they do not apply in that use case.
+Depending on how the KMS is intended to be used, it will require different permission settings. More details are provided
+for the two different setups: :ref:`(a) encrypted private store permissions <external_key_storage_permissions>`,
+:ref:`(b) external storage and usage permissions <encrypted_private_key_storage_permissions>`.
 
 To make the API calls to the AWS KMS, Canton uses the `standard AWS credential access
 <https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html>`_. For example, the standard
@@ -496,216 +428,6 @@ setting up a local Application Default Credentials (ADC) file for our service ac
 
 The protection and rotation of
 the credentials for AWS or GCP are the responsibility of the node operator.
-
-Canton Configuration for Encrypted Private Key Storage
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-In the example below the encrypted private key storage
-integration is enabled for a participant node (called ``participant1``).
-The same applies for any other node, such as a sync domain manager, a mediator, or a sequencer.
-
-The most important setting that enables an encrypted private key storage using a
-KMS is ''type = kms''. This is shown below. If this is not specified, Canton
-stores the keys using its default approach, which is in unencrypted form.
-
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/encrypted-store-enabled-tagged.conf
-   :language: none
-   :start-after: user-manual-entry-begin: PrivateKeyStoreConfig
-   :end-before: user-manual-entry-end: PrivateKeyStoreConfig
-
-There are two ways to choose the KMS wrapper key: (1) use an already existing KMS key or; (2)
-let Canton generate one.
-To use an already existing KMS key, you must specify its identifier. For example, for AWS KMS this can
-be one of the following:
-
-- Key id: `“1234abcd-12ab-34cd-56ef-1234567890ab”`
-- Key ARN (Amazon Resource Name): `“arn:aws:kms:us-east-1:1234abcd-12ab-34cd-56ef-1234567890ab”`
-- Key alias: `“alias/test-key”`
-
-Please be aware that an AWS KMS key needs to be configured with the following settings:
-
-- Key specification: `SYMMETRIC_DEFAULT <https://docs.aws.amazon.com/kms/latest/developerguide/asymmetric-key-specs.html>`_
-- Key usage: `ENCRYPT_DECRYPT <https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#symmetric-cmks>`_
-
-Similarly, for GCP KMS we can use:
-
-- Key name: `test-key`
-- Key RN (Resource Name): `projects/gcp-kms-testing/locations/us-east1/keyRings/canton-test-keys/cryptoKeys/test-key/cryptoKeyVersions/1`
-
-And your key needs to be configured with the following settings:
-
-- Key algorithm: `GOOGLE_SYMMETRIC_ENCRYPTION <https://cloud.google.com/kms/docs/algorithms>`_
-- Key purpose: `ENCRYPT_DECRYPT`
-
-If no ``wrapper-key-id`` is specified, Canton creates a symmetric key in the KMS. After subsequent restarts the operator does not need to specify the identifier for the newly
-created key; Canton stores the generated wrapper key id in the database.
-
-An example with a pre-defined AWS KMS key is shown below:
-
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/encrypted-store-enabled-tagged.conf
-   :language: none
-   :start-after: user-manual-entry-begin: KmsKeyConfig
-   :end-before: user-manual-entry-end: KmsKeyConfig
-
-An example configuration that puts it all together is below:
-
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/encrypted-store-enabled.conf
-   :language: none
-
-Revert Encrypted Private Key Storage
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-If you wish to change the encrypted private key store and revert back to using an unencrypted store,
-you must restart the nodes with an updated configuration that includes
-
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/encrypted-store-reverted.conf
-   :language: none
-   :start-after: user-manual-entry-begin: EncryptedStoreReverted
-   :end-before: user-manual-entry-end: EncryptedStoreReverted
-
-.. warning::
-    We strongly advise against this as it will force Canton to decrypt its private keys and store them in clear.
-
-For subsequent restarts we recommend deleting all encrypted private key store configurations
-including the KMS store. We have forced the manual configuration of the `reverted` flag to prevent any unwanted
-decryption of the database (e.g. by unintentionally deleting the KMS configuration).
-
-.. _manual-kms-wrapper-key-rotation:
-
-Manual wrapper key rotation
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Currently AWS and GCP offer automatic KMS symmetric key rotation (yearly for AWS and user-defined for GCP).
-Canton extends this by enabling node administrators to manually rotate the KMS wrapper
-key using the following command:
-
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/kms/RotateWrapperKeyIntegrationTest.scala
-   :language: scala
-   :start-after: user-manual-entry-begin: ManualWrapperKeyRotation
-   :end-before: user-manual-entry-end: ManualWrapperKeyRotation
-   :dedent:
-
-You can optionally pass a wrapper key id to change to or let Canton generate a new key based on the current
-KMS configuration.
-
-.. note::
-    Changing the key specification (e.g. enable multi region) during rotation is for now
-    only possible with AWS, by updating the configuration before rotating the wrapper key.
-
-.. _full-kms-configuration:
-
-Canton Configuration for External Key Storage and Usage
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-In the example below, we configure a Canton participant node (called ``participant1``) to generate and
-store private keys in an external KMS. Besides the previously presented :ref:`KMS configuration <kms_config>`
-(in this example we use AWS, but GCP is set similarly)
-you only need to specify the correct crypto provider ``kms`` and ensure that the remaining nodes, in particular
-the connected domain, runs with the correct schemes:
-
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/kms-provider-tagged.conf
-   :language: none
-   :start-after: user-manual-entry-begin: KmsProviderConfig
-   :end-before: user-manual-entry-end: KmsProviderConfig
-
-Therefore, a node running with a ``kms`` provider is only ever able to communicate with other nodes running
-a ``kms`` or ``jce`` providers. Furthermore, the nodes have to be explicitly configured to use the
-KMS supported algorithms as the required algorithms.
-
-AWS and GCP KMSs only support the :ref:`following cryptographic schemes <canton_supported_keys>`.
-
-.. todo::
-      #. `Enable revert for a KMS provider <https://github.com/DACH-NY/canton/issues/13635>`_
-
-.. note::
-    You cannot mix an external private key storage configuration
-    with an encrypted private key storage configuration. Currently if a node starts with a KMS as its
-    provider it can no longer be reverted without a full reset of the node
-    (i.e., re-generation of node identity and all keys).
-
-Setup with Pre-Generated Keys
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-In the previous example, Canton creates its own keys on startup and initializes the identity of the nodes automatically.
-If the keys have already been generated in the KMS, we need to manually initialize the identity of the nodes by
-adding the following flag in the config:
-
-.. code-block:: none
-
-    <node>.init.auto-init = false
-
-We then need to register the keys in Canton by running the key registration command on each node.
-For example for a participant we would run:
-
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/topology/TopologyManagementHelper.scala
-   :language: scala
-   :start-after: user-manual-entry-begin: ManualRegisterKmsKeys
-   :end-before: user-manual-entry-end: ManualRegisterKmsKeys
-   :dedent:
-
-where `xyzKmsKeyId` is the KMS identifier for a specific key (e.g. `KMS Key RN`). If we are using, for example,
-`AWS cross account keys <https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html>`_
-be aware that using the key id is not enough and we are required to register the key using its `ARN`.
-
-Finally, we need to initialize our :ref:`domain <manually-init-domain>` and
-:ref:`participants <manually-init-participant>` using the previously registered keys.
-
-.. _participant_kms_migration:
-
-Participant Node Migration to KMS Crypto Provider
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-To migrate an existing participant node connected to a domain with a non KMS-compatible provider
-and start using KMS external keys, we need to manually execute the following steps.
-The general idea is to replicate the old node into a :ref:`new one that uses a KMS provider and connects to
-a KMS-compatible domain <full-kms-configuration>` (e.g. running JCE with KMS supported encryption and
-signing keys).
-
-First, we need to delegate the namespace of the old participant to the new participant:
-
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/kms/KmsMigrationIntegrationTest.scala
-   :language: scala
-   :start-after: user-manual-entry-begin: KmsSetupNamespaceDelegation
-   :end-before: user-manual-entry-end: KmsSetupNamespaceDelegation
-   :dedent:
-
-Secondly, we must recreate all parties of the old participant in the new participant:
-
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/kms/KmsMigrationIntegrationTest.scala
-   :language: scala
-   :start-after: user-manual-entry-begin: KmsRecreatePartiesInNewParticipant
-   :end-before: user-manual-entry-end: KmsRecreatePartiesInNewParticipant
-   :dedent:
-
-Finally, we need to transfer the active contracts of all the parties from the old participant to the new one and
-connect to the new domain:
-
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/kms/KmsMigrationIntegrationTest.scala
-   :language: scala
-   :start-after: user-manual-entry-begin: KmsMigrateACSofParties
-   :end-before: user-manual-entry-end: KmsMigrateACSofParties
-   :dedent:
-
-The end result is a new participant node with its keys stored and managed by a KMS connected to a domain
-that is able to communicate using the appropriate key schemes.
-
-.. _manual-kms-key-rotation:
-
-Manual KMS key rotation
-^^^^^^^^^^^^^^^^^^^^^^^
-
-Canton keys can still be manually rotated even if they are externally stored in a KMS.
-To do that we can use the same :ref:`standard rotate
-key commands <rotating-canton-keys>` or, if we already have a KMS key to rotate to, run the following command:
-
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/kms/RotateKmsKeyIntegrationTest.scala
-   :language: scala
-   :start-after: user-manual-entry-begin: RotateKmsNodeKey
-   :end-before: user-manual-entry-end: RotateKmsNodeKey
-   :dedent:
-
-Neither AWS or GCP offer automatic rotation of asymmetric keys so, unlike the wrapper key rotation,
-the node operator needs to be responsible for periodically rotating these keys.
 
 Auditability
 ^^^^^^^^^^^^

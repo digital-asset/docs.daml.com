@@ -1259,6 +1259,10 @@ subtrees:
         title: "Configure Auth0 Middleware (With Example Configuration)"
       - file: canton/usermanual/security
         title: "Security & Key Management"
+      - file: canton/usermanual/encrypted_private_key_storage
+        title: "Configure Encrypted Private Key Storage with a Key Management Service (KMS)"
+      - file: canton/usermanual/external_key_storage
+        title: "Configure External Key Storage and Usage with a Key Management Service (KMS)"
   - file: canton/usermanual/performance
     title: "Scaling and Performance"
   - file: operate-a-daml-ledger/advanced-operations/index
