@@ -16,6 +16,9 @@ financial contract.
 It can be as simple as an ISIN code referencing some real-world (off-ledger) security, or it can
 encode specific on-ledger lifecycling logic.
 
+Additionally, it specifies the instrument's holding standard or properties, which is described in
+more detail in the :ref:`Holding Standards <holding-standards>` section.
+
 Signatories
 ===========
 
@@ -40,6 +43,7 @@ which comprises:
 - the instrument ``depository``
 - a textual ``id``
 - a textual ``version``
+- the instrument's ``holdingStandard``
 
 The version is used to keep track of the linear evolution of an instrument. For example, once a
 dividend on a share is paid, the version is used to identify the cum-dividend and the ex-dividend
@@ -80,7 +84,7 @@ A holding contract represents the ownership of a certain amount of an instrument
 custodian.
 
 Whereas an instrument defines *what* a party holds (the rights and obligations), a holding defines
-*how much* (ie., the amount) of an instrument and *against which party* (ie., the custodian) the
+*how much* (i.e., the amount) of an instrument and *against which party* (i.e., the custodian) the
 instrument is being held.
 
 It is important to understand that the economic terms of an asset (the instrument) are separated
@@ -101,39 +105,49 @@ The terminology is again borrowed from the real world: our cash or shares are us
 custodian and we have (at least in principle) the right to claim them back from the custodian at any
 given time.
 
-Properties of Holdings
-======================
+.. _holding-standards:
 
-A holding implementation can have specific properties such as being :ref:`fungible <fungibility>` or
-:ref:`transferable <transferability>`.
+Holding Standards
+=================
+
+A holding implementation can have specific properties such as being :ref:`fungible <fungibility>`
+and/or :ref:`transferable <transferability>`.
 
 When, for instance, a holding is transferable, the ownership can be transferred to a different party
 at the same custodian.
 
-These properties are exposed by implementing the corresponding interface
+These properties are exposed by letting a holding template implement the corresponding interfaces
 (:ref:`Fungible <type-daml-finance-interface-holding-fungible-fungible-60176>` and
 :ref:`Transferable <type-daml-finance-interface-holding-transferable-transferable-24986>`,
 respectively).
 
-.. _implementations-1:
+The library distinguishes four types of holdings, referred to as :ref:`Holding Standard
+<type-daml-finance-interface-types-common-types-holdingstandard-38061>`\s, namely:
+
+1. `Fungible`: Holdings that are fungible only.
+2. `Transferable`: Holdings that are transferable only.
+3. `TransferableFungible`: Holdings that are both transferable and fungible.
+4. `BaseHolding`: Holdings that are neither transferable nor fungible.
 
 Interfaces
 ==========
 
-Holding interfaces are defined in the ``Daml.Finance.Interface.Holding`` package. These include a
-:ref:`base holding interface <module-daml-finance-interface-holding-base-24195>`,
-as well as interface definitions for the above properties.
+Holding interfaces are defined in the ``Daml.Finance.Interface.Holding`` package. It consists of
+the interfaces :ref:`holding <module-daml-finance-interface-holding-holding-64126>`,
+:ref:`transferable <module-daml-finance-interface-holding-transferable-88121>`, and
+:ref:`fungible <module-daml-finance-interface-holding-fungible-63712>`.
+
+.. _implementations-1:
 
 Implementations
 ===============
 
-Implementations are provided in ``Daml.Finance.Holding`` for:
+``Daml.Finance.Holding`` provides implementations for each holding standard:
 
-- a :ref:`fungible and transferable <module-daml-finance-holding-fungible-7201>` holding
-- a holding which is
-  :ref:`transferable but not fungible <module-daml-finance-holding-nonfungible-86571>`
-- a holding which is
-  :ref:`neither transferable nor fungible <module-daml-finance-holding-nontransferable-44402>`
+- :ref:`fungible only <module-daml-finance-holding-fungible-7201>`
+- :ref:`transferable only <module-daml-finance-holding-transferable-43388>`
+- :ref:`both transferable and fungible <module-daml-finance-holding-transferablefungible-77726>`
+- :ref:`neither transferable nor fungible <module-daml-finance-holding-baseholding-57062>`
 
 Account
 *******
@@ -204,10 +218,12 @@ A base account implementation is provided in
 
 The account can be created with arbitrary
 :ref:`controllers <type-daml-finance-interface-account-account-controllers-36430>`
-(for incoming and outgoing transfers).
+(for incoming and outgoing transfers). Our examples typically let accounts be owners-controlled,
+i.e., both the current owner and the new owner must authorize transfers.
 
-In our examples, we typically let accounts be owners-controlled, i.e., both the current owner and
-the new owner must authorize transfers.
+The account also implements
+the :ref:`Lockable <module-daml-finance-interface-util-lockable-80915>` interface, enabling the
+freezing of an account, thus disabling credits and debits.
 
 Example setups
 **************
@@ -232,9 +248,9 @@ The Retail Client has an
 the former acting as ``owner`` and the latter as ``custodian``.
 
 Finally, the Retail Client is ``owner`` of a
-:ref:`fungible holding <type-daml-finance-holding-fungible-fungible-28517>` at the Commercial Bank
-(the ``custodian`` in the contract). The holding references the currency instrument, as well as the
-account.
+:ref:`transferable and fungible holding <module-daml-finance-holding-transferablefungible-77726>` at
+the Commercial Bank (i.e., the ``custodian`` in the contract). The holding references the currency
+instrument and the account.
 
 .. image:: ../images/asset_model_currency.png
    :alt: Currency asset setup.

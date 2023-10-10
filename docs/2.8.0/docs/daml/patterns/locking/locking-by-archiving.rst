@@ -32,7 +32,7 @@ The steps below show how to use a consuming choice in the original contract to a
 
 * Add a consuming choice, *Lock*, to the *Coin* template that creates a *LockedCoin*.
 * The controller party on the *Lock* may vary depending on business context. In this example, *owner* is a good choice.
-* The parameters to this choice are also subject to business use case. Normally, it should have at least locking terms (eg. lock expiry time) and a party authorized to unlock.
+* The parameters to this choice are also subject to business use case. Normally, it should at least have locking terms (e.g. lock expiry time) and a party authorized to unlock.
 
 .. literalinclude:: ../daml/CoinIssuance.daml
   :language: daml

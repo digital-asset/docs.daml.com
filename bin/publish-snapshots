@@ -61,6 +61,22 @@ EOF
   echo "$known_broken" | grep $version >/dev/null
 )
 
+get_component_version() (
+  daml_version=$1
+  grep_arg=$2
+  sed_arg=$3
+  curl -H "Authorization: bearer $GITHUB_TOKEN" \
+       --fail \
+       --silent \
+       https://api.github.com/graphql \
+       -XPOST \
+       -d"$(jq -n --arg q "$(graphql $version)" '{query: $q}')" \
+   | jq -r '.data.repository.release.releaseAssets.nodes[].name' \
+   | grep $grep_arg \
+   | head -1 \
+   | sed $sed_arg
+)
+
 for version in $snapshots; do
   echo "> $version"
   if curl -Ifs https://docs.daml.com/$version/index.html &> /dev/null
@@ -73,17 +89,10 @@ for version in $snapshots; do
     if [ -d docs/${base}* ]; then
       (
         cd docs/${base}*
-        canton=$(curl -H "Authorization: bearer $GITHUB_TOKEN" \
-                      --fail \
-                      --silent \
-                      https://api.github.com/graphql \
-                      -XPOST \
-                      -d"$(jq -n --arg q "$(graphql $version)" '{query: $q}')" \
-                 | jq -r '.data.repository.release.releaseAssets.nodes[].name' \
-                 | grep canton \
-                 | head -1 \
-                 | sed 's/canton-open-source-\(.*\)\.tar\.gz/\1/')
+        canton=$(get_component_version $version canton 's/canton-open-source-\(.*\)\.tar\.gz/\1/')
         echo " -> canton: $canton"
+        sdk=$(get_component_version $version daml-sdk- 's/daml-sdk-\(.*\)-linux\.tar\.gz/\1/')
+        echo " -> sdk: $sdk"
         if [ -f versions.json ]; then
           ver=versions.json
         else
@@ -91,8 +100,10 @@ for version in $snapshots; do
         fi
         finance=$(jq -r '.daml_finance' $ver)
         echo " -> finance: $finance"
+        drivers=$(jq -r '.canton_drivers' $ver)
+        echo " -> drivers: $drivers"
         tmp=$(mktemp)
-        jq --arg daml $version \
+        jq --arg daml $sdk \
            --arg canton $canton \
            '.daml |= $daml | .canton |= $canton' \
            $ver \
