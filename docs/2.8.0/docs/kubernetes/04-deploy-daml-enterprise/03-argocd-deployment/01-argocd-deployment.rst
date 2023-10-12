@@ -48,37 +48,43 @@ Prepare Kubernetes Environment
 1. Install Argo CD
 ==================
 
-#. Add the Argo Helm repository:
+#.
+  Add the Argo Helm repository:
 
   .. code-block:: bash
 
     helm repo add argo https://argoproj.github.io/argo-helm
 
-#. Install Argo CD using the following command:
+#.
+  Install Argo CD using the following command:
 
   .. code-block:: bash
 
     helm -n argocd install argocd -f azure/helm/values/argocd.yaml argo/argo-cd --create-namespace
 
-#. Load the admin password into a variable:
+#.
+  Load the admin password into a variable:
 
   .. code-block:: bash
 
     ARGOCD_PASSWORD=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data['password']}" | base64 -d)
 
-#. Export the port-forward Argo CD CLI options:
+#.
+  Export the port-forward Argo CD CLI options:
 
   .. code-block:: bash
 
     ARGOCD_OPTS='--insecure --plaintext --port-forward --port-forward-namespace argocd'
 
-#. Login with the Argo CD CLI:
+#.
+  Login with the Argo CD CLI:
 
   .. code-block:: bash
 
     argocd login server --username admin --password="${ARGOCD_PASSWORD}"
 
-#. Since the cluster is private we need to port forward the service to access the UI:
+#.
+  Since the cluster is private we need to port forward the service to access the UI:
 
   .. code-block:: bash
 
