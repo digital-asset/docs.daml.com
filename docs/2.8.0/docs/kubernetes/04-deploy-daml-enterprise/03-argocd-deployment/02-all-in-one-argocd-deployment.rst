@@ -4,11 +4,6 @@
 Deploy Argo CD Applications
 #############################
 
-Objectives
-**********
-
-* Deploy the Argo CD applications for Canton Domain, Canton Participant and Daml HTTP JSON API service.
-
 Steps
 *****
 
@@ -43,7 +38,7 @@ Create a new branch starting from ``main``:
    git checkout -b <new-branch-name>
 
 * Customize the `Argo CD application YAML file <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/argocd/daml-enterprise.yaml>`_ with your forked
-GitHub repository URL and target revision (new branch name).
+  GitHub repository URL and target revision (new branch name).
 
 * Commit changes to your new branch:
 
@@ -61,4 +56,5 @@ GitHub repository URL and target revision (new branch name).
    kubectl -n argocd apply -f azure/argocd/apps/daml-enterprise.yaml
 
 You should have four applications automatically synced, you can check the state in the `Argo CD UI <http://localhost:8080>`_.
+
 Access is described in :doc:`the previous step <./01-argocd-deployment>`.

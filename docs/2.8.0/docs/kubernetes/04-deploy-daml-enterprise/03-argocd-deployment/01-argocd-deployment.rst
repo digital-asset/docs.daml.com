@@ -9,7 +9,7 @@ Objectives
 
 * Set up access to Daml Enterprise Helm charts.
 * Prepare Kubernetes environment.
-* Install Daml Enterprise components as an Argo CD application.
+* Install Daml Enterprise components as Argo CD applications.
 
 Prerequisites
 *************
@@ -34,7 +34,7 @@ Introduction
 
 This section of the guide walks you through the steps of installing Daml Enterprise on a Kubernetes cluster using `Argo CD <https://argo-cd.readthedocs.io/en/stable/>`_\ , the declarative GitOps continuous delivery tool for Kubernetes.
 
-*If you want to use GitOps, it is mandatory to fork the `accompanying resources' GitHub repository <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`_ to be able to commit
+*If you want to use GitOps, it is mandatory to fork the* `accompanying resources' GitHub repository <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`_ *to be able to commit
 the changes in manifests/configurations/values used to deploy Kubernetes resources.* You will need
 to grant Argo CD access to this forked repository, and reference it with a revision (branch, SHA1 or tag)
 within applications' configuration.
@@ -50,39 +50,39 @@ Prepare Kubernetes Environment
 
 #. Add the Argo Helm repository:
 
-.. code-block:: bash
+  .. code-block:: bash
 
-   helm repo add argo https://argoproj.github.io/argo-helm
+    helm repo add argo https://argoproj.github.io/argo-helm
 
 #. Install Argo CD using the following command:
 
-.. code-block:: bash
+  .. code-block:: bash
 
-   helm -n argocd install argocd -f azure/helm/values/argocd.yaml argo/argo-cd --create-namespace
+    helm -n argocd install argocd -f azure/helm/values/argocd.yaml argo/argo-cd --create-namespace
 
 #. Load the admin password into a variable:
 
-.. code-block:: bash
+  .. code-block:: bash
 
-   ARGOCD_PASSWORD=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data['password']}" | base64 -d)
+    ARGOCD_PASSWORD=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data['password']}" | base64 -d)
 
 #. Export the port-forward Argo CD CLI options:
 
-.. code-block:: bash
+  .. code-block:: bash
 
-   ARGOCD_OPTS='--insecure --plaintext --port-forward --port-forward-namespace argocd'
+    ARGOCD_OPTS='--insecure --plaintext --port-forward --port-forward-namespace argocd'
 
 #. Login with the Argo CD CLI:
 
-.. code-block:: bash
+  .. code-block:: bash
 
-   argocd login server --username admin --password="${ARGOCD_PASSWORD}"
+    argocd login server --username admin --password="${ARGOCD_PASSWORD}"
 
 #. Since the cluster is private we need to port forward the service to access the UI:
 
-.. code-block:: bash
+  .. code-block:: bash
 
-   kubectl -n argocd port-forward service/argocd-server 8080:80
+    kubectl -n argocd port-forward service/argocd-server 8080:80
 
 For as long as the command is being ran, Argo CD will be available in the `browser <http://localhost:8080/>`_.
 
