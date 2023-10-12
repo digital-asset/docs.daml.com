@@ -48,9 +48,8 @@ Steps
 *****
 
 .. note::
-   All the below steps assume that
-  * you have cloned the `accompanying resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`_, and
-  * your working directory is ``azure/terraform``.
+   All the below steps assume that you have cloned the `accompanying resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`_,
+   and your working directory is ``azure/terraform``.
 
 Create SSH Key for Accessing Bastion
 ====================================
