@@ -1198,7 +1198,7 @@ subtrees:
               titlesonly: True
               entries:
               - file: kubernetes/04-deploy-daml-enterprise/03-argocd-deployment/02-all-in-one-argocd-deployment
-                title: "Deploy All-In-One Application"
+                title: "Deploy Argo CD Applications"
   - file: deploy-daml/infrastructure-architecture/high-availability/main-menu
     subtrees:
     - hidden: False
