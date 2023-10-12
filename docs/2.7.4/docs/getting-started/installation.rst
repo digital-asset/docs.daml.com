@@ -108,18 +108,23 @@ can install it as follows:
 
 
 - On Windows, download the installer from Artifactory_ instead of Github
-  releases. 
-- On Linux and MacOS, download the corresponding tarball,
-  extract it and run ``./install.sh``. Afterwards, modify the
-  :ref:`global daml-config.yaml <global_daml_config>` and add an entry
-  with your Artifactory API key. The API key can be found in your
-  Artifactory user profile.
+  releases.
+- On Linux and MacOS, download the corresponding tarball, extract it and run
+  ``./install.sh``. Afterwards, modify the :ref:`global daml-config.yaml
+  <global_daml_config>` and add an entry with your Artifactory token. The Daml
+  Enterprise tooling will accept either an Artifactory API Key or an
+  Artifactory Identity Token, though Artifactory API Keys have been deprecated
+  by Artifactory and may stop working after the end of 2023. Both API Keys and
+  Identity Tokens can be managed from `your Artifactory profile page
+  <https://digitalasset.jfrog.io/ui/user_profile>`_.
 
 .. code-block:: yaml
 
    artifactory-api-key: YOUR_API_KEY
 
-This will be used by the assistant to download other versions automatically from artifactory.
+This will be used by the assistant to download other versions automatically
+from Artifactory. The config key is called `artifactory-api-key` for historical
+reasons, but will work just as well with an Identity Token as with an API Key.
 
 If you already have an existing installation, you only need to add
 this entry to ``daml-config.yaml``. To overwrite a previously
