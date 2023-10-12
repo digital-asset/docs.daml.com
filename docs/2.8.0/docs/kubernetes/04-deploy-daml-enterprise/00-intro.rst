@@ -13,6 +13,7 @@ There are many ways to create and manage Kubernetes objects. This section of the
 * :doc:`Using Argo CD <03-argocd-deployment/01-argocd-deployment>`
 
 If you deploy components independently, the following order should be followed:
+
 #. Canton Participant
 #. Canton Domain (bootstraps both the domain itself and its participant)
 #. Daml HTTP JSON API service (requires a functional Ledger API)

@@ -7,10 +7,10 @@ Provisioning Cloud Resources with Terraform
 .. note::
   If you plan on using GitOps via
   :doc:`Argo CD to deploy Daml Enterprise <../04-deploy-daml-enterprise/03-argocd-deployment/01-argocd-deployment>`
-  to Kubernetes, you will need to fork `this GitHub repository <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints>`. If you plan to follow other options like
+  to Kubernetes, you will need to fork `this GitHub repository <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints>`_. If you plan to follow other options like
   :doc:`Helm <../04-deploy-daml-enterprise/01-helm-deployment/01-helm-deployment-preparation>`
   or :doc:`Helmfile <../04-deploy-daml-enterprise/02-helmfile-deployment/index.md>` (recommended),
-  you can just directly clone `this repository <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`.
+  you can just directly clone `this repository <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`_.
 
 .. note::
    All the resources created are private, nothing is being exposed over the public internet.
@@ -33,8 +33,8 @@ The following diagram provides an overview of the target state that the Terrafor
 Prerequisites
 *************
 
-* Credentials to access `Digital Asset's Artifactory <https://digitalasset.jfrog.io/>` and pull Daml Enterprise container images
-* GitHub account with access to the `accompanying resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`
+* Credentials to access `Digital Asset's Artifactory <https://digitalasset.jfrog.io/>`_ and pull Daml Enterprise container images
+* GitHub account with access to the `accompanying resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`_
 * `jq <https://jqlang.github.io/jq/download/>`_ [\ ``1.5+``\ ]
 * `Azure CLI <https://learn.microsoft.com/en-us/cli/azure/install-azure-cli>`_ [latest]
 * `Terraform <https://developer.hashicorp.com/terraform/downloads>`_ [\ ``1.4+``\ ]
@@ -48,10 +48,9 @@ Steps
 *****
 
 .. note::
-   All the below steps assume that your working directory is ``src/terraform``.
    All the below steps assume that
-    * you have cloned the `accompanying resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`, and
-    * your working directory is ``azure/terraform``.
+  * you have cloned the `accompanying resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`_, and
+  * your working directory is ``azure/terraform``.
 
 Create SSH Key for Accessing Bastion
 ====================================
@@ -62,7 +61,8 @@ You need to provide an existing SSH key pair to access the proxy (aka bastion) t
 
    ssh-keygen -m PEM -t rsa -b 4096 -f /path/to/ssh/key -C 'bastion@zero.k8s'
 
-Note that for increased security, it is recommended to provide a passphrase for the created SSH key.
+.. note::
+  For increased security, it is recommended to provide a passphrase for the created SSH key.
 
 Set Up Your Azure Account
 =========================
@@ -88,7 +88,7 @@ To configure Terraform for your Azure subscription, follow the below steps:
 
 * Create your own backend configuration
 
-* Copy and customize the variables file `sample.tfvars <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/terraform/sample.tfvars>`, use the resource group you just created, you can use the file name ``terraform.tfvars`` to avoid passing argument ``--var-file=/path/to/file.tfvars`` each run.
+* Copy and customize the variables file `sample.tfvars <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/terraform/sample.tfvars>`_, use the resource group you just created, you can use the file name ``terraform.tfvars`` to avoid passing argument ``--var-file=/path/to/file.tfvars`` each run.
 
 .. note::
    There are multiple ways to `configure the backend <https://developer.hashicorp.com/terraform/language/settings/backends/configuration>`_ and manage different environments (development, staging, production, etc.) within the same repository, you should pick the appropriate solution for your needs! For local testing the `default backend <https://developer.hashicorp.com/terraform/language/settings/backends/configuration#default-backend>`_ suffices.
@@ -187,7 +187,7 @@ To complete the PostgreSQL server setup required for deploying Daml Enterprise c
 Copy Container Images to Azure Container Registry
 =================================================
 
-Set environment variables to access Digital Asset's container image registry at `digitalasset-docker.jfrog.io`:
+Set environment variables to access Digital Asset's container image registry at ``digitalasset-docker.jfrog.io``:
 
 .. code-block:: bash
 
