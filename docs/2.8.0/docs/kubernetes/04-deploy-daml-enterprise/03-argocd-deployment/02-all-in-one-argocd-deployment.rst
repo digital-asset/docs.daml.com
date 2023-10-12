@@ -13,11 +13,13 @@ Steps
 Set the environment variable `ARGO_OPTS`:
 
 .. code-block:: bash
+
   export ARGOCD_OPTS='--insecure --plaintext --port-forward --port-forward-namespace argocd'
 
 Fork the `GitHub repository for the accompanying resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/tree/main/>`_ and add it to Argo CD repositories:
 
 .. code-block:: bash
+
   argocd repo add https://github.com/<github-handle>/daml-enterprise-deployment-blueprints.git \
     --username '<github-handle>' --password '<github-classic-api-token>'
 
