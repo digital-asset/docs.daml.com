@@ -9,7 +9,7 @@ Provisioning Cloud Resources with Terraform
   :doc:`Argo CD to deploy Daml Enterprise <../04-deploy-daml-enterprise/03-argocd-deployment/01-argocd-deployment>`
   to Kubernetes, you will need to fork `this GitHub repository <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints>`_. If you plan to follow other options like
   :doc:`Helm <../04-deploy-daml-enterprise/01-helm-deployment/01-helm-deployment-preparation>`
-  or :doc:`Helmfile <../04-deploy-daml-enterprise/02-helmfile-deployment/index.md>` (recommended),
+  or :doc:`Helmfile <../04-deploy-daml-enterprise/02-helmfile-deployment/index>` (recommended),
   you can just directly clone `this repository <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`_.
 
 .. note::
