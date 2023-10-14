@@ -213,13 +213,13 @@ Event Query Service (BETA)
 
 Use the **event query service** to obtain a party-specific view of contract events.
 
-The gRPC API is geared towards providing ledger streams to off-ledger components that maintain queryable state. This service allows for simple event queries without requiring any off-ledger components like the JSON API.
+The gRPC API provides ledger streams to off-ledger components that maintain a queryable state. This service allows you to make simple event queries without off-ledger components like the JSON API.
 
-The Event Query Service makes it possible to retrieve create and archive events associated with a contract id or contract key. This API will only return events where at least one of the requesting parties is a stakeholder of the contract. In the case where the contract is still active the ``archive_event`` will be unset.
+Using the Event Query Service, you can create, retrieve, and archive events associated with a contract ID or contract key. The API returns only those events where at least one of the requesting parties is a stakeholder of the contract. If the contract is still active, the ``archive_event`` is unset.
 
-In the case of contract keys, a number of contracts may have used the contract key over time. The latest contract events are returned first. To access earlier contract key events use the ``continuation_token`` returned in the ``GetEventsByContractKeyResponse`` in a subsequent ``GetEventsByContractKeyRequest``.
+Contract keys can be used by multiple contracts over time. The latest contract events are returned first. To access earlier contract key events, use the ``continuation_token`` returned in the ``GetEventsByContractKeyResponse`` in a subsequent ``GetEventsByContractKeyRequest``.
 
-If there are no events that match the request criteria or the requested events are not visible to the requesting parties then an empty structure will be returned. This service can only return events associated with consumed contracts until they are pruned.
+If no events match the request criteria or the requested events are not visible to the requesting parties, an empty structure is returned. Events associated with consumed contracts are returned until they are pruned.
 
 .. note::
 
