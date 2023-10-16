@@ -120,6 +120,19 @@ When the claim is lifecycled, we obtain
 
 When you want to additively combine more than two claims, you can use the ``andList`` constructor.
 
+.. warning::
+
+  By default, the ``and`` operator is the :ref:`function <function-da-internal-prelude-and-20777>`
+  defined in the Daml standard library. In order to use the claim constructor instead, one needs to 
+  use a qualified import. Alternatively, one can hide the function from the standard library  by
+  using the syntax
+
+  .. code-block:: daml
+
+    import Prelude hiding (and)
+
+  The same applies to the ``or`` operator, which is not covered in this section.
+
 When
 ====
 
