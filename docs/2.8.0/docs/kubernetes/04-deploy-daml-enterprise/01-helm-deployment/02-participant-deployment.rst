@@ -18,7 +18,7 @@ Steps
 ======================================================
 
 .. note::
-   The Terraform scripts were used to parameterize the Helm values. If standalone Helm deployment is done without Terraform the value file has to be customized manually. The value file can be found under :download:`participant.yaml`. Note that in this guide we are deploying the participant node before deploying the domain node. We may do this because we are deploying both onto the same Kubernetes cluster, and we know the `participant node's identity <https://docs.daml.com/canton/usermanual/identity_management.html#default-initialization>`_ beforehand (e.g., that its name is ``participant1``\ ). For more details, see the `relevant section in the canton-domain Helm chart documentation <https://artifacthub.io/packages/helm/digital-asset/canton-domain#bootstrap>`_. In most cases, the operators of the participant and domain nodes differ, hence, a more involved `on-boarding process <https://docs.daml.com/canton/usermanual/identity_management.html#participant-onboarding>`_ has to be used.
+   The Terraform scripts were used to parameterize the Helm values. If standalone Helm deployment is done without Terraform the value file has to be customized manually. The value file can be found under `participant.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/helm/values/participant.yaml>`_. Note that in this guide we are deploying the participant node before deploying the domain node. We may do this because we are deploying both onto the same Kubernetes cluster, and we know the `participant node's identity <https://docs.daml.com/canton/usermanual/identity_management.html#default-initialization>`_ beforehand (e.g., that its name is ``participant1``\ ). For more details, see the `relevant section in the canton-domain Helm chart documentation <https://artifacthub.io/packages/helm/digital-asset/canton-domain#bootstrap>`_. In most cases, the operators of the participant and domain nodes differ, hence, a more involved `on-boarding process <https://docs.daml.com/canton/usermanual/identity_management.html#participant-onboarding>`_ has to be used.
 
 .. code-block:: yaml
 
@@ -75,7 +75,7 @@ With the value files prepared we can install the Helm chart:
 
 .. code-block:: bash
 
-   helm -n canton install participant1 digital-asset/canton-participant -f src/helm/values/participant.yaml --create-namespace
+   helm -n canton install participant1 digital-asset/canton-participant -f azure/helm/values/participant.yaml --create-namespace
 
 Expected output:
 
@@ -96,7 +96,7 @@ Expected output:
    | |___| (_| | | | | || (_) | | | |
     \_____\__,_|_| |_|\__\___/|_| |_|
 
-   Participant 2.7.0 has been deployed successfully!
+   Participant 2.7.1 has been deployed successfully!
 
    More information on how to configure Canton can be found in our documentation:
 
