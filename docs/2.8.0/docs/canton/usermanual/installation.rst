@@ -24,6 +24,16 @@ This guide uses the example configurations you can find in the release bundle un
 and explains you how to leverage these examples for your purposes. Therefore, any file named in this guide
 will refer to subdirectories of the advanced configuration example.
 
+If you are using Oracle JVM and testing security provider signatures, you
+should note that the provided Canton JAR file embeds the BouncyCastle Provider
+as a dependency. To enable the JVM to verify the signature, you need to put
+the ``bcprov`` JAR on the classpath before the Canton Standalone JAR. For
+example: 
+
+.. code-block:: java
+
+    java -cp bcprov-jdk15on-1.70.jar:canton-with-drivers-2.7.4-all.jar com.digitalasset.canton.CantonEnterpriseApp
+
 
 Downloading Canton
 ------------------
@@ -123,8 +133,8 @@ First, pull Postgres and start it up.
 
 .. code-block:: bash
 
-    docker pull postgres:11
-    docker run --rm --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432 postgres:11
+    docker pull postgres:14.8-bullseye
+    docker run --rm --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432 postgres:14.8-bullseye
 
 Then, you can run ``psql`` using:
 

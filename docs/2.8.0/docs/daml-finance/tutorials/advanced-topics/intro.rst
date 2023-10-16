@@ -15,3 +15,7 @@ The following tutorials are available:
 * The :doc:`Contingent Claims Instrument <instrument-modeling/contingent-claims-instrument>`
   tutorial describes how to leverage the Contingent Claims library to lifecycle custom instrument
   implementations.
+
+* The :doc:`Date utility <instrument-modeling/date-utilities>`
+  tutorial shows you how to use the calendar, schedule, and day count utility functions (for
+  example, to create your own instruments).

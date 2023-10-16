@@ -9,7 +9,7 @@ modules:
 
 - :ref:`Factory <module-daml-finance-interface-holding-factory-6211>`:
   Interface for a holding factory used to create (credit) and archive (debit) holdings
-- :ref:`Base <module-daml-finance-interface-holding-base-24195>`:
+- :ref:`Holding <module-daml-finance-interface-holding-holding-64126>`:
   Interface for a base holding which includes locking capabilities
 - :ref:`Fungible <module-daml-finance-interface-holding-fungible-63712>`:
   Interface for a fungible holding which allows splitting and merging

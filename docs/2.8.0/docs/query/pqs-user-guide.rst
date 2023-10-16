@@ -57,12 +57,26 @@ The historical table below lists the available Early Access releases of the Part
 |               | ``--target-postgres-autoapplyschema`` renamed to    |
 |               | ``--target-schema-autoapply``                       |
 +---------------+-----------------------------------------------------+
+| `2023-09-22`_ | New release. Added pruning documentation.           |
+|               | Environment variables now have ``SCRIBE_`` prefix   |
+|               | to avoid name clashes.  Updated the                 |
+|               | ``--pipeline-parties`` option information.          |
++---------------+-----------------------------------------------------+
+| `2023-09-26`_ | New release.  The filter is now applied on the DB   |
+|               | functions, such as choices.                         |
++---------------+-----------------------------------------------------+
+| `2023-10-06`_ | New release.  Fix a JWT audience bug.  Name format  |
+|               | change.                                             |
++---------------+-----------------------------------------------------+
 
 .. _2023-08-09: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B2986-e45c930.tar.gz
 .. _2023-08-31: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B3614-6b5f082.tar.gz
 .. _2023-09-06: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B3614-6b5f082.tar.gz
 .. _2023-09-18: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B3614-6b5f082.tar.gz
 .. _2023-09-19: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B4004-3b542d2.tar.gz
+.. _2023-09-22: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B4057-a74e52c.tar.gz
+.. _2023-09-26: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B4073-9c286ff.tar.gz
+.. _2023-10-06: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.2-main.20231006.156.4444.vbb4c8a1.tar.gz
 
 Overview
 ********
@@ -137,9 +151,15 @@ The following principles apply:
 JSON Data
 =========
 
-Relational databases excel at storing structured data for which the schema is known in advance. However, they have traditionally lacked mechanisms for data that is more dynamic or evolves. For example, you may want to store arbitrary Daml contracts and might prefer not to update the database schema every time the underlying template changes.
+Relational databases excel at storing structured data for which the schema is
+known in advance. However, they have traditionally lacked mechanisms for data
+that is more dynamic or evolves. For example, you may want to store arbitrary
+Daml contracts and might prefer not to update the database schema every time
+the underlying template changes.
 
-PostgreSQL helps manage unstructured data through native support for JSON data and allows queries to process this data. For best performance, the PQS stores data as JSONB only.
+PostgreSQL helps manage unstructured data through native support for JSON data
+and allows queries to process this data. For best performance, the PQS stores
+data as JSONB only.
 
 An example query might look like this:
 
@@ -150,7 +170,12 @@ An example query might look like this:
     WHERE payload->>'isin' = 'abc123'
     ORDER BY payload->'issuanceData'->'issueDate'->>'Some';
 
-For more information on querying JSON data, see the section `JSON Functions and Operators <https://www.postgresql.org/docs/12/functions-json.html>`__ in the PostgreSQL manual. The operators ``->``, ``->>``, ``#>``, ``#>>``, and ``@>`` may be of particular interest.
+For more information on querying JSON data, see the section `JSON Functions
+and Operators <https://www.postgresql.org/docs/12/functions-json.html>`__ in
+the PostgreSQL manual. The operators ``->``, ``->>``, ``#>``, ``#>>``, and
+``@>`` may be of particular interest.
+
+This :ref:`section below <pqs-json-encoding>` summarizes how the ledger data is encoded in JSON.
 
 Continuity
 ==========
@@ -162,8 +187,8 @@ High Availability
 
 Multiple isolated instances of PQS can be instantiated without any cross-dependency. This allows for an active-active high availability, clustering model. Please note that different instances might not be at the same offset due to different processing rates or other factors. After querying one active instance, it is possible for you to see results that are not yet visible on an alternative, active instance. This requires consideration for the client to handle the situation where waiting or a retry is required to service "at least up to" requests.
 
-Setup
-*****
+Installing and Starting PQS
+***************************
 
 Meeting Prerequisites
 =====================
@@ -210,7 +235,10 @@ The type of access token that PQS expects is Audience / Scope based tokens (see 
 
 Scribe will obtain tokens from the Authorization Server on startup, and it will reauthenticate before the token expires. If Scribe fails authorization, it will terminate with an error for the service orchestration infrastructure to respond appropriately.
 
-If you are not authenticated, there is no user to connect to a list of ``readAs`` parties, so you must specify the parties using the ``-pipeline-parties`` argument. This argument acts as a filter, restricting the data to only what's visible to the supplied list of party identifiers. To specify multiple parties, provide the party identifiers in a comma-separated list. Example: ``--pipeline-parties Alice::12209942561b94adc057995f9ffca5a0b974953e72ba25e0eb158e05c801149639b9``
+If you are not authenticated, there is no user to connect to a list of
+``readAs`` parties, so you must specify the parties using the
+``-pipeline-parties`` argument. This argument acts as a filter, restricting
+the data to only what's visible to the supplied list of party identifiers. 
 
 The authentication of PQS needs to match the participant nodes (PN) setup.  For
 example, if PQS is run with authentication by setting OAuth and the PN is not
@@ -242,7 +270,7 @@ The following example connects to a PostgreSQL instance running on localhost on 
 .. code-block:: bash
 
     $ ./scribe.jar pipeline ledger postgres-document \
-         --target-postgres-database daml_pqs \
+         --target-postgres-database daml_pqs
 
 The next example connects to a database on host ``192.168.1.12``, listening on port ``5432``. The database is called ``daml_pqs``.
 
@@ -354,6 +382,44 @@ inclusion statement with basic boolean logic, where whitespace is ignored.  Belo
 - ``a.b.c.Foo & a.b.c.Bar``: this is an error because it can't be both
 - ``(a.b.c.Foo | a.b.c.Bar)``: these two fully qualified names
 - ``(a.b.c.* & !(a.b.c.Foo | a.b.c.Bar) | g.e.f.Baz)``: everything in ``a.b.c`` except for ``Foo`` and ``Bar``, and also include ``g.e.f.Baz``
+
+The ``--pipeline-parties`` option supports the same filter expressions as the
+``--pipeline-filter``. So to filter for two parties ``alice::abc123...`` and
+``bob::def567...``, you could write ``--pipeline-parties="(alice* | bob*)"``.
+If you want to specify a specific party then include the hash behind the party
+hint (i.e.
+``Alice_1::122055fc4b190e3ff438587b699495a4b6388e911e2305f7e013af160f49a76080ab``). 
+
+Please note that the separator is a pipe character (``|``) instead of comma.
+
+Brackets are unnecessary for simple expressions.  A simple list is
+``--pipeline-parties="Alice_1::122055fc4b190e3ff438587b699495a4b6388e911e2305f7e013af160f49a76080ab
+|
+Alice_2::122053933e4803c2995e41faa8a29981ca0d1faf6b4ffbf917ba1edd0db133acb634
+| Peter-1::358400000000000000000000000`` Specifying the parties in a short
+form can be done by using the ``*`` as a wildcard.  For example,
+``--pipeline-parties="Alice* | *358400000000000000000000000"`` will select
+``Alice_1``, ``Alice_2``, and ``Peter-1``. 
+
+More advanced expressions can make use of brackets, such as
+``--pipeline-parties="Alice* | Bob* | (participant* & !(participant3::*))"``.  
+
+
+Handling Configuration Changes
+==============================
+
+PQS initializes its behavior on startup by reading its configuration files.
+It currently doesn't support dynamic configuration updates so making a
+configuration change (e.g., adding a new party, new template, or new
+interface) requires stopping PQS, modifying its configuration, and then
+starting PQS.  Then, on startup, PQS will read the updated configuration.  
+
+When the configuration changes, the default is that PQS will not go back in
+time (older offset) but only move forward in time (current watermark offset
+and newer).   If the database is dropped then PQS can be started at the
+oldest, unpruned offset of the participant node and use the participant node's
+history to extract the events based on the updated configuration.  
+
 
 PQS Development
 ***************
@@ -678,6 +744,8 @@ JSON Format
 
 PQS stores create and exercise arguments using a `Daml-LF JSON-based encoding <https://docs.daml.com/json-api/lf-value-specification.html#daml-lf-json-encoding>`__ of Daml-LF values. An overview of the encoding is provided below. For more details, refer to `the Daml-LF page <https://docs.daml.com/json-api/lf-value-specification.html#daml-lf-json-encoding>`__.
 
+.. _pqs-json-encoding:
+
 Values on the ledger can be primitive types, user-defined records, or variants. An extracted contract is represented in the database as a record of its create argument. The fields of that record are primitive types, other records, or variants. A contract can be a recursive structure of arbitrary depth.
 
 These types are translated to `JSON types <https://json-schema.org/understanding-json-schema/reference/index.html>`__ as follows:
@@ -835,8 +903,139 @@ The following schema is representative for the exported ledger data. It is subje
 
 Note that the Archive table represents all Archive choices in the given namespace, such as ``User.Archive`` and ``Alias.Archive`` in the User namespace.
 
-PQS Optimization
-****************
+Operating PQS
+*************
+
+This section discusses the common tasks to perform when operating a PQS.
+
+Purging Excessive Historical Ledger Data
+========================================
+
+Pruning ledger data from the PQS database can help reduce storage size and
+improve query performance by removing old data. PQS
+provides two approaches to prune ledger data: using the PQS CLI or
+using the ``prune_to_offset`` PostgreSQL function.
+
+**WARNING:** Calling either the ``prune`` CLI command with
+``--prune-mode Force``, or calling the PostgreSQL function
+``prune_to_offset`` will delete data irrevocably.
+
+Both pruning approaches (CLI and PostgreSQL function) share the same
+behavior in terms of data deletion and changes:
+
+Active contracts are preserved under a new offset, while all other
+transaction-related data up to, and including the target offset is
+deleted.
+
+.. _pqs-pruning-behavior:
+
+The target offset, ie. the offset provided via ``--prune-target`` or as
+argument to ``prune_to_offset``, is the transaction with the highest
+offset that will be deleted by the pruning operation.
+
+Note: If the provided offset (i.e. via ``--prune-target``, or as
+argument to ``prune_to_offset``) does not have a transaction record,
+then the effective target offset will be the oldest transaction offset
+that succeeds (is greater than) the provided offset.
+
+When using either pruning method, the following data will be changed:
+
+-  The offset of active contracts will be moved to the oldest known
+   offset which succeeds the pruning target offset, i.e. the offset of
+   the oldest transaction that is unaffected by the pruning operation.
+
+The following data will be deleted:
+
+-  Transactions with offsets up to and including the target offset.
+-  Events, archived contracts and exercise payloads associated with the
+   deleted transactions.
+
+The following data will be unaffected: 
+
+- Transaction related data (event, choices, or contracts) for transaction with
+  an offset that is greater than the effective pruning target offset.
+
+Pruning is a destructive operation and cannot be undone. If necessary,
+make sure to backup your data before performing any pruning operations.
+
+There are some constraints when using either pruning method:
+
+1. The provided target offset must be within the bounds of the
+   contiguous history. If the target offset is outside the bounds, an
+   error will be raised.
+2. The pruning operation cannot coincide with the latest consistent
+   checkpoint of the contiguous history. If it does, an error will be
+   raised.
+
+Pruning with PQS CLI
+-----------------------
+
+The PQS CLI provides a ``prune`` command that allows you to prune the
+ledger data up to a specified offset, timestamp, or duration.
+
+For detailed information on all available options, please run
+``./PQS.jar datastore postgres-document prune --help-verbose``.
+
+To use the ``prune`` command, you need to provide a pruning target as an
+argument. The pruning target can be an offset, a timestamp (ISO 8601),
+or a duration (ISO 8601):
+
+::
+
+   ./PQS.jar datastore postgres-document prune --prune-target <pruning_target>
+
+By default, the ``prune`` command performs a dry run, which means it
+will only display the effects of the pruning operation without actually
+deleting any data. To execute the pruning operation, you need to add the
+``--prune-mode Force`` option:
+
+::
+
+   ./PQS.jar datastore postgres-document prune --prune-target <pruning_target> --prune-mode Force
+
+Instead of providing an offset as the ``--prune-target``, you can use a timestamp
+or duration as the pruning cutoff. For example, the following command prunes
+data older than 30 days (relative to now):
+
+::
+
+   ./PQS.jar datastore postgres-document prune --prune-target P30D
+
+The following example prunes data up to a specific timestamp:
+
+::
+
+   ./PQS.jar datastore postgres-document prune --prune-target 2023-01-30T00:00:00.000Z
+
+Pruning with ``prune_to_offset``
+--------------------------------
+
+The ``prune_to_offset`` PostgreSQL function allows
+you to prune ledger data up to a specified offset. It has the same
+behavior as the ``datastore postgres-document prune`` command, except it does not
+offer dry runs.
+
+To use ``prune_to_offset``, provide an offset as a text
+argument:
+
+.. code:: sql
+
+   SELECT * FROM prune_to_offset('<offset>');
+
+This function deletes transactions and update active contracts as
+described :ref:`earlier in this section <pqs-pruning-behavior>`.
+
+To prune data up to a specific timestamp or interval, use ``prune_to_offset`` 
+in combination with the ``get_offset`` function. For example, the following 
+query prunes data older than 30 days:
+
+.. code:: sql
+
+   SELECT * FROM prune_to_offset(get_offset(interval '30 days'));
+
+
+Optimizing PQS
+**************
 
 This section briefly discusses optimizing a database as an introduction. The topic is broad, and there are many resources available. Refer to the `PostgreSQL documentation <https://www.postgresql.org/docs/>`__ for more information.
 

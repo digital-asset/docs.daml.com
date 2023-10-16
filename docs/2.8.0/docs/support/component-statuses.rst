@@ -185,7 +185,7 @@ Developer Tools
    * - **SDK**
      -
      -
-   * - Windows SDK (installer_)
+   * - :ref:`Windows SDK <windows-sdk>`
      - Stable
      -
    * - :ref:`Mac SDK <mac-linux-sdk>`

@@ -1,0 +1,6 @@
+{
+  "daml": "2.7.4",
+  "canton": "2.7.4",
+  "daml_finance": "1.2.23",
+  "canton_drivers": "2.7.4"
+}

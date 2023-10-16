@@ -15,8 +15,14 @@ be included in the library.
 Custom Holding Implementations
 ******************************
 
-Daml Finance provides default implementations for fungible, non-fungible, and non-transferable
-holdings. The transferability of transferable holdings can be flexibly controlled through the
+Daml Finance provides default holding implementations for the following holding standards:
+
+1. fungible only (i.e., the `Fungible` holding standard)
+2. transferable only (i.e., `Transferable` holding standard)
+3. both transferable and fungible (i.e., the `TransferableFungible` holding standard)
+4. neither fungible nor transferable (i.e., the `BaseHolding` holding standard)
+
+The transferability of transferable holdings can be flexibly controlled through the
 :ref:`controllers <type-daml-finance-interface-account-account-controllers-36430>`
 property on an :ref:`Account <module-daml-finance-account-account-19369>`.
 Some use cases, however, might require additional functionality on holding contracts:
@@ -55,6 +61,9 @@ For some cases, however, a custom account implementation may be warranted:
 - Additional information: a custom account implementation can serve to represent different concepts
   of accounts. For example, a shelf in a vault for gold bars or a specific location within a
   warehouse can be represented by providing additional information on an account implementation.
+- Account Freezing: an account can optionally implement
+  the :ref:`Lockable <module-daml-finance-interface-util-lockable-80915>` interface, allowing it to
+  be frozen, i.e., temporarily disabling credits and debits.
 
 Custom Instrument Implementations
 *********************************

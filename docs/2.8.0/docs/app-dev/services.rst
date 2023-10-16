@@ -208,14 +208,18 @@ See :ref:`transaction-filter` above.
 
 .. event-query-service:
 
-Event Query Service (EXPERIMENTAL)
+Event Query Service (BETA)
 ==================================
 
 Use the **event query service** to obtain a party-specific view of contract events.
 
-Contract events can be queried by contract id or contract key. If the events being queried are not visible to the requesting parties, the service returns an empty structure. This service returns consumed contracts up until they are pruned.
+The gRPC API provides ledger streams to off-ledger components that maintain a queryable state. This service allows you to make simple event queries without off-ledger components like the JSON API.
 
-In the case of contract keys, a number of contracts may have used the contract key over time. The latest contract is returned first, with earlier contracts being returned in subsequent calls with a populated continuation token.
+Using the Event Query Service, you can create, retrieve, and archive events associated with a contract ID or contract key. The API returns only those events where at least one of the requesting parties is a stakeholder of the contract. If the contract is still active, the ``archive_event`` is unset.
+
+Contract keys can be used by multiple contracts over time. The latest contract events are returned first. To access earlier contract key events, use the ``continuation_token`` returned in the ``GetEventsByContractKeyResponse`` in a subsequent ``GetEventsByContractKeyRequest``.
+
+If no events match the request criteria or the requested events are not visible to the requesting parties, an empty structure is returned. Events associated with consumed contracts are returned until they are pruned.
 
 .. note::
 

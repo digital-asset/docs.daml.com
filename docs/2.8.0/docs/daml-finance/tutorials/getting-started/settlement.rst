@@ -12,8 +12,8 @@ We are going to:
 #. create a new ``TOKEN``
    :ref:`instrument <type-daml-finance-interface-instrument-token-instrument-instrument-4350>`
 #. credit a ``TOKEN`` holding to Alice’s account
-#. setup a delivery-vs-payment (DvP) transaction to give Alice's ``TOKEN`` holding to Bob in exchange
-   for a ``USD`` holding
+#. setup a delivery-vs-payment (DvP) transaction to give Alice's ``TOKEN`` holding to Bob in
+   exchange for a ``USD`` holding
 #. settle this transaction atomically
 
 This example builds on the previous :doc:`Transfer <transfer>` tutorial script in the sense that
@@ -88,7 +88,8 @@ proposal, we need to instantiate two contracts:
    This is used to discover a settlement route, i.e.,
    :ref:`routed steps <type-daml-finance-interface-settlement-types-routedstep-10086>`, for each
    settlement :ref:`step <type-daml-finance-interface-settlement-types-step-78661>`. In this
-   example, the route provider simply converts each step to a routed step using a single custodian (the bank).
+   example, the route provider simply converts each step to a routed step using a single custodian
+   (the bank).
 
 2. :ref:`Settlement Factory <type-daml-finance-interface-settlement-factory-factory-31525>`
 
@@ -158,7 +159,8 @@ Consider a real-world example where Alice instructs a bank transfer to send USD 
 following happens:
 
 - ``USD 100`` are debited from Alice's account at her bank
-- ``USD 100`` are transferred from Alice's bank to Bob's bank (via their accounts at the central bank)
+- ``USD 100`` are transferred from Alice's bank to Bob's bank (via their accounts at the central
+  bank)
 - ``USD 100`` are credited to Bob's account at his bank
 
 A single settlement :ref:`Step <type-daml-finance-interface-settlement-types-step-78661>` requires
@@ -167,7 +169,8 @@ three :ref:`RoutedStep <type-daml-finance-interface-settlement-types-routedstep-
 The same dynamics can be reproduced in Daml with a :ref:`Route Provider
 <type-daml-finance-interface-settlement-routeprovider-routeprovider-53805>` implementation, allowing
 for on-ledger intermediated settlement. For example, see the
-:doc:`Intermediated Lifecycling <../advanced-topics/lifecycling/intermediated-lifecycling>` tutorial.
+:doc:`Intermediated Lifecycling <../advanced-topics/lifecycling/intermediated-lifecycling>`
+tutorial.
 
 Why do we need a settlement factory?
 ====================================
