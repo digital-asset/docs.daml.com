@@ -148,7 +148,7 @@ The rotation frequency is fixed and cannot be changed.
    image taken from https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html
 
 The manual rotation of a wrapper key requires not only the creation of a new KMS key but also the re-encryption of our data with it.
-To do this Canton node administrators can request a :ref:`manual rotation of the KMS wrapper key through the Canton console <manual-kms-wrapper-key-rotation>`.
+To do this Canton node administrators can request a manual rotation of the KMS wrapper key through the Canton console.
 
 KMS Key Rotation
 ^^^^^^^^^^^^^^^^

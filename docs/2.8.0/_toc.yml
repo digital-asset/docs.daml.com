@@ -1265,10 +1265,42 @@ subtrees:
         title: "Configure Auth0 Middleware (With Example Configuration)"
       - file: canton/usermanual/security
         title: "Security & Key Management"
-      - file: canton/usermanual/encrypted_private_key_storage
-        title: "Configure Encrypted Private Key Storage with a Key Management Service (KMS)"
-      - file: canton/usermanual/external_key_storage
-        title: "Configure External Key Storage and Usage with a Key Management Service (KMS)"
+      - file: canton/usermanual/kms/kms
+        title: "Key Management Service (KMS) Setup"
+        subtrees:
+        - hidden: False
+          titlesonly: True
+          entries:
+            - file: canton/usermanual/kms/kms_setup
+              title: "Canton Configuration of a KMS"
+              subtrees:
+                - hidden: False
+                  titlesonly: True
+                  entries:
+                    - file: canton/usermanual/kms/kms_aws_setup
+                      title: "Configure Amazon Web Services (AWS) KMS"
+                    - file: canton/usermanual/kms/kms_gcp_setup
+                      title: "Configure Google Cloud Provider (GCP) KMS"
+            - file: canton/usermanual/kms/encrypted_private_key_storage
+              title: "Configure Encrypted Private Key Storage with a KMS"
+              subtrees:
+                - hidden: False
+                  titlesonly: True
+                  entries:
+                    - file: canton/usermanual/kms/encrypted_private_key_storage_aws
+                      title: "AWS Setup guide"
+                    - file: canton/usermanual/kms/encrypted_private_key_storage_gcp
+                      title: "GCP Setup guide"
+            - file: canton/usermanual/kms/external_key_storage
+              title: "Configure External Key Storage and Usage with a KMS"
+              subtrees:
+                - hidden: False
+                  titlesonly: True
+                  entries:
+                    - file: canton/usermanual/kms/external_key_storage_aws
+                      title: "AWS Setup guide"
+                    - file: canton/usermanual/kms/external_key_storage_gcp
+                      title: "GCP Setup guide"
   - file: canton/usermanual/performance
     title: "Scaling and Performance"
   - file: operate-a-daml-ledger/advanced-operations/index

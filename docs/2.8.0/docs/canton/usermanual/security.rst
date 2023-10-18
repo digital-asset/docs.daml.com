@@ -361,8 +361,6 @@ Therefore the key management for identifier delegations also works the same way
 as for namespace delegations, where all the topology transactions authorized by
 the previous identifier delegation key have to be renewed.
 
-.. _kms_setup:
-
 Key Management Service Setup
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
