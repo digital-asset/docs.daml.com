@@ -24,15 +24,15 @@ Configure Smallstep
 *******************
 
 The scripts for Smallstep setup are pre-generated during Terraform deployment.
-All the below commands assume the current directory is the ``src/terraform`` folder.
+All the below commands assume the current directory is the ``azure/terraform`` folder of your clone of the `accompanying resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`_.
 
 .. code-block:: bash
 
-   cd src/terraform/
+   cd azure/terraform/
 
 .. note::
    The following sections contain slightly different terminal commands for Linux and Mac —
-   please ensure you pick the one for your OS. To illustrate the contents of these generated files, we will have them printed out with ``cat`` before
+   ensure you pick the one for your OS. To illustrate the contents of these generated files, we will have them printed out with ``cat`` before
    showing you an example output below.
 
 Generate ``step-certificates`` configuration
@@ -51,10 +51,10 @@ Generate ``step-certificates`` configuration
      $ cat ./outputs/smallstep/linux_create_config.sh
      docker run --rm \
        --user ${UID} \
-       -v "/home/ubuntu/dev/0-to-k8-canton-doc-temp-space/02-provision-cloud-resources/iac/outputs/smallstep/passwords":/home/step/passwords \
-       -v "/home/ubuntu/dev/0-to-k8-canton-doc-temp-space/02-provision-cloud-resources/iac/outputs/smallstep/config":/home/step/config \
-       -v "/home/ubuntu/dev/0-to-k8-canton-doc-temp-space/02-provision-cloud-resources/iac/outputs/smallstep/certs":/home/step/certs \
-       -v "/home/ubuntu/dev/0-to-k8-canton-doc-temp-space/02-provision-cloud-resources/iac/outputs/smallstep/secrets":/home/step/secrets \
+       -v "/home/ubuntu/dev/daml-enterprise-k8s-deployment-guide/02-provision-cloud-resources/iac/outputs/smallstep/passwords":/home/step/passwords \
+       -v "/home/ubuntu/dev/daml-enterprise-k8s-deployment-guide/02-provision-cloud-resources/iac/outputs/smallstep/config":/home/step/config \
+       -v "/home/ubuntu/dev/daml-enterprise-k8s-deployment-guide/02-provision-cloud-resources/iac/outputs/smallstep/certs":/home/step/certs \
+       -v "/home/ubuntu/dev/daml-enterprise-k8s-deployment-guide/02-provision-cloud-resources/iac/outputs/smallstep/secrets":/home/step/secrets \
        cr.step.sm/smallstep/step-ca-bootstrap:latest \
        step ca init \
        --name "smallstep-canton" \
@@ -157,7 +157,7 @@ Increase maximal generated certificate duration
      $ cat ./outputs/smallstep/linux_certificate_duration.sh
      docker run --rm \
        --user ${UID} \
-       -v "/home/ubuntu/dev/0-to-k8-canton-doc-temp-space/02-provision-cloud-resources/iac/outputs/smallstep/config":/home/step/config \
+       -v "/home/ubuntu/dev/daml-enterprise-k8s-deployment-guide/02-provision-cloud-resources/iac/outputs/smallstep/config":/home/step/config \
        cr.step.sm/smallstep/step-ca-bootstrap:latest \
        step ca provisioner \
          update canton-tls \

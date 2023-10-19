@@ -250,7 +250,7 @@ Error Categories
 The error categories allow you to group errors such that application logic can be built to automatically
 deal with errors and decide whether to retry a request or escalate to the operator.
 
-A full list of error categories is documented `here <https://docs.daml.com/app-dev/grpc/error-codes.html#error-categories-inventory>`__.
+A full list of error categories is documented :ref:`here <error-categories-inventory>`.
 
 .. _machine_readable_information:
 
@@ -309,6 +309,8 @@ The client will receive the error information as a Grpc error:
 
 Note that the second log is created by Daml tooling that prints the Grpc Status into the log files during tests. The
 actual Grpc error would be received by the application and would not be logged by the participant node in the given form.
+
+.. _error-categories-inventory:
 
 Error Categories Inventory
 **************************

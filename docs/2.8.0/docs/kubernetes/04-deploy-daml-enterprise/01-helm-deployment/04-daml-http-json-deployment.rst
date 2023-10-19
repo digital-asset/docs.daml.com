@@ -11,7 +11,7 @@ Steps
 ==============================
 
 .. note::
-   The Terraform scripts were used to parameterize the Helm values. If standalone Helm deployment is done without Terraform the value file has to be customized manually. The template value file can be found in :download:`http-json.yaml`.
+   The Terraform scripts were used to parameterize the Helm values. If standalone Helm deployment is done without Terraform the value file has to be customized manually. The template value file can be found in `http-json.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/helm/values/http-json.yaml>`_.
 
 .. code-block:: yaml
 
@@ -51,7 +51,7 @@ Once these are configured, we can install the chart:
 
 .. code-block:: bash
 
-   helm -n canton install httpjson digital-asset/daml-http-json -f src/helm/values/http-json.yaml
+   helm -n canton install httpjson digital-asset/daml-http-json -f azure/helm/values/http-json.yaml
 
 Expected output:
 
@@ -64,7 +64,7 @@ Expected output:
    REVISION: 1
    TEST SUITE: None
    NOTES:
-   HTTP JSON API 2.7.0 has been deployed successfully!
+   HTTP JSON API 2.7.1 has been deployed successfully!
 
    More information on how to configure the HTTP JSON API service can be found in our documentation:
 

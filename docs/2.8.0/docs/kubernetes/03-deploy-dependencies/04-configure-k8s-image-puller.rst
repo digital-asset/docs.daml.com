@@ -72,9 +72,9 @@ Installation guide
 
       configMap:
        images: >
-         canton-enterprise=<acr_hostname>/digitalasset/canton-enterprise:2.7.0;
-         canton-enterprise-debug=<acr_hostname>/digitalasset/canton-enterprise:2.7.0-debug;
-         http-json=<acr_hostname>/http-json:2.7.0;
+         canton-enterprise=<acr_hostname>/digitalasset/canton-enterprise:2.7.1;
+         canton-enterprise-debug=<acr_hostname>/digitalasset/canton-enterprise:2.7.1-debug;
+         http-json=<acr_hostname>/http-json:2.7.1;
 
 #. Install the Helm chart by running the following command from the root directory of the repository:
 

@@ -9,7 +9,7 @@ Objectives
 
 * Set up access to Daml Enterprise Helm charts.
 * Prepare Kubernetes environment.
-* Install Daml Enterprise components as an Argo CD application.
+* Install Daml Enterprise components as Argo CD applications.
 
 Prerequisites
 *************
@@ -34,131 +34,79 @@ Introduction
 
 This section of the guide walks you through the steps of installing Daml Enterprise on a Kubernetes cluster using `Argo CD <https://argo-cd.readthedocs.io/en/stable/>`_\ , the declarative GitOps continuous delivery tool for Kubernetes.
 
+*If you want to use GitOps, it is mandatory to fork the* `accompanying resources' GitHub repository <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`_ *to be able to commit
+the changes in manifests/configurations/values used to deploy Kubernetes resources.* You will need
+to grant Argo CD access to this forked repository, and reference it with a revision (branch, SHA1 or tag)
+within applications' configuration.
+
 .. note::
-   For more information on Argo CD, please refer to the `Argo CD getting started guide <https://argo-cd.readthedocs.io/en/stable/getting_started/>`_.
+   For more information on Argo CD, refer to the `Argo CD getting started guide <https://argo-cd.readthedocs.io/en/stable/getting_started/>`_.
 
 Prepare Kubernetes Environment
 ******************************
 
-1. Install Traefik ingress controller
-=====================================
-#. 
-   Add the Traefik Helm repository:
-
-   .. code-block:: bash
-
-      helm repo add traefik https://traefik.github.io/charts
-
-#. 
-   Confirm Helm chart availability
-
-   After the previous step we should be able to search the repo for the Traefik chart:
-
-   .. code-block:: bash
-
-      helm search repo traefik
-
-   Expected output:
-
-   .. code-block:: bash
-
-      NAME                    CHART VERSION   APP VERSION     DESCRIPTION                                       
-      traefik/traefik         23.2.0          v2.10.4         A Traefik based Kubernetes ingress controller     
-      traefik/traefik-hub     1.0.6           v2.1.0          Traefik Hub Ingress Controller                    
-      traefik/traefik-mesh    4.1.1           v1.4.8          Traefik Mesh - Simpler Service Mesh               
-      traefik/traefikee       1.14.1          v2.10.2         Traefik Enterprise is a unified cloud-native ne...
-      traefik/hub-agent       1.6.0           v1.4.2          Traefik Hub is an all-in-one global networking ...
-      traefik/maesh           2.1.2           v1.3.2          Maesh - Simpler Service Mesh
-
-#. 
-   Install Traefik (from the root directory of this repository):
-
-   .. code-block:: bash
-
-      helm -n traefik install traefik --create-namespace traefik/traefik --set disableValidation=true -f src/helm/values/traefik.yaml
-
-Expected output:
-
-.. code-block:: bash
-
-     NAME: traefik
-     LAST DEPLOYED: Wed Aug  2 11:08:59 2023
-     NAMESPACE: traefik
-     STATUS: deployed
-     REVISION: 1
-     TEST SUITE: None
-     NOTES:
-     Traefik Proxy v2.10.4 has been deployed successfully on traefik namespace !
-
-Let us verify the traefik pods availability:
-
-.. code-block:: bash
-
-     kubectl -n traefik get pods
-
-Expected output:
-
-.. code-block:: bash
-
-     NAME                      READY   STATUS    RESTARTS   AGE
-     traefik-894c9975c-z6mst   1/1     Running   0          60s
-
-2. Install Argo CD
+1. Install Argo CD
 ==================
 
-#. Add the Argo Helm repository:
+#.
+  Add the Argo Helm repository:
 
-.. code-block:: bash
+  .. code-block:: bash
 
-   helm repo add argo https://argoproj.github.io/argo-helm
+    helm repo add argo https://argoproj.github.io/argo-helm
 
-#. Install Argo CD using the following command:
+#.
+  Install Argo CD using the following command:
 
-.. code-block:: bash
+  .. code-block:: bash
 
-   helm -n argocd install argocd -f src/helm/values/argocd.yaml argo/argo-cd --create-namespace
+    helm -n argocd install argocd -f azure/helm/values/argocd.yaml argo/argo-cd --create-namespace
 
-#. Load the admin password into a variable:
+#.
+  Load the admin password into a variable:
 
-.. code-block:: bash
+  .. code-block:: bash
 
-   ARGOCD_PASSWORD=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data['password']}" | base64 -d)
+    ARGOCD_PASSWORD=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data['password']}" | base64 -d)
 
-#. Export the port-forward Argo CD CLI options:
+#.
+  Export the port-forward Argo CD CLI options:
 
-.. code-block:: bash
+  .. code-block:: bash
 
-   ARGOCD_OPTS='--insecure --plaintext --port-forward --port-forward-namespace argocd'
+    ARGOCD_OPTS='--insecure --plaintext --port-forward --port-forward-namespace argocd'
 
-#. Login with the Argo CD CLI:
+#.
+  Login with the Argo CD CLI:
 
-.. code-block:: bash
+  .. code-block:: bash
 
-   argocd login server --username admin --password="${ARGOCD_PASSWORD}"
+    argocd login server --username admin --password="${ARGOCD_PASSWORD}"
 
-#. Since the cluster is private we need to port forward the service to access the UI:
+#.
+  Since the cluster is private we need to port forward the service to access the UI:
 
-.. code-block:: bash
+  .. code-block:: bash
 
-   kubectl -n argocd port-forward service/argocd-server 8080:80
+    kubectl -n argocd port-forward service/argocd-server 8080:80
 
 For as long as the command is being ran, Argo CD will be available in the `browser <http://localhost:8080/>`_.
 
 We can login to Argo CD using the user ``admin`` and the password we retrieved in step 2.
 
-3. Install image puller as Argo CD application (optional)
+2. Install image puller as Argo CD application (optional)
 =========================================================
 
 The following steps guide you through the installation of the kubernetes-image-puller Helm chart as an Argo CD application.
 
-Please note that the parameters section overrides any value in the values.yaml file if set.
+Note that the parameters section overrides any value in the values.yaml file if set.
 
 #. 
    Apply the application file:
 
    .. code-block:: bash
 
-      kubectl -n argocd apply -f src/argocd/apps/kubernetes-image-puller.yaml
+      kubectl -n argocd apply -f azure/argocd/apps/kubernetes-image-puller.yaml
 
 #. 
    Sync the application in the Argo CD UI, alternatively you can use the CLI:
@@ -167,7 +115,11 @@ Please note that the parameters section overrides any value in the values.yaml f
 
    argocd app sync kubernetes-image-puller
 
+.. note::
+  Make sure environment variable `ARGO_OPTS` is set before running Argo CD CLI commands.
+  Refer to the `relevant section <https://argo-cd.readthedocs.io/en/stable/getting_started/#4-login-using-the-cli>`_ of the Argo CD Getting Started guide.
+
 Next Steps
 **********
 
-You may now proceed to :doc:`deploying Daml Enterprise components as an Argo CD application <./02-all-in-one-argocd-deployment>`.
+You may now proceed to :doc:`deploying Daml Enterprise components as Argo CD applications <./02-all-in-one-argocd-deployment>`.
