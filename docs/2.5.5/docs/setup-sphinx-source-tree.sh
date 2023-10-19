@@ -18,6 +18,14 @@ prefix=$(jq -r '.prefix' ../LATEST)
 
 mkdir -p $SPHINX_DIR/source/canton $SPHINX_DIR/source/daml-finance
 tar xf $DOWNLOAD_DIR/sphinx-source-tree-$RELEASE_TAG.tar.gz -C $SPHINX_DIR --strip-components=1
+if [ -d $SPHINX_DIR/theme ]; then
+  rm -rf $SPHINX_DIR/theme
+fi
+(
+  cd $DIR/../../../theme
+  nix-shell shell.nix --pure --run './build.sh'
+  cp -r . $SPHINX_DIR/theme
+)
 tar xf $DOWNLOAD_DIR/canton-docs-$CANTON_RELEASE_TAG.tar.gz -C $SPHINX_DIR/source/canton
 tar xf $DOWNLOAD_DIR/daml-finance-docs-$DAML_FINANCE_RELEASE_TAG.tar.gz -C $SPHINX_DIR/source/daml-finance
 
