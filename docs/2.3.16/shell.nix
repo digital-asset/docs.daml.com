@@ -1,5 +1,5 @@
 let
-  pkgs = import (import ./nix/sources.nix).nixpkgs {};
+  pkgs = import ./nix/nixpkgs.nix;
   sphinx-copybutton = pkgs.python3Packages.buildPythonPackage rec {
       pname = "sphinx-copybutton";
       version = "0.2.12";
