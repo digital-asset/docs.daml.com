@@ -208,8 +208,8 @@ assume that a new version of the instrument has already been created (as is the 
 :ref:`Replacement <type-daml-finance-lifecycle-rule-replacement-rule-7648>` rules), or it can create
 the new version of the instrument as part of its implementation. The latter can be useful if
 information required to create the new version is only available upon processing of the event, as is
-the case for :ref:`Generic Instrument
-<type-daml-finance-interface-instrument-generic-instrument-instrument-11652>` evolution, as well as
+the case for the evolution of the :ref:`Generic Instrument
+<type-daml-finance-interface-instrument-generic-instrument-instrument-11652>`, as well as
 other :doc:`Contingent Claims <../instruments/generic/contingent-claims>` based instruments.
 
 .. _time-vs-election-lifecycling:
