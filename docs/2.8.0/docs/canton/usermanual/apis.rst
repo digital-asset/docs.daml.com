@@ -212,6 +212,18 @@ using the custom target audience configuration option:
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/ledger-api-target-audience.conf
 
+Configuring the Target Scope for JWT Authorization
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The default scope (``scope`` field in the scope based access token) for authenticating on the Ledger API using JWT is ``daml_ledger_api``.
+
+Other scopes can be configured explicitly using the custom target scope configuration option:
+
+.. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/ledger-api-target-scope.conf
+
+Target scope can be any case-sensitive string containing alphanumeric characters, hyphens, slashes, colons and underscores.
+Either the ``target-scope`` or the ``target-audience`` parameter can be configured individually, but not both at the same time.
+
 Ledger API Caches
 ^^^^^^^^^^^^^^^^^
 
