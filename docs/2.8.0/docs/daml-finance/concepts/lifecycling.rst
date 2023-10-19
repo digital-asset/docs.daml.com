@@ -95,8 +95,8 @@ can be used to create new instrument versions and associated lifecycle events.
    :alt: The issuer creates a new ACME v2 instrument. They also create a distribution
          event by declaring a dividend on the ACME v1 instrument.
 
-Note that there is only one instrument (the v1) paying a dividend. The lifecycle event will now be
-used to evolve the v1 contract into a v2, that does not pay a dividend.
+Note that only one instrument (the v1) is paying a dividend. The lifecycle event is
+used to evolve the v1 contract into a v2 that does not pay dividends.
 
 Processing the event
 =====================
