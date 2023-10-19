@@ -13,7 +13,7 @@ Configure External Key Storage and Usage with a GCP KMS
 The following section describes all the steps you need to enable private keys to be externally stored and managed
 by a GCP KMS. For more information about what this means please consult
 :ref:`Externalize Private Keys With a Key Management Service <kms_external_architecture>`.
-These steps include configuring an AWS KMS, as well as, configuring this particular mode of operation.
+These steps include configuring a GCP KMS, as well as, configuring this particular mode of operation.
 
 .. _external_key_storage_permissions_gcp:
 
@@ -27,19 +27,11 @@ To start using this feature we need to first enable a KMS for Canton.
 When we rely on a GCP KMS to generate, store, and manage the necessary private keys, it must be configured
 with the following list of authorized actions:
 
-+-------------------------------------------+
-| **GCP**                                   |
-+===========================================+
-| `cloudkms.cryptoKeyVersions.create`       |
-+-------------------------------------------+
-| `cloudkms.cryptoKeyVersions.useToDecrypt` |
-+-------------------------------------------+
-| `cloudkms.cryptoKeyVersions.useToSign`    |
-+-------------------------------------------+
-| `cloudkms.cryptoKeyVersions.get`          |
-+-------------------------------------------+
-| `cloudkms.cryptoKeyVersions.viewPublicKey`|
-+-------------------------------------------+
+- `cloudkms.cryptoKeyVersions.create`
+- `cloudkms.cryptoKeyVersions.useToDecrypt`
+- `cloudkms.cryptoKeyVersions.useToSign`
+- `cloudkms.cryptoKeyVersions.get`
+- `cloudkms.cryptoKeyVersions.viewPublicKey`
 
 If you plan to use cross-account key usage then the permission `cloudkms.cryptoKeyVersions.create`
 does not have to be configured as it does not apply in that use case.
@@ -49,44 +41,45 @@ Canton Configuration for External Key Storage and Usage
 
 External key storage and usage support can be enabled for a new installation (i.e., during the node
 bootstrap) or for an existing deployment.
-**Be aware that if a node has already been deployed you need to** :ref:`perform a node migration <participant_kms_migration>`.
+**Be aware that if a node has already been deployed you need to** :ref:`perform a node migration <participant_gcp_kms_migration>`.
 Simply adding the following configuration is not enough.
 
+.. note::
+    You can mix nodes with and without external private keys in KMS,
+    even if they are using different KMS providers, as long as they follow the same crypto schemes.
+
 In the example below, we configure a Canton participant node (called ``participant1``) to generate and
-store private keys in an external KMS. The same configuration is applicable for all other node entities, e.g. domain-manager,
+store private keys in an external GCP KMS. The same configuration is applicable for all other node entities, e.g. domain-manager,
 mediators, sequencers.
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/kms-provider-tagged.conf
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/aws-kms-provider-tagged.conf
    :language: none
    :start-after: user-manual-entry-begin: KmsProviderConfig
    :end-before: user-manual-entry-end: KmsProviderConfig
 
 An example configuration that puts together both KMS and external storage configuration is shown below:
 
-.. KmsProviderFullConfig
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/kms-provider-tagged.conf
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/gcp-kms-provider-tagged.conf
    :language: none
-   :start-after: user-manual-entry-begin: KmsProviderConfig
-   :end-before: user-manual-entry-end: KmsProviderConfig
+   :start-after: user-manual-entry-begin: GcpKmsProviderFullConfig
+   :end-before: user-manual-entry-end: GcpKmsProviderFullConfig
 
-By default nodes run a ``tink`` provider that is not compatible with KMS. If you want to continue to have other nodes
-running a ``non-KMS Canton`` you are obliged to use a ``jce`` provider
+By default nodes run a ``tink`` provider that is not compatible with KMS provider. If you want to continue to have other nodes
+running a `non-KMS Canton` you are obliged to use a ``jce`` provider
 and you must explicitly configure it to use the KMS supported algorithms as the required algorithms. Here is an
 example for a domain:
 
-.. JceProviderDomainConfig
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/kms-provider-tagged.conf
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/aws-kms-provider-tagged.conf
    :language: none
-   :start-after: user-manual-entry-begin: KmsProviderConfig
-   :end-before: user-manual-entry-end: KmsProviderConfig
+   :start-after: user-manual-entry-begin: JceProviderDomainConfig
+   :end-before: user-manual-entry-end: JceProviderDomainConfig
 
 And here is an example for a participant:
 
-.. JceProviderDomainConfig
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/kms-provider-tagged.conf
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/aws-kms-provider-tagged.conf
    :language: none
-   :start-after: user-manual-entry-begin: KmsProviderConfig
-   :end-before: user-manual-entry-end: KmsProviderConfig
+   :start-after: user-manual-entry-begin: JceProviderParticipantConfig
+   :end-before: user-manual-entry-end: JceProviderParticipantConfig
 
 In other words, a node running with a ``kms`` provider is only ever able to communicate with other nodes running
 a ``kms`` or ``jce`` providers.
@@ -186,16 +179,16 @@ connect to the new domain:
 The end result is a new participant node with its keys stored and managed by a KMS connected to a domain
 that is able to communicate using the appropriate key schemes.
 
-You need to follow the same steps if you wish to migrate a node back to using a non-KMS provider.
+You need to follow the same steps if you wish to migrate a node back to using a `non-KMS` provider.
 
 .. _manual-gcp-kms-key-rotation:
 
 Manual KMS key rotation
 -----------------------
 
-Canton keys can still be manually rotated even if they are externally stored in a KMS.
+Canton keys can still be manually rotated even if they are externally stored in a GCP KMS.
 To do that we can use the same :ref:`standard rotate key commands <rotating-canton-keys>` or,
-if we already have a pre-generated KMS key to rotate to, run the following command:
+if we already have a pre-generated GCP KMS key to rotate to, run the following command:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/kms/RotateKmsKeyIntegrationTest.scala
    :language: scala

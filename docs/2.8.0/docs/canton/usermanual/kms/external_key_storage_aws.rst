@@ -22,26 +22,17 @@ Configure an AWS KMS in Canton
 
 To start using this feature we need to first enable a KMS for Canton.
 
-:ref:`--Configure AWS KMS for Canton-- <_kms_aws_setup>`
+:ref:`--Configure AWS KMS for Canton-- <kms_aws_setup>`
 
 When we rely on an AWS KMS to generate, store, and manage the necessary private keys, it must be configured
 with the following list of authorized actions:
 
-+-------------------------------------------+
-| **AWS**                                   |
-+===========================================+
-| `kms:CreateKey`                           |
-+-------------------------------------------+
-| `kms:TagResource`                         |
-+-------------------------------------------+
-| `kms:Decrypt`                             |
-+-------------------------------------------+
-| `kms:Sign`                                |
-+-------------------------------------------+
-| `kms:DescribeKey`                         |
-+-------------------------------------------+
-| `kms:GetPublicKey`                        |
-+-------------------------------------------+
+- `kms:CreateKey`
+- `kms:TagResource`
+- `kms:Decrypt`
+- `kms:Sign`
+- `kms:DescribeKey`
+- `kms:GetPublicKey`
 
 If you plan to use cross-account key usage then the permissions for key rotation in Canton, namely
 `kms:CreateKey` and `kms:TagResource`,
@@ -52,49 +43,50 @@ Canton Configuration for External Key Storage and Usage
 
 External key storage and usage support can be enabled for a new installation (i.e., during the node
 bootstrap) or for an existing deployment.
-**Be aware that if a node has already been deployed you need to** :ref:`perform a node migration <participant_kms_migration>`.
+**Be aware that if a node has already been deployed you need to** :ref:`perform a node migration <participant_aws_kms_migration>`.
 Simply adding the following configuration is not enough.
 
+.. note::
+    You can mix nodes with and without external private keys in KMS,
+    even if they are using different KMS providers, as long as they follow the same crypto schemes.
+
 In the example below, we configure **a new** Canton participant node (called ``participant1``) to generate and
-store private keys in an external KMS. The same configuration is applicable for all other node entities, e.g. domain-manager,
+store private keys in an external AWS KMS. The same configuration is applicable for all other node entities, e.g. domain-manager,
 mediators, sequencers.
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/kms-provider-tagged.conf
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/aws-kms-provider-tagged.conf
    :language: none
    :start-after: user-manual-entry-begin: KmsProviderConfig
    :end-before: user-manual-entry-end: KmsProviderConfig
 
 An example configuration that puts together both AWS KMS and external storage configuration is shown below:
 
-.. KmsProviderFullConfig
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/kms-provider-tagged.conf
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/aws-kms-provider-tagged.conf
    :language: none
-   :start-after: user-manual-entry-begin: KmsProviderConfig
-   :end-before: user-manual-entry-end: KmsProviderConfig
+   :start-after: user-manual-entry-begin: AwsKmsProviderFullConfig
+   :end-before: user-manual-entry-end: AwsKmsProviderFullConfig
 
 By default nodes run a ``tink`` provider that is not compatible with KMS provider. If you want to continue to have other nodes
-running a ``non-KMS Canton`` you are obliged to use a ``jce`` provider
+running a `non-KMS Canton` you are obliged to use a ``jce`` provider
 and you must explicitly configure it to use the KMS supported algorithms as the required algorithms. Here is an
 example for a domain:
 
-.. JceProviderDomainConfig
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/kms-provider-tagged.conf
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/aws-kms-provider-tagged.conf
    :language: none
-   :start-after: user-manual-entry-begin: KmsProviderConfig
-   :end-before: user-manual-entry-end: KmsProviderConfig
+   :start-after: user-manual-entry-begin: JceProviderDomainConfig
+   :end-before: user-manual-entry-end: JceProviderDomainConfig
 
 And here is an example for a participant:
 
-.. JceProviderDomainConfig
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/kms-provider-tagged.conf
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/aws-kms-provider-tagged.conf
    :language: none
-   :start-after: user-manual-entry-begin: KmsProviderConfig
-   :end-before: user-manual-entry-end: KmsProviderConfig
+   :start-after: user-manual-entry-begin: JceProviderParticipantConfig
+   :end-before: user-manual-entry-end: JceProviderParticipantConfig
 
 In other words, a node running with a ``kms`` provider is only ever able to communicate with other nodes running
 a ``kms`` or ``jce`` providers.
 
-An AWS KMS only supports the :ref:`following cryptographic schemes <canton_supported_keys>`.
+A KMS only supports the :ref:`following cryptographic schemes <canton_supported_keys>`.
 
 Setup with Pre-Generated Keys
 -----------------------------
@@ -191,14 +183,14 @@ connect to the new domain:
 The end result is a new participant node with its keys stored and managed by a KMS connected to a domain
 that is able to communicate using the appropriate key schemes.
 
-You need to follow the same steps if you wish to migrate a node back to using a non-KMS provider.
+You need to follow the same steps if you wish to migrate a node back to using a `non-KMS` provider.
 
 .. _manual-aws-kms-key-rotation:
 
 Manual KMS key rotation
 -----------------------
 
-Canton keys can still be manually rotated even if they are externally stored in a KMS.
+Canton keys can still be manually rotated even if they are externally stored in a AWS KMS.
 To do that we can use the same :ref:`standard rotate key commands <rotating-canton-keys>` or,
 if we already have a pre-generated AWS KMS key to rotate to, run the following command:
 
