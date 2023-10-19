@@ -5,3 +5,4 @@ docs/build
 !bower_components_static/bourbon/dist
 __pycache__
 .envrc.private
+node_modules

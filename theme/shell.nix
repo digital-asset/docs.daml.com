@@ -6,5 +6,8 @@ pkgs.mkShell {
     bash
     curl
     jq
+    nodejs-18_x
+    ruby
+    sass
   ];
 }
