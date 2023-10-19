@@ -6,6 +6,7 @@ DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 cd $DIR
 
+npm install
 sass -I bower_components_static/bourbon/dist \
      -I bower_components_static/neat/app/assets/stylesheets \
      -I bower_components_static/font-awesome/scss \
