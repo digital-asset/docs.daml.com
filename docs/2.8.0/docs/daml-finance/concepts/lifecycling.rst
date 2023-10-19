@@ -43,17 +43,17 @@ instrument, so any stock acquired on or after that date is not entitled to the d
 This leads to a lot of complexity during processing of such corporate actions. In particular, it
 forces these events to be processed in a "big bang" approach, as a consistent snapshot of holdings
 needs to be taken to determine the rightful recipients of any resulting cashflows and other
-`effects <#lifecycling-effect>`__.
+:ref:`effects <lifecycling-components-effect>`.
 
 In Daml Finance we aim for a more efficient and flexible operating model for processing lifecycle
 events. All instruments are strictly versioned so that we can clearly differentiate between the
 cum- and ex-event version of an instrument. This means that it is perfectly safe for those versions
 to co-exist at the same time, and it allows for a gradual transition from one version to another.
 Generally, the issuer of an instrument is responsible for creating and maintaining instrument
-versions, and for producing the `effects <#lifecycling-effect>`__ of a particular lifecycle event.
+versions, and for producing the :ref:`effects <lifecycling-components-effect>` of a particular lifecycle event.
 During the lifecycle process, holders of this instrument will migrate their holdings to a new
 version of the instrument while at the same time claiming any resulting
-`effects <#lifecycling-effect>`__ from the event.
+:ref:`effects <lifecycling-components-effect>` from the event.
 
 Versions are usually considered opaque strings, but one can follow a numerical versioning scheme if
 an instrument is known to have linear evolution (i.e., there is no optionality that can result in
@@ -230,6 +230,8 @@ Lifecycling of Contingent Claims based instruments can be divided into two categ
 
 Note that some instruments can require both types of lifecycling. An example of this is a callable
 bond that is callable only on some of the coupon dates.
+
+.. _lifecycling-components-effect:
 
 Effects
 =======
