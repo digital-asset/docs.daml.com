@@ -175,18 +175,19 @@ Components
 Events
 ======
 
-The :ref:`Event <type-daml-finance-interface-lifecycle-event-event-2931>` interface describes basic
-properties of a lifecycle event:
+An event contract is used to indicate that a certain action has occurred, which might trigger
+the lifecycling of certain instruments. In the context of the dividend example above, this is the
+Issuer declaring a "Cash Dividend" to be paid on a specific stock.
+
+
+Events implement the :ref:`Event <type-daml-finance-interface-lifecycle-event-event-2931>` interface,
+which describes basic properties of a lifecycle event:
 
 - The event providers
 - The event identifier and description
 - The event timestamp
 
-In the context of the dividend example above, this could be an Issuer that declares a "Cash
-Dividend" effective as of now. The :doc:`Lifecycling tutorial <lifecycling>` describes how these
-components are used in practice.
-
-Different implementations exist to cover typical event types:
+Different implementations exist to cover typical corporate actions:
 
 - The :ref:`Distribution <type-daml-finance-lifecycle-event-distribution-event-46459>` event can be
   used to distribute assets to holders of an instrument. This covers cash-, share-, and mixed
@@ -198,8 +199,10 @@ Different implementations exist to cover typical event types:
 Lifecycle Rule
 ==============
 
-The :ref:`Lifecycle Rule <type-daml-finance-interface-lifecycle-rule-lifecycle-lifecycle-97652>` is
-used to process an event and calculate the resulting lifecycle effect. A lifecycle rule can either
+A :ref:`Lifecycle Rule <type-daml-finance-interface-lifecycle-rule-lifecycle-lifecycle-97652>` is
+used to process an event for a certain instrument and calculate the resulting lifecycle effects.
+
+A lifecycle rule can either
 assume that a new version of the instrument has already been created (as is the case for the
 :ref:`Distribution <type-daml-finance-lifecycle-rule-distribution-rule-66267>` and
 :ref:`Replacement <type-daml-finance-lifecycle-rule-replacement-rule-7648>` rules), or it can create
@@ -238,28 +241,41 @@ Effects
 
 An :ref:`Effect <type-daml-finance-interface-lifecycle-effect-effect-69649>` describes the asset
 movements resulting from a particular event. It specifies these movements per unit of a target
-instrument and version. Holdings on this specific instrument version entitle a holder to claim the
-effect, which results in the required asset movements to be instructed.
+instrument and version.
 
-In our dividend example
-above, this would describe the following asset movement: take a v1 holding and return a v2 holding
-+ $10 (per unit held). The actual movement of these assets is described in the next section.
+In the dividend example, the effect describes the following asset movement:
+
+- give a unit of a v1 holding
+- receive a unit of a v2 holding
+- receive $10 
+
+Holdings on this specific instrument version entitle a holder to claim the
+effect, which results in the required asset movements to be instructed.
 
 Claim Rule
 ==========
 
-The :ref:`Claim Rule <type-daml-finance-interface-lifecycle-rule-claim-claim-29284>` is used to
-claim lifecycle effects and instruct settlement of the resulting asset movements. Each effect
-specifies a target instrument (and version), and holdings on this instrument (version) are required
-to claim an effect. In our dividend example above, the v1 instrument is the target instrument. A
-holding on a v1 instrument serves as proof of ownership such that there is no need for an issuer to
-take a consistent snapshot of holdings as of a specific date.
+The :ref:`Claim Rule <type-daml-finance-interface-lifecycle-rule-claim-claim-29284>` is used by
+instrument holders to claim lifecycle effects and instruct settlement of the resulting asset
+movements.
+
+Each effect specifies a target instrument (and version), and holdings on this instrument (version) are required
+to claim an effect.
+
+In the dividend example, the v1 instrument is the target instrument. A holding on a v1 instrument
+serves as proof of ownership such that there is no need for an issuer to take a consistent snapshot
+of holdings as of a specific date.
 
 The output of the claim rule is a
-:ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>` and a set of
-:ref:`Instruction <type-daml-finance-interface-settlement-instruction-instruction-30569>` s forming
-an atomic unit of settlement.
+:ref:`Settlement Batch <type-daml-finance-interface-settlement-batch-batch-97497>` and a set of
+:ref:`Instruction <type-daml-finance-interface-settlement-instruction-instruction-30569>` s that
+settle the asset movements atomically.
 
 Note that multiple holdings can be passed into the claim rule in order to instruct intermediated
 settlement of an effect, or to instruct atomic settlement for multiple asset holders at the same
 time.
+
+Remarks and further references
+******************************
+
+The :doc:`Lifecycling tutorial <lifecycling>` describes how these components are used in practice.
