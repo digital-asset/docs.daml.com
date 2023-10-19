@@ -16,7 +16,7 @@ Permissioned Domains
 Canton as a network is an open virtual shared ledger. Whoever runs a Canton participant node is part of the same
 virtual shared ledger. However, the network itself is made up of domains that are used by participants to run the Canton
 protocol and communicate to their peers. Such domains can be `open`, allowing any participant with access to
-a sequencer node to enter and participate in the network. But domains can also be ``permissioned``, where the operator
+a sequencer node to enter and participate in the network. But domains can also be **permissioned**, where the operator
 of the domain topology managers needs to explicitly add the participant to the allow-list before the participant
 can register with a domain.
 

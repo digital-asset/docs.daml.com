@@ -563,6 +563,18 @@ The state of applications that interact with participant's ledger API must be
 backed up before the participant, otherwise the application state has to be
 reset.
 
+Among the different nodes of a domain (sequencer, mediators, domain topology manager),
+the following constraints apply:
+
+- Back up the mediators and the domain manager before the sequencer;
+  otherwise they may not be able to reconnect to the sequencer (``ForkHappened``).
+  The relative order of mediators, domain topology manager, and participants does not matter.
+
+- On a :ref:`permissioned domain <permissioned-domains>`, make sure that
+  no participant is registered at the domain topology manager
+  between the backup of the domain topology manager and the backup of the sequencer.
+  Otherwise the participant may not work correctly after the recovery.
+
 .. _restore_caveats:
 
 Restore Caveats
