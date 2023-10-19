@@ -196,6 +196,8 @@ Different implementations exist to cover typical corporate actions:
   replacements of one instrument for another with support for a factor. This covers corporate
   actions like (reverse) stock splits, mergers, and spin-offs.
 
+A single event can be used as a trigger to lifecycle multiple instruments.
+
 Lifecycle Rule
 ==============
 
