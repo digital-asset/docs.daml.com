@@ -11,8 +11,8 @@ cd "$DIR"
 RELEASE_TAG=$(jq -r '.daml' ../LATEST)
 CANTON_RELEASE_TAG=$(jq -r '.canton' ../LATEST)
 DAML_FINANCE_RELEASE_TAG=$(jq -r '.daml_finance' ../LATEST)
-DOWNLOAD_DIR=workdir/downloads
-SPHINX_DIR=workdir/build/source
+DOWNLOAD_DIR=$DIR/workdir/downloads
+SPHINX_DIR=$DIR/workdir/build/source
 
 prefix=$(jq -r '.prefix' ../LATEST)
 
