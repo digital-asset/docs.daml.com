@@ -156,8 +156,8 @@ KMS Key Rotation
 When Canton's signing and encryption keys are off-sourced to a KMS (rather than encrypted at rest with a KMS wrapper key)
 their rotation has to be operated manually. Neither AWS or GCP provide automatic asymmetric key rotation.
 Manual key rotation is achieved by requesting either: (1) a :ref:`standard rotation of Canton's keys <rotating-canton-keys>`,
-which in this particular case also involves the rotation of the underlying KMS key, or (2) a :ref:`rotation to a
-previously generate KMS key <manual-kms-key-rotation>`.
+which in this particular case also involves the rotation of the underlying KMS key, or (2) a rotation to a
+previously generate KMS key manual-kms-key-rotation.
 
 Satisfied Requirements
 ~~~~~~~~~~~~~~~~~~~~~~
