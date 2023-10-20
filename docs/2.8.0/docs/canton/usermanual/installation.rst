@@ -24,11 +24,10 @@ This guide uses the example configurations you can find in the release bundle un
 and explains you how to leverage these examples for your purposes. Therefore, any file named in this guide
 will refer to subdirectories of the advanced configuration example.
 
-If you are using Oracle JVM and testing security provider signatures, you
-should note that the provided Canton JAR file embeds the BouncyCastle Provider
-as a dependency. To enable the JVM to verify the signature, you need to put
-the ``bcprov`` JAR on the classpath before the Canton Standalone JAR. For
-example: 
+If you are using Oracle JVM and testing security provider signatures, note
+that the Canton JAR file embeds the Bouncy Castle provider as a dependency. To
+enable the JVM to verify the signature, put the ``bcprov`` JAR on the
+classpath before the Canton standalone JAR. For example: 
 
 .. code-block:: java
 
