@@ -179,8 +179,10 @@ dynamically onboarding new sequencers (supported by Fabric and Ethereum sequence
    :end-before: user-manual-entry-end: DynamicallyOnboardSequencerWithSeparateConsoles
    :dedent:
 
-A newly onboarded sequencer only serves events more recent than the "onboarding snapshot". If a participant (or mediator) connects to a newly onboarded sequencer
-too soon, the sequencer subscription aborts with a "FAILED_PRECONDITION" error specifying "InvalidCounter" or "SEQUENCER_TOMBSTONE_ENCOUNTERED". If this occurs,
-the participant or mediator should connect to another sequencer with a longer history of sequenced events before switching to the newly onboarded sequencer.
-To avoid such errors the best practice is to wait at least for the "maximum decision time" (the sum of the participant_response_timeout and mediator_reaction_timeout
-dynamic domain parameters with a default of 30 seconds each) before connecting nodes to a newly onboarded sequencer.
+A newly onboarded sequencer only serves events more recent than the "onboarding snapshot". In addition some events may belong to transactions initiated before
+the sequencer was onboarded, but the sequencer is not in a position to sign such events and replaces them with "tombstones". If a participant (or mediator)
+connects to a newly onboarded sequencer too soon and the subscription encounters a tombstone, the sequencer subscription aborts with a "FAILED_PRECONDITION" error
+specifying "InvalidCounter" or "SEQUENCER_TOMBSTONE_ENCOUNTERED". If this occurs, the participant or mediator should connect to another sequencer with a longer
+history of sequenced events before switching to the newly onboarded sequencer. To avoid such errors the best practice is to wait at least for the "maximum decision time"
+(the sum of the ``participant_response_timeout`` and ``mediator_reaction_timeout`` dynamic domain parameters with a default of 30 seconds each) before connecting
+nodes to a newly onboarded sequencer.
