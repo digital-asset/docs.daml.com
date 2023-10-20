@@ -88,7 +88,7 @@ Daml Developer Tools
 Assistant
 =========
 
-A command-line tool for many tasks related to Daml. Using it, you can write `Daml <#daml-language>`__, compile it into `.dar <#dar-file-dalf-file>`__ files, launch other developer tools, and download new `SDK <#daml-sdk>`__ versions.
+A command-line tool for many tasks related to Daml. Using it, you can write `Daml <#daml-language>`__, compile it, launch other developer tools, and download new `SDK <#daml-sdk>`__ versions.
 
 Daml SDK
 ========
