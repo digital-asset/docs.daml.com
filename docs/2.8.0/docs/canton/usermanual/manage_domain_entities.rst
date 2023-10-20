@@ -179,9 +179,8 @@ dynamically onboarding new sequencers (supported by Fabric and Ethereum sequence
    :end-before: user-manual-entry-end: DynamicallyOnboardSequencerWithSeparateConsoles
    :dedent:
 
-A newly onboarded sequencer only serves events sequenced more recently than the "onboarding snapshot", or more precisely events with timestamps more recent than the
-timestamp at which the new sequencer's signing key becomes valid. If a participant (or mediator) connects to a newly onboarded sequencer too soon, the sequencer
-subscription aborts with a "FAILED_PRECONDITION" error specifying "InvalidCounter" or "SEQUENCER_TOMBSTONE_ENCOUNTERED". In such a case, the participant or
-mediator should connect to another sequencer with a longer history of sequenced events before switching to the newly onboarded sequencer. To avoid such errors
-altogether, the best practice is to wait at least for the "maximum decision time" (the sum of the participant_response_timeout and mediator_reaction_timeout
+A newly onboarded sequencer only serves events more recent than the "onboarding snapshot". If a participant (or mediator) connects to a newly onboarded sequencer
+too soon, the sequencer subscription aborts with a "FAILED_PRECONDITION" error specifying "InvalidCounter" or "SEQUENCER_TOMBSTONE_ENCOUNTERED". If this occurs,
+the participant or mediator should connect to another sequencer with a longer history of sequenced events before switching to the newly onboarded sequencer.
+To avoid such errors the best practice is to wait at least for the "maximum decision time" (the sum of the participant_response_timeout and mediator_reaction_timeout
 dynamic domain parameters with a default of 30 seconds each) before connecting nodes to a newly onboarded sequencer.
