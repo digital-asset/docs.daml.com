@@ -220,7 +220,7 @@ Contract creation requires `authorization <#authorization-signing>`__ from all i
 Daml-LF
 =======
 
-When you compile Daml source code into a `.dar file <#dar-file-dalf-file>`__, the underlying format is Daml-LF. Daml-LF is similar to `Daml <#daml-language>`__, but stripped down to a core set of features. The relationship between the surface Daml syntax and Daml-LF is loosely similar to that between Java and JVM bytecode.
+When you compile Daml source code, the underlying format is Daml-LF. Daml-LF is similar to `Daml <#daml-language>`__, but stripped down to a core set of features. The relationship between the surface Daml syntax and Daml-LF is loosely similar to that between Java and JVM bytecode.
 
 Daml-LF is also the format you interact with on the `Ledger API <#ledger-api>`__. For example, when exercising a choice you specify the choice argument as a Daml-LF value.
 
