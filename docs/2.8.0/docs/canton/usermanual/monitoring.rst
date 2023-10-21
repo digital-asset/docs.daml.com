@@ -329,6 +329,9 @@ The following metrics are exposed for all execution services used by Daml compon
 - **type**:
     The type of the execution service: `fork_join <https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ForkJoinPool.html>`_ and `thread_pool <https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadPoolExecutor.html>`_ are supported
 
+.. note:: These metrics are inactive by default to avoid a negative performance impact under high-load scenarios.
+    They can be activated by setting the following configuration value: ``canton.monitoring.metrics.report-execution-context-metrics = true``
+
 daml_executor_pool_size
 ^^^^^^^^^^^^^^^^^^^^^^^
 - **Description**: Number of worker threads present in the pool
