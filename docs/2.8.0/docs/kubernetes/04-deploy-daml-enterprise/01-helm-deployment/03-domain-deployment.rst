@@ -18,7 +18,7 @@ Steps
 ======================================================
 
 .. note::
-   The Terraform scripts were used to parameterize the Helm values. If standalone Helm deployment is done without Terraform, the value file has to be customized manually. The value file can be found under :download:`domain.yaml`.
+   The Terraform scripts were used to parameterize the Helm values. If standalone Helm deployment is done without Terraform, the value file has to be customized manually. The value file can be found under `domain.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/helm/values/domain.yaml>`_.
 
 .. code-block:: yaml
 
@@ -96,7 +96,7 @@ With the value files prepared we can install the Helm chart:
 
 .. code-block:: bash
 
-   helm -n canton install mydomain digital-asset/canton-domain -f src/helm/values/domain.yaml
+   helm -n canton install mydomain digital-asset/canton-domain -f azure/helm/values/domain.yaml
 
 After the other resources are deployed and ready, the bootstrap job will start, it takes a few minutes. Once this job is completed, the Helm chart deployment is considered successful.
 
@@ -119,7 +119,7 @@ Expected output:
    | |___| (_| | | | | || (_) | | | |
     \_____\__,_|_| |_|\__\___/|_| |_|
 
-   Domain 2.7.0 has been deployed successfully!
+   Domain 2.7.1 has been deployed successfully!
 
    More information on how to configure Canton can be found in our documentation:
 

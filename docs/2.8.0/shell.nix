@@ -53,5 +53,6 @@ pkgs.mkShell {
     texlive
     pipenv
     python39
+    pkgs.nix
   ];
 }

@@ -5,6 +5,14 @@ Provisioning Cloud Resources with Terraform
 ###########################################
 
 .. note::
+  If you plan on using GitOps via
+  :doc:`Argo CD to deploy Daml Enterprise <../04-deploy-daml-enterprise/03-argocd-deployment/01-argocd-deployment>`
+  to Kubernetes, you will need to fork `this GitHub repository <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints>`_. If you plan to follow other options like
+  :doc:`Helm <../04-deploy-daml-enterprise/01-helm-deployment/01-helm-deployment-preparation>`
+  or :doc:`Helmfile <../04-deploy-daml-enterprise/02-helmfile-deployment/00-intro>` (recommended),
+  you can just directly clone `this repository <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`_.
+
+.. note::
    All the resources created are private, nothing is being exposed over the public internet.
 
 Objectives
@@ -15,9 +23,9 @@ This section of the guide focuses on the following objectives:
 * Configure Azure access and `configure Terraform <https://www.terraform.io/>`_.
 * Create resources in your Azure subscription required for deploying Daml Enterprise.
 * Initialize databases and configure Kubernetes secrets.
-* Copy Daml Enterprise images into Azure Container Registry.
+* Copy Daml Enterprise container images into Azure Container Registry.
 
-The following diagram provides an overview of the target state that the Terraform configuration is aiming to achieve. For details, please consult the `Terraform configuration files <https://github.com/DACH-NY/0-to-k8-canton-doc-temp-space/tree/main/src/terraform>`_ and the :ref:`default IPv4 addressing plan <default-addressing-plan>`.
+The following diagram provides an overview of the target state that the Terraform configuration is aiming to achieve. For details, please consult the `Terraform configuration files <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/tree/main/azure/terraform>`_ and the :ref:`default IPv4 addressing plan <default-addressing-plan>`.
 
 .. image:: ../images/azure.png
    :alt: Azure Infrastructure Overview
@@ -25,10 +33,12 @@ The following diagram provides an overview of the target state that the Terrafor
 Prerequisites
 *************
 
+* Credentials to access `Digital Asset's Artifactory <https://digitalasset.jfrog.io/>`_ and pull Daml Enterprise container images
+* GitHub account with access to the `accompanying resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`_
 * `jq <https://jqlang.github.io/jq/download/>`_ [\ ``1.5+``\ ]
 * `Azure CLI <https://learn.microsoft.com/en-us/cli/azure/install-azure-cli>`_ [latest]
 * `Terraform <https://developer.hashicorp.com/terraform/downloads>`_ [\ ``1.4+``\ ]
-* `regctl <https://github.com/regclient/regclient/blob/main/docs/install.md>`_ [\ ``0.4``\ +]
+* `regctl <https://github.com/regclient/regclient/blob/main/docs/install.md>`_ [\ ``0.4+``\ ]
 * `PostgreSQL interactive terminal <https://www.postgresql.org/download/>`_ [\ ``14+``\ ]
 * `Kubernetes command-line tool <https://kubernetes.io/docs/tasks/tools/>`_ [\ ``1.25+``\ ]
 * `Helm <https://helm.sh/docs/intro/install/>`_ [\ ``3.9+``\ ]
@@ -38,7 +48,8 @@ Steps
 *****
 
 .. note::
-   All the below steps assume that your working directory is ``src/terraform``.
+   All the below steps assume that you have cloned the `accompanying resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`_,
+   and your working directory is ``azure/terraform``.
 
 Create SSH Key for Accessing Bastion
 ====================================
@@ -48,6 +59,9 @@ You need to provide an existing SSH key pair to access the proxy (aka bastion) t
 .. code-block:: sh
 
    ssh-keygen -m PEM -t rsa -b 4096 -f /path/to/ssh/key -C 'bastion@zero.k8s'
+
+.. note::
+  For increased security, it is recommended to provide a passphrase for the created SSH key.
 
 Set Up Your Azure Account
 =========================
@@ -73,12 +87,12 @@ To configure Terraform for your Azure subscription, follow the below steps:
 
 * Create your own backend configuration
 
-* Copy and customize variables the file :download:`sample.tfvars`, use the resource group you just created, you can use the file name ``terraform.tfvars`` to avoid passing argument ``--var-file=/path/to/file.tfvars`` each run.
+* Copy and customize the variables file `sample.tfvars <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/terraform/sample.tfvars>`_, use the resource group you just created, you can use the file name ``terraform.tfvars`` to avoid passing argument ``--var-file=/path/to/file.tfvars`` each run.
 
 .. note::
    There are multiple ways to `configure the backend <https://developer.hashicorp.com/terraform/language/settings/backends/configuration>`_ and manage different environments (development, staging, production, etc.) within the same repository, you should pick the appropriate solution for your needs! For local testing the `default backend <https://developer.hashicorp.com/terraform/language/settings/backends/configuration#default-backend>`_ suffices.
 
-To learn more about Terraform, please consult the `official Terraform documentation <https://developer.hashicorp.com/terraform/tutorials>`_.
+To learn more about Terraform, consult the `official Terraform documentation <https://developer.hashicorp.com/terraform/tutorials>`_.
 
 Initialize Terraform and Preview Execution Plan
 ===============================================
@@ -172,11 +186,18 @@ To complete the PostgreSQL server setup required for deploying Daml Enterprise c
 Copy Container Images to Azure Container Registry
 =================================================
 
-To copy container images from Digital Asset's Artifactory to ACR, run the following:
+Set environment variables to access Digital Asset's container image registry at ``digitalasset-docker.jfrog.io``:
 
 .. code-block:: bash
 
-   ./bootstraps/clone-images.sh <daml-enterprise-version>
+  export ARTIFACTORY_USER='<your_user>'
+  export ARTIFACTORY_API_KEY='<your_api_key>'
+
+To copy container images from Digital Asset's Artifactory to the private ACR, run the following:
+
+.. code-block:: bash
+
+   ./bootstraps/clone-images.sh 2.7.1
 
 Next Steps
 **********
@@ -189,7 +210,7 @@ Deployment Details
 Interacting with deployment
 ===========================
 
-To help you interact with the deployment, we have added a ``Makefile`` under ``src/terraform``. You may list all the supported commands available by invoking ``make help`` or simply ``make``.
+To help you interact with the deployment, we have added a ``Makefile`` under ``azure/terraform``. You may list all the supported commands available by invoking ``make help`` or simply ``make``.
 
 Access to bastion/proxy
 =======================

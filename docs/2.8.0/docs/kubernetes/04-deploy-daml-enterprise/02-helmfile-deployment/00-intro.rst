@@ -22,7 +22,7 @@ Automated Deployment
 
   .. code-block:: bash
 
-     cd src/terraform/
+     cd azure/terraform/
      ./bootstraps/merge-kubeconfig.sh
      make kubectl-proxy
      `
@@ -33,5 +33,5 @@ Automated Deployment
 
   .. code-block:: bash
 
-     cd src/helmfile/
+     cd azure/helmfile/
      helmfile apply --skip-diff-on-install
