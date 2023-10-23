@@ -4,7 +4,7 @@
 The Propose and Accept Pattern
 ###############################
 
-The Propose and Accept pattern demonstrates how to start a bilateral workflow. One party proposes by creating a proposal or an invite contract. This gives another party the chance to accept, reject or renegotiate.
+The Propose and Accept pattern demonstrates how to start a bilateral workflow. One party creates a proposal or an invite contract. This gives another party the chance to accept, reject, or renegotiate.
 
 Motivation
 **********
