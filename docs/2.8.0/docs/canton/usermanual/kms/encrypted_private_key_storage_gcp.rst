@@ -94,8 +94,8 @@ An example configuration that puts it all together is below:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/encrypted-store-enabled-tagged.conf
    :language: none
-   :start-after: user-manual-entry-begin: EncryptedStoreConfigDistributedDomainAwsKms
-   :end-before: user-manual-entry-end: EncryptedStoreConfigDistributedDomainAwsKms
+   :start-after: user-manual-entry-begin: EncryptedStoreConfigDistributedDomainGcpKms
+   :end-before: user-manual-entry-end: EncryptedStoreConfigDistributedDomainGcpKms
 
 .. _backup-kms:
 
