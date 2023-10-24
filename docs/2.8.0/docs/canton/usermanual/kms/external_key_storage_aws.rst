@@ -123,7 +123,7 @@ Here is a brief reminder of the initial keys that each node owns:
 +-----------------------------------+------------+--------------------+---------------+--------------+-----------------+
 | `Signing Key`                     | x          | x                  | x             | x            | x               |
 +-----------------------------------+------------+--------------------+---------------+--------------+-----------------+
-| `(Asymmetric) Encryption Key`     | x          | x                  |               |              | x               |
+| `(Asymmetric) Encryption Key`     |            |                    |               |              | x               |
 +-----------------------------------+------------+--------------------+---------------+--------------+-----------------+
 
 Depending on the key purpose and the default signing and encryption schemes defined in Canton,
