@@ -74,7 +74,7 @@ subtrees:
         title: "Good Design Patterns"
         entries:
         - file: daml/patterns/initaccept
-          title: "The Initiate and Accept Pattern"
+          title: "The Propose and Accept Pattern"
         - file: daml/patterns/multiparty-agreement
           title: "The Multiple Party Agreement Pattern"
         - file: daml/patterns/delegation
