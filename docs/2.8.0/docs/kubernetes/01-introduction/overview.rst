@@ -35,14 +35,14 @@ Target Deployment
 In this document we target the following Daml Enterprise deployment on a Kubernetes cluster.
 
 .. note::
-   we are targeting a highly available, production-ready deployment. Such a deployment may have costs associated with it, depending on your cloud provider. In case you need a solution for local development only, please follow the `Getting Started with Daml <https://docs.daml.com/getting-started/index.html>`_ guide instead.
+   we are targeting a highly available, production-ready deployment. Such a deployment may have costs associated with it, depending on your cloud provider. In case you need a solution for local development only, follow the `Getting Started with Daml <https://docs.daml.com/getting-started/index.html>`_ guide instead.
 
 .. image:: ../images/k8s-deployment.png
    :alt: Target Deployment
 
 For an overview of the Daml Enterprise architecture see `here <https://docs.daml.com/canton/about.html>`_.
 
-* `Canton Domain <https://docs.daml.com/canton/architecture/overview.html#domain-entities>`_\. These services make up the *domain entities* of a Daml Enterprise deployment. Except from the *Sequencers* all of them achieve high-availability via active-passive clustering.
+* `Canton Domain <https://docs.daml.com/canton/architecture/overview.html#domain-entities>`_\. These services make up the *domain entities* of a Daml Enterprise deployment. Except for the *Sequencers* all of them achieve high-availability via active-passive clustering.
 
 * `Canton Participant <https://docs.daml.com/concepts/glossary.html#participant-node>`_\. This service provides access to the Daml Ledger for Daml applications. High-availability is achieved via active-passive clustering.
 
