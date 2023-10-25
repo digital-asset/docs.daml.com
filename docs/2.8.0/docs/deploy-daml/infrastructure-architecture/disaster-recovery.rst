@@ -8,13 +8,13 @@ Disaster Recovery (DR)
 
     Disaster recovery assumes that the primary site is not immediately recoverable and restores data and services to a secondary site. [#f1]_
 
-DR is only briefly introduced here because it includes business-related recovery processes and mechanisms that are beyond the Daml solution. The previously introduced metrics of Recovery Point Objective (RTO) and Recovery Time Objective (RPO) are important. Recovery from disaster is typically measured using values for RTO and RPO. 
+DR is only briefly introduced here because it includes business-related recovery processes and mechanisms that are beyond the Daml solution. The previously introduced metrics of Recovery Point Objective (RPO) and Recovery Time Objective (RTO) are important. Recovery from disaster is typically measured using values for RTO and RPO. 
 
 In an Aurora global database used for DR, RTO can be in the order of minutes whereas RPO is typically measured in seconds. With an Aurora PostgreSQL-based global database, you can use the ``rds.global_db_rpo`` parameter to set and track the upper bound on RPO, but doing so might affect transaction processing on the primary cluster's writer node. 
 
 For more information, see the AWS documentation on `managing RPOs for Aurora PostgreSQL–based global databases <https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database-disaster-recovery.html#aurora-global-database-manage-recovery>`_.
 
-The figure below expands on the HA AWS example by adding topology which addresses DR incidents. 
+The figure below expands on the HA AWS example by adding topology that addresses DR incidents. 
 
 .. https://lucid.app/lucidchart/d3a7916c-acaa-419d-b7ef-9fcaaa040447/edit?invitationId=inv_b7a43920-f4af-4da9-88fc-5985f8083c95&page=0_0#
 .. image:: dr-1.png
