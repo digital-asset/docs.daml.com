@@ -40,7 +40,7 @@ An entity building, operating, and evolving a `Daml application <#daml-applicati
 Daml Application User (App User)
 ================================
 
-An entity using a `Daml application <#daml-application-app>`__. Should not be confused with a `Participant User <#participant-user>`__.
+Any entity using a `Daml application <#daml-application-app>`__. Not to be confused with a `Participant User <#participant-user>`__.
 
 Daml Enterprise
 ===============
