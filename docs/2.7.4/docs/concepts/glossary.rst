@@ -134,12 +134,12 @@ How `parties <#daml-party>`__ involved in a transaction indicate that they have 
 
 At runtime, the Daml execution engine computes the required authorizing parties from this mapping. It also computes which parties have given authorization to the action in question. The Daml authorization model is comprised of the following rules:
 
-An action that creates or archives a contract must be authorized by all signatories of the contract
-An action that exercises a choice on a contract must be authorized by all controllers of the choice
-A fetch action must be authorized by at least one stakeholder on the contract
-A lookupByKey action must be authorized by all key maintainers
+* An action that creates or archives a contract must be authorized by all signatories of the contract
+* An action that exercises a choice on a contract must be authorized by all controllers of the choice
+* A fetch action must be authorized by at least one stakeholder on the contract
+* A lookupByKey action must be authorized by all key maintainers
 
-Actions performed in the body of a choice are authorized (i.e. carry the authority of) all controllers of the choice and all signatories of the contract on which the choice is exercised.
+Actions performed in the body of a choice are authorized by (i.e. carry the authority of) all controllers of the choice and all signatories of the contract on which the choice is exercised.
 
 Choice
 ======
@@ -160,7 +160,6 @@ A choice that does NOT `archive <#active-contract-archived-contract>`__ the `con
 
 However, syntactic sugar can be added to a nonconsuming choice to make it preconsuming or postconsuming.
 
-
 Preconsuming Choice
 -------------------
 
@@ -171,15 +170,10 @@ Postconsuming Choice
 
 A choice marked postconsuming `archives <#active-contract-archived-contract>`__ the `contract <#contract>`__ at the end of the `exercise <#exercise>`__ choice body.
 
-Flexible Controllers
-====================
-
-`Choice <#choice>`__ controllers can be specified as coming from the payload of the `contract <#contract>`__ or the arguments of the choice. In the latter case, we say that the choice uses flexible controllers. In other words, a choice uses flexible controllers if the controllers of the choice are provided when the choice is `exercised <#exercise>`__ rather than when the contract is created.
-
 Contract
 ========
 
-Item on a `ledger <#daml-ledger>`__. Contracts are created from blueprints called `templates <#template>`__ and include:
+A record on a `ledger <#daml-ledger>`__. Contracts are created from blueprints called `templates <#template>`__ and include:
 
 * data (arguments)
 * `Daml parties <#daml-party>`__ (signatory, observer)
@@ -195,7 +189,7 @@ When a `contract <#contract>`__ is created on a `ledger <#daml-ledger>`__, it be
 Once the contract is archived, it is no longer valid, and choices can no longer be exercised on it.
 
 Active Contract Set (ACS)
-=========================
+-------------------------
 
 The set of active contracts in the system at any one time: the totality of all the `contracts <#contract>`__ that have been created and have not been `archived <#active-contract-archived-contract>`__ since. 
 
@@ -204,11 +198,11 @@ Contract Key
 
 Allows you to fetch a `contract <#contract>`__ of a particular `template <#template>`__ using a synthetic key, similar to an index on a database table.
 
-A contract key requires a maintainer: a simple key would be something like a tuple of text and maintainer, like (accountId, bank).
+A contract key requires a maintainer: a simple contract key would be something like a tuple of text and maintainer, like (accountId, bank).
 
 See `Reference: Contract Keys </daml/reference/contract-keys.html>`__.
 
-In Daml 2.x, you can also perform a lookup using a key if there is no contract associated with a given key.
+In Daml 2.x, you can also perform a lookup using a contract key if there is no contract associated with that contract key.
 
 Create
 ======
@@ -253,6 +247,11 @@ An action that exercises a `choice <#choice>`__ on a `contract <#contract>`__ on
 Exercising a choice requires `authorization <#authorization-signing>`__ from all of the `controllers <#controller>`__ of the choice.
 
 See `Reference: Updates </daml/reference/updates.html>`__.
+
+Flexible Controllers
+====================
+
+`Choice <#choice>`__ controllers can be specified as coming from the payload of the `contract <#contract>`__ or the arguments of the choice. In the latter case, we say that the choice uses flexible controllers. In other words, a choice uses flexible controllers if the controllers of the choice are provided when the choice is `exercised <#exercise>`__ rather than when the contract is created.
 
 Ledger API
 ==========
@@ -311,12 +310,6 @@ Access control on Daml contracts and their choices is specified at the granulari
 
 Parties are hosted on `participant nodes <#participant-node>`__ and a participant node can host more than one party. A party can be hosted on several participant nodes simultaneously.
 
-Signatory
----------
-A party that MUST consent to the creation of the `contract <#contract>`__ by authorizing it: if all signatories do not authorize, contract creation fails. Once the contract is created, signatories can see the contract and all exercises of `choices <#choice>`__ on that contract.
-
-For documentation on signatories, see `Reference: Templates </daml/reference/templates.html>`__.
-
 Choice Observer
 ---------------
 A party that is guaranteed to see a particular `choice <#choice>`__ being exercised on a `contract <#contract>`__ and all the consequences of that choice.
@@ -335,6 +328,12 @@ Observer
 
 A party that can see an instance of a `contract <#contract>`__ and all the information about it. Observers do NOT have the right to consent to the creation of the contract. Observers can see the contract creation and the archiving `choice <#choice>`__, but not the exercise of nonconsuming, preconsuming, or postconsuming choices.
 
+Signatory
+---------
+A party that MUST consent to the creation of the `contract <#contract>`__ by authorizing it: if all signatories do not authorize, contract creation fails. Once the contract is created, signatories can see the contract and all exercises of `choices <#choice>`__ on that contract.
+
+For documentation on signatories, see `Reference: Templates </daml/reference/templates.html>`__.
+
 Stakeholder
 -----------
 
@@ -345,7 +344,7 @@ For documentation on observers, see `Reference: Templates </daml/reference/templ
 (Participant) User
 ==================
 
-On each `participant nodes <#participant-node>`__ you can create users with human-readable user IDs that follow a format usable by the participant node operator. Each user has a set of user rights that allow it to behave as the equivalent of one or more `parties <#daml-party>`__. These can include admin rights (allowing administration operations like allocating other users), read as rights, and/or act as rights.  
+On each `participant node <#participant-node>`__ you can create users with human-readable user IDs that follow a format usable by the participant node operator. Each user has a set of user rights that allow it to behave as the equivalent of one or more `parties <#daml-party>`__. These can include admin rights (allowing administration operations like allocating other users), read as rights, and/or act as rights.  
 
 Users help manage access to a participant node’s `Ledger API <#ledger-api>`__ for end users and their UIs and/or custom backend. Users are local to a specific participant node and are authenticated using an IAM configured and controlled by the participant node operator. Every participant node operator uses an IAM of their choice. Applications cannot address users on different participant nodes by their UserID, and UserIDs are never part of `Daml code <#daml-language>`__ – smart contract logic always uses Daml party IDs. 
 
