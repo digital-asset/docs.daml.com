@@ -263,7 +263,7 @@ The following libraries wrap the ledger API for more native experience applicati
 Java Bindings
 -------------
 
-An idiomatic Java library for interacting with the ledger API.JVM of the ledger API. See `Java Bindings </app-dev/bindings-java/index.html>`__.
+An idiomatic Java library for interacting with the ledger API. See `Java Bindings </app-dev/bindings-java/index.html>`__.
 
 Python Bindings
 ---------------
