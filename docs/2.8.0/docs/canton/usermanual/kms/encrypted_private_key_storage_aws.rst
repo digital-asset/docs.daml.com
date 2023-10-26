@@ -28,7 +28,7 @@ To start using this feature we need to first enable AWS KMS for Canton:
 
 The following IAM permissions are required:
 
-- - `kms:CreateKey`
+- `kms:CreateKey`
 - `kms:Encrypt`
 - `kms:Decrypt`
 - `kms:DescribeKey`
@@ -41,44 +41,8 @@ Encrypted Private Key Storage Configuration
 Both new and existing nodes can be configured to use this feature.
 **In both cases, keys are stored encrypted in the Canton node's database**
 
-In the example below the encrypted private key storage
-integration is enabled for a participant node (called ``participant1``).
-The same applies for any other node, such as a sync domain manager, a mediator, or a sequencer.
-
-The most important setting that enables an encrypted private key storage using a
-KMS is ``type = kms``. This is shown below. If this is not specified, Canton
-stores the keys using its default approach, which is in unencrypted form.
-
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/encrypted-store-enabled-tagged.conf
-   :language: none
-   :start-after: user-manual-entry-begin: PrivateKeyStoreConfig
-   :end-before: user-manual-entry-end: PrivateKeyStoreConfig
-
-There are two ways to choose the AWS KMS wrapper key: (1) use an already existing AWS KMS key or; (2)
-let Canton generate one.
-To use an already existing AWS KMS key, you must specify its identifier. For example, this can
-be one of the following:
-
-- Key id: `“1234abcd-12ab-34cd-56ef-1234567890ab”`
-- Key ARN (Amazon Resource Name): `“arn:aws:kms:us-east-1:1234abcd-12ab-34cd-56ef-1234567890ab”`
-- Key alias: `“alias/test-key”`
-
-And your key needs to be configured with the following settings:
-
-- Key specification: `SYMMETRIC_DEFAULT <https://docs.aws.amazon.com/kms/latest/developerguide/asymmetric-key-specs.html>`_
-- Key usage: `ENCRYPT_DECRYPT <https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#symmetric-cmks>`_
-
-If no ``wrapper-key-id`` is specified, Canton creates a symmetric key in the KMS. After subsequent restarts the operator does not need to specify the identifier for the newly
-created key; Canton stores the generated wrapper key id in the database.
-
-An example with a pre-defined AWS KMS key is shown below:
-
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/encrypted-store-enabled-tagged.conf
-   :language: none
-   :start-after: user-manual-entry-begin: KmsKeyConfig
-   :end-before: user-manual-entry-end: KmsKeyConfig
-
-An example configuration that puts it all together is below:
+The example bellow configures encrypted private key storage with AWS KMS,
+for all nodes, in a simple distributed domain environment.
 
 .. code-block:: none
 
@@ -91,6 +55,27 @@ An example configuration that puts it all together is below:
    :language: none
    :start-after: user-manual-entry-begin: EncryptedStoreConfigDistributedDomainAwsKms
    :end-before: user-manual-entry-end: EncryptedStoreConfigDistributedDomainAwsKms
+
+As seen before, ``crypto.kms`` :ref:`configures AWS KMS <kms_aws_setup>`. Subsequently,
+``crypto.private-key-store.encryption.type = kms`` enables encrypted private key storage using a
+KMS.
+
+Finally ``crypto.private-key-store.encryption.wrapper-key-id`` is an **optional field** to specify an existing (default)
+KMS key to use as the encryption key. If left empty, Canton will create a new one.
+
+Supported values are:
+
+- Key id: `“1234abcd-12ab-34cd-56ef-1234567890ab”`
+- Key ARN (Amazon Resource Name): `“arn:aws:kms:us-east-1:1234abcd-12ab-34cd-56ef-1234567890ab”`
+- Key alias: `“alias/test-key”`
+
+Note that if using an existing AWS key, it should be created in the following way:
+
+- Key specification: `SYMMETRIC_DEFAULT <https://docs.aws.amazon.com/kms/latest/developerguide/asymmetric-key-specs.html>`_
+- Key usage: `ENCRYPT_DECRYPT <https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#symmetric-cmks>`_
+
+After subsequent restarts the operator does not need to specify the identifier for the wrapper key;
+Canton stores the generated wrapper key id in the database.
 
 .. important::
     Restoring from a database backup will require access to the wrapper keys used during the encryption of the data in the backup.
