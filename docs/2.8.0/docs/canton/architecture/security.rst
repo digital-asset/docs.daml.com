@@ -36,7 +36,7 @@ In Canton we distinguish between three types of keys: short-term, long-term, and
 - `Permanent key`: A `namespace root signing key <https://docs.daml.com/canton/usermanual/identity_management.html#identity-setup-guide>`_ is a permanent key. It cannot be rotated without losing the namespace, as the namespace is identified by the fingerprint of the signing key. This is an architectural feature.
 
 Long-term and permanent keys are by default stored in clear.
-Canton can, :ref:`if enabled <kms_setup>`, offer confidentiality at rest for these private keys.
+Canton can, :ref:`if enabled <kms_overview>`, offer confidentiality at rest for these private keys.
 Short-term keys do not require additional protection because they are derived from a secret that is already
 transmitted and stored in an encrypted form using a long-term public encryption key.
 
@@ -175,7 +175,7 @@ comply with all the previously mentioned :ref:`requirements <kms_requirements>` 
 - Historical contract data can be decrypted using old long-term, encrypted keys that have been superseded. No old long-term keys are used in future transactions.
     - Canton already supports rotation of long-term keys with a synchronized state on which keys are active across nodes as part of topology management.
 - Backup and subsequent restoration of the database of a participant node supports KMS key rotation and rotation of Canton’s long-term keys.
-    - Database restoration/backup is only needed for (a) protection of keys at rest and as long as the :ref:`database and the wrapper key are available <backup-kms>`, backup and restoration are not impacted by key rotation. Replicating a KMS key in multiple regions can also mitigate the impact of a failure in the primary region.
+    - Database restoration/backup is only needed for (a) protection of keys at rest and as long as the database and the wrapper key are available, backup and restoration are not impacted by key rotation. Replicating a KMS key in multiple regions can also mitigate the impact of a failure in the primary region.
     - A KMS operator must ensure its configured key store has in place a robust disaster recovery plan to prevent the permanent loss of keys.
 - For high availability operation, Canton supports duplication of keys.
     - Canton supports AWS and GCP multi-region keys when enabled in the configuration, as well as when the operator manually creates the key and just configures the existing key id in Canton. `Note: replicating keys to other regions is a manual process by the operator and not done automatically by Canton.`

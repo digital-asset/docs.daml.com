@@ -18,5 +18,6 @@ encrypt messages without having to rely on the KMS.
 
 If you wish to know more you can read section: :ref:`Externalize Private Keys With a Key Management Service <kms_external_architecture>`.
 
-Currently Canton supports external key storage and usage with an `Amazon Web Services (AWS) KMS` or
-a `Google Cloud Provider (GCP) KMS`.
+Currently Canton supports external key storage and usage with an `Amazon Web Services (AWS) KMS
+<https://aws.amazon.com/kms/>`_ or
+a `Google Cloud Provider (GCP) KMS <https://cloud.google.com/security-key-management?hl=en>`_.

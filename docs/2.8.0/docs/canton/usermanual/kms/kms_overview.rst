@@ -3,7 +3,7 @@
 ..
    Proprietary code. All rights reserved.
 
-.. _kms_setup:
+.. _kms_overview:
 
 Canton Configuration of a KMS
 =============================

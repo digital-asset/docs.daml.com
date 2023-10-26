@@ -28,7 +28,7 @@ Configure AWS Credentials and Permissions
 
 The authorized actions (i.e. IAM permissions) for the AWS KMS depend on the mode of operation we are running, either:
 (a) :ref:`an encrypted private key storage using envelope encryption <encrypted_private_key_storage_permissions_aws>`; or
-(b) :ref:`externally storing and using keys directly from an AWS KMS <external_key_storage_permissions_aws>`.
+(b) :ref:`externally storing and using keys directly from AWS KMS <external_key_storage_permissions_aws>`.
 A complete list is given in those sections.
 
 To make the API calls to the AWS KMS, Canton uses the `standard AWS credential access
@@ -84,7 +84,7 @@ These and other parameters can be configured using environment variables or CLI 
      - Maximum number of KMS log files to keep when using the rolling file strategy
      - 0 (i.e. no limit)
 
-Sample of an AWS KMS audit log:
+Sample of AWS KMS audit log:
 
 .. code-block:: none
 

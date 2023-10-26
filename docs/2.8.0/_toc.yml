@@ -1273,8 +1273,8 @@ subtrees:
         - hidden: False
           titlesonly: True
           entries:
-            - file: canton/usermanual/kms/kms_setup
-              title: "Canton Configuration of a KMS"
+            - file: canton/usermanual/kms/kms_overview
+              title: "Overview"
               subtrees:
                 - hidden: False
                   titlesonly: True

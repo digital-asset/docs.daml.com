@@ -5,27 +5,28 @@
 
 .. _external_key_storage_gcp:
 
-Configure External Key Storage and Usage with a GCP KMS
-=======================================================
+Configure External Key Storage and Usage with GCP KMS
+=====================================================
 
 .. enterprise-only::
 
-The following section describes all the steps you need to enable private keys to be externally stored and managed
-by a GCP KMS. For more information about what this means please consult
-:ref:`Externalize Private Keys With a Key Management Service <kms_external_architecture>`.
-These steps include configuring a GCP KMS, as well as, configuring this particular mode of operation.
+The following section describes the steps needed to enable :ref:`External Key Storage and Usage <kms_external_architecture>`
+in Canton using GCP KMS. These steps include configuring GCP KMS, as well as, configuring this particular mode of operation.
+
+.. note::
+    Nodes configured with and without external KMS key storage can interact with each other,
+    including nodes using different KMS providers, as long as they follow the same crypto schemes.
 
 .. _external_key_storage_permissions_gcp:
 
-Configure a GCP KMS in Canton
------------------------------
+GCP KMS Configuration
+---------------------
 
 To start using this feature we need to first enable a KMS for Canton.
 
 :ref:`--Configure GCP KMS for Canton-- <kms_gcp_setup>`
 
-When we rely on a GCP KMS to generate, store, and manage the necessary private keys, it must be configured
-with the following list of authorized actions:
+The following IAM permissions are required:
 
 - `cloudkms.cryptoKeyVersions.create`
 - `cloudkms.cryptoKeyVersions.useToDecrypt`
@@ -33,20 +34,15 @@ with the following list of authorized actions:
 - `cloudkms.cryptoKeyVersions.get`
 - `cloudkms.cryptoKeyVersions.viewPublicKey`
 
-If you plan to use cross-account key usage then the permission `cloudkms.cryptoKeyVersions.create`
-does not have to be configured as it does not apply in that use case.
+When you are using cross-account keys, you do not need the `cloudkms.cryptoKeyVersions.create` permission.
 
-Canton Configuration for External Key Storage and Usage
--------------------------------------------------------
+External Key Storage and Usage Configuration
+--------------------------------------------
 
 External key storage and usage support can be enabled for a new installation (i.e., during the node
 bootstrap) or for an existing deployment.
 **Be aware that if a node has already been deployed you need to** :ref:`perform a node migration <participant_gcp_kms_migration>`.
 Simply adding the following configuration is not enough.
-
-.. note::
-    You can mix nodes with and without external private keys in KMS,
-    even if they are using different KMS providers, as long as they follow the same crypto schemes.
 
 In the example below, we configure a Canton participant node (called ``participant1``) to generate and
 store private keys in an external GCP KMS. The same configuration is applicable for all other node entities, e.g. domain-manager,
@@ -186,7 +182,7 @@ You need to follow the same steps if you wish to migrate a node back to using a 
 Manual KMS key rotation
 -----------------------
 
-Canton keys can still be manually rotated even if they are externally stored in a GCP KMS.
+Canton keys can still be manually rotated even if they are externally stored in GCP KMS.
 To do that we can use the same :ref:`standard rotate key commands <rotating-canton-keys>` or,
 if we already have a pre-generated GCP KMS key to rotate to, run the following command:
 

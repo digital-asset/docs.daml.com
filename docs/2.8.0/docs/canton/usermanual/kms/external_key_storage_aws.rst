@@ -5,27 +5,28 @@
 
 .. _external_key_storage_aws:
 
-Configure External Key Storage and Usage with an AWS KMS
-========================================================
+Configure External Key Storage and Usage with a AWS KMS
+=======================================================
 
 .. enterprise-only::
 
-The following section describes all the steps you need to enable private keys to be externally stored and managed
-by an AWS KMS. For more information about what this means please consult
-:ref:`Externalize Private Keys With a Key Management Service <kms_external_architecture>`.
-These steps include configuring an AWS KMS, as well as, configuring this particular mode of operation.
+The following section describes the steps needed to enable :ref:`External Key Storage and Usage <kms_external_architecture>`
+in Canton using AWS KMS. These steps include configuring AWS KMS, as well as, configuring this particular mode of operation.
+
+.. note::
+    Nodes configured with and without external KMS key storage can interact with each other,
+    including nodes using different KMS providers, as long as they follow the same crypto schemes.
 
 .. _external_key_storage_permissions_aws:
 
-Configure an AWS KMS in Canton
-------------------------------
+AWS KMS Configuration
+---------------------
 
 To start using this feature we need to first enable a KMS for Canton.
 
 :ref:`--Configure AWS KMS for Canton-- <kms_aws_setup>`
 
-When we rely on an AWS KMS to generate, store, and manage the necessary private keys, it must be configured
-with the following list of authorized actions:
+The following IAM permissions are required:
 
 - `kms:CreateKey`
 - `kms:TagResource`
@@ -34,21 +35,15 @@ with the following list of authorized actions:
 - `kms:DescribeKey`
 - `kms:GetPublicKey`
 
-If you plan to use cross-account key usage then the permissions for key rotation in Canton, namely
-`kms:CreateKey` and `kms:TagResource`,
-do not have to be configured as they do not apply in that use case.
+When you are using cross-account keys, you do not need the `kms:CreateKey` and `kms:TagResource` permissions.
 
-Canton Configuration for External Key Storage and Usage
--------------------------------------------------------
+External Key Storage and Usage Configuration
+--------------------------------------------
 
 External key storage and usage support can be enabled for a new installation (i.e., during the node
 bootstrap) or for an existing deployment.
 **Be aware that if a node has already been deployed you need to** :ref:`perform a node migration <participant_aws_kms_migration>`.
 Simply adding the following configuration is not enough.
-
-.. note::
-    You can mix nodes with and without external private keys in KMS,
-    even if they are using different KMS providers, as long as they follow the same crypto schemes.
 
 In the example below, we configure **a new** Canton participant node (called ``participant1``) to generate and
 store private keys in an external AWS KMS. The same configuration is applicable for all other node entities, e.g. domain-manager,

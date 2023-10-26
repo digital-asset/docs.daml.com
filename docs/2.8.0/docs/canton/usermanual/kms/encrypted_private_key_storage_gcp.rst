@@ -5,47 +5,41 @@
 
 .. _encrypted_private_key_storage_gcp:
 
-Configure Encrypted Private Key Storage with a GCP KMS
-======================================================
+Configure Encrypted Private Key Storage with GCP KMS
+====================================================
 
 .. enterprise-only::
 
-The following section describes all the steps you need to enable encrypted private key storage in Canton
-using a GCP KMS.
-For more information about what this means please consult
-:ref:`Protect Private Keys With Envelope Encryption and a Key Management Service <kms_envelope_architecture>`.
-These steps include configuring a GCP KMS, as well as, configuring this particular mode of operation.
+The following section describes the steps needed to enable :ref:`Encrypted Private Keys Storage <kms_envelope_architecture>`
+in Canton using GCP KMS. These steps include configuring GCP KMS, as well as, configuring this particular mode of operation.
+
+.. note::
+    Nodes configured with and without encrypted private key storage can interact with each other,
+    including nodes using different KMS providers.
 
 .. _encrypted_private_key_storage_permissions_gcp:
 
-Configure an GCP KMS in Canton
-------------------------------
+GCP KMS Configuration
+---------------------
 
 To start using this feature we need to first enable GCP KMS for Canton:
 
 :ref:`--Configure GCP KMS for Canton-- <kms_gcp_setup>`
 
-When using a GCP KMS to envelope encrypt the private keys stored in Canton, it needs to be configured
-with the following list of authorized actions (i.e. IAM permissions):
+The following IAM permissions are required:
 
 - `cloudkms.cryptoKeyVersions.create`
 - `cloudkms.cryptoKeyVersions.useToEncrypt`
 - `cloudkms.cryptoKeyVersions.useToDecrypt`
 - `cloudkms.cryptoKeys.get`
 
-If you plan to use cross-account key usage then the permission `cloudkms.cryptoKeyVersions.create`
-does not have to be configured as it does not apply in that use case.
+When you are using cross-account keys, you do not need the `cloudkms.cryptoKeyVersions.create` permission.
 
-Configure an Encrypted Private Key Storage in Canton
-----------------------------------------------------
+Encrypted Private Key Storage Configuration
+-------------------------------------------
 
-Encrypted private key storage support can be enabled for a new installation (i.e., during the node
-bootstrap) or for an existing deployment. **In both cases the keys are encrypted and stored in encrypted form
-in the Canton node's database in a transparent way without the need for the node manager to be actively engaged.**
-
-.. note::
-    You can mix nodes with and without encrypted private stores,
-    even they are using a different KMS for encrypting the privates keys.
+Both new and existing nodes can be configured to use this feature.
+**In both cases, keys are stored encrypted in the Canton node's database**
 
 In the example below the encrypted private key storage
 integration is enabled for a participant node (called ``participant1``).
@@ -90,26 +84,23 @@ An example configuration that puts it all together is below:
     canton.domain-managers.domainManager1.crypto = ${_shared_gcp.crypto}
     canton.sequencers.sequencer1.crypto = ${_shared_gcp.crypto}
     canton.mediators.mediator1.crypto = ${_shared_gcp.crypto}
-    canton.participants.participant3.crypto = ${_shared_gcp.crypto}
+    canton.participants.participant1.crypto = ${_shared_gcp.crypto}
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/encrypted-store-enabled-tagged.conf
    :language: none
    :start-after: user-manual-entry-begin: EncryptedStoreConfigDistributedDomainGcpKms
    :end-before: user-manual-entry-end: EncryptedStoreConfigDistributedDomainGcpKms
 
-.. _backup-kms:
-
-.. note::
-    The wrapper keys used to encrypt the private keys need
-    to live as long as the Canton database backups, so care must be taken when
-    deleting database backup files or `KMS wrapper keys`. Otherwise, a Canton node restored from a database
-    backup may try to decrypt the private keys with a `KMS wrapper key` that was previously deleted.
+.. important::
+    Restoring from a database backup will require access to the wrapper keys used during the encryption of the data in the backup.
+    Deleting the wrapper keys would render the backup unusable.
 
 Revert Encrypted Private Key Storage
 ------------------------------------
 
-If you wish to change the encrypted private key store and revert back to using an unencrypted store,
-you must restart the nodes with an updated configuration that includes
+Encrypted Private Key Storage can be reverted back to unencrypted storage.
+To prevent accidental reverts, simply deleting the `private-key-store` configuration will **not** revert
+back to unencrypted storage. Instead the following configuration must be added:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/encrypted-store-reverted.conf
    :language: none
@@ -119,10 +110,8 @@ you must restart the nodes with an updated configuration that includes
 .. warning::
     We strongly advise against this as it will force Canton to decrypt its private keys and store them in clear.
 
-For subsequent restarts we recommend deleting all encrypted private key store configurations
-including the GCP KMS configuration. We have forced the manual configuration of the ``reverted`` flag to prevent any unwanted
-decryption of the database (e.g. by unintentionally deleting the GCP KMS configuration).
-You can enable again private key encryption by deleting the ``reverted`` tag and re-configuring the GCP KMS.
+Encrypted private key storage can be enabled again by deleting the ``reverted`` field and re-configuring it as shown in
+:ref:`Encrypted Private Key Storage Configuration <encrypted_private_key_storage_gcp>`.
 
 .. _manual-gcp-kms-wrapper-key-rotation:
 
