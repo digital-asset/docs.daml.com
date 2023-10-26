@@ -61,7 +61,7 @@ of the pitfalls that hinder multi-party application development in other languag
 Daml Ledger
 ===========
 
-The union of all Daml `contract <#contract>`__ records stored by the `participant nodes <#participant-node>`__. These records form a virtual global shared ledger in the sense that all contracts and changes to them are synchronized across all participant nodes hosting one of their stakeholder parties.
+The union of all Daml `contract <#contract>`__ records stored by the `participant nodes <#participant-node>`__. These records form a virtual global shared ledger in the sense that all contracts and changes to them are synchronized across all participant nodes hosting at least one of their stakeholder parties.
 
 Daml Ledger Model
 =================
