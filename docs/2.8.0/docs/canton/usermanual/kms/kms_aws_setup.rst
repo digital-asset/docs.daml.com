@@ -84,7 +84,7 @@ These and other parameters can be configured using environment variables or CLI 
      - Maximum number of KMS log files to keep when using the rolling file strategy
      - 0 (i.e. no limit)
 
-Sample of AWS KMS audit log:
+Sample of an AWS KMS audit log:
 
 .. code-block:: none
 

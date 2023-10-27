@@ -5,17 +5,13 @@
 
 .. _encrypted_private_key_storage_aws:
 
-Configure Encrypted Private Key Storage with a AWS KMS
-======================================================
+Configure Encrypted Private Key Storage with AWS KMS
+====================================================
 
 .. enterprise-only::
 
 The following section describes the steps needed to enable :ref:`Encrypted Private Keys Storage <kms_envelope_architecture>`
 in Canton using AWS KMS. These steps include configuring AWS KMS, as well as, configuring this particular mode of operation.
-
-.. note::
-    Nodes configured with and without encrypted private key storage can interact with each other,
-    including nodes using different KMS providers.
 
 .. _encrypted_private_key_storage_permissions_aws:
 
@@ -121,3 +117,8 @@ AWS KMS configuration.
     Changing the key specification (e.g. enable multi region) during rotation can be done
     by updating the configuration before rotating the wrapper key.
 
+Interoperability
+----------------
+
+Nodes configured with and without encrypted private key storage can interact with each other,
+including nodes using different KMS providers.

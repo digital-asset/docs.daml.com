@@ -27,7 +27,7 @@ asymmetric encryption, and MAC with the following supported schemes:
 
 .. _canton_supported_keys:
 
-.. table:: **Supported Cryptographic Schemes** - (**D =** default, **S =** supported, **P =** partially supported, for instance just signature verification but no signing with a private key, and **/ =** not supported. Inside the brackets **[<scheme>]** are values to use when configuring Canton)
+.. table:: **Supported Cryptographic Schemes** - (**D =** default, **S =** supported, **P =** partially supported, for instance just signature verification but no signing with a private key, and **/ =** not supported. Inside the brackets **[<scheme>]** are the values to use when configuring Canton)
 
     +--------------------------------------------------------+------------+-----------+----------+
     | **Crypto Provider**                                    |    Tink    |    JCE    |    KMS   |
@@ -38,7 +38,7 @@ asymmetric encryption, and MAC with the following supported schemes:
     +--------------------------------------------------------+------------+-----------+----------+
     | ECDSA P-256 `[ec-dsa-p-256]`                           |      S     |     S     |     D    |
     +--------------------------------------------------------+------------+-----------+----------+
-    | ECDSA P-384 `[ec-dsa-p-256]`                           |      S     |     S     |     S    |
+    | ECDSA P-384 `[ec-dsa-p-384]`                           |      S     |     S     |     S    |
     +--------------------------------------------------------+------------+-----------+----------+
     | **Symmetric Encryption**                                                                   |
     +--------------------------------------------------------+------------+-----------+----------+

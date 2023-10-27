@@ -19,9 +19,8 @@ The unencrypted keys are stored in memory so this approach increases security wi
 used by KMS vendors; using a symmetric encryption key, called the `wrapper key`, to encrypt and
 decrypt the stored, private keys.
 
-If you wish to know more you can read
-section: :ref:`Protect Private Keys With Envelope Encryption and a Key Management Service <kms_envelope_architecture>`.
+See :ref:`Protect Private Keys With Envelope Encryption and a Key Management Service <kms_envelope_architecture>` for more details.
 
-Currently Canton supports encrypted private key storage with an `Amazon Web Services (AWS) KMS
+Currently Canton supports encrypted private key storage with `Amazon Web Services (AWS) KMS
 <https://aws.amazon.com/kms/>`_ or
-a `Google Cloud Provider (GCP) KMS <https://cloud.google.com/security-key-management?hl=en>`_.
+`Google Cloud Provider (GCP) KMS <https://cloud.google.com/security-key-management?hl=en>`_.

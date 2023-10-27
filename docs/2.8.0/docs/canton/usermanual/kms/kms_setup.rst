@@ -3,7 +3,7 @@
 ..
    Proprietary code. All rights reserved.
 
-.. _kms_overview:
+.. _kms_setup:
 
 Canton Configuration of a KMS
 =============================
@@ -16,7 +16,7 @@ Note that for Canton to actually use a KMS you also need to decide and configure
 **two independent ways** to use this service:
 
 - :ref:`Encrypted Private Key Storage <encrypted_private_key_storage>`
-- :ref:`External Key Storage and Usage <external_key_storage>`
+- :ref:`External Key Storage <external_key_storage>`
 
 The KMS configuration is currently enabled for `Amazon Web Services (AWS)
 KMS` and `Google Cloud Provider (GCP) KMS` in Canton Enterprise.

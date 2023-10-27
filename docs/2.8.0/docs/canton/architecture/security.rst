@@ -21,7 +21,7 @@ access to the private keys`.
 While using envelope encryption we make sure that an attacker who has access to the database
 (e.g., a malicious database operator) cannot get access to the private keys from a Canton node,
 which would compromise the transaction privacy and integrity guarantees of Canton. If we instead decide to
-externalize private key storage and usage, we go one step further and protect against an attacker with privileged
+externalize private key storage, we go one step further and protect against an attacker with privileged
 access to the node’s system that can inspect the memory.
 
 Background
@@ -36,7 +36,7 @@ In Canton we distinguish between three types of keys: short-term, long-term, and
 - `Permanent key`: A `namespace root signing key <https://docs.daml.com/canton/usermanual/identity_management.html#identity-setup-guide>`_ is a permanent key. It cannot be rotated without losing the namespace, as the namespace is identified by the fingerprint of the signing key. This is an architectural feature.
 
 Long-term and permanent keys are by default stored in clear.
-Canton can, :ref:`if enabled <kms_overview>`, offer confidentiality at rest for these private keys.
+Canton can, :ref:`if enabled <kms_setup>`, offer confidentiality at rest for these private keys.
 Short-term keys do not require additional protection because they are derived from a secret that is already
 transmitted and stored in an encrypted form using a long-term public encryption key.
 

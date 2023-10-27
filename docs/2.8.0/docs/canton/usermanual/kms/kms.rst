@@ -18,7 +18,7 @@ or (b) :ref:`generate and store the private keys itself <external_key_storage>`.
 You can find more background information on this key management feature in
 :ref:`Secure Cryptographic Private Key Storage <kms_architecture>`.
 See :ref:`Protect Private Keys With Envelope Encryption and a Key Management Service <kms_envelope_architecture>`
-if you wish to know how Canton can protect private keys whilst they remain internally stored in Canton using a KMS, or
+if you want to know how Canton can protect private keys whilst they remain internally stored in Canton using a KMS, or
 :ref:`Externalize Private Keys With a Key Management Service <kms_external_architecture>`
 for more details on how Canton can enable private keys to be generated and stored by an external KMS.
 

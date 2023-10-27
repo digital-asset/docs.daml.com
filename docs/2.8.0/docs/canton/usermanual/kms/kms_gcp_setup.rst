@@ -29,7 +29,7 @@ Configure GCP Credentials and Permissions
 
 The authorized actions (i.e. IAM permissions) for the GCP KMS depend on the mode of operation we are running, either:
 (a) :ref:`an encrypted private key storage using envelope encryption <encrypted_private_key_storage_permissions_gcp>`; or
-(b) :ref:`externally storing and using keys directly from an GCP KMS <external_key_storage_permissions_gcp>`.
+(b) :ref:`externally storing and using keys directly from GCP KMS <external_key_storage_permissions_gcp>`.
 A complete list is given in those sections.
 
 For GCP, Canton uses a `GCP service account
