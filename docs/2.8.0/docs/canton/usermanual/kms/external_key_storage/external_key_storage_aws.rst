@@ -68,7 +68,7 @@ adding the following to the node's configuration:
 
     <node>.init.auto-init = false
 
-This is applicable for ``participant`` and ``domain/domain-manager`` nodes.
+This is only applicable for ``participant`` and ``domain/domain-manager`` nodes.
 
 Afterwards, we need register the keys in Canton by running the key registration command on each node.
 For example for a ``participant`` we would run:
@@ -85,25 +85,29 @@ the key ID can't be used, use the key `ARN` instead.
 
 Here is a reminder of the initial keys that each node owns:
 
-+-----------------------------------+------------+--------------------+---------------+--------------+-----------------+
-| **Keys**                          | **Domain** | **Domain-Manager** | **Sequencer** | **Mediator** | **Participant** |
-+===================================+============+====================+===============+==============+=================+
-| `(Signing) Namespace Key`         | x          | x                  |               |              | x               |
-+-----------------------------------+------------+--------------------+---------------+--------------+-----------------+
-| `Signing Key`                     | x          | x                  | x             | x            | x               |
-+-----------------------------------+------------+--------------------+---------------+--------------+-----------------+
-| `(Asymmetric) Encryption Key`     |            |                    |               |              | x               |
-+-----------------------------------+------------+--------------------+---------------+--------------+-----------------+
+.. table:: List of keys that each node owns
+
+    +-----------------------------------+------------+--------------------+---------------+--------------+-----------------+
+    | **Keys**                          | **Domain** | **Domain-Manager** | **Sequencer** | **Mediator** | **Participant** |
+    +===================================+============+====================+===============+==============+=================+
+    | `(Signing) Namespace Key`         | x          | x                  |               |              | x               |
+    +-----------------------------------+------------+--------------------+---------------+--------------+-----------------+
+    | `Signing Key`                     | x          | x                  | x             | x            | x               |
+    +-----------------------------------+------------+--------------------+---------------+--------------+-----------------+
+    | `(Asymmetric) Encryption Key`     |            |                    |               |              | x               |
+    +-----------------------------------+------------+--------------------+---------------+--------------+-----------------+
 
 Depending on the key purpose and the default signing and encryption schemes defined in Canton,
 you need to pre-generate the corresponding AWS KMS keys with the correct settings:
 
-+-------------------+-----------------------------------------------------------------------+-----------------------------------------------------+
-| **Provider**      | **SIGNING**                                                           | **ENCRYPTION**                                      |
-+===================+=======================================================================+=====================================================+
-| AWS               | - **Key Purpose:** `SIGN_VERIFY`                                      | - **Key Purpose:** `ENCRYPT_DECRYPT`                |
-|                   | - **Key Algorithms:** `ECC_NIST_P256` or `ECC_NIST_P384`              | - **Key Algorithm:** `RSA_2048`                     |
-+-------------------+-----------------------------------------------------------------------+-----------------------------------------------------+
+.. table:: AWS key configuration
+
+    +-------------------+-----------------------------------------------------------------------+-----------------------------------------------------+
+    | **Provider**      | **SIGNING**                                                           | **ENCRYPTION**                                      |
+    +===================+=======================================================================+=====================================================+
+    | AWS               | - **Key Purpose:** `SIGN_VERIFY`                                      | - **Key Purpose:** `ENCRYPT_DECRYPT`                |
+    |                   | - **Key Algorithms:** `ECC_NIST_P256` or `ECC_NIST_P384`              | - **Key Algorithm:** `RSA_2048`                     |
+    +-------------------+-----------------------------------------------------------------------+-----------------------------------------------------+
 
 Below are links to guides on how to manually initialize participant and domain nodes.
 In those guides, keys are generated using console commands such as:

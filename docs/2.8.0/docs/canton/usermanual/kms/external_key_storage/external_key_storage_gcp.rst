@@ -67,7 +67,7 @@ adding the following to the node's configuration:
 
     <node>.init.auto-init = false
 
-This is applicable for ``participant`` and ``domain/domain-manager`` nodes.
+This is only applicable for ``participant`` and ``domain/domain-manager`` nodes.
 
 Afterwards, we need register the keys in Canton by running the key registration command on each node.
 For example for a ``participant`` we would run:
@@ -82,25 +82,29 @@ where `xyzKmsKeyId` is the GCP KMS identifier for a specific key (e.g. `KMS Key 
 
 Here is a reminder of the initial keys that each node owns:
 
-+-----------------------------------+------------+--------------------+---------------+--------------+-----------------+
-| **Keys**                          | **Domain** | **Domain-Manager** | **Sequencer** | **Mediator** | **Participant** |
-+===================================+============+====================+===============+==============+=================+
-| `(Signing) Namespace Key`         | x          | x                  |               |              | x               |
-+-----------------------------------+------------+--------------------+---------------+--------------+-----------------+
-| `Signing Key`                     | x          | x                  | x             | x            | x               |
-+-----------------------------------+------------+--------------------+---------------+--------------+-----------------+
-| `(Asymmetric) Encryption Key`     |            |                    |               |              | x               |
-+-----------------------------------+------------+--------------------+---------------+--------------+-----------------+
+.. table:: List of keys that each node owns
+
+    +-----------------------------------+------------+--------------------+---------------+--------------+-----------------+
+    | **Keys**                          | **Domain** | **Domain-Manager** | **Sequencer** | **Mediator** | **Participant** |
+    +===================================+============+====================+===============+==============+=================+
+    | `(Signing) Namespace Key`         | x          | x                  |               |              | x               |
+    +-----------------------------------+------------+--------------------+---------------+--------------+-----------------+
+    | `Signing Key`                     | x          | x                  | x             | x            | x               |
+    +-----------------------------------+------------+--------------------+---------------+--------------+-----------------+
+    | `(Asymmetric) Encryption Key`     |            |                    |               |              | x               |
+    +-----------------------------------+------------+--------------------+---------------+--------------+-----------------+
 
 Depending on the key purpose and the default signing and encryption schemes defined in Canton,
 you need to pre-generate the corresponding GCP KMS keys with the correct settings:
 
-+-------------------+-----------------------------------------------------------------------+-----------------------------------------------------+
-| **Provider**      | **SIGNING**                                                           | **ENCRYPTION**                                      |
-+===================+=======================================================================+=====================================================+
-| GCP               | - **Key Purpose:** `ASYMMETRIC_SIGN`                                  | - **Key Purpose:** `ASYMMETRIC_DECRYPT`             |
-|                   | - **Key Algorithms:** `EC_SIGN_P256_SHA256` or `EC_SIGN_P384_SHA384`  | - **Key Algorithm:** `RSA_DECRYPT_OAEP_2048_SHA256` |
-+-------------------+-----------------------------------------------------------------------+-----------------------------------------------------+
+.. table:: GCP key configuration
+
+    +-------------------+-----------------------------------------------------------------------+-----------------------------------------------------+
+    | **Provider**      | **SIGNING**                                                           | **ENCRYPTION**                                      |
+    +===================+=======================================================================+=====================================================+
+    | GCP               | - **Key Purpose:** `ASYMMETRIC_SIGN`                                  | - **Key Purpose:** `ASYMMETRIC_DECRYPT`             |
+    |                   | - **Key Algorithms:** `EC_SIGN_P256_SHA256` or `EC_SIGN_P384_SHA384`  | - **Key Algorithm:** `RSA_DECRYPT_OAEP_2048_SHA256` |
+    +-------------------+-----------------------------------------------------------------------+-----------------------------------------------------+
 
 Below are links to guides on how to manually initialize participant and domain nodes.
 In those guides, keys are generated using console commands such as:

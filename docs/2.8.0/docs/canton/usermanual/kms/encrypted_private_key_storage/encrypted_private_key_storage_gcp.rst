@@ -10,7 +10,7 @@ Configure Encrypted Private Key Storage with GCP KMS
 
 .. enterprise-only::
 
-The following section describes the steps needed to enable :ref:`Encrypted Private Keys Storage <kms_envelope_architecture>`
+The following section describes the steps needed to enable :ref:`Encrypted Private Key Storage <kms_envelope_architecture>`
 in Canton using GCP KMS. These steps include configuring GCP KMS, as well as, configuring this particular mode of operation.
 
 .. _encrypted_private_key_storage_permissions_gcp:
