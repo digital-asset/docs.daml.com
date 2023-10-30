@@ -35,7 +35,7 @@ A complete list is given in those sections.
 For GCP, Canton uses a `GCP service account
 <https://cloud.google.com/docs/authentication/provide-credentials-adc#local-user-cred>`_. For example,
 the standard environment variable `GOOGLE_APPLICATION_CREDENTIALS` can be used after
-setting up a local Application Default Credentials (ADC) file for our service account.
+setting up a local Application Default Credentials (ADC) file for the service account.
 
 The protection and rotation of
 the credentials for GCP are the responsibility of the node operator.
@@ -43,16 +43,16 @@ the credentials for GCP are the responsibility of the node operator.
 Auditability
 ^^^^^^^^^^^^
 
-GCP provides tools to monitor KMS keys. For GCP you can refer to the `GCP official documentation
-<https://cloud.google.com/kms/docs/audit-logging>`_ for information on logging.
-Errors resulting from the use of KMS keys are logged in Canton.
+GCP provides tools to monitor KMS keys. For GCP logging information you can refer to the `GCP official documentation
+<https://cloud.google.com/kms/docs/audit-logging>`_.
+Canton logs errors resulting from the use of KMS keys.
 
 Logging
 ^^^^^^^
 
 For further auditability, Canton can be configured to log every call made to the GCP KMS.
 To enable this feature, set the ``audit-logging`` field of the KMS configuration to ``true``.
-By default, when using a file-based logging configuration, such logs will be written into the main canton log file.
+By default, when using a file-based logging configuration, such logs are written into the main Canton log file.
 To write them to a dedicated log file, set the ``KMS_LOG_FILE_NAME`` environment variable or ``--kms-log-file-name`` CLI
 flag to the path of the file.
 These and other parameters can be configured using environment variables or CLI flags:

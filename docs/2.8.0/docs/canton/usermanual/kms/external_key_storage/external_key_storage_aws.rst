@@ -11,14 +11,14 @@ Configure External Key Storage with AWS KMS
 .. enterprise-only::
 
 The following section describes the steps needed to enable :ref:`External Key Storage <kms_external_architecture>`
-in Canton using AWS KMS. These steps include configuring AWS KMS, as well as, configuring this particular mode of operation.
+in Canton using AWS KMS. These steps include configuring AWS KMS, as well as configuring this particular mode of operation.
 
 .. _external_key_storage_permissions_aws:
 
 AWS KMS Configuration
 ---------------------
 
-To start using this feature we need to first enable a KMS for Canton.
+To start using this feature you must first enable a KMS for Canton.
 
 :ref:`--Configure AWS KMS for Canton-- <kms_aws_setup>`
 
@@ -42,8 +42,8 @@ bootstrap) or for an existing deployment.
 Simply adding the following configuration is not enough.
 
 In the example below, we configure **a new** Canton participant node (called ``participant1``) to generate and
-store private keys in an external AWS KMS. The same configuration is applicable for all other node entities, e.g. domain-manager,
-mediators, sequencers.
+store private keys in an external AWS KMS. The same configuration is applicable for all other node entities, including the domain manager,
+mediators, and sequencers.
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/aws-kms-provider-tagged.conf
    :language: none
@@ -61,8 +61,8 @@ Setup with Pre-Generated Keys
 -----------------------------
 
 In the previous example, Canton creates its own keys on startup and initializes the identity of the nodes automatically.
-If we want to use pre-generated keys, we need to manually initialize the identity of the nodes by
-adding the following to the node's configuration:
+To use pre-generated keys, you need to manually initialize the identity of the nodes by
+adding the following to each node's configuration:
 
 .. code-block:: none
 
@@ -70,8 +70,8 @@ adding the following to the node's configuration:
 
 This is only applicable for ``participant`` and ``domain/domain-manager`` nodes.
 
-Afterwards, we need register the keys in Canton by running the key registration command on each node.
-For example for a ``participant`` we would run:
+Afterwards, we need to register the keys in Canton by running the key registration command on each node.
+For example for a ``participant`` you would run:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/topology/TopologyManagementHelper.scala
    :language: scala
@@ -116,7 +116,7 @@ In those guides, keys are generated using console commands such as:
 
     val identityKey = participant.keys.secret.generate_signing_key(name = participant.name + "-namespace")
 
-Make sure to **replace those commands with the ones shown above** with which we registered our existing keys
+Make sure to **replace those commands with the ones shown above** with which you registered your existing keys
 instead of generating new ones.
 
 - :ref:`initialize domain <manually-init-domain>`

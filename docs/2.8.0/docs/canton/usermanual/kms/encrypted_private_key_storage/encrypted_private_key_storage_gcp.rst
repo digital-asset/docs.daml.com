@@ -11,14 +11,14 @@ Configure Encrypted Private Key Storage with GCP KMS
 .. enterprise-only::
 
 The following section describes the steps needed to enable :ref:`Encrypted Private Key Storage <kms_envelope_architecture>`
-in Canton using GCP KMS. These steps include configuring GCP KMS, as well as, configuring this particular mode of operation.
+in Canton using GCP KMS. These steps include configuring GCP KMS, as well as configuring this particular mode of operation.
 
 .. _encrypted_private_key_storage_permissions_gcp:
 
 GCP KMS Configuration
 ---------------------
 
-To start using this feature we need to first enable GCP KMS for Canton:
+To start using this feature you must first enable GCP KMS for Canton:
 
 :ref:`--Configure GCP KMS for Canton-- <kms_gcp_setup>`
 
@@ -37,7 +37,7 @@ Encrypted Private Key Storage Configuration
 Both new and existing nodes can be configured to use this feature.
 **In both cases, keys are stored encrypted in the Canton node's database**
 
-The example bellow configures encrypted private key storage with GCP KMS,
+The example below configures encrypted private key storage with GCP KMS,
 for all nodes, in a simple distributed domain environment.
 
 .. code-block:: none
@@ -57,14 +57,14 @@ As seen before, ``crypto.kms`` :ref:`configures GCP KMS <kms_gcp_setup>`. Subseq
 KMS.
 
 Finally ``crypto.private-key-store.encryption.wrapper-key-id`` is an **optional field** to specify an existing (default)
-KMS key to use as the encryption key. If left empty, Canton will create a new one.
+KMS key to use as the encryption key. If this field is left empty, Canton creates a new key.
 
 Supported values are:
 
 - Key name: `test-key`
 - Key RN (Resource Name): `projects/gcp-kms-testing/locations/us-east1/keyRings/canton-test-keys/cryptoKeys/test-key/cryptoKeyVersions/1`
 
-Note that if using an existing GCP key, it should be created in the following way:
+Note that if you are using an existing GCP key, it should be created as follows:
 
 - Key algorithm: `GOOGLE_SYMMETRIC_ENCRYPTION <https://cloud.google.com/kms/docs/algorithms>`_
 - Key purpose: `ENCRYPT_DECRYPT`
@@ -73,15 +73,15 @@ After subsequent restarts the operator does not need to specify the identifier f
 Canton stores the generated wrapper key id in the database.
 
 .. important::
-    Restoring from a database backup will require access to the wrapper keys used during the encryption of the data in the backup.
-    Deleting the wrapper keys would render the backup unusable.
+    Restoring from a database backup requires access to the wrapper keys used during the encryption of the data in the backup.
+    Deleting the wrapper keys renders the backup unusable.
 
 Revert Encrypted Private Key Storage
 ------------------------------------
 
 Encrypted Private Key Storage can be reverted back to unencrypted storage.
-To prevent accidental reverts, simply deleting the `private-key-store` configuration will **not** revert
-back to unencrypted storage. Instead the following configuration must be added:
+To prevent accidental reverts, simply deleting the `private-key-store` configuration does **not** revert
+to unencrypted storage. Instead, the following configuration must be added:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/encrypted-store-reverted.conf
    :language: none
@@ -89,9 +89,9 @@ back to unencrypted storage. Instead the following configuration must be added:
    :end-before: user-manual-entry-end: EncryptedStoreReverted
 
 .. warning::
-    We strongly advise against this as it will force Canton to decrypt its private keys and store them in clear.
+    This forces Canton to decrypt its private keys and store them in clear; it is not recommended.
 
-Encrypted private key storage can be enabled again by deleting the ``reverted`` field and re-configuring it as shown in
+Encrypted private key storage can be enabled again by deleting the ``reverted`` field and reconfiguring it as shown in
 :ref:`Encrypted Private Key Storage Configuration <encrypted_private_key_storage_gcp>`.
 
 .. _manual-gcp-kms-wrapper-key-rotation:
@@ -109,11 +109,11 @@ key using the following command:
    :end-before: user-manual-entry-end: ManualWrapperKeyRotation
    :dedent:
 
-You can optionally pass a wrapper key id to change to or let Canton generate a new key based on the current GCP
-KMS configuration.
+You can pass a wrapper key ID to change to or let Canton generate a new key based on the current
+GCP KMS configuration.
 
 .. warning::
-    Changing the key specification (e.g. enable multi region) during rotation is not currently possible.
+    It is not currently possible to change the key specification (e.g. enable multi-region) during rotation.
 
 Interoperability
 ----------------

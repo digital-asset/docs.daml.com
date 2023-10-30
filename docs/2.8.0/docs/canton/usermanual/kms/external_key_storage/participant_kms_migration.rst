@@ -9,12 +9,12 @@ Participant Node Migration
 --------------------------
 
 To migrate an existing participant node connected to a domain with a non KMS-compatible provider
-and start using KMS external keys, we need to manually execute the following steps.
+and start using KMS external keys, you need to manually execute the following steps.
 The general idea is to replicate the old node into a new one that uses a KMS provider and connects to
 a KMS-compatible domain (e.g. :ref:`running JCE with KMS supported encryption and
 signing keys <external_key_storage_interoperability>`).
 
-First, we need to delegate the namespace of the old participant to the new participant:
+First, delegate the namespace of the old participant to the new participant:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/kms/KmsMigrationIntegrationTest.scala
    :language: scala
@@ -22,7 +22,7 @@ First, we need to delegate the namespace of the old participant to the new parti
    :end-before: user-manual-entry-end: KmsSetupNamespaceDelegation
    :dedent:
 
-Secondly, we must recreate all parties of the old participant in the new participant:
+Secondly, you must recreate all parties of the old participant in the new participant:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/kms/KmsMigrationIntegrationTest.scala
    :language: scala
@@ -30,7 +30,7 @@ Secondly, we must recreate all parties of the old participant in the new partici
    :end-before: user-manual-entry-end: KmsRecreatePartiesInNewParticipant
    :dedent:
 
-Finally, we need to transfer the active contracts of all the parties from the old participant to the new one and
+Finally, you need to transfer the active contracts of all the parties from the old participant to the new one and
 connect to the new domain:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/kms/KmsMigrationIntegrationTest.scala

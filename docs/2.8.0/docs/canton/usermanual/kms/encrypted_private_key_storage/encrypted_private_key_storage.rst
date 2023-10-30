@@ -10,10 +10,10 @@ Configure Encrypted Private Key Storage with a Key Management Service (KMS)
 
 .. enterprise-only::
 
-Canton can use a KMS to `protect Canton's private keys at rest`.
+Canton can use a KMS to `protect Canton's private keys at rest`:
 
-#. Store Canton's private keys in a node's database in an encrypted form;
-#. Upon startup the KMS decrypts these keys for use by Canton.
+#. Store Canton's private keys in a node's database in an encrypted form
+#. Upon startup, the KMS decrypts these keys for use by Canton.
 
 The unencrypted keys are stored in memory so this approach increases security without impacting performance. This is a common approach
 used by KMS vendors; using a symmetric encryption key, called the `wrapper key`, to encrypt and

@@ -733,7 +733,7 @@ The following steps describe how to manually generate the necessary Canton keys 
    :dedent:
 
 .. note::
-   Be aware that in some particular use-cases you might want to register keys rather than generate a new ones (e.g.
+   Be aware that in some particular use cases, you might want to register keys rather than generate new ones (for instance
    when you have pre-generated KMS keys that you want to use). Please refer to
    :ref:`External Key Storage with a Key Management Service (KMS) <external_key_storage>` for more details.
 
