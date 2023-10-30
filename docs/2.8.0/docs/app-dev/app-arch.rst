@@ -13,7 +13,7 @@ This section describes our recommended design of a full-stack Daml application.
 
 The above image shows the recommended Daml solution architecture. Here there are four types of building blocks that go into our application: user code, generated code from Daml, Daml components, and external components.
 
-In the recommended architecture, the Daml model determines the DAR files that underpin both the frontend and backend. The frontend includes user code such as a React Web Frontend, Daml React libraries or other integration libraries, and generated code from the DAR files (TypeScript). A client service can access the Daml application backend instead of a GUI frontend with no change to the rest of the architecture.
+In the recommended architecture, the Daml model determines the DAR files that underpin both the front end and back end. The front end includes user code such as a React Web Frontend, Daml React libraries or other integration libraries, and generated code from the DAR files (TypeScript). A client service can access the Daml application backend instead of a GUI frontend with no change to the rest of the architecture.
 
 From the client point of view, the Daml application backend consists of the JSON API and a participant node. The backend uses a Canton synchronization domain (not shown) to distribute changes to the ledger made by the application, as well as changes made by other applications, to all domain-connected participants.
 
@@ -40,10 +40,9 @@ architecture, providing you with an excellent starting point for your own applic
 
 Backend
 *******
-The backend for your application can be any Daml ledger implementation running your DAR
-(:ref:`Daml Archive <dar-file-dalf-file>`) file.
+The backend for your application can be any Daml ledger implementation running your DAR file.
 
-We recommend using the :ref:`Daml JSON API <json-api>` as an interface to your frontend. It is
+We recommend using the :ref:`Daml JSON API <json-api>` as an interface to your front end. It is
 served by the HTTP JSON API server connected to the ledger API server. It provides simple HTTP
 endpoints to interact with the ledger via GET/POST requests. However, if you prefer, you can also
 use the :ref:`gRPC Ledger API <grpc>` directly.
