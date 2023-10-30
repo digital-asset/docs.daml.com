@@ -116,11 +116,11 @@ The details of the process are ledger-dependent.
 Package Formats and Identifiers
 ===============================
 
-Any code -- i.e., Daml templates -- to be uploaded must compiled down to the :ref:`Daml-LF <daml-lf>` language.
-The unit of packaging for Daml-LF is the :ref:`.dalf <dar-file-dalf-file>` file.
+Any code -- i.e., Daml templates -- to be uploaded must compiled down to the Daml-LF language.
+The unit of packaging for Daml-LF is the ``.dalf`` file.
 Each ``.dalf`` file is uniquely identified by its **package identifier**, which is the hash of its contents.
 Templates in a ``.dalf`` file can reference templates from other ``.dalf`` files, i.e., ``.dalf`` files can depend on other ``.dalf`` files.
-A :ref:`.dar <dar-file-dalf-file>` file is a simple archive containing multiple ``.dalf`` files, and has no identifier of its own.
+A ``.dar`` file is a simple archive containing multiple ``.dalf`` files, and has no identifier of its own.
 The archive provides a convenient way to package ``.dalf`` files together with their dependencies.
 The Ledger API supports only ``.dar`` file uploads.
 Internally, the ledger implementation need not (and often will not) store the uploaded ``.dar`` files, but only the contained ``.dalf`` files.
