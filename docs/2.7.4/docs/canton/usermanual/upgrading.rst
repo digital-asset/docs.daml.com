@@ -144,7 +144,7 @@ Please note that you need to ensure that the user account the node is using to a
 allows to change the database schema. How long the migration takes depends on the version
 of the binary (see migration notes), the size of the database and the performance of the database server.
 
-Before starting your node, we recommend that you clean-up your database. On Postgres, you would run
+We recommend cleaning up your database before you start your node. On Postgres, run
 
 .. code:: sql
     
@@ -290,10 +290,10 @@ Specific error changes are as follows:
 
 Upgrade to Release 2.6
 ^^^^^^^^^^^^^^^^^^^^^^
-Version 2.6 will change the database schema used. Therefore, you will have to perform the
-database migration steps. Please note that depending on the size of the database, this operation can take many hours. 
-Ensure that before starting your nodes, you vacuum your database to avoid long startup times. The participant 
-node will refuse to startup due to initially extremely long database response times otherwise.
+Version 2.6 changes the database schema used. Therefore, you must perform the
+database migration steps. Depending on the size of the database, this operation can take many hours. 
+Vacuuming your database before starting your nodes helps avoid long startup times. Otherwise, the participant 
+node can refuse to start due to extremely long initial database response times.
 
 Upgrade to Release 2.5
 ^^^^^^^^^^^^^^^^^^^^^^
