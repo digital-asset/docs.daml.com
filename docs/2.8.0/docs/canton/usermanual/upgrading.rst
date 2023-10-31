@@ -146,6 +146,14 @@ Please note that you need to ensure that the user account the node is using to a
 allows to change the database schema. How long the migration takes depends on the version
 of the binary (see migration notes), the size of the database and the performance of the database server.
 
+We recommend cleaning up your database before you start your node. On Postgres, run
+
+.. code:: sql
+    
+    VACUUM FULL;
+
+Otherwise, the restart may take a long time while the database is cleaning itself up.
+
 Subsequently, you can successfully start the node
 
 .. snippet:: migrating_participant
@@ -283,6 +291,13 @@ Specific error changes are as follows:
     * ``InterpretationDevError`` (Code: ``INTERPRETATION_DEV_ERROR``) with gRPC status ``FAILED_PRECONDITION``
 
 * The ``ContractKeyNotVisible`` error (previously encapsulated by ``GenericInterpretationError``) is now transformed into a ``ContractKeyNotFound`` to avoid information leaking.
+
+Upgrade to Release 2.6
+^^^^^^^^^^^^^^^^^^^^^^
+Version 2.6 changes the database schema used. Therefore, you must perform the
+database migration steps. Depending on the size of the database, this operation can take many hours. 
+Vacuuming your database before starting your nodes helps avoid long startup times. Otherwise, the participant 
+node can refuse to start due to extremely long initial database response times.
 
 Upgrade to Release 2.5
 ^^^^^^^^^^^^^^^^^^^^^^
