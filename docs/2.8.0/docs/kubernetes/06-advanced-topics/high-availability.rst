@@ -21,8 +21,11 @@ Components
 Canton Participant
 ==================
 
-We achieve high-availability via active-passive clustering for this
-component.
+This component is normally deployed in an active-passive cluster for
+achieving high-availability.
+However, in a Kubernetes environment this is not necessary as Kubernetes
+takes care of ensuring the requested number of (ready) Pods are running,
+hence, there is no need to have a stand-by (non-ready) replica:
 
 -  **Selection of the active Pod is based on the health check.** The
    application won't be reporting ready till it can get hold of the DB
@@ -40,12 +43,16 @@ component.
       achieved via `Kubernetes Image
       Puller <https://github.com/che-incubator/kubernetes-image-puller>`_.
 
+Note that the above approach may result in slight downtime, i.e., while the Pod
+is being restarted and before it becomes ready.
+
 Canton Domain: Topology Manager, Mediator
 =========================================
 
-We achieve high-availability via active-passive clustering for these
-components. See the above section for details, i.e., the same principles
-apply for these as for the Canton Participant.
+We normally achieve high-availability via active-passive clustering for these
+components. See the above section for details on why this is not necessary in a
+Kubernetes environment, i.e., the same principles apply for these components as
+for the Canton Participant.
 
 Canton Domain: Sequencer
 ========================
