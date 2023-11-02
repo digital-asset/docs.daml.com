@@ -1199,6 +1199,8 @@ subtrees:
               entries:
               - file: kubernetes/04-deploy-daml-enterprise/03-argocd-deployment/02-all-in-one-argocd-deployment
                 title: "Deploy Argo CD Applications"
+      - file: kubernetes/06-advanced-topics/high-availability
+        title: "High Availability On Kubernetes"
   - file: deploy-daml/infrastructure-architecture/high-availability/main-menu
     subtrees:
     - hidden: False
