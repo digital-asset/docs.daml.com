@@ -6,14 +6,19 @@
 Explicit Contract Disclosure (Beta)
 ###########################################
 
-In Daml, you must specify upfront who can view data using `observer` annotations on contracts. To change who can see the data, you would typically need to rewrite the contract (eg an asset) with a new annotation. Canton 2.7 introduces explicit contract disclosure as a feature that allows you to seamlessly delegate contract read rights to a non-stakeholder using off-ledger data distribution. This supports efficient, scalable data sharing on the ledger. 
+In Daml, you must specify upfront who can view data using `observer` annotations on contracts.
+To change who can see the data, you would typically need to rewrite the contract (e.g. an asset) with a new annotation.
+
+Explicit contract disclosure (available in Canton 2.8.0 as a `Beta feature <https://docs.daml.com/support/status-definitions.html#early-access-features>`_) is introduced to allow seamless contract read rights delegation to non-stakeholder using off-ledger data distribution.
+This supports efficient, scalable data sharing on the ledger.
+
+.. note::  Explicit disclosure is enabled by default.
+    It can be disabled by configuring ``participants.participant.ledger-api.enable-explicit-disclosure = false``.
 
 Here are some use cases that illustrate how you might benefit from explicit contract disclosure:
 
 - You want to provide proof of the price data for a stock transaction. Instead of subscribing to price updates and potentially being inundated with thousands of price updates every minute, you could serve the price data though a traditional Web 2.0 API. You can then use that API to feed only the current price back into the ledger at the time of use. You still get the same validation and security, but reduce the amount of data being transferred manyfold.
 - You want to run an open market on ledger. Rather than making all bids and asks explicitly visible to all marketplace users, you serve market data though standard Web 2.0 APIs. At the point of use, the available bids and asks are fed back into the transactions to get the same activeness and correctness guarantees that would be provided had they been shared though the observer mechanism.
-
-.. note::  This feature is **Beta: What do I say about this??** .
 
 Contract Read Delegation
 ------------------------
@@ -208,10 +213,6 @@ The stakeholder can then share the disclosed contract details to the submitter o
 by conventional means, such as HTTPS, SFTP, or e-mail. A :ref:`DisclosedContract <com.daml.ledger.api.v1.DisclosedContract>` can
 be constructed from the fields of the same name from the original contract's ``CreatedEvent``.
 
-.. note:: Only contracts created starting with Canton 2.6 can be shared as disclosed contracts.
-  Prior to this version, contracts' **CreatedEvent** does not have ``ContractMetadata`` populated
-  and cannot be used as disclosed contracts.
-
 .. _submitter-disclosed-contract:
 
 Attaching a disclosed contract to a command submission
@@ -223,15 +224,14 @@ the original `CreatedEvent` (see above):
 
 - **template_id** - The contract's template id.
 - **contract_id** - The contract id.
-- **arguments** - The contract's create arguments. This field is a protobuf ``oneof``
-  and it allows either passing the contract's create arguments typed (as ``create_arguments``)
-  or as a byte array (as ``create_arguments_blob``).
-  Generally, clients should use the ``create_arguments_blob`` for convenience since they can be received as such
-  from the stakeholder off-ledger (see above).
-- **metadata** - The contract metadata. This field can be populated as received from the stakeholder (see below).
+- **created_event_blob** - The contract's representation as an opaque blob encoding. This field is populated **only** on demand for ``GetTransactions`` and ``GetTransactionTrees`` streams (read more about :ref:`configuring transaction filters <transaction-filter>`).
+
+.. note:: Only contracts created starting with Canton 2.8 can be shared as disclosed contracts.
+  Prior to this version, contracts' **CreatedEvent** does not have the required `created_event_blob` field populated
+  and cannot be used as disclosed contracts.
 
 Trading the stock with explicit disclosure
--------------------------------------------------
+------------------------------------------
 
 In the example above, **Buyer** does not have visibility over the ``stockCid``, ``priceQuotationCid`` and ``offerCid`` contracts,
 so **Buyer** must provide them as disclosed contracts in the command submission exercising ``Offer_Accept``. To
