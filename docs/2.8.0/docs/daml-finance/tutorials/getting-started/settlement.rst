@@ -75,7 +75,7 @@ at the initial state for this scenario. We then create an additional ``TOKEN``
 :ref:`instrument <type-daml-finance-interface-instrument-token-instrument-instrument-4350>`
 and credit Alice's account with it.
 
-The interesting part begins once Alice proposes the DvP trade to Bob. Before creating the DvP
+The interesting part begins once Bob proposes the DvP trade to Alice. Before creating the DvP
 proposal, we need to instantiate two contracts:
 
 1. :ref:`Route Provider <type-daml-finance-interface-settlement-routeprovider-routeprovider-53805>`
@@ -155,13 +155,13 @@ Frequently Asked Questions
 Why do we need a route provider?
 ====================================
 
-Consider a real-world example where Alice instructs a bank transfer to send USD 100 to Bob. The
+Consider a real-world example where Bob instructs a bank transfer to send USD 100 to Alice. The
 following happens:
 
-- ``USD 100`` are debited from Alice's account at her bank
-- ``USD 100`` are transferred from Alice's bank to Bob's bank (via their accounts at the central
+- ``USD 100`` are debited from Bob's account at his bank
+- ``USD 100`` are transferred from Bob's bank to Alice's bank (via their accounts at the central
   bank)
-- ``USD 100`` are credited to Bob's account at his bank
+- ``USD 100`` are credited to Alice's account at her bank
 
 A single settlement :ref:`Step <type-daml-finance-interface-settlement-types-step-78661>` requires
 three :ref:`RoutedStep <type-daml-finance-interface-settlement-types-routedstep-10086>`\s to settle.
@@ -189,7 +189,7 @@ or :ref:`Instructions <type-daml-finance-interface-settlement-instruction-instru
 Can we use a different settler?
 ===============================
 
-In our example, Alice triggers the final settlement of the transaction (by exercising the ``Settle``
+In our example, Bob triggers the final settlement of the transaction (by exercising the ``Settle``
 choice on the :ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>` contract).
 
 In principle, a different settler could be chosen. The choice of a settler is usually quite
@@ -199,8 +199,8 @@ What if one party wants to cancel the settlement?
 =================================================
 
 The parties who sign the
-:ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>` contract (the requestors)
-can exercise the ``Cancel`` choice of the
+:ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>` contract (the instructor and
+consenters) can exercise the ``Cancel`` choice of the
 :ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>` to cancel all associated
 :ref:`Instructions <type-daml-finance-interface-settlement-instruction-instruction-30569>`
 atomically.

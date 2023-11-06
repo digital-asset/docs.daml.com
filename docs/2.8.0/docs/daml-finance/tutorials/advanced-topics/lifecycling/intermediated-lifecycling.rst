@@ -175,12 +175,12 @@ What if one party wants to cancel the settlement?
 =================================================
 
 The parties who sign the
-:ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>` contract (the requestors)
-can exercise the ``Cancel`` choice of the
+:ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>` contract (the instructor
+and consenters) can exercise the ``Cancel`` choice of the
 :ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>` to cancel all associated
 :ref:`Instructions <type-daml-finance-interface-settlement-instruction-instruction-30569>`
 atomically.
 
-Parties who are not a requestor can prevent settlement by not approving / allocating their
-instructions (since a batch is only successful if the settlement instructions are fully allocated
-and approved).
+Settlement can be obstructed if the responsible parties do not carry out their duties to allocate
+and approve the settlement instructions, as the success of a batch hinges on these actions being
+completed.
