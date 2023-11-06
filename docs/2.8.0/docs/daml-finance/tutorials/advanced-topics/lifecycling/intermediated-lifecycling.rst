@@ -181,6 +181,5 @@ and consenters) can exercise the ``Cancel`` choice of the
 :ref:`Instructions <type-daml-finance-interface-settlement-instruction-instruction-30569>`
 atomically.
 
-Settlement can be obstructed if the responsible parties do not carry out their duties to allocate
-and approve the settlement instructions, as the success of a batch hinges on these actions being
-completed.
+Settlement can also be obstructed if the responsible parties do not fully allocate
+and approve the settlement instructions.
