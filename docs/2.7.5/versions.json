@@ -1,5 +1,5 @@
 {
-  "daml": "2.7.5",
+  "daml": "2.7.6-snapshot.20231101.11997.0.v3b7c9391",
   "canton": "2.7.5",
   "daml_finance": "1.2.23",
   "canton_drivers": "2.7.5"
