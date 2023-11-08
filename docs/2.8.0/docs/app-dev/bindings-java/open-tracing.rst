@@ -56,7 +56,7 @@ To use the OpenTelemetry libraries, add the following **Maven** dependencies to 
    :lines: 33-52
 
 .. note::
-    Replace the version number in all dependencies with the version that you want to use. You can find the available versions by checking the `Maven Central Repository <https://search.maven.org/artifact/io.opentelemetry/opentelemetry-api>`__ etc.
+    Replace the version number in each dependency with the version you want to use. To find available versions, check the `Maven Central Repository <https://search.maven.org/artifact/io.opentelemetry/opentelemetry-api>`__.
 
 
 Initialize
