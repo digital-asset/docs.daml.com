@@ -28,7 +28,7 @@ If you are using Oracle JVM and testing security provider signatures, you
 should note that the provided Canton JAR file embeds the BouncyCastle Provider
 as a dependency. To enable the JVM to verify the signature, you need to put
 the ``bcprov`` JAR on the classpath before the Canton Standalone JAR. For
-example: 
+example:
 
 .. code-block:: java
 
@@ -92,11 +92,11 @@ Selecting your Storage Layer
 ----------------------------
 
 In order to run any kind of node, you need to decide how and if you want to persist the
-data. You currently have three choices: don't persist and just use in-memory stores which will be deleted if you restart
-your node or persist using ``Postgres`` or ``Oracle`` databases.
+data. You can choose not to persist data and instead use in-memory stores that are deleted on node restart,
+or you can persist data using ``Postgres`` or ``Oracle`` databases.
 
-For this purpose, there are some storage :ref:`mixin configurations <configuration-mixin>` (``storage/``) defined. These storage mixins
-can be used with any of the node configurations. The in-memory configurations just work out of the
+For this purpose, there are some storage :ref:`mixin configurations <configuration-mixin>` (``storage/``) defined.
+These storage mixins can be used with any of the node configurations. The in-memory configurations just work out of the
 box without further configuration. The database based persistence will be explained in a subsequent section,
 as you first need to initialise the database.
 
@@ -120,14 +120,20 @@ Persistence using Postgres
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 While in-memory is great for testing and demos, for more serious tasks, you need to use a database as a persistence layer.
-Both the community version and the enterprise version support Postgres as a persistence layer. Make sure that you have
-a running Postgres server and you need to create one database per node. The recommended Postgres version to use is 11,
-as this is tested the most thoroughly.
+Both the community version and the enterprise version support `Postgres <https://www.postgresql.org/>`__ as a persistence
+layer. Make sure you have a running Postgres server and create one database per node.
+
+Canton is tested on a selection of the `currently supported Postgres versions <https://www.postgresql.org/support/versioning/>`__.
+See the `Canton release notes <https://github.com/digital-asset/canton/releases>`__ for the specific Postgres version
+used to test a particular Canton release.
 
 The Postgres storage mixin is provided by the file ``storage/postgres.conf``.
 
-If you just want to experiment, you can use Docker to get a Postgres database up and running quickly.
-Here are a few commands that come in handy.
+If you just want to experiment, you can use `Docker <https://www.docker.com/>`__ to get a Postgres database up and
+running quickly. For best results, choose a  `Docker Postgres image <https://hub.docker.com/_/postgres/>`__ that matches
+the `tested Postgres version <https://github.com/digital-asset/canton/releases>`__.
+
+Here are a few illustrative commands that come in handy.
 
 First, pull Postgres and start it up.
 
