@@ -15,10 +15,9 @@ in the following modules:
 - :ref:`Lifecycle.Rule <module-daml-finance-instrument-generic-lifecycle-rule-68537>`:
   Rule to process a lifecycle event for generic instruments
 
-Check out the page on
-:doc:`How to use the Generic Instrument packages <../../instruments/generic>`
-as well as the :doc:`Payoff modeling tutorial <../../tutorials/payoff-modeling/intro>`
-to learn how to use this instrument in practice.
+Check out the page on :doc:`How to use the Generic Instrument packages <../../instruments/generic>`
+as well as the :doc:`Payoff modeling tutorial <../../tutorials/payoff-modeling/intro>` to learn how
+to use this instrument in practice.
 
 Changelog
 *********

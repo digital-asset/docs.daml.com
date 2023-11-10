@@ -195,7 +195,8 @@ Keys
 ====
 
 Accounts are keyed by an
-:ref:`AccountKey <type-daml-finance-interface-types-common-types-accountkey-41482>`, which comprises:
+:ref:`AccountKey <type-daml-finance-interface-types-common-types-accountkey-41482>`, which
+comprises:
 
 - the account ``owner``
 - the account ``custodian``

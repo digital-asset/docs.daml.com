@@ -34,8 +34,7 @@ Check out the page on
 :doc:`How to use the Bond Instrument packages <../../instruments/bond>`
 for a description of how to use these instruments in practice. There is also the tutorial
 :doc:`How to implement a Contingent Claims-based instrument <../../tutorials/advanced-topics/instrument-modeling/contingent-claims-instrument>`,
-which describes how the claims are defined and how the lifecycle interface is implemented for
-bonds.
+which describes how the claims are defined and how the lifecycle interface is implemented for bonds.
 
 Changelog
 *********

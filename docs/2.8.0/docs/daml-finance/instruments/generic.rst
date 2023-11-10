@@ -43,7 +43,8 @@ Now that we have specified the economic terms of the payoff we can create a gene
 
 On every coupon payment date, the issuer will need to lifecycle the instrument. This will result in
 a lifecycle effect for the coupon, which can be then be claimed and settled. This process is
-described in detail in :doc:`Getting Started: Lifecycling <../tutorials/getting-started/lifecycling>`.
+described in detail in
+:doc:`Getting Started: Lifecycling <../tutorials/getting-started/lifecycling>`.
 
 Define the Claim of a European Option
 =====================================
@@ -128,8 +129,8 @@ It is now possible to create the *Election*:
   :start-after: -- CREATE_ELECTION_BEGIN
   :end-before: -- CREATE_ELECTION_END
 
-Note: these templates (election offer and election candidate) are not considered a core part of the Daml
-Finance library. There can be different processes to create the Election, so this is rather
+Note: these templates (election offer and election candidate) are not considered a core part of the
+Daml Finance library. There can be different processes to create the Election, so this is rather
 application specific. Still, in order to showcase one way how this could be done, this workflow is
 included here for convenience.
 
@@ -157,9 +158,10 @@ Finally, it is possible to apply the Election according to the lifecycle rule pr
   :end-before: -- APPLY_ELECTION_END
 
 This creates lifecycle effects, which can be claimed and settled in the usual way (as described in
-:doc:`Getting Started: Lifecycling <../tutorials/getting-started/lifecycling>`). However, the holding contract
-used to claim the effect must be compatible with the election that has been made: if Alice made an
-election and *electorIsOwner = True*, then only a holding where *owner = alice* will be accepted.
+:doc:`Getting Started: Lifecycling <../tutorials/getting-started/lifecycling>`). However, the
+holding contract used to claim the effect must be compatible with the election that has been made:
+if Alice made an election and *electorIsOwner = True*, then only a holding where *owner = alice*
+will be accepted.
 
 Frequently Asked Questions
 **************************

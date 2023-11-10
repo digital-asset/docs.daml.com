@@ -209,7 +209,8 @@ How do I transfer or trade an option?
 =====================================
 
 When you have created a holding on an option instrument this can be transferred to another party.
-This is described in the :doc:`Getting Started: Transfer <../tutorials/getting-started/transfer>` tutorial.
+This is described in the :doc:`Getting Started: Transfer <../tutorials/getting-started/transfer>`
+tutorial.
 
 In order to trade an option (transfer it in exchange for cash) you can also initiate a delivery
 versus payment with atomic settlement. This is described in the

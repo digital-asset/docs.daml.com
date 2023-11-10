@@ -13,7 +13,8 @@ Version 2.0.0
 
 - Improve tagging of new instrument versions in the lifecycle rule
 
-- A new instrument version is created and returned by the `Evolve` choice also when the instrument expires
+- A new instrument version is created and returned by the `Evolve` choice also when the instrument
+  expires
 
 Version 1.0.1
 *************

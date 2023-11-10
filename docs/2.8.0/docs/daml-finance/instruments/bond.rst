@@ -61,7 +61,8 @@ determines *how* a coupon date is adjusted if it falls on a non-business day.
 
 We also need holiday calendars, which determine *when* to adjust dates.
 
-We can use these variables to create a :ref:`PeriodicSchedule <constr-daml-finance-interface-types-date-schedule-periodicschedule-99705>`:
+We can use these variables to create a
+:ref:`PeriodicSchedule <constr-daml-finance-interface-types-date-schedule-periodicschedule-99705>`:
 
 .. literalinclude:: ../src/test/daml/Daml/Finance/Test/Util/Time.daml
   :language: daml
@@ -203,11 +204,11 @@ This callable bond example is taken from
 `Instrument/Bond/Test/Callable.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml>`_
 , where all the details are available. Also, check out the
 :ref:`Election based lifecycling tutorial <election-based-lifecycling>` for more details on how to
-define and process an *Election* in practice. Note that the sample bond above, which is callable only
-on some of the coupon dates, will require two types of lifecycling:
+define and process an *Election* in practice. Note that the sample bond above, which is callable
+only on some of the coupon dates, will require two types of lifecycling:
 
-- :doc:`Time based lifecycling <../tutorials/getting-started/lifecycling>` on coupon dates when the bond is
-  *not* callable.
+- :doc:`Time based lifecycling <../tutorials/getting-started/lifecycling>` on coupon dates when the
+  bond is *not* callable.
 - :ref:`Election based lifecycling <election-based-lifecycling>` on coupon dates when the bond *is*
   callable.
 
@@ -267,7 +268,8 @@ How do I transfer or trade a bond?
 ==================================
 
 When you have created a holding on a bond instrument this can be transferred to another party.
-This is described in the :doc:`Getting Started: Transfer <../tutorials/getting-started/transfer>` tutorial.
+This is described in the :doc:`Getting Started: Transfer <../tutorials/getting-started/transfer>`
+tutorial.
 
 In order to trade a bond (transfer it in exchange for cash) you can also initiate a delivery versus
 payment with atomic settlement. This is described in the
@@ -279,7 +281,8 @@ How do I process coupon payments for a bond?
 On the coupon payment date, the issuer will need to lifecycle the bond. This will result in a
 lifecycle effect for the coupon, which can be cash settled. This is described in detail in the
 :doc:`Lifecycling <../tutorials/getting-started/lifecycling>` and the
-:doc:`Intermediated Lifecycling <../tutorials/advanced-topics/lifecycling/intermediated-lifecycling>` tutorials.
+:doc:`Intermediated Lifecycling <../tutorials/advanced-topics/lifecycling/intermediated-lifecycling>`
+tutorials.
 
 How do I redeem a bond?
 =======================

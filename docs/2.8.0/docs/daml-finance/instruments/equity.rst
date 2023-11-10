@@ -187,8 +187,8 @@ When current shareholders receive the option instrument they can typically choos
    in the next section below).
 #. Choosing not to exercise the option. The option will expire worthless.
 #. Selling the option. This is not always possible, it depends on the terms of the rights issue.
-   :doc:`Getting Started: Settlement <../tutorials/getting-started/settlement>` describes how this could be
-   done.
+   :doc:`Getting Started: Settlement <../tutorials/getting-started/settlement>` describes how this
+   could be done.
 
 Rights Subscription
 *******************
@@ -308,7 +308,8 @@ How do I transfer or trade an Equity?
 =====================================
 
 When you have created a holding on an Equity instrument this can be transferred to another party.
-This is described in the :doc:`Getting Started: Transfer <../tutorials/getting-started/transfer>` tutorial.
+This is described in the :doc:`Getting Started: Transfer <../tutorials/getting-started/transfer>`
+tutorial.
 
 In order to trade an Equity (transfer it in exchange for cash) you can also initiate a delivery
 versus payment with atomic settlement. This is described in the
@@ -320,5 +321,5 @@ How do I process dividend payments for an Equity?
 On the dividend payment date, the issuer will need to lifecycle the Equity. This will result in a
 lifecycle effect for the dividend, which can be cash settled. This is described in detail in the
 :doc:`Lifecycling <../tutorials/getting-started/lifecycling>` and the
-:doc:`Intermediated Lifecycling <../tutorials/advanced-topics/lifecycling/intermediated-lifecycling>` tutorials (depending on what kind of
-settlement you need).
+:doc:`Intermediated Lifecycling <../tutorials/advanced-topics/lifecycling/intermediated-lifecycling>`
+tutorials (depending on what kind of settlement you need).

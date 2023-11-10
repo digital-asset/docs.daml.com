@@ -9,10 +9,11 @@ Version 2.0.0
 
 - Update of SDK version and dependencies
 
-- The `Create` choice on the instrument factory returns the corresponding interface (rather than the base instrument interface)
+- The `Create` choice on the instrument factory returns the corresponding interface (rather than the
+  base instrument interface)
 
-- Make use of the `requires` keyword to enforce the interface hierarchy (in the particular `asDisclosure` and
-  `asBaseInstrument` implementations were removed)
+- Make use of the `requires` keyword to enforce the interface hierarchy (in the particular
+  `asDisclosure` and `asBaseInstrument` implementations were removed)
 
 Version 1.0.1
 *************
