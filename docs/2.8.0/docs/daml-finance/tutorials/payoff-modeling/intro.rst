@@ -56,7 +56,3 @@ Finally, you can start Daml Studio to inspect the code and run the project's scr
 
    daml studio
 
-.. TODO explain the role of acquisition date in the observations section (together with path-dependent payoffs)
-.. TODO Elections (options, callable bonds)
-.. TODO Path dependent payoffs (credit default swaps, barrier options)
-.. TODO Give some details on the internals of the script (mapping to time, mapping to actual instruments)

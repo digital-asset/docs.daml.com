@@ -145,7 +145,6 @@ is added:
 Note that the ``participant.parties.enable`` macro only works if the participant controls their namespace themselves, either
 directly by having the namespace key or through delegation (via ``NamespaceDelegation``).
 
-.. TODO(i9579): adjust documentation in step 6 for closed domains
 
 Participant Onboarding
 ~~~~~~~~~~~~~~~~~~~~~~

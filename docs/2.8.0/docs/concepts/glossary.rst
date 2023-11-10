@@ -296,7 +296,6 @@ A ``.dar`` contains multiple ``.dalf`` files. A ``.dalf`` file is the output of 
 .. Package, module, library
 .. ========================
 
-.. TODO ask Robin
 
 Developer Tools
 ***************
@@ -431,7 +430,6 @@ A **command** is an instruction to add a transaction to the `ledger <#daml-ledge
 .. Events
 .. ======
 
-.. TODO.
 
 .. _daml-lf:
 

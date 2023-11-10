@@ -132,7 +132,6 @@ state and to map unknown contract ids to themselves. For example:
     }
   }
 
-.. TODO[AH] Add a full example project and example export.
 
 Execute the Export
 ******************
@@ -170,7 +169,6 @@ behavior. Both flags accept ledger offsets, either the special offsets
 ``--end``
   Export transactions up to and including this end offset.
 
-.. TODO[AH] Provide a reference or hints how to obtain arbitrary ledger offsets.
 
 .. _export-unknown-cids:
 

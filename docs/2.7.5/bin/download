@@ -41,5 +41,4 @@ download daml/$RELEASE_TAG/docs pdf-fonts-$RELEASE_TAG.tar.gz
 download canton/$CANTON_RELEASE_TAG canton-doc-sources-$CANTON_RELEASE_TAG.tar.gz
 download canton/$CANTON_RELEASE_TAG canton-scaladoc-$CANTON_RELEASE_TAG.tar.gz
 download daml-finance/$DAML_FINANCE_RELEASE_TAG daml-finance-doc-sources-$DAML_FINANCE_RELEASE_TAG.tar.gz
-#TODO: CHANGE ONCE ASSEMBLY DEPLOYMENT IS FIXED
 download canton-drivers/$CANTON_DRIVERS_RELEASE_TAG canton-drivers-$CANTON_DRIVERS_RELEASE_TAG.tar.gz

@@ -219,7 +219,6 @@ Canton allows you to configure an Ethereum wallet (and therefore an Ethereum acc
 The configured Ethereum account is used for all interactions of the Ethereum sequencer with the Ethereum
 blockchain. If no Ethereum account is explicitly configured, a random Ethereum account is used.
 
-.. TODO(i8913): maybe add more details about nonces here
 
 .. note:: When multiple Ethereum sequencer applications interact with the same ``Sequencer.sol`` instance,
     each Ethereum Sequencer process needs to use a separate Ethereum account.
@@ -263,7 +262,6 @@ The Canton Ethereum integration is currently tested with the
 as illustrated in the demo.
 Other setups are possible, but they should fulfill the following requirements:
 
-.. TODO(#4940): Be more precise about how the mining rate changes performance.
 
 * The Ethereum client `Hyperledger Besu <https://besu.hyperledger.org/en/stable>`__ (version in
   release notes tested, but any sibling subminor version should be OK) should be used and expose

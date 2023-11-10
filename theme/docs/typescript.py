@@ -130,7 +130,6 @@ class TypeScriptLexer(RegexLexer):
             (r'[^`\\$]+', String.Backtick),
         ],
         'interp-inside': [
-            # TODO: should this include single-line comments and allow nesting strings?
             (r'\}', String.Interpol, '#pop'),
             include('root'),
         ],

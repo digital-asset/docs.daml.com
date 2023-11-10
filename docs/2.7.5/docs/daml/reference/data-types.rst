@@ -92,7 +92,6 @@ Sum a List
 
 To sum a list, use a *fold* (because there are no loops in Daml). See :ref:`daml-ref-folding` for details.
 
-.. TODO - reference std lib documentation
 
 .. _daml-ref-record-types:
 

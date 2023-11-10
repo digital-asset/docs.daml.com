@@ -94,7 +94,6 @@ The goal of the ``MessageList`` component is to query all ``Message`` contracts 
 The entire component is shown below.
 Copy this into a new ``MessageList.tsx`` file in ``ui/src/components`` and save it.
 
-.. TODO Include file in template with placeholder for component logic.
 
 .. literalinclude:: code/templates-tarball/create-daml-app/ui/src/components/MessageList.tsx
   :language: tsx
@@ -116,7 +115,6 @@ MessageEdit Component
 Next we need the ``MessageEdit`` component to compose and send messages to our followers.
 Again we show the entire component here; copy this into a new ``MessageEdit.tsx`` file in ``ui/src/components`` and save it.
 
-.. TODO Include file in template with placeholder for component logic.
 
 .. literalinclude:: code/templates-tarball/create-daml-app/ui/src/components/MessageEdit.tsx
   :language: tsx

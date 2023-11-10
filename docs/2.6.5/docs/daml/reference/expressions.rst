@@ -138,4 +138,3 @@ Lastly, a ``template`` may contain a single ``let`` block.
    :start-after: -- BEGIN_LET_IN_TEMPLATE
    :end-before: -- END_LET_IN_TEMPLATE
 
-.. TODO: check you can still have a let block inside a template?

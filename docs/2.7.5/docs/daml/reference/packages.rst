@@ -123,7 +123,6 @@ Let's go through an example. Suppose you have an existing Daml project ``foo``, 
 
 To do so, you first need to generate the Daml archive of ``foo``. Go into ``/home/user/foo`` and run ``daml build -o foo.dar``. This will create the Daml archive, ``/home/user/foo/foo.dar``.
 
-.. TODO (#4925): Make the above step redundant by letting users declare projects directly. Then update this doc.
 
 Next, we will update the project config for ``bar`` to use the generated Daml archive as a dependency. Go into ``/home/user/bar`` and change the ``dependencies`` field in ``daml.yaml`` to point to the created `Daml archive`:
 
@@ -178,7 +177,6 @@ When importing packages this way, the Daml compiler will try to reconstruct the 
 
 #. Starting from Daml-LF version 1.8, when possible, typeclass instances will be reconstructed by re-using the typeclass definitions from dependencies, such as the typeclasses exported in ``daml-stdlib``. However, if the typeclass signature has changed, you will get an instance for a reconstructed typeclass instead, which will not interoperate with code from dependencies.
 
-.. TODO (#4932): Add warnings for advanced features that aren't supported, and add a comment on item #4.
 
 Because of their flexibility, data-dependencies are a tool that is recommended for performing Daml model upgrades. See the :ref:`upgrade documentation <upgrade-overview>` for more details.
 

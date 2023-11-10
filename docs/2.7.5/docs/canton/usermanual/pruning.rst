@@ -83,7 +83,6 @@ Best Practices
 Current Limitations
 -------------------
 
-.. TODO(#9950): sequencer pruning can be blocked
 
 - The sequencer will only allow pruning of acknowledged events. As such, if a client such as a participant or mediator
   stops acknowledging events that have been sent to it, sequencer pruning will be blocked. This is a current
@@ -100,7 +99,5 @@ Current Limitations
   not work. Therefore, before you disable a participant, please make sure that is not involved in any contract. This is
   a current limitation.
 
-.. TODO(#5690): pruning and disconnected participants (note above)
-.. TODO(#5945): pruning with dangling parties (note above)
 
 Refer to the Participant Pruning section to learn how pruning affects Daml applications and the Ledger API.

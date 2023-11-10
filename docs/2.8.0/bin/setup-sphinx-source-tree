@@ -73,7 +73,6 @@ sed -i "s|Version : .*|Version : $prefix|" $SPHINX_DIR/configs/pdf/conf.py
 
 # Creates hard links to docs files; effectively overriding any existing file in the sphinx source directory
 for f in $(cd $DIR/../docs; find . -type f); do
-    if [[ $(dirname $f) != "./canton/"* ]]; then  # TODO exclude canton so that the preprocessing from before does not get overridden again
       mkdir -p $SPHINX_DIR/source/$(dirname $f)
       rm -f $SPHINX_DIR/source/$f
       ln $DIR/../docs/$f $SPHINX_DIR/source/$f

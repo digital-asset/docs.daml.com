@@ -54,7 +54,6 @@ a list of all available templates run ``daml new --list``.
 
     cd create-daml-app
 
-.. TODO: Give instructions for possible failures.
 
 3. Open two terminal windows.
 4. In one terminal, at the root of the ``create-daml-app`` directory, run the command::
