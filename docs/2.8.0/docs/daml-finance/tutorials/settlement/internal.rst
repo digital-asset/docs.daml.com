@@ -52,8 +52,8 @@ factory:
   :start-after: -- WRAPPED_TRANSFER_SETUP_BEGIN
   :end-before: -- WRAPPED_TRANSFER_SETUP_END
 
-The settlement factory is employed by a party, known as the `requestor`, to create a batch and
-instructions from a list of routed steps. In the scripts, the requestor is also responsible for
+The settlement factory is employed by a party, known as the `instructor`, to create a batch and
+instructions from a list of routed steps. In the scripts, the instructor is also responsible for
 settling the batch once all instructions have been allocated and approved.
 
 Wrapped Transfer
@@ -68,7 +68,7 @@ The first example encapsulates a transfer from Alice to Bob, from our previous
   :end-before: -- WRAPPED_TRANSFER_INSTRUCT_END
 
 Here, Alice allocates by pledging a holding, Bob approves by taking delivery to his account at the
-Bank, and the requestor finally settles the batch:
+Bank, and the instructor finally settles the batch:
 
 .. literalinclude:: ../../finance-settlement/daml/Scripts/Internal.daml
   :language: daml
@@ -76,7 +76,7 @@ Bank, and the requestor finally settles the batch:
   :end-before: -- WRAPPED_TRANSFER_SETTLE_END
 
 Note that this occurs without involving the Bank, and either Alice or Bob could also take the role
-as the requestor. As a result of running this script, Alice's holding is transferred to Bob.
+as the instructor. As a result of running this script, Alice's holding is transferred to Bob.
 
 Credit and Debit
 ================
