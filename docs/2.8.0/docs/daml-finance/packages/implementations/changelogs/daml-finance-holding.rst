@@ -15,9 +15,11 @@ Version 2.0.0
 
 - Generalized the `acquireImpl` and `releaseImpl` to not rely on an attribute called "lock"
 
-- Make use of the `requires` keyword to enforce the interface hierarchy (in particular the `asDisclosure`, `asBase`, and `asTransferable` implementations were removed)
+- Make use of the `requires` keyword to enforce the interface hierarchy (in particular the
+  `asDisclosure`, `asBase`, and `asTransferable` implementations were removed)
 
-- The `Transfer` choice of the `Transferable` interface now includes the new owner as a choice observer
+- The `Transfer` choice of the `Transferable` interface now includes the new owner as a choice
+  observer
 
 - Implementation of `Lockable` does not allow an empty `lockers` set
 

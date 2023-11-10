@@ -7,8 +7,8 @@ Daml.Finance.Data
 This package implements templates containing reference data. It includes the following modules:
 
 - :ref:`Numeric.Observation <module-daml-finance-data-numeric-observation-78761>`:
-  An implementation of an observation that explicitly stores time-dependent numerical values
-  on the ledger. It can be used to, e.g., store equity or rate fixings.
+  An implementation of an observation that explicitly stores time-dependent numerical values on the
+  ledger. It can be used to, e.g., store equity or rate fixings.
 - :ref:`Reference.HolidayCalendar <module-daml-finance-data-reference-holidaycalendar-10773>`:
   A holiday calendar of an entity (typically an exchange or a currency)
 - :ref:`Time.DateClock.Types <module-daml-finance-data-time-dateclock-types-48777>`:

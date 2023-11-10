@@ -79,9 +79,10 @@ implementation is required:
   information pertinent to private equity (like share class, or liquidation preference).
 - New instrument types: if Daml Finance does not provide an implementation for a given instrument
   type, a custom implementation can be provided to fill that gap. The implementation can either
-  leverage the :doc:`Contingent Claims <../instruments/generic/contingent-claims>` framework, as described in
-  :doc:`this tutorial <../tutorials/advanced-topics/instrument-modeling/contingent-claims-instrument>`, or be
-  implemented through standard interfaces, as seen in the implementation of the
+  leverage the :doc:`Contingent Claims <../instruments/generic/contingent-claims>` framework, as
+  described in
+  :doc:`this tutorial <../tutorials/advanced-topics/instrument-modeling/contingent-claims-instrument>`,
+  or be implemented through standard interfaces, as seen in the implementation of the
   :ref:`Equity instrument <type-daml-finance-instrument-equity-instrument-instrument-90430>`.
 
 Custom Lifecycle Implementations

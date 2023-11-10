@@ -99,24 +99,25 @@ and approving, debiting the sender and crediting the receiver, respectively:
   :end-before: -- CREDIT_DEBIT_SETTLE_END
 
 We could have made the Bank approve and allocate its instructions by taking delivery to an account
-it owns and pledging a holding where it acts as the custodian. However, this would require the creation of
-"dummy" accounts and holdings, which can be avoided using the ``DebitSender`` and ``CreditReceiver``
-methods. These methods can only be used when the receiver (resp. the sender) corresponds to the custodian.
+it owns and pledging a holding where it acts as the custodian. However, this would require the
+creation of "dummy" accounts and holdings, which can be avoided using the ``DebitSender`` and
+``CreditReceiver`` methods. These methods can only be used when the receiver (resp. the sender)
+corresponds to the custodian.
 
 Pass Through
 ============
 
-The final script of this tutorial demonstrates how holdings received as part of the same settlement process
-can be allocated to a subsequent instruction. We again use two instructions, ``instruction1`` and
-``instruction2``, but now with Charlie as the intermediary:
+The final script of this tutorial demonstrates how holdings received as part of the same settlement
+process can be allocated to a subsequent instruction. We again use two instructions,
+``instruction1`` and ``instruction2``, but now with Charlie as the intermediary:
 
 .. literalinclude:: ../../finance-settlement/daml/Scripts/Internal.daml
   :language: daml
   :start-after: -- PASS_THROUGH_INSTRUCT_BEGIN
   :end-before: -- PASS_THROUGH_INSTRUCT_END
 
-Like in the previous examples, Alice allocates by pledging a holding, and Bob approves by taking delivery
-to his account. The intermediary, Charlie, allocates using
+Like in the previous examples, Alice allocates by pledging a holding, and Bob approves by taking
+delivery to his account. The intermediary, Charlie, allocates using
 ``PassThroughTo (charlieAccount, instruction2)`` and approves with
 ``PassThroughFrom (charlieAccount, instruction1)``, essentially enabling the holding Charlie
 receives from Alice to pass-through to Bob:
@@ -127,10 +128,11 @@ receives from Alice to pass-through to Bob:
   :end-before: -- PASS_THROUGH_SETTLE_END
 
 The significant advantage of the pass-through method is that Charlie doesn't need any holdings
-upfront as he's at a net zero position for incoming and outgoing holdings in this settlement process.
+upfront as he's at a net zero position for incoming and outgoing holdings in this settlement
+process.
 
-Note that the Bank could have utilized the pass-through approach to achieve the same result in the previous script, but it
-would still require a "dummy" account.
+Note that the Bank could have utilized the pass-through approach to achieve the same result in the
+previous script, but it would still require a "dummy" account.
 
 Summary
 *******
@@ -143,5 +145,5 @@ approval methods to instructions. The key points are:
 * A holding settled via an intermediary at the same custodian can be passed through, thus
   eliminating the requirement for the intermediary to possess the holding upfront.
 
-In the forthcoming tutorial, we will delve into more complex settlement transactions involving a transfer across
-multiple custodians.
+In the forthcoming tutorial, we will delve into more complex settlement transactions involving a
+transfer across multiple custodians.

@@ -50,9 +50,9 @@ events. All instruments are strictly versioned so that we can clearly differenti
 cum- and ex-event version of an instrument. This means that it is perfectly safe for those versions
 to co-exist at the same time, and it allows for a gradual transition from one version to another.
 Generally, the issuer of an instrument is responsible for creating and maintaining instrument
-versions, and for producing the :ref:`effects <lifecycling-components-effect>` of a particular lifecycle event.
-During the lifecycle process, holders of this instrument will migrate their holdings to a new
-version of the instrument while at the same time claiming any resulting
+versions, and for producing the :ref:`effects <lifecycling-components-effect>` of a particular
+lifecycle event. During the lifecycle process, holders of this instrument will migrate their
+holdings to a new version of the instrument while at the same time claiming any resulting
 :ref:`effects <lifecycling-components-effect>` from the event.
 
 Versions are usually considered opaque strings, but one can follow a numerical versioning scheme if
@@ -132,9 +132,10 @@ instruct settlement for:
 
 Both legs of this settlement are grouped in a
 :ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>` to provide atomicity. The
-goal of the batch is to exchange a holding on the v1 instrument for a holding on the v2 instrument + $10 (for each share held). This
-ensures that the investor can never claim a dividend twice, as after settlement they only hold the
-new version of the stock, which is not entitled to the dividend anymore.
+goal of the batch is to exchange a holding on the v1 instrument for a holding on the v2 instrument
++ $10 (for each share held). This ensures that the investor can never claim a dividend twice, as
+after settlement they only hold the new version of the stock, which is not entitled to the dividend
+anymore.
 
 .. image:: ../images/lifecycle_claim_effect.png
    :alt: The investor claims the lifecycle effect through the claim rule, passing in their ACME v1
@@ -180,8 +181,8 @@ the lifecycling of certain instruments. In the context of the dividend example a
 Issuer declaring a "Cash Dividend" to be paid on a specific stock.
 
 
-Events implement the :ref:`Event <type-daml-finance-interface-lifecycle-event-event-2931>` interface,
-which describes basic properties of a lifecycle event:
+Events implement the :ref:`Event <type-daml-finance-interface-lifecycle-event-event-2931>`
+interface, which describes basic properties of a lifecycle event:
 
 - The event providers
 - The event identifier and description
@@ -249,7 +250,7 @@ In the dividend example, the effect describes the following asset movement:
 
 - give a unit of a v1 holding
 - receive a unit of a v2 holding
-- receive $10 
+- receive $10
 
 Holdings on this specific instrument version entitle a holder to claim the
 effect, which results in the required asset movements to be instructed.
@@ -261,8 +262,8 @@ The :ref:`Claim Rule <type-daml-finance-interface-lifecycle-rule-claim-claim-292
 instrument holders to claim lifecycle effects and instruct settlement of the resulting asset
 movements.
 
-Each effect specifies a target instrument (and version), and holdings on this instrument (version) are required
-to claim an effect.
+Each effect specifies a target instrument (and version), and holdings on this instrument (version)
+are required to claim an effect.
 
 In the dividend example, the v1 instrument is the target instrument. A holding on a v1 instrument
 serves as proof of ownership such that there is no need for an issuer to take a consistent snapshot

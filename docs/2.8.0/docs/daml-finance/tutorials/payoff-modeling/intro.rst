@@ -4,12 +4,13 @@
 Payoff Modeling tutorials
 #########################
 
-This section contains an introduction to the Daml Finance :doc:`Generic Instrument <../../instruments/generic>`,
-which provides a flexible framework to structure custom payoffs and lifecycle them on the ledger.
+This section contains an introduction to the Daml Finance
+:doc:`Generic Instrument <../../instruments/generic>`, which provides a flexible framework to
+structure custom payoffs and lifecycle them on the ledger.
 
-The Generic Instrument encapsulates the :doc:`Contingent Claims <../../instruments/generic/contingent-claims>`
-library, which models the economic terms of an instrument based on its future cashflows and other
-contractual events.
+The Generic Instrument encapsulates the
+:doc:`Contingent Claims <../../instruments/generic/contingent-claims>` library, which models the
+economic terms of an instrument based on its future cashflows and other contractual events.
 
 The tutorials introduce the Contingent Claims modeling framework in a practical way and give you
 the tools to
@@ -19,7 +20,8 @@ the tools to
 
 The following tutorials are available:
 
-* The :doc:`Basic Builders <basic-builders>` tutorial introduces the basic Contingent Claims builders.
+* The :doc:`Basic Builders <basic-builders>` tutorial introduces the basic Contingent Claims
+  builders.
 
 * The :doc:`Observations <observations>` tutorial shows how to model market observables, such as
   interest rates or equity spot prices.

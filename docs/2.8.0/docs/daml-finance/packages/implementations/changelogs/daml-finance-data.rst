@@ -11,8 +11,9 @@ Version 2.0.0
 
 - Remove implementation of `Remove` choice from factory templates
 
-- Make use of the `requires` keyword to enforce the interface hierarchy (in particular the `asDisclosure`,
-  `asNumericObservable`, `asTimeObservable`, and `asEvent` implementations were removed)
+- Make use of the `requires` keyword to enforce the interface hierarchy (in particular the
+  `asDisclosure`, `asNumericObservable`, `asTimeObservable`, and `asEvent` implementations were
+  removed)
 
 - Removed `key` from `DateClock`.
 

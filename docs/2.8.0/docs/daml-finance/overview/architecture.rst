@@ -62,13 +62,14 @@ The implementation layer consists of the following packages:
 - ``Daml.Finance.Instrument.*`` contains implementations for various instrument types
 - ``Daml.Finance.Data`` includes templates used to store reference data on the ledger
 - ``Daml.Finance.Claims`` contains utility functions relating to
-  :doc:`Contingent Claims <../instruments/generic/contingent-claims>` based instruments and lifecycling
+  :doc:`Contingent Claims <../instruments/generic/contingent-claims>` based instruments and
+  lifecycling
 - ``Daml.Finance.Util`` provides a set of pure utility functions mainly for date manipulation
 - ``ContingentClaims.Lifecycle`` provides lifecycle utility functions for
   :doc:`Contingent Claims <../instruments/generic/contingent-claims>` based instruments
 - ``ContingentClaims.Valuation`` contains experimental functions to transform
-  :doc:`Contingent Claims <../instruments/generic/contingent-claims>` instrument trees into a mathematical
-  representation suitable for integration with pricing and risk frameworks
+  :doc:`Contingent Claims <../instruments/generic/contingent-claims>` instrument trees into a
+  mathematical representation suitable for integration with pricing and risk frameworks
 
 Versioning and Compatibility
 ****************************

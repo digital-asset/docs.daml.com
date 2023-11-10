@@ -5,8 +5,8 @@ ContingentClaims.Core
 #####################
 
 This package contains the *interface* to represent
-:doc:`Contingent Claims <../../instruments/generic/contingent-claims>` trees. It contains data types and
-utility functions to process such trees. It also contains builder functions to facilitate the
+:doc:`Contingent Claims <../../instruments/generic/contingent-claims>` trees. It contains data types
+and utility functions to process such trees. It also contains builder functions to facilitate the
 creation of trees using composition. The following modules are included:
 
 - :ref:`Builders <module-contingentclaims-core-builders-15004>`: Builder functions to compose trees

@@ -9,7 +9,8 @@ Version 2.0.0
 
 - Update of SDK version and dependencies
 
-- Make use of the `requires` keyword to enforce the interface hierarchy (in particular the `asDisclosure` implementation was removed)
+- Make use of the `requires` keyword to enforce the interface hierarchy (in particular the
+  `asDisclosure` implementation was removed)
 
 - Use `ensure` to ensure that the set of outgoing controllers is non-empty
 
