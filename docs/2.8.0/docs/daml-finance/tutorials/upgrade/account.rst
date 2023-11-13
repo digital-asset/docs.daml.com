@@ -13,7 +13,7 @@ We are going to:
 #. Introduce `MyAccount`, a custom account implementation for the custodian. It differs from
    the standard Daml Finance `Account` implementation in the absence of the `Lockable`
    implementation, making it a non-freezable account.
-#. Prevent that the custodian creates old `Account` instances, by archiving its existing
+#. Prevent the custodian from creating old `Account` instances, by archiving its existing
    `AccountFactory`.
 #. Instantiate a new account factory, `MyAccountFactory`, which can create `MyAccount` instances.
 #. Provide a `MyAccountUpgradeRule` instance for clients, permitting them to upgrade their existing
