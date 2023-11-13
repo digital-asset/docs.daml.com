@@ -4,9 +4,9 @@
 Account Upgrade
 ###############
 
-This tutorial presents a scenario where a custodian offers its clients the option to *voluntarily* upgrade
-their "old" `Account` contracts to a "new" version. The focus is on demonstrating the process of
-such a voluntary upgrade.
+This tutorial presents a scenario where a custodian offers its clients the option to *voluntarily*
+upgrade their "old" `Account` contracts to a "new" version. The focus is on demonstrating the
+process of such a voluntary upgrade.
 
 We are going to:
 
