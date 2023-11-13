@@ -673,6 +673,13 @@ subtrees:
           title: "Observations (using a floating rate bond)"
         - file: daml-finance/tutorials/lifecycling/callable-bond
           title: "Election-based lifecycling (using a callable bond)"
+      - file: daml-finance/tutorials/upgrade/intro
+        title: "Upgrade"
+        entries:
+        - file: daml-finance/tutorials/upgrade/account
+          title: "Account Upgrade"
+        - file: daml-finance/tutorials/upgrade/holding
+          title: "Holding Upgrade"
       - file: daml-finance/tutorials/payoff-modeling/intro
         title: "Payoff Modeling"
         entries:
