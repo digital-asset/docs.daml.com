@@ -72,8 +72,8 @@ a `MyAccountUpgradeRule` contract (which is also part of the ``MyAccount.daml`` 
   :start-after: -- UPGRADE_ACCOUNT_CREATE_UPGRADE_RULE_BEGIN
   :end-before: -- UPGRADE_ACCOUNT_CREATE_UPGRADE_RULE_END
 
-Clients Upgrades
-================
+Clients Upgrade
+===============
 
 Following this, we let both Alice and Bob upgrade to the new account version:
 
