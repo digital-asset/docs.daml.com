@@ -10,8 +10,8 @@ such a voluntary upgrade.
 
 We are going to:
 
-#. Introduce `MyAccount`, a custom account implementation for the custodian. Its distinction from
-   the standard Daml Finance `Account` implementation is the absence of the `Lockable`
+#. Introduce `MyAccount`, a custom account implementation for the custodian. It differs from
+   the standard Daml Finance `Account` implementation in the absence of the `Lockable`
    implementation, making it a non-freezable account.
 #. Prevent that the custodian creates old `Account` instances, by archiving its existing
    `AccountFactory`.
