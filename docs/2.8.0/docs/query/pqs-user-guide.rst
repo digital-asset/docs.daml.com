@@ -24,14 +24,14 @@ In the Early Access implementation, the PQS provides a unidirectional path for e
 Early Access purpose and limitations
 ************************************
 
-The Early Access (EA) release allows users to learn about the architecture and programming model of the PQS. This enhancement to the participant node provides new capabilities that can take time to explore. The EA release is not fully production ready, but it will rapidly become enterprise-hardened. Since applications take time to develop, the EA version is recommended for learning and development. As enhancements are made and gaps are closed, a new patch release will be provided.
+The Early Access (EA) release allows users to learn about the architecture and programming model of the PQS. This enhancement to the participant node provides new capabilities that can take time to explore. The EA release is not fully production-ready, but it will rapidly become enterprise-hardened. Since applications take time to develop, the EA version is recommended for learning and development. As enhancements are made and gaps are closed, a new patch release will be provided.
 
 The current limitations of the EA version are:
 
 -  PQS has not been performance optimized, so it is not yet ready for large- or high-throughput queries.
 -  As is typical of EA releases, backward compatibility between EA releases may be sacrificed to make improvements in the user experience and design of PQS. You may need to make adjustments in your use through the EA period.
 
-Future early access releases will remove or reduce these limitations.  Please check back to this section for announcements of a new early access release.
+Future early access releases will remove or reduce these limitations. Please check back to this section for announcements of a new early access release.
 
 Early Access release versions
 =============================
@@ -45,11 +45,11 @@ The historical table below lists the available Early Access releases of the Part
 +---------------+-----------------------------------------------------+
 | `2023-08-31`_ | Added OAuth support.                                |
 +---------------+-----------------------------------------------------+
-| `2023-09-06`_ | Documentation updated.  Added *PQS Schema Design*,  |
+| `2023-09-06`_ | Documentation updated. Added *PQS Schema Design*,   |
 |               | *Offset Management*, *Querying Patterns*, *Advanced |
 |               | Querying Topics* sections.                          |
 +---------------+-----------------------------------------------------+
-| `2023-09-18`_ | Documentation updated.  Updated command line        |
+| `2023-09-18`_ | Documentation updated. Updated command line         |
 |               | options and added information about using           |
 |               | ``--pipeline-filter`` option.                       |
 +---------------+-----------------------------------------------------+
@@ -59,13 +59,13 @@ The historical table below lists the available Early Access releases of the Part
 +---------------+-----------------------------------------------------+
 | `2023-09-22`_ | New release. Added pruning documentation.           |
 |               | Environment variables now have ``SCRIBE_`` prefix   |
-|               | to avoid name clashes.  Updated the                 |
+|               | to avoid name clashes. Updated the                  |
 |               | ``--pipeline-parties`` option information.          |
 +---------------+-----------------------------------------------------+
-| `2023-09-26`_ | New release.  The filter is now applied on the DB   |
+| `2023-09-26`_ | New release. The filter is now applied on the DB    |
 |               | functions, such as choices.                         |
 +---------------+-----------------------------------------------------+
-| `2023-10-06`_ | New release.  Fix a JWT audience bug.  Name format  |
+| `2023-10-06`_ | New release. Fix a JWT audience bug. Name format    |
 |               | change.                                             |
 +---------------+-----------------------------------------------------+
 
@@ -107,7 +107,7 @@ PQS schema design
 =================
 
 PQS is not directly involved in querying/reading the datastore - the
-application is free to query it, such as via JDBC.  The objectives of the
+application is free to query it, such as via JDBC. The objectives of the
 schema design is to facilitate:
 
 -  **Scalable writes**: transactions are written in parallel, so
@@ -115,12 +115,12 @@ schema design is to facilitate:
 -  **Scalable reads**: queries can be parallelized and are not
    blocked by writes. They produce sensible query plans with no
    unnecessary table scans.
--  **Ease of use**: readers are able to use familiar tools and techniques to
+-  **Ease of use**: readers can use familiar tools and techniques to
    query the datastore without needing to understand the specifics of
    the schema design. Simple entry points
    provide access to data in familiar ways. In particular, readers
    do not need to navigate the offset-based model.
--  **Read consistency**: readers are able to achieve the level of
+-  **Read consistency**: readers can achieve the level of
    consistency that they require, including consistency with other
    ledger datastores, or with ledger commands that have been executed.
 
@@ -185,12 +185,152 @@ The PQS is intended for continuous operation. Upon restart after an interruption
 High availability
 =================
 
-Multiple isolated instances of PQS can be instantiated without any cross-dependency. This allows for an active-active high availability, clustering model. Please note that different instances might not be at the same offset due to different processing rates or other factors. After querying one active instance, it is possible for you to see results that are not yet visible on an alternative, active instance. This requires consideration for the client to handle the situation where waiting or a retry is required to service "at least up to" requests.
+Multiple isolated instances of PQS can be instantiated without any cross-dependency. This allows for an active-active high availability, clustering model. Please note that different instances might not be at the same offset due to different processing rates or other factors. After querying one active instance, you can see results that are not yet visible on an alternative, active instance. This requires consideration for the client to handle the situation where waiting or a retry is required to service "at least up to" requests.
 
 How a participant node (PN) models time
 ***************************************
 
-Understanding time in a distributed application...(this section is under construction)
+Understanding time in a distributed application is challenging because there is no global clock. This section describes how a participant node understands time. If you are familiar with Canton, skip this section and move to the section :ref:`Time Model within PQS <pqs-time-model>`.
+
+A participant node models time advancing in its local ledger using an index called an *offset*. An offset is a unique index of the participant node's local ledger. You can think of this as selecting an item in the ledger using a specific offset (or index) into the ledger. For example, in the figure, Participant A has transaction “ABC” at offset #011. An offset represents a point in time of that participant node and a given domain, where the offset values order the events that are changes to the ledger. Specifically, subscribers to UpdateService observe the order for a specific domain. 
+
+In general, a larger participant offset means that the event happened after the event at a smaller participant offset in that participant node. Since ledger entries can be made at any time, they can advance at different rates. For example, Participant A may only process requests every several minutes, so its offset counters increase slowly. However, Participant B may be processing requests very frequently, so its offset counters may increase several times a second. 
+
+The sequence of offsets of a participant may contain gaps. That's because some offsets may be used for internal purposes in the participant that never show up on the ledger API. Also, filtering for certain types of changes (such as by party or by template ID) naturally results in gaps in the sequence of offsets.
+
+.. image:: ./images/offset-sequence.svg
+   :alt: Charts of offsets and transactions for two participants connected by a sync domain
+
+You can't compare offset values across participants. The same ledger change (such as a transaction) for multiple participant nodes will be stored at a different offset in each participant node. For example, in the figure, the transaction ABC is at offset #011 in Participant A but at offset #010 in Participant B. Similarly, the same offset value across participant nodes will refer to different ledger changes. In the figure, Participant A's offset #011 records “Tx ABC” while Participant B's offset #011 records “Tx DEF”. Comparing offsets across synchronization domains does not provide a causal ordering of the events because there is no common reference.
+
+Single offset values returned by the Ledger API can be used as-is (for example, to keep track of processed transactions and provide an application restart point in case you need to retry the request). 
+
+The Ledger API endpoints that take offset values also allow an offset range which is a portion of the participant's ledger that is relevant for the client to read. An offset range is analogous to a duration or slice of time. For example, a client application can specify the offset range from #010 through #012 to perform a search within Participant B's ledger.
+
+Although the figure shows integers as an offset value, this may change in the future. The format of offsets should be treated as opaque to the client. No client-side transformation of an offset (such as subtracting or adding one offset to another and using that in a ledger read)  is guaranteed to return a meaningful offset. However, you can always expect that offsets are lexicographically comparable.
+
+A transaction ID compares to an offset in the following ways:
+ 
+ - Not every offset has a transaction ID. For example, the completion event of a rejected transaction won't have a transaction ID because the transaction did not successfully complete.
+ - There is, at most, one transaction ID at a single offset.
+ - Every accepted transaction is published at a single offset. 
+ - Offsets are local to a participant, whereas transaction IDs are virtual ledger-wide identifiers to correlate transactions across multiple participants.
+ - Offsets can establish a temporal ordering within the same sync domain ("happened-before" relationship) between transactions and/or events from different transactions.
+
+For analysis of a participant node's ledger, the offset is a better identifier than transaction ID because it can be used for ordering and an offset range can be specified to limit the analysis. However, if the analysis must coordinate with other participant nodes, then transaction IDs are better. 
+
+If a participant node's ledger is restored from a backup, it will review the data on the sequencer and process it to the latest information. However, in performing this rehydration, the resulting PN can have a different set of offset values than it had before the backup. For Daml 2.x,, the order of event processing and transaction IDs remain the same, but the resulting offsets likely change. If a client application caches offset data or stores it in a database, those datastores will also need to be replayed to have the proper offset values of the restored participant node.
+
+.. _pqs-time-model:
+
+Time Model within PQS
+=====================
+
+PQS builds on the offset concept of the participant node's ledger, and PQS is a valid representation of that ledger. PQS processes events asynchronously and concurrently, but the PQS programming model is intended to simplify development. The offset forms the basis for the PQS programming model. Helper functions make it easy to reason about offset values, pushing that complexity into the background. This section discusses how PQS models time.
+
+NOTE:  Use of the helper functions is required for your application to upgrade in future releases. Direct table access is unsupported because the schema may change in a future release. There should be no inherent overhead in using the API so performance should not suffer.
+
+The following figure shows the simplest view of a participant node and its query store. Consider the ledger client and PQS client as separate entities. The PQS consists of two components: Scribe and the PostgreSQL database.
+
+.. image:: ./images/node-view.svg
+   :alt: A diagram showing a ledger client and a PQS client with Scribe and Postgres as components
+
+The asynchronous and concurrent processing of an event can result in out-of-order results written to the database, but their offset values will correspond to the participant offset values. The following scenario illustrates this:
+
+1. A participant emits a ledger event at offset #1, which is processed by Scribe and then immediately stored to the postgres database in a transaction.
+2. A ledger event at offset #2 is passed to Scribe but does not finish processing immediately.
+3. Scribe receives a ledger event at offset #3, processes it immediately, and stores it in the database.
+4. Ledger event #2 finishes processing and is stored in the database. In this situation, the result for offset #3 is stored in the database before offset #2. The result for offset #3 could be queried without offset #2, which could result in an erroneous query result.
+
+The asynchronous, concurrent processing of ledger events leads to four concepts related to offsets:
+
+- **Processed**: ledger events that have been processed and the payload is stored in the database.
+- **Watermark**: offset for the last, consistent, and stable event processed. As more events are processed, the watermark offset moves. The watermark can jump several offsets at once.
+- **Gap events**: events that are in flight, being processed, and have not yet completed processing.
+- **Flushed events**: events which have been processed, but their offset is later than the offset of (one or more) gap events.
+
+Following is an example of these concepts.
+
+An Example Daml Model
+---------------------
+
+The example Daml model highlights the following:
+
+- The time at which a ledger event begins and ends processing
+- The offset where the event (such as contract creation) occurs
+- The offset at which a contract is archived
+
+The example is a mix of the wall clock time and offset information.
+
+The example covers creation, modification, and retirement of birth certificates. The operations are:
+
+- Create a birth certificate with a name.
+- Archive a birth certificate.
+- Change the name on a birth certificate, which creates a new contract and archives the prior contract, all in the same offset.
+- Query a birth certificate which is done through PQS.
+
+Only contract creation and archival are shown in a following figure.
+
+A snippet of the example follows.
+
+.. code-block:: none
+
+    template BirthCertificate
+      with
+        owner : Party
+        user_id : Text
+        firstName : Text
+        lastName : Text
+      where
+        signatory owner
+        choice BirthCertificateNameChange : ContractId BirthCertificate
+          with
+            newFirstName : Text
+            newLastName : Text
+          controller owner
+          do
+            create BirthCertificate with
+              owner = owner
+              user_id = user_id
+              firstName = newFirstName
+              lastName = newLastName
+
+The birth certificate for Alice Citizen is created in offset #1, and it is active for all the shown offsets (the white horizontal line in a following figure) because it is not archived. The processing of this event starts at the same time of the event and completes before the next event occurs, which is the creation of the “Joe Bloggs” certificate. Joe Bloggs is renamed to Fred Bloggs in offset #3, so its original certificate is archived while the new certificate is created in offset #3, all within the same transaction (transaction IDs are not shown). Fred Bloggs' birth certificate is archived at offset #4. Bill Myers' certificate is created at offset #5, renamed to Bill Taylor in offset #6, renamed again to Bill Doe in offset #8, and renamed yet again to Bill Kirk in offset #9. The birth certificate for Jill Brown is created in offset #10.
+
+Note the birth certificate for Jane Smith. It is created at offset #7. However, the processing of this event is very long, taking the same time as processing the other events at offsets #8, #9, and #10. The processing time is so long that the events of offset offsets #8, #9, and #10 are committed to the PQS database before Jane Smith's birth certificate's offset. That means that any PQS queries involving offsets #7 or later will be inconsistent because they don't include the results of offset #7. In this case, the queries of processed event data involve offsets #1 through #6 (the blue and yellow swimlanes). The watermark is at slot #6 (the yellow swimlane) because it is the last stable offset to have its event processed. There is a gap (the purple swimlane) in the data for the inflight events that are still being processed. Lastly, there are flushed events (offset #9 and #10) where events were quickly processed and the data is available to be queried, but it is not accurate. This is because offset #7 has not been completed, and its data is not in the database.
+
+When the processing of offset #7 finished, just as the event from #11 arrived (not shown), the watermark would jump to offset #10 because that is the last stable offset with its event processed.
+
+.. image:: ./images/event-chart.svg
+   :alt: A chart of selected events, showing the offsets, processed status, watermark, gap, and flushed
+
+If you need to query consistent and stable data, always use the watermark as the most recent offset in the query. If a query is just a point-in-time value that does not have global consistency requirements, you don't need the watermark.
+
+External Unsynchronized Data
+============================
+
+The previous section discussed how PQS deals with internal synchronization in its programming model. This section examines the external synchronization of data and the precautions you need to take. This section describes the time lags that the PQS client application needs to be aware of when querying data. The following figures follow the conventions described in the section `Architecture for HA and Scaling <https://docs.daml.com/deploy-daml/infrastructure-architecture/high-availability/ha-and-scaling/implementing-ha.html#architecture-for-ha-and-scaling>`__.
+
+There are four cases to consider:
+
+- The client application needs to retry on an incomplete request, such as the result of network issues.
+- PQS needs to catch up after a fresh install or restart.
+- There is a small delay for the ledger event to process.
+- A high availability PQS configuration does not have synchronized PQS instances.
+
+All distributed systems are subject to network issues. For example, networks that host the gRPC and JDBC query requests can both have intermittent issues. You must program the client application to retry for certain failures because the intermittent failure will heal itself. Most network outages are temporary, in which case the application can proceed without failing.
+
+.. image:: ./images/external-data.svg
+   :alt: A diagram showing queries using grpc and JDBC
+
+If the PQS has been (re)started or is freshly installed, then the PQS needs to catch up to the participant node's generated events. Until that happens, the PQS will not have all the data available for querying.
+
+There is a slight delay between when a participant node has finished the ledger processing and emitted an event and when the PQS finishes processing the event so that the result is available to query. For example, if the participant query performs a synchronous exercise and then immediately queries the PQS, it is remotely possible that PQS will not yet have the data. In this case, the client application needs to retry.
+
+Lastly, a highly available production deployment (see the following figure) will have multiple PQS instances, each of which processes events at slightly different rates. In this manner, the PQS instances are not synchronized, so they will process events and commit the results to the database with different times. If the client application makes a query to the PQS service which is being serviced by PQS #A and then PQS #A fails, the client application retries after a timeout, which is then serviced by PQS #B. It is possible that PQS #B will not have its watermark at the same offset as PQS #A when PQS #A failed.
+
+.. image:: ./images/multiple-pqs.svg
+   :alt: A diagram showing a multiple PQS deployment
 
 Install and start PQS
 *********************
@@ -202,7 +342,7 @@ Here are the prerequisites to run PQS:
 
 -  A PostgreSQL database that can be reached from the PQS. Note that PQS uses the JSONB data type for storing JSON data, which requires Postgres versions 11, 13, and 15.
 -  An empty database (recommended) to avoid schema and table collisions.
--  Daml ledger as the source of events. m/TLS is supported for the participant node ledger API.  Alternatively, it can run against the ``Sandbox``.
+-  Daml ledger as the source of events. m/TLS is supported for the participant node ledger API. Alternatively, it can run against the ``Sandbox``.
 -  Installation of `The Daml Enterprise SDK <https://docs.daml.com/getting-started/installation.html#install-daml-enterprise>`__.
 
 Deploy the Scribe component
@@ -225,7 +365,7 @@ To connect to a participant node, you might need to provide TLS certificates. To
 Authorize PQS
 =============
 
-If you are running PQS against a participant node's ledger API that verifies authorization, you must provide credentials for the `OAuth Client Credentials Flow <https://auth0.com/docs/get-started/authentication-and-authorization-flow/client-credentials-flow>`__.  For example:
+If you are running PQS against a participant node's ledger API that verifies authorization, you must provide credentials for the `OAuth Client Credentials Flow <https://auth0.com/docs/get-started/authentication-and-authorization-flow/client-credentials-flow>`__. For example:
 
 .. code-block:: bash
 
@@ -245,9 +385,9 @@ If you are not authenticated, there is no user to connect to a list of
 ``-pipeline-parties`` argument. This argument acts as a filter, restricting
 the data to only what's visible to the supplied list of party identifiers. 
 
-The authentication of PQS needs to match the participant nodes (PN) setup.  For
+The authentication of PQS needs to match the participant nodes (PN) setup. For
 example, if PQS is run with authentication by setting OAuth and the PN is not
-configured to use authentication, then an error will result.  The error will
+configured to use authentication, then an error will result. The error will
 have a message like ``requests with an empty user-id are only supported if
 there is an authenticated user``.
 
@@ -270,7 +410,7 @@ The database connection is handled by the JDBC API, so you need to provide the f
 -  Username
 -  Password
 
-The following example connects to a PostgreSQL instance running on localhost on the default port, with a user Postgres which has not set a password and a database called ``daml_pqs``. This is a typical setup on a developer machine with a default PostgreSQL install.
+The following example connects to a PostgreSQL instance running on localhost on the default port, with a user for which Postgres has not set a password and a database called ``daml_pqs``. This is a typical setup on a developer machine with a default PostgreSQL install.
 
 .. code-block:: bash
 
@@ -366,7 +506,7 @@ NOTE: Only ``postgres-document`` is currently implemented, with ``postgres-relat
 
 The ``-pipeline-ledger-start`` argument is an enum with the following possible values:
 
--  ``Latest``: Use latest offset that is known or resume where it left off. This is the default behavior, where streaming starts at the latest known end. The first time you start, this will result in PQS calling ``ActiveContractService`` to get a state snapshot, which it will load into the ``_creates`` table. It will then start streaming creates, archives, and (optionally) exercises from the offset of that ``ActiveContractService``. When you restart PQS, it will start from the point it last left off. You should always use this mode on restart.
+-  ``Latest``: Use the latest offset that is known or resume where it left off. This is the default behavior, where streaming starts at the latest known end. The first time you start, this will result in PQS calling ``ActiveContractService`` to get a state snapshot, which it will load into the ``_creates`` table. It will then start streaming creates, archives, and (optionally) exercises from the offset of that ``ActiveContractService``. When you restart PQS, it will start from the point it last left off. You should always use this mode on restart.
 -  ``Genesis``: Use the first original offset of the ledger. This causes PQS to try to start from offset ``0``. It allows you to load historic creates, archives or (optionally) exercises from a ledger that already has data on it. If you try to restart on an already populated database in this mode, PQS will rewrite data if it needs to.
 -  ``Oldest``: Use the oldest available (unpruned) offset on the ledger or resume where it left off.
 
@@ -376,8 +516,8 @@ arguments ``--pipeline-ledger-start`` and ``--pipeline-ledger-stop``. The
 information.
 
 The ``--pipeline-filter string`` option needs a filter expression to determine
-which templates and interfaces to include.  A filter expression is a simple wildcard
-inclusion statement with basic boolean logic, where whitespace is ignored.  Below are some examples:
+which templates and interfaces to include. A filter expression is a simple wildcard
+inclusion statement with basic boolean logic, where whitespace is ignored. Below are some examples:
 
 - ``*``: everything, which is the default
 - ``a.b.c.Bar``: just this one fully qualified name
@@ -397,17 +537,17 @@ hint (such as
 
 Please note that the separator is a pipe character (``|``) instead of a comma.
 
-Brackets are unnecessary for simple expressions.  A simple list is
+Brackets are unnecessary for simple expressions. A simple list is
 ``--pipeline-parties="Alice_1::122055fc4b190e3ff438587b699495a4b6388e911e2305f7e013af160f49a76080ab
 |
 Alice_2::122053933e4803c2995e41faa8a29981ca0d1faf6b4ffbf917ba1edd0db133acb634
 | Peter-1::358400000000000000000000000`` Specifying the parties in a short
-form can be done by using the ``*`` as a wildcard.  For example,
+form can be done by using the ``*`` as a wildcard. For example,
 ``--pipeline-parties="Alice* | *358400000000000000000000000"`` selects
 ``Alice_1``, ``Alice_2``, and ``Peter-1``. 
 
 More advanced expressions can make use of brackets, such as
-``--pipeline-parties="Alice* | Bob* | (participant* & !(participant3::*))"``.  
+``--pipeline-parties="Alice* | Bob* | (participant* & !(participant3::*))"``. 
 
 
 Handle configuration changes
@@ -417,13 +557,13 @@ PQS initializes its behavior on startup by reading its configuration files.
 It currently doesn't support dynamic configuration updates, so making a
 configuration change (such as adding a new party, new template, or new
 interface) requires stopping PQS, modifying its configuration, and then
-starting PQS. On startup, PQS will read the updated configuration.  
+starting PQS. On startup, PQS will read the updated configuration. 
 
 When the configuration changes, the default is that PQS will not go back in
 time (older offset) but only move forward in time (current watermark offset
-and newer).   If the database is dropped, then PQS can be started at the
+and newer). If the database is dropped, then PQS can be started at the
 oldest, unpruned offset of the participant node and use the participant node's
-history to extract the events based on the updated configuration.  
+history to extract the events based on the updated configuration. 
 
 
 PQS development
@@ -603,10 +743,10 @@ The queries observe active contracts from the given
 offset. The example queries presented above are unchanged.
 
 
-Set the oOldest offset to consider
+Set the oldest offset to consider
 ---------------------------------
 
-In this pattern, a user wants to present a limited amount of history to users.  
+In this pattern, a user wants to present a limited amount of history to users. 
 
 If readers wish to limit the event history, they can call:
 
@@ -697,7 +837,7 @@ ledger atomically. However, for performance
 reasons, these transactions are written to the datastore *in parallel*.
 Although the datastore is written to in a purely append-only fashion,
 it is not guaranteed that these transactions are visible to
-readers in order. The offset-based model makes the database’s isolation
+readers in order. The offset-based model makes the database's isolation
 level irrelevant, so the loosest model (``read uncommitted``) is not
 harmful.
 
@@ -1023,7 +1163,7 @@ argument:
 
    SELECT * FROM prune_to_offset('<offset>');
 
-This function deletes transactions and update active contracts as
+This function deletes transactions and updates active contracts as
 described :ref:`earlier in this section <pqs-pruning-behavior>`.
 
 To prune data up to a specific timestamp or interval, use ``prune_to_offset`` 
@@ -1191,7 +1331,7 @@ Some of the most common troubleshooting options are discussed below.
 Cannot connect to the ledger node
 =================================
 
-If the PQS cannot connect to the ledger node on startup, you will see a message in the logs like the following example and the PQS will terminate.
+If the PQS cannot connect to the ledger node on startup, you see a message in the logs like the following example and the PQS terminates.
 
 .. code-block:: bash
 
@@ -1226,7 +1366,7 @@ To fix this, make sure that the participant node's ledger API is accessible from
 Cannot connect to the PQS database
 ==================================
 
-If the database is not available before the transaction stream is started, the PQS will terminate and you will see an error from the JDBC driver in the logs similar to the following example.
+If the database is not available before the transaction stream is started, the PQS terminates and you see an error from the JDBC driver in the logs similar to the following example.
 
 .. code-block:: bash
 
@@ -1282,4 +1422,4 @@ If the database is not available before the transaction stream is started, the P
 
 To fix this, make sure that the database exists and is accessible from where you are running the PQS. Also, ensure that the database username and password are correct and that the credentials to connect to the database from the network address are set properly.
 
-If the database connection is broken while the transaction stream was already running, you will see a similar message in the logs, but it will be repeated. The transaction stream is restarted with an exponential backoff. This gives the database, network, or any other troubled resource time to get back into shape. Once everything is in order, the stream will continue without any need for manual intervention.
+If the database connection is broken while the transaction stream is already running, you will see a similar message in the logs, but it will be repeated. The transaction stream is restarted with an exponential backoff. This gives the database, network, or any other troubled resource time to get back into shape. Once everything is in order, the stream continues without any need for manual intervention.
