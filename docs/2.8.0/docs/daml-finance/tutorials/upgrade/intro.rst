@@ -27,14 +27,16 @@ We offer the following tutorials to guide you through the upgrade process:
   to voluntarily upgrade their `Account` contracts to a newer version.
 
 * :doc:`Holding Upgrade Tutorial <holding>`:
-  Here, we walk you through a scenario where a custodian upgrades its `Transferable` holding
-  implementation to a custom, enhanced version, and `HoldingFactory` accordingly. As a result,
-  existing holding instances (of the `Transferable` holding standard) will be automatically upgraded
-  to the new version during the next transfer. This serves as a practical example of a mandatory
-  upgrade carried out in a lazy manner.
+  Here, we walk you through a scenario where a custodian upgrades the
+  :ref:`Transferable <module-daml-finance-holding-transferable-43388>` holding
+  implementation to a custom, enhanced version, and its
+  :ref:`HoldingFactory <module-daml-finance-holding-factory-11188>` accordingly. As a result,
+  existing holding instances (of the :ref:`Transferable <holding-standards>` holding standard) will
+  be automatically upgraded to the new version during the next transfer. This serves as a practical
+  example of a mandatory upgrade carried out in a lazy manner.
 
-Note that upgrades for `Account` and `Holding` instances can be carried out independently, thanks to
-the intentional decoupling of their implementations in Daml Finance:
+Note that upgrades for ``Account`` and ``Holding`` instances can be carried out independently,
+thanks to the intentional decoupling of their implementation packages in Daml Finance:
 
 .. image:: ../../images/account_holding_dependencies.png
   :alt: This diagram illustrates the incoming and outgoing dependencies of the account and holding

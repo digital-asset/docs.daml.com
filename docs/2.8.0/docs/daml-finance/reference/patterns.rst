@@ -96,7 +96,7 @@ There are different ways to access the data of a contract, for example the terms
    submitting party to be a stakeholder of the contract). It is then possible to use the ``view``
    built-in method to get the interface view.
 #. ``GetView``: by calling this choice on the interface, for example on a
-   :ref:`callable bond <type-daml-finance-interface-instrument-bond-callable-instrument-instrument-70770>`,
+   :ref:`callable bond <module-daml-finance-interface-instrument-bond-callable-instrument-70617>`,
    a party can get the view of a contract, without necessarily being a stakeholder of the contract.
    This can be useful in situations where someone needs access to reference data, but should not be
    a stakeholder of the contract. Specifically, if *publicParty* is an observer of an instrumentCid,
