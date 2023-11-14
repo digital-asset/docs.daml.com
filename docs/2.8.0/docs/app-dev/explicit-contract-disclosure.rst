@@ -41,6 +41,12 @@ The Daml templates used to model the above-mentioned trade are outlined below.
 
 ::
 
+    module StockExchange where
+
+    import Daml.Script
+    import DA.Assert
+    import DA.Action
+
     template IOU
       with
         issuer: Party
@@ -213,6 +219,11 @@ The stakeholder can then share the disclosed contract details to the submitter o
 by conventional means, such as HTTPS, SFTP, or e-mail. A :ref:`DisclosedContract <com.daml.ledger.api.v1.DisclosedContract>` can
 be constructed from the fields of the same name from the original contract's ``CreatedEvent``.
 
+.. note::
+  The ``created_event_blob`` field in ``CreatedEvent`` needed for constructing the :ref:`DisclosedContract <com.daml.ledger.api.v1.DisclosedContract>`
+  is populated **only** on demand for ``GetTransactions``, ``GetTransactionTrees`` and ``GetActiveContracts`` streams
+  (read more about enabling the field's population in :ref:`configuring transaction filters <transaction-filter>`).
+
 .. _submitter-disclosed-contract:
 
 Attaching a disclosed contract to a command submission
@@ -224,7 +235,7 @@ the original `CreatedEvent` (see above):
 
 - **template_id** - The contract's template id.
 - **contract_id** - The contract id.
-- **created_event_blob** - The contract's representation as an opaque blob encoding. This field is populated **only** on demand for ``GetTransactions`` and ``GetTransactionTrees`` streams (read more about :ref:`configuring transaction filters <transaction-filter>`).
+- **created_event_blob** - The contract's representation as an opaque blob encoding.
 
 .. note:: Only contracts created starting with Canton 2.8 can be shared as disclosed contracts.
   Prior to this version, contracts' **CreatedEvent** does not have the required `created_event_blob` field populated
@@ -239,29 +250,165 @@ do so, the contracts' stakeholders must fetch them from the ledger and make them
 
 .. note:: Daml Script support for explicit disclosure is currently not implemented.
   The last steps of the example are modeled using raw gRPC queries.
+  For a complete example using a high-level client API, check the
+  `Java Bindings StockExchange example project <https://github.com/digital-asset/ex-java-bindings/blob/f474ae83976b0ad197e2fabfce9842fb9b3de907/StockExchange/README.rst>`_.
 
 The contracts' stakeholders issue fetch queries to the Ledger API (each to their own participant) for retrieving
 the associated contract payloads.
 
+In this example, the following Canton participant node topology has been used:
+
+- ``stockExchangeParticipant`` hosts party with display name ``StockExchange`` and exposes Ledger API on port ``5011``
+- ``bankParticipant`` hosts party with display name ``Bank`` and exposes Ledger API on port ``5021``
+- ``buyerParticipant`` hosts party with display name ``Buyer`` and exposes Ledger API on port ``5031``
+- ``sellerParticipant`` hosts party with display name ``Seller`` and exposes Ledger API on port ``5041``
+
 ::
 
   # Needs to be extracted via package lookup
-  packageId="436c13be1424a16fb69a3dda4983b94f1965ac12c66d8a6d879ad3027ea4782d"
+  packageId="b861bd5ab83cca1dec91c67fe80717846dc0759b21798370b93e1b149c67e717"
 
   # Needs to be extracted via party lookup
-  buyerId="Buyer::122001002fb09c069a0f4e7badf9cb1a6d7dd9097fbdb653e1278193aa5f36b9c6b3"
-  stockExchangeId="StockExchange::122001002fb09c069a0f4e7badf9cb1a6d7dd9097fbdb653e1278193aa5f36b9c6b3"
-  sellerId="Seller::122001002fb09c069a0f4e7badf9cb1a6d7dd9097fbdb653e1278193aa5f36b9c6b3"
+  buyerId="Buyer::12208af4736f4bb2b6608d50a5e800a3cd469a1a7b74c951eb8e0c74faf2ed711c58"
+  stockExchangeId="StockExchange::1220b387de01b7daa112c6f397e28ccb95215bbb3c6d818793638e48c27b52bf2e26"
+  sellerId="Seller::1220d163325bde4266110f54c5dbcc91281adfc41b0e80a63f0af7857694be627300"
 
   # StockExchange fetches the Stock contract referenced by stockCid from the ledger by querying the Ledger API
   # (here we are using the GetTransactions query)
-  stockQuery=$(grpcurl -plaintext -d '{"ledgerId":"stockExchangeParticipant","begin":{"absolute":"0000000000000000"},"end":{"boundary":"LEDGER_END"},"filter":{"filters_by_party":{"'"$stockExchangeId"'":{"inclusive":{"template_filters":[{"template_id":{"package_id":"'"$packageId"'","module_name":"StockExchange","entity_name":"Stock"},"include_created_event_blob":true}]}}}},"verbose":true}' localhost:5011 com.daml.ledger.api.v1.TransactionService/GetTransactions)
+  stockQuery=$(cat <<EOF
+  {
+    "ledgerId": "stockExchangeParticipant",
+    "begin": {
+      "absolute": "0000000000000000"
+    },
+    "end": {
+      "boundary": "LEDGER_END"
+    },
+    "filter": {
+      "filters_by_party": {
+        "$stockExchangeId": {
+          "inclusive": {
+            "template_filters": [
+              {
+                "template_id": {
+                  "package_id": "$packageId",
+                  "module_name": "StockExchange",
+                  "entity_name": "Stock"
+                },
+                "include_created_event_blob": true
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+  EOF
+  )
+
+  stockTransactions=$(grpcurl -plaintext -d $stockQuery localhost:5011 com.daml.ledger.api.v1.TransactionService/GetTransactions)
 
   # As above, StockExchange fetches the PriceQuotation referenced by priceQuotationCid
-  priceQuotationQuery=$(grpcurl -plaintext -d '{"ledgerId":"stockExchangeParticipant","begin":{"absolute":"0000000000000000"},"end":{"boundary":"LEDGER_END"},"filter":{"filters_by_party":{"'"$stockExchangeId"'":{"inclusive":{"template_filters":[{"template_id":{"package_id":"'"$packageId"'","module_name":"StockExchange","entity_name":"PriceQuotation"},"include_created_event_blob":true}]}}}},"verbose":true}' localhost:5011 com.daml.ledger.api.v1.TransactionService/GetTransactions)
+  priceQuotationQuery=$(cat <<EOF
+  {
+    "ledgerId": "stockExchangeParticipant",
+    "begin": {
+      "absolute": "0000000000000000"
+    },
+    "end": {
+      "boundary": "LEDGER_END"
+    },
+    "filter": {
+      "filters_by_party": {
+        "$stockExchangeId": {
+          "inclusive": {
+            "template_filters": [
+              {
+                "template_id": {
+                  "package_id": "$packageId",
+                  "module_name": "StockExchange",
+                  "entity_name": "PriceQuotation"
+                },
+                "include_created_event_blob": true
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+  EOF
+  )
+
+  priceQuotationTransactions=$(grpcurl -plaintext -d $priceQuotationQuery localhost:5011 com.daml.ledger.api.v1.TransactionService/GetTransactions)
 
   # As above, Seller fetches the Offer referenced by offerCid
-  offerQuery=$(grpcurl -plaintext -d '{"ledgerId":"sellerParticipant","begin":{"absolute":"0000000000000000"},"end":{"boundary":"LEDGER_END"},"filter":{"filters_by_party":{"'"$sellerId"'":{"inclusive":{"template_filters":[{"template_id":{"package_id":"'"$packageId"'","module_name":"StockExchange","entity_name":"Offer"},"include_created_event_blob":true}]}}}},"verbose":true}' localhost:5041 com.daml.ledger.api.v1.TransactionService/GetTransactions)
+  offerQuery=$(cat <<EOF
+  {
+    "ledgerId": "sellerParticipant",
+    "begin": {
+      "absolute": "0000000000000000"
+    },
+    "end": {
+      "boundary": "LEDGER_END"
+    },
+    "filter": {
+      "filters_by_party": {
+        "$sellerId": {
+          "inclusive": {
+            "template_filters": [
+              {
+                "template_id": {
+                  "package_id": "$packageId",
+                  "module_name": "StockExchange",
+                  "entity_name": "Offer"
+                },
+                "include_created_event_blob": true
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+  EOF
+  )
+
+  offerTransactions=$(grpcurl -plaintext -d $offerQuery localhost:5041 com.daml.ledger.api.v1.TransactionService/GetTransactions)
+
+  # As above, Buyer fetches the its IOU
+  iouQuery=$(cat <<EOF
+  {
+    "ledgerId": "buyerParticipant",
+    "begin": {
+      "absolute": "0000000000000000"
+    },
+    "end": {
+      "boundary": "LEDGER_END"
+    },
+    "filter": {
+      "filters_by_party": {
+        "$buyerId": {
+          "inclusive": {
+            "template_filters": [
+              {
+                "template_id": {
+                  "package_id": "$packageId",
+                  "module_name": "StockExchange",
+                  "entity_name": "IOU"
+                },
+                "include_created_event_blob": false
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+  EOF
+  )
+
+  iouTransactions=$(grpcurl -plaintext -d $iouQuery localhost:5031 com.daml.ledger.api.v1.TransactionService/GetTransactions)
 
 **Buyer** receives these contracts from the stakeholders and adapts them to disclosed contracts (as described in :ref:`the previous section <submitter-disclosed-contract>`)
 in a command submission that executes ``Offer_Accept`` on the ``offerCid``. The resulting gRPC command submission, which succeeds, is
@@ -270,17 +417,102 @@ shown below.
 ::
 
   # Extracted from the transaction lookup query results from above
-  stockCid=$(echo "$stockQuery" | jq -r '.transactions[0].events[0].created.contract_id')
-  priceQuotationCid=$(echo "$priceQuotationQuery" | jq -r '.transactions[0].events[0].created.contract_id')
-  offerCid=$(echo "$offerQuery" | jq -r '.transactions[0].events[0].created.contract_id')
+  stockCid=$(echo "$stockTransactions" | jq -r '.transactions[0].events[0].created.contract_id')
+  priceQuotationCid=$(echo "$priceQuotationTransactions" | jq -r '.transactions[0].events[0].created.contract_id')
+  offerCid=$(echo "$offerTransactions" | jq -r '.transactions[0].events[0].created.contract_id')
 
   # The contract id of Buyer's IOU
-  buyerIouCid=$(grpcurl -plaintext -d '{"ledgerId":"buyerParticipant","begin":{"absolute":"0000000000000000"},"end":{"boundary":"LEDGER_END"},"filter":{"filters_by_party":{"'"$buyerId"'":{"inclusive":{"template_filters":[{"template_id":{"package_id":"'"$packageId"'","module_name":"StockExchange","entity_name":"IOU"},"include_created_event_blob":false}]}}}},"verbose":true}' localhost:5031 com.daml.ledger.api.v1.TransactionService/GetTransactions | jq -r '.transactions[0].events[0].created.contract_id')
+  buyerIouCid=$(echo $iouTransactions | jq -r '.transactions[0].events[0].created.contract_id')
 
-  stockCreatedEventBlob=$(echo "$stockQuery" | jq -r '.transactions[0].events[0].created.created_event_blob')
-  priceQuotationCreatedEventBlob=$(echo "$priceQuotationQuery" | jq -r '.transactions[0].events[0].created.created_event_blob')
-  offerCreatedEventBlob=$(echo "$offerQuery" | jq -r '.transactions[0].events[0].created.created_event_blob')
+  stockCreatedEventBlob=$(echo "$stockTransactions" | jq -r '.transactions[0].events[0].created.created_event_blob')
+  priceQuotationCreatedEventBlob=$(echo "$priceQuotationTransactions" | jq -r '.transactions[0].events[0].created.created_event_blob')
+  offerCreatedEventBlob=$(echo "$offerTransactions" | jq -r '.transactions[0].events[0].created.created_event_blob')
 
   # Buyer exercises Offer_Accept on offerCid with populating the Command.disclosed_contracts field
   # with the data previously shared off-ledger for offerCid, stockCid and priceQuotationCid contracts
-  grpcurl -plaintext -d '{"commands":{"ledger_id":"buyerParticipant","workflow_id":"ExplicitDisclosureWorkflow","application_id":"ExplicitDisclosure","command_id":"ExplicitDisclosure-command","party":"'"$buyerId"'","commands":[{"exercise":{"template_id":{"package_id":"'"$packageId"'","module_name":"StockExchange","entity_name":"Offer"},"contract_id":"'"$offerCid"'","choice":"Offer_Accept","choice_argument":{"record":{"record_id":{"package_id":"'"$packageId"'","module_name":"StockExchange","entity_name":"Offer_Accept"},"fields":[{"label":"priceQuotationCid","value":{"contract_id":"'"$priceQuotationCid"'"}},{"label":"buyer","value":{"party":"'"$buyerId"'"}},{"label":"buyerIou","value":{"contract_id":"'"$buyerIouCid"'"}}]}}}}],"submission_id":"ExplicitDisclosure-submission","disclosed_contracts":[{"template_id":{"package_id":"'"$packageId"'","module_name":"StockExchange","entity_name":"Stock"},"contract_id":"'"$stockCid"'","created_event_blob":"'"$stockCreatedEventBlob"'"},{"template_id":{"package_id":"'"$packageId"'","module_name":"StockExchange","entity_name":"Offer"},"contract_id":"'"$offerCid"'","created_event_blob":"'"$offerCreatedEventBlob"'"},{"template_id":{"package_id":"'"$packageId"'","module_name":"StockExchange","entity_name":"PriceQuotation"},"contract_id":"'"$priceQuotationCid"'","created_event_blob":"'"$priceQuotationCreatedEventBlob"'"}]}}' localhost:5031 com.daml.ledger.api.v1.CommandService/SubmitAndWait
+  exerciseOfferTransferCommand=$(cat <<EOF
+  {
+    "commands": {
+      "ledger_id": "buyerParticipant",
+      "workflow_id": "ExplicitDisclosureWorkflow",
+      "application_id": "ExplicitDisclosure",
+      "command_id": "ExplicitDisclosure-command",
+      "party": "$buyerId",
+      "commands": [
+        {
+          "exercise": {
+            "template_id": {
+              "package_id": "$packageId",
+              "module_name": "StockExchange",
+              "entity_name": "Offer"
+            },
+            "contract_id": "$offerCid",
+            "choice": "Offer_Accept",
+            "choice_argument": {
+              "record": {
+                "record_id": {
+                  "package_id": "$packageId",
+                  "module_name": "StockExchange",
+                  "entity_name": "Offer_Accept"
+                },
+                "fields": [
+                  {
+                    "label": "priceQuotationCid",
+                    "value": {
+                      "contract_id": "$priceQuotationCid"
+                    }
+                  },
+                  {
+                    "label": "buyer",
+                    "value": {
+                      "party": "$buyerId"
+                    }
+                  },
+                  {
+                    "label": "buyerIou",
+                    "value": {
+                      "contract_id": "$buyerIouCid"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "submission_id": "ExplicitDisclosure-submission",
+      "disclosed_contracts": [
+        {
+          "template_id": {
+            "package_id": "$packageId",
+            "module_name": "StockExchange",
+            "entity_name": "Stock"
+          },
+          "contract_id": "$stockCid",
+          "created_event_blob": "$stockCreatedEventBlob"
+        },
+        {
+          "template_id": {
+            "package_id": "$packageId",
+            "module_name": "StockExchange",
+            "entity_name": "Offer"
+          },
+          "contract_id": "$offerCid",
+          "created_event_blob": "$offerCreatedEventBlob"
+        },
+        {
+          "template_id": {
+            "package_id": "$packageId",
+            "module_name": "StockExchange",
+            "entity_name": "PriceQuotation"
+          },
+          "contract_id": "$priceQuotationCid",
+          "created_event_blob": "$priceQuotationCreatedEventBlob"
+        }
+      ]
+    }
+  }
+  EOF
+  )
+
+  grpcurl -plaintext -d $exerciseOfferTransferCommand localhost:5031 com.daml.ledger.api.v1.CommandService/SubmitAndWait
