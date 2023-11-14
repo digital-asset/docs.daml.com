@@ -11,13 +11,14 @@ method for various scenarios.
 Upgrades are broadly classified into two categories:
 
 * *Voluntary Upgrades:*
-  These upgrades only happen if you act, akin to an airline offering an upgrade from economy to
-  business class. The upgrade materializes only if you opt-in and make the necessary payment.
+  Voluntary upgrades are similar to an airline offering you the option to upgrade your ticket from
+  economy to business class. The upgrade only happens if you take an action (typically involving
+  making a payment).
 
 * *Mandatory Upgrades:*
-  These upgrades happen inevitably, regardless of your preference. A common example is the automatic
-  updating of smartphone apps. They typically occur *lazily* the next time you use the app. This
-  approach allows software providers to uniformly expand their offerings and swiftly address bugs.
+  In contrast, mandatory upgrades happen inevitably, regardless of your preference. A common example
+  is the automatic updating of smartphone apps. They typically occur *lazily* the next time you use
+  the app. This approach allows software providers to uniformly expand their offerings.
 
 We offer the following tutorials to guide you through the upgrade process:
 
