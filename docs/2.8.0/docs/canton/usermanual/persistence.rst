@@ -505,14 +505,48 @@ The number of parallel indexer connections can be configured via
 
 ::
 
-    canton.participants.<service-name>.parameters.ledgerApiServerParameters.indexer.ingestion-parallelism = Y
+    canton.participants.<participant-name>.parameters.ledger-api-server-parameters.indexer.ingestion-parallelism = Y
 
 A Canton participant node will establish up to ``X + Y + 2`` permanent connections with the database, whereas a domain node
 will use up to ``X`` permanent connections, except for a sequencer with HA setup that will allocate up to ``2X`` connections. During
 startup, the node will use an additional set of at most ``X`` temporary connections during database initialisation.
 
-Please note that this number represents an upper bound of permanent connections and can be divided internally for different purposes,
+The number ``X`` represents an upper bound of permanent connections and is divided internally for different purposes,
 depending on the implementation. Consequently, the actual size of the write connection pool, for example, could be smaller.
+
+Following table summarizes the detailed split of the connection pools in different canton nodes. ``R`` signifies a *read* pool, ``W``
+a *write* pool and ``A`` a *ledger api* pool, ``RW`` a combined *read/write* pool and ``EW`` an *exclusive writer* pool.
+
++--------------+-------------------+--------------------+
+|  Node Type       | Enterprise Edition | Community Edition |
++==============+===================+====================+
+| Participant      | A = X / 2          | column 3           |
+|                  | R = X / 4          |                    |
+|                  | W = X / 4 - 1      |                    |
+|                  | EW = 1             |                    |
++--------------+-------------------+--------------------+
+| Mediator         | R = X / 2          |                    |
+|                  | W = X / 2 - 1      |                    |
+|                  | EW = 1             |                    |
++--------------+-------------------+--------------------+
+| Sequencer        | RW =  X            | column 3           |
++--------------+-------------------+--------------------+
+| Sequencer writer | R = X / 2          |                    |
+|                  | W = X / 2 - 1      |                    |
+|                  | EW = 1             |                    |
++--------------+-------------------+--------------------+
+| Sequencer        | R = Z / 2          | column 3           |
+| exclusive writer | W = Z / 2          | column 3           |
++--------------+-------------------+--------------------+
+| Domain manager   | R = X / 2          |                    |
+|                  | W = X / 2 - 1      |                    |
+|                  | EW = 1             |                    |
++--------------+-------------------+--------------------+
+
+The results of the divisions are always rounded down, unless the result yields a zero. In that
+case a minimal pool size of 1 is ascertained.
+
+The sizes of the
 
 .. _queue_size:
 
