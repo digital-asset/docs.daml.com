@@ -44,10 +44,11 @@ the intentional decoupling of their implementations in Daml Finance:
 Future Developments
 *******************
 
-At Digital Asset, we are developing a feature for executing mandatory upgrades *instantaneously*
-without user input. This method is particularly beneficial for critical bug fixes and widespread
-enhancements. We plan to make these upgrades generally available (GA) in future SDK releases as a
-complementary option to the current upgrade types.
+At Digital Asset, we are developing a feature for executing upgrades *instantaneously*, meaning
+without the need for user interaction. This method is particularly beneficial for fixing critical
+bugs and facilitating widespread enhancements. We intend to make these upgrades generally available
+(GA) in our upcoming SDK releases. They will serve as a complementary option alongside our current
+upgrade types.
 
 Stay tuned for more upgrades!
 
