@@ -12,7 +12,7 @@ We are going to:
 
 #. Introduce a new holding implementation, ``MyTransferable``, which extends the Daml Finance
    :ref:`Transferable <module-daml-finance-holding-transferable-43388>` holding
-   implementation.This new implementation differs in that it creates a
+   implementation. This new implementation differs in that it creates a
    ``MyTransferableTransferEvent`` contract instance with each transfer.
 #. Replace the existing :ref:`HoldingFactory <module-daml-finance-holding-factory-11188>`
    instance of the custodian with a new, compatible ``MyHoldingFactory`` for the ``MyTransferable``
