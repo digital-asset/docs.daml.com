@@ -4,6 +4,9 @@
 Create Certificate Issuers
 ##########################
 
+.. note::
+   If you are deploying on AWS, you may skip this section as the Terraform config is provisioning a certificate authority using `AWS Private CA <https://aws.amazon.com/private-ca/>`_.
+
 Objectives
 **********
 
