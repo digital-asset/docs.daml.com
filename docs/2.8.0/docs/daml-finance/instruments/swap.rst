@@ -219,8 +219,8 @@ Asset
 =====
 
 An :ref:`asset swap <module-daml-finance-instrument-swap-asset-instrument-28127>`
-is a general type of swap with two legs: one which pays a fix rate and another one
-which pays the performance of an asset. It can be used to model:
+is a general type of swap with two legs: one which pays an interest rate and another one
+which pays the performance of an asset (or a basket of assets). It can be used to model:
 
 * equity swaps
 * some types of commodity swaps (of the form *performance vs rate*)
@@ -235,14 +235,6 @@ Here is an example of an asset swap that pays AAPL total return vs 2.01% fix p.a
 
 In our example, the issuer pays the asset leg of the swap.
 
-One observable is required: *referenceAssetId*. The template calculates the performance for each
-payment period using this observable. Performance is calculated from the start date to the end date
-of each payment period. The reference asset Observable needs to contain the appropriate type of
-fixings:
-
-* *unadjusted* fixings in case of a *price return* asset swap
-* *adjusted* fixings in case of a *total return* asset swap
-
 Finally, we create the asset swap instrument:
 
 .. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Swap/Test/Util.daml
@@ -252,6 +244,23 @@ Finally, we create the asset swap instrument:
 
 Once this is done, you can create a holding on it.
 The owner of the holding receives the asset leg (and pays the fix leg).
+
+One observable is required: *referenceAssetId*. The template calculates the performance for each
+payment period using this observable. Performance is calculated from the start date to the end date
+of each payment period. The reference asset Observable needs to contain the appropriate type of
+fixings:
+
+* *unadjusted* fixings in case of a *price return* asset swap
+* *adjusted* fixings in case of a *total return* asset swap
+
+There is one exception to this: a *total return* asset swap with *dividend passthrough*. In this
+case, you can use *unadjusted* fixings for the instrument and lifecycle the dividend event
+separately using a dedicated asset swap DistributionRule:
+
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Swap/Test/Util.daml
+  :language: daml
+  :start-after: -- ASSET_SWAP_DIV_LIFECYCLING_START
+  :end-before: -- ASSET_SWAP_DIV_LIFECYCLING_END
 
 .. _fpml-swaps-tutorial-section:
 
