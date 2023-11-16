@@ -21,9 +21,8 @@ library.
 To follow the code snippets used in this tutorial in Daml Studio, you can clone the
 `Daml Finance repository <https://github.com/digital-asset/daml-finance>`_ and take a look at how
 the
-:ref:`Bond Instrument template <type-daml-finance-instrument-bond-fixedrate-instrument-instrument-23814>`
-is implemented.
-In order to see how lifecycling is performed, you can run the script in the
+:ref:`Bond Instrument template <module-daml-finance-instrument-bond-fixedrate-instrument-67993>`
+is implemented. In order to see how lifecycling is performed, you can run the script in the
 `Instrument/Bond/Test/FixedRate.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Bond/Test/FixedRate.daml>`_
 file.
 

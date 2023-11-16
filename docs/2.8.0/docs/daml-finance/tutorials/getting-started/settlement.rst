@@ -10,7 +10,7 @@ purpose is to demonstrate how multiple holding transfers can be executed atomica
 We are going to:
 
 #. create a new ``TOKEN``
-   :ref:`instrument <type-daml-finance-interface-instrument-token-instrument-instrument-4350>`
+   :ref:`instrument <module-daml-finance-interface-instrument-token-instrument-24425>`
 #. credit a ``TOKEN`` holding to Alice’s account
 #. setup a delivery-vs-payment (DvP) transaction to give Alice's ``TOKEN`` holding to Bob in
    exchange for a ``USD`` holding
@@ -31,7 +31,7 @@ We first give a quick outline of the settlement process:
 |                    |                                                                             |
 +--------------------+-----------------------------------------------------------------------------+
 | 2. Generate        | :ref:`Instructions                                                          |
-|    settlement      | <type-daml-finance-interface-settlement-instruction-instruction-30569>`     |
+|    settlement      | <module-daml-finance-interface-settlement-instruction-10970>`               |
 |    instructions    | are generated for each step.                                                |
 |                    |                                                                             |
 |                    | An instruction is a contract where the sender can specify its               |
@@ -46,7 +46,7 @@ We first give a quick outline of the settlement process:
 |                    | The creation of Instructions is done by first using a :ref:`Route Provider  |
 |                    | <type-daml-finance-interface-settlement-routeprovider-routeprovider-53805>` |
 |                    | and then applying a :ref:`Settlement Factory                                |
-|                    | <type-daml-finance-interface-settlement-factory-factory-31525>`.            |
+|                    | <module-daml-finance-interface-settlement-factory-75196>`.                  |
 |                    |                                                                             |
 +--------------------+-----------------------------------------------------------------------------+
 | 3. Allocate and    | For every instruction, the sender and the receiver specify their allocation |
@@ -54,7 +54,7 @@ We first give a quick outline of the settlement process:
 |    instructions    |                                                                             |
 |                    |                                                                             |
 +--------------------+-----------------------------------------------------------------------------+
-| 4. Settle the      | A :ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>`   |
+| 4. Settle the      | A :ref:`Batch <module-daml-finance-interface-settlement-batch-39188>`       |
 |    batch           | contract is used to settle all instructions atomically according to the     |
 |                    | specified preferences (e.g. by transferring all allocated holdings to the   |
 |                    | corresponding receiving accounts).                                          |
@@ -72,7 +72,7 @@ The code for this tutorial can be executed via the ``runSettlement`` function in
 
 The first part executes the script from the previous :doc:`Transfer <transfer>` tutorial to arrive
 at the initial state for this scenario. We then create an additional ``TOKEN``
-:ref:`instrument <type-daml-finance-interface-instrument-token-instrument-instrument-4350>`
+:ref:`instrument <module-daml-finance-interface-instrument-token-instrument-24425>`
 and credit Alice's account with it.
 
 The interesting part begins once Bob proposes the DvP trade to Alice. Before creating the DvP
@@ -91,7 +91,7 @@ proposal, we need to instantiate two contracts:
    example, the route provider simply converts each step to a routed step using a single custodian
    (the bank).
 
-2. :ref:`Settlement Factory <type-daml-finance-interface-settlement-factory-factory-31525>`
+2. :ref:`Settlement Factory <module-daml-finance-interface-settlement-factory-75196>`
 
    .. literalinclude:: ../../quickstart-finance/daml/Scripts/Settlement.daml
      :language: daml
@@ -176,21 +176,21 @@ Why do we need a settlement factory?
 ====================================
 
 A settlement factory contract is used to generate settlement
-:ref:`Instructions <type-daml-finance-interface-settlement-instruction-instruction-30569>` from
+:ref:`Instructions <module-daml-finance-interface-settlement-instruction-10970>` from
 :ref:`RoutedStep <type-daml-finance-interface-settlement-types-routedstep-10086>`\s.
-It also generates a :ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>`
+It also generates a :ref:`Batch <module-daml-finance-interface-settlement-batch-39188>`
 contract, which is used to settle instructions atomically.
 
 The reason why the factory is needed has already been introduced in the previous tutorial: it
 provides an interface abstraction, so that your workflow does not need to depend on concrete
-implementations of :ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>`
-or :ref:`Instructions <type-daml-finance-interface-settlement-instruction-instruction-30569>`.
+implementations of :ref:`Batch <module-daml-finance-interface-settlement-batch-39188>`
+or :ref:`Instructions <module-daml-finance-interface-settlement-instruction-10970>`.
 
 Can we use a different settler?
 ===============================
 
 In our example, Bob triggers the final settlement of the transaction (by exercising the ``Settle``
-choice on the :ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>` contract).
+choice on the :ref:`Batch <module-daml-finance-interface-settlement-batch-39188>` contract).
 
 In principle, a different settler could be chosen. The choice of a settler is usually quite
 delicate, as this party acquires visibility on the entire transaction and hence needs to be trusted.
@@ -199,10 +199,10 @@ What if one party wants to cancel the settlement?
 =================================================
 
 The parties who sign the
-:ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>` contract (the instructor and
+:ref:`Batch <module-daml-finance-interface-settlement-batch-39188>` contract (the instructor and
 consenters) can exercise the ``Cancel`` choice of the
-:ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>` to cancel all associated
-:ref:`Instructions <type-daml-finance-interface-settlement-instruction-instruction-30569>`
+:ref:`Batch <module-daml-finance-interface-settlement-batch-39188>` to cancel all associated
+:ref:`Instructions <module-daml-finance-interface-settlement-instruction-10970>`
 atomically.
 
 Summary

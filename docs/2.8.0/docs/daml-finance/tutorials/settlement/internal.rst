@@ -21,8 +21,8 @@ Understanding Internal Settlement with Examples
 
 To start, let us briefly revisit the settlement process which was explained in the
 :doc:`Settlement <../../concepts/settlement>` section.
-A :ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>` consists of one or
-more :ref:`Instructions <type-daml-finance-interface-settlement-instruction-instruction-30569>`.
+A :ref:`Batch <module-daml-finance-interface-settlement-batch-39188>` consists of one or
+more :ref:`Instructions <module-daml-finance-interface-settlement-instruction-10970>`.
 Each instruction signifies a
 :ref:`RoutedStep <type-daml-finance-interface-settlement-types-routedstep-10086>`, delineating the
 quantity of an instrument to be transferred from a sender to a receiver at a specific custodian. For
