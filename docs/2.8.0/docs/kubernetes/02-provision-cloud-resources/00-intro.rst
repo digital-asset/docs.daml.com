@@ -6,4 +6,4 @@ Provision Cloud Resources
 
 This section of the guide describes the steps required for provisioning cloud resources.
 
-To get started on Azure, see :doc:`Provisioning Cloud Resources with Terraform <01-provision-cloud-resources>`.
+To get started, see :doc:`Provisioning Cloud Resources with Terraform <01-provision-cloud-resources>`.
