@@ -257,7 +257,7 @@ There is one exception to this: a *total return* asset swap with *dividend passt
 case, you can use *unadjusted* fixings for the instrument and lifecycle the dividend event
 separately using a dedicated asset swap DistributionRule:
 
-.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Swap/Test/Util.daml
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Swap/Test/Asset.daml
   :language: daml
   :start-after: -- ASSET_SWAP_DIV_LIFECYCLING_START
   :end-before: -- ASSET_SWAP_DIV_LIFECYCLING_END
