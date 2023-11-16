@@ -239,7 +239,7 @@ collision free.
 The unique identifier within the project is defined as
 
 
-.. literalinclude:: /canton/includes/mirrored/community/base/src/main/scala/com/digitalasset/canton/topology/Identifier.scala
+.. literalinclude:: /canton/includes/mirrored/community/common/src/main/scala/com/digitalasset/canton/topology/Identifier.scala
    :language: scala
    :start-after: architecture-handbook-entry-begin: UniqueIdentifier
    :end-before: architecture-handbook-entry-end: UniqueIdentifier
@@ -314,7 +314,7 @@ There are two types of delegations:
   This operation is particularly useful to support offline storage of root keys, but as
   we will see later, it is also used to roll keys.
 
-.. literalinclude:: /canton/includes/mirrored/community/base/src/main/scala/com/digitalasset/canton/topology/transaction/TopologyMapping.scala
+.. literalinclude:: /canton/includes/mirrored/community/common/src/main/scala/com/digitalasset/canton/topology/transaction/TopologyMapping.scala
    :language: scala
    :start-after: architecture-handbook-entry-begin: NamespaceDelegation
    :end-before: architecture-handbook-entry-end: NamespaceDelegation
@@ -328,7 +328,7 @@ There are two types of delegations:
   the party as a participant by assigning a key to it. This effectively represents
   a certificate.
 
-.. literalinclude:: /canton/includes/mirrored/community/base/src/main/scala/com/digitalasset/canton/topology/transaction/TopologyMapping.scala
+.. literalinclude:: /canton/includes/mirrored/community/common/src/main/scala/com/digitalasset/canton/topology/transaction/TopologyMapping.scala
    :language: scala
    :start-after: architecture-handbook-entry-begin: IdentifierDelegation
    :end-before: architecture-handbook-entry-end: IdentifierDelegation
@@ -391,7 +391,7 @@ There are four different sub-types of valid mapping transactions:
   The key purposes can be *signing* and/or *encryption*. If more than one key is defined,
   all systems are supposed to use the key that was observed first and is still active.
 
-.. literalinclude:: /canton/includes/mirrored/community/base/src/main/scala/com/digitalasset/canton/topology/transaction/TopologyMapping.scala
+.. literalinclude:: /canton/includes/mirrored/community/common/src/main/scala/com/digitalasset/canton/topology/transaction/TopologyMapping.scala
    :language: scala
    :start-after: architecture-handbook-entry-begin: OwnerToKeyMapping
    :end-before: architecture-handbook-entry-end: OwnerToKeyMapping
@@ -403,7 +403,7 @@ There are four different sub-types of valid mapping transactions:
   maps a party to a participant. The context ct would call out the permissions
   such as *submission*, *confirmation* or *observation*.
 
-.. literalinclude:: /canton/includes/mirrored/community/base/src/main/scala/com/digitalasset/canton/topology/transaction/TopologyMapping.scala
+.. literalinclude:: /canton/includes/mirrored/community/common/src/main/scala/com/digitalasset/canton/topology/transaction/TopologyMapping.scala
    :language: scala
    :start-after: architecture-handbook-entry-begin: PartyToParticipant
    :end-before: architecture-handbook-entry-end: PartyToParticipant
@@ -419,7 +419,7 @@ again. Participant states are owned by the operator of the committer. It is at t
 committers discretion to decide whether a participant is allowed to use the domain
 or not.
 
-.. literalinclude:: /canton/includes/mirrored/community/base/src/main/scala/com/digitalasset/canton/topology/transaction/TopologyMapping.scala
+.. literalinclude:: /canton/includes/mirrored/community/common/src/main/scala/com/digitalasset/canton/topology/transaction/TopologyMapping.scala
    :language: scala
    :start-after: architecture-handbook-entry-begin: ParticipantState
    :end-before: architecture-handbook-entry-end: ParticipantState
@@ -678,7 +678,7 @@ Identity Providing Service API
 ==============================
 The Identity Providing Service client API is defined as follows:
 
-.. literalinclude:: /canton/includes/mirrored/community/base/src/main/scala/com/digitalasset/canton/topology/client/IdentityProvidingServiceClient.scala
+.. literalinclude:: /canton/includes/mirrored/community/common/src/main/scala/com/digitalasset/canton/topology/client/IdentityProvidingServiceClient.scala
    :language: scala
    :start-after: architecture-handbook-entry-begin: IdentityProvidingServiceClient
    :end-before: architecture-handbook-entry-end: IdentityProvidingServiceClient
@@ -694,7 +694,7 @@ Sync Crypto Api
 Within Canton, the entire identity, key and signing management is abstracted and hidden from the synchronisation
 protocol behind the *SyncCryptoApi*.
 
-.. literalinclude:: /canton/includes/mirrored/community/base/src/main/scala/com/digitalasset/canton/crypto/CryptoApi.scala
+.. literalinclude:: /canton/includes/mirrored/community/common/src/main/scala/com/digitalasset/canton/crypto/CryptoApi.scala
    :language: scala
    :start-after: architecture-handbook-entry-begin: SyncCryptoApi
    :end-before: architecture-handbook-entry-end: SyncCryptoApi
