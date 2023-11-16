@@ -45,7 +45,7 @@ Prerequisites
 * CLI client for your cloud provider of choice:
 
   * `Azure CLI <https://learn.microsoft.com/en-us/cli/azure/install-azure-cli>`_ [latest]
-  * `AWS CLI https://aws.amazon.com/cli/`_ [latest]
+  * `AWS CLI <https://aws.amazon.com/cli/>`_ [latest]
 * `Terraform <https://developer.hashicorp.com/terraform/downloads>`_ [\ ``1.4+``\ ]
 * `regctl <https://github.com/regclient/regclient/blob/main/docs/install.md>`_ [\ ``0.4+``\ ]
 * `PostgreSQL interactive terminal <https://www.postgresql.org/download/>`_ [\ ``14+``\ ]
@@ -320,4 +320,11 @@ Default Private IPv4 Addressing Plan
         - ``32768``
 
     .. tab:: AWS
-      TODO
+      .. list-table::
+        :header-rows: 1
+
+        * - Name
+          - CIDR
+          - Start
+          - End
+          - Available IPs
