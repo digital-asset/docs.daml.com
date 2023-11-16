@@ -117,8 +117,8 @@ When, for instance, a holding is transferable, the ownership can be transferred 
 at the same custodian.
 
 These properties are exposed by letting a holding template implement the corresponding interfaces
-(:ref:`Fungible <type-daml-finance-interface-holding-fungible-fungible-60176>` and
-:ref:`Transferable <type-daml-finance-interface-holding-transferable-transferable-24986>`,
+(:ref:`Fungible <module-daml-finance-interface-holding-fungible-63712>` and
+:ref:`Transferable <module-daml-finance-interface-holding-transferable-88121>`,
 respectively).
 
 The library distinguishes four types of holdings, referred to as :ref:`Holding Standard
@@ -241,7 +241,7 @@ a Commercial Bank, and a Retail Client.
 The Central Bank defines the economic terms of the currency asset and is generally a highly trusted
 entity, therefore it acts as ``issuer`` as well as ``depository`` of the corresponding instrument.
 
-We can use the :ref:`Token <type-daml-finance-instrument-token-instrument-instrument-62305>`
+We can use the :ref:`Token <module-daml-finance-instrument-token-instrument-10682>`
 instrument implementation for a currency asset, as we do not need any lifecycling logic.
 
 The Retail Client has an
@@ -268,7 +268,7 @@ We now model units of shares held by an investor. There are three parties involv
 Entity, a Securities Depository, and an Investor.
 
 The Issuing Entity acts as ``issuer`` of the :ref:`Equity Instrument
-<type-daml-finance-instrument-equity-instrument-instrument-90430>`. The Securities Depository acts
+<module-daml-finance-instrument-equity-instrument-69265>`. The Securities Depository acts
 as ``depository`` of the instrument, thus preventing the Issuing Entity from single-handedly
 modifying details of the instrument (such as the share's nominal value).
 
@@ -289,7 +289,7 @@ OTC Swap
 
 Finally, we model an OTC (over-the-counter) fixed vs. floating interest rate swap agreement between
 two parties, namely Party A and Party B. We can use the :ref:`Interest Rate Swap
-<type-daml-finance-instrument-swap-interestrate-instrument-instrument-52927>` instrument template
+<module-daml-finance-instrument-swap-interestrate-instrument-86260>` instrument template
 for this purpose.
 
 In this case, all contracts are agreed and co-signed by both parties. In the instrument contract,

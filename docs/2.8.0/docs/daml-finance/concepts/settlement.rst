@@ -96,7 +96,7 @@ There are some assumptions that need to hold in order for the settlement to work
 - Bob needs to have an account at the custodian where Alice's holding is held and vice versa (for
   an example with intermediaries, see `Route provider`_ below.
 - Both holdings need to be
-  :ref:`Transferable <type-daml-finance-interface-holding-transferable-transferable-24986>`
+  :ref:`Transferable <module-daml-finance-interface-holding-transferable-88121>`
 - The transfer must be fully authorized (i.e., the parties allocating and approving an instruction
   must be the controllers of outgoing and incoming transfers of the corresponding accounts,
   respectively)
@@ -141,7 +141,7 @@ settlement :ref:`step <type-daml-finance-interface-settlement-types-step-78661>`
 Settlement factory
 ==================
 
-The :ref:`Settlement Factory <type-daml-finance-interface-settlement-factory-factory-31525>` is used
+The :ref:`Settlement Factory <module-daml-finance-interface-settlement-factory-75196>` is used
 to instruct settlement, i.e., create the :ref:`Batch <module-daml-finance-settlement-batch-95573>`
 contract and the settlement :ref:`Instructions <module-daml-finance-settlement-instruction-87187>`,
 from :ref:`routed steps <type-daml-finance-interface-settlement-types-routedstep-10086>`, so that
@@ -150,7 +150,7 @@ they can be allocated and approved by the respective parties.
 Instruction
 ===========
 
-The :ref:`Instruction <type-daml-finance-interface-settlement-instruction-instruction-30569>` is
+The :ref:`Instruction <module-daml-finance-interface-settlement-instruction-10970>` is
 used to settle a single holding transfer at a specific custodian, once it is ``allocated`` and
 ``approved``.
 
@@ -213,7 +213,7 @@ additional settlement modes:
 Batch
 =====
 
-The :ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>` is used to execute a set
+The :ref:`Batch <module-daml-finance-interface-settlement-batch-39188>` is used to execute a set
 of instructions atomically. Execution will fail if any of the
 :ref:`Instructions <module-daml-finance-settlement-instruction-87187>` is not fully allocated
 / approved, or if the transfer is unsuccessful.

@@ -33,12 +33,12 @@ modules:
 
 Check out the :doc:`Lifecycling tutorial <../../tutorials/getting-started/lifecycling>` for a
 description on how lifecycling works in practice, including how to
-:ref:`Claim <type-daml-finance-interface-lifecycle-rule-claim-claim-29284>` an
-:ref:`Effect <type-daml-finance-interface-lifecycle-effect-effect-69649>`.
+:ref:`Claim <module-daml-finance-interface-lifecycle-rule-claim-6739>` an
+:ref:`Effect <module-daml-finance-interface-lifecycle-effect-16050>`.
 There is also the tutorial
 :doc:`How to implement a Contingent Claims-based instrument <../../tutorials/advanced-topics/instrument-modeling/contingent-claims-instrument>`,
 which describes how to create an
-:ref:`Effect <type-daml-finance-interface-lifecycle-effect-effect-69649>`.
+:ref:`Effect <module-daml-finance-interface-lifecycle-effect-16050>`.
 For a description of ``Distribution`` and ``Replacement``, check out the
 `Instrument/Equity/Test <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Equity/Test>`_
 folder. It demonstrates how to create and lifecycle a cash dividend, and how to handle corporate

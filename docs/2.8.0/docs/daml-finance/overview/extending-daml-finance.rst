@@ -42,7 +42,7 @@ Some use cases, however, might require additional functionality on holding contr
 Note that any custom holding implementation will still allow you to leverage other parts of the
 library (e.g. lifecycling or settlement) as those are implemented against the respective interfaces.
 You will need to provide an implementation of the
-:ref:`Holding Factory <type-daml-finance-interface-holding-factory-factory-80308>` interface for
+:ref:`Holding Factory <module-daml-finance-interface-holding-factory-6211>` interface for
 your implementation to be usable throughout the library.
 
 Custom Account Implementations
@@ -74,24 +74,24 @@ entirely new instrument types. The following are typical examples of when a cust
 implementation is required:
 
 - Additional information: a custom instrument implementation might, for example, build upon the
-  :ref:`Equity interface
-  <type-daml-finance-interface-instrument-equity-instrument-instrument-99859>` to provide additional
-  information pertinent to private equity (like share class, or liquidation preference).
+  :ref:`Equity interface <module-daml-finance-interface-instrument-equity-instrument-13224>` to
+  provide additional information pertinent to private equity (like share class, or liquidation
+  preference).
 - New instrument types: if Daml Finance does not provide an implementation for a given instrument
   type, a custom implementation can be provided to fill that gap. The implementation can either
   leverage the :doc:`Contingent Claims <../instruments/generic/contingent-claims>` framework, as
   described in
   :doc:`this tutorial <../tutorials/advanced-topics/instrument-modeling/contingent-claims-instrument>`,
   or be implemented through standard interfaces, as seen in the implementation of the
-  :ref:`Equity instrument <type-daml-finance-instrument-equity-instrument-instrument-90430>`.
+  :ref:`Equity instrument <module-daml-finance-instrument-equity-instrument-69265>`.
 
 Custom Lifecycle Implementations
 ********************************
 
 Daml Finance provides a default set of lifecycle rules that can be used to evolve instruments.
 Examples are the implementation of
-:ref:`Distributions <type-daml-finance-lifecycle-rule-distribution-rule-66267>`,
-:ref:`Replacements <type-daml-finance-lifecycle-rule-replacement-rule-7648>`, or the
+:ref:`Distributions <module-daml-finance-lifecycle-rule-distribution-35531>`,
+:ref:`Replacements <module-daml-finance-lifecycle-rule-replacement-6984>`, or the
 :ref:`time-based evolution <module-daml-finance-interface-lifecycle-event-time-4252>`
 of contingent-claims based instruments. There are many more lifecycle events and rules
 that can be implemented using the provided interfaces. Typically, implementations of the

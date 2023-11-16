@@ -175,10 +175,10 @@ What if one party wants to cancel the settlement?
 =================================================
 
 The parties who sign the
-:ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>` contract (the instructor
+:ref:`Batch <module-daml-finance-interface-settlement-batch-39188>` contract (the instructor
 and consenters) can exercise the ``Cancel`` choice of the
-:ref:`Batch <type-daml-finance-interface-settlement-batch-batch-97497>` to cancel all associated
-:ref:`Instructions <type-daml-finance-interface-settlement-instruction-instruction-30569>`
+:ref:`Batch <module-daml-finance-interface-settlement-batch-39188>` to cancel all associated
+:ref:`Instructions <module-daml-finance-interface-settlement-instruction-10970>`
 atomically.
 
 Settlement can also be obstructed if the responsible parties do not fully allocate

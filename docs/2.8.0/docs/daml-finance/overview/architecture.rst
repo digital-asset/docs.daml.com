@@ -47,8 +47,8 @@ The implementation layer contains concrete template definitions implementing the
 in the interface layer. These represent the contracts that are ultimately stored on the ledger.
 
 For instance, ``Daml.Finance.Holding`` contains a concrete implementation of a
-:ref:`Transferable <type-daml-finance-interface-holding-transferable-transferable-24986>` and
-:ref:`Fungible <type-daml-finance-interface-holding-fungible-fungible-60176>` holding. These
+:ref:`Transferable <module-daml-finance-interface-holding-transferable-88121>` and
+:ref:`Fungible <module-daml-finance-interface-holding-fungible-63712>` holding. These
 interfaces are defined in ``Daml.Finance.Interface.Holding``.
 
 The implementation layer consists of the following packages:
