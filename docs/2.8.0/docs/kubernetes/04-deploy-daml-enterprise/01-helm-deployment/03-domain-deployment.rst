@@ -26,75 +26,6 @@ Steps
 
     .. code-block:: yaml
 
-      ---
-      image:
-        registry: "<container_image_registry_hostname>"
-
-      storage:
-        host: "<postgresql_server_hostname>"
-
-      bootstrap:
-        enabled: true
-
-      console:
-        enabled: true
-
-      certManager:
-        issuerGroup: certmanager.step.sm
-        issuerKind: StepClusterIssuer
-
-      common:
-        tls:
-          public:
-            enabled: true
-            certManager:
-              issuerName: canton-tls-issuer
-          admin:
-            enabled: true
-            certManager:
-              issuerName: canton-tls-issuer
-
-      manager:
-        storage:
-          database: "mydomain"
-          user: "mydomain"
-          existingSecret:
-            name: "mydomain-postgresql"
-            key: "mydomain"
-
-      mediator:
-        storage:
-          database: "mymediator"
-          user: "mymediator"
-          existingSecret:
-            name: "mymediator-postgresql"
-            key: "mymediator"
-
-      sequencer:
-        storage:
-          database: "mysequencer"
-          user: "mysequencer"
-          existingSecret:
-            name: "mysequencer-postgresql"
-            key: "mysequencer"
-
-      testing:
-        bootstrap:
-          remoteParticipants:
-            - name: "participant1"
-              host: "participant1-canton-participant.canton.svc.cluster.local"
-              tls:
-                admin:
-                  enabled: true
-                  certManager:
-                    issuerName: canton-tls-issuer
-                  ca: "/tls-participant1/ca.crt"
-
-  .. tab:: AWS
-    Example `domain.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/aws/helmfile/values/domain.yaml>`_:
-
-      .. code-block:: yaml
-
         ---
         image:
           registry: "<container_image_registry_hostname>"
@@ -108,19 +39,20 @@ Steps
         console:
           enabled: true
 
+        certManager:
+          issuerGroup: certmanager.step.sm
+          issuerKind: StepClusterIssuer
+
         common:
-          domainName: "mydomain"
-          mediatorName: "mymediator"
-          sequencerName: "mysequencer"
           tls:
             public:
               enabled: true
               certManager:
-                issuerName: "aws-privateca-issuer"
+                issuerName: canton-tls-issuer
             admin:
               enabled: true
               certManager:
-                issuerName: "aws-privateca-issuer"
+                issuerName: canton-tls-issuer
 
         manager:
           storage:
@@ -155,8 +87,76 @@ Steps
                   admin:
                     enabled: true
                     certManager:
-                      issuerName: "aws-privateca-issuer"
+                      issuerName: canton-tls-issuer
                     ca: "/tls-participant1/ca.crt"
+
+  .. tab:: AWS
+    Example `domain.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/aws/helmfile/values/domain.yaml>`_:
+
+      .. code-block:: yaml
+
+          ---
+          image:
+            registry: "<container_image_registry_hostname>"
+
+          storage:
+            host: "<postgresql_server_hostname>"
+
+          bootstrap:
+            enabled: true
+
+          console:
+            enabled: true
+
+          common:
+            domainName: "mydomain"
+            mediatorName: "mymediator"
+            sequencerName: "mysequencer"
+            tls:
+              public:
+                enabled: true
+                certManager:
+                  issuerName: "aws-privateca-issuer"
+              admin:
+                enabled: true
+                certManager:
+                  issuerName: "aws-privateca-issuer"
+
+          manager:
+            storage:
+              database: "mydomain"
+              user: "mydomain"
+              existingSecret:
+                name: "mydomain-postgresql"
+                key: "mydomain"
+
+          mediator:
+            storage:
+              database: "mymediator"
+              user: "mymediator"
+              existingSecret:
+                name: "mymediator-postgresql"
+                key: "mymediator"
+
+          sequencer:
+            storage:
+              database: "mysequencer"
+              user: "mysequencer"
+              existingSecret:
+                name: "mysequencer-postgresql"
+                key: "mysequencer"
+
+          testing:
+            bootstrap:
+              remoteParticipants:
+                - name: "participant1"
+                  host: "participant1-canton-participant.canton.svc.cluster.local"
+                  tls:
+                    admin:
+                      enabled: true
+                      certManager:
+                        issuerName: "aws-privateca-issuer"
+                      ca: "/tls-participant1/ca.crt"
 
 .. note::
    To learn about the supported attributes for canton-domain, check out the documentation `here <https://artifacthub.io/packages/helm/digital-asset/canton-domain#parameters>`_.
