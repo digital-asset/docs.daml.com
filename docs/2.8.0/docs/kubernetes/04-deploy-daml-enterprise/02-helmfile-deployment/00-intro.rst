@@ -27,7 +27,6 @@ Automated Deployment
          cd azure/terraform/
          ./bootstraps/merge-kubeconfig.sh
          make kubectl-proxy
-         `
 
     * Open a new terminal at the root of this repository
 
@@ -46,7 +45,6 @@ Automated Deployment
          cd aws/terraform/
          ./bootstraps/merge-kubeconfig.sh
          make kubectl-proxy
-         `
 
     * Open a new terminal at the root of this repository
 
