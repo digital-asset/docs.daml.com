@@ -5,19 +5,25 @@ Account Upgrade
 ###############
 
 This tutorial presents a scenario where a custodian offers its clients the option to *voluntarily*
-upgrade their "old" `Account` contracts to a "new" version. The focus is on demonstrating the
-process of such a voluntary upgrade.
+upgrade their "old" :ref:`Account <module-daml-finance-account-account-19369>` contracts to a
+"new" version. The focus is on demonstrating the process of such a voluntary upgrade.
 
 We are going to:
 
-#. Introduce `MyAccount`, a custom account implementation for the custodian. It differs from
-   the standard Daml Finance `Account` implementation in the absence of the `Lockable`
-   implementation, making it a non-freezable account.
-#. Prevent the custodian from creating old `Account` instances, by archiving its existing
-   `AccountFactory`.
-#. Instantiate a new account factory, `MyAccountFactory`, which can create `MyAccount` instances.
-#. Provide a `MyAccountUpgradeRule` instance for clients, permitting them to upgrade their existing
-   `Account` instances to new `MyAccount` instances.
+#. Introduce ``MyAccount``, a custom account implementation for the custodian. It differs from
+   the standard Daml Finance :ref:`Account <module-daml-finance-account-account-19369>`
+   implementation in that it does not implement the
+   :ref:`Lockable <module-daml-finance-interface-util-lockable-80915>`
+   interface, making it a non-freezable account.
+#. Prevent the custodian from creating old
+   :ref:`Account <module-daml-finance-account-account-19369>` instances, by archiving its
+   existing
+   :ref:`AccountFactory <module-daml-finance-account-account-19369>`.
+#. Instantiate a new account factory, ``MyAccountFactory``, which can create ``MyAccount``
+   instances.
+#. Provide a ``MyAccountUpgradeRule`` instance for clients, permitting them to upgrade their
+   existing :ref:`Account <module-daml-finance-account-account-19369>` instances to new
+   ``MyAccount`` instances.
 #. Upgrade the accounts for the clients.
 
 Run the Script
@@ -41,7 +47,7 @@ when the account is upgraded:
   :end-before: -- UPGRADE_ACCOUNT_SETUP_END
 
 Initially, the accounts and the account factory are of the old version. The new implementations,
-`MyAccount` and `MyAccountFactory`, can be found in the ``MyAccount.daml`` module.
+``MyAccount`` and ``MyAccountFactory``, can be found in the ``MyAccount.daml`` module.
 
 Create a New Account Factory
 ============================
@@ -54,7 +60,7 @@ Bank's existing account factory:
   :start-after: -- UPGRADE_ACCOUNT_ARCHIVE_OLD_ACCOUNT_FACTORY_BEGIN
   :end-before: -- UPGRADE_ACCOUNT_ARCHIVE_OLD_ACCOUNT_FACTORY_END
 
-Next, we instantiate a `MyAccountFactory` responsible for creating `MyAccount` instances:
+Next, we instantiate a ``MyAccountFactory`` responsible for creating ``MyAccount`` instances:
 
 .. literalinclude:: ../../finance-upgrades/daml/Scripts/UpgradeAccount.daml
   :language: daml
@@ -64,8 +70,8 @@ Next, we instantiate a `MyAccountFactory` responsible for creating `MyAccount` i
 Provide an Upgrade Rule
 =======================
 
-To offer the clients to upgrade their existing account to a `MyAccount` instance, we instantiate
-a `MyAccountUpgradeRule` contract (which is also part of the ``MyAccount.daml`` module):
+To offer the clients to upgrade their existing account to a ``MyAccount`` instance, we instantiate
+a ``MyAccountUpgradeRule`` contract (which is also part of the ``MyAccount.daml`` module):
 
 .. literalinclude:: ../../finance-upgrades/daml/Scripts/UpgradeAccount.daml
   :language: daml

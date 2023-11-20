@@ -41,8 +41,7 @@ TLS Configuration
 
 Both, the Ledger API and the admin API provide the same TLS capabilities and can be configured using
 the same configuration directives. TLS provides end-to-end channel encryption between the server and
-client, and depending on the settings, server or mutual authentication. Ensure that the required TLS
-system dependencies are installed, e.g., `libcrypt1` on Ubuntu.
+client, and depending on the settings, server or mutual authentication.
 
 A full configuration example is given by
 
