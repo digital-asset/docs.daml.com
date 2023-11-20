@@ -83,7 +83,7 @@ Fork the `GitHub repository for the accompanying resources <https://github.com/D
   .. tab:: AWS
     .. code-block:: bash
 
-      kubectl -n argocd apply -f azure/argocd/daml-enterprise.yaml
+      kubectl -n argocd apply -f aws/argocd/daml-enterprise.yaml
 
 You should have four applications automatically synced, you can check the state in the `Argo CD UI <http://localhost:8080>`_.
 
