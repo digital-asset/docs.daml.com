@@ -86,12 +86,11 @@ Set Up Your Cloud Account
       az account set --subscription <subscription_id>
   
   .. tab:: AWS
-    Sign in to AWS and select the target subscription (if you have multiple ones):
+    Sign in to AWS with the account that has access to subscription you would like to use (if you have multiple ones):
 
     .. code-block:: bash
 
       aws sso login --profile <your_profile>
-      TODO
 
 Configure Terraform
 ===================
