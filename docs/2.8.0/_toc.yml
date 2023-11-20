@@ -1173,7 +1173,7 @@ subtrees:
           - file: kubernetes/03-deploy-dependencies/01-deploy-cert-manager
             title: "Deploy cert-manager"
           - file: kubernetes/03-deploy-dependencies/02-create-certificate-issuers
-            title: "Create Certificate Issuers"
+            title: "Create Certificate Issuers (Azure Only)"
           - file: kubernetes/03-deploy-dependencies/03-deploy-traefik-ingress-controller
             title: "Deploy Traefik Ingress Controller"
           - file: kubernetes/03-deploy-dependencies/04-configure-k8s-image-puller
