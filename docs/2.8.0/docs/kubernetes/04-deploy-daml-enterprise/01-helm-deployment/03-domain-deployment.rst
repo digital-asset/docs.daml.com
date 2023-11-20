@@ -18,73 +18,145 @@ Steps
 ======================================================
 
 .. note::
-   The Terraform scripts were used to parameterize the Helm values. If standalone Helm deployment is done without Terraform, the value file has to be customized manually. The value file can be found under `domain.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/helm/values/domain.yaml>`_.
+   The Terraform scripts were used to parameterize the Helm values. If standalone Helm deployment is done without Terraform the value file has to be customized manually (see example below).
 
-.. code-block:: yaml
+.. tabs::
+  .. tab:: Azure
+    Example `domain.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/helm/values/domain.yaml>`_:
 
-   ---
-   image:
-     registry: "<container_image_registry_hostname>"
+    .. code-block:: yaml
 
-   storage:
-     host: "<postgresql_server_hostname>"
+      ---
+      image:
+        registry: "<container_image_registry_hostname>"
 
-   bootstrap:
-     enabled: true
+      storage:
+        host: "<postgresql_server_hostname>"
 
-   console:
-     enabled: true
+      bootstrap:
+        enabled: true
 
-   certManager:
-     issuerGroup: certmanager.step.sm
-     issuerKind: StepClusterIssuer
+      console:
+        enabled: true
 
-   common:
-     tls:
-       public:
-         enabled: true
-         certManager:
-           issuerName: canton-tls-issuer
-       admin:
-         enabled: true
-         certManager:
-           issuerName: canton-tls-issuer
+      certManager:
+        issuerGroup: certmanager.step.sm
+        issuerKind: StepClusterIssuer
 
-   manager:
-     storage:
-       database: "mydomain"
-       user: "mydomain"
-       existingSecret:
-         name: "mydomain-postgresql"
-         key: "mydomain"
+      common:
+        tls:
+          public:
+            enabled: true
+            certManager:
+              issuerName: canton-tls-issuer
+          admin:
+            enabled: true
+            certManager:
+              issuerName: canton-tls-issuer
 
-   mediator:
-     storage:
-       database: "mymediator"
-       user: "mymediator"
-       existingSecret:
-         name: "mymediator-postgresql"
-         key: "mymediator"
+      manager:
+        storage:
+          database: "mydomain"
+          user: "mydomain"
+          existingSecret:
+            name: "mydomain-postgresql"
+            key: "mydomain"
 
-   sequencer:
-     storage:
-       database: "mysequencer"
-       user: "mysequencer"
-       existingSecret:
-         name: "mysequencer-postgresql"
-         key: "mysequencer"
+      mediator:
+        storage:
+          database: "mymediator"
+          user: "mymediator"
+          existingSecret:
+            name: "mymediator-postgresql"
+            key: "mymediator"
 
-   testing:
-     bootstrap:
-       remoteParticipants:
-         - name: "participant1"
-           host: "participant1-canton-participant.canton.svc.cluster.local"
-           tls:
-             admin:
-               enabled: true
-               certManager:
-                 issuerName: canton-tls-issuer
-               ca: "/tls-participant1/ca.crt"
+      sequencer:
+        storage:
+          database: "mysequencer"
+          user: "mysequencer"
+          existingSecret:
+            name: "mysequencer-postgresql"
+            key: "mysequencer"
+
+      testing:
+        bootstrap:
+          remoteParticipants:
+            - name: "participant1"
+              host: "participant1-canton-participant.canton.svc.cluster.local"
+              tls:
+                admin:
+                  enabled: true
+                  certManager:
+                    issuerName: canton-tls-issuer
+                  ca: "/tls-participant1/ca.crt"
+
+  .. tab:: AWS
+    Example `domain.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/aws/helm/values/domain.yaml>`_:
+
+      .. code-block:: yaml
+
+        ---
+        image:
+          registry: "<container_image_registry_hostname>"
+
+        storage:
+          host: "<postgresql_server_hostname>"
+
+        bootstrap:
+          enabled: true
+
+        console:
+          enabled: true
+
+        common:
+          domainName: "mydomain"
+          mediatorName: "mymediator"
+          sequencerName: "mysequencer"
+          tls:
+            public:
+              enabled: true
+              certManager:
+                issuerName: "aws-privateca-issuer"
+            admin:
+              enabled: true
+              certManager:
+                issuerName: "aws-privateca-issuer"
+
+        manager:
+          storage:
+            database: "mydomain"
+            user: "mydomain"
+            existingSecret:
+              name: "mydomain-postgresql"
+              key: "mydomain"
+
+        mediator:
+          storage:
+            database: "mymediator"
+            user: "mymediator"
+            existingSecret:
+              name: "mymediator-postgresql"
+              key: "mymediator"
+
+        sequencer:
+          storage:
+            database: "mysequencer"
+            user: "mysequencer"
+            existingSecret:
+              name: "mysequencer-postgresql"
+              key: "mysequencer"
+
+        testing:
+          bootstrap:
+            remoteParticipants:
+              - name: "participant1"
+                host: "participant1-canton-participant.canton.svc.cluster.local"
+                tls:
+                  admin:
+                    enabled: true
+                    certManager:
+                      issuerName: "aws-privateca-issuer"
+                    ca: "/tls-participant1/ca.crt"
 
 .. note::
    To learn about the supported attributes for canton-domain, check out the documentation `here <https://artifacthub.io/packages/helm/digital-asset/canton-domain#parameters>`_.
@@ -92,11 +164,14 @@ Steps
 2. Install the chart
 ====================
 
+.. note::
+  Depending on your cloud provider of choice, make sure the current directory is the ``azure/terraform`` or ``aws/terraform`` folder of your clone of the `accompanying resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`_.
+
 With the value files prepared we can install the Helm chart:
 
 .. code-block:: bash
 
-   helm -n canton install mydomain digital-asset/canton-domain -f azure/helm/values/domain.yaml
+   helm -n canton install mydomain digital-asset/canton-domain -f helm/values/domain.yaml
 
 After the other resources are deployed and ready, the bootstrap job will start, it takes a few minutes. Once this job is completed, the Helm chart deployment is considered successful.
 
