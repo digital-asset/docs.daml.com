@@ -825,6 +825,8 @@ subtrees:
             title: "Daml.Finance.Instrument.Swap.Asset.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Asset-Instrument
             title: "Daml.Finance.Instrument.Swap.Asset.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Asset-DistributionRule
+            title: "Daml.Finance.Instrument.Swap.Asset.DistributionRule"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-CreditDefault-Factory
             title: "Daml.Finance.Instrument.Swap.CreditDefault.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-CreditDefault-Instrument
