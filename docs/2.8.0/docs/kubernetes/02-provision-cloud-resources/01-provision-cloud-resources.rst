@@ -30,10 +30,9 @@ The following diagram provides an overview of the target state that the Terrafor
   .. tab:: Azure
     .. image:: ../images/azure.png
       :alt: Azure Infrastructure Overview
-  .. tab:: AWS
-    TODO
 
-    .. image:: ../images/azure.png
+  .. tab:: AWS
+    .. image:: ../images/aws.png
       :alt: AWS Infrastructure Overview
 
 Prerequisites
