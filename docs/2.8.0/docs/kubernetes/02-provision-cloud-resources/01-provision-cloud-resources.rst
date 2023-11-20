@@ -86,7 +86,8 @@ Set Up Your Cloud Account
       az account set --subscription <subscription_id>
   
   .. tab:: AWS
-    Sign in to AWS with the account that has access to subscription you would like to use (if you have multiple ones):
+    Sign in to AWS with the account you would like to use.
+    You may do this in multiple ways — for example, using SSO:
 
     .. code-block:: bash
 
@@ -110,7 +111,7 @@ Configure Terraform
     * Copy and customize the variables file `sample.tfvars <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/terraform/sample.tfvars>`_, use the resource group you just created, you can use the file name ``terraform.tfvars`` to avoid passing argument ``--var-file=/path/to/file.tfvars`` each run.
 
   .. tab:: AWS
-    To configure Terraform for your AWS subscription, follow the below steps:
+    To configure Terraform for your AWS account, follow the below steps:
 
     * Create your own backend configuration
 
