@@ -91,7 +91,7 @@ Steps
                   ca: "/tls-participant1/ca.crt"
 
   .. tab:: AWS
-    Example `domain.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/aws/helm/values/domain.yaml>`_:
+    Example `domain.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/aws/helmfile/values/domain.yaml>`_:
 
       .. code-block:: yaml
 

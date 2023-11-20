@@ -73,7 +73,7 @@ Steps
             passthrough: true
 
   .. tab:: AWS
-    Example `participant.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/aws/helm/values/participant.yaml>`_:
+    Example `participant.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/aws/helmfile/values/participant.yaml>`_:
 
     .. code-block:: yaml
 
