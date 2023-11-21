@@ -1,6 +1,6 @@
 Sphinx==4.3.1
 sphinx-autobuild==2021.3.14
 sphinx-copybutton==0.5.1
-sphinx-tabs==3.4.4
+sphinx-tabs==3.4.0
 sphinxext-remoteliteralinclude==0.4.0
 flit==3.8.0
