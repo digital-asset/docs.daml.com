@@ -41,7 +41,7 @@ Fork the `GitHub repository for the accompanying resources <https://github.com/D
 
       git checkout -b <new-branch-name>
 
-    * Customize the `Argo CD application YAML file <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/argocd/daml-enterprise.yaml>`_ with your forked
+    * Customize the `Argo CD application YAML file <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/argocd/daml-enterprise.yaml>`__ with your forked
       GitHub repository URL and target revision (new branch name).
 
     * Commit changes to your new branch:
@@ -59,7 +59,7 @@ Fork the `GitHub repository for the accompanying resources <https://github.com/D
 
       git checkout -b <new-branch-name>
 
-    * Customize the `Argo CD application YAML file <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/aws/argocd/daml-enterprise.yaml>`_ with your forked
+    * Customize the `Argo CD application YAML file <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/aws/argocd/daml-enterprise.yaml>`__ with your forked
       GitHub repository URL and target revision (new branch name).
 
     * Commit changes to your new branch:
