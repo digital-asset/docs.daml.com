@@ -43,16 +43,6 @@ thanks to the intentional decoupling of their implementation packages in Daml Fi
     implementation and interface packages.
   :width: 100%
 
-Future Developments
-*******************
-
-At Digital Asset, we are developing a feature for executing upgrades *instantaneously*, meaning
-without the need for user interaction. This method is particularly beneficial for fixing critical
-bugs and facilitating widespread enhancements. We intend to make these upgrades generally available
-(GA) in our upcoming SDK releases. They will serve as a complementary option alongside our current
-upgrade types.
-
-Stay tuned for more upgrades!
 
 Download the code for the tutorials
 ***********************************
