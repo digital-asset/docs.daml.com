@@ -529,28 +529,28 @@ a *write* pool, ``A`` a *ledger api* pool, ``I`` an *indexer* pool, ``RW`` a com
 |  Node Type       | Enterprise Edition | Enterprise Edition | Community Edition  |
 |                  | with Replication   |                    |                    |
 +==================+====================+====================+====================+
-| Participant      | A = X / 2          | A = X / 2          | A = X / 2          |
-|                  | R = X / 4          | R = X / 4          | RW = X / 2         |
-|                  | W = X / 4 - 1      | W = X / 4 - 1      | I = Y              |
-|                  | M = 1              | M = 1              |                    |
-|                  | I = Y              | I = Y              |                    |
+| Participant      | | A = X / 2        | | A = X / 2        | | A = X / 2        |
+|                  | | R = X / 4        | | R = X / 4        | | RW = X / 2       |
+|                  | | W = X / 4 - 1    | | W = X / 4 - 1    | | I = Y            |
+|                  | | M = 1            | | M = 1            |                    |
+|                  | | I = Y            | | I = Y            |                    |
 +------------------+--------------------+--------------------+--------------------+
-| Mediator         | R = X / 2          | N/A                | N/A                |
-|                  | W = X / 2 - 1      |                    |                    |
-|                  | M = 1              |                    |                    |
+| Mediator         | | R = X / 2        | N/A                | N/A                |
+|                  | | W = X / 2 - 1    |                    |                    |
+|                  | | M = 1            |                    |                    |
 +------------------+--------------------+--------------------+--------------------+
 | Sequencer        | RW =  X            | N/A                | N/A                |
 +------------------+--------------------+--------------------+--------------------+
-| Sequencer writer | R = X / 2          | N/A                | N/A                |
-|                  | W = X / 2 - 1      |                    |                    |
-|                  | M = 1              |                    |                    |
+| Sequencer writer | | R = X / 2        | N/A                | N/A                |
+|                  | | W = X / 2 - 1    |                    |                    |
+|                  | | M = 1            |                    |                    |
 +------------------+--------------------+--------------------+--------------------+
-| Sequencer        | R = Z / 2          | N/A                | N/A                |
-| exclusive writer | W = Z / 2          |                    |                    |
+| Sequencer        | | R = Z / 2        | N/A                | N/A                |
+| exclusive writer | | W = Z / 2        |                    |                    |
 +------------------+--------------------+--------------------+--------------------+
-| Domain manager   | R = X / 2          | N/A                | N/A                |
-|                  | W = X / 2 - 1      |                    |                    |
-|                  | M = 1              |                    |                    |
+| Domain manager   | | R = X / 2        | N/A                | N/A                |
+|                  | | W = X / 2 - 1    |                    |                    |
+|                  | | M = 1            |                    |                    |
 +------------------+--------------------+--------------------+--------------------+
 | Domain           | N/A                | RW = X             | RW = X             |
 +------------------+--------------------+--------------------+--------------------+
@@ -570,6 +570,7 @@ the *read* ``R``, the *write* ``W`` pools.
 Similar parameters exist also for other Canton node types:
 
 ::
+
     canton.sequencers.sequencer.storage.parameters.connection-allocation...
     canton.mediators.mediator.storage.parameters.connection-allocation...
     canton.domain-managers.domain_manager.storage.parameters.connection-allocation...
