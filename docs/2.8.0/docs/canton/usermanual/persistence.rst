@@ -523,7 +523,7 @@ Some of the allotted connections will be taken by the *read* pool, some by the *
 will be reserved to a dedicated *main* connection responsible for managing the locking mechanism.
 
 The following table summarizes the detailed split of the connection pools in different Canton nodes. ``R`` signifies a *read* pool, ``W``
-a *write* pool, ``A`` a *ledger api* pool, ``RW`` a combined *read/write* pool, and ``M`` the *main* pool.
+a *write* pool, ``A`` a *ledger api* pool, ``I`` an *indexer* pool, ``RW`` a combined *read/write* pool, and ``M`` the *main* pool.
 
 +------------------+--------------------+--------------------+--------------------+
 |  Node Type       | Enterprise Edition | Enterprise Edition | Community Edition  |
@@ -531,8 +531,9 @@ a *write* pool, ``A`` a *ledger api* pool, ``RW`` a combined *read/write* pool, 
 +==================+====================+====================+====================+
 | Participant      | A = X / 2          | A = X / 2          | A = X / 2          |
 |                  | R = X / 4          | R = X / 4          | RW = X / 2         |
-|                  | W = X / 4 - 1      | W = X / 4 - 1      |                    |
+|                  | W = X / 4 - 1      | W = X / 4 - 1      | I = Y              |
 |                  | M = 1              | M = 1              |                    |
+|                  | I = Y              | I = Y              |                    |
 +------------------+--------------------+--------------------+--------------------+
 | Mediator         | R = X / 2          | N/A                | N/A                |
 |                  | W = X / 2 - 1      |                    |                    |
@@ -554,7 +555,7 @@ a *write* pool, ``A`` a *ledger api* pool, ``RW`` a combined *read/write* pool, 
 | Domain           | N/A                | RW = X             | RW = X             |
 +------------------+--------------------+--------------------+--------------------+
 
-The results of the divisions are always rounded down unless the result yields a zero. In that case, a minimal pool
+The results of the divisions are always rounded down unless they yield a zero. In that case, a minimal pool
 size of 1 is ascertained.
 
 The values obtained from that formula can be overridden using explicit configuration settings for the *ledger api* ``A``,
@@ -574,7 +575,7 @@ Similar parameters exist also for other Canton node types:
     canton.domain-managers.domain_manager.storage.parameters.connection-allocation...
 
 Where a node operates a combined *read/write* connection pool, the numbers for ``R`` and ``W`` overwrites are added
-together determine the overall pool size.
+together to determine the overall pool size.
 
 The effective connection pool sizes are reported by the Canton nodes at start-up
 
