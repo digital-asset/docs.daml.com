@@ -218,8 +218,6 @@ subtrees:
             title: "Command Deduplication"
       - file: app-dev/authorization
         title: "Authorization"
-      - file: app-dev/explicit-contract-disclosure
-        title: "Explicit Contract Disclosure (Beta)"
   - file: daml/resource-management/index
     subtrees:
     - hidden: False
