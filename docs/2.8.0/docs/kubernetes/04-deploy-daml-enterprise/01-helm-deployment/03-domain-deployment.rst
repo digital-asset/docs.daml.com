@@ -22,7 +22,7 @@ Steps
 
 .. tabs::
   .. tab:: Azure
-    Example `domain.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/helm/values/domain.yaml>`_:
+    Example `domain.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/helm/values/domain.yaml>`__:
 
     .. code-block:: yaml
 
@@ -91,7 +91,7 @@ Steps
                     ca: "/tls-participant1/ca.crt"
 
   .. tab:: AWS
-    Example `domain.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/aws/helmfile/values/domain.yaml>`_:
+    Example `domain.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/aws/helmfile/values/domain.yaml>`__:
 
       .. code-block:: yaml
 

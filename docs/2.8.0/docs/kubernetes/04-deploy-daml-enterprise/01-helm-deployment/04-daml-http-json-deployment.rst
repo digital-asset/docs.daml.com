@@ -15,7 +15,7 @@ Steps
 
 .. tabs::
   .. tab:: Azure
-    Example `http-json.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/helm/values/http-json.yaml>`_:
+    Example `http-json.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/helm/values/http-json.yaml>`__:
 
     .. code-block:: yaml
 
@@ -44,7 +44,7 @@ Steps
           issuerName: canton-tls-issuer
 
   .. tab:: AWS
-    Example `http-json.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/aws/helmfile/values/http-json.yaml>`_:
+    Example `http-json.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/aws/helmfile/values/http-json.yaml>`__:
 
     .. code-block:: yaml
 
