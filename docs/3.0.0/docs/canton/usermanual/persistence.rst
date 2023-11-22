@@ -505,14 +505,84 @@ The number of parallel indexer connections can be configured via
 
 ::
 
-    canton.participants.<service-name>.parameters.ledgerApiServerParameters.indexer.ingestion-parallelism = Y
+    canton.participants.<participant-name>.parameters.ledger-api-server-parameters.indexer.ingestion-parallelism = Y
+
+The number ``Z`` of the connections used by the exclusive sequencer writer component is the final parameter that can be controlled.
+
+::
+
+    canton.sequencers.<sequencer-name>.sequencer.high-availability.exclusive-storage.max-connections = Z
 
 A Canton participant node will establish up to ``X + Y + 2`` permanent connections with the database, whereas a domain node
 will use up to ``X`` permanent connections, except for a sequencer with HA setup that will allocate up to ``2X`` connections. During
 startup, the node will use an additional set of at most ``X`` temporary connections during database initialisation.
 
-Please note that this number represents an upper bound of permanent connections and can be divided internally for different purposes,
+The number ``X`` represents an upper bound of permanent connections and is divided internally for different purposes,
 depending on the implementation. Consequently, the actual size of the write connection pool, for example, could be smaller.
+Some of the allotted connections will be taken by the *read* pool, some by the *write* pool and a single additional connection
+will be reserved to a dedicated *main* connection responsible for managing the locking mechanism.
+
+The following table summarizes the detailed split of the connection pools in different Canton nodes. ``R`` signifies a *read* pool, ``W``
+a *write* pool, ``A`` a *ledger api* pool, ``I`` an *indexer* pool, ``RW`` a combined *read/write* pool, and ``M`` the *main* pool.
+
++------------------+--------------------+--------------------+--------------------+
+|  Node Type       | Enterprise Edition | Enterprise Edition | Community Edition  |
+|                  | with Replication   |                    |                    |
++==================+====================+====================+====================+
+| Participant      | | A = X / 2        | | A = X / 2        | | A = X / 2        |
+|                  | | R = X / 4        | | R = X / 4        | | RW = X / 2       |
+|                  | | W = X / 4 - 1    | | W = X / 4 - 1    | | I = Y            |
+|                  | | M = 1            | | M = 1            |                    |
+|                  | | I = Y            | | I = Y            |                    |
++------------------+--------------------+--------------------+--------------------+
+| Mediator         | | R = X / 2        | N/A                | N/A                |
+|                  | | W = X / 2 - 1    |                    |                    |
+|                  | | M = 1            |                    |                    |
++------------------+--------------------+--------------------+--------------------+
+| Sequencer        | RW =  X            | N/A                | N/A                |
++------------------+--------------------+--------------------+--------------------+
+| Sequencer writer | | R = X / 2        | N/A                | N/A                |
+|                  | | W = X / 2 - 1    |                    |                    |
+|                  | | M = 1            |                    |                    |
++------------------+--------------------+--------------------+--------------------+
+| Sequencer        | | R = Z / 2        | N/A                | N/A                |
+| exclusive writer | | W = Z / 2        |                    |                    |
++------------------+--------------------+--------------------+--------------------+
+| Domain manager   | | R = X / 2        | N/A                | N/A                |
+|                  | | W = X / 2 - 1    |                    |                    |
+|                  | | M = 1            |                    |                    |
++------------------+--------------------+--------------------+--------------------+
+| Domain           | N/A                | RW = X             | RW = X             |
++------------------+--------------------+--------------------+--------------------+
+
+The results of the divisions are always rounded down unless they yield a zero. In that case, a minimal pool
+size of 1 is ascertained.
+
+The values obtained from that formula can be overridden using explicit configuration settings for the *ledger api* ``A``,
+the *read* ``R``, the *write* ``W`` pools.
+
+::
+
+    canton.participants.<participant-name>.storage.parameters.connection-allocation.num-reads = R-overwrite
+    canton.participants.<participant-name>.storage.parameters.connection-allocation.num-writes = W-overwrite
+    canton.participants.<participant-name>.storage.parameters.connection-allocation.num-ledger-api = A-overwrite
+
+Similar parameters exist also for other Canton node types:
+
+::
+
+    canton.sequencers.sequencer.storage.parameters.connection-allocation...
+    canton.mediators.mediator.storage.parameters.connection-allocation...
+    canton.domain-managers.domain_manager.storage.parameters.connection-allocation...
+
+Where a node operates a combined *read/write* connection pool, the numbers for ``R`` and ``W`` overwrites are added
+together to determine the overall pool size.
+
+The effective connection pool sizes are reported by the Canton nodes at start-up
+
+::
+
+    INFO  c.d.c.r.DbStorageMulti$:participant=participant_b - Creating storage, num-reads: 5, num-writes: 4
 
 .. _queue_size:
 
