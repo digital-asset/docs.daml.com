@@ -1,2 +1,3 @@
 .envrc.private
 node_modules
+out

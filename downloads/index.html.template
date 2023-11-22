@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Daml Enterprise Downloads</title>
+    <link rel="stylesheet" href="/_static/css/theme.css">
+  </head>
+  <body>
+    <h1>Daml Enterprise Downloads</h1>
+    <% for (v of versions) { %>
+      <h2>Version <%= v.version %></h2>
+    <% }%>
+  </body>
+</html>

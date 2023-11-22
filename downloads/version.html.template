@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Daml Enterprise <% v.version %></title>
+    <link rel="stylesheet" href="/_static/css/theme.css">
+  </head>
+  <body>
+    <h1>Daml Enterprise <%= v.version %> Downloads</h1>
+    Insert table here.
+  </body>
+</html>
