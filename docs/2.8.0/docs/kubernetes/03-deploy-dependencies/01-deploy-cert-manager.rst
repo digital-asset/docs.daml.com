@@ -13,44 +13,44 @@ Objectives
 Introduction
 ************
 
-This guide aims to help installing `cert-manager <https://cert-manager.io/docs/>`_ on a Kubernetes cluster. cert-manager is a Kubernetes add-on that helps managing certificates. It is used by Canton to generate and renew certificates for the various components.
+This guide installs `cert-manager <https://cert-manager.io/docs/>`_ on a Kubernetes cluster. It is a Kubernetes add-on to help manage certificates. Canton uses the add-on to generate and renew certificates for the various components.
 
 Prerequisites
 *************
 
 * Kubernetes 1.24+
-* `Helm <https://helm.sh/docs/intro/install/>`_ and `Kubectl <https://kubernetes.io/docs/tasks/tools/#kubectl>`_ are installed locally
-* Access to the Kubernetes cluster with necessary permissions to install Kubernetes
-  resources including Custom Resource Definitions and create Namespaces
+* `Helm <https://helm.sh/docs/intro/install/>`_ and `kubectl <https://kubernetes.io/docs/tasks/tools/#kubectl>`_ installed locally
+* Access to the Kubernetes cluster with the necessary permissions to install Kubernetes
+  resources, including custom resource definitions and namespaces
 
-Installing cert-manager with Helm
-*********************************
+Install cert-manager with Helm
+******************************
 
-Add the Jetstack Helm Repository
+Add the Jetstack Helm repository
 ================================
 
-In order to have access to the cert-manager Helm charts, add the ``jetstack.io`` Helm chart repository to your ``helm`` client environment and update your local cache:
+For access to the cert-manager Helm charts, add the ``jetstack.io`` Helm chart repository to your Helm client environment and update your local cache:
 
 .. code-block:: bash
 
    helm repo add jetstack https://charts.jetstack.io
 
-Let's inspect the available Helm charts in the jetstack Helm repository:
+Inspect the available Helm charts in the Jetstack Helm repository:
 
 .. code-block:: bash
 
    helm search repo jetstack
 
 .. note::
-   Note that jetstack is the only supported source of cert-manager charts — other mirrors or copies are unofficial and could represent security risk. For more information see the relevant `cert-manager documentation <https://cert-manager.io/docs/installation/helm/>`_.
+   Note that Jetstack is the only supported source of cert-manager charts. Other mirrors or copies are unofficial and could represent a security risk. For more information, see the `cert-manager documentation <https://cert-manager.io/docs/installation/helm/>`_.
 
-Install Helm Chart for cert-manager
+Install Helm chart for cert-manager
 ===================================
 
-Installing the Helm charts will create the Kubernetes resources required to run cert-manager and cert-manager-csi-driver.
+Installing the Helm charts creates the Kubernetes resources required to run cert-manager and cert-manager-csi-driver.
 
-Install the cert-manager Helm chart, including the *Custom Resource Definitions* (CRDs)
-into the ``cert-manager`` namespace:
+Install the cert-manager Helm chart, including the custom resource definitions (CRDs)
+into the cert-manager namespace:
 
 .. code-block:: bash
 
@@ -60,7 +60,7 @@ into the ``cert-manager`` namespace:
 Install Helm Chart for cert-manager-csi-driver
 ==============================================
 
-This is required for enabling certificates to be exposed by cert-manager to Daml Enterprise services via the `Kubernetes Container Storage Interface <https://kubernetes-csi.github.io/docs/introduction.html>`_\ :
+The following command is required for cert-manager to expose Daml Enterprise services through the `Kubernetes Container Storage Interface <https://kubernetes-csi.github.io/docs/introduction.html>`_\ :
 
 .. code-block:: bash
 
@@ -68,18 +68,18 @@ This is required for enabling certificates to be exposed by cert-manager to Daml
      jetstack/cert-manager-csi-driver
 
 Verify the installations
-------------------------
+========================
 
-Verify that the cert-manager pods are running by running the following command:
+Verify that the cert-manager Pods are running with this command:
 
 .. code-block:: bash
 
    kubectl -n cert-manager get pods
 
-Verify that the CSI driver has been installed by running the following command:
+Verify that the CSI driver has been installed by running this command:
 
 .. code-block:: bash
 
    helm list -aA
 
-Alternatively, cert-manager Helm charts can also be pulled using the ``helm pull`` command. This will download the Helm charts to your local machine. The Helm charts can then be installed using the ``helm install`` command after the value files have been created.
+Alternatively, cert-manager Helm charts can be pulled using the ``helm pull`` command. This downloads the Helm charts to your local machine. You can then install the Helm charts using the ``helm install`` command after the value files are created.

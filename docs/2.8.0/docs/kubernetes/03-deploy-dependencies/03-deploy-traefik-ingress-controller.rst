@@ -1,17 +1,17 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Deploy Traefik Ingress Controller
-##################################
+Deploy the Traefik Ingress controller
+#####################################
 
 Objectives
 **********
-* Deploy & set up `Traefig ingress controller <https://github.com/traefik/traefik-helm-chart>`_.
+* Deploy and set up the `Traefig Ingress controller <https://github.com/traefik/traefik-helm-chart>`_.
 
 Introduction
 ************
-Traefik is a simple yet powerful reverse proxy that can be used as a `Kubernetes Ingress Controller <https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/>`_.
-It can route traffic to a wide variety of infrastructure components and manages its configuration automatically.
+Traefik is a simple and powerful reverse proxy that can be used as a `Kubernetes Ingress controller <https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/>`_.
+It can route traffic to a wide variety of infrastructure components and manage its configuration automatically.
 The following steps install Traefik into your Kubernetes cluster.
 
 Installation guide
@@ -23,9 +23,9 @@ Installation guide
 
       helm repo add traefik https://traefik.github.io/charts
 
-#. Confirm Helm chart availability
+#. Confirm Helm chart availability:
 
-After the previous step we should be able to search the repo for the Traefik chart:
+After the previous step, you should be able to search the repo for the Traefik chart:
 
 .. code-block:: bash
 
@@ -33,7 +33,7 @@ After the previous step we should be able to search the repo for the Traefik cha
 
 Expected output:
 
-.. code-block:: console
+.. code-block:: bash
 
      NAME                    CHART VERSION   APP VERSION     DESCRIPTION                                       
      traefik/traefik         23.2.0          v2.10.4         A Traefik based Kubernetes ingress controller     
@@ -43,9 +43,7 @@ Expected output:
      traefik/hub-agent       1.6.0           v1.4.2          Traefik Hub is an all-in-one global networking ...
      traefik/maesh           2.1.2           v1.3.2          Maesh - Simpler Service Mesh
 
-#. Install Traefik:
-
-   The following command expects that you are in the root directory your clone of the `accompanying resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`_.
+#. Install Traefik. The following command expects that you are in the root directory of your clone of the `Daml Enterprise Accompanying Resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`_:
 
    .. code-block:: bash
 
@@ -53,7 +51,7 @@ Expected output:
 
 Expected output:
 
-.. code-block:: console
+.. code-block:: bash
 
      NAME: traefik
      LAST DEPLOYED: Wed Aug  2 11:08:59 2023
@@ -64,7 +62,7 @@ Expected output:
      NOTES:
      Traefik Proxy v2.10.4 has been deployed successfully on traefik namespace !
 
-Let us verify the traefik pod's availability:
+Verify the Traefik Pod's availability:
 
 .. code-block:: bash
 
@@ -72,7 +70,7 @@ Let us verify the traefik pod's availability:
 
 Expected output:
 
-.. code-block:: console
+.. code-block:: bash
 
      NAME                      READY   STATUS    RESTARTS   AGE
      traefik-894c9975c-z6mst   1/1     Running   0          15m

@@ -1,15 +1,15 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Install ``canton-domain`` Chart
+Install ``canton-domain`` chart
 ###############################
 
 Objectives
 **********
 
-* Customize Helm chart parameters
-* Install Helm chart
-* Verify the status of the deployment
+* Customize the Helm chart parameters
+* Install the Helm chart
+* Verify the deployment status
 
 Steps
 *****
@@ -18,7 +18,7 @@ Steps
 ======================================================
 
 .. note::
-   The Terraform scripts were used to parameterize the Helm values. If standalone Helm deployment is done without Terraform, the value file has to be customized manually. The value file can be found under `domain.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/helm/values/domain.yaml>`_.
+   The Terraform scripts parameterize the Helm values. For a standalone Helm deployment without Terraform, you must customize the value file manually. The value file is located under `domain.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/helm/values/domain.yaml>`_.
 
 .. code-block:: yaml
 
@@ -87,18 +87,18 @@ Steps
                ca: "/tls-participant1/ca.crt"
 
 .. note::
-   To learn about the supported attributes for canton-domain, check out the documentation `here <https://artifacthub.io/packages/helm/digital-asset/canton-domain#parameters>`_.
+   To learn about the supported attributes for ``canton-domain``, see the `canton-domain documentation <https://artifacthub.io/packages/helm/digital-asset/canton-domain#parameters>`_.
 
 2. Install the chart
 ====================
 
-With the value files prepared we can install the Helm chart:
+After preparing the value files, install the Helm chart:
 
 .. code-block:: bash
 
    helm -n canton install mydomain digital-asset/canton-domain -f azure/helm/values/domain.yaml
 
-After the other resources are deployed and ready, the bootstrap job will start, it takes a few minutes. Once this job is completed, the Helm chart deployment is considered successful.
+When the other resources are deployed and ready, the bootstrap job starts. It takes a few minutes. Once this job is completed, the Helm chart deployment is successful.
 
 Expected output:
 
@@ -128,7 +128,7 @@ Expected output:
 3. Check deployment status
 ==========================
 
-We can check the status of the deployment using the following command:
+You can check the status of the deployment using the following command:
 
 .. code-block:: bash
 

@@ -1,7 +1,7 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Helmfile Deployment of Daml Enterprise
+Helmfile deployment of Daml Enterprise
 ######################################
 
 Prerequisites
@@ -15,10 +15,10 @@ Prerequisites
 
 * Access to your AKS cluster
 
-Automated Deployment
+Automated deployment
 ********************
 
-* Switch ``kubectl`` context and open an SSH tunnel to the private Kubernetes API:
+* Switch the ``kubectl`` context and open an SSH tunnel to the private Kubernetes API:
 
   .. code-block:: bash
 
@@ -27,7 +27,7 @@ Automated Deployment
      make kubectl-proxy
      `
 
-* Open a new terminal at the root of this repository
+* Open a new terminal at the root of this repository:
 
 * Deploy everything with Helmfile:
 
