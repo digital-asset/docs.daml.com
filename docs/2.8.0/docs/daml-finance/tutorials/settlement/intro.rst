@@ -29,7 +29,7 @@ The following tutorials are available:
   ``RouteProvider`` to settle instructions across account hierarchies involving more than one
   custodian.
 
-Download the code for the tutorials
+Download the Code for the Tutorials
 ***********************************
 
 As a prerequisite, make sure that the :doc:`Daml SDK <../../../getting-started/installation>`
