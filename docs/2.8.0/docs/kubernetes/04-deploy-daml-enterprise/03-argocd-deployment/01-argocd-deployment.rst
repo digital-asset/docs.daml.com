@@ -34,7 +34,7 @@ Introduction
 
 This section walks through the steps to install Daml Enterprise on a Kubernetes cluster using `Argo CD <https://argo-cd.readthedocs.io/en/stable/>`_\ , the declarative GitOps continuous delivery tool for Kubernetes.
 
-If you want to use GitOps, you must fork the `Daml Enterprise Accompanying Resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`_ to commit the changes in ``manifests/configurations/values`` to deploy Kubernetes resources. You must grant Argo CD access to this forked repository and reference it with a revision (branch, SHA1 or tag) within the application's configuration.
+If you want to use GitOps, you must `fork the Daml Enterprise Accompanying Resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`_ to commit the changes in ``manifests/configurations/values`` to deploy Kubernetes resources. You must grant Argo CD access to this forked repository and reference it with a revision (branch, SHA1 or tag) within the application's configuration.
 
 .. note::
    For more information on Argo CD, refer to the `Argo CD getting started guide <https://argo-cd.readthedocs.io/en/stable/getting_started/>`_.

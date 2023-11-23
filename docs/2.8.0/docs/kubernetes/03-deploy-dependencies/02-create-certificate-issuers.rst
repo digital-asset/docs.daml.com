@@ -23,7 +23,7 @@ Prerequisites
 Configure smallstep
 *******************
 
-The Terraform deployment generates the scripts for the smallstep setup. The following commands assume the current directory is the ``azure/terraform`` folder in your clone of the `Daml Enterprise Accompanying Resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`_.
+The Terraform deployment generates the scripts for the smallstep setup. The following commands assume the current directory is the ``azure/terraform`` folder in your clone of the `accompanying resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`_.
 
 .. code-block:: bash
 

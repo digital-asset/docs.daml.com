@@ -25,7 +25,7 @@ Objectives
 * Describe the required cloud resources and how to configure them.
 * Describe how to set up your Kubernetes cluster.
 * Walk through the steps required for deploying all Daml Enterprise components on a Kubernetes cluster using Helm, Helmfile, or Argo CD.
-* Provide automation to provision cloud resources through `Terraform <https://www.terraform.io/>`_ code.
+* Provide automation to provision cloud resources through `Terraform code <https://www.terraform.io/>`_.
 
 .. _target-deployment:
 

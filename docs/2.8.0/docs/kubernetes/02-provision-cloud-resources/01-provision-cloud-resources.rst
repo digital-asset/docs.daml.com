@@ -10,7 +10,7 @@ Provision cloud resources with Terraform
   to Kubernetes, you must fork the `Daml Enterprise Accompanying Resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints>`_. If you plan to follow other options like
   :doc:`Helm <../04-deploy-daml-enterprise/01-helm-deployment/01-helm-deployment-preparation>`
   or :doc:`Helmfile <../04-deploy-daml-enterprise/02-helmfile-deployment/00-intro>` (recommended),
-  you can directly clone the `Daml Enterprise Accompanying Resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`_.
+  you can directly clone the Daml Enterprise `Accompanying Resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`_.
 
 .. note::
    All the resources created are private. Nothing is exposed over the public Internet.
@@ -20,7 +20,7 @@ Objectives
 
 This section covers the following objectives:
 
-* Configure Azure access and configure `Terraform <https://www.terraform.io/>`_.
+* Configure Azure access and `configure Terraform <https://www.terraform.io/>`_.
 * Create resources in your Azure subscription required for deploying Daml Enterprise.
 * Initialize databases and configure Kubernetes secrets.
 * Copy Daml Enterprise container images into the Azure Container Registry.
@@ -34,7 +34,7 @@ Prerequisites
 *************
 
 * Credentials to access the `Digital Asset Artifactory <https://digitalasset.jfrog.io/>`_ and pull Daml Enterprise container images
-* GitHub account with access to the `Daml Enterprise Accompanying Resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`_
+* GitHub account with access to the Daml Enterprise Accompanying `Resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`_
 * `jq <https://jqlang.github.io/jq/download/>`_ [\ ``1.5+``\ ]
 * `Azure CLI <https://learn.microsoft.com/en-us/cli/azure/install-azure-cli>`_ [latest]
 * `Terraform <https://developer.hashicorp.com/terraform/downloads>`_ [\ ``1.4+``\ ]
@@ -48,7 +48,7 @@ Steps
 *****
 
 .. note::
-   The following steps assume that you have cloned the `Daml Enterprise Accompanying Resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`_,
+   The following steps assume that you have cloned `the Daml Enterprise Accompanying Resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`_,
    and that your working directory is ``azure/terraform``.
 
 Create SSH key to access bastion
