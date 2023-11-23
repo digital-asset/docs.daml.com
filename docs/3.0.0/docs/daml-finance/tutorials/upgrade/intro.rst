@@ -43,7 +43,7 @@ thanks to the intentional decoupling of their implementation packages in Daml Fi
     implementation and interface packages.
   :width: 100%
 
-Download the code for the tutorials
+Download the Code for the Tutorials
 ***********************************
 
 As a prerequisite, make sure that the :doc:`Daml SDK <../../../getting-started/installation>` is

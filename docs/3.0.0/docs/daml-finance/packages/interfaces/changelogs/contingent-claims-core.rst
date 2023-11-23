@@ -4,13 +4,19 @@
 ContingentClaims.Core - Changelog
 #################################
 
+Version 2.0.1
+*************
+
+- Update of SDK version and dependencies.
+
 Version 2.0.0
 *************
 
-- Update of SDK version and dependencies
+- Update of SDK version and dependencies.
 
-- Add `orList` and `andList` smart constructors
+- Add `orList` and `andList` smart constructors.
 
-- Add `ObserveAt` observation builder, used to explicitly state when an `Observation` should be observed
+- Add `ObserveAt` observation builder, used to explicitly state when an `Observation` should be
+  observed.
 
-- Refactor `or` and `anytime` smart constructors to identify electable sub-trees by a textual tag
+- Refactor `or` and `anytime` smart constructors to identify electable sub-trees by a textual tag.

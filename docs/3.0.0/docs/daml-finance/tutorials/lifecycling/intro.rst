@@ -22,7 +22,7 @@ The following tutorials are available:
 
 Each tutorial builds on top of the previous ones, so they should ideally be followed in order.
 
-Download the code for the tutorials
+Download the Code for the Tutorials
 ***********************************
 
 As a prerequisite, make sure that the :doc:`Daml SDK <../../../getting-started/installation>`

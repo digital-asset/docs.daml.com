@@ -4,19 +4,26 @@
 Daml.Finance.Claims - Changelog
 ###############################
 
+Version 2.1.0
+*************
+
+- Update of SDK version and dependencies.
+
+- Added builder function for SOFR style rates (via a compounded index).
+
 Version 2.0.0
 *************
 
-- Update of SDK version and dependencies
+- Update of SDK version and dependencies.
 
-- The lifecycle rule supports a combination of elections and time-based events
+- The lifecycle rule supports a combination of elections and time-based events.
 
-- Improve tagging of new instrument versions in the lifecycle rule
+- Improve tagging of new instrument versions in the lifecycle rule.
 
 - A new instrument version is created and returned by the `Evolve` choice also when the instrument
-  expires
+  expires.
 
 Version 1.0.1
 *************
 
-- Dependencies update
+- Dependencies update.

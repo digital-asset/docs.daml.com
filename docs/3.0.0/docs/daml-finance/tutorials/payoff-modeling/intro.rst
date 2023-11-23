@@ -26,7 +26,7 @@ The following tutorials are available:
 * The :doc:`Observations <observations>` tutorial shows how to model market observables, such as
   interest rates or equity spot prices.
 
-Download the code for the tutorials
+Download the Code for the Tutorials
 ***********************************
 
 As a prerequisite, make sure that the :doc:`Daml SDK <../../../getting-started/installation>`
