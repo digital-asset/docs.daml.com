@@ -16,7 +16,7 @@ Version 3.0.0
 - Replaced `lookupByKey` by an `exerciseByKey` in the `Distribution` and `Replacement` rule.
 
 - Replaced `providers : Parties` with `provider : Party` in the `Claim` rule (i.e., in the
-implementation only).
+  implementation only).
 
 Version 2.0.0
 *************

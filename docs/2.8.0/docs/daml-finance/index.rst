@@ -97,7 +97,7 @@ have been made to improve extensibility and upgrade processes:
 #. The ``Account`` now uses a ``HoldingFactoryKey`` instead of a ``ContractId`` to reference its
    ``Daml.Finance.Interface.Holding.Factory``. This allows for seamless ``HoldingFactory`` upgrades
    without altering ``Account`` contract instances, as illustrated in our
-   :doc:`Holding Upgrade Tutorial <../tutorials/upgrade/holding>`.
+   :doc:`Holding Upgrade Tutorial <./tutorials/upgrade/holding>`.
 
 #. The ``Fungible`` interface no longer requires the ``Transferable`` interface. However, both
    ``Transferable`` and ``Fungible`` continue to require the implementation of the ``Holding``
@@ -177,7 +177,7 @@ Stable Packages
 +-------------------------------------------+---------+--------+
 | Daml.Finance.Holding                      | 3.0.0   | Stable |
 +-------------------------------------------+---------+--------+
-| Daml.Finance.Instrument.Bond              | 3.0.0   | Stable |
+| Daml.Finance.Instrument.Bond              | 2.0.0   | Stable |
 +-------------------------------------------+---------+--------+
 | Daml.Finance.Instrument.Generic           | 3.0.0   | Stable |
 +-------------------------------------------+---------+--------+

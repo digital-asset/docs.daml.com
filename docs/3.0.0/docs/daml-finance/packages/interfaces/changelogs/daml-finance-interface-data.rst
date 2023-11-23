@@ -24,7 +24,7 @@ Version 3.0.0
 - Remove implementation of `Remove` choice from factory templates.
 
 - Make use of the `requires` keyword to enforce the interface hierarchy (in particular the
-`asDisclosure`, `asNumericObservable`, and `asTimeObservable` methods were removed).
+  `asDisclosure`, `asNumericObservable`, and `asTimeObservable` methods were removed).
 
 Version 2.0.0
 *************

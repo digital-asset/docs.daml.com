@@ -4,7 +4,7 @@
 Daml.Finance.Interface.Instrument.Types - Changelog
 ###################################################
 
-Version 0.0.1
+Version 1.0.0
 *************
 
 - First release.
