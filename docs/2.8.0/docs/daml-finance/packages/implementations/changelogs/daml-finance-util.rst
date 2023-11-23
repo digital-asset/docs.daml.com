@@ -4,17 +4,28 @@
 Daml.Finance.Util - Changelog
 #############################
 
+Version 3.1.0
+*************
+
+- Update of SDK version and dependencies.
+
+- Added a `Lockable` module containing the `aquireImpl` and `releaseImpl` locking utitlity
+  functions.
+
+- Fix a bug in the schedule roll-out logic.
+
+- Added new day-count conventions: Act365NL, Basis30365, and Basis30E2360.
+
 Version 3.0.0
 *************
 
-- Update of SDK version and dependencies
+- Update of SDK version and dependencies.
 
-- Remove the `groupBy` utility function
+- Remove the `groupBy` utility function.
 
 Version 2.0.0
 *************
 
-- `calcPeriodDcf` and `calcPeriodDcfActActISMA` take a `ScheduleFrequency` instead of a `Frequency`
+- `calcPeriodDcf` and `calcPeriodDcfActActISMA` take a `ScheduleFrequency` instead of a `Frequency`.
 
-- Dependencies update
-
+- Dependencies update.

@@ -473,6 +473,13 @@ subtrees:
                 title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-structuredproduct
             title: "Daml.Finance.Interface.Instrument.StructuredProduct"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-instrument-structuredproduct.rst
+                title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-swap
             title: "Daml.Finance.Interface.Instrument.Swap"
             subtrees:
@@ -493,6 +500,13 @@ subtrees:
                 title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-types
             title: "Daml.Finance.Interface.Instrument.Types"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-instrument-types.rst
+                title: "Changelog"
       - file: daml-finance/packages/implementations/index
         title: "Implementation Packages"
         subtrees:
@@ -619,6 +633,13 @@ subtrees:
                 title: "Changelog"
           - file: daml-finance/packages/implementations/daml-finance-instrument-structuredproduct
             title: "Daml.Finance.Instrument.StructuredProduct"
+            subtrees:
+            - hidden: False
+              titlesonly: True
+              maxdepth: 1
+              entries:
+              - file: daml-finance/packages/implementations/changelogs/daml-finance-instrument-structuredproduct.rst
+                title: "Changelog"
           - file: daml-finance/packages/implementations/daml-finance-instrument-swap
             title: "Daml.Finance.Instrument.Swap"
             subtrees:

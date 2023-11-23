@@ -4,11 +4,27 @@
 Daml.Finance.Interface.Account - Changelog
 ##########################################
 
+Version 3.0.0
+*************
+
+- Update of SDK version and dependencies.
+
+- Removed the `ContractId Holding.Factory` from the account view.
+
+- The `Remove` choice, which was previously a choice of the `Factory`, has now been reassigned to
+  the `Account`.
+
+- The `Create` choice of the account's `Factory` has been adapted; it now takes a
+  `HoldingFactoryKey` instead of the `ContractId Daml.Finance.Interface.Holding.Factory` as input
+
+- Renamed the `F` type synonym to `I` .
+
 Version 2.0.0
 *************
 
-- Update of SDK version and dependencies
+- Update of SDK version and dependencies.
 
-- Remove type synonym for `AccountKey`
+- Remove type synonym for `AccountKey`.
 
-- Make use of the `requires` keyword to enforce the interface hierarchy (in particular the `asDisclosure` method was removed)
+- Make use of the `requires` keyword to enforce the interface hierarchy (in particular the
+  `asDisclosure` method was removed).

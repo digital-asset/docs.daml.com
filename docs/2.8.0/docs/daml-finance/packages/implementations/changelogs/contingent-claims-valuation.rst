@@ -4,7 +4,12 @@
 ContingentClaims.Valuation - Changelog
 ######################################
 
+Version 0.2.2
+*************
+
+- Update of SDK version and dependencies.
+
 Version 0.2.1
 *************
 
-- Update of SDK version and dependencies
+- Update of SDK version and dependencies.

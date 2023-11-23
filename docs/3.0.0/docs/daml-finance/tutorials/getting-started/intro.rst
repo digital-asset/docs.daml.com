@@ -30,7 +30,7 @@ grasp the fundamental concepts also without detailed knowledge on interfaces.
 Finally, make sure that the :doc:`Daml SDK <../../../getting-started/installation>`
 is installed on your machine.
 
-Download the code for the tutorials
+Download the Code for the Tutorials
 ***********************************
 
 Open a new terminal window and run:

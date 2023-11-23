@@ -4,7 +4,17 @@
 Daml.Finance.Interface.Types.Common - Changelog
 ###############################################
 
+Version 2.0.0
+*************
+
+- Update of SDK version and dependencies.
+
+- Added a `HoldingFactoryKey` data type used to key holding factories.
+
+- Added a `HoldingStandard` enumeration data type for referring to various holding standards, it
+  is newly part of the `InstrumentKey`.
+
 Version 1.0.1
 *************
 
-- Update of SDK version and dependencies
+- Update of SDK version and dependencies.

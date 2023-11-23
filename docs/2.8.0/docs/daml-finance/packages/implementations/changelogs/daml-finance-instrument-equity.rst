@@ -4,20 +4,32 @@
 Daml.Finance.Instrument.Equity - Changelog
 ##########################################
 
+Version 0.4.0
+*************
+
+- Update of SDK version and dependencies.
+
+- Added a `HoldingStandard` field to the implementation.
+
+- The `Remove` implementation was removed from the `Factory` (it is newly part of the `Base`
+  instrument interface).
+
+- Renamed the `F` type synonym to `T`.
+
 Version 0.3.0
 *************
 
-- Update of SDK version and dependencies
+- Update of SDK version and dependencies.
 
 - The `Create` choice on the instrument factory returns the corresponding interface (rather than the
-  base instrument interface)
+  base instrument interface).
 
 - Make use of the `requires` keyword to enforce the interface hierarchy (in particular the
-  `asDisclosure` and `asBaseInstrument` implementations were removed)
+  `asDisclosure` and `asBaseInstrument` implementations were removed).
 
-- Rename `DeclareDividend` to `DeclareDistribution`
+- Rename `DeclareDividend` to `DeclareDistribution`.
 
 Version 0.2.1
 *************
 
-- Dependencies update
+- Dependencies update.
