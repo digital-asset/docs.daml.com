@@ -6,8 +6,8 @@
 Explicit Contract Disclosure (Beta)
 ###########################################
 
-In Daml, you must specify up front who can view data using `observer` annotations on contracts.
-To change who can see the data, you would typically need to rewrite the contract (e.g. an asset) with a new annotation.
+In Daml, you must specify up front who can view data using `stakeholder <https://docs.daml.com/concepts/glossary.html#stakeholder>`_ annotations in template definitions.
+To change who can see the data, you would typically need to recreate a contract with a template that computes different stakeholder parties.
 
 Explicit contract disclosure (available in Canton 2.8.0 as a `Beta feature <https://docs.daml.com/support/status-definitions.html#early-access-features>`_) allows you to delegate contract read rights to non-stakeholders using off-ledger data distribution.
 This supports efficient, scalable data sharing on the ledger.
