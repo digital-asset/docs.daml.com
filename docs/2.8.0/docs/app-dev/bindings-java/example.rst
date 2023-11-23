@@ -21,7 +21,7 @@ The logic of the application goes like this:
 Set Up the Example Projects
 ***************************
 
-To set up the example projects, clone the public GitHub repository at `github.com/digital-asset/ex-java-bindings <https://github.com/digital-asset/ex-java-bindings>`__ and follow the setup instruction in the `PingPong project README file <https://github.com/digital-asset/ex-java-bindings/blob/master/PingPong/README.rst#setting-up-the-example-projects>`__.
+To set up the example projects, clone the public GitHub repository at `github.com/digital-asset/ex-java-bindings <https://github.com/digital-asset/ex-java-bindings>`__ and follow the setup instructions in the `PingPong project README file <https://github.com/digital-asset/ex-java-bindings/blob/master/PingPong/README.rst#setting-up-the-example-projects>`__.
 
 This project contains two examples of the PingPong application, built directly with gRPC and using the RxJava2-based Java bindings.
 

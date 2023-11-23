@@ -6,14 +6,14 @@
 Explicit Contract Disclosure (Beta)
 ###########################################
 
-In Daml, you must specify upfront who can view data using `observer` annotations on contracts.
+In Daml, you must specify up front who can view data using `observer` annotations on contracts.
 To change who can see the data, you would typically need to rewrite the contract (e.g. an asset) with a new annotation.
 
-Explicit contract disclosure (available in Canton 2.8.0 as a `Beta feature <https://docs.daml.com/support/status-definitions.html#early-access-features>`_) is introduced to allow seamless contract read rights delegation to non-stakeholder using off-ledger data distribution.
+Explicit contract disclosure (available in Canton 2.8.0 as a `Beta feature <https://docs.daml.com/support/status-definitions.html#early-access-features>`_) allows you to delegate contract read rights to non-stakeholders using off-ledger data distribution.
 This supports efficient, scalable data sharing on the ledger.
 
-.. note::  Explicit disclosure is enabled by default.
-    It can be disabled by configuring ``participants.participant.ledger-api.enable-explicit-disclosure = false``.
+.. note::  Explicit disclosure is activated by default.
+    To deactivate it, configure ``participants.participant.ledger-api.enable-explicit-disclosure = false``.
 
 Here are some use cases that illustrate how you might benefit from explicit contract disclosure:
 
@@ -220,9 +220,9 @@ by conventional means, such as HTTPS, SFTP, or e-mail. A :ref:`DisclosedContract
 be constructed from the fields of the same name from the original contract's ``CreatedEvent``.
 
 .. note::
-  The ``created_event_blob`` field in ``CreatedEvent`` needed for constructing the :ref:`DisclosedContract <com.daml.ledger.api.v1.DisclosedContract>`
-  is populated **only** on demand for ``GetTransactions``, ``GetTransactionTrees`` and ``GetActiveContracts`` streams
-  (read more about enabling the field's population in :ref:`configuring transaction filters <transaction-filter>`).
+  The ``created_event_blob`` field in ``CreatedEvent`` (used to construct the :ref:`DisclosedContract <com.daml.ledger.api.v1.DisclosedContract>`)
+  is populated **only** on demand for ``GetTransactions``, ``GetTransactionTrees``, and ``GetActiveContracts`` streams.
+  To learn more, see :ref:`configuring transaction filters <transaction-filter>`.
 
 .. _submitter-disclosed-contract:
 
@@ -238,7 +238,7 @@ the original `CreatedEvent` (see above):
 - **created_event_blob** - The contract's representation as an opaque blob encoding.
 
 .. note:: Only contracts created starting with Canton 2.8 can be shared as disclosed contracts.
-  Prior to this version, contracts' **CreatedEvent** does not have the required `created_event_blob` field populated
+  In earlier versions, the **CreatedEvent** does not have the required populated `created_event_blob` field
   and cannot be used as disclosed contracts.
 
 Trading the stock with explicit disclosure
@@ -250,13 +250,13 @@ do so, the contracts' stakeholders must fetch them from the ledger and make them
 
 .. note:: Daml Script support for explicit disclosure is currently not implemented.
   The last steps of the example are modeled using raw gRPC queries.
-  For a complete example using a high-level client API, check the
+  For a complete example using a high-level client API, see the
   `Java Bindings StockExchange example project <https://github.com/digital-asset/ex-java-bindings/blob/f474ae83976b0ad197e2fabfce9842fb9b3de907/StockExchange/README.rst>`_.
 
 The contracts' stakeholders issue fetch queries to the Ledger API (each to their own participant) for retrieving
 the associated contract payloads.
 
-In this example, the following Canton participant node topology has been used:
+This example uses the following Canton participant node topology:
 
 - ``stockExchangeParticipant`` hosts party with display name ``StockExchange`` and exposes Ledger API on port ``5011``
 - ``bankParticipant`` hosts party with display name ``Bank`` and exposes Ledger API on port ``5021``
@@ -376,7 +376,7 @@ In this example, the following Canton participant node topology has been used:
 
   offerTransactions=$(grpcurl -plaintext -d $offerQuery localhost:5041 com.daml.ledger.api.v1.TransactionService/GetTransactions)
 
-  # As above, Buyer fetches the its IOU
+  # As above, Buyer fetches the IOU
   iouQuery=$(cat <<EOF
   {
     "ledgerId": "buyerParticipant",
