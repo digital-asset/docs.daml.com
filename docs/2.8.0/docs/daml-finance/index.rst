@@ -79,63 +79,41 @@ The main driver for this release has been to optimize the library for useability
 and upgradability. Along with code changes, we have added new documentation and tutorials to
 streamline the learning process for new users.
 
-Furthermore, we have broadened the library's functionality by introducing additional packages for
-new financial instruments, such as structured products, and making several usability enhancements.
+This section outlines the major changes and reasons behind them. The technical changelog for each
+package can be found as a sub-page :doc:`here <packages/index>`.
 
-Additionally, certain modifications have been implemented to ease future transitions to Daml 3.0 and
-the Canton Network.
+Enhanced Upgradeability, Extensibility, and Interoperability
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This section outlines the major changes and reasons behind them. Please also see the detailed
-changelog for each :doc:`package <packages/index>`.
+We have enhanced the core asset model (``Account``, ``Holding``, and ``Instrument`` interfaces) to
+streamline upgrade processes, enhance extensibility, and improve interoperability:
 
-Enhanced Upgradeability and Extensibility
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Modifications to the core asset model (``Account``, ``Holding``, and ``Instrument`` interfaces)
-have been made to improve extensibility and upgrade processes:
-
-#. The ``Account`` now uses a ``HoldingFactoryKey`` instead of a ``ContractId`` to reference its
-   ``Daml.Finance.Interface.Holding.Factory``. This allows for seamless ``HoldingFactory`` upgrades
-   without altering ``Account`` contract instances, as illustrated in our
+#. The ``Account`` now links to its ``Daml.Finance.Interface.Holding.Factory`` by key, a
+   ``HoldingFactoryKey``, instead of a ``ContractId``. This facilitates the upgrading of a
+   ``HoldingFactory`` without the need to modify existing ``Account`` contract instances. It also
+   enables a "lazy" upgrade approach for holdings, as detailed in our new
    :doc:`Holding Upgrade Tutorial <./tutorials/upgrade/holding>`.
 
-#. The ``Fungible`` interface no longer requires the ``Transferable`` interface. However, both
+#. In anticipation of the need for standardization when implementing composed workflows across
+   applications, we have introduced the notion of a ``HoldingStandard`` (as part of the
+   ``InstrumenKey``). It categorizes holdings into four distinct classes, each defined by the
+   combination of holding interfaces (``Transferable``, ``Fungible``, and ``Holding``) they
+   implement. This new standard has guided the renaming and structuring of holding implementations.
+   The ``Fungible`` interface no longer requires the ``Transferable`` interface. However, both
    ``Transferable`` and ``Fungible`` continue to require the implementation of the ``Holding``
-   interface (renamed from ``Base`` following customer feedback).
+   interface (renamed from ``Base`` following customer feedback). Moreover, the settlement process
+   has been refined to require only a matching ``HoldingStandard``, allowing for implementation
+   variations.
 
-#. We have introduced the ``HoldingStandard``, an enumeration data type used to classify holdings
-   into four types based on the interfaces they implement: ``Transferable``, ``Fungible``, and
-   ``Holding``. This classification influenced the renaming and structuring of holding
-   implementations. A unified ``HoldingFactory`` capable of instantiating any holding standard has
-   been adopted.
+#. A unified ``HoldingFactory`` capable of creating holdings for any specified ``HoldingStandard``
+   has been adopted. In particular, this enables multiple holdings (of various ``HoldingStandards``)
+   to be credited to the same account.
 
-#. The ``InstrumentKey`` now includes the ``HoldingStandard``, specifying the applicable holding
-   standard for an instrument. Settlement processes have been adjusted to only necessitate a
-   matching holding standard, allowing for implementation variations.
+Foreseeing future integration with Daml 3.0 and the Canton Network
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Introducing a Locking Interface
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The locking mechanism has been separated from the base ``Holding`` interface into a new ``Lockable``
-interface. The ``Holding`` interface now requires ``Lockable``. Choices like ``Transfer``,
-``Split``, ``Merge``, and ``Debit`` are disabled in locked states and require unlocking first. The
-``Account`` template now also implements the ``Lockable`` interface, though alternative
-implementations without ``Lockable`` remain feasible.
-
-Streamlining Interface Archival
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Previously, our factory contracts featured a ``Remove`` choice for archiving interface instances.
-With Daml now supporting direct archival of interface instances, these choices have been removed. To
-facilitate the simultaneous archival of ``Account``, ``Instrument``, and ``HoldingFactory``
-interfaces with their related ``Reference`` contract instance, a ``Remove`` choice has been added to
-the ``Account``, base ``Instrument``, and ``HoldingFactory`` interfaces.
-
-Transitioning to Single-Maintainer Keys
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Anticipating future integration with Daml 3.0 and the Canton Network, we've shifted to
-single-maintainer party keys:
+In order to ease future transitions to Daml 3.0 and the Canton Network we have shifted to
+single-maintainer contract keys:
 
 #. The `issuer : Party` of the ``InstrumentKey`` is now the single maintainer for the ``Instrument``
    key.
@@ -149,14 +127,44 @@ single-maintainer party keys:
 
 #. The LedgerTime key has been completely removed as it was redundant.
 
+Streamlining Interface Archival
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Previously, our factory contracts featured a ``Remove`` choice for archiving interface instances.
+With Daml now supporting direct archival of interface instances, these choices have been removed. To
+facilitate the simultaneous archival of ``Account``, ``Instrument``, and ``HoldingFactory``
+interfaces with their related ``Reference`` contract instance, a ``Remove`` choice has been added to
+the ``Account``, base ``Instrument``, and ``HoldingFactory`` interfaces.
+
+New Interface Lockable
+~~~~~~~~~~~~~~~~~~~~~~
+
+The locking mechanism has been separated from the base ``Holding`` interface into a new ``Lockable``
+interface (which the ``Holding`` now requires). That makes ``Lockable`` available for broader use;
+while the ``Account`` also implements ``Lockable`` allowing to freeze an account, it’s not required.
+
+Additionally, the implementations of ``Transfer``, ``Split``, ``Merge``, and ``Debit`` have been
+adjusted to require unlocking before they can be used when in the locked state.
+
+New Instruments
+~~~~~~~~~~~~~~~
+
+Furthermore, we have broadened the library's functionality by introducing new financial instruments,
+such as structured products, and multi-underlying asset swap instruments (both early access).
+
+Usability Improvements
+~~~~~~~~~~~~~~~~~~~~~~
+
+Finally, a large number (around 50 tickets) of smaller improvements addressing customer feedback
+have been made. These improvements range from the consistency of naming conventions (e.g. the type
+synonym ``F`` for factories has been renamed to ``T`` for factory templates and ``I`` for factory
+interfaces) in the library to didactical improvements in our docs and tutorials.
+
 Additional Changes
 ~~~~~~~~~~~~~~~~~~
 
-- We've updated our naming conventions: ``F`` for factories has been changed to ``T`` for factory
-  templates and ``I`` for factory interfaces.
-
-- The ``Calculate`` choice in the ``Effect`` interface now accepts a quantity as an argument instead
-  of a ``ContractId Holding``. This change enhances privacy by minimizing unnecessary data exposure.
+The ``Calculate`` choice in the ``Effect`` interface now accepts a quantity as an argument instead
+of a ``ContractId Holding``. This change enhances privacy by minimizing unnecessary data exposure.
 
 
 Stable Packages
