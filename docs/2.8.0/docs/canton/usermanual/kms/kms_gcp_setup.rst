@@ -35,7 +35,9 @@ A complete list is given in those sections.
 For GCP, Canton uses a `GCP service account
 <https://cloud.google.com/docs/authentication/provide-credentials-adc#local-user-cred>`_. For example,
 the standard environment variable `GOOGLE_APPLICATION_CREDENTIALS` can be used after
-setting up a local Application Default Credentials (ADC) file for the service account.
+setting up a local Application Default Credentials (ADC) file for the service account. For supported environments,
+e.g. GKE, Canton can pick up credentials from the metadata service
+`Application Default Credentials <https://cloud.google.com/docs/authentication/application-default-credentials>`_.
 
 The protection and rotation of
 the credentials for GCP are the responsibility of the node operator.
