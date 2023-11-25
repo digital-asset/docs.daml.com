@@ -21,7 +21,7 @@ Prerequisites
 * Kubernetes 1.24+
 * `Helm <https://helm.sh/docs/intro/install/>`_ and `kubectl <https://kubernetes.io/docs/tasks/tools/#kubectl>`_ installed locally
 * Access to the Kubernetes cluster with the necessary permissions to install Kubernetes
-  resources, including custom resource definitions and namespaces
+  resources, including Custom Resource Definitions and namespaces
 
 Install cert-manager with Helm
 ******************************
