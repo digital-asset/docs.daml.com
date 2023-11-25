@@ -78,7 +78,7 @@ achieve high availability:
    `ReplicaSet <https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/>`_
    > `Pods <https://kubernetes.io/docs/concepts/workloads/pods/>`_
 
-   -  Tells the Scheduler to try to reach the number of ready Pods you request.
+   -  The Scheduler tries to reach the number of ready Pods you request at all times.
 
 -  `DaemonSet <https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/>`_
 
