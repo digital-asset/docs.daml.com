@@ -80,7 +80,7 @@ and upgradability. Along with code changes, we have added new documentation and 
 streamline the learning process for new users.
 
 This section outlines the major changes and reasons behind them. The technical changelog for each
-package can be found as a sub-page :doc:`here <packages/index>`.
+package can be found as a sub-page under :doc:`Packages <packages/index>`.
 
 Enhanced Upgradeability, Extensibility, and Interoperability
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
