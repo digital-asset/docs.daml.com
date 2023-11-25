@@ -149,7 +149,7 @@ adjusted to require unlocking before they can be used when in the locked state.
 New Instruments
 ~~~~~~~~~~~~~~~
 
-Furthermore, we have broadened the library's functionality by introducing new financial instruments,
+The library's functionality has been broadened by introducing new financial instruments,
 such as structured products, and multi-underlying asset swap instruments (both early access).
 
 Usability Improvements
