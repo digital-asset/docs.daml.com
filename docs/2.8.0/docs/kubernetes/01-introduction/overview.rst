@@ -48,7 +48,7 @@ For an overview of the Daml Enterprise architecture, see `Introduction to Canton
 
 * `HTTP JSON API service <https://docs.daml.com/json-api/index.html>`_\: This service exposes a JSON API for interacting with a *participant*\ , allowing application writers to use a simpler version of the `Ledger API <https://docs.daml.com/app-dev/ledger-api.html>`_. You can achieve high availability through active-active clustering.
 
-You can find all of the Helm charts referenced by the target deployment architecture in the `Digital Asset Daml Helm Charts repository <https://github.com/digital-asset/daml-helm-charts/tree/main>`_. This may require a Daml Enterprise license.
+You can find all of the Helm charts referenced by the target deployment architecture in the `Daml Enterprise Helm charts repository <https://github.com/digital-asset/daml-helm-charts/tree/main>`_.
 
 Prerequisites
 *************
