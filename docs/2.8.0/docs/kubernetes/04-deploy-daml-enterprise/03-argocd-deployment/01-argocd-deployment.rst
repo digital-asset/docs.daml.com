@@ -91,7 +91,7 @@ While the command is in process, Argo CD is available in the `browser <http://lo
 
 You can log in to Argo CD using the user ``admin`` and the password you retrieved in step 2.
 
-2. Install the image puller as the Argo CD application (optional)
+2. Install the image puller as an Argo CD application (optional)
 =================================================================
 
 The following steps guide you to install the ``kubernetes-image-puller`` Helm chart as an Argo CD application.
