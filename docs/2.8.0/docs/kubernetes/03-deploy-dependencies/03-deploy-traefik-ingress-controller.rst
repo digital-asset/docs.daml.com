@@ -6,7 +6,7 @@ Deploy the Traefik Ingress controller
 
 Objectives
 **********
-* Deploy and set up the `Traefig Ingress controller <https://github.com/traefik/traefik-helm-chart>`_.
+* Deploy and set up the `Traefik Ingress controller <https://github.com/traefik/traefik-helm-chart>`_.
 
 Introduction
 ************
