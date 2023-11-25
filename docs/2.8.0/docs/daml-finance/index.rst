@@ -85,7 +85,7 @@ package can be found as a sub-page under :doc:`Packages <packages/index>`.
 Enhanced Upgradeability, Extensibility, and Interoperability
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-We have enhanced the core asset model (``Account``, ``Holding``, and ``Instrument`` interfaces) to
+The core asset model (``Account``, ``Holding``, and ``Instrument`` interfaces) has been enhanced to
 streamline upgrade processes, enhance extensibility, and improve interoperability:
 
 #. The ``Account`` now links to its ``Daml.Finance.Interface.Holding.Factory`` by key, a
