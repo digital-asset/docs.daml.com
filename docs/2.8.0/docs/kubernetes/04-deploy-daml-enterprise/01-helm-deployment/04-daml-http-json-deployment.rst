@@ -9,7 +9,6 @@ Steps
 
 1. Parameterize the Helm chart
 ==============================
-    
 .. note::
    The Terraform scripts parameterize the Helm values. For a standalone Helm deployment without Terraform, you must customize the value file manually. The value file is located in `http-json.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/helm/values/http-json.yaml>`_.
 
