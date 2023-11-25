@@ -143,7 +143,7 @@ a) Using a kubectl configuration context (recommended)
 b) Target the kubectl configuration file
 ----------------------------------------
 
-* Open a new terminal window to make an SSH tunnel (available on ``localhost:44443``\ ):
+* Open a new terminal to make an SSH tunnel (available on ``localhost:44443``\ ):
 
   .. code-block:: bash
 
