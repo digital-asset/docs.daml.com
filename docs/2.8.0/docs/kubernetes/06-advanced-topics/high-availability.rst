@@ -1,7 +1,7 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-How to achieve high availability for Daml Enterprise on Kubernetes
+How is high availability achieved for Daml Enterprise on Kubernetes
 ##################################################################
 
 Target deployment
