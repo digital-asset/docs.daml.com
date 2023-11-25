@@ -20,7 +20,7 @@ Prerequisites
 * A running Kubernetes cluster (1.24+) in which you have access to:
 
   * Create and manage namespaces
-  * Manage resources including custom resource definitions
+  * Manage resources including Custom Resource Definitions
 
 * Access to a PostgreSQL database (versions from 11 to 14 are supported)
 * The following command-line tools installed:
