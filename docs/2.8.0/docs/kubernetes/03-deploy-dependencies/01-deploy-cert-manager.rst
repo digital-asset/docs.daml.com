@@ -49,7 +49,7 @@ Install Helm chart for cert-manager
 
 Installing the Helm charts creates the Kubernetes resources required to run cert-manager and cert-manager-csi-driver.
 
-Install the cert-manager Helm chart, including the custom resource definitions (CRDs)
+Install the cert-manager Helm chart, including the Custom Resource Definitions (CRDs)
 into the cert-manager namespace:
 
 .. code-block:: bash
