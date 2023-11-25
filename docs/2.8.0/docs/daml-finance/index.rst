@@ -112,7 +112,7 @@ streamline upgrade processes, enhance extensibility, and improve interoperabilit
 Foreseeing future integration with Daml 3.0 and the Canton Network
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In order to ease future transitions to Daml 3.0 and the Canton Network we have shifted to
+In order to ease future transitions to Daml 3.0 and the Canton Network, there is a shift to
 single-maintainer contract keys:
 
 #. The `issuer : Party` of the ``InstrumentKey`` is now the single maintainer for the ``Instrument``
