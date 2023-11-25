@@ -91,7 +91,7 @@ streamline upgrade processes, enhance extensibility, and improve interoperabilit
 #. The ``Account`` now links to its ``Daml.Finance.Interface.Holding.Factory`` by key, a
    ``HoldingFactoryKey``, instead of a ``ContractId``. This facilitates the upgrading of a
    ``HoldingFactory`` without the need to modify existing ``Account`` contract instances. It also
-   enables a "lazy" upgrade approach for holdings, as detailed in our new
+   enables a "lazy" upgrade approach for holdings, as detailed the
    :doc:`Holding Upgrade Tutorial <./tutorials/upgrade/holding>`.
 
 #. In anticipation of the need for standardization when implementing composed workflows across
