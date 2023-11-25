@@ -162,7 +162,7 @@ Access to PostgreSQL
 
 To enable access to the provisioned PostgreSQL server:
 
-* Open a new terminal window to make an SSH tunnel (available on ``localhost:5432``\ )
+* Open a new terminal to make an SSH tunnel (available on ``localhost:5432``\ )
 
   .. code-block:: bash
 
