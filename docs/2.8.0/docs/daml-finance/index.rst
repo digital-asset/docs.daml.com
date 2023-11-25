@@ -156,7 +156,7 @@ Usability Improvements
 ~~~~~~~~~~~~~~~~~~~~~~
 
 Finally, a large number (around 50 tickets) of smaller improvements addressing customer feedback
-have been made. These improvements range from the consistency of naming conventions (e.g. the type
+were made. These improvements range from the consistency of naming conventions (for example, the type
 synonym ``F`` for factories has been renamed to ``T`` for factory templates and ``I`` for factory
 interfaces) in the library to didactical improvements in our docs and tutorials.
 
