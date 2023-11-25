@@ -20,7 +20,7 @@ Prerequisites
 * A running Kubernetes cluster (1.24+) in which you have access to the following:
 
   * Create and manage namespaces
-  * Manage resources, including custom resource definitions
+  * Manage resources, including Custom Resource Definitions
 
 * The following command-line tools installed:
 
