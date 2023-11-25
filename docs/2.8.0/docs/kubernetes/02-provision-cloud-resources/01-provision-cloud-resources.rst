@@ -126,7 +126,7 @@ There are different ways to configure access to the Kubernetes API using the CLI
 a) Using a kubectl configuration context (recommended)
 ------------------------------------------------------
 
-* Open a new terminal window to make an SSH tunnel (available on ``localhost:44443``\ ):
+* Open a new terminal to make an SSH tunnel (available on ``localhost:44443``\ ):
 
   .. code-block:: bash
 
