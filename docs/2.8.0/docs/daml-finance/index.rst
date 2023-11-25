@@ -95,7 +95,7 @@ streamline upgrade processes, enhance extensibility, and improve interoperabilit
    :doc:`Holding Upgrade Tutorial <./tutorials/upgrade/holding>`.
 
 #. In anticipation of the need for standardization when implementing composed workflows across
-   applications, we have introduced the notion of a ``HoldingStandard`` (as part of the
+   applications, the notion of a ``HoldingStandard`` was introduced (as part of the
    ``InstrumenKey``). It categorizes holdings into four distinct classes, each defined by the
    combination of holding interfaces (``Transferable``, ``Fungible``, and ``Holding``) they
    implement. This new standard has guided the renaming and structuring of holding implementations.
