@@ -123,7 +123,7 @@ single-maintainer contract keys:
    signatories `consenters : Parties`. Corresponding changes have been made to the ``Batch`` and
    ``Instruction`` views. In the ``Daml.Finance.Lifecycle.Rule.Claim`` implementation,
    `providers : Parties` has been replaced with a single `provider : Party` (to facilitate assigning
-   the `provider` as a settlemetn `instructor : Party`).
+   the `provider` as a settlement `instructor : Party`).
 
 #. The LedgerTime key has been completely removed as it was redundant.
 
