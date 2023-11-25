@@ -125,7 +125,7 @@ single-maintainer contract keys:
    `providers : Parties` has been replaced with a single `provider : Party` (to facilitate assigning
    the `provider` as a settlement `instructor : Party`).
 
-#. The LedgerTime key has been completely removed as it was redundant.
+#. The LedgerTime key has been completely removed, as it was redundant.
 
 Streamlining Interface Archival
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
