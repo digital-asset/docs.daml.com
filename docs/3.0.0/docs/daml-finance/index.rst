@@ -65,11 +65,11 @@ Current Release
 .. Add the next version of the SDK here (by uncommenting the next line):
 .. Daml SDK 2.9.0
 
-This section details the list of released and deprecated packages. For each package, we provide
-status information according to the
-`Daml Ecosystem convention <https://docs.daml.com/support/status-definitions.html>`_. In addition,
-we have a section to highlight and explain the major updates and enhancements introduced since our
-last release.
+This section details the list of released and deprecated packages, with status information provided
+for each package according to the
+`Daml Ecosystem convention <https://docs.daml.com/support/status-definitions.html>`_. Additionally,
+a section is included to highlight and explain the major updates and enhancements introduced since
+the last release.
 
 **Important Note**: The current Daml Finance release requires the use of Daml SDK v2.5 or later.
 
