@@ -150,7 +150,7 @@ New Instruments
 ~~~~~~~~~~~~~~~
 
 The library's functionality has been broadened by introducing new financial instruments,
-such as structured products, and multi-underlying asset swap instruments (both early access).
+such as structured products and multi-underlying asset swap instruments (both early access).
 
 Usability Improvements
 ~~~~~~~~~~~~~~~~~~~~~~
