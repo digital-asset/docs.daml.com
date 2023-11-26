@@ -2,7 +2,7 @@
 .. SPDX-License-Identifier: Apache-2.0
 
 How high availability is achieved for Daml Enterprise on Kubernetes
-##################################################################
+###########################################################
 
 Target deployment
 *****************
