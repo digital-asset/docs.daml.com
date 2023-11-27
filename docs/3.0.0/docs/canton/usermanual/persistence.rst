@@ -519,7 +519,7 @@ startup, the node will use an additional set of at most ``X`` temporary connecti
 
 The number ``X`` represents an upper bound of permanent connections and is divided internally for different purposes,
 depending on the implementation. Consequently, the actual size of the write connection pool, for example, could be smaller.
-Some of the allotted connections will be taken by the *read* pool, some by the *write* pool and a single additional connection
+Some of the allotted connections will be taken by the *read* pool, some will be taken by the *write* pool, and a single additional connection
 will be reserved to a dedicated *main* connection responsible for managing the locking mechanism.
 
 The following table summarizes the detailed split of the connection pools in different Canton nodes. ``R`` signifies a *read* pool, ``W``
@@ -578,7 +578,7 @@ Similar parameters exist also for other Canton node types:
 Where a node operates a combined *read/write* connection pool, the numbers for ``R`` and ``W`` overwrites are added
 together to determine the overall pool size.
 
-The effective connection pool sizes are reported by the Canton nodes at start-up
+The effective connection pool sizes are reported by the Canton nodes at startup.
 
 ::
 
