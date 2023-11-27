@@ -15,5 +15,5 @@ https://www.digitalasset.com/responsible-disclosure
 To report an issue that does not have a security impact, open an issue on GitHub:
 https://github.com/digital-asset/daml/issues/new
 
-For general questions about Daml and/or support requests, please ask in our forum:
+If you have a support request or a general question about Daml, please ask in our forum:
 https://discuss.daml.com/
