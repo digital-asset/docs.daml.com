@@ -621,7 +621,7 @@ Starting with a party being allocated on participant1:
     .. assert:: { participants.all.domains.connect_local(mydomain); true }
     .. success:: val alice = participant1.parties.enable("Alice")
     .. assert:: { utils.synchronize_topology(); true }
-    .. assert:: { participant1.ledger_api.commands.submit_flat(Seq(alice), Seq(com.digitalasset.canton.participant.admin.workflows.PingPong.Cycle("hello", alice.toPrim).create.command)); true }
+    .. assert:: { import scala.jdk.CollectionConverters._; participant1.ledger_api.javaapi.commands.submit_flat(Seq(alice), new com.digitalasset.canton.participant.admin.workflows.java.pingpong.Cycle("hello", alice.toProtoPrimitive).create.commands.asScala.toSeq); true }
 
 To add this party to participant2, participant2 must first agree to host the party. This
 is done by authorizing the ``RequestSide.To`` of the party to participant mapping on the target participant:
@@ -708,7 +708,7 @@ Once the entire active contract store has been imported, the target participant 
 Now, both participant host the party and can act on behalf of it.
 
 .. snippet:: party_on_two_nodes
-    .. assert:: { val cycle = participant2.ledger_api.acs.await(alice, com.digitalasset.canton.participant.admin.workflows.PingPong.Cycle); participant2.ledger_api.commands.submit_flat(Seq(alice), Seq(cycle.contractId.exerciseRepeat().command)); true }
+    .. assert:: { import scala.jdk.CollectionConverters._; val cycle = participant2.ledger_api.javaapi.acs.await(com.digitalasset.canton.participant.admin.workflows.java.pingpong.Cycle.COMPANION)(alice); participant2.ledger_api.javaapi.commands.submit_flat(Seq(alice), cycle.id.exerciseRepeat().commands.asScala.toSeq); true }
 
 .. _manually_initializing_node:
 

@@ -1,0 +1,126 @@
+{
+  "481" : {
+    "command" : "",
+    "output" : ""
+  },
+  "440" : {
+    "command" : "",
+    "output" : ""
+  },
+  "538" : {
+    "command" : "",
+    "output" : ""
+  },
+  "184" : {
+    "command" : "",
+    "output" : ""
+  },
+  "189" : {
+    "command" : "participant.health.ping(participant)",
+    "output" : "res7: Duration = 817 milliseconds"
+  },
+  "132" : {
+    "command" : "participant.start()",
+    "output" : "ERROR com.digitalasset.canton.integration.EnterpriseEnvironmentDefinition$$anon$3 - failed to initialize participant: There are 6 pending migrations to get to database schema version 7. Currently on version 1.1. Please run `participant.db.migrate` to apply pending migrations\n  Command LocalParticipantReference.start invoked from cmd10000002.sc:1"
+  },
+  "424" : {
+    "command" : "",
+    "output" : ""
+  },
+  "141" : {
+    "command" : "participant.db.migrate()",
+    "output" : ""
+  },
+  "537" : {
+    "command" : "",
+    "output" : ""
+  },
+  "425" : {
+    "command" : "",
+    "output" : ""
+  },
+  "462" : {
+    "command" : "val config = DomainConnectionConfig(\"newdomain\", newdomain.sequencerConnection)",
+    "output" : "config : DomainConnectionConfig = DomainConnectionConfig(\n  domain = Domain 'newdomain',\n  sequencerConnections = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(\n    endpoints = http://127.0.0.1:31108,\n    transportSecurity = false,\n.."
+  },
+  "455" : {
+    "command" : "val config = DomainConnectionConfig(\"newdomain\", GrpcSequencerConnection.tryCreate(\"https://127.0.0.1:5018\"))",
+    "output" : "config : DomainConnectionConfig = DomainConnectionConfig(\n  domain = Domain 'newdomain',\n  sequencerConnections = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(\n    endpoints = https://127.0.0.1:5018,\n    transportSecurity = true,\n.."
+  },
+  "426" : {
+    "command" : "",
+    "output" : ""
+  },
+  "539" : {
+    "command" : "participant.domains.connect_local(newdomain)",
+    "output" : ""
+  },
+  "171" : {
+    "command" : "testdomain.start()",
+    "output" : ""
+  },
+  "536" : {
+    "command" : "",
+    "output" : ""
+  },
+  "183" : {
+    "command" : "participant.domains.list_connected()",
+    "output" : "res6: Seq[ListConnectedDomainsResult] = Vector(\n  ListConnectedDomainsResult(\n    domainAlias = Domain 'testdomain',\n    domainId = testdomain::1220b3e68c56...,\n    healthy = true\n  )\n)"
+  },
+  "475" : {
+    "command" : "participant.domains.reconnect_all()",
+    "output" : ""
+  },
+  "480" : {
+    "command" : "participant.domains.list_connected()",
+    "output" : "res8: Seq[ListConnectedDomainsResult] = Vector(\n  ListConnectedDomainsResult(\n    domainAlias = Domain 'newdomain',\n    domainId = newdomain::1220fb737b48...,\n    healthy = true\n  )\n)"
+  },
+  "439" : {
+    "command" : "participant.domains.list_connected()",
+    "output" : "res3: Seq[ListConnectedDomainsResult] = Vector()"
+  },
+  "546" : {
+    "command" : "participant.domains.modify(\"newdomain\", _.copy(priority=10))",
+    "output" : ""
+  },
+  "467" : {
+    "command" : "participant.repair.migrate_domain(\"olddomain\", config)",
+    "output" : ""
+  },
+  "551" : {
+    "command" : "participant.domains.list_registered().map { case (c,_) => (c.domain, c.priority) }",
+    "output" : "res3: Seq[(com.digitalasset.canton.DomainAlias, Int)] = Vector((Domain 'newdomain', 10), (Domain 'olddomain', 0))"
+  },
+  "540" : {
+    "command" : "",
+    "output" : ""
+  },
+  "159" : {
+    "command" : "participant.start()",
+    "output" : ""
+  },
+  "172" : {
+    "command" : "participant.domains.connect_local(testdomain)",
+    "output" : ""
+  },
+  "434" : {
+    "command" : "participant.domains.disconnect(\"olddomain\")",
+    "output" : ""
+  },
+  "427" : {
+    "command" : "participant.resources.set_resource_limits(ResourceLimits(Some(0), Some(0)))",
+    "output" : ""
+  },
+  "178" : {
+    "command" : "participant.domains.reconnect_all()",
+    "output" : ""
+  },
+  "486" : {
+    "command" : "participant.resources.set_resource_limits(ResourceLimits(None, None))",
+    "output" : ""
+  },
+  "491" : {
+    "command" : "participant.health.ping(participant)",
+    "output" : "res10: Duration = 555 milliseconds"
+  }
+}
