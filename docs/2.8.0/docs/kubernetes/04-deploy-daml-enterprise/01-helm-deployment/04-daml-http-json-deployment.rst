@@ -1,7 +1,7 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Install ``daml-http-json`` Chart
+Install ``daml-http-json`` chart
 ################################
 
 Steps
@@ -9,9 +9,8 @@ Steps
 
 1. Parameterize the Helm chart
 ==============================
-
 .. note::
-   The Terraform scripts were used to parameterize the Helm values. If standalone Helm deployment is done without Terraform the value file has to be customized manually. The template value file can be found in `http-json.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/helm/values/http-json.yaml>`_.
+   The Terraform scripts parameterize the Helm values. For a standalone Helm deployment without Terraform, you must customize the value file manually. The value file is located in `http-json.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/helm/values/http-json.yaml>`_.
 
 .. code-block:: yaml
 
@@ -39,15 +38,15 @@ Steps
      certManager:
        issuerName: canton-tls-issuer
 
-After we have created the override file, we have to edit the values to match our environment.
+After you create the override file, you must edit the values to match your environment.
 
 .. note::
-   To learn about the supported attributes for daml-http-json, check out the documentation `here <https://artifacthub.io/packages/helm/digital-asset/daml-http-json#parameters>`_.
+   To learn about the supported attributes for ``daml-http-json``, see the `daml-http-json documentation <https://artifacthub.io/packages/helm/digital-asset/daml-http-json#parameters>`_.
 
 2. Install the chart
 ====================
 
-Once these are configured, we can install the chart:
+After the values are configured, install the chart:
 
 .. code-block:: bash
 
@@ -73,7 +72,7 @@ Expected output:
 3. Check deployment status
 ==========================
 
-We can check the status of the deployment using the following command:
+You can check the status of the deployment using the following command:
 
 .. code-block:: bash
 

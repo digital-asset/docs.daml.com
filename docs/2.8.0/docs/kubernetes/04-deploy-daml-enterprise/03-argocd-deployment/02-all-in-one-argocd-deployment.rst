@@ -1,22 +1,22 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Deploy Argo CD Applications
+Deploy Argo CD applications
 #############################
 
 Steps
 *****
 
-1. Set Up Repo for Argo CD
-==========================
+1. Set up the repo for Argo CD
+==============================
 
-Set the environment variable `ARGO_OPTS`:
+Set the environment variable ``ARGO_OPTS``:
 
 .. code-block:: bash
 
   export ARGOCD_OPTS='--insecure --plaintext --port-forward --port-forward-namespace argocd'
 
-Fork the `GitHub repository for the accompanying resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/tree/main/>`_ and add it to Argo CD repositories:
+Fork the `Daml Enterprise Deployment Resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/tree/main/>`__ and add it to the Argo CD repositories:
 
 .. code-block:: bash
 
@@ -24,14 +24,10 @@ Fork the `GitHub repository for the accompanying resources <https://github.com/D
     --username '<github-handle>' --password '<github-classic-api-token>'
 
 .. note::
-  As the repository is private, you will need to provide your GitHub username and password.
-  The `username` is your GitHub handle and the `password` is your personal access token generated
-  from GitHub. Here is a `guide <https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens>`_
-  on how to generate one. The token should have the `repo` scope. Make sure you enable SSO
-  in the list of tokens after the token is generated and copied out.
+  You must provide your GitHub username and password because the repository is private. The username is your GitHub handle, and the password is your personal access token generated from GitHub. The `GitHub Docs <https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens>`_ describe how to generate one. The token should have the ``repo`` scope. Be sure to enable SSO in the list of tokens after the token is generated and copied.
 
-2. Customize Argo CD Application
-================================
+2. Customize the Argo CD application
+====================================
 
 Create a new branch starting from ``main``:
 
@@ -50,13 +46,11 @@ Create a new branch starting from ``main``:
    git commit -m "Commit changes for Argo CD"
    git push
 
-3. Apply Parent Application
-===========================
+3. Apply the parent application
+===============================
 
 .. code-block:: bash
 
    kubectl -n argocd apply -f azure/argocd/apps/daml-enterprise.yaml
 
-You should have four applications automatically synced, you can check the state in the `Argo CD UI <http://localhost:8080>`_.
-
-Access is described in :doc:`the previous step <./01-argocd-deployment>`.
+At this point, you should have four applications automatically synced. You can check the state in the `Argo CD UI <http://localhost:8080>`_. Access is described in the :doc:`Argo CD deployment of Daml Enterprise <./01-argocd-deployment>` section.
