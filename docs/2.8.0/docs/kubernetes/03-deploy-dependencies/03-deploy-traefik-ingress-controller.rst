@@ -43,7 +43,7 @@ Expected output:
      traefik/hub-agent       1.6.0           v1.4.2          Traefik Hub is an all-in-one global networking ...
      traefik/maesh           2.1.2           v1.3.2          Maesh - Simpler Service Mesh
 
-#. Install Traefik. The following command expects that you are in the root directory of your clone `of the Daml Enterprise Accompanying Resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`_:
+#. Install Traefik. The following command expects that you are in the root directory of your clone of the `Daml Enterprise Deployment Resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`__:
 
    .. code-block:: bash
 

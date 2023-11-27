@@ -16,7 +16,7 @@ Set the environment variable ``ARGO_OPTS``:
 
   export ARGOCD_OPTS='--insecure --plaintext --port-forward --port-forward-namespace argocd'
 
-'Fork the Daml Enterprise Accompanying Resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/tree/main/>`_ and add it to the Argo CD repositories:
+Fork the `Daml Enterprise Deployment Resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/tree/main/>`__ and add it to the Argo CD repositories:
 
 .. code-block:: bash
 

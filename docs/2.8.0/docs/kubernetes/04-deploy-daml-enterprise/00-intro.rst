@@ -19,4 +19,4 @@ If you deploy components independently, follow this sequence:
 #. Daml HTTP JSON API service (requires a functional Ledger API)
 
 .. note::
-   The following sections assume that the working directory is the root of your clone of the Daml Enterprise `accompanying resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/tree/main/>`_, unless stated otherwise. Be sure that you completed the previous steps successfully.
+   The following sections assume that the working directory is the root of your clone of the `Daml Enterprise Deployment Resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/tree/main/>`_, unless stated otherwise. Be sure that you completed the previous steps successfully.
