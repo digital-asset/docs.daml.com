@@ -65,7 +65,7 @@ The historical table below lists the available Early Access releases of the Part
 | `2023-09-26`_ | New release. The filter is now applied on the DB    |
 |               | functions, such as choices.                         |
 +---------------+-----------------------------------------------------+
-| `2023-10-06`_ | New release. Fix a JWT audience bug. Name format    |
+| `2023-10-06`_ | New release.  JWT audience bug fix.  Name format    |
 |               | change.                                             |
 +---------------+-----------------------------------------------------+
 
