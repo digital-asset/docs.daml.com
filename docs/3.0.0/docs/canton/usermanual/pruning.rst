@@ -43,6 +43,59 @@ For the maximum duration to specify a reliable pruning window "end time", the le
 should should not be wildcards (`*`) as illustrated in the examples above. If the hour field is fixed, so should the
 fields for minute and second.
 
+Schedule Format
+---------------
+
+The format used to describe cron expression consists of 7 whitespace-separated fields:
+
+1. seconds
+2. minutes
+3. hours
+4. day-of-month
+5. month
+6. day-of-week
+7. year (optional)
+
+Each field has a set of valid values:
+* seconds and minutes must be a number between ``0`` and ``59``
+* hours must be a number between ``0`` and ``23``
+* day of the month must be a number between ``1`` and ``31``
+* month must be either
+  * a number between ``0`` and ``11`` (with ``0`` being January), or
+  * the first three letters of the month name (``JAN``, ``FEB``, ``MAR``, ...)
+* day of the week must be either
+  * a number between ``1`` and ``7`` (with ``11`` being Sunday), or
+  * the first three letters of the weekday name (``SUN``, ``MON``, ``TUE``, ...)
+* year must be a number between ``1900`` and ``2099``
+
+Note that while a day-of-month value might be valid by the definition above, it might not exist at all (like the
+31st of November). If you set a schedule to tick every month on the 31st, every month with less than 31 days will
+be skipped.
+
+You can construct lists and ranges of values. For example, the day of the week could be a range like ``MON-FRI``
+to refer to the days Monday through Friday, or ``TUE,FRI`` to refer to Tuesday or Friday exclusively, or a mix of
+both, for example ``MON,WED-FRI``, meaning "Monday and Wednesday through Friday".
+
+The ``*`` character is called a wildcard and it means "all possible values" (compare it with the example above, where
+the wildcard character in the month position means "every month").
+
+The ``?`` character can be used in either the day-of-month and day-of-week fields, so that either field can be used
+freely. For example, if you want to specify "every Monday at noon", the ``?`` character can be used to mean that you
+don't want to restrict the day-of-month as follows: ``0 0 12 ? * MON``.
+
+The ``/`` character can be applied to numeric values to specify increments. For example, ``1/2`` in the hours
+field it means "every two hours starting from 1 AM", i.e 1 AM, 3 AM, 5 AM, etc..
+
+Here are a few examples of valid schedules:
+
+* ``0 30 * * * *``: every hour at half past
+* ``0 5/15 12,18-20 * * *``: every fifteen minutes, starting from five past, at noon and from 6 to 8 PM
+* ``0 5/15 12,18-20 ? * MON,THU``: same as above, but only on Monday and Thursday
+* ``0 0 22 1 * ?``: every first day of the month at 10 PM
+
+You can find the full documentation for the cron expression format here:
+https://logging.apache.org/log4j/2.x/javadoc/log4j-core/org/apache/logging/log4j/core/util/CronExpression.html.
+
 Monitoring Pruning Progress
 ---------------------------
 
