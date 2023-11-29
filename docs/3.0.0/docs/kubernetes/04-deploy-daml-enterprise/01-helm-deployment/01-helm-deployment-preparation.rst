@@ -19,7 +19,7 @@ Prerequisites
   * `Kubernetes command-line tool <https://kubernetes.io/docs/tasks/tools/>`_ [\ ``1.25+``\ ]
   * `Helm installed <https://helm.sh/docs/intro/install/>`_ [\ ``3.9+``\ ]
 
-* Access to your AKS cluster via ``kubectl``
+* Access to your Kubernetes cluster via ``kubectl``
 
 Introduction
 ************
