@@ -45,9 +45,14 @@ Expected output:
 
 #. Install Traefik. The following command expects that you are in the root directory of your clone of the `Daml Enterprise Deployment Resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`__:
 
-   .. code-block:: bash
+.. tabs::
+  .. tab:: Azure
+    .. code-block:: bash
+      helm -n traefik install traefik traefik/traefik --set disableValidation=true -f azure/helm/values/traefik.yaml --create-namespace
 
-      helm -n traefik install traefik traefik/traefik --set disableValidation=true -f src/helm/values/traefik.yaml --create-namespace
+  .. tab:: AWS
+    .. code-block:: bash
+      helm -n traefik install traefik traefik/traefik --set disableValidation=true -f aws/helm/values/traefik.yaml --create-namespace
 
 Expected output:
 
