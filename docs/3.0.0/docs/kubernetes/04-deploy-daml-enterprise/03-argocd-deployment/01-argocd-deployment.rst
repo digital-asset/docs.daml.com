@@ -102,8 +102,13 @@ The following steps guide you to install the ``kubernetes-image-puller`` Helm ch
 
 Note that the parameters section overrides any value in the ``values.yaml`` file, if set.
 
+#.
+  Authenticate the repo for the `Daml Enterprise Deployment Resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`__:
+  .. code-block:: bash
+    argocd repo add https://github.com/DACH-NY/daml-enterprise-deployment-blueprints.git --username <your-username> --password <your-password>
+
 #. 
-   Apply the application file:
+  Apply the application file:
 
 .. tabs::
     .. tab:: Azure
@@ -114,11 +119,11 @@ Note that the parameters section overrides any value in the ``values.yaml`` file
           kubectl -n argocd apply -f aws/argocd/kubernetes-image-puller.yaml
 
 #. 
-   Sync the application in the Argo CD UI. Alternatively, you can use the CLI:
+  Sync the application in the Argo CD UI. Alternatively, you can use the CLI:
 
 .. code-block:: bash
 
-   argocd app sync kubernetes-image-puller
+  argocd app sync kubernetes-image-puller
 
 .. note::
   Make sure to set the environment variable ``ARGO_OPTS`` before running Argo CD CLI commands.

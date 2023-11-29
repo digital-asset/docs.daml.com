@@ -62,7 +62,7 @@ Fork the `Daml Enterprise Deployment Resources <https://github.com/DACH-NY/daml-
 3. Apply the parent application
 ===============================
 
-. tabs::
+.. tabs::
   .. tab:: Azure
     .. code-block:: bash
       kubectl -n argocd apply -f azure/argocd/daml-enterprise.yaml
