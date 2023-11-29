@@ -72,7 +72,7 @@ Each field has a set of valid values:
 
 * day of the week must be either
 
-  #. a number between ``1`` and ``7`` (with ``11`` being Sunday), or
+  #. a number between ``1`` and ``7`` (with ``1`` being Sunday), or
 
   #. the first three letters of the weekday name (``SUN``, ``MON``, ``TUE``, ...)
 
