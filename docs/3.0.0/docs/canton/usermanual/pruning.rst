@@ -48,24 +48,34 @@ Schedule Format
 
 The format used to describe cron expression consists of 7 whitespace-separated fields:
 
-1. seconds
-2. minutes
-3. hours
-4. day-of-month
-5. month
-6. day-of-week
-7. year (optional)
+#. seconds
+#. minutes
+#. hours
+#. day-of-month
+#. month
+#. day-of-week
+#. year (optional)
 
 Each field has a set of valid values:
+
 * seconds and minutes must be a number between ``0`` and ``59``
+
 * hours must be a number between ``0`` and ``23``
+
 * day of the month must be a number between ``1`` and ``31``
+
 * month must be either
-  * a number between ``0`` and ``11`` (with ``0`` being January), or
-  * the first three letters of the month name (``JAN``, ``FEB``, ``MAR``, ...)
+
+  #. a number between ``0`` and ``11`` (with ``0`` being January), or
+
+  #. the first three letters of the month name (``JAN``, ``FEB``, ``MAR``, ...)
+
 * day of the week must be either
-  * a number between ``1`` and ``7`` (with ``11`` being Sunday), or
-  * the first three letters of the weekday name (``SUN``, ``MON``, ``TUE``, ...)
+
+  #. a number between ``1`` and ``7`` (with ``11`` being Sunday), or
+
+  #. the first three letters of the weekday name (``SUN``, ``MON``, ``TUE``, ...)
+
 * year must be a number between ``1900`` and ``2099``
 
 Note that while a day-of-month value might be valid by the definition above, it might not exist at all (like the
