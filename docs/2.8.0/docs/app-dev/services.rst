@@ -92,15 +92,6 @@ The command submission service deduplicates submitted commands based on their :r
 
 For details on how to use command deduplication, see the :doc:`Command Deduplication Guide <command-deduplication>`.
 
-.. _command-explicit-contract-disclosure:
-
-Explicit contract disclosure (experimental)
--------------------------------------------
-
-Starting with Canton 2.7, Ledger API clients can use explicit contract disclosure to submit commands with attached
-disclosed contracts received from third parties. For more details,
-see :doc:`Explicit contract disclosure <explicit-contract-disclosure>`.
-
 .. _command-completion-service:
 
 Command Completion Service
@@ -164,12 +155,17 @@ You can get these included in requests related to Transactions by setting the ``
 Transaction Filter
 ------------------
 
-``TransactionService`` offers transaction subscriptions filtered by templates and interfaces using ``GetTransactions`` calls. A :ref:`transaction filter <com.daml.ledger.api.v1.TransactionFilter>` in ``GetTransactionsRequest``. allows:
+``TransactionService`` offers transaction subscriptions filtered by templates and interfaces using ``GetTransactions`` calls. A :ref:`transaction filter <com.daml.ledger.api.v1.TransactionFilter>` in ``GetTransactionsRequest`` allows:
 
 - filtering by a party, when the :ref:`inclusive <com.daml.ledger.api.v1.Filters.inclusive>` field is left empty
-- filtering by a party and a :ref:`template ID <com.daml.ledger.api.v1.InclusiveFilters.template_ids>`
-- filtering by a party and an :ref:`interface ID <com.daml.ledger.api.v1.InterfaceFilter.interface_id>`
+- filtering by a party and :ref:`template ID <com.daml.ledger.api.v1.InclusiveFilters.template_filters>`
+- filtering by a party and :ref:`interface ID <com.daml.ledger.api.v1.InclusiveFilters.interface_filters>`
 - exposing an interface view, when the :ref:`include_interface_view <com.daml.ledger.api.v1.InterfaceFilter.include_interface_view>` is set to ``true``
+- exposing a created event blob to be used for a disclosed contract in command submission when ``include_created_event_blob`` is set to ``true`` in either :ref:`TemplateFilter <com.daml.ledger.api.v1.TemplateFilter>` or :ref:`InterfaceFilter <com.daml.ledger.api.v1.InterfaceFilter>`
+
+.. note::
+
+  The :ref:`template_ids <com.daml.ledger.api.v1.InclusiveFilters.template_ids>` field is deprecated as of Canton 2.8.0 and will be removed in future releases. Use :ref:`template_filter <com.daml.ledger.api.v1.InclusiveFilters.template_filters>` instead.
 
 .. _active-contract-service:
 
