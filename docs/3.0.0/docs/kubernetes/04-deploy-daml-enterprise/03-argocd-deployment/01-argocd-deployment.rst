@@ -55,9 +55,13 @@ Prepare the Kubernetes environment
 #.
   Install Argo CD using the following command:
 
-  .. code-block:: bash
-
-    helm -n argocd install argocd -f azure/helm/values/argocd.yaml argo/argo-cd --create-namespace
+  .. tabs::
+    .. tab:: Azure
+      .. code-block:: bash
+        helm -n argocd install argocd -f azure/helm/values/argocd.yaml argo/argo-cd --create-namespace
+    .. tab:: AWS
+      .. code-block:: bash
+        helm -n argocd install argocd -f aws/helm/values/argocd.yaml argo/argo-cd --create-namespace
 
 #.
   Load the admin password into a variable:
@@ -71,7 +75,7 @@ Prepare the Kubernetes environment
 
   .. code-block:: bash
 
-    ARGOCD_OPTS='--insecure --plaintext --port-forward --port-forward-namespace argocd'
+    export ARGOCD_OPTS='--insecure --plaintext --port-forward --port-forward-namespace argocd'
 
 #.
   Login with the Argo CD CLI:
@@ -101,9 +105,13 @@ Note that the parameters section overrides any value in the ``values.yaml`` file
 #. 
    Apply the application file:
 
-   .. code-block:: bash
-
-      kubectl -n argocd apply -f azure/argocd/apps/kubernetes-image-puller.yaml
+.. tabs::
+    .. tab:: Azure
+      .. code-block:: bash
+          kubectl -n argocd apply -f azure/argocd/kubernetes-image-puller.yaml
+    .. tab:: AWS
+      .. code-block:: bash
+          kubectl -n argocd apply -f aws/argocd/kubernetes-image-puller.yaml
 
 #. 
    Sync the application in the Argo CD UI. Alternatively, you can use the CLI:
