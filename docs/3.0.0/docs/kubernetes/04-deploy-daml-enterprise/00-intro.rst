@@ -4,19 +4,19 @@
 Deploy Daml Enterprise
 ######################
 
-Daml Enterprise is a set of components that are required to run Daml applications in production (see our :doc:`Target Deployment <../01-introduction/overview>`).
+Daml Enterprise is a set of components required to run Daml applications in production (see the :doc:`Deploy on Kubernetes <../01-introduction/overview>`) section.
 
-There are many ways to create and manage Kubernetes objects. This section of the guide focuses on deploying Daml Enterprise to Kubernetes using popular tools. Choose one option and proceed.
+There are many ways to create and manage Kubernetes objects. This section focuses on deploying Daml Enterprise to Kubernetes using popular tools. Choose one option and proceed.
 
 * :doc:`Using Helm <01-helm-deployment/01-helm-deployment-preparation>`
 * :doc:`Using Helmfile (recommended) <02-helmfile-deployment/00-intro>`
 * :doc:`Using Argo CD <03-argocd-deployment/01-argocd-deployment>`
 
-If you deploy components independently, the following order should be followed:
+If you deploy components independently, follow this sequence:
 
-#. Canton Participant
-#. Canton Domain (bootstraps both the domain itself and its participant)
+#. Canton participant
+#. Canton domain (bootstraps both the domain itself and its participant)
 #. Daml HTTP JSON API service (requires a functional Ledger API)
 
 .. note::
-   Throughout the following pages, unless stated otherwise, we assume that the working directory is the root of your clone of the `accompanying resources' repository <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/tree/main/>`_. We also assume you have completed the previous steps successfully.
+   The following sections assume that the working directory is the root of your clone of the `Daml Enterprise Deployment Resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/tree/main/>`_, unless stated otherwise. Be sure that you completed the previous steps successfully.

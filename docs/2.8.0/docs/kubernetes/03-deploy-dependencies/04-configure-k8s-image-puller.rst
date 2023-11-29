@@ -1,33 +1,31 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Configure Container Image Puller (Optional)
-###########################################
+Configure Kubernetes Image Puller (optional)
+############################################
 
 Objectives
 **********
 
-* Deploy & set up `Kubernetes Image Puller utility <https://github.com/che-incubator/kubernetes-image-puller>`_.
+* Deploy and set up the `Kubernetes Image Puller utility <https://github.com/che-incubator/kubernetes-image-puller>`_.
 
 Introduction
 ************
 
-This is a simple implementation of `Kubernetes Image Puller <https://github.com/che-incubator/kubernetes-image-puller>`_. The aim of this is to pre-cache the images across all nodes of a Kubernetes cluster, making failover and pod recreation faster. This is an optional step: if a pod is placed on a node which does not have its image yet, it will pull it from the designated repository as per standard behaviour.
+This is a simple implementation of the `Kubernetes Image Puller <https://github.com/che-incubator/kubernetes-image-puller>`_. The purpose is to pre-cache the images across all nodes of a Kubernetes cluster, making failover and Pod recreation faster. This is an optional step. If a Pod is placed on a node which does not have its image yet, it pulls it from the designated repository according to standard behavior.
 
 Installation guide
 ******************
 
-#. Pull the image puller Helm chart
+#. Pull the image puller Helm chart:
 
    .. code-block:: bash
 
       git clone git@github.com:che-incubator/kubernetes-image-puller.git
 
-   The Helm chart is located in the deploy/helm directory.
+   The Helm chart is located in the ``deploy/helm`` directory.
 
-#. Parameterize the value file of the Kubernetes image puller Helm chart
-
-   This is an example of a value file for the Kubernetes image puller Helm chart (see the `official documentation <https://github.com/che-incubator/kubernetes-image-puller#configuration---helm>`_ for all options):
+#. Parameterize the value file of the Kubernetes image puller Helm chart. Here is an example of a value file for the Kubernetes image puller Helm chart (see the `kubernetes-image-puller documentation <https://github.com/che-incubator/kubernetes-image-puller#configuration---helm>`_ for all options):
 
    .. code-block:: yaml
 
@@ -50,7 +48,7 @@ Installation guide
        nodeSelector: "{}"
        affinity: "{}"
 
-   By default the image puller will pull its default image from quay.io. We can change this by setting the following to different values:
+   The image puller pulls its default image from ``quay.io``. You can change this by setting the following values:
 
    .. code-block:: yaml
 
@@ -58,7 +56,7 @@ Installation guide
        repository: quay.io/eclipse/kubernetes-image-puller
        tag: next
 
-   Configure which images to be cached by the image puller. The images are configured in the configMap.images list. The format of the list is as follows:
+   Configure which images are cached by the image puller in the ``configMap.images`` list. The format of the list follows:
 
    .. code-block:: yaml
 
@@ -66,7 +64,7 @@ Installation guide
        images: >
          <image>=<repository>/<image>:<tag>;
 
-   Fill this list in the values file with the images you want to be cached by the image puller. This depends on what version of Daml Enterprise you would like to deploy to the Kubernetes cluster. For example, if you want to deploy Daml Enterprise 2.6.4, you should add the following images to the list:
+   Fill this list with the images you want to be cached by the image puller. This depends on the version of Daml Enterprise you would like to deploy to the Kubernetes cluster. For example, to deploy Daml Enterprise 2.6.4, add the following images to the list:
 
    .. code-block:: yaml
 

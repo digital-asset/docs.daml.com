@@ -1,15 +1,15 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Install ``canton-participant`` Chart
+Install ``canton-participant`` chart
 ####################################
 
 Objectives
 **********
 
-* Customize Helm chart parameters
-* Install Helm chart
-* Verify the status of the deployment
+* Customize the Helm chart parameters
+* Install the Helm chart
+* Verify the deployment status
 
 Steps
 *****
@@ -18,7 +18,7 @@ Steps
 ======================================================
 
 .. note::
-   The Terraform scripts were used to parameterize the Helm values. If standalone Helm deployment is done without Terraform the value file has to be customized manually. The value file can be found under `participant.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/helm/values/participant.yaml>`_. Note that in this guide we are deploying the participant node before deploying the domain node. We may do this because we are deploying both onto the same Kubernetes cluster, and we know the `participant node's identity <https://docs.daml.com/canton/usermanual/identity_management.html#default-initialization>`_ beforehand (e.g., that its name is ``participant1``\ ). For more details, see the `relevant section in the canton-domain Helm chart documentation <https://artifacthub.io/packages/helm/digital-asset/canton-domain#bootstrap>`_. In most cases, the operators of the participant and domain nodes differ, hence, a more involved `on-boarding process <https://docs.daml.com/canton/usermanual/identity_management.html#participant-onboarding>`_ has to be used.
+   The Terraform scripts parameterize the Helm values. For a standalone Helm deployment without Terraform, you must customize the value file manually. The value file is located under `participant.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/helm/values/participant.yaml>`_. Note that, in this guide, you deploy the participant node before deploying the domain node. You may do this because you deploy both onto the same Kubernetes cluster, and you know the `participant node's identity <https://docs.daml.com/canton/usermanual/identity_management.html#default-initialization>`_ beforehand (for example, that its name is ``participant1``\ ). For more details, see the `relevant section in the canton-domain Helm chart documentation <https://artifacthub.io/packages/helm/digital-asset/canton-domain#bootstrap>`_. In most cases, the operators of the participant and domain nodes differ, requiring a more involved `onboarding process <https://docs.daml.com/canton/usermanual/identity_management.html#participant-onboarding>`_.
 
 .. code-block:: yaml
 
@@ -66,12 +66,12 @@ Steps
          passthrough: true
 
 .. note::
-   To learn about the supported attributes for canton-participant, check out the documentation `here <https://artifacthub.io/packages/helm/digital-asset/canton-participant#parameters>`_.
+   To learn about the supported attributes for ``canton-participant``, see the `canton-participant documentation <https://artifacthub.io/packages/helm/digital-asset/canton-participant#parameters>`_.
 
 2. Install the chart
 ====================
 
-With the value files prepared we can install the Helm chart:
+After preparing the value files, install the Helm chart:
 
 .. code-block:: bash
 
@@ -105,7 +105,7 @@ Expected output:
 3. Check deployment status
 ==========================
 
-We can check the status of the deployment using the below command. Note that the participant will be connecting to the PostgreSQL instance :doc:`we provisioned earlier <../../02-provision-cloud-resources/01-provision-cloud-resources>`.
+You can check the status of the deployment using the following command. Note that the participant connects to the PostgreSQL instance you provisioned earlier as described in the :doc:`Provision cloud resources with Terraform <../../02-provision-cloud-resources/01-provision-cloud-resources>` section.
 
 .. code-block:: bash
 
