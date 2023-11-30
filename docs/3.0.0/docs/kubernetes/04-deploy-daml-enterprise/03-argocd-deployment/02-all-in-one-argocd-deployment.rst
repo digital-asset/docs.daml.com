@@ -34,27 +34,34 @@ Fork the `Daml Enterprise Deployment Resources <https://github.com/DACH-NY/daml-
     Create a new branch starting from ``main``:
 
     .. code-block:: bash
+
       git checkout -b <new-branch-name>
+
     * Customize the `Argo CD application YAML file <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/argocd/daml-enterprise.yaml>`__ with your forked
       GitHub repository URL and target revision (new branch name).
 
     * Commit changes to your new branch:
 
     .. code-block:: bash
+
       git add .
       git commit -m "Commit changes for Argo CD"
       git push
+
   .. tab:: AWS
     Create a new branch starting from ``main``:
 
     .. code-block:: bash
+
       git checkout -b <new-branch-name>
+
     * Customize the `Argo CD application YAML file <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/aws/argocd/daml-enterprise.yaml>`__ with your forked
       GitHub repository URL and target revision (new branch name).
 
     * Commit changes to your new branch:
 
     .. code-block:: bash
+
       git add .
       git commit -m "Commit changes for Argo CD"
       git push
@@ -65,9 +72,12 @@ Fork the `Daml Enterprise Deployment Resources <https://github.com/DACH-NY/daml-
 .. tabs::
   .. tab:: Azure
     .. code-block:: bash
+
       kubectl -n argocd apply -f azure/argocd/daml-enterprise.yaml
+
   .. tab:: AWS
     .. code-block:: bash
+
       kubectl -n argocd apply -f aws/argocd/daml-enterprise.yaml
 
 At this point, you should have four applications automatically synced. You can check the state in the `Argo CD UI <http://localhost:8080>`_. Access is described in the :doc:`Argo CD deployment of Daml Enterprise <./01-argocd-deployment>` section.

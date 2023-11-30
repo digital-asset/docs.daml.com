@@ -81,6 +81,7 @@ Set up your cloud account
     Log in to Azure and select the target subscription (if you have multiple ones):
 
     .. code-block:: bash
+
       az login
       az account list
       az account set --subscription <subscription_id>
@@ -90,6 +91,7 @@ Set up your cloud account
     You may do this in multiple ways — for example, using SSO:
 
     .. code-block:: bash
+
       aws sso login --profile <your_profile>
 
 Configure Terraform
@@ -102,7 +104,9 @@ Configure Terraform
     * Provide an existing Azure resource group. You can create a new one with this command:
 
       .. code-block:: bash
+
         az group create --name <resource_group_name> --location <location>
+
     * Create your own backend configuration
 
     * Copy and customize the variables file `sample.tfvars <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/terraform/sample.tfvars>`__. Use the resource group you just created. You can use the file name ``terraform.tfvars`` to avoid passing the argument ``--var-file=/path/to/file.tfvars`` on each run.

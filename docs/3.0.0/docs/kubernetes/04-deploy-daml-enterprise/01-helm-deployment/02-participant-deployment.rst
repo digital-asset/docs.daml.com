@@ -26,6 +26,7 @@ Steps
     Example `participant.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/helm/values/participant.yaml>`__:
 
     .. code-block:: yaml
+
         ---
         image:
           registry: "<container_image_registry_hostname>"
@@ -65,6 +66,7 @@ Steps
     Example `participant.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/aws/helmfile/values/participant.yaml>`__:
 
     .. code-block:: yaml
+
         ---
         image:
           registry: "<container_image_registry_hostname>"

@@ -23,27 +23,34 @@ Automated deployment
     * Switch the ``kubectl`` context and open an SSH tunnel to the private Kubernetes API:
 
       .. code-block:: bash
-         cd azure/terraform/
-         ./bootstraps/merge-kubeconfig.sh
-         make kubectl-proxy
+
+        cd azure/terraform/
+        ./bootstraps/merge-kubeconfig.sh
+        make kubectl-proxy
+
     * Open a new terminal at the root of this repository
 
     * Deploy everything with Helmfile:
 
       .. code-block:: bash
-         cd azure/helmfile/
-         helmfile apply --skip-diff-on-install
+
+        cd azure/helmfile/
+        helmfile apply --skip-diff-on-install
+
   .. tab:: AWS
     * Switch the ``kubectl`` context and open an SSH tunnel to the private Kubernetes API:
 
       .. code-block:: bash
-         cd aws/terraform/
-         ./bootstraps/merge-kubeconfig.sh
-         make kubectl-proxy
+
+        cd aws/terraform/
+        ./bootstraps/merge-kubeconfig.sh
+        make kubectl-proxy
+
     * Open a new terminal at the root of this repository
 
     * Deploy everything with Helmfile:
 
       .. code-block:: bash
-         cd aws/helmfile/
-         helmfile apply --skip-diff-on-install
+
+        cd aws/helmfile/
+        helmfile apply --skip-diff-on-install

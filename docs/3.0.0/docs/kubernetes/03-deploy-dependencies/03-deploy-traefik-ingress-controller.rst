@@ -48,10 +48,12 @@ Expected output:
 .. tabs::
   .. tab:: Azure
     .. code-block:: bash
+
       helm -n traefik install traefik traefik/traefik --set disableValidation=true -f azure/helm/values/traefik.yaml --create-namespace
 
   .. tab:: AWS
     .. code-block:: bash
+
       helm -n traefik install traefik traefik/traefik --set disableValidation=true -f aws/helm/values/traefik.yaml --create-namespace
 
 Expected output:

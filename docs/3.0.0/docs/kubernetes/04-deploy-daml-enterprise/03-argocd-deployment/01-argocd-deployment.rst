@@ -58,9 +58,12 @@ Prepare the Kubernetes environment
   .. tabs::
     .. tab:: Azure
       .. code-block:: bash
+
         helm -n argocd install argocd -f azure/helm/values/argocd.yaml argo/argo-cd --create-namespace
+
     .. tab:: AWS
       .. code-block:: bash
+
         helm -n argocd install argocd -f aws/helm/values/argocd.yaml argo/argo-cd --create-namespace
 
 #.
@@ -105,6 +108,7 @@ Note that the parameters section overrides any value in the ``values.yaml`` file
 #.
   Authenticate the repo for the `Daml Enterprise Deployment Resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`__:
   .. code-block:: bash
+
     argocd repo add https://github.com/DACH-NY/daml-enterprise-deployment-blueprints.git --username <your-username> --password <your-password>
 
 #. 
@@ -113,9 +117,12 @@ Note that the parameters section overrides any value in the ``values.yaml`` file
 .. tabs::
     .. tab:: Azure
       .. code-block:: bash
+
           kubectl -n argocd apply -f azure/argocd/kubernetes-image-puller.yaml
+
     .. tab:: AWS
       .. code-block:: bash
+
           kubectl -n argocd apply -f aws/argocd/kubernetes-image-puller.yaml
 
 #. 
