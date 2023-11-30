@@ -114,7 +114,7 @@ Note that the parameters section overrides any value in the ``values.yaml`` file
 #. 
   Apply the application file:
 
-.. tabs::
+  .. tabs::
     .. tab:: Azure
       .. code-block:: bash
 

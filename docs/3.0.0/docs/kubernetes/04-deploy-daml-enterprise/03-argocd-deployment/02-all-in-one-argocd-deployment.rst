@@ -71,11 +71,13 @@ Fork the `Daml Enterprise Deployment Resources <https://github.com/DACH-NY/daml-
 
 .. tabs::
   .. tab:: Azure
+
     .. code-block:: bash
 
       kubectl -n argocd apply -f azure/argocd/daml-enterprise.yaml
 
   .. tab:: AWS
+
     .. code-block:: bash
 
       kubectl -n argocd apply -f aws/argocd/daml-enterprise.yaml
