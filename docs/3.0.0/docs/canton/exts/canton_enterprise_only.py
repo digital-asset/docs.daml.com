@@ -5,9 +5,10 @@ from docutils.parsers.rst import Directive
 
 class EnterpriseOnlyDirective(Directive):
     def run(self):
-        para_node = nodes.paragraph(text="This feature is only available in ")
-        ref_node = nodes.reference('Canton Enterprise', 'Canton Enterprise', internal=True, refuri="/canton/usermanual/downloading.html")
+        para_node = nodes.paragraph()
+        ref_node = nodes.reference('Daml_Enterprise_license', 'Daml Enterprise license', internal=True, refuri="/canton/usermanual/downloading.html")
         para_node += ref_node
+        para_node += nodes.Text(' required')
         important_node = nodes.important()
         important_node += para_node
         return [important_node]
