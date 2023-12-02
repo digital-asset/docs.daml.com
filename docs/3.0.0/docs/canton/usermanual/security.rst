@@ -122,6 +122,7 @@ following cases:
   the signature with the public key registered for the member in the topology
   state.
 - Transaction Protocol
+
   - The Merkle tree root hash of confirmation requests is signed for a top-level view.
   - The confirmation responses sent to the mediator are signed as a whole.
   - The Merkle tree root hash of transfer-in and transfer-out messages is signed.
