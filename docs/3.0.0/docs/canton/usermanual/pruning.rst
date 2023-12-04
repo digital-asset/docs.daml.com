@@ -3,6 +3,10 @@
 ..
    Proprietary code. All rights reserved.
 
+.. |br| raw:: html
+
+   <br />
+
 .. _ledger-pruning:
 
 Ledger Pruning
