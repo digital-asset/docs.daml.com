@@ -78,7 +78,7 @@ Cron expressions are formatted as 7 whitespace-separated fields:
        **or** 
        |br|
        the first three letters of the day name (``SUN``, ``MON``, ``TUE``, ...)
-   * - year
+   * - year (optional)
      - number from ``1900`` to ``2099``
 
 *\*Ranges specified with "to" are inclusive of both endpoints.*
