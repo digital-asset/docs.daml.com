@@ -41,4 +41,4 @@ are regularly tested with as little as 2 GB of memory and access to a single, sh
 Feature/Component System Requirements
 -------------------------------------
 
-`The JavaScript Client Libraries <../app-dev/bindings-ts/index.html>`_ are tested on Node 14.18.3 with TypeScript compiler 4.5.4. For best results, use these or later versions.
+`The JavaScript client libraries <../app-dev/bindings-ts/index.html>`_ are tested on Node 14.18.3 with TypeScript compiler 4.5.4. For best results, use these or later versions.
