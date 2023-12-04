@@ -62,10 +62,10 @@ Key Generation and Storage
 
 Keys can either be generated in the node and stored in the node's primary storage or generated and stored by
 an external key management system (KMS).
-We currently support a version of Canton that can use a KMS to either:
+Canton can use a KMS to either:
 (a) `protect Canton's private keys at rest`
 or (b) `generate and store the private keys itself`.
-This version is available only as part of Daml Enterprise.
+These features are available only in Daml Enterprise.
 
 You can find more background information on this key management feature in
 :ref:`Secure Cryptographic Private Key Storage <kms_architecture>`.
@@ -129,6 +129,7 @@ following cases:
   the signature with the public key registered for the member in the topology
   state.
 - Transaction Protocol
+
   - The Merkle tree root hash of confirmation requests is signed for a top-level view.
   - The confirmation responses sent to the mediator are signed as a whole.
   - The Merkle tree root hash of transfer-in and transfer-out messages is signed.
