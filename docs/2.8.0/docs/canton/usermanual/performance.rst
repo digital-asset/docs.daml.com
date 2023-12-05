@@ -316,7 +316,7 @@ You can modify the following configuration options:
       min-free-heap-space-bytes = 7777777
     }
 
-You can cap the number of the Ledger API gRPC streams open at any given time by modifying the
+You can cap the number of ledger API gRPC streams open at any given time by modifying the
 ``max-streams`` parameter. When the number of simultaneously open transaction, transaction-tree, completion, or acs
 streams reaches the maximum, it doesn't accept any additional get stream requests and returns
 a ``MAXIMUM_NUMBER_OF_STREAMS`` error code instead.
@@ -327,8 +327,8 @@ respectively. When the CPU worker thread pool or the database communication thre
 responds with a ``THREADPOOL_OVERLOADED`` error code.
 
 You can cap the percentage of the memory heap used by changing the
-``max-used-heap-space-percentage`` parameter. If this percentage is exceeded following a garbage collection of the ``tenured`` memory pool the system is rate-limited until additional space
-is freed up.
+``max-used-heap-space-percentage`` parameter. If this percentage is exceeded following a garbage collection of
+the ``tenured`` memory pool, the system is rate-limited until additional space is freed up.
 
 Similarly, you can set the minimum heap space in absolute terms by changing the ``min-free-heap-space-bytes`` parameter.
 If the amount of free space is below this value following a garbage collection of the ``tenured`` memory pool,

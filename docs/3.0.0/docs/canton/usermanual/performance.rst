@@ -327,8 +327,8 @@ respectively. When the CPU worker thread pool or the database communication thre
 responds with a ``THREADPOOL_OVERLOADED`` error code.
 
 You can cap the percentage of the memory heap used by changing the
-``max-used-heap-space-percentage`` parameter. If this percentage is exceeded following a garbage collection of the ``tenured`` memory pool, the system is rate-limited until additional space
-is freed up.
+``max-used-heap-space-percentage`` parameter. If this percentage is exceeded following a garbage collection of
+the ``tenured`` memory pool, the system is rate-limited until additional space is freed up.
 
 Similarly, you can set the minimum heap space in absolute terms by changing the ``min-free-heap-space-bytes`` parameter.
 If the amount of free space is below this value following a garbage collection of the ``tenured`` memory pool,
@@ -349,7 +349,7 @@ The memory-related settings of 100 for ``max-used-heap-space-percentage`` and 0 
 render them effectively inactive. This is done on purpose. They are highly sensitive to the operating environment
 and should only be configured where memory profiling has highlighted spikes in memory usage that need to be flattened.
 
-It is possible to turn off rate limiting at the ledger api level completely
+It is possible to turn off rate limiting at the ledger API level:
 
 .. code::
 
