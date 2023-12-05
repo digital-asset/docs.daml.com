@@ -262,11 +262,11 @@ In addition, take the next paragraph on resource limits into account.
 
 .. _tuning_resource_limits:
 
-**Tune resource limits.** Resource limits are used to prevent ledger applications from overloading Canton by sending
+**Tune resource limits at the Canton protocol level.** Resource limits are used to prevent ledger applications from overloading Canton by sending
 commands at an excessive rate.
 While resource limits are necessary to protect the system from denial of service attacks in a production environment,
 they can prevent Canton from achieving maximum throughput.
-Resource limits can be configured as follows from the Canton console:
+Resource limits at the Canton protocol level can be configured as follows from the Canton console:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/BackpressureIntegrationTest.scala
    :start-after: user-manual-entry-begin: SetResourceLimits
@@ -297,6 +297,66 @@ as a result, the command processing consumes resources even though some commands
 
 If you choose lower resource limits, you may observe a lower latency, at the cost of lower throughput and
 commands getting rejected with the error code ``PARTICIPANT_BACKPRESSURE``.
+
+.. _tuning_ledger_api_limits:
+
+**Tune resource limits at the ledger api level.** Resource limits can also be imposed on the ledger api level.
+As these settings are applied closer to the ledger applications, they can be used for protecting the resources
+of individual participants rather than the entire Canton system.
+
+You can modify the following configuration options
+
+.. code::
+
+    canton.participants.<participant-name>.ledger-api.rate-limit {
+      max-streams = 333
+      max-api-services-queue-size = 444
+      max-api-services-index-db-queue-size = 555
+      max-used-heap-space-percentage = 66
+      min-free-heap-space-bytes = 7777777
+    }
+
+You can influence the maximum number of the Ledger API gRPC streams open at any given time by modifying the
+``max-streams`` parameter. When the number of simultaneously open transaction, transaction-tree, completion, or acs
+streams reaches the maximum, it doesn't accept any additional get stream requests and returns
+a ``MAXIMUM_NUMBER_OF_STREAMS`` error code instead.
+
+You can influence the maximum items pending in the thread pool serving the Ledger API the thread pool serving the index
+db read requests by modifying the ``max-api-services-queue-size`` and ``max-api-services-index-db-queue-size``
+respectively. When the CPU worker thread pool or the database communication thread pool is overloaded, the server
+responds with a ``THREADPOOL_OVERLOADED`` error code.
+
+You can set the limit on maximum usage of the memory heap in percentage terms by changing the
+``max-used-heap-space-percentage`` parameter.  If, following a garbage collection of the ``tenured`` memory pool,
+the percentage of used pool memory is above this percentage the system will be rate limited until additional space
+is freed up.
+
+Similarly, you can set the minimum heap space in absolute terms by changing the ``min-free-heap-space-bytes`` parameter.
+If, following a garbage collection of the ``tenured`` memory pool, the amount of free space is below this value
+the system will be rate limited until additional space is freed up. When the maximum memory thresholds are exceeded
+the server responds to ledger api requests with a ``HEAP_MEMORY_OVER_LIMIT`` error code.
+
+By default, the following configuration values are used
+
+.. code::
+
+    max-streams = 1000
+    max-api-services-queue-size = 10000
+    max-api-services-index-db-queue-size = 1000
+    max-used-heap-space-percentage = 100
+    min-free-heap-space-bytes = 0
+
+The memory related settings of 100 for ``max-used-heap-space-percentage`` and 0 for ``min-free-heap-space-bytes``
+render them effectively inactive. This is done on purpose. They are highly sensitive to the operating environment
+and should only be configured where memory profiling has highlighted spikes in memory usage that need to be flattened.
+
+It is possible to turn off rate limiting at the ledger api level completely
+
+.. code::
+
+    canton.participants.<participant-name>.ledger-api {
+      rate-limit = null
+    }
 
 .. _size_of_connection_pools:
 
