@@ -300,11 +300,11 @@ commands getting rejected with the error code ``PARTICIPANT_BACKPRESSURE``.
 
 .. _tuning_ledger_api_limits:
 
-**Tune resource limits at the ledger api level.** Resource limits can also be imposed on the ledger api level.
+**Tune resource limits at the ledger API level.** Resource limits can also be imposed on the ledger API level.
 As these settings are applied closer to the ledger applications, they can be used for protecting the resources
 of individual participants rather than the entire Canton system.
 
-You can modify the following configuration options
+You can modify the following configuration options:
 
 .. code::
 
@@ -316,27 +316,26 @@ You can modify the following configuration options
       min-free-heap-space-bytes = 7777777
     }
 
-You can influence the maximum number of the Ledger API gRPC streams open at any given time by modifying the
+You can cap the number of the Ledger API gRPC streams open at any given time by modifying the
 ``max-streams`` parameter. When the number of simultaneously open transaction, transaction-tree, completion, or acs
 streams reaches the maximum, it doesn't accept any additional get stream requests and returns
 a ``MAXIMUM_NUMBER_OF_STREAMS`` error code instead.
 
-You can influence the maximum items pending in the thread pool serving the Ledger API the thread pool serving the index
-db read requests by modifying the ``max-api-services-queue-size`` and ``max-api-services-index-db-queue-size``
+You can cap the number of items pending in the thread pools serving the Ledger API and the index
+database read requests by modifying the ``max-api-services-queue-size`` and ``max-api-services-index-db-queue-size``
 respectively. When the CPU worker thread pool or the database communication thread pool is overloaded, the server
 responds with a ``THREADPOOL_OVERLOADED`` error code.
 
-You can set the limit on maximum usage of the memory heap in percentage terms by changing the
-``max-used-heap-space-percentage`` parameter.  If, following a garbage collection of the ``tenured`` memory pool,
-the percentage of used pool memory is above this percentage the system will be rate limited until additional space
+You can cap the percentage of the memory heap used by changing the
+``max-used-heap-space-percentage`` parameter. If this percentage is exceeded following a garbage collection of the ``tenured`` memory pool the system is rate-limited until additional space
 is freed up.
 
 Similarly, you can set the minimum heap space in absolute terms by changing the ``min-free-heap-space-bytes`` parameter.
-If, following a garbage collection of the ``tenured`` memory pool, the amount of free space is below this value
-the system will be rate limited until additional space is freed up. When the maximum memory thresholds are exceeded
-the server responds to ledger api requests with a ``HEAP_MEMORY_OVER_LIMIT`` error code.
+If the amount of free space is below this value following a garbage collection of the ``tenured`` memory pool,
+the system is rate-limited until additional space is freed up. When the maximum memory thresholds are exceeded
+the server responds to ledger API requests with a ``HEAP_MEMORY_OVER_LIMIT`` error code.
 
-By default, the following configuration values are used
+The following configuration values are the defaults:
 
 .. code::
 
@@ -346,11 +345,11 @@ By default, the following configuration values are used
     max-used-heap-space-percentage = 100
     min-free-heap-space-bytes = 0
 
-The memory related settings of 100 for ``max-used-heap-space-percentage`` and 0 for ``min-free-heap-space-bytes``
+The memory-related settings of 100 for ``max-used-heap-space-percentage`` and 0 for ``min-free-heap-space-bytes``
 render them effectively inactive. This is done on purpose. They are highly sensitive to the operating environment
 and should only be configured where memory profiling has highlighted spikes in memory usage that need to be flattened.
 
-It is possible to turn off rate limiting at the ledger api level completely
+It is possible to turn off rate limiting at the ledger API level:
 
 .. code::
 
