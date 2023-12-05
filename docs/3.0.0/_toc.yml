@@ -251,6 +251,16 @@ subtrees:
       entries:
       - file: tools/assistant
         title: "Daml Assistant"
+        subtrees:
+        - hidden: False
+          titlesonly: True
+          entries:
+          - file: tools/assistant-install
+            title: "Manage Versions"
+          - file: tools/assistant-build
+            title: "Build Projects"
+          - file: tools/assistant-commands
+            title: "Run Commands"
       - file: tools/canton-console
         title: "Canton Console"
       - file: deploy/generic_ledger
