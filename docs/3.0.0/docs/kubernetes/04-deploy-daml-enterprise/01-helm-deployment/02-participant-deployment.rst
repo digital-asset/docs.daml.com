@@ -18,52 +18,87 @@ Steps
 ======================================================
 
 .. note::
-   The Terraform scripts parameterize the Helm values. For a standalone Helm deployment without Terraform, you must customize the value file manually. The value file is located under `participant.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/helm/values/participant.yaml>`_. Note that, in this guide, you deploy the participant node before deploying the domain node. You may do this because you deploy both onto the same Kubernetes cluster, and you know the `participant node's identity <https://docs.daml.com/canton/usermanual/identity_management.html#default-initialization>`_ beforehand (for example, that its name is ``participant1``\ ). For more details, see the `relevant section in the canton-domain Helm chart documentation <https://artifacthub.io/packages/helm/digital-asset/canton-domain#bootstrap>`_. In most cases, the operators of the participant and domain nodes differ, requiring a more involved `onboarding process <https://docs.daml.com/canton/usermanual/identity_management.html#participant-onboarding>`_.
+   The Terraform scripts parameterize the Helm values. For a standalone Helm deployment without Terraform, you must customize the value file manually (see example below).
+   Note that, in this guide, you deploy the participant node before deploying the domain node. You may do this because you deploy both onto the same Kubernetes cluster, and you know the `participant node's identity <https://docs.daml.com/canton/usermanual/identity_management.html#default-initialization>`_ beforehand (for example, that its name is ``participant1``\ ). For more details, see the `relevant section in the canton-domain Helm chart documentation <https://artifacthub.io/packages/helm/digital-asset/canton-domain#bootstrap>`_. In most cases, the operators of the participant and domain nodes differ, requiring a more involved `onboarding process <https://docs.daml.com/canton/usermanual/identity_management.html#participant-onboarding>`_.
 
-.. code-block:: yaml
+.. tabs::
+  .. tab:: Azure
+    Example `participant.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/helm/values/participant.yaml>`__:
 
-     ---
-     image:
-       registry: "<container_image_registry_hostname>"
+    .. code-block:: yaml
 
-     storage:
-       host: "<postgresql_server_hostname>"
-       database: "participant1"
-       user: "participant1"
-       existingSecret:
-         name: "participant1-postgresql"
-         key: "participant1"
+        ---
+        image:
+          registry: "<container_image_registry_hostname>"
+        storage:
+          host: "<postgresql_server_hostname>"
+          database: "participant1"
+          user: "participant1"
+          existingSecret:
+            name: "participant1-postgresql"
+            key: "participant1"
+        console:
+          enabled: true
+        participantName: "participant1"
+        certManager:
+          issuerGroup: certmanager.step.sm
+          issuerKind: StepClusterIssuer
+        tls:
+          public:
+            enabled: true
+            certManager:
+              issuerName: canton-tls-issuer
+          admin:
+            enabled: true
+            certManager:
+              issuerName: canton-tls-issuer
+        authServices:
+          enabled: true
+          url: "<jwks_url>"
+          targetAudience: "<jwt_audience>"
+          additionalAdminUserId: "<ledger_admin_user>"
+        ingressRouteTCP:
+          enabled: true
+          hostSNI: "<ledger_dns_record>"
+          tls:
+            passthrough: true
+  .. tab:: AWS
+    Example `participant.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/aws/helmfile/values/participant.yaml>`__:
 
-     console:
-       enabled: true
+    .. code-block:: yaml
 
-     participantName: "participant1"
-
-     certManager:
-       issuerGroup: certmanager.step.sm
-       issuerKind: StepClusterIssuer
-
-     tls:
-       public:
-         enabled: true
-         certManager:
-           issuerName: canton-tls-issuer
-       admin:
-         enabled: true
-         certManager:
-           issuerName: canton-tls-issuer
-
-     authServices:
-       enabled: true
-       url: "<jwks_url>"
-       targetAudience: "<jwt_audience>"
-       additionalAdminUserId: "<ledger_admin_user>"
-
-     ingressRouteTCP:
-       enabled: true
-       hostSNI: "<ledger_dns_record>"
-       tls:
-         passthrough: true
+        ---
+        image:
+          registry: "<container_image_registry_hostname>"
+        storage:
+          host: "<postgresql_server_hostname>"
+          database: "participant1"
+          user: "participant1"
+          existingSecret:
+            name: "participant1-postgresql"
+            key: "participant1"
+        console:
+          enabled: true
+        participantName: "participant1"
+        tls:
+          public:
+            enabled: true
+            certManager:
+              issuerName: "aws-privateca-issuer"
+          admin:
+            enabled: true
+            certManager:
+              issuerName: "aws-privateca-issuer"
+        authServices:
+          enabled: true
+          url: "<jwks_url>"
+          targetAudience: "<jwt_audience>"
+          additionalAdminUserId: "<ledger_admin_user>"
+        ingressRouteTCP:
+          enabled: true
+          hostSNI: "<ledger_dns_record>"
+          tls:
+            passthrough: true
 
 .. note::
    To learn about the supported attributes for ``canton-participant``, see the `canton-participant documentation <https://artifacthub.io/packages/helm/digital-asset/canton-participant#parameters>`_.
@@ -71,11 +106,14 @@ Steps
 2. Install the chart
 ====================
 
+.. note::
+  Depending on your cloud provider of choice, make sure the current directory is the ``azure/terraform`` or ``aws/terraform`` folder of your clone of the `Daml Enterprise Deployment Resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`__.
+
 After preparing the value files, install the Helm chart:
 
 .. code-block:: bash
 
-   helm -n canton install participant1 digital-asset/canton-participant -f azure/helm/values/participant.yaml --create-namespace
+   helm -n canton install participant1 digital-asset/canton-participant -f helm/values/participant.yaml --create-namespace
 
 Expected output:
 

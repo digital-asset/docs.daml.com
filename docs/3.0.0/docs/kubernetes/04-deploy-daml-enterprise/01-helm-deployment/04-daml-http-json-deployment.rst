@@ -10,33 +10,53 @@ Steps
 1. Parameterize the Helm chart
 ==============================
 .. note::
-   The Terraform scripts parameterize the Helm values. For a standalone Helm deployment without Terraform, you must customize the value file manually. The value file is located in `http-json.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/helm/values/http-json.yaml>`_.
+   The Terraform scripts parameterize the Helm values. For a standalone Helm deployment without Terraform, you must customize the value file manually (see example below).
 
-.. code-block:: yaml
+.. tabs::
+  .. tab:: Azure
+    Example `http-json.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/azure/helm/values/http-json.yaml>`__:
 
-   ---
-   image:
-     registry: "<container_image_registry_hostname>"
+    .. code-block:: yaml
 
-   storage:
-     host: "<postgresql_server_hostname>"
-     database: "myjson"
-     user: "myjson"
-     existingSecret:
-       name: "myjson-postgresql"
-       key: "myjson"
+      ---
+      image:
+        registry: "<container_image_registry_hostname>"
+      storage:
+        host: "<postgresql_server_hostname>"
+        database: "myjson"
+        user: "myjson"
+        existingSecret:
+          name: "myjson-postgresql"
+          key: "myjson"
+      ledgerAPI:
+        host: "participant1-canton-participant.canton.svc.cluster.local"
+      certManager:
+        issuerGroup: certmanager.step.sm
+        issuerKind: StepClusterIssuer
+      tls:
+        enabled: true
+        certManager:
+          issuerName: canton-tls-issuer
+  .. tab:: AWS
+    Example `http-json.yaml <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/blob/main/aws/helmfile/values/http-json.yaml>`__:
 
-   ledgerAPI:
-     host: "participant1-canton-participant.canton.svc.cluster.local"
+    .. code-block:: yaml
 
-   certManager:
-     issuerGroup: certmanager.step.sm
-     issuerKind: StepClusterIssuer
-
-   tls:
-     enabled: true
-     certManager:
-       issuerName: canton-tls-issuer
+      ---
+      image:
+        registry: "<container_image_registry_hostname>"
+      storage:
+        database: "myjson"
+        user: "myjson"
+        existingSecret:
+          name: "myjson-postgresql"
+          key: "myjson"
+      ledgerAPI:
+        host: "participant1-canton-participant.canton.svc.cluster.local"
+      tls:
+        enabled: true
+        certManager:
+          issuerName: "aws-privateca-issuer"
 
 After you create the override file, you must edit the values to match your environment.
 
@@ -46,11 +66,14 @@ After you create the override file, you must edit the values to match your envir
 2. Install the chart
 ====================
 
+.. note::
+  Depending on your cloud provider of choice, make sure the current directory is the ``azure/terraform`` or ``aws/terraform`` folder of your clone of the `Daml Enterprise Deployment Resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`__.
+
 After the values are configured, install the chart:
 
 .. code-block:: bash
 
-   helm -n canton install httpjson digital-asset/daml-http-json -f azure/helm/values/http-json.yaml
+   helm -n canton install httpjson digital-asset/daml-http-json -f helm/values/http-json.yaml
 
 Expected output:
 

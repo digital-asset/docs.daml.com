@@ -55,9 +55,16 @@ Prepare the Kubernetes environment
 #.
   Install Argo CD using the following command:
 
-  .. code-block:: bash
+  .. tabs::
+    .. tab:: Azure
+      .. code-block:: bash
 
-    helm -n argocd install argocd -f azure/helm/values/argocd.yaml argo/argo-cd --create-namespace
+        helm -n argocd install argocd -f azure/helm/values/argocd.yaml argo/argo-cd --create-namespace
+
+    .. tab:: AWS
+      .. code-block:: bash
+
+        helm -n argocd install argocd -f aws/helm/values/argocd.yaml argo/argo-cd --create-namespace
 
 #.
   Load the admin password into a variable:
@@ -71,7 +78,7 @@ Prepare the Kubernetes environment
 
   .. code-block:: bash
 
-    ARGOCD_OPTS='--insecure --plaintext --port-forward --port-forward-namespace argocd'
+    export ARGOCD_OPTS='--insecure --plaintext --port-forward --port-forward-namespace argocd'
 
 #.
   Login with the Argo CD CLI:
@@ -98,19 +105,32 @@ The following steps guide you to install the ``kubernetes-image-puller`` Helm ch
 
 Note that the parameters section overrides any value in the ``values.yaml`` file, if set.
 
+#.
+  Authenticate the repo for the `Daml Enterprise Deployment Resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`__:
+  .. code-block:: bash
+
+    argocd repo add https://github.com/DACH-NY/daml-enterprise-deployment-blueprints.git --username <your-username> --password <your-password>
+
 #. 
-   Apply the application file:
+  Apply the application file:
 
-   .. code-block:: bash
+  .. tabs::
+    .. tab:: Azure
+      .. code-block:: bash
 
-      kubectl -n argocd apply -f azure/argocd/apps/kubernetes-image-puller.yaml
+          kubectl -n argocd apply -f azure/argocd/kubernetes-image-puller.yaml
+
+    .. tab:: AWS
+      .. code-block:: bash
+
+          kubectl -n argocd apply -f aws/argocd/kubernetes-image-puller.yaml
 
 #. 
-   Sync the application in the Argo CD UI. Alternatively, you can use the CLI:
+  Sync the application in the Argo CD UI. Alternatively, you can use the CLI:
 
 .. code-block:: bash
 
-   argocd app sync kubernetes-image-puller
+  argocd app sync kubernetes-image-puller
 
 .. note::
   Make sure to set the environment variable ``ARGO_OPTS`` before running Argo CD CLI commands.

@@ -1,8 +1,11 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Create certificate issuers
-##########################
+Create certificate issuers (Azure only)
+#######################################
+
+.. note::
+   If you are deploying on AWS, you may skip this section as the Terraform config provisions a certificate authority using `AWS Private CA <https://aws.amazon.com/private-ca/>`_.
 
 Objectives
 **********
