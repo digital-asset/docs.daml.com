@@ -5,7 +5,7 @@ Create certificate issuers (Azure only)
 #######################################
 
 .. note::
-   If you are deploying on AWS, you may skip this section as the Terraform config is provisioning a certificate authority using `AWS Private CA <https://aws.amazon.com/private-ca/>`_.
+   If you are deploying on AWS, you may skip this section as the Terraform config provisions a certificate authority using `AWS Private CA <https://aws.amazon.com/private-ca/>`_.
 
 Objectives
 **********
