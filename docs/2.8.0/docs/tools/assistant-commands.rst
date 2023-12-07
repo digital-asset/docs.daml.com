@@ -7,7 +7,7 @@ Running Assistant Commands
 Terminal command completion
 ***************************
 
-The ``daml`` assistant comes with support for ``bash`` and ``zsh`` completions. These will be installed automatically on Linux and Mac when you install or upgrade the Daml assistant.
+The ``daml`` assistant comes with support for ``bash`` and ``zsh`` completions. These are installed automatically on Linux and Mac when you install or upgrade the Daml assistant.
 
 If you use the ``bash`` shell, and your ``bash`` supports completions, you can use the TAB key to complete many ``daml`` commands, such as ``daml install`` and ``daml version``.
 
