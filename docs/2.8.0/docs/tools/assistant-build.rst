@@ -3,8 +3,8 @@
 
 .. _assistant-manual-building-dars:
 
-Building Daml Projects
-######################
+Build Daml Projects
+###################
 
 Build a project
 *******************
