@@ -130,15 +130,7 @@ A participant can get the current parameters on a domain it is connected to usin
    :end-before: user-manual-entry-begin:-end: GetDynamicDomainParameters
    :dedent:
 
-Parameters that were transitioned from static to dynamic with protocol version 4 need to be retrieved individually:
-
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/dynamicdomainparameters/DomainParametersChangeIntegrationTest.scala
-   :language: scala
-   :start-after: user-manual-entry-begin:-begin: GetSingleDynamicDomainParameter
-   :end-before: user-manual-entry-begin:-end: GetSingleDynamicDomainParameter
-   :dedent:
-
-Dynamic parameters can bet set individually using:
+Dynamic parameters can be proposed by any domain owner. Typically sequencers are domain owners:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/dynamicdomainparameters/DomainParametersChangeIntegrationTest.scala
    :language: scala
@@ -146,7 +138,7 @@ Dynamic parameters can bet set individually using:
    :end-before: user-manual-entry-begin:-end: SetDynamicDomainParameters
    :dedent:
 
-Alternatively, several can be set at the same time:
+Note that several dynamic parameters can be set at the same time:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/dynamicdomainparameters/DomainParametersChangeIntegrationTest.scala
    :language: scala
