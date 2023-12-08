@@ -727,6 +727,10 @@ Here is an example monitoring configuration to place inside a node configuration
 HTTP Health Check
 ~~~~~~~~~~~~~~~~~
 
+.. note::
+
+    This per-process HTTP health check server is deprecated and will be removed in a future release. Use the gRPC health check server instead which is configured per node.
+
 Optionally, the ``canton`` process can expose an HTTP endpoint indicating whether the process believes it is healthy. This may be used as an uptime check or as a `Kubernetes liveness probe <https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/>`__. If enabled, the ``/health`` endpoint will respond to a ``GET`` HTTP request with a 200 HTTP status code (if healthy) or 500 (if unhealthy, along with a plain text description of why it is unhealthy).
 
 To enable this health endpoint, add a ``monitoring`` section to the Canton configuration. Since this health check is for the whole process, add it directly to the ``canton`` configuration rather than for a specific node.
