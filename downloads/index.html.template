@@ -7,8 +7,10 @@
   </head>
   <body>
     <h1>Daml Enterprise Downloads</h1>
+    <ul>
     <% for (v of versions) { %>
-      <h2>Version <%= v.version %></h2>
+      <li><a href="./<%= v.version %>.html">Version <%= v.version %></a></li>
     <% }%>
+    </ul>
   </body>
 </html>
