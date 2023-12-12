@@ -14,7 +14,7 @@ If you're not familiar with gRPC and protobuf, we strongly recommend following t
 Get Started
 ***********
 
-You can get the protobufs from a `GitHub release <protobufs_>`_, or from the ``daml`` repository `here <https://github.com/digital-asset/daml/tree/main/ledger-api/grpc-definitions>`__.
+You can get the protobufs from a `GitHub release <protobufs_>`_, or from the ``daml`` repository `here <https://github.com/digital-asset/daml/tree/v2.6.5/ledger-api/grpc-definitions>`__.
 
 Protobuf Reference Documentation
 ********************************
