@@ -121,6 +121,14 @@ jobs:
            cd ..
            root=$(cat root)
            bin/check-root $root
+           (
+             cd downloads
+             nix-shell shell.nix --pure \
+                                 --keep ARTIFACTORY_USERNAME \
+                                 --keep ARTIFACTORY_PASSWORD \
+                                 --run 'bin/build'
+             mv out /tmp/workspace/downloads
+           )
       - store_artifacts:
          path: /tmp/workspace
       - persist_to_workspace:
@@ -220,7 +228,8 @@ jobs:
                  for f in $(aws s3 ls s3://docs-daml-com/ \
                             | grep -oP '(?<=.{30} ).*' \
                             | grep -v '^[0-9]' \
-                            | grep -v '^daml-driver-for-postgresql/$'); do
+                            | grep -v '^daml-driver-for-postgresql/$'
+                            | grep -v '^downloads/$'); do
                      aws s3 rm s3://docs-daml-com/$f --recursive --region us-east-1
                  done
                  echo " -> pushing new version"
@@ -228,6 +237,17 @@ jobs:
                  echo " -> invalidating cache"
                  aws cloudfront create-invalidation --distribution-id E1U753I56ERH55 --paths "/*"
              fi
+             (
+               download_sha=$(git log -n1 --format=%H downloads)
+               if [ "$(curl -s https://docs.daml.com/downloads/sha)" = "$download_sha" ]; then
+                 echo "/downloads up-to-date, nothing to do"
+               else
+                 aws s3 rm s3://docs-daml-com/downloads --recursive --region us-east-1
+                 echo $download_sha > /tmp/workspace/downloads/sha
+                 aws s3 cp /tmp/workspace/downloads s3://daml-docs-com/downloads --recursive --acl public-read --region us-east-1 --no-progress
+                 aws cloudfront create-invalidation --distribution-id E1U753I56ERH55 --paths "/downloads/*"
+               fi
+             )
            EOF
 
   publish_snapshots:
