@@ -244,7 +244,7 @@ jobs:
                else
                  aws s3 rm s3://docs-daml-com/downloads --recursive --region us-east-1
                  echo $download_sha > /tmp/workspace/downloads/sha
-                 aws s3 cp /tmp/workspace/downloads s3://daml-docs-com/downloads --recursive --acl public-read --region us-east-1 --no-progress
+                 aws s3 cp /tmp/workspace/downloads s3://docs-daml-com/downloads --recursive --acl public-read --region us-east-1 --no-progress
                  aws cloudfront create-invalidation --distribution-id E1U753I56ERH55 --paths "/downloads/*"
                fi
              )
