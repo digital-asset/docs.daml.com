@@ -33,6 +33,11 @@ function v_url(version) {
   return base_url + "/" + version.split('.')[0] + '.' + version.split('.')[1] + "/" + version;
 }
 
+function d_url(version, file_name) {
+  const base_url = "https://digitalasset.jfrog.io/artifactory/external-files/daml-enterprise";
+  return base_url + "/" + version.split('.')[0] + '.' + version.split('.')[1] + "/" + version + "/" + file_name;
+}
+
 async function list(version) {
   const resp = await request(v_url(version),
                              {auth: process.env.ARTIFACTORY_USERNAME + ":" + process.env.ARTIFACTORY_PASSWORD});
@@ -61,8 +66,8 @@ const data = await Promise.all(fs.readFileSync('published_versions', 'utf8').spl
             const files = c.files.map((f) => {
               const file = all_files.filter((af) => af.match(f.pattern));
               return {name: f.name,
-                      url: v_url(v) + "/" + file[0],
-                      signature: v_url + "/" + file[0] + ".asc"};
+                      url: d_url(v, file[0]),
+                      signature: d_url(v, file[0] + ".asc")};
             });
             return {name: c.name, files};})};
 }));
