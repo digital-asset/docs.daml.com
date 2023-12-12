@@ -127,7 +127,7 @@ jobs:
                                  --keep ARTIFACTORY_USERNAME \
                                  --keep ARTIFACTORY_PASSWORD \
                                  --run 'bin/build'
-             mv downloads/out /tmp/workspace/downloads
+             mv out /tmp/workspace/downloads
            )
       - store_artifacts:
          path: /tmp/workspace
