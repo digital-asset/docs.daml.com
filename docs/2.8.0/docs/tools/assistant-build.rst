@@ -47,7 +47,7 @@ You can use multi-package builds to:
 Overview
 ========
 
-To configure which packages to build automatically, add the configuration file ``multi-package.yaml`` at the root of your project:
+To use multi-package builds, create a ``multi-package.yaml`` configuration file at the root of the project. This file serves as a register of the interdependent packages in your project.
 
 ``multi-package.yaml``
 
@@ -57,19 +57,17 @@ To configure which packages to build automatically, add the configuration file `
    - <path to first package>
    - <path to second package>
 
-You can then run ``daml build --all`` from the root of your
-project to build all the packages listed in the ``multi-package.yaml`` file. Or you can run ``daml build`` within a package to build that package and its dependencies.
+Once ``multi-package.yaml`` is in place, you can run ``daml build --all`` to build all the packages listed in the ``multi-package.yaml`` file. Or you can run ``daml build`` within a package to build that package and its dependencies.
 
-The multi-package feature of ``daml build`` is optional. To use multi-package, 
-create a ``multi-package.yaml`` file that reflects your project structure. 
-You don't need to update ``daml.yaml`` or any other files.
+If you don't want to use multi-package builds, omit the ``multi-package.yaml`` 
+file from your project.
 
 .. note::
 
     ``multi-package.yaml`` assumes that dependent packages use the default
     ``daml build`` locations for DAR files. If you have shell scripts that move a
     package's DAR file after building, you'll need to use the 
-    :ref:`output flag <output-flag>`. 
+    :ref:`output flag <output-flag>` instead. 
 
 Build without multi-package
 -----------------------------------
@@ -89,7 +87,8 @@ feature:
 Multi-package configuration
 ===========================
 
-To use multi-package builds, create a ``multi-package.yaml`` configuration file. This file serves as a register of the interdependent packages in your project. List the packages under a ``packages:`` header:
+To configure which packages to build automatically, list the packages under a 
+``packages:`` header in your ``multi-package.yaml`` configuration file:
 
 ``multi-package.yaml``
 
