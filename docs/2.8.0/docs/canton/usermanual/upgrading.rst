@@ -149,7 +149,7 @@ of the binary (see migration notes), the size of the database and the performanc
 We recommend cleaning up your database before you start your node. On Postgres, run
 
 .. code:: sql
-    
+
     VACUUM FULL;
 
 Otherwise, the restart may take a long time while the database is cleaning itself up.
@@ -193,6 +193,88 @@ The ping command creates two contracts between the admin parties, then exercises
 
 Version Specific Notes
 ~~~~~~~~~~~~~~~~~~~~~~
+
+Upgrade to Release 2.8
+^^^^^^^^^^^^^^^^^^^^^^
+
+Version 2.8 extends the database schema. If you use the "migrate and start" feature, the database schema will be automatically updated.
+Otherwise, perform the manual database migration steps outlined in the :ref:`database migration steps <migrating_the_database>`.
+
+Protocol versions 3 and 4 are deprecated
+""""""""""""""""""""""""""""""""""""""""
+Protocol versions 3 and 4 are now marked as deprecated and will be removed in ``2.9``. Protocol version 5 should be preferred for any new deployment.
+
+Configuration changes
+"""""""""""""""""""""
+
+**KMS wrapper-key configuration value**:
+The configuration value for the KMS wrapper-key now accepts a simple string.
+Update your configuration as follows:
+
+.. code:: bash
+
+    crypto.private-key-store.encryption.wrapper-key-id = { str = "..."} # version 2.7
+    crypto.private-key-store.encryption.wrapper-key-id = "..." # version 2.8
+
+
+**Indexer Schema Migration and Cache Weight Configuration**:
+Remove the following configuration lines related to the indexer and Ledger API server schema migration and cache weight:
+
+.. code:: bash
+
+    participants.participant.parameters.ledger-api-server-parameters.indexer.schema-migration-attempt-backoff
+    participants.participant.parameters.ledger-api-server-parameters.indexer.schema-migration-attempts
+    participants.participant.ledger-api.max-event-cache-weight
+    participants.participant.ledger-api.max-contract-cache-weight
+
+**SQL Batching Parameter**:
+The expert mode sql batching parameter has been moved. Generally, we recommend to not change this parameter unless advised by support.
+
+.. code:: bash
+
+    canton.participants.participant.parameters.stores.max-items-in-sql-clause # version 2.7
+    canton.participants.participant.parameters.batching.max-items-in-sql-clause # version 2.8
+
+Breaking console commands
+"""""""""""""""""""""""""
+
+**Key Management Commands**:
+The ``owner_to_key_mappings.rotate_key`` command was changed to avoid unwanted key rotations.
+It now expects a node reference to perform additional checks.
+
+**Domain filtering in testing commands**:
+To improve consistency and code safety, some testing console commands now expect an optional domain alias (rather than a plain domain alias).
+For example, the following call needs to be rewritten:
+
+.. code:: bash
+
+    participant.testing.event_search("da") # version 2.7
+    participant.testing.event_search(Some("da")) # version 2.8
+
+The impacted console commands are: ``participant.testing.event_search`` and ``participant.testing.transaction_search``
+
+Packaging
+"""""""""
+We have reverted the packaging change introduced in version 2.7.0;
+the Bouncy Castle JAR is now included back in the Canton JAR.
+However, users with Oracle JRE must explicitly add the Bouncy Castle library to the classpath when running Canton.
+
+.. code-block:: java
+
+    java -cp bcprov-jdk15on-1.70.jar:canton-with-drivers-2.8.0-all.jar com.digitalasset.canton.CantonEnterpriseApp
+
+Breaking Error Code
+"""""""""""""""""""
+
+The error code ``SEQUENCER_DELIVER_ERROR`` is superseded by two new error codes:
+``SEQUENCER_SUBMISSION_REQUEST_MALFORMED`` and ``SEQUENCER_SUBMISSION_REQUEST_REFUSED``.
+Update your client applications code accordingly.
+
+
+Deprecations
+""""""""""""
+``SequencerConnection.addConnection`` is deprecated. Use ``SequencerConnection.addEndpoints`` instead.
+
 
 Upgrade to Release 2.7
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -295,8 +377,8 @@ Specific error changes are as follows:
 Upgrade to Release 2.6
 ^^^^^^^^^^^^^^^^^^^^^^
 Version 2.6 changes the database schema used. Therefore, you must perform the
-database migration steps. Depending on the size of the database, this operation can take many hours. 
-Vacuuming your database before starting your nodes helps avoid long startup times. Otherwise, the participant 
+database migration steps. Depending on the size of the database, this operation can take many hours.
+Vacuuming your database before starting your nodes helps avoid long startup times. Otherwise, the participant
 node can refuse to start due to extremely long initial database response times.
 
 Upgrade to Release 2.5

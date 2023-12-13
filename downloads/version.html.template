@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Daml Enterprise <% v.version %></title>
+    <link rel="stylesheet" href="/_static/css/theme.css">
+  </head>
+  <body>
+    <h1>Daml Enterprise <%= v.version %> Downloads</h1>
+    <p>Back to <a href="./index.html">version list</a></p>
+    The following artifacts are available for Daml Enterprise <%= v.version %>:
+    <table>
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>Download link(s)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (c of v.components) { %>
+        <tr>
+          <td><%= c.name %></td>
+          <td>
+            <% for (file of c.files) { %>
+            <p><a href="<%= file.url %>"><%= file.name %></a> (<a href="<%= file.signature %>">signature</a>)</p>
+            <% } %>
+          </td>
+        <% } %>
+      </tbody>
+    </table>
+  </body>
+</html>

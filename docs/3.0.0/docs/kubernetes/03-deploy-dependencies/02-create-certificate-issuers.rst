@@ -1,39 +1,41 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Create Certificate Issuers
-##########################
+Create certificate issuers (Azure only)
+#######################################
+
+.. note::
+   If you are deploying on AWS, you may skip this section as the Terraform config provisions a certificate authority using `AWS Private CA <https://aws.amazon.com/private-ca/>`_.
 
 Objectives
 **********
 
-* Configure a `Smallstep <https://smallstep.com/>`_ ``cert-manager`` compatible certificate issuer.
-* Deploy Smallstep components to a Kubernetes cluster with Helm.
+* Configure a `smallstep <https://smallstep.com/>`_ cert-manager compatible certificate issuer.
+* Deploy smallstep components to a Kubernetes cluster with Helm.
 * Set TLS configuration when deploying Daml Enterprise components with Helm.
 
-For more details on the ``cert-manager`` integration available for Smallstep see `here <https://smallstep.com/docs/step-ca/integrations/#kubernetes>`_.
+For more details on the cert-manager integration available for smallstep, see the `smallstep documentation <https://smallstep.com/docs/step-ca/integrations/#kubernetes>`_.
 
 Prerequisites
 *************
 
 * `Docker <https://www.docker.com/products/docker-desktop/>`_
-* `Helm installed <https://helm.sh/docs/intro/install/>`_
+* `Helm <https://helm.sh/docs/intro/install/>`_ installed
 * `jq <https://github.com/jqlang/jq>`_
 
-Configure Smallstep
+Configure smallstep
 *******************
 
-The scripts for Smallstep setup are pre-generated during Terraform deployment.
-All the below commands assume the current directory is the ``azure/terraform`` folder of your clone of the `accompanying resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`_.
+The Terraform deployment generates the scripts for the smallstep setup. The following commands assume the current directory is the ``azure/terraform`` folder in your clone of the `Daml Enterprise Deployment Resources <https://github.com/DACH-NY/daml-enterprise-deployment-blueprints/>`__.
 
 .. code-block:: bash
 
    cd azure/terraform/
 
 .. note::
-   The following sections contain slightly different terminal commands for Linux and Mac —
-   ensure you pick the one for your OS. To illustrate the contents of these generated files, we will have them printed out with ``cat`` before
-   showing you an example output below.
+   The following sections contain slightly different terminal commands for Linux and Mac.
+   Select the one for your operating system. The sections show the contents of the generated
+   files along with the example output for each.
 
 Generate ``step-certificates`` configuration
 ============================================
@@ -139,10 +141,10 @@ Generate ``step-certificates`` configuration
        https://github.com/smallstep/certificates/discussions and our Discord 
        https://u.step.sm/discord.
 
-Increase maximal generated certificate duration
+Increase maximum generated certificate duration
 ===============================================
 
- As certificates may only be rotated by a full restart for Daml Enterprise, we set maximal generated certificate duration to 10 years:
+Certificates can only be rotated by a full restart for Daml Enterprise, so set the maximum generated certificate duration to 10 years:
 
   *Linux command*
 
@@ -235,19 +237,19 @@ The output should be similar to the following:
      secret/smallstep-canton-step-certificates-ca-password created
      secret/smallstep-canton-step-certificates-provisioner-password created
 
-Deploy Smallstep ``cert-manager`` Issuer
-****************************************
+Deploy smallstep cert-manager issuer
+************************************
 
-Set up Helm repository for Smallstep
+Set up Helm repository for smallstep
 ====================================
 
-To be able to pull the official Smallstep Helm charts, add the smallstep repository:
+To be able to pull the official smallstep Helm charts, add the smallstep repository:
 
 .. code-block:: bash
 
      helm repo add smallstep https://smallstep.github.io/helm-charts
 
-After running the above command you should see:
+You should then see:
 
 .. code-block:: bash
 
@@ -256,7 +258,7 @@ After running the above command you should see:
 Deploy ``step-certificates`` with Helm
 ======================================
 
-The chart is configured using ``outputs/smallstep/step_certificates_values.yaml``\ :
+Configure the chart using ``outputs/smallstep/step_certificates_values.yaml``\ :
 
 .. code-block:: bash
 
@@ -273,7 +275,7 @@ The chart is configured using ``outputs/smallstep/step_certificates_values.yaml`
      inject:
        enabled: false
 
-To install ``step-certificates``\ , execute the below command:
+Install ``step-certificates`` with this command:
 
 .. code-block:: bash
 
@@ -306,13 +308,13 @@ The output should be similar to the following:
 Deploy ``step-issuer`` with Helm
 ================================
 
-To install ``step-issuer``\ , execute the below command:
+To install ``step-issuer``\ , execute this command:
 
 .. code-block:: bash
 
      ./outputs/smallstep/helm_install_step_issuer.sh
 
-The default configuration is used:
+Use the default configuration:
 
 .. code-block:: bash
 
@@ -338,14 +340,14 @@ The default configuration is used:
      To start issuing certificates, you will need:
 
      👉 A cert-manager installation
-     👉 A step-ca Certificate Authority (CA) or a Smallstep Certificate Manager authority
+     👉 A step-ca Certificate Authority (CA) or a smallstep Certificate Manager authority
      👉 A StepIssuer resource that links step-issuer to your CA
 
      To continue, follow the instructions here:
 
      https://u.step.sm/step-issuer
 
-Create Certificate Issuers
+Create certificate issuers
 **************************
 
 Create the Kubernetes resource description
@@ -426,14 +428,12 @@ Check that the certificate issuer is ready
          status: "True"
          type: Ready
 
-For troubleshooting problems with certificate issuance, see `cert-manager's documentation <https://cert-manager.io/docs/troubleshooting/>`_.
+To troubleshoot problems with certificate issuance, see the `cert-manager documentation <https://cert-manager.io/docs/troubleshooting/>`_.
 
-Securing Smallstep Certificate Issuer
-*************************************
+Secure smallstep certificate issuer
+***********************************
 
-Smallstep provides a more complete documentation about `production configuration <https://smallstep.com/docs/step-ca/certificate-authority-server-production/>`_.
+Smallstep provides complete `documentation about production configuration <https://smallstep.com/docs/step-ca/certificate-authority-server-production/>`_. For this deployment, the important points are the following:
 
-For this deployment, the important points are:
-
-* securing the root CA private key
-* securing the passwords
+* Securing the root CA private key
+* Securing the passwords

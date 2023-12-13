@@ -31,7 +31,7 @@ Daml Assistant (``daml``)
 
    Note that you need to update your `project config file <#configuration-files>` to use the new version.
 
-Full Help for Commands
+Command Help
 **********************
 
 To see information about any command, run it with ``--help``.
@@ -178,91 +178,3 @@ warning.  See
 `the Daml forum <https://discuss.daml.com/t/making-the-most-out-of-daml-compiler-warnings/739>`__
 for a discussion of the meaning of these warnings and pointers to other
 available warnings.
-
-.. _assistant-manual-building-dars:
-
-Build Daml Projects
-*******************
-
-To compile your Daml source code into a Daml archive (a ``.dar`` file), run::
-
-  daml build
-
-You can control the build by changing your project's ``daml.yaml``:
-
-``sdk-version``
-  The SDK version to use for building the project.
-
-``name``
-  The name of the project.
-
-``source``
-  The path to the source code.
-
-The generated ``.dar`` file is created in ``.daml/dist/${name}.dar`` by default. To override the default location, pass the ``-o`` argument to ``daml build``::
-
-  daml build -o path/to/darfile.dar
-
-.. _assistant-manual-managing-releases:
-
-Manage Releases
-***************
-
-You can manage SDK versions manually by using ``daml install``.
-
-To download and install SDK of the latest stable Daml version::
-
-  daml install latest
-
-To download and install the latest snapshot release::
-
-  daml install latest --snapshots=yes
-
-Please note that snapshot releases are not intended for production usage.
-
-To install the SDK version specified in the project config, run::
-
-  daml install project
-
-To install a specific SDK version, for example version ``2.0.0``, run::
-
-  daml install 2.0.0
-
-Rarely, you might need to install an SDK release from a downloaded SDK release tarball. **This is an advanced feature**: you should only ever perform this on an SDK release tarball that is released through the official ``digital-asset/daml`` github repository. Otherwise your ``daml`` installation may become inconsistent with everyone else's. To do this, run::
-
-  daml install path-to-tarball.tar.gz
-
-By default, ``daml install`` will update the assistant if the version being installed is newer. You can force the assistant to be updated with ``--install-assistant=yes`` and prevent the assistant from being updated with ``--install-assistant=no``.
-
-See ``daml install --help`` for a full list of options.
-
-Terminal Command Completion
-***************************
-
-The ``daml`` assistant comes with support for ``bash`` and ``zsh`` completions. These will be installed automatically on Linux and Mac when you install or upgrade the Daml assistant.
-
-If you use the ``bash`` shell, and your ``bash`` supports completions, you can use the TAB key to complete many ``daml`` commands, such as ``daml install`` and ``daml version``.
-
-For ``Zsh`` you first need to add ``~/.daml/zsh`` to your ``$fpath``,
-e.g., by adding the following to the beginning of your ``~/.zshrc``
-before you call ``compinit``: ``fpath=(~/.daml/zsh $fpath)``
-
-You can override whether bash completions are installed for ``daml`` by
-passing ``--bash-completions=yes`` or ``--bash-completions=no`` to ``daml install``.
-
-.. _daml_project_dir:
-
-Run Commands Outside of the Project Directory
-*********************************************
-
-In some cases, it can be convenient to run a command in a project
-without having to change directories. For that use case, you can set
-the ``DAML_PROJECT`` environment variable to the path to the project:
-
-.. code-block:: sh
-
-    DAML_PROJECT=/path/to/my/project daml build
-
-Note that while some commands, most notably, ``daml build``, accept a
-``--project-root`` option, it can end up choosing the wrong SDK
-version so you should prefer the environment variable instead.
