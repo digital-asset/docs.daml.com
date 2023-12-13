@@ -183,8 +183,8 @@ Logic and Model:
    │   ├── daml/...
    │   └── daml.yaml
    └── package-Model
-       ├── daml/...
        ├── daml/.dist/package-Model-1.0.0.dar
+       ├── daml/...
        └── daml.yaml
 
 To add a new package called Tests to this example structure, run 
