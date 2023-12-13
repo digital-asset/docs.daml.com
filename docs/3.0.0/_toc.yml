@@ -218,8 +218,6 @@ subtrees:
             title: "Command Deduplication"
       - file: app-dev/authorization
         title: "Authorization"
-      - file: app-dev/explicit-contract-disclosure
-        title: "Explicit Contract Disclosure (Beta)"
   - file: daml/resource-management/index
     subtrees:
     - hidden: False
@@ -1293,6 +1291,8 @@ subtrees:
       title: "Example Monitoring Setup"
     - file: canton/usermanual/monitoring_glossary
       title: "Glossary"
+  - file: query/pqs-user-guide
+    title: "Querying and Accessing Ledger Data"
   - file: canton/usermanual/identity_management
     title: "Identity Management"
   - file: operate-a-daml-ledger/common-tasks/index
