@@ -19,18 +19,6 @@ Unless otherwise stated, all Daml runtime components require the following depen
 
 4. JDBC drivers compatible with the chosen RDBMS.
 
-Daml is tested using the following specific dependencies in default installations.
-
-1. Operating Systems:
-
-  1. Ubuntu 20.04 for development. Ubuntu 20.04 and Debian 11 is also tested for production use.
-  2. Windows Server 2016
-  3. MacOS 10.15 Catalina
-
-2. `Eclipse Adoptium <https://adoptium.net>`_ version 11 for Java.
-3. PostgreSQL 11.17
-4. Oracle Database 19.11
-
 In terms of hardware requirements, minimal deployments running simple Daml applications
 are regularly tested with as little as 2 GB of memory and access to a single, shared vCPU.
 
