@@ -129,7 +129,7 @@ Here's the resulting project tree:
        ├── daml/...
        └── daml.yaml
 
-With this configuration, running ``daml build`` on ``package-Logic`` also automatically rebuilds ``Model.dar`` as a data dependency of ``package-Model``.
+With this configuration, running ``daml build`` on ``package-Logic`` also automatically rebuilds ``package-Model-1.0.0.dar`` as a data dependency of ``package-Logic``.
 
 .. code:: bash
 
