@@ -27,7 +27,7 @@ Unless otherwise stated, all Daml runtime components require the following:
 In terms of hardware requirements, minimal deployments running simple Daml applications
 are regularly tested with as little as 2 GB of memory and access to a single, shared vCPU.
 
-Feature/Component System Requirementshttps://docs.daml.com/query/pqs-user-guide.html#
+Feature/Component System Requirements
 -------------------------------------
 
 `The JavaScript client libraries <../app-dev/bindings-ts/index.html>`_ are tested on Node 14.18.3 with TypeScript compiler 4.5.4. For best results, use these or later versions.

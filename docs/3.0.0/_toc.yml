@@ -218,6 +218,8 @@ subtrees:
             title: "Command Deduplication"
       - file: app-dev/authorization
         title: "Authorization"
+      - file: app-dev/explicit-contract-disclosure
+        title: "Explicit Contract Disclosure (Beta)"
   - file: daml/resource-management/index
     subtrees:
     - hidden: False
@@ -1600,8 +1602,6 @@ subtrees:
 - caption: "Early Access"
   entries:
 
-  - file: query/pqs-user-guide
-    title: "Querying and Accessing Ledger Data"
   - file: concepts/interoperability
     title: "Daml Ledger Interoperability"
   - file: tools/non-repudiation

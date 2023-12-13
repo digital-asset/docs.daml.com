@@ -297,7 +297,7 @@ Here are the prerequisites to run PQS:
 Deploy the Scribe component
 ===========================
 
-The PQS consists of two components: the PostgreSQL database and a ledger component called *Scribe*, as shown in the figure. Scribe is packaged as a Java JAR file. To run the PQS during Early Access, retrieve ``scribe.jar`` from `the Digital Asset Artifactory path <https://digitalasset.jfrog.io/ui/native/scribe>`__.
+The PQS consists of two components: the PostgreSQL database and a ledger component called *Scribe*, as shown in the figure. Scribe is packaged as a Java JAR file and is available from `the Digital Asset Artifactory path <https://digitalasset.jfrog.io/ui/native/scribe>`__.
 
 .. image:: ./images/scribe.svg
    :alt: A diagram showing the components of the Participant Query Store
@@ -910,7 +910,7 @@ PQS analyzes package metadata as part of its operation and displays the required
 PQS database schema
 ===================
 
-The following schema is representative for the exported ledger data. It is subject to change, as it is an Early Access feature.
+The following schema is representative for the exported ledger data. It is subject to change since it is hidden behind the table functions.
 
 .. code-block:: bash
 
