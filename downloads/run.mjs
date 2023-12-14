@@ -45,17 +45,17 @@ async function list(version) {
 }
 
 const components = [{name: "Daml SDK",
-                     files: [{name: "Linux Tarball", pattern: /^daml-sdk-.*-linux-ee\.tar\.gz$/},
-                             {name: "macOS Tarball", pattern: /^daml-sdk-.*-macos-ee\.tar\.gz$/},
-                             {name: "Windows Installer", pattern: /^daml-sdk-.*windows-ee\.exe$/}]},
-                    {name: "Canton", files: [{name: "Standalone JAR", pattern: /^canton-.*-ee\.jar$/}]},
-                    {name: "Daml Finance", files: [{name: "Tarball", pattern: /^daml-finance-.*-ee\.tar\.gz$/}]},
-                    {name: "Daml Script", files: [{name: "Standalone JAR", pattern: /^daml-script-.*-ee\.jar$/}]},
-                    {name: "HTTP JSON API", files: [{name: "Standalone JAR", pattern: /^http-json-.*-ee\.jar$/}]},
-                    {name: "OAuth2 Middleware", files: [{name: "Standalone JAR", pattern: /^oauth2-middleware-.*-ee\.jar$/}]},
-                    {name: "Participant Query Store", files: [{name: "Standalone JAR", pattern: /^participant-query-store-.*-ee\.jar$/}]},
-                    {name: "Trigger Runner", files: [{name: "Standalone JAR", pattern: /^trigger-runner-.*-ee\.jar$/}]},
-                    {name: "Trigger Service", files: [{name: "Standalone JAR", pattern: /^trigger-service-.*-ee\.jar$/}]}]
+                     files: [{name: "Linux tar.gz", pattern: /^daml-sdk-.*-linux-ee\.tar\.gz$/},
+                             {name: "macOS tar.gz", pattern: /^daml-sdk-.*-macos-ee\.tar\.gz$/},
+                             {name: "Windows installer", pattern: /^daml-sdk-.*windows-ee\.exe$/}]},
+                    {name: "Canton", files: [{name: "jar", pattern: /^canton-.*-ee\.jar$/}]},
+                    {name: "Daml Finance", files: [{name: "tar.gz", pattern: /^daml-finance-.*-ee\.tar\.gz$/}]},
+                    {name: "Daml Script", files: [{name: "jar", pattern: /^daml-script-.*-ee\.jar$/}]},
+                    {name: "HTTP JSON API", files: [{name: "jar", pattern: /^http-json-.*-ee\.jar$/}]},
+                    {name: "OAuth2 Middleware", files: [{name: "jar", pattern: /^oauth2-middleware-.*-ee\.jar$/}]},
+                    {name: "Participant Query Store", files: [{name: "Scribe jar", pattern: /^participant-query-store-.*-ee\.jar$/}]},
+                    {name: "Trigger Runner", files: [{name: "jar", pattern: /^trigger-runner-.*-ee\.jar$/}]},
+                    {name: "Trigger Service", files: [{name: "jar", pattern: /^trigger-service-.*-ee\.jar$/}]}]
 
 const index_template = fs.readFileSync('index.html.template', 'utf8');
 const version_template = fs.readFileSync('version.html.template', 'utf8');
