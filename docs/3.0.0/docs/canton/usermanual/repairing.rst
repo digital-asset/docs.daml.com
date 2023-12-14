@@ -104,7 +104,7 @@ and run the following commands from the "canton-X.Y.Z" directory to set up the i
 
     export CANTON=`pwd`
     export CONF="$CANTON/examples/03-advanced-configuration"
-    export REPAIR="$CANTON/examples/07-repair"
+    export REPAIR="$CANTON/examples/06-repair"
     bin/canton \
       -c $REPAIR/participant1.conf,$REPAIR/participant2.conf,$REPAIR/domain-repair-lost.conf,$REPAIR/domain-repair-new.conf \
       -c $CONF/storage/postgres.conf,$REPAIR/enable-preview-commands.conf \

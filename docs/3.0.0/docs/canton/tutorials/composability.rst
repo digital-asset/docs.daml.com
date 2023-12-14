@@ -30,12 +30,12 @@ The tutorial consists of two parts:
 2. The :ref:`second part <canton-composability-part2>` shows how to compose existing workflows on different domains into a single workflow and the benefits this brings.
 
 The Daml models are shipped with the Canton release in the ``daml/CantonExamples`` folder in the modules ``Iou`` and ``Paint``.
-The configuration and the steps are available in the ``examples/05-composability`` folder of the Canton release.
+The configuration and the steps are available in the ``examples/04-composability`` folder of the Canton release.
 To run the workflow, start Canton from the release's root folder as follows:
 
 .. code-block:: bash
 
-    ./bin/canton -c examples/05-composability/composability.conf
+    ./bin/canton -c examples/04-composability/composability.conf
 
 You can copy-paste the console commands from the tutorial in the given order into the Canton console to run them interactively.
 All console commands are also summarized in the bootstrap scripts ``composability1.canton``,
@@ -84,7 +84,7 @@ The house owner's and the painter's participants are connected to both domains, 
 
 The configuration file ``composability.conf`` configures the two domains ``iou`` and ``paint`` and three participants.
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/05-composability/composability.conf
+.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/04-composability/composability.conf
    :language: none
    :start-after: architecture-handbook-entry-begin: topology-part1
    :end-before: architecture-handbook-entry-end: topology-part1
@@ -94,7 +94,7 @@ the :ref:`second part <canton-automatic-transfer-in>` of this tutorial). Then, a
 parties for the bank (hosted on participant 1), the house owner (hosted on participant 2), and the painter (hosted on
 participant 3) are created. The details of the party onboarding are not relevant for show-casing cross-domain workflows.
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/05-composability/composability1.canton
+.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/04-composability/composability1.canton
    :language: scala
    :start-after: architecture-handbook-entry-begin: topology
    :end-before: architecture-handbook-entry-end: topology
@@ -107,7 +107,7 @@ These steps are implemented below using the Scala bindings (no longer supported 
 The generated Scala classes are distributed with the Canton release in the package ``com.digitalasset.canton.examples``.
 The relevant classes are imported as follows:
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/05-composability/composability1.canton
+.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/04-composability/composability1.canton
    :language: scala
    :start-after: architecture-handbook-entry-begin: imports
    :end-before: architecture-handbook-entry-end: imports
@@ -117,7 +117,7 @@ The house owner then shares the IOU contract with the painter such that the pain
 The share operation adds the painter as an observer on the IOU contract so that the painter can see the IOU contract.
 Both of these commands run over the ``iou`` domain because the Bank's participant 1 is only connected to the ``iou`` domain.
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/05-composability/composability1.canton
+.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/04-composability/composability1.canton
    :language: scala
    :start-after: architecture-handbook-entry-begin: iou
    :end-before: architecture-handbook-entry-end: iou
@@ -127,7 +127,7 @@ In the ``ledger_api.commands.submit_flat`` command, we set the workflow id to th
 If no domain was specified, the participant automatically determines a suitable domain.
 In this case, both domains are eligible because on each domain, every stakeholder (the house owner and the painter) is hosted on a connected participant.
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/05-composability/composability1.canton
+.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/04-composability/composability1.canton
    :language: scala
    :start-after: architecture-handbook-entry-begin: paint-offer
    :end-before: architecture-handbook-entry-end: paint-offer
@@ -165,7 +165,7 @@ Conversely, the paint offer can be transferred to the ``iou`` domain, so that th
 Stakeholders can change the residence domain of a contract using the ``transfer.execute`` command.
 In the example, the painter transfers the paint offer from the ``paint`` domain to the ``iou`` domain.
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/05-composability/composability1.canton
+.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/04-composability/composability1.canton
    :language: scala
    :start-after: architecture-handbook-entry-begin: transfer
    :end-before: architecture-handbook-entry-end: transfer
@@ -180,7 +180,7 @@ Atomic acceptance
 The paint offer and the IOU contract both reside on the ``iou`` domain now.
 Accordingly, the painter can complete the workflow by accepting the offer.
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/05-composability/composability1.canton
+.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/04-composability/composability1.canton
    :language: scala
    :start-after: architecture-handbook-entry-begin: accept
    :end-before: architecture-handbook-entry-end: accept
@@ -194,7 +194,7 @@ Completing the workflow
 
 Finally, the paint agreement can be transferred back to the ``paint`` domain, where it actually belongs.
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/05-composability/composability1.canton
+.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/04-composability/composability1.canton
    :language: scala
    :start-after: architecture-handbook-entry-begin: transfer-back
    :end-before: architecture-handbook-entry-end: transfer-back
@@ -202,7 +202,7 @@ Finally, the paint agreement can be transferred back to the ``paint`` domain, wh
 Note that the painter's IOU remains on the ``iou`` domain.
 The painter can therefore call the IOU and cash it out.
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/05-composability/composability1.canton
+.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/04-composability/composability1.canton
    :language: scala
    :start-after: architecture-handbook-entry-begin: call
    :end-before: architecture-handbook-entry-end: call
@@ -221,7 +221,7 @@ version of the above example that uses automatic transfers instead of manual tra
 
 The setup code and contract creation is unchanged:
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/05-composability/composability-auto-transfer.canton
+.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/04-composability/composability-auto-transfer.canton
    :language: scala
    :start-after: architecture-handbook-entry-begin: creation
    :end-before: architecture-handbook-entry-end: creation
@@ -239,14 +239,14 @@ contracts to this domain before applying the transaction. In this case, the only
 accept the paint offer is the IOU domain. This is how the painter is able to accept the paint offer below without any
 explicit transfers being performed.
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/05-composability/composability-auto-transfer.canton
+.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/04-composability/composability-auto-transfer.canton
    :language: scala
    :start-after: architecture-handbook-entry-begin: accept
    :end-before: architecture-handbook-entry-end: accept
 
 The painter can then cash in the IOU. This happens exactly as before, since the IOU contract never leaves the IOU domain.
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/05-composability/composability-auto-transfer.canton
+.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/04-composability/composability-auto-transfer.canton
    :language: scala
    :start-after: architecture-handbook-entry-begin: cash
    :end-before: architecture-handbook-entry-end: cash
@@ -366,7 +366,7 @@ The following changes are needed:
    The :ref:`Canton configuration <canton-composability-topology-part1>` is accordingly extended with the two participants 4 and 5.
    (The connections themselves are set up in the :ref:`next section <canton-composability-topology2>`.)
 
-   .. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/05-composability/composability.conf
+   .. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/04-composability/composability.conf
       :language: none
       :start-after: architecture-handbook-entry-begin: topology-part2
       :end-before: architecture-handbook-entry-end: topology-part2
@@ -386,14 +386,14 @@ Preparation using the existing workflows
 We extend the topology from the first part as described.
 The commands are explained in detail in Canton's :ref:`identity management manual <identity_management_user_manual>`.
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/05-composability/composability2.canton
+.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/04-composability/composability2.canton
    :language: scala
    :start-after: architecture-handbook-entry-begin: topology
    :end-before: architecture-handbook-entry-end: topology
 
 As before, the Bank creates an IOU and the house owner shares it with the painter on the ``iou`` domain, using their existing applications for IOUs.
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/05-composability/composability2.canton
+.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/04-composability/composability2.canton
    :language: scala
    :start-after: architecture-handbook-entry-begin: setup
    :end-before: architecture-handbook-entry-end: setup
@@ -415,7 +415,7 @@ Making the offer
 
 The house owner creates a paint offer on the ``paint`` domain.
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/05-composability/composability2.canton
+.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/04-composability/composability2.canton
    :language: scala
    :start-after: architecture-handbook-entry-begin: paint-offer
    :end-before: architecture-handbook-entry-end: paint-offer
@@ -435,14 +435,14 @@ During a transfer-out, the contract is deactivated on the source domain, in this
 Any stakeholder whose participant is connected to the source domain and the target domain can initiate a transfer-out.
 The ``transfer.out`` command returns a transfer Id.
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/05-composability/composability2.canton
+.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/04-composability/composability2.canton
    :language: scala
    :start-after: architecture-handbook-entry-begin: transfer-out
    :end-before: architecture-handbook-entry-end: transfer-out
 
 The ``transfer.in`` command consumes the transfer Id and activates the contract on the target domain.
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/05-composability/composability2.canton
+.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/04-composability/composability2.canton
    :language: scala
    :start-after: architecture-handbook-entry-begin: transfer-in
    :end-before: architecture-handbook-entry-end: transfer-in
@@ -455,7 +455,7 @@ Accepting the paint offer
 
 The painter accepts the offer, as before.
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/05-composability/composability2.canton
+.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/04-composability/composability2.canton
    :language: scala
    :start-after: architecture-handbook-entry-begin: accept
    :end-before: architecture-handbook-entry-end: accept
@@ -467,7 +467,7 @@ Automatic transfer-in
 
 Finally, the paint agreement is transferred back to the ``paint`` domain such that the existing infrastructure around paint agreements can work unchanged.
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/05-composability/composability2.canton
+.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/04-composability/composability2.canton
    :language: scala
    :start-after: architecture-handbook-entry-begin: automatic-transfer-in
    :end-before: architecture-handbook-entry-end: automatic-transfer-in
@@ -492,7 +492,7 @@ The painter now owns an IOU on the ``iou`` domain and the entered paint agreemen
 Accordingly, the existing workflows for IOUs and paint agreements can be used unchanged.
 For example, the painter can call the IOU.
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/05-composability/composability2.canton
+.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/04-composability/composability2.canton
    :language: scala
    :start-after: architecture-handbook-entry-begin: call
    :end-before: architecture-handbook-entry-end: call
