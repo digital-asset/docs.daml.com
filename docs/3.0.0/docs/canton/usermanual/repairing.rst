@@ -234,16 +234,14 @@ Starting with ``--manual-start`` will prevent the participant to attempt to reco
 Then, you can download the identity state of the node to a directory on the machine you are running the
 process:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/sequencer/RehydrationIntegrationTest.scala
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/sequencer/RehydrationXIntegrationTest.scala
    :language: scala
    :start-after: architecture-handbook-entry-begin: RepairMacroCloneIdentityDownload
    :end-before: architecture-handbook-entry-end: RepairMacroCloneIdentityDownload
    :dedent:
 
 This will store the secret keys, the topology state and the identity onto the disk in the given directory.
-You can run the ``identity.download`` command on all nodes. However, mediator and sequencer
-nodes will only store their keys in files, as the sequencer's identity is attached to the domain identity
-and the mediator's identity is set only later during initialization.
+You can run the ``identity.download`` command on all nodes.
 
 The ``dars.download`` command is a convenience command to download all dars that have been
 added to the participant via the console command ``participant.dars.upload``. Dars that
@@ -252,7 +250,7 @@ were uploaded through the Ledger API need to be manually re-uploaded to the new 
 Once the data is stored, stop the node and then truncate the database (please back it up
 before). Then restart the node and upload the identity data again:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/sequencer/RehydrationIntegrationTest.scala
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/sequencer/RehydrationXIntegrationTest.scala
    :language: scala
    :start-after: architecture-handbook-entry-begin: RepairMacroCloneIdentityUpload
    :end-before: architecture-handbook-entry-end: RepairMacroCloneIdentityUpload
@@ -260,44 +258,20 @@ before). Then restart the node and upload the identity data again:
 
 Please note that dar uploading is only necessary for participants.
 
-Now, depending on the node type, you need to re-integrate the node into the domain. For the
-domain nodes, you need to grab the static domain parameters and the domain id from the
-domain manager. If you have remote access to the domain manager, you can run
-
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/sequencer/RehydrationIntegrationTest.scala
-   :language: scala
-   :start-after: architecture-handbook-entry-begin: RehydrationGrabInitData
-   :end-before: architecture-handbook-entry-end: RehydrationGrabInitData
-   :dedent:
-
-You also want to grab the mediator identities for each mediator using:
-
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/sequencer/RehydrationIntegrationTest.scala
-   :language: scala
-   :start-after: architecture-handbook-entry-begin: RehydrationGrabMediatorId
-   :end-before: architecture-handbook-entry-end: RehydrationGrabMediatorId
-   :dedent:
+Now, depending on the node type, you need to re-integrate the node into the domain.
 
 For the sequencer, rehydration works only if the domain uses a blockchain;
 the database-only sequencers cannot rehydrate. So rehydration for blockchain-based sequencers will be:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/sequencer/RehydrationIntegrationTest.scala
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/sequencer/RehydrationXIntegrationTest.scala
    :language: scala
    :start-after: architecture-handbook-entry-begin: RehydrationSequencer
    :end-before: architecture-handbook-entry-end: RehydrationSequencer
    :dedent:
 
-For the domain manager, it looks like:
-
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/sequencer/RehydrationIntegrationTest.scala
-   :language: scala
-   :start-after: architecture-handbook-entry-begin: RehydrationDomainManager
-   :end-before: architecture-handbook-entry-end: RehydrationDomainManager
-   :dedent:
-
 For the mediator, it would be:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/sequencer/RehydrationIntegrationTest.scala
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/sequencer/RehydrationXIntegrationTest.scala
    :language: scala
    :start-after: architecture-handbook-entry-begin: RehydrationMediator
    :end-before: architecture-handbook-entry-end: RehydrationMediator
@@ -305,7 +279,7 @@ For the mediator, it would be:
 
 For a participant, you would reconnect it to the domain using a normal connect:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/sequencer/RehydrationIntegrationTest.scala
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/sequencer/RehydrationXIntegrationTest.scala
    :language: scala
    :start-after: architecture-handbook-entry-begin: RepairMacroCloneIdentityConnect
    :end-before: architecture-handbook-entry-end: RepairMacroCloneIdentityConnect
