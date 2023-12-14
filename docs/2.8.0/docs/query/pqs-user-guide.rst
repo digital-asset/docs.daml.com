@@ -7,7 +7,15 @@ Participant Query Store User Guide
 Introduction
 ************
 
-The term operational datastore (ODS) usually refers to a database that mirrors the ledger and allows for efficient querying. The Participant Query Store (PQS) feature acts as an ODS for the participant node. It stores contract creation, contract archival, and exercise information in a PostgreSQL database using a JSONB column format. You access the data using SQL over a JDBC connection.
+The term operational datastore (ODS) usually refers to a database that mirrors
+the ledger and allows for efficient querying. The Participant Query Store
+(PQS) feature acts as an ODS for the participant node. PQS provides a
+unidirectional path for exporting data from the ledger event stream to a
+PostgreSQL datastore. Data is exported in an append-only fashion and provides
+a stable view of data for purposes such as point-in-time queries. It stores
+contract creation, contract archival, and exercise information in a PostgreSQL
+database using a JSONB column format. You access the data using SQL over a
+JDBC connection.
 
 The PQS is intended for high throughput and complex queries, for which the Canton ledger (gRPC Ledger API) and the JSON API are not optimized. The PQS is useful for:
 
@@ -18,65 +26,6 @@ The PQS is intended for high throughput and complex queries, for which the Canto
 -  Report writers to extract historical data and then stream indefinitely (either from the start of the ledger or from a specific offset).
 
 There are many other uses.
-
-In the Early Access implementation, the PQS provides a unidirectional path for exporting data from the ledger event stream to a PostgreSQL datastore. Data is exported in an append-only fashion and provides a stable view of data for purposes such as point-in-time queries.
-
-Early Access purpose and limitations
-************************************
-
-The Early Access (EA) release allows users to learn about the architecture and programming model of the PQS. This enhancement to the participant node provides new capabilities that can take time to explore. The EA release is not fully production-ready, but is rapidly becoming enterprise-hardened. Since applications take time to develop, the EA version is recommended for learning and development. New patch releases are provided as enhancements are made and gaps are closed.
-
-The current limitations of the EA version are:
-
--  PQS has not been performance optimized, so it is not yet ready for large- or high-throughput queries.
--  As is typical of EA releases, backward compatibility between EA releases may be sacrificed to make improvements in the user experience and design of PQS. You may need to make adjustments in your use through the EA period.
-
-Future early access releases are planned to remove or reduce these limitations. Please check back to this section for announcements of a new early access release.
-
-Early Access release versions
-=============================
-
-The historical table below lists the available Early Access releases of the Participant Query Store. Click the date to download the JAR.
-
-+---------------+-----------------------------------------------------+
-| Date          | Description                                         |
-+===============+=====================================================+
-| `2023-08-09`_ | Initial early access release.                       |
-+---------------+-----------------------------------------------------+
-| `2023-08-31`_ | Added OAuth support.                                |
-+---------------+-----------------------------------------------------+
-| `2023-09-06`_ | Documentation updated. Added *PQS Schema Design*,   |
-|               | *Offset Management*, *Querying Patterns*, *Advanced |
-|               | Querying Topics* sections.                          |
-+---------------+-----------------------------------------------------+
-| `2023-09-18`_ | Documentation updated. Updated command line         |
-|               | options and added information about using           |
-|               | ``--pipeline-filter`` option.                       |
-+---------------+-----------------------------------------------------+
-| `2023-09-19`_ | New release. JDBC driver fix to not inject ``?``.   |
-|               | ``--target-postgres-autoapplyschema`` renamed to    |
-|               | ``--target-schema-autoapply``                       |
-+---------------+-----------------------------------------------------+
-| `2023-09-22`_ | New release. Added pruning documentation.           |
-|               | Environment variables now have ``SCRIBE_`` prefix   |
-|               | to avoid name clashes. Updated the                  |
-|               | ``--pipeline-parties`` option information.          |
-+---------------+-----------------------------------------------------+
-| `2023-09-26`_ | New release. The filter is now applied on the DB    |
-|               | functions, such as choices.                         |
-+---------------+-----------------------------------------------------+
-| `2023-10-06`_ | New release.  JWT audience bug fix.  Name format    |
-|               | change.                                             |
-+---------------+-----------------------------------------------------+
-
-.. _2023-08-09: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B2986-e45c930.tar.gz
-.. _2023-08-31: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B3614-6b5f082.tar.gz
-.. _2023-09-06: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B3614-6b5f082.tar.gz
-.. _2023-09-18: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B3614-6b5f082.tar.gz
-.. _2023-09-19: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B4004-3b542d2.tar.gz
-.. _2023-09-22: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B4057-a74e52c.tar.gz
-.. _2023-09-26: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B4073-9c286ff.tar.gz
-.. _2023-10-06: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.2-main.20231006.156.4444.vbb4c8a1.tar.gz
 
 Overview
 ********
@@ -348,7 +297,7 @@ Here are the prerequisites to run PQS:
 Deploy the Scribe component
 ===========================
 
-The PQS consists of two components: the PostgreSQL database and a ledger component called *Scribe*, as shown in the figure. Scribe is packaged as a Java JAR file. To run the PQS during Early Access, retrieve ``scribe.jar`` from `the Digital Asset Artifactory path <https://digitalasset.jfrog.io/ui/native/scribe>`__.
+The PQS consists of two components: the PostgreSQL database and a ledger component called *Scribe*, as shown in the figure. Scribe is packaged as a Java JAR file and is available from `the Digital Asset Artifactory path <https://digitalasset.jfrog.io/ui/native/scribe>`__.
 
 .. image:: ./images/scribe.svg
    :alt: A diagram showing the components of the Participant Query Store
@@ -961,7 +910,7 @@ PQS analyzes package metadata as part of its operation and displays the required
 PQS database schema
 ===================
 
-The following schema is representative for the exported ledger data. It is subject to change, as it is an Early Access feature.
+The following schema is representative for the exported ledger data. It is subject to change since it is hidden behind the table functions.
 
 .. code-block:: bash
 

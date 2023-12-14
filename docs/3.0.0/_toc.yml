@@ -1293,6 +1293,8 @@ subtrees:
       title: "Example Monitoring Setup"
     - file: canton/usermanual/monitoring_glossary
       title: "Glossary"
+  - file: query/pqs-user-guide
+    title: "Querying and Accessing Ledger Data"
   - file: canton/usermanual/identity_management
     title: "Identity Management"
   - file: operate-a-daml-ledger/common-tasks/index
@@ -1600,8 +1602,6 @@ subtrees:
 - caption: "Early Access"
   entries:
 
-  - file: query/pqs-user-guide
-    title: "Querying and Accessing Ledger Data"
   - file: concepts/interoperability
     title: "Daml Ledger Interoperability"
   - file: tools/non-repudiation
