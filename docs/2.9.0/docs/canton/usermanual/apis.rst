@@ -60,6 +60,9 @@ will default to the built-in ``JVM`` trust store. The file must contain all clie
 the API. The format is just a collection of PEM certificates (in the right order or hierarchy), not a
 java based trust store.
 
+If you want to use mTLS on the Admin API, you must sign the client certificates with the certificate
+defined in the ``trust-collection-file``.
+
 In order to operate the server just with server-side authentication, you can just omit the section
 on ``client-auth``. However, if ``client-auth`` is set to ``require``, then Canton also requires a client certificate,
 as various Canton internal processes will connect to the process itself through the API.
@@ -74,13 +77,12 @@ the default JVM values will be used.
     Error messages on TLS issues provided by the networking library ``netty`` are less than optimal.
     If you are struggling with setting up TLS, please enable ``DEBUG`` logging on the ``io.netty`` logger.
 
-Note that the configuration hierarchy for a `remote participant console <https://docs.daml.com/__VERSION__/canton/scaladoc/com/digitalasset/canton/participant/config/RemoteParticipantConfig.html>`__ is slightly different
-from the in-process console or participant shown above. For configuring a remote console with TLS, please see the `scaladocs for a TlsClientConfig <https://docs.daml.com/__VERSION__/canton/scaladoc/com/digitalasset/canton/config/TlsClientConfig.html>`__
-(see also :ref:`how scaladocs relates to the configuration <configuration_reference>`).
+Note that the configuration hierarchy for a :ref:`remote participant console <canton_remote_console>` is
+slightly different from the in-process console or participant shown above.
 
 If you need to create a set of testing TLS certificates, you can use the following openssl commands:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/gen-test-certs.sh
+.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/config/tls/gen-test-certs.sh
    :start-after: architecture-handbook-entry-begin: GenTestCerts
    :end-before: architecture-handbook-entry-end: GenTestCerts
 
@@ -145,7 +147,7 @@ The Ledger Api supports `JWT <https://jwt.io/>`_ based authorization checks as d
 
 In order to enable JWT authorization checks, your safe configuration options are
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/03-advanced-configuration/api/jwt/certificate.conf
+.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/config/jwt/certificate.conf
 
 - ``jwt-rs-256-crt``.
   The participant will expect all tokens to be signed with RS256 (RSA Signature with SHA-256) with the public key loaded from the given X.509 certificate file.
@@ -167,7 +169,7 @@ Instead of specifying the path to a certificate, you can also a
 participant will expect all tokens to be signed with RS256 (RSA Signature
 with SHA-256) with the public key loaded from the given JWKS URL.
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/03-advanced-configuration/api/jwt/jwks.conf
+.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/config/jwt/jwks.conf
 
 .. warning::
 
@@ -175,7 +177,7 @@ with SHA-256) with the public key loaded from the given JWKS URL.
   that case, the participant will expect all tokens to be signed with
   HMAC256 with the given plaintext secret. This is not considered safe for production.
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/03-advanced-configuration/api/jwt/unsafe-hmac256.conf
+.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/config/jwt/unsafe-hmac256.conf
 
 .. note:: To prevent man-in-the-middle attacks, it is highly recommended to use
           TLS with server authentication as described in :ref:`tls-configuration` for
@@ -184,10 +186,7 @@ with SHA-256) with the public key loaded from the given JWKS URL.
 Note that you can define multiple authorization plugins. If more than one is defined, the system will use the claim of the
 first auth plugin that does not return Unauthorized.
 
-If no authorization plugins are defined, a default (wildcard) authorization method is used. Under it, all valid ledger API requests are accepted without the system performing any request authorization.
-To explicitly define the default authorization method, use the following configuration:
-
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/03-advanced-configuration/api/wildcard.conf
+If no authorization plugins are defined, a default (wildcard) authorization method is used.
 
 Leeway Parameters for JWT Authorization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -200,7 +199,7 @@ Leeway can be defined either specifically for the **Expiration Time ("exp")**, *
 leeway for each of the three specific fields override the default value if present. The leeway parameters should be
 given in seconds and can be defined as in the example configuration below:
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/03-advanced-configuration/api/jwt/leeway-parameters.conf
+.. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/leeway-parameters.conf
 
 Configuring the Target Audience for JWT Authorization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -234,7 +233,7 @@ ambient contracts that are consistently being fetched or used for non-consuming 
 use cases where a big pool of contracts rotates through a create -> archive -> create-successor cycle.
 Consider adjusting these parameters explicitly if the performance of your specific workflow depends on large caches.
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/03-advanced-configuration/api/large-ledger-api-cache.conf
+.. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/large-ledger-api-cache.conf
 
 Max Transactions in the In-Memory Fan-Out
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -247,7 +246,7 @@ set this number to 200. The new default setting of 1000 assumes 100 tx/s.
 Consider adjusting these parameters explicitly if the performance of your workflow foresees transaction rates larger
 than 100 tx/s.
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/03-advanced-configuration/api/large-in-memory-fan-out.conf
+.. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/large-in-memory-fan-out.conf
 
 Domain Configurations
 ---------------------

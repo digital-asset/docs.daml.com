@@ -27,7 +27,7 @@ Canton is a JVM application. To run it natively you need Java 11 or higher insta
 Alternatively Canton is available as a `docker image <https://hub.docker.com/r/digitalasset/canton-open-source>`__ (see :ref:`Canton docker instructions <docker-instructions>`).
 
 Canton is platform-agnostic. For development purposes, it runs on macOS,
-Linux, and Windows. Linux is the supported platform for production.  
+Linux, and Windows. Linux is the supported platform for production.
 
 Note: Windows garbles the Canton console output
 unless you are running Windows 10 and you enable terminal colors (e.g., by
@@ -43,6 +43,7 @@ The extracted archive has the following structure:
 
   .
   ├── bin
+  ├── config
   ├── daml
   ├── dars
   ├── demo
@@ -52,6 +53,7 @@ The extracted archive has the following structure:
   └── ...
 
 - ``bin``: contains the scripts for running Canton (``canton`` under Unix-like systems and ``canton.bat`` under Windows)
+- ``config``: contains a set of reference configuration files for each node type
 - ``daml``: contains the source code for some sample smart contracts
 - ``dars``: contains the compiled and packaged code of the above contracts
 - ``demo``: contains everything needed to run the interactive Canton demo
