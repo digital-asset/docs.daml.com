@@ -11,8 +11,16 @@ Note that the Windows installer is already signed (within the binary itself), an
 To do that:
 
 1. Go to https://github.com/digital-asset/daml/releases. Confirm your browser sees a valid certificate for the github.com domain.
-2. Download the artifact (*Assets* section, after the release notes) for your platform as well as the corresponding signature file. For example, if you are on macOS and want to install the latest release (2.0.0 at the time of writing), you would download the files ``daml-sdk-2.0.0-macos.tar.gz`` and ``daml-sdk-2.0.0-macos.tar.gz.asc``. Note that for Windows you can choose between the tarball (ends in ``.tar.gz``), which follows the same instructions as the Linux and macOS ones (but assumes you have a number of typical Unix tools installed), or the installer, which ends with ``.exe``. Regardless, the steps to verify the signature are the same.
-3. To verify the signature, you need to have ``gpg`` installed (see
+2. Find the release you are looking for - take note of the release name. For a stable release, it will be something like ``2.8.0``. For a snapshot, it will be something like ``2.8.0-snapshot.20231129.0``.
+3. Download the artifact (*Assets* section, after the release notes) for your platform as well as the corresponding signature file. For example, if you are on macOS you would download the files ``daml-sdk-<...>-macos.tar.gz`` and ``daml-sdk-<...>-macos.tar.gz.asc``.
+
+   .. note::
+
+      You can safely ignore the version string in the tarball name - this is an internal version string that is superseded by the version you took note of in Part 2. If you are installing a stable release, this internal version will be the same as the release version you took note of. If it is a snapshot, the ``<...>`` section will be different.
+
+   For Windows you can choose between the tarball (ends in ``.tar.gz``), which follows the same instructions as the Linux and macOS ones (but assumes you have a number of typical Unix tools installed), or the installer, which ends with ``.exe``. Regardless, the steps to verify the signature are the same.
+
+4. To verify the signature, you need to have ``gpg`` installed (see
    https://gnupg.org for more information on that) and the Digital Asset
    Security Public Key imported into your keychain. Once you have ``gpg``
    installed, you can import the key by running::
@@ -27,7 +35,7 @@ To do that:
    Alternatively, if keyservers do not work for you (we are having a bit of
    trouble getting them to work reliably for us), you can find the full public
    key at the bottom of this page.
-4. Once the key is imported, you can ask ``gpg`` to verify that the file you have downloaded has indeed been signed by that key. Continuing with our example of 2.0.0 on macOS, you should have both files in the current directory and run::
+5. Once the key is imported, you can ask ``gpg`` to verify that the file you have downloaded has indeed been signed by that key. Continuing with our example of 2.0.0 on macOS, you should have both files in the current directory and run::
 
      gpg --verify daml-sdk-2.0.0-macos.tar.gz.asc
 
@@ -44,13 +52,13 @@ To do that:
 
    Note: This warning means you have not told gnupg that you trust this key actually belongs to Digital Asset. The ``[unknown]`` tag next to the key has the same meaning: ``gpg`` relies on a web of trust, and you have not told it how far you trust this key. Nevertheless, at this point you have verified that this is indeed the key that has been used to sign the archive.
 
-5. The next step is to extract the tarball and run the install script (unless you chose the Windows installer, in which case the next step is to double-click it)::
+6. The next step is to extract the tarball and run the install script (unless you chose the Windows installer, in which case the next step is to double-click it). You will need to replace the phrase ``PART_TWO_VERSION_HERE`` in the following program with version you obtained in Part 2. **Do not** use the internal version mentioned in the note in Part 3.::
 
      tar xzf daml-sdk-2.0.0-macos.tar.gz
      cd sdk-2.0.0
-     ./install.sh
+     ./install.sh --install-with-custom-version PART_TWO_VERSION_HERE
 
-6. Just like for the more automated install procedure, you may want to add ``~/.daml/bin`` to your ``$PATH``.
+7. Just like for the more automated install procedure, you may want to add ``~/.daml/bin`` to your ``$PATH``.
 
 
 
