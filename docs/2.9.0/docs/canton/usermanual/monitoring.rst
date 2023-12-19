@@ -80,8 +80,6 @@ The following other key metrics are monitored:
 
 This list is not exhaustive. It highlights the most important metrics.
 
-.. _logging:
-
 Set Up Metrics Scraping
 -----------------------
 
@@ -457,6 +455,8 @@ runtime_jvm_memory_pool
   - **pool**: Defined pool name.
   - **type**: Can be ``committed``, ``used`` or ``max``
 
+
+.. _logging:
 
 Logging
 -------

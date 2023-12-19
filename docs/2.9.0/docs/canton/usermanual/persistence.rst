@@ -34,20 +34,18 @@ It is recommended to use a connection pool in production environments and
 Please note that Canton will create, manage and upgrade the database schema directly. You don't have
 to create tables yourselves.
 
-Consult the ``example/03-advanced-configuration`` directory to get a set of configuration files to set
-your nodes up.
+Consult the reference ``config`` directory to get a set of configuration files to set your nodes up.
 
 Postgres
 --------
 
 Our reference driver based definition for Postgres configuration is:
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/03-advanced-configuration/storage/postgres.conf
+.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/config/storage/postgres.conf
 
 You may use this configuration file with environment variables or adapt it accordingly. More detailed setup instructions
 and options are available in the `Slick reference guide <https://scala-slick.org/doc/3.3.1/api/index.html#slick.jdbc.JdbcBackend$DatabaseFactoryDef@forConfig(String,Config,Driver,ClassLoader):Database>`_.
-The above configurations are included in the ``examples/03-advanced-configuration/storage`` folder and are sufficient
-to get going.
+The above configurations are included in the reference ``config/storage`` folder and are sufficient to get started.
 
 .. _ssl:
 
@@ -63,46 +61,52 @@ Note that all configuration properties for the database will be propagated to th
 
 .. _postgres-performance-tuning:
 
-Performance 
-~~~~~~~~~~~
+Sizing and Performance
+~~~~~~~~~~~~~~~~~~~~~~
 
-Please note that your Postgres database setup requires appropriate tuning to achieve the desired performance. Canton 
-is rather database heavy. This section should give you a starting point for your tuning efforts. You may want to consult 
-the :ref:`troubleshooting section <how_to_measure_db_performance>` on how to analyse whether the database is a limiting factor. 
+Note that your Postgres database setup requires appropriate tuning to achieve the desired performance. Canton
+is database heavy. This section should give you a starting point for your tuning efforts. You may want to consult
+the :ref:`troubleshooting section <how_to_measure_db_performance>` on how to analyze whether the database is a limiting factor.
 
-This guide can give you a starting point for tuning. Ultimately, every use case is different and the exact resource requirements can not 
+This guide can give you a starting point for tuning. Ultimately, every use case is different and the exact resource requirements cannot
 be predicted, but have to be measured.
 
-First, ensure that the database you are using is appropriately sized for your use case. The number of cores depends on your 
+First, ensure that the database you are using is appropriately sized for your use case. The number of cores depends on your
 throughput requirements. The rule of thumb is:
- 
+
 - 1 db core per 1 participant core.
 - 1 participant core for 30-100 ledger events per second (depends on the complexity of the commands).
 
-The memory requirements depend on your data retention period and the size of the data you are storing. Ideally, you monitor the 
-database index cache hit/miss ratio. If your instance needs to keep on loading indexes from the disk, performance suffers. 
+The memory requirements depend on your data retention period and the size of the data you are storing. Ideally, you monitor the
+database index cache hit/miss ratio. If your instance needs to keep on loading indexes from the disk, performance suffers.
 It might make sense to start with 128GB, run a long-running scale & performance test, and `monitor the cache hit/miss ratio <https://www.postgresql.org/docs/current/monitoring-stats.html#MONITORING-PG-STATIO-ALL-INDEXES-VIEW>`__.
 
-Most Canton indexes are contract-id based, which means that the index lookups are randomly distributed. Solid state drives with 
-high throughput perform much better than spinning disks for this purpose. 
+Most Canton indexes are contract-id based, which means that the index lookups are randomly distributed. Solid state drives with
+high throughput perform much better than spinning disks for this purpose.
 
-For Postgres, `this online tool <https://pgtune.leopard.in.ua/>`_ is a good starting point for finding reasonable parameters 
-(use online transaction processing system).
+.. _postgres-configuration:
 
-Beyond the initial configuration, we have made the following observations: Most indexes Canton uses are "hash based".
-Therfore, read and write access to these indexes is uniformly distributed. However, Postgres reads and writes indexes in 
-pages of 8kb, while a simple index might only be a couple of writes. Therefore, it is very important to be able to keep the 
-indexes in memory and only write updates to the disk from time to time; otherwise, a simple change of 32 bytes requires 8kb IO
-operations. 
+Postgres Configuration
+~~~~~~~~~~~~~~~~~~~~~~
 
-We recommend configuring the ``shared_buffers`` setting to hold 60-70% of the host memory rather than the default 
-suggestion of 25%, as the Postgres caching appears to be more effective than the host based file access caching. 
+For Postgres, `the PGTune online tool <https://pgtune.leopard.in.ua/>`_ is a good starting point for finding reasonable parameters
+(use online transaction processing system), but you need to increase the settings of ``shared_buffers``, ``checkpoint_timeout``
+and ``max_wal_size``, as explained below.
 
-We also increase the following variables N times beyond their default: Increase the `checkpoint_timeout` such that 
-the flushing to disk includes several writes and not just one per page, accumulated over time, together with 
-a higher `max_wal_size` to ensure that the system does not prematurely flush before reaching the checkpoint_timeout
-We recommend that you monitor your system during load testing and tune the parameters accordingly to your use case.
-The downside of changing the checkpointing parameters is that increase crash recovery takes longer. 
+Beyond the initial configuration, note that most indexes Canton uses are "hash based".
+Therefore, read and write access to these indexes is uniformly distributed. However, Postgres reads and writes indexes in
+pages of 8kb, while a simple index might only be a couple of writes. Therefore, it is very important to be able to keep the
+indexes in memory and only write updates to the disk from time to time; otherwise, a simple change of 32 bytes requires 8kb I/O
+operations.
+
+Configuring the ``shared_buffers`` setting to hold 60-70% of the host memory is recommended, rather than the default
+suggestion of 25%, as the Postgres caching appears to be more effective than the host-based file access caching.
+
+Also increase the following variables ``N`` times beyond their default: Increase the ``checkpoint_timeout`` so that
+the flushing to disk includes several writes and not just one per page, accumulated over time, together with
+a higher ``max_wal_size`` to ensure that the system does not prematurely flush before reaching the ``checkpoint_timeout``.
+Monitor your system during load testing and tune the parameters accordingly to your use case.
+The downside of changing the checkpointing parameters is that crash recovery takes longer.
 
 .. _persistence-oracle:
 
@@ -244,7 +248,7 @@ placeholders ``<ORACLE_HOST>``, ``<ORACLE_PORT>``, and ``<ORACLE_DB>`` will need
 to be replaced with the correct settings to match the environment and
 ``<ORACLE_USER>`` with a unique user for each node:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/pack/examples/03-advanced-configuration/storage/oracle.conf
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/pack/config/storage/oracle.conf
 
 The environment variable for ``ORACLE_PASSWORD`` needs to be set and exported so that it
 is accessible for substitution in the configuration files.
@@ -253,7 +257,7 @@ The persistence configuration for the Participant is an extended version based
 on the previous configuration for participant nodes with the addition of the
 Ledger API JDBC URL string:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/pack/examples/03-advanced-configuration/storage/oracle-participant.conf
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/pack/config/storage/oracle-participant.conf
 
 .. _oracle-performance-tuning:
 

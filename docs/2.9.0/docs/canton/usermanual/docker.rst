@@ -11,22 +11,14 @@ Running in Docker
 Obtaining the Docker Images
 ---------------------------
 
-The Canton Open Source edition is published to the `digitalasset/canton-open-source dockerhub repository <https://hub.docker.com/r/digitalasset/canton-open-source>`_.
-You can pull the Docker image using
-
-.. code-block:: bash
-
-    docker pull digitalasset/canton-open-source[:version]
-
-Here, the version is optional and by default, the latest version is used. The version ``dev`` is the the current main build.
-Please note that previous versions were called ``canton-community``, before we renamed the artefact to ``canton-open-source``.
-
-If you want to use the edition included with Daml Enterprise, you can download it using
+The Canton Docker images are available for the Daml Enterprise. You can download them using
 
 .. code-block:: bash
 
     docker login digitalasset-canton-enterprise-docker.jfrog.io
-    docker pull digitalasset-canton-enterprise-docker.jfrog.io/digitalasset/canton-enterprise
+    docker pull digitalasset-canton-enterprise-docker.jfrog.io/digitalasset/canton-enterprise[:version]
+
+The version is optional, and the latest version is used by default. The version ``dev`` is the the current main build.
 
 Starting Canton
 ---------------
@@ -37,17 +29,17 @@ For example, to run with our simple topology configuration in interactive consol
 
 .. code-block:: bash
 
-   docker run --rm -it digitalasset/canton-open-source:latest --config simple-topology.conf
+   docker run --rm -it digitalasset-canton-enterprise-docker.jfrog.io/digitalasset/canton-enterprise:latest \
+        --config simple-topology.conf
 
 The ``--rm`` option ensures that the container is removed when the canton process exits.
 The ``-it`` options start the container interactively and provide a TTY for running our console.
 
 The default working directory of the container is ``/canton``.
 
-By default docker will pull the ``latest`` tag containing the latest Canton release.
-As docker will only automatically pull ``latest`` once, ensure you have the latest version by  periodically running ``docker pull digitalasset/canton-open-source``.
-
-Previous releases can be run by specifying their tag ``digitalasset/canton-open-source:2.4.0``.
+By default Docker will pull the ``latest`` tag containing the latest Canton release.
+As Docker will only automatically pull ``latest`` once, ensure you have the latest version by
+periodically running ``docker pull digitalasset-canton-enterprise-docker.jfrog.io/digitalasset/canton-enterprise``.
 
 Configuring Logging
 -------------------
@@ -64,7 +56,8 @@ For example, if you have the local directory ``my-application`` containing your 
 
    docker run --rm -it \
       --volume "$PWD/my-application:/canton/my-application" \
-      digitalasset/canton-open-source --config /canton/my-application/my-config.conf
+      digitalasset-canton-enterprise-docker.jfrog.io/digitalasset/canton-enterprise \
+      --config /canton/my-application/my-config.conf
 
 DARs can be loaded using the same container local path.
 
@@ -75,13 +68,13 @@ Applications using Canton will typically need access to the ledger-api to read f
 Each participant binds the ledger-api to the port specified at the configuration key: ``ledger-api.port``.
 For ``participant1`` in the simple topology example this is set to port 5011.
 
-To expose the ledger-api to port 5011 on the host machine, run docker with the following options:
+To expose the ledger-api to port 5011 on the host machine, run Docker with the following options:
 
 .. code-block:: bash
 
    docker run --rm -it \
       -p 5011:5011 \
-      digitalasset/canton-open-source \
+      digitalasset-canton-enterprise-docker.jfrog.io/digitalasset/canton-enterprise \
       -C canton.participants.participant1.ledger-api.address=0.0.0.0 \
       --config examples/01-simple-topology/simple-topology.conf \
       --bootstrap examples/01-simple-topology/simple-ping.canton
@@ -91,7 +84,7 @@ The ledger-api port for each participant will need to be mapped separately.
 Running Postgres in Docker
 --------------------------
 
-Canton requires an appropriate database to persist data. For this purpose, such a database can also be run in a docker
+Canton requires an appropriate database to persist data. For this purpose, such a database can also be run in a Docker
 container using the following, helpful command:
 
 .. code-block:: bash
@@ -100,7 +93,7 @@ container using the following, helpful command:
         -e POSTGRES_PASSWORD=test-password postgres:14.8-bullseye postgres -c max_connections=500
 
 Please note that the ``--publish`` command allows us to pick the target port which we have to define in the
-Canton configuration file. The ``--rm`` will delete the data store once the docker container is killed. This is
+Canton configuration file. The ``--rm`` will delete the data store once the Docker container is killed. This is
 useful for short-term tests. The ``--shm-size 256mb`` is necessary as Docker will allocate only 64mb of shared memory by
 default which is insufficient for the way Canton uses Postgres.
 
@@ -116,4 +109,4 @@ Postgres you can do using ``psql``
 
 The tables will be managed automatically by Canton. The ``psql`` solution works also if you run multiple nodes on one
 Postgres database which all require separate databases. If you run just one node against one database, you can avoid
-using ``psql`` by adding ``--POSTGRES_DB=participant1`` to above docker command.
+using ``psql`` by adding ``--POSTGRES_DB=participant1`` to above Docker command.

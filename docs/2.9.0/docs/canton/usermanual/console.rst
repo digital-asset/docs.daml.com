@@ -46,13 +46,13 @@ As an example, you might start Canton in daemon mode using
 Assuming now that you've started a participant, you can access this participant using a ``remote-participant``
 configuration such as:
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/03-advanced-configuration/remote/participant1.conf
+.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/config/remote/participant.conf
 
 Naturally, you can then also use the remote configuration to run a script:
 
 .. code-block:: bash
 
-    ./bin/canton daemon -c remote-participant1.conf --bootstrap <some-script>
+    ./bin/canton daemon -c config/remote/participant.conf --bootstrap <some-script>
 
 Please note that a remote node will support almost all commands except a few that a local node supports.
 
