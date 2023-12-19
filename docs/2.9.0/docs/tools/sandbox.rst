@@ -124,9 +124,9 @@ Below, you can see an example config. For more details on TLS, refer to
    canton.participants.sandbox.ledger-api {
      tls {
        // the certificate to be used by the server
-       cert-chain-file = "./tls/participant.crt"
+       cert-chain-file = "./tls/ledger-api.crt"
        // private key of the server
-       private-key-file = "./tls/participant.pem"
+       private-key-file = "./tls/ledger-api.pem"
        // trust collection, which means that all client certificates will be verified using the trusted
        // certificates in this store. if omitted, the JVM default trust store is used.
        trust-collection-file = "./tls/root-ca.crt"

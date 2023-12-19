@@ -98,7 +98,7 @@ Finally, run the following commands from the "canton-X.Y.Z" directory to set up 
 .. code-block:: bash
 
     export CANTON=`pwd`
-    export CONF="$CANTON/examples/03-advanced-configuration"
+    export CONF="$CANTON/config"
     export IMPORT="$CANTON/examples/07-repair"
     bin/canton \
       -c $IMPORT/participant1.conf,$IMPORT/participant2.conf,$IMPORT/participant3.conf,$IMPORT/participant4.conf \
@@ -212,7 +212,7 @@ and run the following commands from the "canton-X.Y.Z" directory to set up the i
 .. code-block:: bash
 
     export CANTON=`pwd`
-    export CONF="$CANTON/examples/03-advanced-configuration"
+    export CONF="$CANTON/config"
     export REPAIR="$CANTON/examples/07-repair"
     bin/canton \
       -c $REPAIR/participant1.conf,$REPAIR/participant2.conf,$REPAIR/domain-repair-lost.conf,$REPAIR/domain-repair-new.conf \

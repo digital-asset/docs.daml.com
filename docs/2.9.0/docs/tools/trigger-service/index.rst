@@ -160,10 +160,10 @@ alongside a few annotations with regards to the meaning of the configuration key
       //   enabled = "true"
       //
       //   // the certificate to be used by the server
-      //   cert-chain-file = "/path/to/participant.crt"
+      //   cert-chain-file = "/path/to/ledger-api.crt"
       //
       //   // private key of the server
-      //   private-key-file = "/path/to/participant.pem"
+      //   private-key-file = "/path/to/ledger-api.pem"
       //
       //   // trust collection, which means that all client certificates that will be verified using the trusted
       //   // certificates in this store. If omitted, the JVM default trust store is used.

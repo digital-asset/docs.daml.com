@@ -100,7 +100,7 @@ to create shared configuration items that refer to environment variables.
 A handy example is the following, which allows to share database
 configuration settings in a setup involving several participant or domain nodes:
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/03-advanced-configuration/storage/postgres.conf
+.. literalinclude:: /canton/includes/mirrored/community/app/src/pack/config/storage/postgres.conf
 
 Such a definition can subsequently be referenced in the actual node definition:
 
