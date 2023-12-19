@@ -3,7 +3,7 @@
 
 .. _explicit-contract-disclosure:
 
-Explicit Contract Disclosure (Beta)
+Explicit Contract Disclosure (Alpha)
 ###########################################
 
 In Daml, you must specify upfront who can view data using `observer` annotations on contracts. To change who can see the data, you would typically need to rewrite the contract (eg an asset) with a new annotation. Canton 2.7 introduces explicit contract disclosure as a feature that allows you to seamlessly delegate contract read rights to a non-stakeholder using off-ledger data distribution. This supports efficient, scalable data sharing on the ledger. 
@@ -13,7 +13,18 @@ Here are some use cases that illustrate how you might benefit from explicit cont
 - You want to provide proof of the price data for a stock transaction. Instead of subscribing to price updates and potentially being inundated with thousands of price updates every minute, you could serve the price data though a traditional Web 2.0 API. You can then use that API to feed only the current price back into the ledger at the time of use. You still get the same validation and security, but reduce the amount of data being transferred manyfold.
 - You want to run an open market on ledger. Rather than making all bids and asks explicitly visible to all marketplace users, you serve market data though standard Web 2.0 APIs. At the point of use, the available bids and asks are fed back into the transactions to get the same activeness and correctness guarantees that would be provided had they been shared though the observer mechanism.
 
-.. note::  This feature is **Beta: What do I say about this??** .
+Toggle the ``explicit-disclosure-unsafe`` flag in the participant configuration as shown below
+to use disclosed contracts in command submission by means of explicit contract disclosure.
+
+.. note::  This feature is **experimental** and **must not** be used in production environments.
+
+::
+
+    participants {
+        participant {
+            ledger-api.explicit-disclosure-unsafe = true
+        }
+    }
 
 Contract Read Delegation
 ------------------------
@@ -240,8 +251,9 @@ do so, the contracts' stakeholders must fetch them from the ledger and make them
 .. note:: Daml Script support for explicit disclosure is currently not implemented.
   The last steps of the example are modeled using raw gRPC queries.
 
-The contracts' stakeholders issue fetch queries to the Ledger API (each to their own participant) for retrieving
-the associated contract payloads.
+The contracts' stakeholders issue fetch queries to the Ledger API for retrieving
+the associated contract payloads. For simplicity in the example, all parties reside on participant ``participant``
+with the Ledger API running on port ``5031``.
 
 ::
 
@@ -255,13 +267,16 @@ the associated contract payloads.
 
   # StockExchange fetches the Stock contract referenced by stockCid from the ledger by querying the Ledger API
   # (here we are using the GetTransactions query)
-  stockQuery=$(grpcurl -plaintext -d '{"ledgerId":"stockExchangeParticipant","begin":{"absolute":"0000000000000000"},"end":{"boundary":"LEDGER_END"},"filter":{"filters_by_party":{"'"$stockExchangeId"'":{"inclusive":{"template_filters":[{"template_id":{"package_id":"'"$packageId"'","module_name":"StockExchange","entity_name":"Stock"},"include_created_event_blob":true}]}}}},"verbose":true}' localhost:5011 com.daml.ledger.api.v1.TransactionService/GetTransactions)
+  grpcurl -plaintext -d '{"ledgerId":"participant","begin":{"absolute":"0000000000000000"},"end":{"boundary":"LEDGER_END"},"filter":{"filters_by_party":{"'"$stockExchangeId"'":{"inclusive":{"template_ids":[{"package_id":"'"$packageId"'","module_name":"StockExchange","entity_name":"Stock"}]}}}},"verbose":true}' localhost:5031 com.daml.ledger.api.v1.TransactionService/GetTransactions
+  # Result: {"transactions":[{"transaction_id":"1220073a3db0e42b536791ed24689ec587276de2cad79887e466c380c26ffda7baf1","command_id":"e1cbb1b7-277c-4126-bde7-13b3cb158b36","effective_at":"2023-04-05T09:11:29.062939Z","events":[{"created":{"event_id":"#1220073a3db0e42b536791ed24689ec587276de2cad79887e466c380c26ffda7baf1:0","contract_id":"00406f5cfbe495a21d576fbc4971e5d12c1ec5de972439ca0c054bbe54883de2a9ca01122064de6a454a83ce3ac4535ac9df550b21b90b9524fee6210af213fccf0ac4acca","template_id":{"package_id":"436c13be1424a16fb69a3dda4983b94f1965ac12c66d8a6d879ad3027ea4782d","module_name":"StockExchange","entity_name":"Stock"},"create_arguments":{"record_id":{"package_id":"436c13be1424a16fb69a3dda4983b94f1965ac12c66d8a6d879ad3027ea4782d","module_name":"StockExchange","entity_name":"Stock"},"fields":[{"label":"issuer","value":{"party":"StockExchange::122001002fb09c069a0f4e7badf9cb1a6d7dd9097fbdb653e1278193aa5f36b9c6b3"}},{"label":"owner","value":{"party":"Seller::122001002fb09c069a0f4e7badf9cb1a6d7dd9097fbdb653e1278193aa5f36b9c6b3"}},{"label":"stockName","value":{"text":"Daml"}}]},"witness_parties":["StockExchange::122001002fb09c069a0f4e7badf9cb1a6d7dd9097fbdb653e1278193aa5f36b9c6b3"],"agreement_text":"","signatories":["StockExchange::122001002fb09c069a0f4e7badf9cb1a6d7dd9097fbdb653e1278193aa5f36b9c6b3"],"observers":["Seller::122001002fb09c069a0f4e7badf9cb1a6d7dd9097fbdb653e1278193aa5f36b9c6b3"],"metadata":{"created_at":"2023-04-05T09:11:29.062939Z","driver_metadata":"CiYKJAgBEiA5hhYAzLWLGx4dr6MO0r1xoD/AAu/Xe6H56hCOzDqOlQ=="}}}],"offset":"00000000000000000d"}]}
 
   # As above, StockExchange fetches the PriceQuotation referenced by priceQuotationCid
-  priceQuotationQuery=$(grpcurl -plaintext -d '{"ledgerId":"stockExchangeParticipant","begin":{"absolute":"0000000000000000"},"end":{"boundary":"LEDGER_END"},"filter":{"filters_by_party":{"'"$stockExchangeId"'":{"inclusive":{"template_filters":[{"template_id":{"package_id":"'"$packageId"'","module_name":"StockExchange","entity_name":"PriceQuotation"},"include_created_event_blob":true}]}}}},"verbose":true}' localhost:5011 com.daml.ledger.api.v1.TransactionService/GetTransactions)
+  grpcurl -plaintext -d '{"ledgerId":"participant","begin":{"absolute":"0000000000000000"},"end":{"boundary":"LEDGER_END"},"filter":{"filters_by_party":{"'"$stockExchangeId"'":{"inclusive":{"template_ids":[{"package_id":"'"$packageId"'","module_name":"StockExchange","entity_name":"PriceQuotation"}]}}}},"verbose":true}' localhost:5031 com.daml.ledger.api.v1.TransactionService/GetTransactions
+  # Result: {"transactions":[{"transaction_id":"1220ecf0113498df1e9a4fd9aeed82b877b71cb0a8d57fdaca188294dfdeeada5eac","command_id":"433e9786-df09-4243-ad70-1d27fee05031","effective_at":"2023-04-05T09:11:29.257808Z","events":[{"created":{"event_id":"#1220ecf0113498df1e9a4fd9aeed82b877b71cb0a8d57fdaca188294dfdeeada5eac:0","contract_id":"00e0be88a38c25bc0b3b35acd6f46de92584becf99009cb512a71727fb928c90fdca01122080169e053bd955dc5e29efeeb500fd28182546e1306e7ca968eca48c5fd1bc19","template_id":{"package_id":"436c13be1424a16fb69a3dda4983b94f1965ac12c66d8a6d879ad3027ea4782d","module_name":"StockExchange","entity_name":"PriceQuotation"},"create_arguments":{"record_id":{"package_id":"436c13be1424a16fb69a3dda4983b94f1965ac12c66d8a6d879ad3027ea4782d","module_name":"StockExchange","entity_name":"PriceQuotation"},"fields":[{"label":"issuer","value":{"party":"StockExchange::122001002fb09c069a0f4e7badf9cb1a6d7dd9097fbdb653e1278193aa5f36b9c6b3"}},{"label":"stockName","value":{"text":"Daml"}},{"label":"value","value":{"int64":"3"}}]},"witness_parties":["StockExchange::122001002fb09c069a0f4e7badf9cb1a6d7dd9097fbdb653e1278193aa5f36b9c6b3"],"agreement_text":"","signatories":["StockExchange::122001002fb09c069a0f4e7badf9cb1a6d7dd9097fbdb653e1278193aa5f36b9c6b3"],"metadata":{"created_at":"2023-04-05T09:11:29.257808Z","driver_metadata":"CiYKJAgBEiBsywnjtj+a0Px6A2LwSV2MrOxE9QyJDM0VpgPAEGamqg=="}}}],"offset":"00000000000000000f"}]}
 
   # As above, Seller fetches the Offer referenced by offerCid
-  offerQuery=$(grpcurl -plaintext -d '{"ledgerId":"sellerParticipant","begin":{"absolute":"0000000000000000"},"end":{"boundary":"LEDGER_END"},"filter":{"filters_by_party":{"'"$sellerId"'":{"inclusive":{"template_filters":[{"template_id":{"package_id":"'"$packageId"'","module_name":"StockExchange","entity_name":"Offer"},"include_created_event_blob":true}]}}}},"verbose":true}' localhost:5041 com.daml.ledger.api.v1.TransactionService/GetTransactions)
+  grpcurl -plaintext -d '{"ledgerId":"participant","begin":{"absolute":"0000000000000000"},"end":{"boundary":"LEDGER_END"},"filter":{"filters_by_party":{"'"$sellerId"'":{"inclusive":{"template_ids":[{"package_id":"'"$packageId"'","module_name":"StockExchange","entity_name":"Offer"}]}}}},"verbose":true}' localhost:5031 com.daml.ledger.api.v1.TransactionService/GetTransactions
+  # Result: {"transactions":[{"transaction_id":"1220af12e338e39694374f8e7fc992a9361dfbe942705bdcfb29e56f5c6668713bb3","command_id":"aecbac54-5166-450c-868d-3ee912e7073c","effective_at":"2023-04-05T09:11:29.158305Z","events":[{"created":{"event_id":"#1220af12e338e39694374f8e7fc992a9361dfbe942705bdcfb29e56f5c6668713bb3:0","contract_id":"00b8355cf81045ad6212e6168380dd9ca4b7dbe9b7f0b53c595bdc0b9e60ec6789ca011220249c851ca8927e761d2fdba628f1508c6e2a3bb9fa64164f5c297aae023bfdd3","template_id":{"package_id":"436c13be1424a16fb69a3dda4983b94f1965ac12c66d8a6d879ad3027ea4782d","module_name":"StockExchange","entity_name":"Offer"},"create_arguments":{"record_id":{"package_id":"436c13be1424a16fb69a3dda4983b94f1965ac12c66d8a6d879ad3027ea4782d","module_name":"StockExchange","entity_name":"Offer"},"fields":[{"label":"seller","value":{"party":"Seller::122001002fb09c069a0f4e7badf9cb1a6d7dd9097fbdb653e1278193aa5f36b9c6b3"}},{"label":"quotationProducer","value":{"party":"StockExchange::122001002fb09c069a0f4e7badf9cb1a6d7dd9097fbdb653e1278193aa5f36b9c6b3"}},{"label":"offeredAssetCid","value":{"contract_id":"00406f5cfbe495a21d576fbc4971e5d12c1ec5de972439ca0c054bbe54883de2a9ca01122064de6a454a83ce3ac4535ac9df550b21b90b9524fee6210af213fccf0ac4acca"}}]},"witness_parties":["Seller::122001002fb09c069a0f4e7badf9cb1a6d7dd9097fbdb653e1278193aa5f36b9c6b3"],"agreement_text":"","signatories":["Seller::122001002fb09c069a0f4e7badf9cb1a6d7dd9097fbdb653e1278193aa5f36b9c6b3"],"metadata":{"created_at":"2023-04-05T09:11:29.158305Z","driver_metadata":"CiYKJAgBEiBNiC/8U069Zpc7gOt3YGmmdk+TGWEZRsNukLYri+64Sg=="}}}],"offset":"00000000000000000e"}]}
 
 **Buyer** receives these contracts from the stakeholders and adapts them to disclosed contracts (as described in :ref:`the previous section <submitter-disclosed-contract>`)
 in a command submission that executes ``Offer_Accept`` on the ``offerCid``. The resulting gRPC command submission, which succeeds, is
@@ -270,17 +285,22 @@ shown below.
 ::
 
   # Extracted from the transaction lookup query results from above
-  stockCid=$(echo "$stockQuery" | jq -r '.transactions[0].events[0].created.contract_id')
-  priceQuotationCid=$(echo "$priceQuotationQuery" | jq -r '.transactions[0].events[0].created.contract_id')
-  offerCid=$(echo "$offerQuery" | jq -r '.transactions[0].events[0].created.contract_id')
+  offerCid="00b8355cf81045ad6212e6168380dd9ca4b7dbe9b7f0b53c595bdc0b9e60ec6789ca011220249c851ca8927e761d2fdba628f1508c6e2a3bb9fa64164f5c297aae023bfdd3"
+  priceQuotationCid="00e0be88a38c25bc0b3b35acd6f46de92584becf99009cb512a71727fb928c90fdca01122080169e053bd955dc5e29efeeb500fd28182546e1306e7ca968eca48c5fd1bc19"
+  stockCid="00406f5cfbe495a21d576fbc4971e5d12c1ec5de972439ca0c054bbe54883de2a9ca01122064de6a454a83ce3ac4535ac9df550b21b90b9524fee6210af213fccf0ac4acca"
 
-  # The contract id of Buyer's IOU
-  buyerIouCid=$(grpcurl -plaintext -d '{"ledgerId":"buyerParticipant","begin":{"absolute":"0000000000000000"},"end":{"boundary":"LEDGER_END"},"filter":{"filters_by_party":{"'"$buyerId"'":{"inclusive":{"template_filters":[{"template_id":{"package_id":"'"$packageId"'","module_name":"StockExchange","entity_name":"IOU"},"include_created_event_blob":false}]}}}},"verbose":true}' localhost:5031 com.daml.ledger.api.v1.TransactionService/GetTransactions | jq -r '.transactions[0].events[0].created.contract_id')
+  # The contract id of Buyer's IOU (for conciseness, not shown in this example but can be extracted by the Buyer from the getTransactions queries as above)
+  buyerIouCid="00cd7d7b27f1b323bb55c2b0adf2aac76657079741adf6dc98a5d977338e3c92eeca011220649fd780478bb1d2159639fa6df276c0214c672609252c4db601ade0c67605fb"
 
-  stockCreatedEventBlob=$(echo "$stockQuery" | jq -r '.transactions[0].events[0].created.created_event_blob')
-  priceQuotationCreatedEventBlob=$(echo "$priceQuotationQuery" | jq -r '.transactions[0].events[0].created.created_event_blob')
-  offerCreatedEventBlob=$(echo "$offerQuery" | jq -r '.transactions[0].events[0].created.created_event_blob')
+  stockContractCreatedAt="2023-04-05T09:11:29.062939Z"
+  stockContractDriverMetadata="CiYKJAgBEiA5hhYAzLWLGx4dr6MO0r1xoD/AAu/Xe6H56hCOzDqOlQ=="
+
+  offerContractCreatedAt="2023-04-05T09:11:29.158305Z"
+  offerContractDriverMetadata="CiYKJAgBEiBNiC/8U069Zpc7gOt3YGmmdk+TGWEZRsNukLYri+64Sg=="
+
+  priceQuotationContractCreatedAt="2023-04-05T09:11:29.257808Z"
+  priceQuotationContractDriverMetadata="CiYKJAgBEiBsywnjtj+a0Px6A2LwSV2MrOxE9QyJDM0VpgPAEGamqg=="
 
   # Buyer exercises Offer_Accept on offerCid with populating the Command.disclosed_contracts field
   # with the data previously shared off-ledger for offerCid, stockCid and priceQuotationCid contracts
-  grpcurl -plaintext -d '{"commands":{"ledger_id":"buyerParticipant","workflow_id":"ExplicitDisclosureWorkflow","application_id":"ExplicitDisclosure","command_id":"ExplicitDisclosure-command","party":"'"$buyerId"'","commands":[{"exercise":{"template_id":{"package_id":"'"$packageId"'","module_name":"StockExchange","entity_name":"Offer"},"contract_id":"'"$offerCid"'","choice":"Offer_Accept","choice_argument":{"record":{"record_id":{"package_id":"'"$packageId"'","module_name":"StockExchange","entity_name":"Offer_Accept"},"fields":[{"label":"priceQuotationCid","value":{"contract_id":"'"$priceQuotationCid"'"}},{"label":"buyer","value":{"party":"'"$buyerId"'"}},{"label":"buyerIou","value":{"contract_id":"'"$buyerIouCid"'"}}]}}}}],"submission_id":"ExplicitDisclosure-submission","disclosed_contracts":[{"template_id":{"package_id":"'"$packageId"'","module_name":"StockExchange","entity_name":"Stock"},"contract_id":"'"$stockCid"'","created_event_blob":"'"$stockCreatedEventBlob"'"},{"template_id":{"package_id":"'"$packageId"'","module_name":"StockExchange","entity_name":"Offer"},"contract_id":"'"$offerCid"'","created_event_blob":"'"$offerCreatedEventBlob"'"},{"template_id":{"package_id":"'"$packageId"'","module_name":"StockExchange","entity_name":"PriceQuotation"},"contract_id":"'"$priceQuotationCid"'","created_event_blob":"'"$priceQuotationCreatedEventBlob"'"}]}}' localhost:5031 com.daml.ledger.api.v1.CommandService/SubmitAndWait
+  grpcurl -plaintext -d '{"commands":{"ledger_id":"participant","workflow_id":"ExplicitDisclosureWorkflow","application_id":"ExplicitDisclosure","command_id":"ExplicitDisclosure-command","party":"'"$buyerId"'","commands":[{"exercise":{"template_id":{"package_id":"'"$packageId"'","module_name":"StockExchange","entity_name":"Offer"},"contract_id":"'"$offerCid"'","choice":"Offer_Accept","choice_argument":{"record":{"record_id":{"package_id":"'"$packageId"'","module_name":"StockExchange","entity_name":"Offer_Accept"},"fields":[{"label":"priceQuotationCid","value":{"contract_id":"'"$priceQuotationCid"'"}},{"label":"buyer","value":{"party":"'"$buyerId"'"}},{"label":"buyerIou","value":{"contract_id":"'"$buyerIouCid"'"}}]}}}}],"submission_id":"ExplicitDisclosure-submission","disclosed_contracts":[{"template_id":{"package_id":"'"$packageId"'","module_name":"StockExchange","entity_name":"Stock"},"contract_id":"'"$stockCid"'","create_arguments":{"record_id":{"package_id":"'"$packageId"'","module_name":"StockExchange","entity_name":"Stock"},"fields":[{"label":"issuer","value":{"party":"'"$stockExchangeId"'"}},{"label":"owner","value":{"party":"'"$sellerId"'"}},{"label":"stockName","value":{"text":"Daml"}}]},"metadata":{"created_at":"'"$stockContractCreatedAt"'","driver_metadata":"'"$stockContractDriverMetadata"'"}},{"template_id":{"package_id":"'"$packageId"'","module_name":"StockExchange","entity_name":"Offer"},"contract_id":"'"$offerCid"'","create_arguments":{"record_id":{"package_id":"'"$packageId"'","module_name":"StockExchange","entity_name":"Offer"},"fields":[{"label":"seller","value":{"party":"'"$sellerId"'"}},{"label":"quotationProducer","value":{"party":"'"$stockExchangeId"'"}},{"label":"offeredAssetCid","value":{"contract_id":"'"$stockCid"'"}}]},"metadata":{"created_at":"'"$offerContractCreatedAt"'","driver_metadata":"'"$offerContractDriverMetadata"'"}},{"template_id":{"package_id":"'"$packageId"'","module_name":"StockExchange","entity_name":"PriceQuotation"},"contract_id":"'"$priceQuotationCid"'","create_arguments":{"record_id":{"package_id":"'"$packageId"'","module_name":"StockExchange","entity_name":"PriceQuotation"},"fields":[{"label":"issuer","value":{"party":"'"$stockExchangeId"'"}},{"label":"stockName","value":{"text":"Daml"}},{"label":"value","value":{"int64":"3"}}]},"metadata":{"created_at":"'"$priceQuotationContractCreatedAt"'","driver_metadata":"'"$priceQuotationContractDriverMetadata"'"}}]}}' localhost:5031 com.daml.ledger.api.v1.CommandService/SubmitAndWait
