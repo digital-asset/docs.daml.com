@@ -595,6 +595,7 @@ Finally, purge the active contract set on the origin participant:
 .. snippet:: party_migration
     .. success:: participant1.domains.disconnect("mydomain")
     .. success:: repair.party_migration.step4_clean_up_source(alice, participant1, "alice.acs.gz")
+    .. assert:: { Thread.sleep(1000); true }
     .. assert:: { participant1.domains.reconnect("mydomain"); true }
     .. assert:: participant1.ledger_api.acs.of_party(alice).isEmpty
 
