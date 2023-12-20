@@ -341,7 +341,7 @@ To enter in a paint agreement in this setting, the house owner and the painter n
 #. The painter sets a reminder that he needs to receive an IOU from the house owner on the ``iou`` domain.
 
 #. When the house owner observes a new paint agreement through participant 2 on the ``paint`` domain,
-   she changes the IOU ownership to the painter through participant 5 on the ``iou`` domain. 
+   she changes the IOU ownership to the painter through participant 5 on the ``iou`` domain.
 
 #. The painter observes a new IOU through participant 4 on the ``iou`` domain and therefore removes the reminder.
 

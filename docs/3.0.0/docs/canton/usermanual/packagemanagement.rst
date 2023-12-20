@@ -139,7 +139,7 @@ It's possible to remove each of these manually, using package removal. There is 
 for admin workflows (e.g. the Ping command) cannot be removed, so these are skipped.
 
 .. snippet:: package_dar_removal
-    .. success(output=5):: packageIds.filter(id => ! packagesBefore.contains(id)).foreach(id => participant1.packages.remove(id))
+    .. success(output=5):: packageIds.filter(id => !packagesBefore.contains(id)).foreach(id => participant1.packages.remove(id))
 
 The following command verifies that all the packages have been removed.
 
@@ -157,7 +157,8 @@ The first step to illustrate this is to upload a DAR and create a contract using
 .. snippet:: package_dar_removal
     .. success:: val darHash = participant1.dars.upload("dars/CantonExamples.dar")
     .. success:: val packageId = participant1.packages.find("Iou").head.packageId
-    .. success:: participant1.domains.connect_local(mydomain)
+    .. success:: val domainId = bootstrap.domain("mydomain", StaticDomainParameters.defaults(sequencer1.config.crypto), Seq(sequencer1), Seq(sequencer1), Seq(mediator1))
+    .. success:: participant1.domains.connect_local(sequencer1)
     .. success(output=0):: val createIouCmd = ledger_api_utils.create(packageId,"Iou","Iou",Map("payer" -> participant1.adminParty,"owner" -> participant1.adminParty,"amount" -> Map("value" -> 100.0, "currency" -> "EUR"),"viewers" -> List()))
     .. success(output=5):: participant1.ledger_api.commands.submit(Seq(participant1.adminParty), Seq(createIouCmd))
 
@@ -169,7 +170,7 @@ Now that a contract exists using the main package of the DAR, a subsequent DAR r
 In order to remove the DAR, we must archive this contract. Note that the contract ID for this contract can also be found in the error message above.
 
 .. snippet:: package_dar_removal
-    .. success(output=10):: val iou = participant1.ledger_api.acs.find_generic(participant1.adminParty, _.templateId.isModuleEntity("Iou", "Iou"))
+    .. success(output=10):: val iou = participant1.ledger_api_v2.state.acs.find_generic(participant1.adminParty, _.templateId.isModuleEntity("Iou", "Iou"))
     .. success(output=0):: val archiveIouCmd = ledger_api_utils.exercise("Archive", Map.empty, iou.event)
     .. success(output=5):: participant1.ledger_api.commands.submit(Seq(participant1.adminParty), Seq(archiveIouCmd))
 
@@ -188,17 +189,12 @@ without automatic vetting and subsequently vet all the packages manually.
     .. success:: val darHash = participant1.dars.upload("dars/CantonExamples.dar", vetAllPackages = false)
     .. success:: import com.daml.lf.data.Ref.IdString.PackageId
     .. success(output=3):: val packageIds = participant1.packages.list().filter(_.sourceDescription == "CantonExamples").map(_.packageId).map(PackageId.assertFromString)
-    .. success:: participant1.topology.vetted_packages.authorize(TopologyChangeOp.Add, participant1.id, packageIds)
-
-The DAR removal operation will now fail:
-
-.. snippet:: package_dar_removal
-    .. failure:: participant1.dars.remove(darHash)
+    .. success:: participant1.topology.vetted_packages.propose_delta(participant1.id, packageIds)
 
 The DAR can be successfully removed after manually revoking the vetting for the main package:
 
 .. snippet:: package_dar_removal
-    .. success(output=5):: participant1.topology.vetted_packages.authorize(TopologyChangeOp.Remove, participant1.id, packageIds, force = true)
+    .. success(output=5):: participant1.topology.vetted_packages.propose_delta(participant1.id, removes = packageIds)
     .. success:: participant1.dars.remove(darHash)
 
 Note that a ``force`` flag is needed used to revoke the package vetting; throughout this tutorial ``force`` will be used whenever a package vetting is being removed.
@@ -231,7 +227,7 @@ The vetting transaction must be manually revoked:
 
 .. snippet:: package_dar_removal
     .. success(output=3):: val packageIds = participant1.topology.vetted_packages.list().map(_.item.packageIds).filter(_.contains(packageId)).head
-    .. success(output=5):: participant1.topology.vetted_packages.authorize(TopologyChangeOp.Remove, participant1.id, packageIds, force = true)
+    .. success(output=5):: participant1.topology.vetted_packages.propose_delta(participant1.id, removes = packageIds)
 
 And then the package can be removed:
 
@@ -251,7 +247,7 @@ Then create a contract using the package:
 
 .. snippet:: package_dar_removal
     .. success(output=5):: val createIouCmd = ledger_api_utils.create(packageId,"Iou","Iou",Map("payer" -> participant1.adminParty,"owner" -> participant1.adminParty,"amount" -> Map("value" -> 100.0, "currency" -> "EUR"),"viewers" -> List()))
-    .. success(output=10):: participant1.ledger_api.commands.submit(Seq(participant1.adminParty), Seq(createIouCmd))
+    .. success(output=10):: participant1.ledger_api_v2.commands.submit(Seq(participant1.adminParty), Seq(createIouCmd), domainId)
 
 In this situation, the package cannot be removed:
 
@@ -261,15 +257,15 @@ In this situation, the package cannot be removed:
 To remove the package, first archive the contract:
 
 .. snippet:: package_dar_removal
-    .. success(output=10):: val iou = participant1.ledger_api.acs.find_generic(participant1.adminParty, _.templateId.isModuleEntity("Iou", "Iou"))
+    .. success(output=10):: val iou = participant1.ledger_api_v2.state.acs.find_generic(participant1.adminParty, _.templateId.isModuleEntity("Iou", "Iou"))
     .. success(output=10):: val archiveIouCmd = ledger_api_utils.exercise("Archive", Map.empty, iou.event)
-    .. success(output=12):: participant1.ledger_api.commands.submit(Seq(participant1.adminParty), Seq(archiveIouCmd))
+    .. success(output=12):: participant1.ledger_api_v2.commands.submit(Seq(participant1.adminParty), Seq(archiveIouCmd), domainId)
 
 Then revoke the package vetting transaction:
 
 .. snippet:: package_dar_removal
     .. success(output=3):: val packageIds = participant1.topology.vetted_packages.list().map(_.item.packageIds).filter(_.contains(packageId)).head
-    .. success:: participant1.topology.vetted_packages.authorize(TopologyChangeOp.Remove, participant1.id, packageIds, force = true)
+    .. success:: participant1.topology.vetted_packages.propose_delta(participant1.id, removes = packageIds)
 
 The package removal operation should now succeed.
 

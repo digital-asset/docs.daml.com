@@ -27,7 +27,7 @@ Canton is a JVM application. To run it natively you need Java 11 or higher insta
 Alternatively Canton is available as a `docker image <https://hub.docker.com/r/digitalasset/canton-open-source>`__ (see :ref:`Canton docker instructions <docker-instructions>`).
 
 Canton is platform-agnostic. For development purposes, it runs on macOS,
-Linux, and Windows. Linux is the supported platform for production.  
+Linux, and Windows. Linux is the supported platform for production.
 
 Note: Windows garbles the Canton console output
 unless you are running Windows 10 and you enable terminal colors (e.g., by
@@ -88,9 +88,9 @@ Next, run
 
 .. code-block:: bash
 
-   bin/canton -c examples/01-simple-topology/simple-topology.conf
+   bin/canton -c examples/01-simple-topology/simple-topology-x.conf
 
-This starts the console using the configuration file ``examples/01-simple-topology/simple-topology.conf``.
+This starts the console using the configuration file ``examples/01-simple-topology/simple-topology-x.conf``.
 You will see the banner on your screen
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/main/resources/repl/banner.txt
@@ -174,13 +174,23 @@ We can do this also individually on each node. As an example, to query the statu
     .. success:: participant1.health.status
     .. assert:: RES.successOption.nonEmpty
 
-or for the domain:
+or for the sequencer:
 
 .. snippet:: getting_started
-    .. success:: mydomain.health.status
+    .. success:: sequencer1.health.status
+
+Then, we can bootstrap the domain:
+.. snippet:: getting_started
+    .. success:: val staticDomainParameters = StaticDomainParameters.defaults(sequencer1.config.crypto)
+    .. success:: val domainId = bootstrap.domain("mydomain", staticDomainParameters, Seq(sequencer1), Seq(sequencer1), Seq(mediator1))
+
+After that, the sequencer will report as being initialized:
+
+.. snippet:: getting_started
+    .. success:: sequencer1.health.status
     .. assert:: RES.successOption.nonEmpty
 
-Recall that the aliases ``mydomain``, ``participant1`` and ``participant2`` come from the configuration file.
+Recall that the aliases ``sequencer``, ``participant1`` and ``participant2`` come from the configuration file.
 By default, Canton will start and initialize the nodes automatically. This
 behavior can be overridden using the ``--manual-start`` command line flag or appropriate configuration settings.
 
@@ -192,9 +202,9 @@ domains.
 To connect the participants to the domain:
 
 .. snippet:: getting_started
-    .. success:: participant1.domains.connect_local(mydomain)
+    .. success:: participant1.domains.connect_local(sequencer1)
     .. assert:: participant1.domains.list_connected.nonEmpty
-    .. success:: participant2.domains.connect_local(mydomain)
+    .. success:: participant2.domains.connect_local(sequencer1)
     .. assert:: participant2.domains.list_connected.nonEmpty
 
 Now, check the status again:
@@ -206,7 +216,6 @@ As you can read from the status, both participants are now connected to the doma
 You can test the connection with the following diagnostic command, inspired by the ICMP ping:
 
 .. snippet:: getting_started
-    .. assert:: participant1.health.maybe_ping(participant2).nonEmpty
     .. success:: participant1.health.ping(participant2)
 
 If everything is set up correctly, this will report the "roundtrip time" between the Ledger APIs of the two participants.
@@ -234,7 +243,8 @@ When displayed in Canton the components are separated by a double colon.
 You can see the identifiers of the participants and the domains by running the following in the console:
 
 .. snippet:: getting_started
-    .. success:: mydomain.id
+    .. success:: sequencer1.id
+    .. success:: mediator1.id
     .. success:: participant1.id
     .. success:: participant2.id
 
@@ -276,15 +286,15 @@ The domain allows this since, e.g., Alice's unique identifier uses the same name
 You can check that the parties are now known to ``mydomain`` by running the following:
 
 .. snippet:: getting_started
-    .. assert:: { utils.retry_until_true(mydomain.parties.list("Alice").nonEmpty); true }
-    .. success:: mydomain.parties.list("Alice")
+    .. assert:: { utils.retry_until_true(sequencer1.parties.list("Alice").nonEmpty); true }
+    .. success:: sequencer1.parties.list("Alice")
     .. assert:: RES.length == 1
 
 and the same for Bob:
 
 .. snippet:: getting_started
-    .. assert:: { utils.retry_until_true(mydomain.parties.list("Bob").nonEmpty); true }
-    .. success:: mydomain.parties.list("Bob")
+    .. assert:: { utils.retry_until_true(sequencer1.parties.list("Bob").nonEmpty); true }
+    .. success:: sequencer1.parties.list("Bob")
     .. assert:: RES.length == 1
 
 .. _getting-started-extracting-ids:
@@ -342,7 +352,7 @@ For this tutorial, use the pre-packaged ``dars/CantonExamples.dar`` file.
 To provision it to both ``participant1`` and ``participant2``, you can use the ``participants.all`` bulk operator:
 
 .. snippet:: getting_started
-    .. success:: participants.all.dars.upload("dars/CantonExamples.dar")
+    .. success:: participantsX.all.dars.upload("dars/CantonExamples.dar")
 
 The bulk operator allows you to run certain commands on a series of nodes. Canton supports the bulk operators on
 the generic ``nodes``:
@@ -371,7 +381,7 @@ and on the second participant, run:
     .. assert:: RES.length == 2 && RES.exists(dar => dar.name == "CantonExamples")
 
 One important observation is that you cannot list the uploaded DARs on the domain ``mydomain``. You
-will simply get an error if you run ``mydomain.dars.list()``.
+will simply get an error if you run ``sequencer1.dars.list()``.
 This is due the fact that the domain does not know anything about Daml or smart contracts. All the contract code
 is only executed by the involved participants on a need to know basis and needs to be explicitly
 enabled by them.
@@ -444,28 +454,28 @@ Using this package-id, we can create the IOU:
 and then send that command to the Ledger API:
 
 .. snippet:: getting_started
-    .. success(output=12):: participant2.ledger_api.commands.submit(Seq(bank), Seq(createIouCmd))
+    .. success(output=12):: participant2.ledger_api_v2.commands.submit(Seq(bank), Seq(createIouCmd), domainId)
 
 Here, we've submitted this command as party `Bank` on participant2. Interestingly, we can test here the Daml
 authorization logic. As the `signatory` of the contract is `Bank`, we can't have Alice submitting the contract:
 
 .. snippet:: getting_started
-    .. failure(output=4):: participant1.ledger_api.commands.submit(Seq(alice), Seq(createIouCmd))
+    .. failure(output=4):: participant1.ledger_api_v2.commands.submit(Seq(alice), Seq(createIouCmd), domainId)
 
 And Alice cannot impersonate the Bank by pretending to be it (on her participant):
 
 .. snippet:: getting_started
-    .. failure(output=4):: participant1.ledger_api.commands.submit(Seq(bank), Seq(createIouCmd))
+    .. failure(output=4):: participant1.ledger_api_v2.commands.submit(Seq(bank), Seq(createIouCmd), domainId)
 
 Alice can, however, observe the contract on her participant by searching her `Active Contract Set` (ACS) for it:
 
 .. snippet:: getting_started
-    .. success(output=4):: val aliceIou = participant1.ledger_api.acs.find_generic(alice, _.templateId.isModuleEntity("Iou", "Iou"))
+    .. success(output=4):: val aliceIou = participant1.ledger_api_v2.state.acs.find_generic(alice, _.templateId.isModuleEntity("Iou", "Iou"))
 
 We can check Alice's ACS, which will show us all the contracts Alice knows about:
 
 .. snippet:: getting_started
-    .. success(output=8):: participant1.ledger_api.acs.of_party(alice)
+    .. success(output=8):: participant1.ledger_api_v2.state.acs.of_party(alice)
 
 As expected, Alice does see exactly the contract that the Bank previously created. The command returns a sequence of
 wrapped `CreatedEvent <https://docs.daml.com/app-dev/grpc/proto-docs.html#com-daml-ledger-api-v1-createdevent>`__'s.
@@ -473,7 +483,7 @@ This Ledger API data type represents the event of a contract's creation. The out
 provides convenient functions to manipulate the ``CreatedEvent``\s in the Canton console:
 
 .. snippet:: getting_started
-    .. success:: participant1.ledger_api.acs.of_party(alice).map(x => (x.templateId, x.arguments))
+    .. success:: participant1.ledger_api_v2.state.acs.of_party(alice).map(x => (x.templateId, x.arguments))
 
 Going back to our story, Bob now wants to offer to paint Alice's house in exchange for money. Again, we need to
 grab the package id, as the Paint contract is in a different module:
@@ -489,12 +499,12 @@ Let's create and submit the offer now:
 
 .. snippet:: getting_started
     .. success(output=6):: val createOfferCmd = ledger_api_utils.create(pkgPaint.packageId, "Paint", "OfferToPaintHouseByPainter", Map("bank" -> bank, "houseOwner" -> alice, "painter" -> bob, "amount" -> Map("value" -> 100.0, "currency" -> "EUR")))
-    .. success(output=6):: participant2.ledger_api.commands.submit_flat(Seq(bob), Seq(createOfferCmd))
+    .. success(output=6):: participant2.ledger_api_v2.commands.submit_flat(Seq(bob), Seq(createOfferCmd), domainId)
 
 Alice will observe this offer on her node:
 
 .. snippet:: getting_started
-    .. success(output=6):: val paintOffer = participant1.ledger_api.acs.find_generic(alice, _.templateId.isModuleEntity("Paint", "OfferToPaintHouseByPainter"))
+    .. success(output=6):: val paintOffer = participant1.ledger_api_v2.state.acs.find_generic(alice, _.templateId.isModuleEntity("Paint", "OfferToPaintHouseByPainter"))
 
 Privacy
 -------
@@ -502,19 +512,19 @@ Privacy
 Looking at the ACS of Alice, Bob and the Bank, we note that Bob sees only the paint offer:
 
 .. snippet:: getting_started
-       .. success:: participant2.ledger_api.acs.of_party(bob).map(x => (x.templateId, x.arguments))
+       .. success:: participant2.ledger_api_v2.state.acs.of_party(bob).map(x => (x.templateId, x.arguments))
        .. assert:: RES.length == 1
 
 while the Bank sees the Iou contract:
 
 .. snippet:: getting_started
-       .. success:: participant2.ledger_api.acs.of_party(bank).map(x => (x.templateId, x.arguments))
+       .. success:: participant2.ledger_api_v2.state.acs.of_party(bank).map(x => (x.templateId, x.arguments))
        .. assert:: RES.length == 1
 
 But Alice sees both on her participant node:
 
 .. snippet:: getting_started
-       .. success:: participant1.ledger_api.acs.of_party(alice).map(x => (x.templateId, x.arguments))
+       .. success:: participant1.ledger_api_v2.state.acs.of_party(alice).map(x => (x.templateId, x.arguments))
        .. assert:: RES.length == 2
 
 If there were a third participant node, it wouldn't have even noticed that there was anything happening, let alone have received any contract data. Or if we had deployed the Bank on that third node, that node
@@ -530,7 +540,7 @@ Iou, without the Bank actually learning about the Paint agreement:
 .. snippet:: getting_started
     .. success(output=0):: import com.digitalasset.canton.protocol.LfContractId
     .. success(output=6):: val acceptOffer = ledger_api_utils.exercise("AcceptByOwner", Map("iouId" -> LfContractId.assertFromString(aliceIou.event.contractId)),paintOffer.event)
-    .. success(output=6):: participant1.ledger_api.commands.submit_flat(Seq(alice), Seq(acceptOffer))
+    .. success(output=6):: participant1.ledger_api_v2.commands.submit_flat(Seq(alice), Seq(acceptOffer), domainId)
 
 Note that the conversion to ``LfContractId`` was required to pass in the Iou contract id as the correct type.
 
