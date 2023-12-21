@@ -254,7 +254,7 @@ do so, the contracts' stakeholders must fetch them from the ledger and make them
        disclosedOffer <- fromSome <$> queryDisclosure seller offerCid
        disclosedPriceQuotation <- fromSome <$> queryDisclosure stockExchange priceQuotationCid
 
-Then, the **Buyer** attaches the disclosed contract payloads to the command submission in which he accepts the offer.
+Then, the **Buyer** attaches the disclosed contract payloads to the command submission that accepts the offer.
 
 ::
 
