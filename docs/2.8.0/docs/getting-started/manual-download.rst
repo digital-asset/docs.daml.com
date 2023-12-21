@@ -35,14 +35,14 @@ To do that:
    Alternatively, if keyservers do not work for you (we are having a bit of
    trouble getting them to work reliably for us), you can find the full public
    key at the bottom of this page.
-5. Once the key is imported, you can ask ``gpg`` to verify that the file you have downloaded has indeed been signed by that key. Continuing with our example of 2.0.0 on macOS, you should have both files in the current directory and run::
+5. Once the key is imported, you can ask ``gpg`` to verify that the file you have downloaded has indeed been signed by that key. Continuing with our example of 2.8.0 on macOS, you should have both files in the current directory and run::
 
-     gpg --verify daml-sdk-2.0.0-macos.tar.gz.asc
+     gpg --verify daml-sdk-2.8.0-macos.tar.gz.asc
 
    and that should give you a result that looks like::
 
-     gpg: assuming signed data in 'daml-sdk-2.0.0-macos.tar.gz'
-     gpg: Signature made Wed Aug 12 13:30:49 2020 CEST
+     gpg: assuming signed data in 'daml-sdk-2.8.0-linux.tar.gz'
+     gpg: Signature made Fri 15 Dec 2023 15:53:57 GMT
      gpg:                using RSA key CADC3D1E3B5C4C5F94A65D78A7BF65AAADBBC494
      gpg: Good signature from "Digital Asset Holdings, LLC <security@digitalasset.com>" [unknown]
      gpg: WARNING: This key is not certified with a trusted signature!
@@ -54,8 +54,8 @@ To do that:
 
 6. The next step is to extract the tarball and run the install script (unless you chose the Windows installer, in which case the next step is to double-click it). You will need to replace the phrase ``PART_TWO_VERSION_HERE`` in the following program with version you obtained in Part 2. **Do not** use the internal version mentioned in the note in Part 3.::
 
-     tar xzf daml-sdk-2.0.0-macos.tar.gz
-     cd sdk-2.0.0
+     tar xzf daml-sdk-2.8.0-macos.tar.gz
+     cd sdk-2.8.0
      ./install.sh --install-with-custom-version PART_TWO_VERSION_HERE
 
 7. Just like for the more automated install procedure, you may want to add ``~/.daml/bin`` to your ``$PATH``.
