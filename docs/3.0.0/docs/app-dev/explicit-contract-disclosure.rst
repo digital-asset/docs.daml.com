@@ -248,17 +248,16 @@ In the example above, **Buyer** does not have visibility over the ``stockCid``, 
 so **Buyer** must provide them as disclosed contracts in the command submission exercising ``Offer_Accept``. To
 do so, the contracts' stakeholders must fetch them from the ledger and make them available to the **Buyer**.
 
+Then, the **Buyer** attaches the disclosed contract payloads to the command submission that accepts the offer.
+
+These last two steps are executed using the new Daml Script functions supporting explicit disclosure: `queryDisclosure` and `submitWithDisclosures`.
+
 ::
 
        disclosedStock <- fromSome <$> queryDisclosure stockExchange stockCid
        disclosedOffer <- fromSome <$> queryDisclosure seller offerCid
        disclosedPriceQuotation <- fromSome <$> queryDisclosure stockExchange priceQuotationCid
 
-Then, the **Buyer** attaches the disclosed contract payloads to the command submission that accepts the offer.
-
-::
-
-       -- -- Submission using disclosed contracts
        _ <- submitWithDisclosures buyer [disclosedStock, disclosedOffer, disclosedPriceQuotation] do
          exerciseCmd offerCid Offer_Accept with priceQuotationCid = priceQuotationCid, buyer = buyer, buyerIou = buyerIouCid
 
