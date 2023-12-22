@@ -11,12 +11,12 @@ Note that the Windows installer is already signed (within the binary itself), an
 To do that:
 
 1. Go to https://github.com/digital-asset/daml/releases. Confirm your browser sees a valid certificate for the github.com domain.
-2. Find the release you are looking for - take note of the release name. For a stable release, it will be something like ``2.8.0``. For a snapshot, it will be something like ``2.8.0-snapshot.20231129.0``.
+2. Find the appropriate release and note the release name. Stable releases have names like ``2.8.0``. Snapshots have names like ``2.8.0-snapshot.20231129.0``.
 3. Download the artifact (*Assets* section, after the release notes) for your platform as well as the corresponding signature file. For example, if you are on macOS you would download the files ``daml-sdk-<...>-macos.tar.gz`` and ``daml-sdk-<...>-macos.tar.gz.asc``.
 
    .. note::
 
-      You can safely ignore the version string in the tarball name - this is an internal version string that is superseded by the version you took note of in Part 2. If you are installing a stable release, this internal version will be the same as the release version you took note of. If it is a snapshot, the ``<...>`` section will be different.
+      You can safely ignore the version string in the tarball name -- this is an internal version string that is superseded by the version you took note of in step 2. If you are installing a stable release, this internal version will be the same as the release version you took note of. If it is a snapshot, the ``<...>`` section will be different.
 
    For Windows you can choose between the tarball (ends in ``.tar.gz``), which follows the same instructions as the Linux and macOS ones (but assumes you have a number of typical Unix tools installed), or the installer, which ends with ``.exe``. Regardless, the steps to verify the signature are the same.
 
@@ -52,11 +52,17 @@ To do that:
 
    Note: This warning means you have not told gnupg that you trust this key actually belongs to Digital Asset. The ``[unknown]`` tag next to the key has the same meaning: ``gpg`` relies on a web of trust, and you have not told it how far you trust this key. Nevertheless, at this point you have verified that this is indeed the key that has been used to sign the archive.
 
-6. The next step is to extract the tarball and run the install script (unless you chose the Windows installer, in which case the next step is to double-click it). You will need to replace the phrase ``PART_TWO_VERSION_HERE`` in the following program with version you obtained in Part 2. **Do not** use the internal version mentioned in the note in Part 3.::
+6. The next step is to extract the tarball and run the install script (unless you chose the Windows installer, in which case the next step is to double-click it). Supply the version you obtained in step 2 using the ``--install-with-custom-version`` flag. **Do not** use the internal version mentioned in the note in step 3. For example, for version 2.8.0::
 
      tar xzf daml-sdk-2.8.0-macos.tar.gz
      cd sdk-2.8.0
-     ./install.sh --install-with-custom-version PART_TWO_VERSION_HERE
+     ./install.sh --install-with-custom-version 2.8.0
+
+   In the case of a snapshot such as ``2.8.0-snapshot.20231129.0``, the tarball's filename will contain the internal version mentioned in the note in step 3. That version can be ignored -- again use the version noted in step 2.::
+
+     tar xzf daml-sdk-<...>-macos.tar.gz
+     cd sdk-<...>
+     ./install.sh --install-with-custom-version 2.8.0-snapshot.20231129.0
 
 7. Just like for the more automated install procedure, you may want to add ``~/.daml/bin`` to your ``$PATH``.
 
