@@ -52,11 +52,17 @@ To do that:
 
    Note: This warning means you have not told gnupg that you trust this key actually belongs to Digital Asset. The ``[unknown]`` tag next to the key has the same meaning: ``gpg`` relies on a web of trust, and you have not told it how far you trust this key. Nevertheless, at this point you have verified that this is indeed the key that has been used to sign the archive.
 
-6. The next step is to extract the tarball and run the install script (unless you chose the Windows installer, in which case the next step is to double-click it). You will need to replace the phrase ``STEP_TWO_VERSION_HERE`` in the following program with version you obtained in step 2. **Do not** use the internal version mentioned in the note in step 3.::
+6. The next step is to extract the tarball and run the install script (unless you chose the Windows installer, in which case the next step is to double-click it). Supply the version you obtained in step 2 using the ``--install-with-custom-version`` flag. **Do not** use the internal version mentioned in the note in step 3. For example, for version 2.8.0::
 
      tar xzf daml-sdk-2.8.0-macos.tar.gz
      cd sdk-2.8.0
-     ./install.sh --install-with-custom-version STEP_TWO_VERSION_HERE
+     ./install.sh --install-with-custom-version 2.8.0
+
+   In the case of a snapshot such as ``2.8.0-snapshot.20231129.0``, the tarball's filename will contain the internal version mentioned in the note in step 3. That version can be ignored -- again use the version noted in step 2.::
+
+     tar xzf daml-sdk-<...>-macos.tar.gz
+     cd sdk-<...>
+     ./install.sh --install-with-custom-version 2.8.0-snapshot.20231129.0
 
 7. Just like for the more automated install procedure, you may want to add ``~/.daml/bin`` to your ``$PATH``.
 
