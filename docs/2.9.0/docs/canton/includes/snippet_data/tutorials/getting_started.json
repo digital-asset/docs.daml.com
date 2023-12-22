@@ -1,11 +1,11 @@
 {
   "533" : {
     "command" : "val acceptOffer = ledger_api_utils.exercise(\"AcceptByOwner\", Map(\"iouId\" -> LfContractId.assertFromString(aliceIou.event.contractId)),paintOffer.event)",
-    "output" : "acceptOffer : com.daml.ledger.api.v1.commands.Command = Command(\n  command = Exercise(\n    value = ExerciseCommand(\n      templateId = Some(\n        value = Identifier(\n          packageId = \"e79d5d0217e0eea6f1f22b45d07034fd8451878721f774ccbac18ea5c4280f86\",\n.."
+    "output" : "acceptOffer : com.daml.ledger.api.v1.commands.Command = Command(\n  command = Exercise(\n    value = ExerciseCommand(\n      templateId = Some(\n        value = Identifier(\n          packageId = \"8fab9ddc10d913445c30515b8b40fd5332575790d86480c31f96b2ffcb4c2a8c\",\n.."
   },
   "288" : {
     "command" : "mydomain.parties.list(\"Bob\")",
-    "output" : "res18: Seq[ListPartiesResult] = Vector(\n  ListPartiesResult(\n    party = Bob::12201f864d90...,\n    participants = Vector(\n      ParticipantDomains(\n        participant = PAR::participant2::12201f864d90...,\n        domains = Vector(\n          DomainPermission(domain = mydomain::12205e5dccac..., permission = Submission)\n        )\n      )\n    )\n  )\n)"
+    "output" : "res18: Seq[ListPartiesResult] = Vector(\n  ListPartiesResult(\n    party = Bob::12209f6201a7...,\n    participants = Vector(\n      ParticipantDomains(\n        participant = PAR::participant2::12209f6201a7...,\n        domains = Vector(\n          DomainPermission(domain = mydomain::122036adf584..., permission = Submission)\n        )\n      )\n    )\n  )\n)"
   },
   "302" : {
     "command" : "participant1.health.ping(participant2)",
@@ -13,7 +13,7 @@
   },
   "371" : {
     "command" : "participant2.dars.list()",
-    "output" : "res31: Seq[com.digitalasset.canton.participant.admin.v0.DarDescription] = Vector(\n  DarDescription(\n    hash = \"12204b56f9730c63911b9d6f57acbce4daaac2c9c29d6aa50182722a4c2bc6b64a37\",\n    name = \"CantonExamples\"\n  ),\n  DarDescription(\n    hash = \"122066e542ea6f3319ee8eb495caf75e2f068420994044ee9d5e26b5733738b0b02f\",\n    name = \"AdminWorkflowsWithVacuuming\"\n  )\n)"
+    "output" : "res31: Seq[com.digitalasset.canton.participant.admin.v0.DarDescription] = Vector(\n  DarDescription(\n    hash = \"1220a93ae982b08002800b9453a968623afcddf938a8afe22bb5ca332419561e7319\",\n    name = \"CantonExamples\"\n  ),\n  DarDescription(\n    hash = \"1220f9fe7fb8b826a76cf9697b18fff947f0ab5b28e2a5acc8ccc4e7e6919e5cc0e3\",\n    name = \"AdminWorkflowsWithVacuuming\"\n  )\n)"
   },
   "73" : {
     "command" : "Seq(1,2,3).map(_ * 2)",
@@ -33,15 +33,15 @@
   },
   "175" : {
     "command" : "participant1.health.status",
-    "output" : "res6: com.digitalasset.canton.health.admin.data.NodeStatus[com.digitalasset.canton.health.admin.data.ParticipantStatus] = Participant id: PAR::participant1::12206c5020b625f957d39633d4504eaf6f9594f0c1a666c3f777d0330f4ec91297ba\nUptime: 7.373859s\nPorts: \n\tledger: 32134\n\tadmin: 32135\nConnected domains: None\nUnhealthy domains: None\nActive: true\nComponents: \n\tmemory_storage : Ok()\n\tsync-domain : Not Initialized\n\tsync-domain-ephemeral : Not Initialized\n\tsequencer-client : Not Initialized"
+    "output" : "res6: com.digitalasset.canton.health.admin.data.NodeStatus[com.digitalasset.canton.health.admin.data.ParticipantStatus] = Participant id: PAR::participant1::12208a6f75f95818e255bbfd7381dab368045a5744ba62f1425ab6eaa021e5a2301c\nUptime: 3.489516s\nPorts: \n\tledger: 33498\n\tadmin: 33499\nConnected domains: None\nUnhealthy domains: None\nActive: true\nComponents: \n\tmemory_storage : Ok()\n\tsync-domain : Not Initialized\n\tsync-domain-ephemeral : Not Initialized\n\tsequencer-client : Not Initialized"
   },
   "365" : {
     "command" : "participant1.dars.list()",
-    "output" : "res30: Seq[com.digitalasset.canton.participant.admin.v0.DarDescription] = Vector(\n  DarDescription(\n    hash = \"12204b56f9730c63911b9d6f57acbce4daaac2c9c29d6aa50182722a4c2bc6b64a37\",\n    name = \"CantonExamples\"\n  ),\n  DarDescription(\n    hash = \"122066e542ea6f3319ee8eb495caf75e2f068420994044ee9d5e26b5733738b0b02f\",\n    name = \"AdminWorkflowsWithVacuuming\"\n  )\n)"
+    "output" : "res30: Seq[com.digitalasset.canton.participant.admin.v0.DarDescription] = Vector(\n  DarDescription(\n    hash = \"1220a93ae982b08002800b9453a968623afcddf938a8afe22bb5ca332419561e7319\",\n    name = \"CantonExamples\"\n  ),\n  DarDescription(\n    hash = \"1220f9fe7fb8b826a76cf9697b18fff947f0ab5b28e2a5acc8ccc4e7e6919e5cc0e3\",\n    name = \"AdminWorkflowsWithVacuuming\"\n  )\n)"
   },
   "518" : {
     "command" : "participant1.ledger_api.acs.of_party(alice).map(x => (x.templateId, x.arguments))",
-    "output" : "res45: Seq[(TemplateId, Map[String, Any])] = List(\n  (\n    TemplateId(\n      packageId = \"e79d5d0217e0eea6f1f22b45d07034fd8451878721f774ccbac18ea5c4280f86\",\n      moduleName = \"Iou\",\n      entityName = \"Iou\"\n    ),\n    HashMap(\n      \"payer\" -> \"Bank::12201f864d90d364f7026b590512a5b651f78c9e7274329c2a33c390233a6863a10f\",\n      \"viewers\" -> List(elements = Vector()),\n      \"owner\" -> \"Alice::12206c5020b625f957d39633d4504eaf6f9594f0c1a666c3f777d0330f4ec91297ba\",\n      \"amount.currency\" -> \"EUR\",\n      \"amount.value\" -> \"100.0000000000\"\n    )\n  ),\n  (\n    TemplateId(\n      packageId = \"e79d5d0217e0eea6f1f22b45d07034fd8451878721f774ccbac18ea5c4280f86\",\n      moduleName = \"Paint\",\n      entityName = \"OfferToPaintHouseByPainter\"\n    ),\n    HashMap(\n      \"painter\" -> \"Bob::12201f864d90d364f7026b590512a5b651f78c9e7274329c2a33c390233a6863a10f\",\n      \"houseOwner\" -> \"Alice::12206c5020b625f957d39633d4504eaf6f9594f0c1a666c3f777d0330f4ec91297ba\",\n      \"bank\" -> \"Bank::12201f864d90d364f7026b590512a5b651f78c9e7274329c2a33c390233a6863a10f\",\n      \"amount.currency\" -> \"EUR\",\n      \"amount.value\" -> \"100.0000000000\"\n    )\n  )\n)"
+    "output" : "res45: Seq[(TemplateId, Map[String, Any])] = List(\n  (\n    TemplateId(\n      packageId = \"8fab9ddc10d913445c30515b8b40fd5332575790d86480c31f96b2ffcb4c2a8c\",\n      moduleName = \"Iou\",\n      entityName = \"Iou\"\n    ),\n    HashMap(\n      \"payer\" -> \"Bank::12209f6201a7d0151447d97f0754ebf49ce39581af04704af668b7db1d1fe0a65c19\",\n      \"viewers\" -> List(elements = Vector()),\n      \"owner\" -> \"Alice::12208a6f75f95818e255bbfd7381dab368045a5744ba62f1425ab6eaa021e5a2301c\",\n      \"amount.currency\" -> \"EUR\",\n      \"amount.value\" -> \"100.0000000000\"\n    )\n  ),\n  (\n    TemplateId(\n      packageId = \"8fab9ddc10d913445c30515b8b40fd5332575790d86480c31f96b2ffcb4c2a8c\",\n      moduleName = \"Paint\",\n      entityName = \"OfferToPaintHouseByPainter\"\n    ),\n    HashMap(\n      \"painter\" -> \"Bob::12209f6201a7d0151447d97f0754ebf49ce39581af04704af668b7db1d1fe0a65c19\",\n      \"houseOwner\" -> \"Alice::12208a6f75f95818e255bbfd7381dab368045a5744ba62f1425ab6eaa021e5a2301c\",\n      \"bank\" -> \"Bank::12209f6201a7d0151447d97f0754ebf49ce39581af04704af668b7db1d1fe0a65c19\",\n      \"amount.currency\" -> \"EUR\",\n      \"amount.value\" -> \"100.0000000000\"\n    )\n  )\n)"
   },
   "352" : {
     "command" : "nodes.local",
@@ -49,7 +49,7 @@
   },
   "170" : {
     "command" : "health.status",
-    "output" : "res5: EnterpriseCantonStatus = Status for Domain 'mydomain':\nDomain id: mydomain::12205e5dccac4791f8fc0aa9e7f3d2674c4997010808aaedd7686bc0bddd81c1949f\nUptime: 13.419242s\nPorts: \n\tadmin: 32139\n\tpublic: 32138\nConnected Participants: None\nSequencer: SequencerHealthStatus(active = true)\nComponents: \n\tsequencer : Ok()\n\tmemory_storage : Ok()\n\tdomain-topology-sender : Ok()\n\nStatus for Participant 'participant1':\nParticipant id: PAR::participant1::12206c5020b625f957d39633d4504eaf6f9594f0c1a666c3f777d0330f4ec91297ba\nUptime: 7.255084s\nPorts: \n\tledger: 32134\n\tadmin: 32135\nConnected domains: None\nUnhealthy domains: None\nActive: true\nComponents: \n\tmemory_storage : Ok()\n\tsync-domain : Not Initialized\n\tsync-domain-ephemeral : Not Initialized\n\tsequencer-client : Not Initialized\n\nStatus for Participant 'participant2':\nParticipant id: PAR::participant2::12201f864d90d364f7026b590512a5b651f78c9e7274329c2a33c390233a6863a10f\nUptime: 7.26054s\nPorts: \n\tledger: 32136\n\tadmin: 32137\nConnected domains: None\nUnhealthy domains: None\nActive: true\nComponents: \n\tmemory_storage : Ok()\n\tsync-domain : Not Initialized\n\tsync-domain-ephemeral : Not Initialized\n\tsequencer-client : Not Initialized"
+    "output" : "res5: EnterpriseCantonStatus = Status for Domain 'mydomain':\nDomain id: mydomain::122036adf584234de91d05d1d5b9770ac94e757a6d34825e597dedb10c8d733d5dbd\nUptime: 4.510201s\nPorts: \n\tadmin: 33503\n\tpublic: 33502\nConnected Participants: None\nSequencer: SequencerHealthStatus(active = true)\nComponents: \n\tsequencer : Ok()\n\tmemory_storage : Ok()\n\tdomain-topology-sender : Ok()\n\nStatus for Participant 'participant1':\nParticipant id: PAR::participant1::12208a6f75f95818e255bbfd7381dab368045a5744ba62f1425ab6eaa021e5a2301c\nUptime: 3.39523s\nPorts: \n\tledger: 33498\n\tadmin: 33499\nConnected domains: None\nUnhealthy domains: None\nActive: true\nComponents: \n\tmemory_storage : Ok()\n\tsync-domain : Not Initialized\n\tsync-domain-ephemeral : Not Initialized\n\tsequencer-client : Not Initialized\n\nStatus for Participant 'participant2':\nParticipant id: PAR::participant2::12209f6201a7d0151447d97f0754ebf49ce39581af04704af668b7db1d1fe0a65c19\nUptime: 3.444089s\nPorts: \n\tledger: 33500\n\tadmin: 33501\nConnected domains: None\nUnhealthy domains: None\nActive: true\nComponents: \n\tmemory_storage : Ok()\n\tsync-domain : Not Initialized\n\tsync-domain-ephemeral : Not Initialized\n\tsequencer-client : Not Initialized"
   },
   "269" : {
     "command" : "",
@@ -73,23 +73,23 @@
   },
   "448" : {
     "command" : "participant2.ledger_api.commands.submit(Seq(bank), Seq(createIouCmd))",
-    "output" : "res35: com.daml.ledger.api.v1.transaction.TransactionTree = TransactionTree(\n  transactionId = \"1220b9e8c63956f7c846b2b0097f02912d3e5d2be4275d3600579415c550fb8f7146\",\n  commandId = \"6107ebd8-7409-4dfb-9f37-3e84ce536048\",\n  workflowId = \"\",\n  effectiveAt = Some(\n    value = Timestamp(\n      seconds = 1702930024L,\n      nanos = 273703000,\n      unknownFields = UnknownFieldSet(fields = Map())\n    )\n  ),\n  offset = \"000000000000000015\",\n.."
+    "output" : "res35: com.daml.ledger.api.v1.transaction.TransactionTree = TransactionTree(\n  transactionId = \"12206dabe82d1fdc86f5242f94892c4db51d3e460964acaaf4b802687621bea94b64\",\n  commandId = \"db283d5c-c5f9-4374-920b-e9dcd04e9fbf\",\n  workflowId = \"\",\n  effectiveAt = Some(\n    value = Timestamp(\n      seconds = 1703278202L,\n      nanos = 157539000,\n      unknownFields = UnknownFieldSet(fields = Map())\n    )\n  ),\n  offset = \"000000000000000015\",\n.."
   },
   "492" : {
     "command" : "val createOfferCmd = ledger_api_utils.create(pkgPaint.packageId, \"Paint\", \"OfferToPaintHouseByPainter\", Map(\"bank\" -> bank, \"houseOwner\" -> alice, \"painter\" -> bob, \"amount\" -> Map(\"value\" -> 100.0, \"currency\" -> \"EUR\")))",
-    "output" : "createOfferCmd : com.daml.ledger.api.v1.commands.Command = Command(\n  command = Create(\n    value = CreateCommand(\n      templateId = Some(\n        value = Identifier(\n          packageId = \"e79d5d0217e0eea6f1f22b45d07034fd8451878721f774ccbac18ea5c4280f86\",\n.."
+    "output" : "createOfferCmd : com.daml.ledger.api.v1.commands.Command = Command(\n  command = Create(\n    value = CreateCommand(\n      templateId = Some(\n        value = Identifier(\n          packageId = \"8fab9ddc10d913445c30515b8b40fd5332575790d86480c31f96b2ffcb4c2a8c\",\n.."
   },
   "443" : {
     "command" : "val createIouCmd = ledger_api_utils.create(pkgIou.packageId,\"Iou\",\"Iou\",Map(\"payer\" -> bank,\"owner\" -> alice,\"amount\" -> Map(\"value\" -> 100.0, \"currency\" -> \"EUR\"),\"viewers\" -> List()))",
-    "output" : "createIouCmd : com.daml.ledger.api.v1.commands.Command = Command(\n  command = Create(\n    value = CreateCommand(\n      templateId = Some(\n        value = Identifier(\n          packageId = \"e79d5d0217e0eea6f1f22b45d07034fd8451878721f774ccbac18ea5c4280f86\",\n.."
+    "output" : "createIouCmd : com.daml.ledger.api.v1.commands.Command = Command(\n  command = Create(\n    value = CreateCommand(\n      templateId = Some(\n        value = Identifier(\n          packageId = \"8fab9ddc10d913445c30515b8b40fd5332575790d86480c31f96b2ffcb4c2a8c\",\n.."
   },
   "211" : {
     "command" : "participant1.health.ping(participant2)",
-    "output" : "res11: Duration = 555 milliseconds"
+    "output" : "res11: Duration = 610 milliseconds"
   },
   "238" : {
     "command" : "mydomain.id",
-    "output" : "res12: DomainId = mydomain::12205e5dccac..."
+    "output" : "res12: DomainId = mydomain::122036adf584..."
   },
   "280" : {
     "command" : "",
@@ -101,7 +101,7 @@
   },
   "312" : {
     "command" : "val p2Id = ParticipantId.tryFromProtoPrimitive(extractedId)",
-    "output" : "p2Id : ParticipantId = PAR::participant2::12201f864d90..."
+    "output" : "p2Id : ParticipantId = PAR::participant2::12209f6201a7..."
   },
   "74" : {
     "command" : "",
@@ -109,15 +109,15 @@
   },
   "307" : {
     "command" : "val extractedId = participant2.id.toProtoPrimitive",
-    "output" : "extractedId : String = \"PAR::participant2::12201f864d90d364f7026b590512a5b651f78c9e7274329c2a33c390233a6863a10f\""
+    "output" : "extractedId : String = \"PAR::participant2::12209f6201a7d0151447d97f0754ebf49ce39581af04704af668b7db1d1fe0a65c19\""
   },
   "512" : {
     "command" : "participant2.ledger_api.acs.of_party(bank).map(x => (x.templateId, x.arguments))",
-    "output" : "res44: Seq[(TemplateId, Map[String, Any])] = List(\n  (\n    TemplateId(\n      packageId = \"e79d5d0217e0eea6f1f22b45d07034fd8451878721f774ccbac18ea5c4280f86\",\n      moduleName = \"Iou\",\n      entityName = \"Iou\"\n    ),\n    HashMap(\n      \"payer\" -> \"Bank::12201f864d90d364f7026b590512a5b651f78c9e7274329c2a33c390233a6863a10f\",\n      \"viewers\" -> List(elements = Vector()),\n      \"owner\" -> \"Alice::12206c5020b625f957d39633d4504eaf6f9594f0c1a666c3f777d0330f4ec91297ba\",\n      \"amount.currency\" -> \"EUR\",\n      \"amount.value\" -> \"100.0000000000\"\n    )\n  )\n)"
+    "output" : "res44: Seq[(TemplateId, Map[String, Any])] = List(\n  (\n    TemplateId(\n      packageId = \"8fab9ddc10d913445c30515b8b40fd5332575790d86480c31f96b2ffcb4c2a8c\",\n      moduleName = \"Iou\",\n      entityName = \"Iou\"\n    ),\n    HashMap(\n      \"payer\" -> \"Bank::12209f6201a7d0151447d97f0754ebf49ce39581af04704af668b7db1d1fe0a65c19\",\n      \"viewers\" -> List(elements = Vector()),\n      \"owner\" -> \"Alice::12208a6f75f95818e255bbfd7381dab368045a5744ba62f1425ab6eaa021e5a2301c\",\n      \"amount.currency\" -> \"EUR\",\n      \"amount.value\" -> \"100.0000000000\"\n    )\n  )\n)"
   },
   "270" : {
     "command" : "val bob = participant2.parties.enable(\"Bob\")",
-    "output" : "bob : PartyId = Bob::12201f864d90..."
+    "output" : "bob : PartyId = Bob::12209f6201a7..."
   },
   "366" : {
     "command" : "",
@@ -125,7 +125,7 @@
   },
   "534" : {
     "command" : "participant1.ledger_api.commands.submit_flat(Seq(alice), Seq(acceptOffer))",
-    "output" : "res48: com.daml.ledger.api.v1.transaction.Transaction = Transaction(\n  transactionId = \"1220e543077c60386290bd9ab8dec61b728aa74ad61a928456e43019e5c4a28f652c\",\n  commandId = \"33e463cd-abea-433e-8529-8491accd9d0e\",\n  workflowId = \"\",\n  effectiveAt = Some(\n    value = Timestamp(\n.."
+    "output" : "res48: com.daml.ledger.api.v1.transaction.Transaction = Transaction(\n  transactionId = \"12208ba2c313c6c7c1dde49c26b4f2b3f066f8400306f8882aeec5f16301161075c5\",\n  commandId = \"8f07619c-7893-417f-87a5-c4a6baa67d7e\",\n  workflowId = \"\",\n  effectiveAt = Some(\n    value = Timestamp(\n.."
   },
   "102" : {
     "command" : "help",
@@ -137,7 +137,7 @@
   },
   "493" : {
     "command" : "participant2.ledger_api.commands.submit_flat(Seq(bob), Seq(createOfferCmd))",
-    "output" : "res41: com.daml.ledger.api.v1.transaction.Transaction = Transaction(\n  transactionId = \"1220929c5491b163624172c85a5c1b5c2954393f876ec015c910e7ca73ed6085b1a7\",\n  commandId = \"0ebe5896-02ec-448c-aacf-c9383f58fb14\",\n  workflowId = \"\",\n  effectiveAt = Some(\n    value = Timestamp(\n.."
+    "output" : "res41: com.daml.ledger.api.v1.transaction.Transaction = Transaction(\n  transactionId = \"1220ca0b9349d27afa46842eb049c520cc3071e69d51e148a4137a721b9d6f663363\",\n  commandId = \"c8e59d84-7cd2-4201-bb0a-d60cf9d14a05\",\n  workflowId = \"\",\n  effectiveAt = Some(\n    value = Timestamp(\n.."
   },
   "324" : {
     "command" : "",
@@ -149,7 +149,7 @@
   },
   "317" : {
     "command" : "participant1.health.ping(p2Id)",
-    "output" : "res22: Duration = 346 milliseconds"
+    "output" : "res22: Duration = 371 milliseconds"
   },
   "176" : {
     "command" : "",
@@ -157,35 +157,35 @@
   },
   "281" : {
     "command" : "mydomain.parties.list(\"Alice\")",
-    "output" : "res17: Seq[ListPartiesResult] = Vector(\n  ListPartiesResult(\n    party = Alice::12206c5020b6...,\n    participants = Vector(\n      ParticipantDomains(\n        participant = PAR::participant1::12206c5020b6...,\n        domains = Vector(\n          DomainPermission(domain = mydomain::12205e5dccac..., permission = Submission)\n        )\n      )\n    )\n  )\n)"
+    "output" : "res17: Seq[ListPartiesResult] = Vector(\n  ListPartiesResult(\n    party = Alice::12208a6f75f9...,\n    participants = Vector(\n      ParticipantDomains(\n        participant = PAR::participant1::12208a6f75f9...,\n        domains = Vector(\n          DomainPermission(domain = mydomain::122036adf584..., permission = Submission)\n        )\n      )\n    )\n  )\n)"
   },
   "204" : {
     "command" : "health.status",
-    "output" : "res10: EnterpriseCantonStatus = Status for Domain 'mydomain':\nDomain id: mydomain::12205e5dccac4791f8fc0aa9e7f3d2674c4997010808aaedd7686bc0bddd81c1949f\nUptime: 18.989735s\nPorts: \n\tadmin: 32139\n\tpublic: 32138\nConnected Participants: \n\tPAR::participant1::12206c5020b6...\n\tPAR::participant2::12201f864d90...\nSequencer: SequencerHealthStatus(active = true)\nComponents: \n\tsequencer : Ok()\n\tmemory_storage : Ok()\n\tdomain-topology-sender : Ok()\n\n.."
+    "output" : "res10: EnterpriseCantonStatus = Status for Domain 'mydomain':\nDomain id: mydomain::122036adf584234de91d05d1d5b9770ac94e757a6d34825e597dedb10c8d733d5dbd\nUptime: 7.457836s\nPorts: \n\tadmin: 33503\n\tpublic: 33502\nConnected Participants: \n\tPAR::participant2::12209f6201a7...\n\tPAR::participant1::12208a6f75f9...\nSequencer: SequencerHealthStatus(active = true)\nComponents: \n\tsequencer : Ok()\n\tmemory_storage : Ok()\n\tdomain-topology-sender : Ok()\n\n.."
   },
   "498" : {
     "command" : "val paintOffer = participant1.ledger_api.acs.find_generic(alice, _.templateId.isModuleEntity(\"Paint\", \"OfferToPaintHouseByPainter\"))",
-    "output" : "paintOffer : com.digitalasset.canton.admin.api.client.commands.LedgerApiTypeWrappers.WrappedCreatedEvent = WrappedCreatedEvent(\n  event = CreatedEvent(\n    eventId = \"#1220929c5491b163624172c85a5c1b5c2954393f876ec015c910e7ca73ed6085b1a7:0\",\n    contractId = \"00b6a205992013d7b870612797baf34fc2bebc2a25d7dd0bfbcbfc441300a109a9ca021220e2f7dbadb8c1c99c2f8baac2afd5bdff5b404ab32a8c9b164c41a38ed8beccea\",\n    templateId = Some(\n      value = Identifier(\n.."
+    "output" : "paintOffer : com.digitalasset.canton.admin.api.client.commands.LedgerApiTypeWrappers.WrappedCreatedEvent = WrappedCreatedEvent(\n  event = CreatedEvent(\n    eventId = \"#1220ca0b9349d27afa46842eb049c520cc3071e69d51e148a4137a721b9d6f663363:0\",\n    contractId = \"009188d53e23d963c1aa95d83290e77f2358bc5da21cb6984c3633a292f731523dca021220fecfe93db1b3a48c9e7f4fbd895d155edae3ce5f044e32bef3e32d099eebdd1e\",\n    templateId = Some(\n      value = Identifier(\n.."
   },
   "181" : {
     "command" : "mydomain.health.status",
-    "output" : "res7: com.digitalasset.canton.health.admin.data.NodeStatus[mydomain.Status] = Domain id: mydomain::12205e5dccac4791f8fc0aa9e7f3d2674c4997010808aaedd7686bc0bddd81c1949f\nUptime: 13.765133s\nPorts: \n\tadmin: 32139\n\tpublic: 32138\nConnected Participants: None\nSequencer: SequencerHealthStatus(active = true)\nComponents: \n\tsequencer : Ok()\n\tmemory_storage : Ok()\n\tdomain-topology-sender : Ok()"
+    "output" : "res7: com.digitalasset.canton.health.admin.data.NodeStatus[mydomain.Status] = Domain id: mydomain::122036adf584234de91d05d1d5b9770ac94e757a6d34825e597dedb10c8d733d5dbd\nUptime: 4.794302s\nPorts: \n\tadmin: 33503\n\tpublic: 33502\nConnected Participants: None\nSequencer: SequencerHealthStatus(active = true)\nComponents: \n\tsequencer : Ok()\n\tmemory_storage : Ok()\n\tdomain-topology-sender : Ok()"
   },
   "477" : {
     "command" : "participant1.ledger_api.acs.of_party(alice).map(x => (x.templateId, x.arguments))",
-    "output" : "res38: Seq[(TemplateId, Map[String, Any])] = List(\n  (\n    TemplateId(\n      packageId = \"e79d5d0217e0eea6f1f22b45d07034fd8451878721f774ccbac18ea5c4280f86\",\n      moduleName = \"Iou\",\n      entityName = \"Iou\"\n    ),\n    HashMap(\n      \"payer\" -> \"Bank::12201f864d90d364f7026b590512a5b651f78c9e7274329c2a33c390233a6863a10f\",\n      \"viewers\" -> List(elements = Vector()),\n      \"owner\" -> \"Alice::12206c5020b625f957d39633d4504eaf6f9594f0c1a666c3f777d0330f4ec91297ba\",\n      \"amount.currency\" -> \"EUR\",\n      \"amount.value\" -> \"100.0000000000\"\n    )\n  )\n)"
+    "output" : "res38: Seq[(TemplateId, Map[String, Any])] = List(\n  (\n    TemplateId(\n      packageId = \"8fab9ddc10d913445c30515b8b40fd5332575790d86480c31f96b2ffcb4c2a8c\",\n      moduleName = \"Iou\",\n      entityName = \"Iou\"\n    ),\n    HashMap(\n      \"payer\" -> \"Bank::12209f6201a7d0151447d97f0754ebf49ce39581af04704af668b7db1d1fe0a65c19\",\n      \"viewers\" -> List(elements = Vector()),\n      \"owner\" -> \"Alice::12208a6f75f95818e255bbfd7381dab368045a5744ba62f1425ab6eaa021e5a2301c\",\n      \"amount.currency\" -> \"EUR\",\n      \"amount.value\" -> \"100.0000000000\"\n    )\n  )\n)"
   },
   "323" : {
     "command" : "val aliceParsed = PartyId.tryFromProtoPrimitive(aliceAsStr)",
-    "output" : "aliceParsed : PartyId = Alice::12206c5020b6..."
+    "output" : "aliceParsed : PartyId = Alice::12208a6f75f9..."
   },
   "483" : {
     "command" : "val pkgPaint = participant1.packages.find(\"Paint\").head",
-    "output" : "pkgPaint : com.digitalasset.canton.participant.admin.v0.PackageDescription = PackageDescription(\n  packageId = \"e79d5d0217e0eea6f1f22b45d07034fd8451878721f774ccbac18ea5c4280f86\",\n  sourceDescription = \"CantonExamples\"\n)"
+    "output" : "pkgPaint : com.digitalasset.canton.participant.admin.v0.PackageDescription = PackageDescription(\n  packageId = \"8fab9ddc10d913445c30515b8b40fd5332575790d86480c31f96b2ffcb4c2a8c\",\n  sourceDescription = \"CantonExamples\"\n)"
   },
   "240" : {
     "command" : "participant2.id",
-    "output" : "res14: ParticipantId = PAR::participant2::12201f864d90..."
+    "output" : "res14: ParticipantId = PAR::participant2::12209f6201a7..."
   },
   "198" : {
     "command" : "participant2.domains.connect_local(mydomain)",
@@ -197,15 +197,15 @@
   },
   "330" : {
     "command" : "val p2UidString = participant2.id.uid.toProtoPrimitive",
-    "output" : "p2UidString : String = \"participant2::12201f864d90d364f7026b590512a5b651f78c9e7274329c2a33c390233a6863a10f\""
+    "output" : "p2UidString : String = \"participant2::12209f6201a7d0151447d97f0754ebf49ce39581af04704af668b7db1d1fe0a65c19\""
   },
   "394" : {
     "command" : "val bank = participant2.parties.enable(\"Bank\", waitForDomain = DomainChoice.All)",
-    "output" : "bank : PartyId = Bank::12201f864d90..."
+    "output" : "bank : PartyId = Bank::12209f6201a7..."
   },
   "438" : {
     "command" : "val pkgIou = participant1.packages.find(\"Iou\").head",
-    "output" : "pkgIou : com.digitalasset.canton.participant.admin.v0.PackageDescription = PackageDescription(\n  packageId = \"e79d5d0217e0eea6f1f22b45d07034fd8451878721f774ccbac18ea5c4280f86\",\n  sourceDescription = \"CantonExamples\"\n)"
+    "output" : "pkgIou : com.digitalasset.canton.participant.admin.v0.PackageDescription = PackageDescription(\n  packageId = \"8fab9ddc10d913445c30515b8b40fd5332575790d86480c31f96b2ffcb4c2a8c\",\n  sourceDescription = \"CantonExamples\"\n)"
   },
   "199" : {
     "command" : "",
@@ -217,11 +217,11 @@
   },
   "331" : {
     "command" : "val p2FromUid = ParticipantId(UniqueIdentifier.tryFromProtoPrimitive(p2UidString))",
-    "output" : "p2FromUid : ParticipantId = PAR::participant2::12201f864d90..."
+    "output" : "p2FromUid : ParticipantId = PAR::participant2::12209f6201a7..."
   },
   "346" : {
     "command" : "participants.all.dars.upload(\"dars/CantonExamples.dar\")",
-    "output" : "res27: Map[com.digitalasset.canton.console.ParticipantReference, String] = Map(\n  Participant 'participant1' -> \"12204b56f9730c63911b9d6f57acbce4daaac2c9c29d6aa50182722a4c2bc6b64a37\",\n  Participant 'participant2' -> \"12204b56f9730c63911b9d6f57acbce4daaac2c9c29d6aa50182722a4c2bc6b64a37\"\n)"
+    "output" : "res27: Map[com.digitalasset.canton.console.ParticipantReference, String] = Map(\n  Participant 'participant1' -> \"1220a93ae982b08002800b9453a968623afcddf938a8afe22bb5ca332419561e7319\",\n  Participant 'participant2' -> \"1220a93ae982b08002800b9453a968623afcddf938a8afe22bb5ca332419561e7319\"\n)"
   },
   "287" : {
     "command" : "",
@@ -237,7 +237,7 @@
   },
   "239" : {
     "command" : "participant1.id",
-    "output" : "res13: ParticipantId = PAR::participant1::12206c5020b6..."
+    "output" : "res13: ParticipantId = PAR::participant1::12208a6f75f9..."
   },
   "532" : {
     "command" : "import com.digitalasset.canton.protocol.LfContractId",
@@ -245,30 +245,30 @@
   },
   "506" : {
     "command" : "participant2.ledger_api.acs.of_party(bob).map(x => (x.templateId, x.arguments))",
-    "output" : "res43: Seq[(TemplateId, Map[String, Any])] = List(\n  (\n    TemplateId(\n      packageId = \"e79d5d0217e0eea6f1f22b45d07034fd8451878721f774ccbac18ea5c4280f86\",\n      moduleName = \"Paint\",\n      entityName = \"OfferToPaintHouseByPainter\"\n    ),\n    HashMap(\n      \"painter\" -> \"Bob::12201f864d90d364f7026b590512a5b651f78c9e7274329c2a33c390233a6863a10f\",\n      \"houseOwner\" -> \"Alice::12206c5020b625f957d39633d4504eaf6f9594f0c1a666c3f777d0330f4ec91297ba\",\n      \"bank\" -> \"Bank::12201f864d90d364f7026b590512a5b651f78c9e7274329c2a33c390233a6863a10f\",\n      \"amount.currency\" -> \"EUR\",\n      \"amount.value\" -> \"100.0000000000\"\n    )\n  )\n)"
+    "output" : "res43: Seq[(TemplateId, Map[String, Any])] = List(\n  (\n    TemplateId(\n      packageId = \"8fab9ddc10d913445c30515b8b40fd5332575790d86480c31f96b2ffcb4c2a8c\",\n      moduleName = \"Paint\",\n      entityName = \"OfferToPaintHouseByPainter\"\n    ),\n    HashMap(\n      \"painter\" -> \"Bob::12209f6201a7d0151447d97f0754ebf49ce39581af04704af668b7db1d1fe0a65c19\",\n      \"houseOwner\" -> \"Alice::12208a6f75f95818e255bbfd7381dab368045a5744ba62f1425ab6eaa021e5a2301c\",\n      \"bank\" -> \"Bank::12209f6201a7d0151447d97f0754ebf49ce39581af04704af668b7db1d1fe0a65c19\",\n      \"amount.currency\" -> \"EUR\",\n      \"amount.value\" -> \"100.0000000000\"\n    )\n  )\n)"
   },
   "268" : {
     "command" : "val alice = participant1.parties.enable(\"Alice\")",
-    "output" : "alice : PartyId = Alice::12206c5020b6..."
+    "output" : "alice : PartyId = Alice::12208a6f75f9..."
   },
   "464" : {
     "command" : "val aliceIou = participant1.ledger_api.acs.find_generic(alice, _.templateId.isModuleEntity(\"Iou\", \"Iou\"))",
-    "output" : "aliceIou : com.digitalasset.canton.admin.api.client.commands.LedgerApiTypeWrappers.WrappedCreatedEvent = WrappedCreatedEvent(\n  event = CreatedEvent(\n    eventId = \"#1220b9e8c63956f7c846b2b0097f02912d3e5d2be4275d3600579415c550fb8f7146:0\",\n    contractId = \"0025b0a73d2a95602d84424dcab7f44907a28bfaf573eb3ab7cc5dce621bb35013ca021220f2eee0fb5e24cabdb615561548e96e3404cf377a411256121d88b5646af389b2\",\n.."
+    "output" : "aliceIou : com.digitalasset.canton.admin.api.client.commands.LedgerApiTypeWrappers.WrappedCreatedEvent = WrappedCreatedEvent(\n  event = CreatedEvent(\n    eventId = \"#12206dabe82d1fdc86f5242f94892c4db51d3e460964acaaf4b802687621bea94b64:0\",\n    contractId = \"005091a24233f4436bc056202027f4c57617d27afd63df0b3ffdb6806c16fb2afaca02122081767b94f054d3bfa1a22530ac1ef85d2f65f8f3c2de2065ee1959ad10ea1ca7\",\n.."
   },
   "459" : {
     "command" : "participant1.ledger_api.commands.submit(Seq(bank), Seq(createIouCmd))",
-    "output" : "ERROR com.digitalasset.canton.integration.EnterpriseEnvironmentDefinition$$anon$3 - Request failed for participant1.\n  GrpcRequestRefusedByServer: NOT_FOUND/NO_DOMAIN_ON_WHICH_ALL_SUBMITTERS_CAN_SUBMIT(11,f2a404ff): This participant can not submit as the given submitter on any connected domain\n  Request: SubmitAndWaitTransactionTree(\n  actAs = Bank::12201f864d90...,\n.."
+    "output" : "ERROR com.digitalasset.canton.integration.EnterpriseEnvironmentDefinition$$anon$3 - Request failed for participant1.\n  GrpcRequestRefusedByServer: NOT_FOUND/NO_DOMAIN_ON_WHICH_ALL_SUBMITTERS_CAN_SUBMIT(11,03aef4e3): This participant can not submit as the given submitter on any connected domain\n  Request: SubmitAndWaitTransactionTree(\n  actAs = Bank::12209f6201a7...,\n.."
   },
   "322" : {
     "command" : "val aliceAsStr = alice.toProtoPrimitive",
-    "output" : "aliceAsStr : String = \"Alice::12206c5020b625f957d39633d4504eaf6f9594f0c1a666c3f777d0330f4ec91297ba\""
+    "output" : "aliceAsStr : String = \"Alice::12208a6f75f95818e255bbfd7381dab368045a5744ba62f1425ab6eaa021e5a2301c\""
   },
   "469" : {
     "command" : "participant1.ledger_api.acs.of_party(alice)",
-    "output" : "res37: Seq[com.digitalasset.canton.admin.api.client.commands.LedgerApiTypeWrappers.WrappedCreatedEvent] = List(\n  WrappedCreatedEvent(\n    event = CreatedEvent(\n      eventId = \"#1220b9e8c63956f7c846b2b0097f02912d3e5d2be4275d3600579415c550fb8f7146:0\",\n      contractId = \"0025b0a73d2a95602d84424dcab7f44907a28bfaf573eb3ab7cc5dce621bb35013ca021220f2eee0fb5e24cabdb615561548e96e3404cf377a411256121d88b5646af389b2\",\n      templateId = Some(\n        value = Identifier(\n          packageId = \"e79d5d0217e0eea6f1f22b45d07034fd8451878721f774ccbac18ea5c4280f86\",\n.."
+    "output" : "res37: Seq[com.digitalasset.canton.admin.api.client.commands.LedgerApiTypeWrappers.WrappedCreatedEvent] = List(\n  WrappedCreatedEvent(\n    event = CreatedEvent(\n      eventId = \"#12206dabe82d1fdc86f5242f94892c4db51d3e460964acaaf4b802687621bea94b64:0\",\n      contractId = \"005091a24233f4436bc056202027f4c57617d27afd63df0b3ffdb6806c16fb2afaca02122081767b94f054d3bfa1a22530ac1ef85d2f65f8f3c2de2065ee1959ad10ea1ca7\",\n      templateId = Some(\n        value = Identifier(\n          packageId = \"8fab9ddc10d913445c30515b8b40fd5332575790d86480c31f96b2ffcb4c2a8c\",\n.."
   },
   "454" : {
     "command" : "participant1.ledger_api.commands.submit(Seq(alice), Seq(createIouCmd))",
-    "output" : "ERROR com.digitalasset.canton.integration.EnterpriseEnvironmentDefinition$$anon$3 - Request failed for participant1.\n  GrpcClientError: INVALID_ARGUMENT/DAML_AUTHORIZATION_ERROR(8,c5ef7f99): Interpretation error: Error: node NodeId(0) (e79d5d0217e0eea6f1f22b45d07034fd8451878721f774ccbac18ea5c4280f86:Iou:Iou) requires authorizers Bank::12201f864d90d364f7026b590512a5b651f78c9e7274329c2a33c390233a6863a10f, but only Alice::12206c5020b625f957d39633d4504eaf6f9594f0c1a666c3f777d0330f4ec91297ba were given\n  Request: SubmitAndWaitTransactionTree(\n  actAs = Alice::12206c5020b6...,\n.."
+    "output" : "ERROR com.digitalasset.canton.integration.EnterpriseEnvironmentDefinition$$anon$3 - Request failed for participant1.\n  GrpcClientError: INVALID_ARGUMENT/DAML_AUTHORIZATION_ERROR(8,1c141eb8): Interpretation error: Error: node NodeId(0) (8fab9ddc10d913445c30515b8b40fd5332575790d86480c31f96b2ffcb4c2a8c:Iou:Iou) requires authorizers Bank::12209f6201a7d0151447d97f0754ebf49ce39581af04704af668b7db1d1fe0a65c19, but only Alice::12208a6f75f95818e255bbfd7381dab368045a5744ba62f1425ab6eaa021e5a2301c were given\n  Request: SubmitAndWaitTransactionTree(\n  actAs = Alice::12208a6f75f9...,\n.."
   }
 }

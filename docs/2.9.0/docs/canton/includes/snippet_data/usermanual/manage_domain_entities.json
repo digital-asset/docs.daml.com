@@ -1,7 +1,7 @@
 {
   "138" : {
     "command" : "mediator1.mediator.initialize(domainId, MediatorId(domainId), domainParameters, sequencerConnections, None)",
-    "output" : "res20: PublicKey = SigningPublicKey(id = 12208419c79c..., format = Tink, scheme = Ed25519)"
+    "output" : "res20: PublicKey = SigningPublicKey(id = 1220bbba2f19..., format = Tink, scheme = Ed25519)"
   },
   "120" : {
     "command" : "domainManager1.topology.all.list().collectOfType[TopologyChangeOp.Positive].writeToFile(\"tmp/domain-bootstrapping-files/topology-transactions.proto\")",
@@ -9,11 +9,11 @@
   },
   "84" : {
     "command" : "val domainIdString = domainManager1.id.toProtoPrimitive",
-    "output" : "domainIdString : String = \"domainManager1::1220496a4a04453099e2f916caa24965a6d302af855f68a133cc6183f05e8004aa7e\""
+    "output" : "domainIdString : String = \"domainManager1::122042284d0b73729f1368fe14cc6ef5fe2098097bee5230e29c6f25e826d28dd2f7\""
   },
   "92" : {
     "command" : "val domainId = DomainId.tryFromString(domainIdString)",
-    "output" : "domainId : DomainId = domainManager1::1220496a4a04..."
+    "output" : "domainId : DomainId = domainManager1::122042284d0b..."
   },
   "129" : {
     "command" : "sequencer1.initialization.bootstrap_topology(initialTopology)",
@@ -25,7 +25,7 @@
   },
   "144" : {
     "command" : "val sequencerConnection = SequencerConnections.tryReadFromFile(\"tmp/domain-bootstrapping-files/sequencer-connection.proto\")",
-    "output" : "sequencerConnection : SequencerConnections = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(\n  endpoints = http://127.0.0.1:32209,\n  transportSecurity = false\n)"
+    "output" : "sequencerConnection : SequencerConnections = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(\n  endpoints = http://127.0.0.1:33541,\n  transportSecurity = false\n)"
   },
   "113" : {
     "command" : "domainManager1.setup.helper.authorizeKey(mediatorKey, \"mediator1\", MediatorId(domainId))",
@@ -45,7 +45,7 @@
   },
   "99" : {
     "command" : "val sequencerPublicKey = SigningPublicKey.tryReadFromFile(\"tmp/domain-bootstrapping-files/seq1-key.proto\")",
-    "output" : "sequencerPublicKey : SigningPublicKey = SigningPublicKey(id = 12204286ac90..., format = Tink, scheme = Ed25519)"
+    "output" : "sequencerPublicKey : SigningPublicKey = SigningPublicKey(id = 1220984d1b54..., format = Tink, scheme = Ed25519)"
   },
   "42" : {
     "command" : "domainManager1.setup.bootstrap_domain(Seq(sequencer1), Seq(mediator1))",
@@ -61,11 +61,11 @@
   },
   "93" : {
     "command" : "val initResponse = sequencer1.initialization.initialize_from_beginning(domainId, domainParameters)",
-    "output" : "initResponse : com.digitalasset.canton.domain.sequencing.admin.grpc.InitializeSequencerResponse = InitializeSequencerResponse(\n  keyId = \"sequencer-id\",\n  publicKey = SigningPublicKey(id = 12204286ac90..., format = Tink, scheme = Ed25519),\n  replicated = false\n)"
+    "output" : "initResponse : com.digitalasset.canton.domain.sequencing.admin.grpc.InitializeSequencerResponse = InitializeSequencerResponse(\n  keyId = \"sequencer-id\",\n  publicKey = SigningPublicKey(id = 1220984d1b54..., format = Tink, scheme = Ed25519),\n  replicated = false\n)"
   },
   "152" : {
     "command" : "participant1.health.ping(participant1)",
-    "output" : "res26: Duration = 460 milliseconds"
+    "output" : "res26: Duration = 1150 milliseconds"
   },
   "28" : {
     "command" : "",
@@ -97,7 +97,7 @@
   },
   "112" : {
     "command" : "val domainId = DomainId.tryFromString(domainIdString)",
-    "output" : "domainId : DomainId = domainManager1::1220496a4a04..."
+    "output" : "domainId : DomainId = domainManager1::122042284d0b..."
   },
   "145" : {
     "command" : "domainManager1.setup.init(sequencerConnection)",
@@ -109,7 +109,7 @@
   },
   "127" : {
     "command" : "val initialTopology = com.digitalasset.canton.topology.store.StoredTopologyTransactions.tryReadFromFile(\"tmp/domain-bootstrapping-files/topology-transactions.proto\").collectOfType[TopologyChangeOp.Positive]",
-    "output" : "initialTopology : store.StoredTopologyTransactions[TopologyChangeOp.Positive] = Seq(\n  StoredTopologyTransaction(\n    sequenced = 2023-12-18T20:07:26.923151Z,\n    validFrom = 2023-12-18T20:07:26.923151Z,\n    validUntil = 2023-12-18T20:07:26.923151Z,\n    op = Add,\n.."
+    "output" : "initialTopology : store.StoredTopologyTransactions[TopologyChangeOp.Positive] = Seq(\n  StoredTopologyTransaction(\n    sequenced = 2023-12-22T20:50:19.376177Z,\n    validFrom = 2023-12-22T20:50:19.376177Z,\n    op = Add,\n    mapping = NamespaceDelegation(\n.."
   },
   "26" : {
     "command" : "",
@@ -117,7 +117,7 @@
   },
   "114" : {
     "command" : "domainManager1.topology.mediator_domain_states.authorize(TopologyChangeOp.Add, domainId, MediatorId(domainId), RequestSide.Both)",
-    "output" : "res13: com.google.protobuf.ByteString = <ByteString@200a98c7 size=560 contents=\"\\n\\255\\004\\n\\333\\001\\n\\326\\001\\n\\323\\001\\022 vIOFx0aoxhISVlPeVQIUw0NmOMGHOnztR...\">"
+    "output" : "res13: com.google.protobuf.ByteString = <ByteString@7bae614d size=560 contents=\"\\n\\255\\004\\n\\333\\001\\n\\326\\001\\n\\323\\001\\022 Jn6BGVe53KGFtOwOz44Z7kN20qiUZlW9R...\">"
   },
   "139" : {
     "command" : "mediator1.health.wait_for_initialized()",
@@ -137,11 +137,11 @@
   },
   "51" : {
     "command" : "participant1.health.ping(participant1)",
-    "output" : "res7: Duration = 2009 milliseconds"
+    "output" : "res7: Duration = 4722 milliseconds"
   },
   "136" : {
     "command" : "val sequencerConnections = SequencerConnections.tryReadFromFile(\"tmp/domain-bootstrapping-files/sequencer-connection.proto\")",
-    "output" : "sequencerConnections : SequencerConnections = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(\n  endpoints = http://127.0.0.1:32209,\n  transportSecurity = false\n)"
+    "output" : "sequencerConnections : SequencerConnections = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(\n  endpoints = http://127.0.0.1:33541,\n  transportSecurity = false\n)"
   },
   "94" : {
     "command" : "initResponse.publicKey.writeToFile(\"tmp/domain-bootstrapping-files/seq1-key.proto\")",
@@ -149,7 +149,7 @@
   },
   "111" : {
     "command" : "val mediatorKey = SigningPublicKey.tryReadFromFile(\"tmp/domain-bootstrapping-files/med1-key.proto\")",
-    "output" : "mediatorKey : SigningPublicKey = SigningPublicKey(id = 1220ae264649..., format = Tink, scheme = Ed25519)"
+    "output" : "mediatorKey : SigningPublicKey = SigningPublicKey(id = 122095ccc2f9..., format = Tink, scheme = Ed25519)"
   },
   "83" : {
     "command" : "domainManager1.service.get_static_domain_parameters.writeToFile(\"tmp/domain-bootstrapping-files/params.proto\")",
