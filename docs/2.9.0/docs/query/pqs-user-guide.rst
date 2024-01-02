@@ -289,7 +289,7 @@ Meet prerequisites
 
 Here are the prerequisites to run PQS:
 
--  A PostgreSQL database that can be reached from the PQS. Note that PQS uses the JSONB data type for storing JSON data, which requires Postgres versions 11, 13, and 15.
+-  A PostgreSQL database that can be reached from the PQS. Note that PQS uses the JSONB data type for storing JSON data, which requires Postgres versions 11 through 16.
 -  An empty database (recommended) to avoid schema and table collisions.
 -  Daml ledger as the source of events. m/TLS is supported for the participant node ledger API. Alternatively, it can run against the ``Sandbox``.
 -  Installation of `The Daml Enterprise SDK <https://docs.daml.com/getting-started/installation.html#install-daml-enterprise>`__.
