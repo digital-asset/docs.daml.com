@@ -514,7 +514,6 @@ as automatically determining the parameters for the ``authorize`` call.
     Please note that the ``participant.parties.enable`` macro will add the parties to the same namespace as the participant is in.
     It only works if the participant has authority over that namespace either by possessing the root or a delegated key.
 
-.. enterprise-only::
 
 .. _separate-party-migration:
 
@@ -526,7 +525,7 @@ be delegated to a given participant. For simplicity and convenience, the partici
 in its own namespace by default, but there are situations where this is not desired.
 
 A common scenario is that you first host the party on behalf of your client, but subsequently hand over
-the party to the clients own node. With the default party allocation, this would mean that you will
+the party to the client's own node. With the default party allocation, this would mean that you will
 still control the party of the client.
 
 To avoid this, you need your client to create a new party on their own and export a party delegation
@@ -594,9 +593,10 @@ specific key, which would then in turn be able to delegate the party to a partic
 Replicate Party to Another Participant Node
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. enterprise-only::
+
 The weak coupling of parties to participants allows you to migrate parties together with their active contract set from
-one participant node to another. The process described below uses a specific set of commands which
-have to be executed in the right order with some care.
+one participant node to another. The process described below uses a specific set of commands which have to be executed in the right order with some care.
 
 We assume that there are three participants: The ``sourceParticipant`` from which the existing contract set will be copied,
 a ``targetParticipant`` to which the contract set will be copied, and a ``controllingParticipant`` that owns the party.
@@ -606,7 +606,7 @@ In some cases, the controlling participant will be the same as the source partic
 
     Please note that the entire system needs to be totally quiet for this process to succeed. You
     currently can not migrate a party under load on 2.x. If you migrate a party on a system that processes
-    transactions, the processing data will eventually become corrupt breaking your node. The macros
+    transactions, the processing data will eventually become corrupt, breaking your node. The macros
     will refuse to run if the system is not idle. Therefore, follow the steps below carefully.
 
 First, turn off transaction processing on the domain by setting the rate to 0 and wait for all timeouts to have
