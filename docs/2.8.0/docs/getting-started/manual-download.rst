@@ -18,7 +18,7 @@ This page covers two topics:
 Installing the SDK from a Tarball
 =================================
 
-Tarballs for the Open-Source Edition of the Daml SDK can be downloaded `from GitHub <https://github.com/digital-asset/daml/releases>`_; tarballs for the Enterprise Edition can be downloaded `from Artifactory <https://digitalasset.jfrog.io/ui/native/sdk-ee/>`_.
+Tarballs for the Open-Source Edition of the Daml SDK can be downloaded `from GitHub <https://github.com/digital-asset/daml/releases>`__; tarballs for the Enterprise Edition can be downloaded `from Artifactory <https://digitalasset.jfrog.io/ui/native/sdk-ee/>`__.
 
 SDK tarballs bear the SDK version string, which is not always identical to the associated Daml version string. When installing from a tarball, you need to know both the SDK version string and the Daml version string. For stable releases up to 2.8.0 included, they are the same.
 
@@ -28,7 +28,7 @@ Once you have a tarball, the next step is to extract it and run the install scri
      cd sdk-2.8.0
      ./install.sh --install-with-custom-version 2.8.0
 
-Note that in the above command the SDK and Daml version strings are identical (``2.8.0``), which may make it a bit less easy to see which is which. In the case of a snapshot, such as `2.8.0-snapshot.20231122.0 <https://github.com/digital-asset/daml/releases/tag/v2.8.0-snapshot.20231122.0>`_, the SDK version string, `2.8.0-snapshot.20231118.12382.0.v86cb8054``, and the Daml version string, ``2.8.0-snapshot.20231122.0``, differ. The commands would become::
+Note that in the above command the SDK and Daml version strings are identical (``2.8.0``), which may make it a bit less easy to see which is which. In the case of a snapshot, such as `2.8.0-snapshot.20231122.0 <https://github.com/digital-asset/daml/releases/tag/v2.8.0-snapshot.20231122.0>`__, the SDK version string, `2.8.0-snapshot.20231118.12382.0.v86cb8054``, and the Daml version string, ``2.8.0-snapshot.20231122.0``, differ. The commands would become::
 
      tar xzf daml-sdk-2.8.0-snapshot.20231118.12382.0.v86cb8054-macos.tar.gz
      cd sdk-2.8.0-snapshot.20231118.12382.0.v86cb8054
@@ -45,7 +45,7 @@ Note that the Windows installer is already signed (within the binary itself), an
 
 To do that:
 
-1. Go to `GitHub <https://github.com/digital-asset/daml/releases>`_ for the Open-Source Edition, or `Artifactory <https://digitalasset.jfrog.io/ui/native/sdk-ee>`_ for the Enterprise Edition. In either case, confirm your browser sees a valid certificate for the domain.
+1. Go to `GitHub <https://github.com/digital-asset/daml/releases>`__ for the Open-Source Edition, or `Artifactory <https://digitalasset.jfrog.io/ui/native/sdk-ee>`__ for the Enterprise Edition. In either case, confirm your browser sees a valid certificate for the domain.
 2. Find the appropriate release and note the release name. Stable releases have names like ``2.8.0``. Snapshots have names like ``2.8.0-snapshot.20231129.0``.
 3. Download the artifact (on GitHub, they ar in the *Assets* section, after the release notes) for your platform as well as the corresponding signature file, which has the same name with an added ``.asc`` at the end. For example, if you are on macOS and are looking at the Open-Source Edition you would download the files ``daml-sdk-<...>-macos.tar.gz`` and ``daml-sdk-<...>-macos.tar.gz.asc``.
 
