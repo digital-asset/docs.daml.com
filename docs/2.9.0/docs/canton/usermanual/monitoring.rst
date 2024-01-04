@@ -101,7 +101,7 @@ Prometheus can be enabled using:
 
 Prometheus-Only Metrics
 ~~~~~~~~~~~~~~~~~~~~~~~
-Some metrics are available only when using the Prometheus reporter. These metrics include common gRPC and HTTP metrics (which help you to measure `the four golden signals <https://sre.google/sre-book/monitoring-distributed-systems/#xref_monitoring_golden-signals>`__), Java Executor Services metrics, and JVM GC and memory usage metrics (if enabled). The metrics are documented `in detail here. <https://docs.daml.com/ops/common-metrics.html>`__
+Some metrics are available only when using the Prometheus reporter. These metrics include common gRPC and HTTP metrics (which help you to measure `the four golden signals <https://sre.google/sre-book/monitoring-distributed-systems/#xref_monitoring_golden-signals>`__), Java Executor Services metrics, and JVM GC and memory usage metrics (if enabled). The metrics are documented in detail below.
 
 Any metric marked with ``*`` is available only when using the Prometheus reporter.
 
