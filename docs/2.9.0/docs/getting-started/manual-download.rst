@@ -18,7 +18,7 @@ This page covers two topics:
 Install the SDK from a Tarball
 ==============================
 
-Tarballs for the Open-Source Edition of the Daml SDK can be downloaded `from GitHub <https://github.com/digital-asset/daml/releases>`__; tarballs for the Enterprise Edition can be downloaded `from Artifactory <https://digitalasset.jfrog.io/ui/native/sdk-ee/>`__.
+Tarballs for the Open Source Edition of the Daml SDK can be downloaded `from GitHub <https://github.com/digital-asset/daml/releases>`__; tarballs for the Enterprise Edition can be downloaded `from Artifactory <https://digitalasset.jfrog.io/ui/native/sdk-ee/>`__.
 
 SDK tarballs bear the SDK version string. When installing from a tarball, you need to know both the SDK version string and the Daml version string. For stable releases up to and including 2.8.0, they are the same, but this may not always be the case in snapshots or later versions.
 
