@@ -1,8 +1,43 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Manually Installing the SDK
-***************************
+Manual Installation
+*******************
+
+The default way to install the SDK is to run::
+
+    curl https://get.daml.com | sh
+
+However, there are some contexts in which this is not the best option, such as when the machine you want to install the Daml SDK on does not have full access to the internet, or if you are not comfortable executing scripts directly from the internet.
+
+This page covers two topics:
+
+1. Installing the SDK from a downloaded tarball.
+2. Verifying the integrity of a downloaded tarball.
+
+Install the SDK from a Tarball
+==============================
+
+Tarballs for the Open Source Edition of the Daml SDK can be downloaded `from GitHub <https://github.com/digital-asset/daml/releases>`__; tarballs for the Enterprise Edition can be downloaded `from Artifactory <https://digitalasset.jfrog.io/ui/native/sdk-ee/>`__.
+
+SDK tarballs bear the SDK version string. When installing from a tarball, you need to know both the SDK version string and the Daml version string. For stable releases up to and including 2.8.0, they are the same, but this may not always be the case in snapshots or later versions.
+
+Once you have a tarball, extract it and run the install script (unless you chose the Windows installer, in which case double-click the installer icon). Supply the Daml version string using the ``--install-with-custom-version`` flag. For example, for version 2.8.0::
+
+     tar xzf daml-sdk-2.8.0-macos.tar.gz
+     cd sdk-2.8.0
+     ./install.sh --install-with-custom-version 2.8.0
+
+Note that in the above command the SDK and Daml version strings are identical (``2.8.0``), which may make it a bit trickier to see which is which. In the case of a snapshot, such as `2.8.0-snapshot.20231122.0 <https://github.com/digital-asset/daml/releases/tag/v2.8.0-snapshot.20231122.0>`__, the SDK version string, `2.8.0-snapshot.20231118.12382.0.v86cb8054``, and the Daml version string, ``2.8.0-snapshot.20231122.0``, differ. The commands would become::
+
+     tar xzf daml-sdk-2.8.0-snapshot.20231118.12382.0.v86cb8054-macos.tar.gz
+     cd sdk-2.8.0-snapshot.20231118.12382.0.v86cb8054
+     ./install.sh --install-with-custom-version 2.8.0-snapshot.20231129.0
+
+Just like for the standard installation procedure, you may want to add ``~/.daml/bin`` to your ``$PATH``.
+
+Verify the Integrity of a Tarball
+=================================
 
 If you require a higher level of security, you can instead install the Daml SDK by manually downloading the compressed tarball, verifying its signature, extracting it and manually running the install script.
 
@@ -10,9 +45,9 @@ Note that the Windows installer is already signed (within the binary itself), an
 
 To do that:
 
-1. Go to https://github.com/digital-asset/daml/releases. Confirm your browser sees a valid certificate for the github.com domain.
+1. Go to `GitHub <https://github.com/digital-asset/daml/releases>`__ for the Open Source Edition, or `Artifactory <https://digitalasset.jfrog.io/ui/native/sdk-ee>`__ for the Enterprise Edition. In either case, confirm that your browser sees a valid certificate for the domain.
 2. Find the appropriate release and note the release name. Stable releases have names like ``2.8.0``. Snapshots have names like ``2.8.0-snapshot.20231129.0``.
-3. Download the artifact (*Assets* section, after the release notes) for your platform as well as the corresponding signature file. For example, if you are on macOS you would download the files ``daml-sdk-<...>-macos.tar.gz`` and ``daml-sdk-<...>-macos.tar.gz.asc``.
+3. Download the artifact for your platform as well as the corresponding signature file, which has the same name with an added ``.asc`` at the end. For example, if you are on macOS and are looking at the Open Source Edition you would download the files ``daml-sdk-<...>-macos.tar.gz`` and ``daml-sdk-<...>-macos.tar.gz.asc``. On GitHub, the artifact and signature file are found in the *Assets* section, after the release notes.
 
    .. note::
 
@@ -51,22 +86,6 @@ To do that:
           Subkey fingerprint: CADC 3D1E 3B5C 4C5F 94A6  5D78 A7BF 65AA ADBB C494
 
    Note: This warning means you have not told gnupg that you trust this key actually belongs to Digital Asset. The ``[unknown]`` tag next to the key has the same meaning: ``gpg`` relies on a web of trust, and you have not told it how far you trust this key. Nevertheless, at this point you have verified that this is indeed the key that has been used to sign the archive.
-
-6. The next step is to extract the tarball and run the install script (unless you chose the Windows installer, in which case the next step is to double-click it). Supply the version you obtained in step 2 using the ``--install-with-custom-version`` flag. **Do not** use the internal version mentioned in the note in step 3. For example, for version 2.8.0::
-
-     tar xzf daml-sdk-2.8.0-macos.tar.gz
-     cd sdk-2.8.0
-     ./install.sh --install-with-custom-version 2.8.0
-
-   In the case of a snapshot such as ``2.8.0-snapshot.20231129.0``, the tarball's filename will contain the internal version mentioned in the note in step 3. That version can be ignored -- again use the version noted in step 2.::
-
-     tar xzf daml-sdk-<...>-macos.tar.gz
-     cd sdk-<...>
-     ./install.sh --install-with-custom-version 2.8.0-snapshot.20231129.0
-
-7. Just like for the more automated install procedure, you may want to add ``~/.daml/bin`` to your ``$PATH``.
-
-
 
 To import the public key directly without relying on a keyserver, you can
 copy-paste the following Bash command::
