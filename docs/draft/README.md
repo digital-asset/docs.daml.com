@@ -1,7 +1,7 @@
 # DRAFT
 
 This folder is for draft documentation pages, i.e. pages documenting features
-that, while present in the published artifacts, are not yet ready for public
+that are present in the published artifacts but not yet ready for public
 announcement, even in the form of pre-alpha labs features.
 
 Other than the completely separate ToC and contents, it functions in the same
@@ -31,7 +31,7 @@ To build the PDF docs or the exact HTML files that we publish to [docs.daml.com]
 build
 ```
 
-The HTML files will be in `workdir/build/sphinx-target/html`; you can view them
+The HTML files are in `workdir/build/sphinx-target/html`; you can view them
 by doing something like:
 
 ```zsh
@@ -47,7 +47,7 @@ It also produces a PDF, and a tarball containing all of the HTML, under `workdir
 
 1. Make the changes to docs in the Daml, Daml Finance, or Canton repo, create a PR, and merge into main.
 
-:warning: You will have to set up and build the repo you are working on before making changes and viewing locally. Make sure you follow the build instructions carefully as they may differ to here.
+:warning: You must set up and build the repo you are working on before making changes and viewing locally. Make sure you follow the build instructions carefully as they may differ to here.
 
 2. For Daml and Canton, a snapshot is generated every 24 hours that includes the PR.
 3. The `versions.json` file in this folder defines the dependencies used by this version of the docs:
