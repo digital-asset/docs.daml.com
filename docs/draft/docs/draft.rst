@@ -1,4 +1,4 @@
 Draft
 *****
 
-Placeholder.
+Placeholder for a new feature.
