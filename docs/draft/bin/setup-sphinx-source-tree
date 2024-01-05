@@ -22,7 +22,8 @@ fi
   cd $DIR/../../../theme
   nix-shell shell.nix --pure --run './build.sh'
   cp -r . $SPHINX_DIR/theme
-  echo "" > $SPHINX_DIR/theme/da_theme/boxes.html
+  sed -i "s|'index_page_boxes': True|'index_page_boxes': False|" $SPHINX_DIR/configs/html/conf.py
+  sed -i "s|'pdf_download': True|'pdf_download': False|" $SPHINX_DIR/configs/html/conf.py
 )
 
 tar xf $DOWNLOAD_DIR/canton-doc-sources-$CANTON_RELEASE_TAG.tar.gz -C $SPHINX_DIR/source/canton ./includes # only extract the includes folder
