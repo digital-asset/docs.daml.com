@@ -1,18 +1,11 @@
-# Working on the documentation
+# DRAFT
 
-This folder manages the full build of technical documentation from the following repos:
+This folder is for draft documentation pages, i.e. pages documenting features
+that are present in the published artifacts but not yet ready for public
+announcement, even in the form of pre-alpha labs features.
 
-* [Daml docs](https://github.com/digital-asset/daml/tree/main/docs)
-* [Canton docs](https://github.com/DACH-NY/canton/tree/main/docs)
-* [Daml-Finance docs](https://github.com/digital-asset/daml-finance/tree/main/docs)
-
-:bulb: Docs in this repo build the main TOC with pointers to pages from the above repos.
-
-The process for updating the docs TOCs has some potential pitfalls. Follow the instructions in the main README *carefully* and in order.
-
-- [Setting up this repo locally](https://github.com/digital-asset/docs.daml.com#setting-up-this-repo-locally)
-- [Build and view the docs locally](#live-preview)
-- [How to commit changes to the docs](#how-to-commit-changes-to-the-docs)
+Other than the completely separate ToC and contents, it functions in the same
+way (same scripts to run, same editing workflow) as its sibling folders.
 
 :arrow_right: If you encounter any issues, reach out to #product-docs on Slack.
 
@@ -76,4 +69,4 @@ bump
 
 :information_desk_person: DEPRECATED: For interested parties, the `deps` function renders a list of recent snapshot updates with the latest at the end of the list. Run `deps list daml` or `deps list canton` to see them.
 
-5. Changes to `main` are reflected immediately on the live (versioned) website. When a new or updated version is built it pulls all of the docs changes submitted for each prefix (version). For example, the url resulting from building the documentation in the `docs/2.7.0` folder is https://docs.daml.com/2.7.0.
+5. Changes to `main` are reflected immediately on the live (versioned) website. When a new or updated version is built it pulls all of the docs changes submitted for each prefix (version). For example, the url resulting from building the documentation in the `docs/2.6.0` folder is https://docs.daml.com/2.6.0.

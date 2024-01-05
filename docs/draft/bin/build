@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+# Copyright (c) 2022 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+set -eou pipefail
+
+DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+$DIR/download
+
+TARGET_DIR=$DIR/../workdir/target
+rm -rf $TARGET_DIR
+mkdir -p $TARGET_DIR
+
+prefix=$(basename $(realpath $DIR/..))
+
+echo "Building docs for draft pages"
+
+BUILD_DIR=$DIR/../workdir/build
+rm -rf $BUILD_DIR
+
+mkdir -p $BUILD_DIR/source $BUILD_DIR/sphinx-target
+
+$DIR/setup-sphinx-source-tree
+
+sphinx-build -W --color -b html -c $BUILD_DIR/source/configs/html $BUILD_DIR/source/source $BUILD_DIR/sphinx-target/html
+
+DATE=$(date --rfc-3339=date)
+
+rm -r $BUILD_DIR/sphinx-target/html/.buildinfo $BUILD_DIR/sphinx-target/html/.doctrees $BUILD_DIR/sphinx-target/html/objects.inv
+
+(
+    cd $BUILD_DIR/sphinx-target/html
+    SMHEAD="<?xml version='1.0' encoding='UTF-8'?><urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd'>"
+    SMITEM="<url><loc>%LOC%</loc><lastmod>${DATE}</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>"
+    SMFOOT="</urlset>"
+    echo $SMHEAD > sitemap.xml
+    while read item; do
+        echo $SMITEM | sed -e "s,%LOC%,${item}," >> sitemap.xml
+    done < <(find . -name '*.html' | sort | sed -e 's,^\./,https://docs.daml.com/,')
+    echo $SMFOOT >> sitemap.xml
+)
+
+tar cfz $TARGET_DIR/html-$prefix.tar.gz -C $BUILD_DIR/sphinx-target html
