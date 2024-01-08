@@ -35,7 +35,7 @@ Individual Daml drivers follow their own release cadence, using already released
 Support Duration
 ****************
 
-Major versions will be supported for a minimum of one year after a subsequent Major version is release. Within a major version, only the latest minor version receives security and bug fixes. Backporting security and bug fixes to earlier minor versions will be evaluated on a case-by-case basis.
+Major versions will be supported for a minimum of one year after a subsequent Major version is release. Within a major version, security and bug fixes are applied to the latest Minor version as well as the second to last Minor version release, the latter being limited to 6 months after its release or 3 months after the release of the latest Minor version, whichever is longer.
 
 .. _release-notes:
 
