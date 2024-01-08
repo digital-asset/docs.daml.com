@@ -1540,11 +1540,3 @@ subtrees:
         title: "Canton Frequently Asked Questions"
   - file: concepts/test-evidence
     title: "Test Evidence"
-
-- caption: "Early Access"
-  entries:
-
-  - file: concepts/interoperability
-    title: "Daml Ledger Interoperability"
-  - file: tools/non-repudiation
-    title: "Non-repudiation"
