@@ -214,6 +214,7 @@ jobs:
                  echo "updating root to $root (sha: $sha)"
                  echo " -> creating local folder"
                  tar xf /tmp/workspace/html-$root.tar.gz -C $upload --strip-components=1
+                 make_dropdown > $upload/versions.json # overridden by tarball contents
                  echo -n $(cat root) > $upload/latest
                  echo " -> removing old version"
                  for f in $(aws s3 ls s3://docs-daml-com/ \
