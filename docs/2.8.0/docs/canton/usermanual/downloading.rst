@@ -45,7 +45,10 @@ terms of enterprise and non-functional capabilities:
     * - Ledger Pruning
       - Yes
       - No
-    * - AWS KMS support
+    * - Party on multiple nodes
+      - :ref:`Yes <canton-party-on-two-nodes>`
+      - No
+    * - AWS and GCP KMS support
       - Yes
       - No
     * - Postgres Backend
@@ -67,12 +70,10 @@ Downloading the Open Source Edition
 -----------------------------------
 
 The Open Source release is available from `Github <https://github.com/digital-asset/daml/releases/latest>`__.
-You can also use our Canton Docker images by following our :ref:`Docker instructions <docker-instructions>`.
 
 
 Downloading the Enterprise Edition
 ----------------------------------
-
 Enterprise releases are available on request (sales@digitalasset.com) and can be downloaded from the
 respective `repository <https://digitalasset.jfrog.io/artifactory/canton-enterprise/>`__, or you can use
 our Canton Enterprise Docker images as described in our :ref:`Docker instructions <docker-instructions>`.

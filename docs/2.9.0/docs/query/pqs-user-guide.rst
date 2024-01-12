@@ -387,48 +387,52 @@ You can discover commands and parameters through the embedded ``--help`` (rememb
 .. code-block:: bash
 
     ./scribe.jar pipeline --help
-    Usage: pipeline SOURCE TARGET [OPTIONS]
+   Usage: scribe pipeline SOURCE TARGET [OPTIONS]
 
-    Initiate continuous ledger data export
+   Initiate continuous ledger data export
 
-    Available sources:
-      ledger   Daml ledger
+   Available sources:
+   ledger    Daml ledger
 
-    Available targets:
-      postgres-document   Postgres database (w/ document payload representation)
-      postgres-relational Postgres database (w/ relational payload representation)
+   Available targets:
+   postgres-document    Postgres database (w/ document payload representation)
 
-    Options:
-      --config file                                Path to configuration overrides via an external HOCON file (optional)
-      --pipeline-parties string                    Daml party identifiers to filter on (comma-separated) (default: List())
-      --pipeline-oauth-clientid string             Client's identifier (optional)
-      --pipeline-oauth-cafile file                 Trusted Certificate Authority (CA) certificate (optional)
-      --pipeline-oauth-endpoint uri                Token endpoint URL (optional)
-      --pipeline-oauth-clientsecret string         Client's secret (optional)
-      --pipeline-filter string                     Filter expression determining which templates and interfaces to include (default: *)
-      --pipeline-ledger-start [enum | string]      Start offset (default: Latest)
-      --pipeline-ledger-stop [enum | string]       Stop offset (default: Never)
-      --pipeline-datasource enum                   Ledger API service to use as data source (default: TransactionStream)
-      --logger-level enum                          Log level (default: Info)
-      --logger-mappings map                        Custom mappings for log levels
-      --logger-format enum                         Log output format (default: Plain)
-      --logger-pattern [enum | string]             Log pattern (default: Plain)
-      --target-postgres-host string                Postgres host (default: localhost)
-      --target-postgres-tls-mode enum              SSL mode required for Postgres connectivity (default: Disable)
-      --target-postgres-tls-cert file              Client's certificate (optional)
-      --target-postgres-tls-key file               Client's private key (optional)
-      --target-postgres-tls-cafile file            Trusted Certificate Authority (CA) certificate (optional)
-      --target-postgres-password string            Postgres user password (default: ********)
-      --target-postgres-username string            Postgres user name (default: postgres)
-      --target-postgres-database string            Postgres database (default: postgres)
-      --target-postgres-port int                   Postgres port (default: 5432)
-      --target-schema-autoapply boolean            Apply metadata inferred schema on startup (default: true)
-      --source-ledger-host string                  Ledger API host (default: localhost)
-      --source-ledger-auth enum                    Authorisation mode (default: NoAuth)
-      --source-ledger-tls-cafile file              Trusted Certificate Authority (CA) certificate (optional)
-      --source-ledger-tls-cert file                Client's certificate (leave empty if embedded into private key file) (optional)
-      --source-ledger-tls-key file                 Client's private key (leave empty for server-only TLS) (optional)
-      --source-ledger-port int                     Ledger API port (default: 6865)
+   Options:
+   --config file                              Path to configuration overrides via an external HOCON file (optional)
+   --pipeline-datasource enum                 Ledger API service to use as data source (default: TransactionStream)
+   --pipeline-oauth-clientid string           Client's identifier (optional)
+   --pipeline-oauth-accesstoken string        Access token (optional)
+   --pipeline-oauth-parameters map            Custom parameters
+   --pipeline-oauth-cafile file               Trusted Certificate Authority (CA) certificate (optional)
+   --pipeline-oauth-endpoint uri              Token endpoint URL (optional)
+   --pipeline-oauth-clientsecret string       Client's secret (optional)
+   --pipeline-filter-parties string           Filter expression determining Daml party identifiers to filter on (default: *)
+   --pipeline-filter-metadata string          Filter expression determining which templates and interfaces to capture metadata for (default: !*)
+   --pipeline-filter-contracts string         Filter expression determining which templates and interfaces to include (default: *)
+   --pipeline-ledger-start [enum | string]    Start offset (default: Latest)
+   --pipeline-ledger-stop [enum | string]     Stop offset (default: Never)
+   --health-port int                          HTTP port to use to expose application health info (default: 8080)
+   --logger-level enum                        Log level (default: Info)
+   --logger-mappings map                      Custom mappings for log levels
+   --logger-format enum                       Log output format (default: Plain)
+   --logger-pattern [enum | string]           Log pattern (default: Plain)
+   --target-postgres-host string              Postgres host (default: localhost)
+   --target-postgres-tls-mode enum            SSL mode required for Postgres connectivity (default: Disable)
+   --target-postgres-tls-cert file            Client's certificate (optional)
+   --target-postgres-tls-key file             Client's private key (optional)
+   --target-postgres-tls-cafile file          Trusted Certificate Authority (CA) certificate (optional)
+   --target-postgres-maxconnections int       Maximum number of JDBC connections (default: 16)
+   --target-postgres-password string          Postgres user password (default: ********)
+   --target-postgres-username string          Postgres user name (default: postgres)
+   --target-postgres-database string          Postgres database (default: postgres)
+   --target-postgres-port int                 Postgres port (default: 5432)
+   --target-schema-autoapply boolean          Apply metadata inferred schema on startup (default: true)
+   --source-ledger-host string                Ledger API host (default: localhost)
+   --source-ledger-auth enum                  Authorisation mode (default: NoAuth)
+   --source-ledger-tls-cafile file            Trusted Certificate Authority (CA) certificate (optional)
+   --source-ledger-tls-cert file              Client's certificate (leave empty if embedded into private key file) (optional)
+   --source-ledger-tls-key file               Client's private key (leave empty for server-only TLS) (optional)
+   --source-ledger-port int                   Ledger API port (default: 6865)
 
 For more help, use the command:
 
