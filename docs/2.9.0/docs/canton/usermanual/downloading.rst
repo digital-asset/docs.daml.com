@@ -45,7 +45,10 @@ terms of enterprise and non-functional capabilities:
     * - Ledger Pruning
       - Yes
       - No
-    * - AWS KMS support
+    * - Party on multiple nodes
+      - :ref:`Yes <canton-party-on-two-nodes>`
+      - No
+    * - AWS and GCP KMS support
       - Yes
       - No
     * - Postgres Backend
