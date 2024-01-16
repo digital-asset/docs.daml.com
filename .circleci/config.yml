@@ -24,7 +24,7 @@ commands:
           sudo chown $USER /nix
     - restore_cache:
         keys:
-        - nix-{{ checksum "/tmp/nix-cache-key" }}
+        - nix-{{ checksum "/tmp/nix-cache-key" }}-v1
     - run:
        name: setup_nix
        command: |
@@ -50,7 +50,7 @@ commands:
              cd -
          done
     - save_cache:
-        key: nix-{{ checksum "/tmp/nix-cache-key" }}
+        key: nix-{{ checksum "/tmp/nix-cache-key" }}-v1
         paths:
         - /nix
         - /home/circleci/.nix-profile
