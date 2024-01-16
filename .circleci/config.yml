@@ -18,7 +18,7 @@ commands:
         command: |
           set -euo pipefail
 
-          git log -n1 --format=%H nix shell.nix docs/*/nix docs/*/shell.nix theme/nix theme/shell.nix > /tmp/nix-cache-key
+          git log -n1 --format=%H nix shell.nix docs/*/nix docs/*/shell.nix theme/nix theme/shell.nix .circleci > /tmp/nix-cache-key
           cat /tmp/nix-cache-key
           sudo mkdir /nix
           sudo chown $USER /nix
