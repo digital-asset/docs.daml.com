@@ -12,7 +12,7 @@ Running in Docker
 
 	Please note that the images have moved from ``digitalasset-canton-enterprise-docker.jfrog.io/digitalasset/canton-enterprise``
         to ``digitalasset-docker.jfrog.io/canton-enterprise`` as per version 2.8.0. The old images will remain, but new versions won't 
-        be added to the old repository. In addition, a docker image with the open source version is no longer provided.
+        be added to the old repository. The open source Canton Docker image is no longer available.
 
 Obtaining the Docker Images
 ---------------------------
@@ -40,7 +40,7 @@ For example, to run a command in interactive console mode, defining a participan
 
 The ``--rm`` option ensures that the container is removed when the canton process exits.
 The ``-it`` options start the container interactively and provide access to our running console.
-The ``-no-tty`` option disables the ``tty`` mode as otherwise the console is not usable.
+The ``-no-tty`` option deactivates the ``tty`` mode, as the console is not usable with that mode engaged.
 
 By default Docker will pull the ``latest`` tag containing the latest Canton release.
 As Docker will only automatically pull ``latest`` once, ensure you have the latest version by
@@ -59,7 +59,7 @@ can be used to interact with the node.
 Exposing the Ledger API or Admin API to the host machine
 --------------------------------------------------------
 
-Applications using Canton will typically need access to the Ledger or Admin API to read from and write to the ledger.
+Applications using Canton typically need access to the Ledger or Admin API to read from and write to the ledger.
 Each participant binds the Ledger API to the port specified at the configuration key: ``ledger-api.port``.
 For ``participant1`` in the simple topology example this is set to port 5011.
 
@@ -74,14 +74,14 @@ To expose the Ledger API to port 5011 on the host machine, run Docker with the f
       -C canton.participants.participant1.ledger-api.port=5011 \
 
 
-The Ledger API port for each participant will need to be mapped separately. The same applies to the Admin API.
+The Ledger API port for each participant needs to be mapped separately. The same applies to the Admin API.
 
 Supplying custom configuration and DARs
 ---------------------------------------
 
-To expose files to the canton container, you must specify a volume mapping from the host machine to the container.
+To expose files to the Canton container, you must specify a volume mapping from the host machine to the container.
 
-For example, if you have the local directory ``my-application`` containing your custom canton configuration and DAR:
+For example, if you have the local directory ``my-application`` containing your custom Canton configuration and DAR:
 
 .. code-block:: bash
 
