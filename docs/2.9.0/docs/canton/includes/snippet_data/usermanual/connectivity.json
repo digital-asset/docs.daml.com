@@ -5,7 +5,7 @@
   },
   "202" : {
     "command" : "val config = DomainConnectionConfig(domain = \"mydomain\", sequencerConnection, manualConnect, domainId, priority)",
-    "output" : "config : DomainConnectionConfig = DomainConnectionConfig(\n  domain = Domain 'mydomain',\n  sequencerConnections = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(\n    endpoints = Seq(http://127.0.0.1:32191, http://127.0.0.1:32189),\n    transportSecurity = false\n  ),\n  manualConnect = false,\n  domainId = domainManager1::12208743c5d9...,\n  priority = 10\n)"
+    "output" : "config : DomainConnectionConfig = DomainConnectionConfig(\n  domain = Domain 'mydomain',\n  sequencerConnections = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(\n    endpoints = Seq(http://127.0.0.1:33509, http://127.0.0.1:33507),\n    transportSecurity = false\n  ),\n  manualConnect = false,\n  domainId = domainManager1::12208e9cd2b9...,\n  priority = 10\n)"
   },
   "189" : {
     "command" : "participant3.domains.reconnect(\"mydomain\")",
@@ -21,7 +21,7 @@
   },
   "86" : {
     "command" : "val port = sequencer3.config.publicApi.port",
-    "output" : "port : Port = Port(n = 32187)"
+    "output" : "port : Port = Port(n = 33505)"
   },
   "67" : {
     "command" : "",
@@ -37,7 +37,7 @@
   },
   "100" : {
     "command" : "participant2.domains.connect(\"mydomain\", connection = url, certificatesPath = certificatesPath)",
-    "output" : "res8: DomainConnectionConfig = DomainConnectionConfig(\n  domain = Domain 'mydomain',\n  sequencerConnections = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(\n    endpoints = https://127.0.0.1:32187,\n    transportSecurity = true,\n    customTrustCertificates\n  ),\n  manualConnect = false\n)"
+    "output" : "res8: DomainConnectionConfig = DomainConnectionConfig(\n  domain = Domain 'mydomain',\n  sequencerConnections = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(\n    endpoints = https://127.0.0.1:33505,\n    transportSecurity = true,\n    customTrustCertificates\n  ),\n  manualConnect = false\n)"
   },
   "174" : {
     "command" : "val priority = 10 // default is 0 if not set",
@@ -49,7 +49,7 @@
   },
   "61" : {
     "command" : "sequencer1.config.publicApi.port",
-    "output" : "res2: Port = Port(n = 32191)"
+    "output" : "res2: Port = Port(n = 33509)"
   },
   "312" : {
     "command" : "mediator1.mediator.help(\"initialize\")",
@@ -61,7 +61,7 @@
   },
   "117" : {
     "command" : "participant3.domains.connect_multi(\"mydomain\", Seq(sequencer1, sequencer2))",
-    "output" : "res9: DomainConnectionConfig = DomainConnectionConfig(\n  domain = Domain 'mydomain',\n  sequencerConnections = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(\n    endpoints = Seq(http://0.0.0.0:32191, http://127.0.0.1:32189),\n    transportSecurity = false\n  ),\n  manualConnect = false\n)"
+    "output" : "res9: DomainConnectionConfig = DomainConnectionConfig(\n  domain = Domain 'mydomain',\n  sequencerConnections = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(\n    endpoints = Seq(http://0.0.0.0:33509, http://127.0.0.1:33507),\n    transportSecurity = false\n  ),\n  manualConnect = false\n)"
   },
   "302" : {
     "command" : "participant2.domains.reconnect_all()",
@@ -69,7 +69,7 @@
   },
   "160" : {
     "command" : "val sequencerConnection = sequencerConnectionWithoutHighAvailability.addEndpoints(urls(1))",
-    "output" : "sequencerConnection : SequencerConnection = GrpcSequencerConnection(\n  endpoints = Seq(http://127.0.0.1:32191, http://127.0.0.1:32189),\n  transportSecurity = false\n)"
+    "output" : "sequencerConnection : SequencerConnection = GrpcSequencerConnection(\n  endpoints = Seq(http://127.0.0.1:33509, http://127.0.0.1:33507),\n  transportSecurity = false\n)"
   },
   "297" : {
     "command" : "participant2.domains.reconnect(\"mydomain\")",
@@ -81,7 +81,7 @@
   },
   "197" : {
     "command" : "val domainId = Some(domainManager1.id)",
-    "output" : "domainId : Some[DomainId] = Some(value = domainManager1::12208743c5d9...)"
+    "output" : "domainId : Some[DomainId] = Some(value = domainManager1::12208e9cd2b9...)"
   },
   "329" : {
     "command" : "",
@@ -89,11 +89,11 @@
   },
   "224" : {
     "command" : "participant2.domains.list_connected()",
-    "output" : "res23: Seq[ListConnectedDomainsResult] = Vector(\n  ListConnectedDomainsResult(\n    domainAlias = Domain 'mydomain',\n    domainId = domainManager1::12208743c5d9...,\n    healthy = true\n  )\n)"
+    "output" : "res23: Seq[ListConnectedDomainsResult] = Vector(\n  ListConnectedDomainsResult(\n    domainAlias = Domain 'mydomain',\n    domainId = domainManager1::12208e9cd2b9...,\n    healthy = true\n  )\n)"
   },
   "317" : {
     "command" : "mediator1.sequencer_connection.get()",
-    "output" : "res35: Option[SequencerConnections] = Some(\n  value = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(\n    endpoints = http://0.0.0.0:32191,\n    transportSecurity = false\n  )\n)"
+    "output" : "res35: Option[SequencerConnections] = Some(\n  value = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(\n    endpoints = http://0.0.0.0:33509,\n    transportSecurity = false\n  )\n)"
   },
   "169" : {
     "command" : "val connectionWithTLS = com.digitalasset.canton.sequencing.GrpcSequencerConnection.tryCreate(\"https://daml.com\", customTrustCertificates = Some(certificate))",
@@ -133,7 +133,7 @@
   },
   "230" : {
     "command" : "participant2.domains.config(\"mydomain\")",
-    "output" : "res24: Option[DomainConnectionConfig] = Some(\n  value = DomainConnectionConfig(\n    domain = Domain 'mydomain',\n    sequencerConnections = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(\n      endpoints = https://127.0.0.1:32187,\n      transportSecurity = true,\n      customTrustCertificates\n    ),\n    manualConnect = false\n  )\n)"
+    "output" : "res24: Option[DomainConnectionConfig] = Some(\n  value = DomainConnectionConfig(\n    domain = Domain 'mydomain',\n    sequencerConnections = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(\n      endpoints = https://127.0.0.1:33505,\n      transportSecurity = true,\n      customTrustCertificates\n    ),\n    manualConnect = false\n  )\n)"
   },
   "208" : {
     "command" : "participant4.domains.register(config)",
@@ -153,7 +153,7 @@
   },
   "155" : {
     "command" : "val sequencerConnectionWithoutHighAvailability = com.digitalasset.canton.sequencing.GrpcSequencerConnection.tryCreate(urls(0))",
-    "output" : "sequencerConnectionWithoutHighAvailability : GrpcSequencerConnection = GrpcSequencerConnection(endpoints = http://127.0.0.1:32191, transportSecurity = false)"
+    "output" : "sequencerConnectionWithoutHighAvailability : GrpcSequencerConnection = GrpcSequencerConnection(endpoints = http://127.0.0.1:33509, transportSecurity = false)"
   },
   "278" : {
     "command" : "participant2.domains.modify(\"mydomain\", _.copy(sequencerConnections=SequencerConnections.single(connection)))",
@@ -161,7 +161,7 @@
   },
   "267" : {
     "command" : "val certificate = com.digitalasset.canton.util.BinaryFileUtil.tryReadByteStringFromFile(\"tls/root-ca.crt\")",
-    "output" : "certificate : com.google.protobuf.ByteString = <ByteString@72f2c0d1 size=1960 contents=\"-----BEGIN CERTIFICATE-----\\nMIIFeTCCA2GgAwIBAgI...\">"
+    "output" : "certificate : com.google.protobuf.ByteString = <ByteString@4c56b612 size=1960 contents=\"-----BEGIN CERTIFICATE-----\\nMIIFeTCCA2GgAwIBAgI...\">"
   },
   "80" : {
     "command" : "sequencer3.config.publicApi.tls",
@@ -169,7 +169,7 @@
   },
   "150" : {
     "command" : "val urls = Seq(sequencer1, sequencer2).map(_.config.publicApi.port).map(port => s\"http://127.0.0.1:${port}\")",
-    "output" : "urls : Seq[String] = List(\"http://127.0.0.1:32191\", \"http://127.0.0.1:32189\")"
+    "output" : "urls : Seq[String] = List(\"http://127.0.0.1:33509\", \"http://127.0.0.1:33507\")"
   },
   "95" : {
     "command" : "val certificatesPath = \"tls/root-ca.crt\"",
@@ -177,15 +177,15 @@
   },
   "87" : {
     "command" : "val url = s\"https://127.0.0.1:${port}\"",
-    "output" : "url : String = \"https://127.0.0.1:32187\""
+    "output" : "url : String = \"https://127.0.0.1:33505\""
   },
   "218" : {
     "command" : "participant2.domains.list_registered()",
-    "output" : "res22: Seq[(DomainConnectionConfig, Boolean)] = Vector(\n  (\n    DomainConnectionConfig(\n      domain = Domain 'mydomain',\n      sequencerConnections = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(\n        endpoints = https://127.0.0.1:32187,\n        transportSecurity = true,\n        customTrustCertificates\n      ),\n      manualConnect = false\n    ),\n    true\n  )\n)"
+    "output" : "res22: Seq[(DomainConnectionConfig, Boolean)] = Vector(\n  (\n    DomainConnectionConfig(\n      domain = Domain 'mydomain',\n      sequencerConnections = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(\n        endpoints = https://127.0.0.1:33505,\n        transportSecurity = true,\n        customTrustCertificates\n      ),\n      manualConnect = false\n    ),\n    true\n  )\n)"
   },
   "168" : {
     "command" : "val certificate = com.digitalasset.canton.util.BinaryFileUtil.tryReadByteStringFromFile(\"tls/root-ca.crt\")",
-    "output" : "certificate : com.google.protobuf.ByteString = <ByteString@75652c1b size=1960 contents=\"-----BEGIN CERTIFICATE-----\\nMIIFeTCCA2GgAwIBAgI...\">"
+    "output" : "certificate : com.google.protobuf.ByteString = <ByteString@66af5d16 size=1960 contents=\"-----BEGIN CERTIFICATE-----\\nMIIFeTCCA2GgAwIBAgI...\">"
   },
   "183" : {
     "command" : "val manualConnect = false",
@@ -193,6 +193,6 @@
   },
   "273" : {
     "command" : "val connection = com.digitalasset.canton.sequencing.GrpcSequencerConnection.tryCreate(url, customTrustCertificates = Some(certificate))",
-    "output" : "connection : GrpcSequencerConnection = GrpcSequencerConnection(\n  endpoints = https://127.0.0.1:32187,\n  transportSecurity = true,\n  customTrustCertificates\n)"
+    "output" : "connection : GrpcSequencerConnection = GrpcSequencerConnection(\n  endpoints = https://127.0.0.1:33505,\n  transportSecurity = true,\n  customTrustCertificates\n)"
   }
 }
