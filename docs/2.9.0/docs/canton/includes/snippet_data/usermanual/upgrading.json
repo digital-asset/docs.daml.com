@@ -5,7 +5,7 @@
   },
   "189" : {
     "command" : "participant.health.ping(participant)",
-    "output" : "res7: Duration = 772 milliseconds"
+    "output" : "res7: Duration = 753 milliseconds"
   },
   "522" : {
     "command" : "",
@@ -25,7 +25,7 @@
   },
   "562" : {
     "command" : "participant.domains.list_connected()",
-    "output" : "res8: Seq[ListConnectedDomainsResult] = Vector(\n  ListConnectedDomainsResult(\n    domainAlias = Domain 'newdomain',\n    domainId = newdomain::122058b55255...,\n    healthy = true\n  )\n)"
+    "output" : "res8: Seq[ListConnectedDomainsResult] = Vector(\n  ListConnectedDomainsResult(\n    domainAlias = Domain 'newdomain',\n    domainId = newdomain::1220b389b073...,\n    healthy = true\n  )\n)"
   },
   "159" : {
     "command" : "participant.start()",
@@ -45,7 +45,7 @@
   },
   "544" : {
     "command" : "val config = DomainConnectionConfig(\"newdomain\", newdomain.sequencerConnection)",
-    "output" : "config : DomainConnectionConfig = DomainConnectionConfig(\n  domain = Domain 'newdomain',\n  sequencerConnections = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(\n    endpoints = http://127.0.0.1:33554,\n    transportSecurity = false\n.."
+    "output" : "config : DomainConnectionConfig = DomainConnectionConfig(\n  domain = Domain 'newdomain',\n  sequencerConnections = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(\n    endpoints = http://127.0.0.1:33274,\n    transportSecurity = false\n.."
   },
   "171" : {
     "command" : "testdomain.start()",
@@ -89,7 +89,7 @@
   },
   "573" : {
     "command" : "participant.health.ping(participant)",
-    "output" : "res10: Duration = 690 milliseconds"
+    "output" : "res10: Duration = 710 milliseconds"
   },
   "172" : {
     "command" : "participant.domains.connect_local(testdomain)",
@@ -121,6 +121,6 @@
   },
   "183" : {
     "command" : "participant.domains.list_connected()",
-    "output" : "res6: Seq[ListConnectedDomainsResult] = Vector(\n  ListConnectedDomainsResult(\n    domainAlias = Domain 'testdomain',\n    domainId = testdomain::12206238cc04...,\n    healthy = true\n  )\n)"
+    "output" : "res6: Seq[ListConnectedDomainsResult] = Vector(\n  ListConnectedDomainsResult(\n    domainAlias = Domain 'testdomain',\n    domainId = testdomain::12209084e277...,\n    healthy = true\n  )\n)"
   }
 }
