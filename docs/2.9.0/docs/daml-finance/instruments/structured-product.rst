@@ -74,6 +74,9 @@ instrument models auto-callable notes that pay a conditional coupon. At maturity
 amount is repaid unless a final barrier has been breached (in which case the performance of the
 underlying is paid).
 
+If the underlying closes above the call barrier on an observation date, the instrument is
+automatically redeemed early at the end of that period.
+
 For example, consider an auto-callable yield note that pays a fixed 5% coupon in every period
 (unless the coupon barrier was hit at the end of the period).
 
