@@ -64,7 +64,6 @@ For this to work, you need to define an *Observation* as well:
 Since this option instrument is cash-settled, the underlying asset will not change hands. Instead,
 the cash value of the payoff is paid to the BRC holder.
 
-
 Auto-Callable
 =============
 
