@@ -71,7 +71,8 @@ Auto-Callable
 The
 :ref:`AutoCallable <module-daml-finance-instrument-structuredproduct-barrierreverseconvertible-instrument-95793>`
 instrument models auto-callable notes that pay a conditional coupon. At maturity, the principal
-amount is repaid unless a final barrier has been breached.
+amount is repaid unless a final barrier has been breached (in which case the performance of the
+underlying is paid).
 
 For example, consider an auto-callable yield note that pays a fixed 5% coupon in every period
 (unless the coupon barrier was hit at the end of the period).
