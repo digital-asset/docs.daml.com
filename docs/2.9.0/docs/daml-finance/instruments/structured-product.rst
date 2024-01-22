@@ -72,13 +72,15 @@ The
 :ref:`AutoCallable <module-daml-finance-interface-instrument-structuredproduct-autocallable-instrument-66988>`
 instrument models auto-callable notes that pay a conditional coupon. At maturity, the principal
 amount is repaid unless a final barrier has been breached (in which case the performance of the
-underlying is paid).
+underlying is paid). In other words, it is an AutoCallable Barrier Reverse Convertible where the KI
+barrier is observed at maturity.
 
-If the underlying closes above the call barrier on an observation date, the instrument is
-automatically redeemed early at the end of that period.
+This is a single-underlying instrument. If the underlying closes above the call barrier on an
+observation date, the instrument is automatically redeemed early at the end of that period.
 
 For example, consider an auto-callable yield note that pays a fixed 5% coupon in every period
-(unless the coupon barrier was hit at the end of the period).
+(unless the coupon barrier was hit at the end of the period). Both the call barrier and the coupon
+barrier are observed only on the last observation date of each period.
 
 This example is taken from
 `Instrument/StructuredProduct/Test/AutoCallable.daml <src/test/daml/Daml/Finance/Instrument/StructuredProduct/Test/AutoCallable.daml>`_
