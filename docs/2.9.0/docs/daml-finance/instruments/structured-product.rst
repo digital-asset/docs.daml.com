@@ -64,6 +64,48 @@ For this to work, you need to define an *Observation* as well:
 Since this option instrument is cash-settled, the underlying asset will not change hands. Instead,
 the cash value of the payoff is paid to the BRC holder.
 
+
+Auto-Callable
+=============
+
+The
+:ref:`AutoCallable <module-daml-finance-instrument-structuredproduct-barrierreverseconvertible-instrument-95793>`
+instrument models auto-callable notes that pay a conditional coupon. At maturity, the principal
+amount is repaid unless a final barrier has been breached.
+
+For example, consider an auto-callable yield note that pays a fixed 5% coupon in every period
+(unless the coupon barrier has been broken during that period).
+
+This example is taken from
+`Instrument/StructuredProduct/Test/AutoCallable.daml <src/test/daml/Daml/Finance/Instrument/StructuredProduct/Test/AutoCallable.daml>`_
+, where all the details are available.
+
+You start by defining the terms:
+
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/StructuredProduct/Test/AutoCallable.daml
+  :language: daml
+  :start-after: -- CREATE_AUTO_CALLABLE_VARIABLES_BEGIN
+  :end-before: -- CREATE_AUTO_CALLABLE_VARIABLES_END
+
+Note that we have used the *Basis1* day-count convention to specify that the 5% coupon is paid in
+every coupon period (not *per annum*).
+
+Now that the terms have been defined, you can create the AutoCallable instrument:
+
+.. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/StructuredProduct/Test/Util.daml
+  :language: daml
+  :start-after: -- CREATE_AUTO_CALLABLE_INSTRUMENT_BEGIN
+  :end-before: -- CREATE_AUTO_CALLABLE_INSTRUMENT_END
+
+Once this is done, you can create a holding on it using
+:ref:`Account.Credit <module-daml-finance-interface-account-account-92922>`.
+
+This instrument is automatically called. This means that the decision whether or not to exercise the
+embedded option is done automatically using observations of the underlying.
+
+Since this option instrument is cash-settled, the underlying asset will not change hands. Instead,
+the cash value of the payoff is paid to the holder.
+
 Frequently Asked Questions
 **************************
 
