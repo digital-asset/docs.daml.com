@@ -74,7 +74,7 @@ instrument models auto-callable notes that pay a conditional coupon. At maturity
 amount is repaid unless a final barrier has been breached.
 
 For example, consider an auto-callable yield note that pays a fixed 5% coupon in every period
-(unless the coupon barrier has been broken during that period).
+(unless the coupon barrier was hit at the end of the period).
 
 This example is taken from
 `Instrument/StructuredProduct/Test/AutoCallable.daml <src/test/daml/Daml/Finance/Instrument/StructuredProduct/Test/AutoCallable.daml>`_
