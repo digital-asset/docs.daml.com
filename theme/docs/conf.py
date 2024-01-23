@@ -3,7 +3,7 @@
 
 # -*- coding: utf-8 -*-
 #
-# Daml SDK documentation build configuration file, created by
+# Daml documentation build configuration file, created by
 # sphinx-quickstart on Wed Jul  5 17:39:28 2017.
 #
 # This file is execfile()d with the current directory set to its
@@ -54,8 +54,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Daml SDK'
-copyright = u'Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. Any unauthorized use, duplication or distribution is strictly prohibited. "Digital Asset" and "Daml" are Registered in the U.S. Patent and Trademark Office.'
+project = u'Daml'
+copyright = u'Copyright (c) 2024 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. Any unauthorized use, duplication or distribution is strictly prohibited. "Digital Asset" and "Daml" are Registered in the U.S. Patent and Trademark Office.'
 author = u'Digital Asset'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -146,7 +146,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'DigitalAssetSDK.tex', u'Daml SDK Documentation',
+    (master_doc, 'DigitalAssetSDK.tex', u'Daml Documentation',
      u'Digital Asset', 'manual'),
 ]
 
@@ -156,7 +156,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'digitalassetsdk', u'Daml SDK Documentation',
+    (master_doc, 'digitalassetsdk', u'Daml Documentation',
      [author], 1)
 ]
 
@@ -167,7 +167,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'DigitalAssetSDK', u'Daml SDK Documentation',
+    (master_doc, 'DigitalAssetSDK', u'Daml Documentation',
      author, 'DigitalAssetSDK', 'One line description of project.',
      'Miscellaneous'),
 ]
