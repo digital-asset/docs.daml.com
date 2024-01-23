@@ -17,7 +17,7 @@
   },
   "439" : {
     "command" : "participant1.ledger_api.users.rights.list(user.id)",
-    "output" : "res13: UserRights = UserRights(\n  actAs = Set(alice::1220e32b0b80...),\n  readAs = Set(bob::1220e32b0b80..., eve::1220e32b0b80...),\n  participantAdmin = false,\n  identityProviderAdmin = false\n)"
+    "output" : "res13: UserRights = UserRights(\n  actAs = Set(alice::1220568170cc...),\n  readAs = Set(bob::1220568170cc..., eve::1220568170cc...),\n  participantAdmin = false,\n  identityProviderAdmin = false\n)"
   },
   "615" : {
     "command" : "mydomain.service.set_max_rate_per_participant(0)",
@@ -25,7 +25,7 @@
   },
   "547" : {
     "command" : "val secret = client.keys.secret.generate_signing_key(\"my-party-key\")",
-    "output" : "secret : SigningPublicKey = SigningPublicKey(id = 1220c16b24e4..., format = Tink, scheme = Ed25519)"
+    "output" : "secret : SigningPublicKey = SigningPublicKey(id = 1220c1e44bec..., format = Tink, scheme = Ed25519)"
   },
   "576" : {
     "command" : "hosting.topology.load_transaction(BinaryFileUtil.tryReadByteStringFromFile(\"rootCert.bin\"))",
@@ -41,7 +41,7 @@
   },
   "582" : {
     "command" : "hosting.topology.party_to_participant_mappings.authorize(TopologyChangeOp.Add, partyId, hosting.id, RequestSide.To)",
-    "output" : "res11: com.google.protobuf.ByteString = <ByteString@23072682 size=557 contents=\"\\n\\252\\004\\n\\330\\001\\n\\323\\001\\n\\320\\001\\022 rCpKdTR6Avwakhf1L9lK42mDQIkOBLjg2...\">"
+    "output" : "res11: com.google.protobuf.ByteString = <ByteString@6bb09147 size=557 contents=\"\\n\\252\\004\\n\\330\\001\\n\\323\\001\\n\\320\\001\\022 ZGPTrTA8r7AioTnehkZOtpUasHCroy432...\">"
   },
   "655" : {
     "command" : "repair.party_migration.step3_delegate_party_to_target_node(controllingParticipant, Set(alice), targetParticipantId)",
@@ -57,11 +57,11 @@
   },
   "719" : {
     "command" : "val alice = participant1.parties.enable(\"Alice\")",
-    "output" : "alice : PartyId = Alice::122015458497..."
+    "output" : "alice : PartyId = Alice::1220e817fd90..."
   },
   "372" : {
     "command" : "val user = participant1.ledger_api.users.create(id = \"myuser\", actAs = Set(alice), readAs = Set(bob), primaryParty = Some(alice), participantAdmin = false, isActive = true, annotations = Map(\"foo\" -> \"bar\", \"description\" -> \"This is a description\"))",
-    "output" : "user : User = User(\n  id = \"myuser\",\n  primaryParty = Some(value = alice::1220e32b0b80...),\n  isActive = true,\n  annotations = Map(\"foo\" -> \"bar\", \"description\" -> \"This is a description\"),\n  identityProviderId = \"\"\n)"
+    "output" : "user : User = User(\n  id = \"myuser\",\n  primaryParty = Some(value = alice::1220568170cc...),\n  isActive = true,\n  annotations = Map(\"foo\" -> \"bar\", \"description\" -> \"This is a description\"),\n  identityProviderId = \"\"\n)"
   },
   "619" : {
     "command" : "",
@@ -81,7 +81,7 @@
   },
   "428" : {
     "command" : "participant1.ledger_api.users.rights.grant(id = user.id, actAs = Set(alice, bob), readAs = Set(eve), participantAdmin = true)",
-    "output" : "res11: UserRights = UserRights(\n  actAs = Set(bob::1220e32b0b80...),\n  readAs = Set(eve::1220e32b0b80...),\n  participantAdmin = true,\n  identityProviderAdmin = false\n)"
+    "output" : "res11: UserRights = UserRights(\n  actAs = Set(bob::1220568170cc...),\n  readAs = Set(eve::1220568170cc...),\n  participantAdmin = true,\n  identityProviderAdmin = false\n)"
   },
   "392" : {
     "command" : "",
@@ -117,7 +117,7 @@
   },
   "569" : {
     "command" : "val partyDelegation = client.topology.party_to_participant_mappings.authorize(TopologyChangeOp.Add, partyId, hostingNodeId, RequestSide.From)",
-    "output" : "partyDelegation : com.google.protobuf.ByteString = <ByteString@220817c9 size=557 contents=\"\\n\\252\\004\\n\\330\\001\\n\\323\\001\\n\\320\\001\\022 w1OrORsAZ5m8EtLt2z8TjKGxgxImqSau2...\">"
+    "output" : "partyDelegation : com.google.protobuf.ByteString = <ByteString@1816f936 size=557 contents=\"\\n\\252\\004\\n\\330\\001\\n\\323\\001\\n\\320\\001\\022 QsHcIAMfbgEOxebL8jwNXABxex3ylIy52...\">"
   },
   "633" : {
     "command" : "repair.party_migration.step1_store_acs(sourceParticipant, Set(alice), \"alice.acs.gz\")",
@@ -125,7 +125,7 @@
   },
   "541" : {
     "command" : "hosting.id.toProtoPrimitive",
-    "output" : "res1: String = \"PAR::participant2::1220fa4c88075a186824c68f12e458eac67c6d0898eabb428134890666323524311c\""
+    "output" : "res1: String = \"PAR::participant2::1220ba696909420f410da3bc58a11a3a2b9767a9f35599d9bf158e9456e7b49b9c82\""
   },
   "558" : {
     "command" : "BinaryFileUtil.writeByteStringToFile(\"rootCert.bin\", rootCert)",
@@ -141,7 +141,7 @@
   },
   "750" : {
     "command" : "participant1.parties.list(\"Alice\")",
-    "output" : "res5: Seq[ListPartiesResult] = Vector(\n  ListPartiesResult(\n    party = Alice::122015458497...,\n    participants = Vector(\n      ParticipantDomains(\n        participant = PAR::participant2::1220d5f07d9a...,\n        domains = Vector(\n          DomainPermission(domain = mydomain::1220233ff137..., permission = Submission)\n        )\n      ),\n      ParticipantDomains(\n        participant = PAR::participant1::122015458497...,\n        domains = Vector(\n          DomainPermission(domain = mydomain::1220233ff137..., permission = Submission)\n        )\n      )\n    )\n  )\n)"
+    "output" : "res5: Seq[ListPartiesResult] = Vector(\n  ListPartiesResult(\n    party = Alice::1220e817fd90...,\n    participants = Vector(\n      ParticipantDomains(\n        participant = PAR::participant2::1220ca158fa9...,\n        domains = Vector(\n          DomainPermission(domain = mydomain::12208bb94bfa..., permission = Submission)\n        )\n      ),\n      ParticipantDomains(\n        participant = PAR::participant1::1220e817fd90...,\n        domains = Vector(\n          DomainPermission(domain = mydomain::12208bb94bfa..., permission = Submission)\n        )\n      )\n    )\n  )\n)"
   },
   "618" : {
     "command" : "",
@@ -149,7 +149,7 @@
   },
   "745" : {
     "command" : "participant1.topology.party_to_participant_mappings.authorize(TopologyChangeOp.Add, alice, participant2.id, RequestSide.From, ParticipantPermission.Submission)",
-    "output" : "res4: com.google.protobuf.ByteString = <ByteString@53a67d7f size=556 contents=\"\\n\\251\\004\\n\\327\\001\\n\\322\\001\\n\\317\\001\\022 bM8FqeFESSFivCtT9GKVMemS1VxnFbxm2...\">"
+    "output" : "res4: com.google.protobuf.ByteString = <ByteString@876d86a size=556 contents=\"\\n\\251\\004\\n\\327\\001\\n\\322\\001\\n\\317\\001\\022 ZngNHU9aifZHPvKlzjFRBTp8jBC2YqHM2...\">"
   },
   "689" : {
     "command" : "",
@@ -193,7 +193,7 @@
   },
   "434" : {
     "command" : "participant1.ledger_api.users.rights.revoke(id = user.id, actAs = Set(bob), readAs = Set(alice), participantAdmin = true)",
-    "output" : "res12: UserRights = UserRights(\n  actAs = Set(bob::1220e32b0b80...),\n  readAs = Set(),\n  participantAdmin = true,\n  identityProviderAdmin = false\n)"
+    "output" : "res12: UserRights = UserRights(\n  actAs = Set(bob::1220568170cc...),\n  readAs = Set(),\n  participantAdmin = true,\n  identityProviderAdmin = false\n)"
   },
   "616" : {
     "command" : "",
@@ -201,7 +201,7 @@
   },
   "631" : {
     "command" : "val alice = sourceParticipant.parties.find(\"Alice\")",
-    "output" : "alice : PartyId = Alice::12202fcedfeb..."
+    "output" : "alice : PartyId = Alice::1220f983efd0..."
   },
   "758" : {
     "command" : "",
@@ -209,11 +209,11 @@
   },
   "552" : {
     "command" : "val rootCert = client.topology.namespace_delegations.authorize(TopologyChangeOp.Add,secret.fingerprint,secret.fingerprint,isRootDelegation = true)",
-    "output" : "rootCert : com.google.protobuf.ByteString = <ByteString@313094a3 size=652 contents=\"\\n\\211\\005\\n\\267\\002\\n\\262\\002\\n\\257\\002\\022 BAEXYgheWvPD6Y7qs45sGnBppIXU9GIj\\032...\">"
+    "output" : "rootCert : com.google.protobuf.ByteString = <ByteString@6755665d size=652 contents=\"\\n\\211\\005\\n\\267\\002\\n\\262\\002\\n\\257\\002\\022 NjQj16NZFeg89kar683oCVzbP5U8lWkG\\032...\">"
   },
   "726" : {
     "command" : "participant2.topology.party_to_participant_mappings.authorize(TopologyChangeOp.Add, alice, participant2.id, RequestSide.To, ParticipantPermission.Submission)",
-    "output" : "res3: com.google.protobuf.ByteString = <ByteString@76e903f1 size=556 contents=\"\\n\\251\\004\\n\\327\\001\\n\\322\\001\\n\\317\\001\\022 l5Bcf0gmK41c1aOM2Mz3gLKJ20kOtZ1U2...\">"
+    "output" : "res3: com.google.protobuf.ByteString = <ByteString@3c26afb0 size=556 contents=\"\\n\\251\\004\\n\\327\\001\\n\\322\\001\\n\\317\\001\\022 GQbQg7bqHRG3uuL77yzYRk26xBK2E49g2...\">"
   },
   "621" : {
     "command" : "",
@@ -225,7 +225,7 @@
   },
   "563" : {
     "command" : "val partyId = PartyId(\"Client\", secret.fingerprint)",
-    "output" : "partyId : PartyId = Client::1220c16b24e4..."
+    "output" : "partyId : PartyId = Client::1220c1e44bec..."
   },
   "653" : {
     "command" : "",
@@ -269,7 +269,7 @@
   },
   "363" : {
     "command" : "val Seq(alice, bob, eve) = Seq(\"alice\", \"bob\", \"eve\").map(p => participant1.parties.enable(name = p, waitForDomain = DomainChoice.All))",
-    "output" : "Seq(alice, bob, eve) : Seq[PartyId] = List(alice::1220e32b0b80..., bob::1220e32b0b80..., eve::1220e32b0b80...)"
+    "output" : "Seq(alice, bob, eve) : Seq[PartyId] = List(alice::1220568170cc..., bob::1220568170cc..., eve::1220568170cc...)"
   },
   "539" : {
     "command" : "",
@@ -297,7 +297,7 @@
   },
   "422" : {
     "command" : "participant1.ledger_api.users.rights.list(user.id)",
-    "output" : "res10: UserRights = UserRights(\n  actAs = Set(alice::1220e32b0b80...),\n  readAs = Set(bob::1220e32b0b80...),\n  participantAdmin = false,\n  identityProviderAdmin = false\n)"
+    "output" : "res10: UserRights = UserRights(\n  actAs = Set(alice::1220568170cc...),\n  readAs = Set(bob::1220568170cc...),\n  participantAdmin = false,\n  identityProviderAdmin = false\n)"
   },
   "373" : {
     "command" : "",

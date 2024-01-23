@@ -9,7 +9,7 @@
   },
   "173" : {
     "command" : "participant1.ledger_api.commands.submit(Seq(participant1.adminParty), Seq(archiveIouCmd))",
-    "output" : "res24: com.daml.ledger.api.v1.transaction.TransactionTree = TransactionTree(\n  transactionId = \"1220799f67d81fffec5f388fbab18cb780051b90a1714718ec9cf0e59b175d7b519f\",\n  commandId = \"b486cd9d-c89d-4d81-910e-9ce1dbcf0b47\",\n  workflowId = \"\",\n  effectiveAt = Some(\n.."
+    "output" : "res24: com.daml.ledger.api.v1.transaction.TransactionTree = TransactionTree(\n  transactionId = \"1220f8ea3f0c5ac36f3f96cb8dd14845f7d842b7d0dbca41961b27f1ca4611aad4a7\",\n  commandId = \"4f77872d-5763-42ca-82e3-3e6d7ce23418\",\n  workflowId = \"\",\n  effectiveAt = Some(\n.."
   },
   "118" : {
     "command" : "val packagesBefore = participant1.packages.list().map(_.packageId).toSet",
@@ -21,11 +21,11 @@
   },
   "263" : {
     "command" : "val iou = participant1.ledger_api.acs.find_generic(participant1.adminParty, _.templateId.isModuleEntity(\"Iou\", \"Iou\"))",
-    "output" : "iou : com.digitalasset.canton.admin.api.client.commands.LedgerApiTypeWrappers.WrappedCreatedEvent = WrappedCreatedEvent(\n  event = CreatedEvent(\n    eventId = \"#1220c2fc17c22b57c2b78bebc21e25e723086edc02e340462b6eb82a985c0aac7a7f:0\",\n    contractId = \"0039e7908bb3b187cc0a010c1ddd7d30cef507a7097026dbbf0d06951856ae1718ca021220872ac7193ff2b931dbb8afeef6aa2b59efdb3741252844dcd75d8e99ec46efe1\",\n    templateId = Some(\n      value = Identifier(\n        packageId = \"6555902d9ef506039adb032ec52cec46b4025fafc630458a260d4f23ad654610\",\n        moduleName = \"Iou\",\n        entityName = \"Iou\"\n      )\n.."
+    "output" : "iou : com.digitalasset.canton.admin.api.client.commands.LedgerApiTypeWrappers.WrappedCreatedEvent = WrappedCreatedEvent(\n  event = CreatedEvent(\n    eventId = \"#122048bbae9fb688e34113dae2ce3c0be1faa8a3818e6e9c2264c5d794263c0a8e23:0\",\n    contractId = \"00c150b9b2383d95a722f924da884980351d107ac150e0f9752ee5ad1520a56b34ca021220e6028dcd21302eb423e497aecb6aa1bda876b6e62c6989cc5165ee182778f8d2\",\n    templateId = Some(\n      value = Identifier(\n        packageId = \"6555902d9ef506039adb032ec52cec46b4025fafc630458a260d4f23ad654610\",\n        moduleName = \"Iou\",\n        entityName = \"Iou\"\n      )\n.."
   },
   "195" : {
     "command" : "participant1.dars.remove(darHash)",
-    "output" : "ERROR com.digitalasset.canton.integration.EnterpriseEnvironmentDefinition$$anon$3 - Request failed for participant1.\n  GrpcRequestRefusedByServer: FAILED_PRECONDITION/PACKAGE_OR_DAR_REMOVAL_ERROR(9,57680622): An error was encountered whilst trying to unvet the DAR DarDescriptor(SHA-256:a2315a854212...,CantonExamples) with main package 6555902d9ef506039adb032ec52cec46b4025fafc630458a260d4f23ad654610 for DAR removal. Details: IdentityManagerParentError(Mapping(VettedPackages(\n  participant = participant1::1220d1386067...,\n  packages = Seq(\n    6555902d9ef5...,\n    616cc046a57f...,\n    cb0552debf21...,\n    3f4deaf145a1...,\n    86828b984346...,\n    f20de1e4e37b...,\n    76bf0fd12bd9...,\n    38e6274601b2...,\n    d58cf...\n  Request: RemoveDar(1220a2315a854212d3e10eac7e1de25e3d0b032df22331cf9d68164d078d2fa07428)\n  CorrelationId: 576806223d6da32706a831d2e41b1fdd\n  Context: Map(participant -> participant1, tid -> 576806223d6da32706a831d2e41b1fdd, test -> PackageDarManagementDocumentationIntegrationTest)\n  Command ParticipantAdministration$dars$.remove invoked from cmd10000076.sc:1"
+    "output" : "ERROR com.digitalasset.canton.integration.EnterpriseEnvironmentDefinition$$anon$3 - Request failed for participant1.\n  GrpcRequestRefusedByServer: FAILED_PRECONDITION/PACKAGE_OR_DAR_REMOVAL_ERROR(9,eec6be4f): An error was encountered whilst trying to unvet the DAR DarDescriptor(SHA-256:a2315a854212...,CantonExamples) with main package 6555902d9ef506039adb032ec52cec46b4025fafc630458a260d4f23ad654610 for DAR removal. Details: IdentityManagerParentError(Mapping(VettedPackages(\n  participant = participant1::12201f056776...,\n  packages = Seq(\n    6555902d9ef5...,\n    616cc046a57f...,\n    cb0552debf21...,\n    3f4deaf145a1...,\n    86828b984346...,\n    f20de1e4e37b...,\n    76bf0fd12bd9...,\n    38e6274601b2...,\n    d58cf...\n  Request: RemoveDar(1220a2315a854212d3e10eac7e1de25e3d0b032df22331cf9d68164d078d2fa07428)\n  CorrelationId: eec6be4f30e6cf4220b5430f6af63ede\n  Context: Map(participant -> participant1, tid -> eec6be4f30e6cf4220b5430f6af63ede, test -> PackageDarManagementDocumentationIntegrationTest)\n  Command ParticipantAdministration$dars$.remove invoked from cmd10000076.sc:1"
   },
   "276" : {
     "command" : "participant1.packages.remove(packageId)",
@@ -61,7 +61,7 @@
   },
   "253" : {
     "command" : "participant1.ledger_api.commands.submit(Seq(participant1.adminParty), Seq(createIouCmd))",
-    "output" : "res39: com.daml.ledger.api.v1.transaction.TransactionTree = TransactionTree(\n  transactionId = \"1220c2fc17c22b57c2b78bebc21e25e723086edc02e340462b6eb82a985c0aac7a7f\",\n  commandId = \"3cdad2d7-a76b-473a-a99e-2809641c3894\",\n  workflowId = \"\",\n  effectiveAt = Some(\n    value = Timestamp(\n      seconds = 1705671938L,\n      nanos = 595919000,\n      unknownFields = UnknownFieldSet(fields = Map())\n    )\n.."
+    "output" : "res39: com.daml.ledger.api.v1.transaction.TransactionTree = TransactionTree(\n  transactionId = \"122048bbae9fb688e34113dae2ce3c0be1faa8a3818e6e9c2264c5d794263c0a8e23\",\n  commandId = \"8d7c52d4-8e86-4250-9c67-c3a3603fb5ed\",\n  workflowId = \"\",\n  effectiveAt = Some(\n    value = Timestamp(\n      seconds = 1706002884L,\n      nanos = 952700000,\n      unknownFields = UnknownFieldSet(fields = Map())\n    )\n.."
   },
   "238" : {
     "command" : "participant1.packages.remove(packageId)",
@@ -77,7 +77,7 @@
   },
   "265" : {
     "command" : "participant1.ledger_api.commands.submit(Seq(participant1.adminParty), Seq(archiveIouCmd))",
-    "output" : "res42: com.daml.ledger.api.v1.transaction.TransactionTree = TransactionTree(\n  transactionId = \"12201cf75919dc79032c20f904513334234ab62f5452a23ae034367ee2fe4542e9de\",\n  commandId = \"c01be2eb-78fb-4792-9ab5-8ca6e4e23f34\",\n  workflowId = \"\",\n  effectiveAt = Some(\n    value = Timestamp(\n      seconds = 1705671939L,\n      nanos = 4911000,\n      unknownFields = UnknownFieldSet(fields = Map())\n    )\n  ),\n  offset = \"00000000000000000c\",\n.."
+    "output" : "res42: com.daml.ledger.api.v1.transaction.TransactionTree = TransactionTree(\n  transactionId = \"12207a4bbff1fefc39df0ab2779e22fbe6dea40307c426c443c542d0742ca34d4bb4\",\n  commandId = \"b7e12101-9586-4821-9c86-44adae92a9ea\",\n  workflowId = \"\",\n  effectiveAt = Some(\n    value = Timestamp(\n      seconds = 1706002885L,\n      nanos = 568040000,\n      unknownFields = UnknownFieldSet(fields = Map())\n    )\n  ),\n  offset = \"00000000000000000c\",\n.."
   },
   "292" : {
     "command" : "participant1.packages.remove(packageId, force = true)",
@@ -85,7 +85,7 @@
   },
   "233" : {
     "command" : "participant1.topology.vetted_packages.authorize(TopologyChangeOp.Remove, participant1.id, packageIds, force = true)",
-    "output" : "res35: com.google.protobuf.ByteString = <ByteString@232c3b58 size=2386 contents=\"\\n\\317\\022\\n\\375\\017\\n\\370\\017\\n\\365\\017\\b\\001\\022 5ZdCIaL0d2ZHccuDCWvHKLMANyLCyGp...\">"
+    "output" : "res35: com.google.protobuf.ByteString = <ByteString@4fd0f70f size=2386 contents=\"\\n\\317\\022\\n\\375\\017\\n\\370\\017\\n\\365\\017\\b\\001\\022 XmOVzwbM8VyE23BiixVKww4Ybn0YVFX...\">"
   },
   "270" : {
     "command" : "val packageIds = participant1.topology.vetted_packages.list().map(_.item.packageIds).filter(_.contains(packageId)).head",
@@ -113,7 +113,7 @@
   },
   "166" : {
     "command" : "participant1.dars.remove(darHash)",
-    "output" : "ERROR com.digitalasset.canton.integration.EnterpriseEnvironmentDefinition$$anon$3 - Request failed for participant1.\n  GrpcRequestRefusedByServer: FAILED_PRECONDITION/PACKAGE_OR_DAR_REMOVAL_ERROR(9,8f406c87): The DAR DarDescriptor(SHA-256:a2315a854212...,CantonExamples) cannot be removed because its main package 6555902d9ef506039adb032ec52cec46b4025fafc630458a260d4f23ad654610 is in-use by contract ContractId(00f2abda0d43509bbf72fdb444865b5baf1e69e01107db486fe9f2ba53900eba45ca0212201c32f5ff485a81bfdab7d532625d2f895d6b2dc39fe87c3bba7bc2f8e602da68)\non domain mydomain::12203837af56....\n  Request: RemoveDar(1220a2315a854212d3e10eac7e1de25e3d0b032df22331cf9d68164d078d2fa07428)\n  CorrelationId: 8f406c87454551f271dbf9d77d5f37e2\n  Context: HashMap(participant -> participant1, test -> PackageDarManagementDocumentationIntegrationTest, pkg -> 6555902d9ef506039adb032ec52cec46b4025fafc630458a260d4f23ad654610, tid -> 8f406c87454551f271dbf9d77d5f37e2)\n  Command ParticipantAdministration$dars$.remove invoked from cmd10000056.sc:1"
+    "output" : "ERROR com.digitalasset.canton.integration.EnterpriseEnvironmentDefinition$$anon$3 - Request failed for participant1.\n  GrpcRequestRefusedByServer: FAILED_PRECONDITION/PACKAGE_OR_DAR_REMOVAL_ERROR(9,a9d1784c): The DAR DarDescriptor(SHA-256:a2315a854212...,CantonExamples) cannot be removed because its main package 6555902d9ef506039adb032ec52cec46b4025fafc630458a260d4f23ad654610 is in-use by contract ContractId(0038a5412b8857b4a19d60cdc548381eeb2506e6160dbbe4fe1afdf97777d280ccca021220db666da68ce598aeb28940a6edd121fe91acb006bd25e08f213b31e6604249da)\non domain mydomain::1220527a14a5....\n  Request: RemoveDar(1220a2315a854212d3e10eac7e1de25e3d0b032df22331cf9d68164d078d2fa07428)\n  CorrelationId: a9d1784cf29367f2215eae830a700310\n  Context: HashMap(participant -> participant1, test -> PackageDarManagementDocumentationIntegrationTest, pkg -> 6555902d9ef506039adb032ec52cec46b4025fafc630458a260d4f23ad654610, tid -> a9d1784cf29367f2215eae830a700310)\n  Command ParticipantAdministration$dars$.remove invoked from cmd10000056.sc:1"
   },
   "264" : {
     "command" : "val archiveIouCmd = ledger_api_utils.exercise(\"Archive\", Map.empty, iou.event)",
@@ -121,7 +121,7 @@
   },
   "161" : {
     "command" : "participant1.ledger_api.commands.submit(Seq(participant1.adminParty), Seq(createIouCmd))",
-    "output" : "res21: com.daml.ledger.api.v1.transaction.TransactionTree = TransactionTree(\n  transactionId = \"122063ffa0abc8a57ecc5182ce2d9445e8d8674fadb36ff3dec7a0ba8c9d18341e61\",\n  commandId = \"d12acaa5-1db4-4491-945a-1a644579b9c5\",\n  workflowId = \"\",\n  effectiveAt = Some(\n.."
+    "output" : "res21: com.daml.ledger.api.v1.transaction.TransactionTree = TransactionTree(\n  transactionId = \"122076314c7d9b48c268e2201e6760edf32d920f20dcd6dac73cde0b493d7b5f9c9c\",\n  commandId = \"18b31600-81b9-41bc-af52-bc0735b31724\",\n  workflowId = \"\",\n  effectiveAt = Some(\n.."
   },
   "187" : {
     "command" : "val darHash = participant1.dars.upload(\"dars/CantonExamples.dar\", vetAllPackages = false)",
@@ -133,7 +133,7 @@
   },
   "271" : {
     "command" : "participant1.topology.vetted_packages.authorize(TopologyChangeOp.Remove, participant1.id, packageIds, force = true)",
-    "output" : "res44: com.google.protobuf.ByteString = <ByteString@22a0a609 size=2386 contents=\"\\n\\317\\022\\n\\375\\017\\n\\370\\017\\n\\365\\017\\b\\001\\022 Z0kQMDjOkn0MRuXgQVQh8LjFEjL9sjM...\">"
+    "output" : "res44: com.google.protobuf.ByteString = <ByteString@487eca34 size=2386 contents=\"\\n\\317\\022\\n\\375\\017\\n\\370\\017\\n\\365\\017\\b\\001\\022 nbpzzX3b1cRsE7FajnnkpojsWflbOKL...\">"
   },
   "130" : {
     "command" : "participant1.dars.remove(darHash)",
@@ -145,7 +145,7 @@
   },
   "258" : {
     "command" : "participant1.packages.remove(packageId)",
-    "output" : "ERROR com.digitalasset.canton.integration.EnterpriseEnvironmentDefinition$$anon$3 - Request failed for participant1.\n  GrpcRequestRefusedByServer: FAILED_PRECONDITION/PACKAGE_OR_DAR_REMOVAL_ERROR(9,3ed1c0d2): Package 6555902d9ef506039adb032ec52cec46b4025fafc630458a260d4f23ad654610 is currently in-use by contract ContractId(0039e7908bb3b187cc0a010c1ddd7d30cef507a7097026dbbf0d06951856ae1718ca021220872ac7193ff2b931dbb8afeef6aa2b59efdb3741252844dcd75d8e99ec46efe1) on domain mydomain::12203837af56.... It may also be in-use by other contracts.\n  Request: RemovePackage(6555902d9ef506039adb032ec52cec46b4025fafc630458a260d4f23ad654610,false)\n  CorrelationId: 3ed1c0d20b9b009a8328c00c650cfe3d\n  Context: HashMap(participant -> participant1, test -> PackageDarManagementDocumentationIntegrationTest, domain -> mydomain::12203837af56..., pkg -> 6555902d9ef506039adb032ec52cec46b4025fafc630458a260d4f23ad654610, tid -> 3ed1c0d20b9b009a8328c00c650cfe3d, contract -> ContractId(0039e7908bb3b187cc0a010c1ddd7d30cef507a7097026dbbf0d06951856ae1718ca021220872ac7193ff2b931dbb8afeef6aa2b59efdb3741252844dcd75d8e99ec46efe1))\n  Command ParticipantAdministration$packages$.remove invoked from cmd10000103.sc:1"
+    "output" : "ERROR com.digitalasset.canton.integration.EnterpriseEnvironmentDefinition$$anon$3 - Request failed for participant1.\n  GrpcRequestRefusedByServer: FAILED_PRECONDITION/PACKAGE_OR_DAR_REMOVAL_ERROR(9,680e0ee4): Package 6555902d9ef506039adb032ec52cec46b4025fafc630458a260d4f23ad654610 is currently in-use by contract ContractId(00c150b9b2383d95a722f924da884980351d107ac150e0f9752ee5ad1520a56b34ca021220e6028dcd21302eb423e497aecb6aa1bda876b6e62c6989cc5165ee182778f8d2) on domain mydomain::1220527a14a5.... It may also be in-use by other contracts.\n  Request: RemovePackage(6555902d9ef506039adb032ec52cec46b4025fafc630458a260d4f23ad654610,false)\n  CorrelationId: 680e0ee44c05c031934d6e7c62621a9e\n  Context: HashMap(participant -> participant1, test -> PackageDarManagementDocumentationIntegrationTest, domain -> mydomain::1220527a14a5..., pkg -> 6555902d9ef506039adb032ec52cec46b4025fafc630458a260d4f23ad654610, tid -> 680e0ee44c05c031934d6e7c62621a9e, contract -> ContractId(00c150b9b2383d95a722f924da884980351d107ac150e0f9752ee5ad1520a56b34ca021220e6028dcd21302eb423e497aecb6aa1bda876b6e62c6989cc5165ee182778f8d2))\n  Command ParticipantAdministration$packages$.remove invoked from cmd10000103.sc:1"
   },
   "158" : {
     "command" : "val packageId = participant1.packages.find(\"Iou\").head.packageId",
@@ -157,11 +157,11 @@
   },
   "171" : {
     "command" : "val iou = participant1.ledger_api.acs.find_generic(participant1.adminParty, _.templateId.isModuleEntity(\"Iou\", \"Iou\"))",
-    "output" : "iou : com.digitalasset.canton.admin.api.client.commands.LedgerApiTypeWrappers.WrappedCreatedEvent = WrappedCreatedEvent(\n  event = CreatedEvent(\n    eventId = \"#122063ffa0abc8a57ecc5182ce2d9445e8d8674fadb36ff3dec7a0ba8c9d18341e61:0\",\n    contractId = \"00f2abda0d43509bbf72fdb444865b5baf1e69e01107db486fe9f2ba53900eba45ca0212201c32f5ff485a81bfdab7d532625d2f895d6b2dc39fe87c3bba7bc2f8e602da68\",\n    templateId = Some(\n      value = Identifier(\n        packageId = \"6555902d9ef506039adb032ec52cec46b4025fafc630458a260d4f23ad654610\",\n        moduleName = \"Iou\",\n        entityName = \"Iou\"\n      )\n.."
+    "output" : "iou : com.digitalasset.canton.admin.api.client.commands.LedgerApiTypeWrappers.WrappedCreatedEvent = WrappedCreatedEvent(\n  event = CreatedEvent(\n    eventId = \"#122076314c7d9b48c268e2201e6760edf32d920f20dcd6dac73cde0b493d7b5f9c9c:0\",\n    contractId = \"0038a5412b8857b4a19d60cdc548381eeb2506e6160dbbe4fe1afdf97777d280ccca021220db666da68ce598aeb28940a6edd121fe91acb006bd25e08f213b31e6604249da\",\n    templateId = Some(\n      value = Identifier(\n        packageId = \"6555902d9ef506039adb032ec52cec46b4025fafc630458a260d4f23ad654610\",\n        moduleName = \"Iou\",\n        entityName = \"Iou\"\n      )\n.."
   },
   "75" : {
     "command" : "participant2.topology.vetted_packages.list()",
-    "output" : "res8: Seq[ListVettedPackagesResult] = Vector(\n  ListVettedPackagesResult(\n    context = BaseResult(\n      domain = \"Authorized\",\n      validFrom = 2024-01-19T13:45:25.898707Z,\n      validUntil = None,\n      operation = Add,\n      serialized = <ByteString@9e82bc9 size=2582 contents=\"\\n\\223\\024\\n\\301\\021\\n\\274\\021\\n\\271\\021\\022 pkTopokCTL5oZCKKv05CygRmYLilXuJLJ...\">,\n.."
+    "output" : "res8: Seq[ListVettedPackagesResult] = Vector(\n  ListVettedPackagesResult(\n    context = BaseResult(\n      domain = \"Authorized\",\n      validFrom = 2024-01-23T09:40:51.620575Z,\n      validUntil = None,\n      operation = Add,\n      serialized = <ByteString@7241e34 size=2582 contents=\"\\n\\223\\024\\n\\301\\021\\n\\274\\021\\n\\271\\021\\022 HazOHM267C96doLWDkHAbNbpykY59BjtJ...\">,\n.."
   },
   "119" : {
     "command" : "val darHash = participant1.dars.upload(\"dars/CantonExamples.dar\")",
@@ -181,7 +181,7 @@
   },
   "190" : {
     "command" : "participant1.topology.vetted_packages.authorize(TopologyChangeOp.Add, participant1.id, packageIds)",
-    "output" : "res29: com.google.protobuf.ByteString = <ByteString@22c35583 size=2384 contents=\"\\n\\315\\022\\n\\373\\017\\n\\366\\017\\n\\363\\017\\022 6Lqdona8bBgFKPB2Fj2Xw5h2P77ffhKSJ...\">"
+    "output" : "res29: com.google.protobuf.ByteString = <ByteString@1af53e59 size=2384 contents=\"\\n\\315\\022\\n\\373\\017\\n\\366\\017\\n\\363\\017\\022 Yi0Pzl7yLPoDGFM7v9HuDOXDxf0MQsM1J...\">"
   },
   "47" : {
     "command" : "participant2.packages.list()",
@@ -189,7 +189,7 @@
   },
   "200" : {
     "command" : "participant1.topology.vetted_packages.authorize(TopologyChangeOp.Remove, participant1.id, packageIds, force = true)",
-    "output" : "res30: com.google.protobuf.ByteString = <ByteString@39cd2dbc size=2386 contents=\"\\n\\317\\022\\n\\375\\017\\n\\370\\017\\n\\365\\017\\b\\001\\022 6Lqdona8bBgFKPB2Fj2Xw5h2P77ffhK...\">"
+    "output" : "res30: com.google.protobuf.ByteString = <ByteString@b9d5ccf size=2386 contents=\"\\n\\317\\022\\n\\375\\017\\n\\370\\017\\n\\365\\017\\b\\001\\022 Yi0Pzl7yLPoDGFM7v9HuDOXDxf0MQsM...\">"
   },
   "178" : {
     "command" : "participant1.dars.remove(darHash)",
@@ -197,7 +197,7 @@
   },
   "227" : {
     "command" : "participant1.packages.remove(packageId)",
-    "output" : "ERROR com.digitalasset.canton.integration.EnterpriseEnvironmentDefinition$$anon$3 - Request failed for participant1.\n  GrpcRequestRefusedByServer: FAILED_PRECONDITION/PACKAGE_OR_DAR_REMOVAL_ERROR(9,0dd55214): Package 6555902d9ef506039adb032ec52cec46b4025fafc630458a260d4f23ad654610 is currently vetted and available to use.\n  Request: RemovePackage(6555902d9ef506039adb032ec52cec46b4025fafc630458a260d4f23ad654610,false)\n  CorrelationId: 0dd55214f8bf33e2575de100cbbee94c\n  Context: Map(participant -> participant1, tid -> 0dd55214f8bf33e2575de100cbbee94c, test -> PackageDarManagementDocumentationIntegrationTest)\n  Command ParticipantAdministration$packages$.remove invoked from cmd10000087.sc:1"
+    "output" : "ERROR com.digitalasset.canton.integration.EnterpriseEnvironmentDefinition$$anon$3 - Request failed for participant1.\n  GrpcRequestRefusedByServer: FAILED_PRECONDITION/PACKAGE_OR_DAR_REMOVAL_ERROR(9,f3797f6f): Package 6555902d9ef506039adb032ec52cec46b4025fafc630458a260d4f23ad654610 is currently vetted and available to use.\n  Request: RemovePackage(6555902d9ef506039adb032ec52cec46b4025fafc630458a260d4f23ad654610,false)\n  CorrelationId: f3797f6f51e6b5ec76c44bd33faafb9c\n  Context: Map(participant -> participant1, tid -> f3797f6f51e6b5ec76c44bd33faafb9c, test -> PackageDarManagementDocumentationIntegrationTest)\n  Command ParticipantAdministration$packages$.remove invoked from cmd10000087.sc:1"
   },
   "222" : {
     "command" : "val packageId = participant1.packages.find(\"Iou\").head.packageId",
