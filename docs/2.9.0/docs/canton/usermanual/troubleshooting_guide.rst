@@ -563,11 +563,11 @@ To further narrow down the root cause, try to set up the simplest possible deplo
      * High availability is disabled.
      * It does not use docker.
 
-Let's call it “Deployment 5”. If the test fails on "Deployment 5", you have a minimal example to reproduce the problem. You know that the problem is caused by running two nodes on different machines. The problem is independent of your DAML workflow, occurs already with two nodes and without enabling TLS. If the test succeeds on "Deployment 5", you have not yet understood the root cause. In that case, you need to do yet another iteration with a deployment “in the middle” between "Deployment 4" and "Deployment 5".
+Let's call it “Deployment 5”. If the test fails on "Deployment 5", you have a minimal example to reproduce the problem. You know that the problem is caused by running two nodes on different machines. The problem is independent of your Daml workflow, occurs already with two nodes and without enabling TLS. If the test succeeds on "Deployment 5", you have not yet understood the root cause. In that case, you need to do yet another iteration with a deployment “in the middle” between "Deployment 4" and "Deployment 5".
 
 The following guidelines are helpful to make this approach successful:
 
-     * Try to keep the list of differences between successful and failing deployment **as complete as possible**. If the root cause is not on your list, you can't find it. Differences can come from configuration, DAML models, ledger applications, deployment (in process, network, docker, kubernetes, ...), hardware, operating system.
+     * Try to keep the list of differences between successful and failing deployment **as complete as possible**. If the root cause is not on your list, you can't find it. Differences can come from configuration, Daml models, ledger applications, deployment (in process, network, docker, kubernetes, ...), hardware, operating system.
 
      * Always **aim at the middle** between the successful and failing deployment to learn the most with every new deployment you create and test. That is the fastest path to the root cause.
 
