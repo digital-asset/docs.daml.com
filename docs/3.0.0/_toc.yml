@@ -1606,3 +1606,5 @@ subtrees:
     title: "Daml Ledger Interoperability"
   - file: tools/non-repudiation
     title: "Non-repudiation"
+  - file: tools/daml-shell
+    title: "Daml Shell"
