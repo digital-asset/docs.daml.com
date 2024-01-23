@@ -31,7 +31,7 @@ Individual contracts are *immutable* in the sense that an active contract can no
 
 Daml specifies what transactions are legal on a Daml Ledger. The rules the Daml code specifies are collectively called a *Daml model* or *contract model*.
 
-Daml Files and Modules
+Daml Modules and Files
 ----------------------
 
 Each ``.daml`` file defines a *Daml Module* at the top:
