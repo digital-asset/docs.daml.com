@@ -69,18 +69,33 @@ Auto-Callable
 
 The
 :ref:`AutoCallable <module-daml-finance-interface-instrument-structuredproduct-autocallable-instrument-66988>`
-instrument models a single-underlying auto-callable note that pays a conditional coupon. At maturity, the principal
-amount is repaid unless a final barrier has been breached (in which case the performance of the
-underlying is paid). In other words, it is an AutoCallable Barrier Reverse Convertible where the knock-in put is struck at 100% and the
-barrier is observed at maturity.
+instrument models a single-underlying auto-callable note that pays a conditional coupon.
 
-If the underlying closes above the call barrier on an
-observation date, the instrument is automatically redeemed early at the end of that period.
+Coupon payment
+--------------
 
-For example, consider an auto-callable yield note that pays a fixed 5% coupon in every period
-(unless the coupon barrier was hit at the end of the period). Both the call barrier and the coupon
-barrier are observed only on the last observation date of each period.
+The conditional coupon is paid in every period unless the *coupon barrier* was hit at the end of the
+period. There is no coupon memory, i.e. coupons that are missed due to barrier hits are never repaid
+in future periods.
 
+Early redemption
+----------------
+
+If the underlying closes above the *call barrier* on an observation date, the instrument is
+automatically redeemed early at the end of that period.
+
+Redemption at maturity (if not early redeemed)
+----------------------------------------------
+
+At maturity, the principal amount is repaid unless a *final barrier* has been breached on the last
+observation date (in which case the performance of the underlying is paid). In other words, this
+instrument models an AutoCallable Barrier Reverse Convertible where the knock-in put is struck at
+100% and the barrier is observed at maturity.
+
+Example
+-------
+
+For example, consider an auto-callable yield note that pays a conditional 5% coupon.
 This example is taken from
 `Instrument/StructuredProduct/Test/AutoCallable.daml <src/test/daml/Daml/Finance/Instrument/StructuredProduct/Test/AutoCallable.daml>`_
 , where all the details are available.
