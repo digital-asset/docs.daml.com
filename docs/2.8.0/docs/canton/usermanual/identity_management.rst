@@ -520,6 +520,11 @@ as automatically determining the parameters for the ``authorize`` call.
 
 Migrate Party to Another Participant Node
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+
+    The improved macros are available in Daml Enterprise 2.x starting with 2.8.1.
+
 Parties are only weakly tied to participant nodes. They can be allocated in their own namespace and then
 be delegated to a given participant. For simplicity and convenience, the participant creates new parties
 in their own namespace by default.

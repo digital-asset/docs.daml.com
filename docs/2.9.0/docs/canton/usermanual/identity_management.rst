@@ -631,7 +631,7 @@ the active contract set of the party:
     .. hidden:: participant1.topology.synchronisation.await_idle()
     .. success:: val alice = sourceParticipant.parties.find("Alice")
     .. hidden:: com.digitalasset.canton.concurrent.Threading.sleep(2000)
-    .. success:: repair.party_migration.step1_store_acs(sourceParticipant, alice, "alice.acs.gz")
+    .. success:: repair.party_migration.step1_store_acs(sourceParticipant, Set(alice), "alice.acs.gz")
 
 This will store all the contracts into the file. If the file ends with ".gz", then the content will be compressed.
 After transferring the file to the target participant, you first need to disconnect the target participant from the
@@ -643,7 +643,7 @@ domain, as the repair service can not run with an active domain connection:
 Once disconnected, import the contracts using the next repair macro:
 
 .. snippet:: party_migration
-    .. success:: repair.party_migration.step2_import_acs(targetParticipant, alice, "alice.acs.gz")
+    .. success:: repair.party_migration.step2_import_acs(targetParticipant, Set(alice), "alice.acs.gz")
 
 While this step has imported the contracts, the party is still not enabled on the target participant. For a
 party to be delegated to a participant, both the owner of the party and the participant need to issue the
@@ -653,7 +653,7 @@ step:
 .. snippet:: party_migration
     .. hidden:: val targetParticipantId = targetParticipant.id
     .. hidden:: targetParticipant.domains.reconnect_all()
-    .. success:: repair.party_migration.step3_delegate_party_to_target_node(controllingParticipant, alice, targetParticipantId)
+    .. success:: repair.party_migration.step3_delegate_party_to_target_node(controllingParticipant, Set(alice), targetParticipantId)
     .. hidden:: utils.synchronize_topology()
 
 This will issue the party to participant topology transaction of type ``From``. The ``To`` transaction must be
@@ -661,7 +661,7 @@ issued on the ``targetParticipant``, using the fourth step. The participant must
 
 .. snippet:: party_migration
     .. success:: targetParticipant.domains.reconnect_all()
-    .. success:: repair.party_migration.step4_enable_party_on_target(targetParticipant, alice)
+    .. success:: repair.party_migration.step4_enable_party_on_target(targetParticipant, Set(alice))
 
 After this step, the party is enabled on the target participant and the active contract set has been migrated,
 but the party is now hosted by both, ``sourceParticipant`` and ``targetParticipant``.
@@ -670,7 +670,7 @@ If you want to remove the party from the source participant, continue with the n
 the domain rate back to its original value. First, unregister the party from the source participant:
 
 .. snippet:: party_migration
-    .. success:: repair.party_migration.step5_remove_party_delegation_from_source(controllingParticipant, alice, sourceParticipant)
+    .. success:: repair.party_migration.step5_remove_party_delegation_from_source(controllingParticipant, Set(alice), sourceParticipant)
 
 Then, disconnect the source participant from the domain:
 
@@ -680,7 +680,7 @@ Then, disconnect the source participant from the domain:
 Finally, remove the active contracts of ``Alice`` from the source participant:
 
 .. snippet:: party_migration
-    .. success:: repair.party_migration.step6_cleanup_source(sourceParticipant, alice, "alice.acs.gz")
+    .. success:: repair.party_migration.step6_cleanup_source(sourceParticipant, "alice.acs.gz")
 
 Thereafter, reconnect to the domain and re-enable transaction processing on the domain:
 
