@@ -39,8 +39,6 @@ the screen will suggest possible command options.
 .. figure:: images/001-help-output.gif?raw=true
    :alt: Help
 
-   Help
-
 ::
 
    > help
@@ -192,8 +190,6 @@ the datastore offset range.
 .. figure:: images/003-connect.gif?raw=true
    :alt: Connect
 
-   Connect
-
 Offsets
 ~~~~~~~
 
@@ -232,8 +228,6 @@ compare between (see ``help net-changes``).
 .. figure:: images/003-offset-commands.gif?raw=true
    :alt: Connect
 
-   Connect
-
 Summary information
 ~~~~~~~~~~~~~~~~~~~
 
@@ -260,7 +254,6 @@ out what each of them does.
 .. figure:: images/003-summary-commands.gif?raw=true
    :alt: Summary commands
 
-   Summary Commands
 
 Payloads by fully qualified name
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -350,8 +343,6 @@ using the ``compare-contracts <id1> <id2>`` command.
 .. figure:: images/003-compare-contracts.gif?raw=true
    :alt: compare-contracts
 
-   compare-contracts
-
 Transaction lookup
 ~~~~~~~~~~~~~~~~~~
 
@@ -370,8 +361,6 @@ and package IDs!
 
 .. figure:: images/003-transactions.gif?raw=true
    :alt: compare-contracts
-
-   compare-contracts
 
 Exercise lookup
 ~~~~~~~~~~~~~~~
@@ -454,8 +443,6 @@ the upper bound). ``go`` is an alias for ``set latest``.
 .. figure:: images/003-bounded-lookup.gif?raw=true
    :alt: bounded lookup
 
-   bounded lookup
-
 Finding transactions that created/archived a contract
 =====================================================
 
@@ -465,5 +452,3 @@ transactions using the ``transaction at <offset>`` command.
 
 .. figure:: images/003-from-contract-to-transactions.gif?raw=true
    :alt: event transaction
-
-   event transactions
