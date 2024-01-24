@@ -31,7 +31,7 @@ the underlying ever trades below this level, the put option is knocked in (activ
 reduce the redemption amount if the underlying closes below the strike price at expiry.
 
 This example is taken from the
-`source file <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/StructuredProduct/Test/BarrierReverseConvertible.daml>`_
+`BarrierReverseConvertible.daml test file <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/StructuredProduct/Test/BarrierReverseConvertible.daml>`_
 , where all the details are available.
 
 You start by defining the terms:
@@ -97,7 +97,7 @@ Example
 
 For example, consider an auto-callable yield note that pays a conditional 5% coupon.
 (For more details, see the
-`source file <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/StructuredProduct/Test/AutoCallable.daml>`_
+`AutoCallable.daml test file <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/StructuredProduct/Test/AutoCallable.daml>`_
 for this example.)
 
 Start by defining the terms:
