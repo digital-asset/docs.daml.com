@@ -74,21 +74,21 @@ instrument models a single-underlying auto-callable note that pays a conditional
 Coupon payment
 --------------
 
-The conditional coupon is paid in every period unless the *coupon barrier* was hit at the end of the
-period. There is no coupon memory, i.e. coupons that are missed due to barrier hits are never repaid
+The conditional coupon is paid in every period unless the *coupon barrier* is hit at the end of the
+period. There is no coupon memory -- coupons missed due to barrier hits are not repaid
 in future periods.
 
 Early redemption
 ----------------
 
-If the underlying closes above the *call barrier* on an observation date, the instrument is
+If the underlying asset closes above the *call barrier* on an observation date, the instrument is
 automatically redeemed early at the end of that period.
 
-Redemption at maturity (if not early redeemed)
+Redemption at maturity (if not redeemed early)
 ----------------------------------------------
 
 At maturity, the principal amount is repaid unless a *final barrier* has been breached on the last
-observation date (in which case the performance of the underlying is paid). In other words, this
+observation date (in which case the performance of the underlying asset is paid). In other words, this
 instrument models an AutoCallable Barrier Reverse Convertible where the knock-in put is struck at
 100% and the barrier is observed at maturity.
 
@@ -96,19 +96,19 @@ Example
 -------
 
 For example, consider an auto-callable yield note that pays a conditional 5% coupon.
-This example is taken from
-`Instrument/StructuredProduct/Test/AutoCallable.daml <src/test/daml/Daml/Finance/Instrument/StructuredProduct/Test/AutoCallable.daml>`_
-, where all the details are available.
+(For more details, see the
+`source file <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/StructuredProduct/Test/AutoCallable.daml>`_
+for this example.)
 
-You start by defining the terms:
+Start by defining the terms:
 
 .. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/StructuredProduct/Test/AutoCallable.daml
   :language: daml
   :start-after: -- CREATE_AUTO_CALLABLE_VARIABLES_BEGIN
   :end-before: -- CREATE_AUTO_CALLABLE_VARIABLES_END
 
-Note that we have used the *Basis1* day-count convention to specify that the 5% coupon is paid in
-every coupon period (not *per annum*).
+Note that the *Basis1* day-count convention specifies that the 5% coupon is paid in
+every coupon period (not per annum).
 
 Now that the terms have been defined, you can create the AutoCallable instrument:
 
@@ -117,13 +117,13 @@ Now that the terms have been defined, you can create the AutoCallable instrument
   :start-after: -- CREATE_AUTO_CALLABLE_INSTRUMENT_BEGIN
   :end-before: -- CREATE_AUTO_CALLABLE_INSTRUMENT_END
 
-Once this is done, you can create a holding on it using
+Then you can create a holding on it using
 :ref:`Account.Credit <module-daml-finance-interface-account-account-92922>`.
 
 This instrument is automatically called. This means that the decision whether or not to exercise the
-embedded option is done automatically using observations of the underlying.
+embedded option is done automatically using the observations of the underlying asset.
 
-Since this option instrument is cash-settled, the underlying asset will not change hands. Instead,
+Because this option instrument is cash-settled, the underlying asset does not change hands. Instead,
 the cash value of the payoff is paid to the holder.
 
 Frequently Asked Questions
