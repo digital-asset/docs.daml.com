@@ -520,6 +520,15 @@ as automatically determining the parameters for the ``authorize`` call.
 Client Controlled Party
 ~~~~~~~~~~~~~~~~~~~~~~~
 
+.. enterprise-only::
+
+.. note::
+    - The improved macros are available in Daml Enterprise 2.x starting with 2.8.1.
+    - Please note that party migration in 2.x comes with limitations. Please read the documentation carefully.
+    - The marcos only work with protocol version 4 or higher.
+    - The involved participants must be entirely quiet during the migration. Therefore, the migration can only happen during a maintanenace window of the domain where the rate is set to 0.
+    - The target participant must not know about any contract involving the party prior to the migration.
+
 Parties are only weakly tied to participant nodes. They can be allocated in their own namespace and then
 be delegated to a given participant. For simplicity and convenience, the participant creates new parties
 in its own namespace by default, but there are situations where this is not desired.
