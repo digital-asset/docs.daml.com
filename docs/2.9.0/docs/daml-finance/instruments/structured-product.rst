@@ -30,8 +30,8 @@ For example, consider a BRC that pays a fixed 5% coupon rate and has a barrier l
 the underlying ever trades below this level, the put option is knocked in (activated). This would
 reduce the redemption amount if the underlying closes below the strike price at expiry.
 
-This example is taken from
-`Instrument/StructuredProduct/Test/BarrierReverseConvertible.daml <src/test/daml/Daml/Finance/Instrument/StructuredProduct/Test/BarrierReverseConvertible.daml>`_
+This example is taken from the
+`source file <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/StructuredProduct/Test/BarrierReverseConvertible.daml>`_
 , where all the details are available.
 
 You start by defining the terms:
