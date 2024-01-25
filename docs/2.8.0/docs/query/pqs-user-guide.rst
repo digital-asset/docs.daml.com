@@ -440,6 +440,53 @@ For more help, use the command:
 
     ./scribe.jar pipeline --help-verbose
 
+Use a ``--config`` file to define multiple options or reflect an infrastructure-as-code approach. Here's an example configuration file:
+
+.. code-block:: none
+   
+   {
+      health.port = 8080
+
+      logger {
+         # level = "Debug"
+         format = "Plain"
+         pattern = "Plain"
+      }
+
+      pipeline {
+         datasource = "TransactionStream"
+
+         filter {
+            parties = "*"
+            metadata = "!*"
+            contracts = "*"
+         }
+
+         ledger {
+            start = "Latest"
+            stop = "Never"
+         }
+      }
+
+      source {
+         ledger {
+            host = "canton"
+            port = 10011
+         }
+      }
+
+      target {
+         postgres {
+            host = "pqs-postgres"
+            port = 5432
+            username = "postgres"
+            database = "postgres"
+            maxConnections = 16
+         }
+      }
+      schema.autoApply = true
+   }
+
 Following is an example of a basic command to run PQS to extract all data, including exercises, for a party with the display name Alice. You can replace the argument values with those that match your environment.
 
 .. code-block:: bash
