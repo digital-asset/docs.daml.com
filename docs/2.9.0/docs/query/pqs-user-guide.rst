@@ -440,7 +440,7 @@ For more help, use the command:
 
     ./scribe.jar pipeline --help-verbose
 
-The ``--config`` file option is useful if there are several options or an infrastructure as Code approach.  An example configuration file is:
+The ``--config`` file option is useful if there are several options or an Infrastructure-as-Code approach.  An example configuration file is:
 
 .. code-block:: none
 
