@@ -519,22 +519,12 @@ as automatically determining the parameters for the ``authorize`` call.
 Client Controlled Party
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-.. enterprise-only::
-
-.. note::
-    - The improved macros are available in Daml Enterprise 2.x starting with 2.8.1.
-    - Please note that party migration in 2.x comes with limitations. Please read the documentation carefully.
-    - The marcos only work with protocol version 4 or higher.
-    - The involved participants must be entirely quiet during the migration. Therefore, the migration can only happen during a maintanenace window of the domain where the rate is set to 0.
-    - The target participant must not know about any contract involving the party prior to the migration.
-
 Parties are only weakly tied to participant nodes. They can be allocated in their own namespace and then
 be delegated to a given participant. For simplicity and convenience, the participant creates new parties
 in its own namespace by default, but there are situations where this is not desired.
 
 A common scenario is that you first host the party on behalf of your client, but subsequently hand over
-the party to the client's own node. With the default party allocation, this would mean that you will
-still control the party of the client.
+the party to the client's own node. With the default party allocation, you would still control the party of the client.
 
 To avoid this, you need your client to create a new party on their own and export a party delegation
 to you. This party delegation can then be imported into your topology state, which will then allow you
@@ -593,7 +583,7 @@ Finally, the hosting node needs to issue the corresponding topology transaction 
     .. assert:: hosting.parties.hosted("Client").nonEmpty
 
 An alternative method would be to issue an identifier delegation certificate to a key controlled by the hosting node.
-In this case, the party wouldn't be delegated to a specific participant, but the unique identifier would be delegated to a
+In this case, the party wouldn't be delegated to a specific participant. Instead, the unique identifier would be delegated to a
 specific key, which would then in turn be able to delegate the party to a participant.
 
 .. _offline-party-migration:
@@ -602,6 +592,13 @@ Replicate Party to Another Participant Node
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. enterprise-only::
+
+.. note::
+    - The improved macros are available in Daml Enterprise 2.x as of release 2.8.1.
+    - In 2.x, party migration has limitations. Please read the documentation carefully.
+    - The marcos work with protocol version 4 or later.
+    - The involved participants must be entirely quiet during the migration. Therefore, the migration can only happen during a maintenance window of the domain where the rate is set to 0.
+    - The target participant must not know about any contract involving the party prior to the migration.
 
 The weak coupling of parties to participants allows you to migrate parties together with their active contract set from
 one participant node to another. The process described below uses a specific set of commands which have to be executed in the right order with some care.
@@ -613,7 +610,7 @@ In some cases, the controlling participant will be the same as the source partic
 .. note::
 
     Please note that the entire system needs to be totally quiet for this process to succeed. You
-    currently can not migrate a party under load on 2.x. If you migrate a party on a system that processes
+    currently cannot migrate a party under load on 2.x. If you migrate a party on a system that processes
     transactions, the processing data will eventually become corrupt, breaking your node. The macros
     will refuse to run if the system is not idle. Therefore, follow the steps below carefully.
 
@@ -643,7 +640,7 @@ the active contract set of the party:
 
 This will store all the contracts into the file. If the file ends with ".gz", then the content will be compressed.
 After transferring the file to the target participant, you first need to disconnect the target participant from the
-domain, as the repair service can not run with an active domain connection:
+domain, because the repair service cannot run with an active domain connection:
 
 .. snippet:: party_migration
     .. success:: targetParticipant.domains.disconnect_all()
@@ -653,7 +650,7 @@ Once disconnected, import the contracts using the next repair macro:
 .. snippet:: party_migration
     .. success:: repair.party_migration.step2_import_acs(targetParticipant, Set(alice), "alice.acs.gz")
 
-While this step has imported the contracts, the party is still not enabled on the target participant. For a
+Although this step has imported the contracts, the party is still not enabled on the target participant. For a
 party to be delegated to a participant, both the owner of the party and the participant need to issue the
 required topology transactions. If the controlling participant is connected to the domain, you run the next
 step:
@@ -672,7 +669,7 @@ issued on the ``targetParticipant``, using the fourth step. The participant must
     .. success:: repair.party_migration.step4_enable_party_on_target(targetParticipant, Set(alice))
 
 After this step, the party is enabled on the target participant and the active contract set has been migrated,
-but the party is now hosted by both, ``sourceParticipant`` and ``targetParticipant``.
+but the party is now hosted by both ``sourceParticipant`` and ``targetParticipant``.
 
 If you want to remove the party from the source participant, continue with the next step before resetting
 the domain rate back to its original value. First, unregister the party from the source participant:
