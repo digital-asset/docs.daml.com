@@ -46,7 +46,7 @@ terms of enterprise and non-functional capabilities:
       - Yes
       - No
     * - Party on multiple nodes
-      - :ref:`Yes <canton-party-on-two-nodes>`
+      - :ref:`Yes <offline-party-migration>`
       - No
     * - AWS and GCP KMS support
       - Yes
