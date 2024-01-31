@@ -22,7 +22,7 @@ snapshots=$(bin/list-hidden-versions \
                               # first element of second element: major version number
                               # converted to number so we can make a numeric comparison
                               ### For now, we ignore daml3 snapshots
-                             (.[1][0] | tonumber) = 2
+                             (.[1][0] | tonumber) == 2
                             )
                     # we keep just the version number, we do not need the vector of
                     # elements anymore
