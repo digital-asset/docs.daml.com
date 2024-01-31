@@ -75,7 +75,6 @@ The following other key metrics are monitored:
 - Each participant node measures the count of the inflight (dirty) requests so the user can see if ``maxDirtyRequests`` limit is close to being hit.  The metrics are:  ``canton_dirty_requests`` and ``canton_max_dirty_requests``.
 - Each participant node records the distribution of events (updates) received by the participant and allows drill-down by event type (package upload, party creation, or transaction), status (success or failure), participant ID, and application ID (if available). The counter is called ``daml_indexer_events_total``.
 - The ledger event requests are totaled in a counter called ``daml_indexer_metered_events_total``.
-- Metrics are available for `monitoring the usage of JVM execution services <https://docs.daml.com/ops/common-metrics.html#java-execution-service-metrics>`__ used by Daml components.
 - `JVM garbage collection metrics <https://docs.daml.com/ops/common-metrics.html#jvm-metrics>`__ are collected.
 
 This list is not exhaustive. It highlights the most important metrics.
@@ -101,7 +100,7 @@ Prometheus can be enabled using:
 
 Prometheus-Only Metrics
 ~~~~~~~~~~~~~~~~~~~~~~~
-Some metrics are available only when using the Prometheus reporter. These metrics include common gRPC and HTTP metrics (which help you to measure `the four golden signals <https://sre.google/sre-book/monitoring-distributed-systems/#xref_monitoring_golden-signals>`__), Java Executor Services metrics, and JVM GC and memory usage metrics (if enabled). The metrics are documented in detail below.
+Some metrics are available only when using the Prometheus reporter. These metrics include common gRPC and HTTP metrics (which help you to measure `the four golden signals <https://sre.google/sre-book/monitoring-distributed-systems/#xref_monitoring_golden-signals>`__), and JVM GC and memory usage metrics (if enabled). The metrics are documented `in detail here. <https://docs.daml.com/ops/common-metrics.html>`__
 
 Any metric marked with ``*`` is available only when using the Prometheus reporter.
 
@@ -316,88 +315,6 @@ daml_http_websocket_messages_sent_bytes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 - **Description**: Distribution of payload sizes in WebSocket messages sent
 - **Type**: Histogram
-
-Java Execution Service Metrics
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The following metrics are exposed for all execution services used by Daml components. These metrics have the following common labels attached:
-
-- **name**:
-    The name of the executor service, that identifies its internal usage
-
-- **type**:
-    The type of the execution service: `fork_join <https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ForkJoinPool.html>`_ and `thread_pool <https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadPoolExecutor.html>`_ are supported
-
-.. note:: These metrics are inactive by default to avoid a negative performance impact under high-load scenarios.
-    They can be activated by setting the following configuration value: ``canton.monitoring.metrics.report-execution-context-metrics = true``
-
-daml_executor_pool_size
-^^^^^^^^^^^^^^^^^^^^^^^
-- **Description**: Number of worker threads present in the pool
-- **Type**: Gauge
-
-daml_executor_pool_core
-^^^^^^^^^^^^^^^^^^^^^^^
-- **Description**: Core number of threads
-- **Type**: Gauge
-- **Observation**: Only available for `type` = `thread_pool`
-
-daml_executor_pool_max
-^^^^^^^^^^^^^^^^^^^^^^
-- **Description**: Maximum allowed number of threads
-- **Type**: Gauge
-- **Observation**: Only available for `type` = `thread_pool`
-
-daml_executor_pool_largest
-^^^^^^^^^^^^^^^^^^^^^^^^^^
-- **Description**: Largest number of threads that have ever simultaneously been in the pool
-- **Type**: Gauge
-- **Observation**: Only available for `type` = `thread_pool`
-
-daml_executor_threads_active
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-- **Description**: Estimate of the number of threads that are executing tasks
-- **Type**: Gauge
-
-daml_executor_threads_running
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-- **Description**: Estimate of the number of worker threads that are not blocked waiting to join tasks or for other managed synchronization
-- **Type**: Gauge
-- **Observation**: Only available for `type` = `fork_join`
-
-daml_executor_tasks_queued
-^^^^^^^^^^^^^^^^^^^^^^^^^^
-- **Description**: Approximate number of tasks that are queued for execution
-- **Type**: Gauge
-
-daml_executor_tasks_executing_queued
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-- **Description**: Estimate of the total number of tasks currently held in queues by worker threads (but not including tasks submitted to the pool that have not begun executing)
-- **Type**: Gauge
-- **Observation**: Only available for `type` = `fork_join`
-
-daml_executor_tasks_stolen
-^^^^^^^^^^^^^^^^^^^^^^^^^^
-- **Description**: Estimate of the total number of completed tasks that were executed by a thread other than their submitter
-- **Type**: Gauge
-- **Observation**: Only available for `type` = `fork_join`
-
-daml_executor_tasks_submitted
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-- **Description**: Approximate total number of tasks that have ever been scheduled for execution
-- **Type**: Gauge
-- **Observation**: Only available for `type` = `thread_pool`
-
-daml_executor_tasks_completed
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-- **Description**: Approximate total number of tasks that have completed execution
-- **Type**: Gauge
-- **Observation**: Only available for `type` = `thread_pool`
-
-daml_executor_tasks_queue_remaining
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-- **Description**: Additional elements that this queue can ideally accept without blocking
-- **Type**: Gauge
-- **Observation**: Only available for `type` = `thread_pool`
 
 Pruning Metrics
 ~~~~~~~~~~~~~~~
