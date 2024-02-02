@@ -223,15 +223,15 @@ Settlement Time
 
 The settlement time for financial transactions can vary based on the market and the type of
 securities involved. Typically, settlement periods are denoted as T+1, T+2, or T+3, indicating the
-transaction date plus one, two, or three business days, respectively. Additionally, some markets may
-offer real-time settlement options. It's also common for certain trades between parties to have
-unique, mutually agreed-upon settlement periods.
+transaction date plus one, two, or three business days, respectively. Some markets may also offer
+real-time settlement options. It's also common for certain trades between parties to have unique,
+mutually agreed-upon settlement periods.
 
 The :ref:`Batch <module-daml-finance-settlement-batch-95573>` and
 :ref:`Instruction <module-daml-finance-settlement-instruction-87187>`
-implementations are designed to allow for the optional setting of a preferred settlement time, yet
-they do not incorporate any mechanisms that enforce a specific settlement time. This design choice
-offers several advantages:
+implementations are designed to allow for the optional setting of a preferred settlement time,
+without any mechanisms that enforce a specific settlement time. This design choice offers several
+advantages:
 
 - **Settlement Time Flexibility:** The Settler party has the discretion to decide or defer the
   actual settlement time. This includes the ability to settle transactions after the designated
