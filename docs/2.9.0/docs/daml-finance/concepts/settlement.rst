@@ -229,8 +229,8 @@ mutually agreed-upon settlement periods.
 
 The :ref:`Batch <module-daml-finance-settlement-batch-95573>` and
 :ref:`Instruction <module-daml-finance-settlement-instruction-87187>`
-implementations are designed to allow for the optional setting of a preferred settlement time,
-without any mechanisms that enforce a specific settlement time. This design choice offers several
+implementations are designed to allow the optional setting of a preferred settlement time, without
+any mechanisms that enforce a specific settlement time. This design choice offers several
 advantages:
 
 - **Settlement Time Flexibility:** The Settler party has the discretion to decide or defer the
