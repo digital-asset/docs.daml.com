@@ -218,6 +218,44 @@ of instructions atomically. Execution will fail if any of the
 :ref:`Instructions <module-daml-finance-settlement-instruction-87187>` is not fully allocated
 / approved, or if the transfer is unsuccessful.
 
+Settlement Time
+===============
+
+The settlement time for financial transactions can vary based on the market and the type of
+securities involved. Typically, settlement periods are denoted as T+1, T+2, or T+3, indicating the
+transaction date plus one, two, or three business days, respectively. Additionally, some markets may
+offer real-time settlement options. It's also common for certain trades between parties to have
+unique, mutually agreed-upon settlement periods.
+
+The :ref:`Batch <module-daml-finance-settlement-batch-95573>` and
+:ref:`Instruction <module-daml-finance-settlement-instruction-87187>`
+implementations are designed to allow for the optional setting of a preferred settlement time, yet
+they do not incorporate any mechanisms that enforce a specific settlement time. This design choice
+offers several advantages:
+
+- **Settlement Time Flexibility:** The Settler party has the discretion to decide or defer the
+  actual settlement time. This includes the ability to settle transactions after the designated
+  settlement time, which can be particularly useful in resolving any off-ledger disputes.
+
+- **Avoidance of Early Settlement:** Parties involved in sending or receiving a holding may opt to
+  delay their
+  :ref:`allocation <module-daml-finance-interface-settlement-instruction-10970>` or
+  :ref:`approval <module-daml-finance-interface-settlement-instruction-10970>` of an instruction
+  until just prior to the settlement time. This strategy prevents the
+  :ref:`Batch <module-daml-finance-settlement-batch-95573>` from settling prematurely.
+
+- **Handling of Late Settlements:** To address cases where parties fail to settle by the desired
+  time, we propose using a separate custom contract instance. This contact could facilitate the
+  rolling of a :ref:`Batch <module-daml-finance-settlement-batch-95573>` (along with its
+  :ref:`Instruction <module-daml-finance-settlement-instruction-87187>`\s) into a subsequent
+  settlement cycle if the initial settlement period lapses. Additionally, the contract could allow
+  for imposing penalties on parties that fail to allocate or approve the transaction in a timely
+  manner.
+
+For scenarios requiring a more stringent settlement process, customers are welcome to provide their
+own implementation. This custom implementation can include specific checks and controls tailored to
+their particular needs and requirements.
+
 Remarks and further references
 ******************************
 
