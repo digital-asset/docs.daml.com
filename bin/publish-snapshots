@@ -116,18 +116,8 @@ for version in $snapshots; do
            $ver \
            > $tmp
         mv $tmp $ver
-        nix-shell shell.nix --pure \
-                            --keep ARTIFACTORY_USERNAME \
-                            --keep ARTIFACTORY_PASSWORD \
-                            --run bash <<'NIX'
-set -euo pipefail
-if [ -f .python-env/bin/activate ]; then
-  source .python-env/bin/activate
-  PATH="$(pwd)/.python-env/bin:$PATH"
-fi
-bin/clean
-bin/build
-NIX
+        bin/clean
+        bin/build
         if [ "${CI:-}" = "true" ]; then
           echo " -> Pushing to S3..."
           upload=$(mktemp -d)
