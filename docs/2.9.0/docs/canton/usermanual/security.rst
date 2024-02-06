@@ -63,11 +63,14 @@ asymmetric encryption, and MAC with the following supported schemes:
 Key Generation and Storage
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Canton keys are generated in the node and stored in the node's primary storage. Canton allows for the use of
-a Key Management Service (KMS) to either: (a) `encrypt the private keys and
-protect them locally` or (b) `directly use the KMS to store and manage the private keys`.
-You can find more information on how to configure this service in
-:ref:`Key Management Service (KMS) Setup <kms>`.
+Canton keys are generated in the node and stored in the node's primary storage
+by default. This does not guarantee that the private keys are protected at rest
+or at runtime, for instance against a malicious administrator. To counter these
+threats, Canton allows for the use of a Key Management Service (KMS) to
+either: (a) `encrypt the stored private keys and protect them at rest` or (b)
+`directly use the KMS to store and manage the private keys` to protect the keys
+at rest and runtime. You can find more information on how to configure this
+service in :ref:`Key Management Service (KMS) Setup <kms>`.
 
 
 Public Key Distribution using Topology Management
