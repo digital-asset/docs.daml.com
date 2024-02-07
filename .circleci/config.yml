@@ -147,6 +147,12 @@ jobs:
                  cat $DIR/dropdown_versions \
                   | to_version_json_format
              )
+             make_robots() (
+                 echo "User-agent: *"
+                 echo "Allow: /"
+                 echo ""
+                 echo "Sitemap: https://docs.daml.com/sitemap.xml"
+             )
 
              root=$(cat root)
              cd docs
@@ -172,6 +178,7 @@ jobs:
              echo $sha > $upload/sha
              make_dropdown > $upload/versions.json
              make_hidden > $upload/snapshots.json
+             make_robots > $upload/robots.txt
              if [ "$(curl -s https://docs.daml.com/sha)" = "$sha" ]; then
                  echo "root is up-to-date ($root, $sha)."
                  for f in snapshots versions; do
