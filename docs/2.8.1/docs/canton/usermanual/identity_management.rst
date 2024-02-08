@@ -596,7 +596,7 @@ Replicate Party to Another Participant Node
 .. note::
     - The improved macros are available in Daml Enterprise 2.x as of release 2.8.1.
     - In 2.x, party migration has limitations. Please read the documentation carefully.
-    - The marcos work with protocol version 4 or later.
+    - The macros work with protocol version 4 or later.
     - The involved participants must be entirely quiet during the migration. Therefore, the migration can only happen during a maintenance window of the domain where the rate is set to 0.
     - The target participant must not know about any contract involving the party prior to the migration.
 
