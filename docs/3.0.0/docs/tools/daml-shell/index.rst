@@ -1,42 +1,41 @@
-.. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. Copyright (c) 2024 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Daml Shell User Guide
-#####################
+Daml Shell
+##########
 
-Getting Started
-===============
+Getting started
+***************
 
 Prerequisites
--------------
+=============
 
 Daml Shell connects to the PostgreSQL database of a Participant Query
-Store (PQS). Please refer to the `PQS
-documentation <https://docs.daml.com/query/pqs-user-guide.html>`__ for
-setup instructions.
+Store (PQS). For setup instructions, see the `PQS
+documentation <https://docs.daml.com/query/pqs-user-guide.html>`__.
 
 Running Daml Shell
-------------------
+==================
 
-Daml Shell can be run from a ``jar`` artifact or from a ``Docker`` image
+You can run Daml Shell from a ``jar`` artifact or from a ``Docker`` image
 (`tag
 list <https://hub.docker.com/repository/docker/digitalasset/daml-shell/tags?ordering=last_updated>`__).
 
-.. code:: sh
+.. code-block:: sh
 
    docker run -it --net host docker.io/digitalasset/daml-shell:<version-tag> # change --net host if desired
 
 Commands
---------
+========
 
 The easiest way to discover commands is to type the ``help`` command
 while Daml Shell is running.
 
 You can recurse into commands by typing
-``help <command> <sub-command> ...``. Auto-completion at the bottom of
-the screen will suggest possible command options.
+``help <command> <sub-command> [...]``. Auto-completion at the bottom of
+the screen suggests possible command options.
 
-.. figure:: images/001-help-output.gif?raw=true
+.. figure:: images/001-help-output.gif
    :alt: Help
 
 ::
@@ -67,37 +66,40 @@ the screen will suggest possible command options.
          * transaction - transaction details
 
 FAQ
-===
+***
 
-   **Why do I not see any archived contracts?**
+.. _no-archived-contracts:
 
-This is likely because PQS has been configured to seed the database from
+Why don't I see any archived contracts?
+=======================================
+
+If you don't see any archived contracts, PQS might be configured to seed the database from
 the ACS, which does not include historical offsets, archived contracts,
 or exercised choices.
 
-To see pre-existing archived contracts, the database needs to be seeded
+To see pre-existing archived contracts, seed the database 
 from the ``Transaction Stream`` or ``Transaction Tree Stream``.
 
-Solution: Set ``--pipeline-ledger-start`` to ``Genesis`` when running
+For best results, set ``--pipeline-ledger-start`` to ``Genesis`` when running
 PQS for the first time (refer to the `PQS
 documentation <https://docs.daml.com/query/pqs-user-guide.html>`__ or
 ``--help`` output).
 
-   **Why do I not see any choices?**
+Why don't I see any choices?
+============================
 
-Choices are only visible on the Ledger API’s
+Choices are only visible on the Ledger API's
 ``Transaction Tree Stream``. Set ``--pipeline-datasource`` to
 ``TransactionTreeStream`` when running PQS (refer to the `PQS
 documentation <https://docs.daml.com/query/pqs-user-guide.html>`__ or
 ``--help`` output).
 
-   **Why do I still not see any choices?**
+If you still don't see choices, see :ref:`no-archived-contracts`
 
-See ``Why do I not see any archived contracts`` above.
+Why don't I see any interface views?
+====================================
 
-   **Why do I not see any interface views?**
-
-Interfaces are only visible on the Ledger API’s ``Transaction Stream``
+Interfaces are only visible on the Ledger API's ``Transaction Stream``
 or ACS (not the ``Transaction Tree Stream``).
 
 Set ``--pipeline-datasource`` to ``TransactionStream`` when running PQS
@@ -105,21 +107,26 @@ Set ``--pipeline-datasource`` to ``TransactionStream`` when running PQS
 documentation <https://docs.daml.com/query/pqs-user-guide.html>`__ or
 ``--help`` output).
 
-   **Why do all contracts show the same ledger offset?**
+Why do all contracts show the same ledger offset?
+=================================================
 
-See ``Why do I not see any archived contracts`` above.# Configuration
+See :ref:`no-archived-contracts`
 
-Daml Shell can be configured via CLI arguments, environment variables,
-through a configuration file, or interactively using the ``set``
+Configuration
+*************
+
+
+You can configure Daml Shell via CLI arguments, environment variables,
+a configuration file, or interactively using the ``set``
 command.
 
 Command line arguments
-----------------------
+======================
 
 To see available command line options, run Daml Shell with the
 ``--help`` flag:
 
-.. code:: sh
+.. code-block:: sh
 
    Usage: daml-shell [options]
 
@@ -134,15 +141,15 @@ To see available command line options, run Daml Shell with the
      --disable-color          Disable ANSI colored output.
 
 Configuration file
-------------------
+==================
 
-These configuration parameters can also be set in a reusable
+You can set Daml Shell parameters in a reusable
 configuration file in HOCON (a JSON superset) using the flag
 ``--config <filename>``.
 
 Example file content:
 
-.. code:: hocon
+.. code-block:: text
 
    # file: application.conf
    oldest = "start"
@@ -153,10 +160,10 @@ Example file content:
    full-identifiers = false
    disable-color = false
 
-Interactively
--------------
+Interactive configuration
+=========================
 
-Settings can be configured interactively using the ``set`` command.
+You can configure settings interactively using the ``set`` command.
 Example:
 
 ::
@@ -164,20 +171,18 @@ Example:
    > set identifier-hash-length full 
    Disabled identifier shortening
 
-Type ``help set`` or ``help set <setting>`` to find out more about
-specific settings.# Usage
+Type ``help set`` or ``help set <setting>`` to learn more about
+specific settings.
 
-This document describes some basic usage examples.
+Usage
+*****
 
-Setup
-~~~~~
-
-Please refer to the `Getting Started <001-getting-started.md>`__ guide.
+This section provides some basic usage examples.
 
 Connecting
-~~~~~~~~~~
+==========
 
-We connect by entering the JDBC URL of our PQS postgres database. For
+To connect, enter the JDBC URL of your PQS PostgreSQL database. For
 example:
 
 ::
@@ -187,23 +192,23 @@ example:
 The status bar shows the connected status, the session offset range, and
 the datastore offset range.
 
-.. figure:: images/003-connect.gif?raw=true
+.. figure:: images/003-connect.gif
    :alt: Connect
 
 Offsets
-~~~~~~~
+=======
 
 By default, offsets have leading zeroes removed. To see all identifiers
-in full, including contract ID hashes, you can run
-``set identifier-hash-length full``, or set a custom length limit for
+in full, including contract ID hashes, run
+``set identifier-hash-length full`` or set a custom length limit for
 hashes by running, for example, ``set identifier-hash-length 15``.
 
 Depending on the ledger implementation, offsets may be in hexadecimal
 format.
 
-The available offset range from the data-store is given in the
+The available offset range from the datastore is specified in the
 ``Datastore range`` status field. The offset range for Daml Shell to use
-to display payload counts and summaries is given by the
+to display payload counts and summaries is specified in the
 ``Session range`` status field.
 
 You can move to different offsets by using the ``go`` command, which is
@@ -225,16 +230,15 @@ compare between (see ``help net-changes``).
    +3 PingPong:IAsset [89a08f0324025f1…]
    -3 PingPong:IAssetTransferProposal [89a08f0324025f1…]
 
-.. figure:: images/003-offset-commands.gif?raw=true
+.. figure:: images/003-offset-commands.gif
    :alt: Connect
 
 Summary information
-~~~~~~~~~~~~~~~~~~~
+===================
 
 Commands such as ``active``, ``archives``, ``creates``, and
 ``exercises`` can be used without argument to see payload counts by
-fully qualified identifier names. You can run ``help <command>`` to find
-out what each of them does.
+fully qualified identifier names. For details, run ``help <command>``.
 
 ::
 
@@ -251,25 +255,25 @@ out what each of them does.
    │ PingPong:Ping [89a08f0324025f1…]        │ Template  │     2 │
    └─────────────────────────────────────────┴───────────┴───────┘
 
-.. figure:: images/003-summary-commands.gif?raw=true
+.. figure:: images/003-summary-commands.gif
    :alt: Summary commands
 
 
 Payloads by fully qualified name
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+================================
 
-Adding a fully qualified name (FQN) after any of the ``active``,
-``archives``, ``creates``, or ``exercises`` commands will list all
+Specify a fully qualified name (FQN) with the command ``active``,
+``archives``, ``creates``, or ``exercises`` to list all
 applicable payloads for that FQN.
 
-The package ID can be included in the FQN, in which case only payloads
-from that particular package will be returned, e.g.
+To return payloads from a particular package only, include the package ID in
+the FQN:
 
 ::
 
    > active 89a08f0324025f1254f09edc0195ca24459c6302e88d2b9f636d2be5a615d1f1:PingPong:Ping
 
-or the package ID can be omitted, in which case payloads from all
+If you omit the package ID, payloads from all
 package IDs are returned, as long as they have the same name.
 
 ::
@@ -285,16 +289,16 @@ package IDs are returned, as long as they have the same name.
    │            │                  │              │ owner: Alice::12209038d324bf70625c580267d5957cb4c4c03bb7bce294713b48151a4a088afd3b │
    └────────────┴──────────────────┴──────────────┴────────────────────────────────────────────────────────────────────────────────────┘
 
-The auto-completion provides both variants, FQN with and without package
-IDs.
+The auto-completion provides both FQN variants (with and without package
+ID).
 
 Contract lookup
-~~~~~~~~~~~~~~~
+===============
 
-Contracts can be looked up by contract ID. Interface views will also be
+You can look up contracts by contract ID. Interface views are also
 displayed, if any.
 
-The contract ID can be copied with the wildcard character (here “…”)
+The contract ID can be copied with the wildcard character (here "...")
 included. The wildcard character will be expanded to any matching ID.
 
 ::
@@ -340,37 +344,37 @@ included. The wildcard character will be expanded to any matching ID.
 You can also compare two contracts in a ``diff``-style output format
 using the ``compare-contracts <id1> <id2>`` command.
 
-.. figure:: images/003-compare-contracts.gif?raw=true
+.. figure:: images/003-compare-contracts.gif
    :alt: compare-contracts
 
 Transaction lookup
-~~~~~~~~~~~~~~~~~~
+==================
 
-Transactions can be looked up either by transaction ID or by offset,
-i.e., by running ``transaction <transaction-id>`` or
-``transaction at <offset>`` respectively. Note the “``at``” when looking
+You can look up transactions by either transaction ID or offset,
+by running ``transaction <transaction-id>`` or
+``transaction at <offset>``, respectively. Note the ``at`` syntax when looking
 up by offset.
 
-The current transaction, at the head of the session offset range, can be
-displayed by just running ``transaction``.
+To display the current transaction at the head of the session offset range,
+run ``transaction``.
 
-The ``transaction`` command will show which contracts were created,
-which ones were archived, and what choices were exercised. It will also
-display the event ID for each of those events, as well as contract IDs
-and package IDs!
+The ``transaction`` command shows which contracts were created,
+which were archived, and what choices were exercised. It also
+displays the event ID for each of those events, as well as contract IDs
+and package IDs.
 
-.. figure:: images/003-transactions.gif?raw=true
+.. figure:: images/003-transactions.gif
    :alt: compare-contracts
 
 Exercise lookup
-~~~~~~~~~~~~~~~
+===============
 
 Exercised choices can be looked up in the same manner as contracts,
 except that exercises are looked up by their event ID rather than by a
 contract ID. The commands for summaries and lookups mirror the
 functionality available for contracts.
 
-For example, exercise counts by FQN can be looked up like this:
+For example, you can look up exercise counts by FQN:
 
 ::
 
@@ -385,7 +389,7 @@ For example, exercise counts by FQN can be looked up like this:
    │ PingPong:Copy [89a08f0324025f1254f0…]                         │ Non-consuming │     1 │
    └───────────────────────────────────────────────────────────────┴───────────────┴───────┘
 
-Exercises for a specific choice can be looked up like this:
+You can look up exercises for a specific choice:
 
 ::
 
@@ -406,7 +410,7 @@ Exercises for a specific choice can be looked up like this:
    │ 12     │ 00844b2f4a2fb8ff73fe… │          │ 00bc875c5ee7cc6adb11a48a2cb4272e4374affa94f23cb8a7b358946f3bd5c4b4ca0212209cb5521de33a5a2d931e0b97a312753d772e55529bc086e0fb75376123131b6f │
    └────────┴───────────────────────┴──────────┴────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
-Individual exercises can be looked up by event ID:
+To look up individual exercises, use the event ID:
 
 ::
 
@@ -434,21 +438,21 @@ Individual exercises can be looked up by event ID:
    ╙──────────────╨────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╜
 
 Setting offset bounds
-~~~~~~~~~~~~~~~~~~~~~
+=====================
 
 The output of ``creates [<fqn>]`` and ``archives [<fqn>]`` can be
 bounded by ``set oldest`` (for the lower bound) and ``set latest`` (for
 the upper bound). ``go`` is an alias for ``set latest``.
 
-.. figure:: images/003-bounded-lookup.gif?raw=true
+.. figure:: images/003-bounded-lookup.gif
    :alt: bounded lookup
 
-Finding transactions that created/archived a contract
-=====================================================
+Finding transactions that created or archived a contract
+========================================================
 
-Once you know the offsets that a contract was created at, for example by
-using the ``archives`` command, you can look up the relevant
+Once you know the offsets that a contract was created at (for example, by
+using the ``archives`` command), you can look up the relevant
 transactions using the ``transaction at <offset>`` command.
 
-.. figure:: images/003-from-contract-to-transactions.gif?raw=true
+.. figure:: images/003-from-contract-to-transactions.gif
    :alt: event transaction
