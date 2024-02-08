@@ -685,7 +685,7 @@ Then, disconnect the source participant from the domain:
 Finally, remove the active contracts of ``Alice`` from the source participant:
 
 .. snippet:: party_migration
-    .. success:: repair.party_migration.step6_cleanup_source(sourceParticipant, "alice.acs.gz")
+    .. success:: repair.party_migration.step6_cleanup_source(sourceParticipant, "alice.acs.gz", Set(alice))
 
 Thereafter, reconnect to the domain and re-enable transaction processing on the domain:
 
