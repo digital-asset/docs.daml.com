@@ -30,9 +30,6 @@ workflow. In our tutorial example, the receiver of the cash makes the transfer r
 
 Bob requests the cash to be transferred to his account. Alice then accepts the request.
 
-You notice that here we make explicit use of the fact that Alice can ``readAs`` the public party.
-This is needed as, in order to complete the transfer, visibility on the receiving account's holding
-factory is required.
 
 Frequently Asked Questions
 **************************
