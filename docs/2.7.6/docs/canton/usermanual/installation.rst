@@ -312,7 +312,7 @@ The above configuration provides you with an initial setup. Without going into d
 
 #. Configure who can join the domain by setting an appropriate permissioning strategy (default is "everyone can join").
 #. Configure domain parameters
-#. Setup a service agreements which any client connecting has to sign before using the domain.
+#. Set up a service agreement which any client connecting has to sign before using the domain.
 
 
 Multi-Node Setup

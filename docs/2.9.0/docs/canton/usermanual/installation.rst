@@ -62,6 +62,10 @@ The following instructions assume that you are running all commands in the root 
 The Config Directory Contents
 -----------------------------
 
+.. important::
+
+   This section applies to 2.8.1 and later releases.
+
 The config directory contains a set of reference configuration files, one per node type:
 
 .. code-block:: none
