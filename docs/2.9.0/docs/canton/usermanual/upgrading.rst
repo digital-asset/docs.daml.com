@@ -393,7 +393,9 @@ using deprecated flags.
 IMPORTANT: Existing domains and domain managers need to be reconfigured to keep on working. It is important
 that before attempting the binary upgrade, you configure the currently used protocol version explicitly:
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/enforce-protocol-version-domain-2.5.conf
+.. code:: bash
+
+    canton.domains.mydomain.init.domain-parameters.protocol-version = 3
 
 Nodes persist the static domain parameters used during initialization now. Version 2.5 is the last version
 that will require this explicit configuration setting during upgrading.
@@ -405,7 +407,10 @@ reconnect to the domain, as they will fail with a message like:
 
 To recover from this, you need to force a reset of the stored static domain parameters using:
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/reset-protocol-version-domain-2.5.conf
+.. code:: bash
+
+    canton.domains.mydomain.init.domain-parameters.protocol-version = 3
+    canton.domains.mydomain.init.domain-parameters.reset-stored-static-config = yes
 
 In order to benefit from protocol version 4, you will have to :ref:`upgrade the domain accordingly <canton_domain_protocol_version_upgrading>`.
 

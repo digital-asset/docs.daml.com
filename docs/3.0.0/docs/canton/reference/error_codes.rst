@@ -63,9 +63,9 @@ Error Code
 Error Category
                  A broad categorization of error codes that you can base your error handling strategies on.
                  Maps to exactly one `gRPC status code`_.
-                 We recommended dealing with errors based on their error category.
+                 We recommend dealing with errors based on their error category.
                  However, if the error category alone is too generic
-                 you can act on a particular error codes.
+                 you can act on a particular error code.
 
 Correlation Id
                   A value that allows the user to clearly identify the request,
