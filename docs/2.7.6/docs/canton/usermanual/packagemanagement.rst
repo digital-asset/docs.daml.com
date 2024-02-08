@@ -66,7 +66,7 @@ synchronise on a transaction that uses packages contained in a certain DAR, we n
 have uploaded the same DAR before the transaction was submitted.
 
 If one of the involved participants doesn't know about a certain DAR, then the transaction will bounce with an error
-PACKAGE_NOT_VETTED_BY_RECIPIENTS.
+``NO_DOMAIN_FOR_SUBMISSION`` (with additional metadata listing which package has not been vetted on which participant).
 
 This error goes back to the fact that both participants not only upload the DAR, but also publicly declare towards
 their peers that they are ready to receive transactions referring to certain packages. This declaration happens

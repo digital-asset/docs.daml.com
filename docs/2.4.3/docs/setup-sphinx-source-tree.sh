@@ -22,7 +22,7 @@ if [ -d $SPHINX_DIR/theme ]; then
 fi
 (
   cd $DIR/../../../theme
-  nix-shell shell.nix --pure --run './build.sh'
+  ./build.sh
   cp -r . $SPHINX_DIR/theme
 )
 tar xf $DOWNLOAD_DIR/canton-docs-$CANTON_RELEASE_TAG.tar.gz -C $SPHINX_DIR/source/canton

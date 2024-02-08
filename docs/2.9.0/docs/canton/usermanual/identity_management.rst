@@ -514,127 +514,228 @@ as automatically determining the parameters for the ``authorize`` call.
     Please note that the ``participant.parties.enable`` macro will add the parties to the same namespace as the participant is in.
     It only works if the participant has authority over that namespace either by possessing the root or a delegated key.
 
-.. enterprise-only::
+.. _separate-party-migration:
+
+Client Controlled Party
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Parties are only weakly tied to participant nodes. They can be allocated in their own namespace and then
+be delegated to a given participant. For simplicity and convenience, the participant creates new parties
+in its own namespace by default, but there are situations where this is not desired.
+
+A common scenario is that you first host the party on behalf of your client, but subsequently hand over
+the party to the client's own node. With the default party allocation, you would still control the party of the client.
+
+To avoid this, you need your client to create a new party on their own and export a party delegation
+to you. This party delegation can then be imported into your topology state, which will then allow you
+to act on behalf of the party.
+
+For this process, we use a participant node which won't be connected to any domain. We don't need the full
+node, but just the topology manager. First, we need to find out the participant id of the hosting node:
+
+.. snippet:: client_controlled_party
+    .. hidden:: participant2.domains.connect_local(mydomain)
+    .. hidden:: val client = participant1
+    .. hidden:: val hosting = participant2
+    .. success:: hosting.id.toProtoPrimitive
+
+This identifier needs to be communicated to the client and can be imported using ``ParticipantId.tryFromProtoPrimitive``.
+The client then creates first a new key (they could use the default key created):
+
+.. snippet:: client_controlled_party
+    .. success:: val secret = client.keys.secret.generate_signing_key("my-party-key")
+
+and an appropriate root certificate for this key:
+
+.. snippet:: client_controlled_party
+    .. success:: val rootCert = client.topology.namespace_delegations.authorize(TopologyChangeOp.Add,secret.fingerprint,secret.fingerprint,isRootDelegation = true)
+
+This root certificate needs to be exported into a file:
+
+.. snippet:: client_controlled_party
+    .. success:: import com.digitalasset.canton.util.BinaryFileUtil
+    .. success:: BinaryFileUtil.writeByteStringToFile("rootCert.bin", rootCert)
+
+Define the party id of the party you want to create:
+
+.. snippet:: client_controlled_party
+    .. success:: val partyId = PartyId("Client", secret.fingerprint)
+
+Create and export the party to participant delegation:
+
+.. snippet:: client_controlled_party
+    .. hidden:: val hostingNodeId = participant2.id
+    .. success:: val partyDelegation = client.topology.party_to_participant_mappings.authorize(TopologyChangeOp.Add, partyId, hostingNodeId, RequestSide.From)
+    .. success:: BinaryFileUtil.writeByteStringToFile("partyDelegation.bin", partyDelegation)
+
+The client now shares the ``rootCert.bin`` and ``partyDelegation.bin`` files with the hosting node. The hosting
+node imports them into their topology state:
+
+.. snippet:: client_controlled_party
+    .. success:: hosting.topology.load_transaction(BinaryFileUtil.tryReadByteStringFromFile("rootCert.bin"))
+    .. success:: hosting.topology.load_transaction(BinaryFileUtil.tryReadByteStringFromFile("partyDelegation.bin"))
+
+Finally, the hosting node needs to issue the corresponding topology transaction to enable the party on its node:
+
+.. snippet:: client_controlled_party
+    .. success:: hosting.topology.party_to_participant_mappings.authorize(TopologyChangeOp.Add, partyId, hosting.id, RequestSide.To)
+    .. hidden:: utils.synchronize_topology()
+    .. assert:: hosting.parties.hosted("Client").nonEmpty
+
+An alternative method would be to issue an identifier delegation certificate to a key controlled by the hosting node.
+In this case, the party wouldn't be delegated to a specific participant. Instead, the unique identifier would be delegated to a
+specific key, which would then in turn be able to delegate the party to a participant.
 
 .. _offline-party-migration:
 
-Migrate Party to Another Participant Node
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Parties are only weakly tied to participant nodes. They can be allocated in their own namespace and then
-be delegated to a given participant. For simplicity and convenience, the participant creates new parties
-in their own namespace by default.
+Replicate Party to Another Participant Node
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. enterprise-only::
+
+.. note::
+    - The improved macros are available in Daml Enterprise 2.x as of release 2.8.1.
+    - In 2.x, party migration has limitations. Please read the documentation carefully.
+    - The macros work with protocol version 4 or later.
+    - The involved participants must be entirely quiet during the migration. Therefore, the migration can only happen during a maintenance window of the domain where the rate is set to 0.
+    - The target participant must not know about any contract involving the party prior to the migration.
 
 The weak coupling of parties to participants allows you to migrate parties together with their active contract set from
-one participant node to another. Note, the process below works only for parties that are hosted on a single node.
-Also, if the party is not fully controlled by the source participant node, you need to prepare the topology state
-change appropriately, disabling the party on the source node and delegating the party to the target node.
+one participant node to another. The process described below uses a specific set of commands which have to be executed in the right order with some care.
+
+We assume that there are three participants: The ``sourceParticipant`` from which the existing contract set will be copied,
+a ``targetParticipant`` to which the contract set will be copied, and a ``controllingParticipant`` that owns the party.
+In some cases, the controlling participant will be the same as the source participant, but this is not required.
 
 .. note::
 
     Please note that the entire system needs to be totally quiet for this process to succeed. You
-    currently can not migrate a party under load. If you migrate a party on a system that processes
-    transactions, the processing data will eventually become corrupt breaking your node.
+    currently cannot migrate a party under load on 2.x. If you migrate a party on a system that processes
+    transactions, the processing data will eventually become corrupt, breaking your node. The macros
+    will refuse to run if the system is not idle. Therefore, follow the steps below carefully.
 
-Turn off transaction processing on the domain by setting the rate to 0 and wait for all timeouts to have
+First, turn off transaction processing on the domain by setting the rate to 0 and wait for all timeouts to have
 elapsed (mediator & participant reaction timeout):
 
-.. code::
+.. snippet:: party_migration
+    .. success:: mydomain.service.set_max_rate_per_participant(0)
+    .. hidden:: mydomain.service.update_dynamic_domain_parameters(_.update(participantResponseTimeout = 1.seconds, mediatorReactionTimeout = 1.seconds))
+    .. hidden:: participant1.parties.enable("Alice")
+    .. hidden:: participants.all.domains.connect_local(mydomain)
+    .. hidden:: val sourceParticipant = participant1
+    .. hidden:: val controllingParticipant = participant1
+    .. hidden:: val targetParticipant = participant2
 
-    mydomain.service.set_max_rate_per_participant(0)
-    // wait until mediator + participant reaction timeouts elapsed!
+This is necessary as otherwise the contract set might change, or there might be inflight transactions and locked
+contracts which would confuse the newly onboarded participant.
 
-Starting with a party Alice being allocated on participant1:
+Assuming there is a party named ``Alice`` permissioned on the ``sourceParticipant``, you first download
+the active contract set of the party:
 
 .. snippet:: party_migration
-    .. assert:: { participants.all.domains.connect_local(mydomain); true }
-    .. success:: val alice = participant1.parties.enable("Alice")
-    .. assert:: { participant1.topology.synchronisation.await_idle(); true }
+    .. hidden:: participant1.topology.synchronisation.await_idle()
+    .. success:: val alice = sourceParticipant.parties.find("Alice")
+    .. hidden:: com.digitalasset.canton.concurrent.Threading.sleep(2000)
+    .. success:: repair.party_migration.step1_store_acs(sourceParticipant, Set(alice), "alice.acs.gz")
 
-To migrate Alice to participant2, we follow a four-step process. First, we need
-to obtain the target participant id. In this example, we read it from the participant id:
-
-.. snippet:: party_migration
-    .. success:: val targetParticipantId = participant2.id
-
-Next, we deactivate the party on the origin participant and store the party's active contract set in a file by
-using the repair macros which are part of the enterprise edition:
+This will store all the contracts into the file. If the file ends with ".gz", then the content will be compressed.
+After transferring the file to the target participant, you first need to disconnect the target participant from the
+domain, because the repair service cannot run with an active domain connection:
 
 .. snippet:: party_migration
-    .. success:: repair.party_migration.step1_hold_and_store_acs(alice, participant1, targetParticipantId, "alice.acs.gz")
-    .. assert:: participant1.parties.list("Alice").isEmpty
+    .. success:: targetParticipant.domains.disconnect_all()
 
-The last argument is the name of a file which the active contract set is stored as base64 encoded strings,
-ordered by domain-id and contract-id. This file then needs to be transferred offline to the target
-participant. Additionally, the repair macro will disable the party on the first participant.
-This is important in order to avoid breaking the consistency of the exported active contract set.
-
-The target participant must then be disconnected from the domain before it can import data:
+Once disconnected, import the contracts using the next repair macro:
 
 .. snippet:: party_migration
-    .. success:: participant2.domains.disconnect("mydomain")
+    .. success:: repair.party_migration.step2_import_acs(targetParticipant, Set(alice), "alice.acs.gz")
 
-Once the domain is disconnected, invoke the import command:
-
-.. snippet:: party_migration
-    .. success:: repair.party_migration.step2_import_acs(participant2, "alice.acs.gz")
-
-When importing is finished, reconnect to the domain using:
+Although this step has imported the contracts, the party is still not enabled on the target participant. For a
+party to be delegated to a participant, both the owner of the party and the participant need to issue the
+required topology transactions. If the controlling participant is connected to the domain, you run the next
+step:
 
 .. snippet:: party_migration
-    .. success:: participant2.domains.reconnect("mydomain")
-    .. assert:: participant2.health.maybe_ping(participant2).nonEmpty
+    .. hidden:: val targetParticipantId = targetParticipant.id
+    .. hidden:: targetParticipant.domains.reconnect_all()
+    .. success:: repair.party_migration.step3_delegate_party_to_target_node(controllingParticipant, Set(alice), targetParticipantId)
+    .. hidden:: utils.synchronize_topology()
 
-The last step on the target participant enables the party:
-
-.. snippet:: party_migration
-    .. success:: repair.party_migration.step3_enable_on_target(alice, participant2)
-    .. assert:: participant2.parties.list(filterParty="Alice", filterParticipant="participant2").nonEmpty
-
-Finally, purge the active contract set on the origin participant:
+This will issue the party to participant topology transaction of type ``From``. The ``To`` transaction must be
+issued on the ``targetParticipant``, using the fourth step. The participant must be connected to the domain for this step:
 
 .. snippet:: party_migration
-    .. success:: participant1.domains.disconnect("mydomain")
-    .. success:: repair.party_migration.step4_clean_up_source(alice, participant1, "alice.acs.gz")
-    .. assert:: { Thread.sleep(1000); true }
-    .. assert:: { participant1.domains.reconnect("mydomain"); true }
-    .. assert:: participant1.ledger_api.acs.of_party(alice).isEmpty
+    .. success:: targetParticipant.domains.reconnect_all()
+    .. success:: repair.party_migration.step4_enable_party_on_target(targetParticipant, Set(alice))
 
-The above commands require interactive access to the participants and are supported as an alpha implementation. They
-work for parties that were allocated using standard methods on a single participant node.
-Otherwise, a few more manual steps are required to properly prepare the topology state before exporting and
-importing the topology state.
+After this step, the party is enabled on the target participant and the active contract set has been migrated,
+but the party is now hosted by both ``sourceParticipant`` and ``targetParticipant``.
 
-.. _canton-party-on-two-nodes:
+If you want to remove the party from the source participant, continue with the next step before resetting
+the domain rate back to its original value. First, unregister the party from the source participant:
 
-Party on Two Nodes
-~~~~~~~~~~~~~~~~~~
+.. snippet:: party_migration
+    .. success:: repair.party_migration.step5_remove_party_delegation_from_source(controllingParticipant, Set(alice), sourceParticipant)
 
-Note: this is an alpha feature only and is not supported in production.
+Then, disconnect the source participant from the domain:
+
+.. snippet:: party_migration
+    .. success:: sourceParticipant.domains.disconnect_all()
+
+Finally, remove the active contracts of ``Alice`` from the source participant:
+
+.. snippet:: party_migration
+    .. success:: repair.party_migration.step6_cleanup_source(sourceParticipant, "alice.acs.gz", Set(alice))
+
+Thereafter, reconnect to the domain and re-enable transaction processing on the domain:
+
+.. snippet:: party_migration
+    .. success:: sourceParticipant.domains.reconnect_all()
+    .. success:: mydomain.service.set_max_rate_per_participant(10000)
+    .. hidden:: mydomain.service.update_dynamic_domain_parameters(_.update(participantResponseTimeout = 30.seconds, mediatorReactionTimeout = 30.seconds))
+    .. assert:: participant1.health.maybe_ping(participant2).nonEmpty
+
+.. _canton-party-on-multiple-nodes-expert mode:
+
+Party on Multiple Nodes
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+        The below section is used to demonstrate the capabilities of Canton or to be helpful in special setups.
+        Please use the repair macros as explained above to migrate parties between nodes. The below section
+        contains commands that can break your system if used incorrectly.
 
 Assuming we have party ``("Alice", N1)`` which we want to host on two participants: ``("participant1", N1)`` and
 ``("participant2", N2)``. In this case, we have the party "Alice" in namespace ``N1``, whereas the participant2 is in
 namespace ``N2``. In order to set this up, we need to appropriately authorize the participants to act on behalf of the
-party and we need to correctly copy the active contract set.
+party. In this example, we assume that the party is added to both nodes at the same time before any contract is
+created. If you want to migrate an existing party, :ref:`follow the guide above <offline-party-migration>`.
 
-Starting with a party being allocated on participant1:
+In order to make sure that there is no contract created by accident which is only observed by one node and not
+the others, set the domain rate to 0, which will ensure that no contracts can be created on the domain during
+this maintenance period:
 
 .. snippet:: party_on_two_nodes
-    .. assert:: { participants.all.domains.connect_local(mydomain); true }
-    .. success:: val alice = participant1.parties.enable("Alice")
-    .. assert:: { utils.synchronize_topology(); true }
-    .. assert:: { import scala.jdk.CollectionConverters._; participant1.ledger_api.javaapi.commands.submit_flat(Seq(alice), new com.digitalasset.canton.participant.admin.workflows.java.pingpong.Cycle("hello", alice.toProtoPrimitive).create.commands.asScala.toSeq); true }
+    .. success:: mydomain.service.set_max_rate_per_participant(0)
 
-To add this party to participant2, participant2 must first agree to host the party. This
-is done by authorizing the ``RequestSide.To`` of the party to participant mapping on the target participant:
+Starting with a party allocated on participant1:
+
+.. snippet:: party_on_two_nodes
+    .. hidden:: participants.all.domains.connect_local(mydomain)
+    .. success:: val alice = participant1.parties.enable("Alice")
+    .. hidden:: utils.synchronize_topology()
+
+To add this party to participant2, participant2 must first agree to host the party. This is done by authorizing
+the ``RequestSide.To`` of the party to participant mapping on the target participant:
 
 .. snippet:: party_on_two_nodes
     .. success:: participant2.topology.party_to_participant_mappings.authorize(TopologyChangeOp.Add, alice, participant2.id, RequestSide.To, ParticipantPermission.Submission)
-    .. assert:: { utils.synchronize_topology(); true }
+    .. hidden:: utils.synchronize_topology()
 
-You can restrict the permission of the node by setting the appropriate ``ParticipantPermission`` in the
+The permission of the node can be restricted by setting the appropriate ``ParticipantPermission`` in the
 authorization call to either ``Observation`` or ``Confirmation`` instead of the default ``Submission``. This allows
-setups where a party is hosted with ``Submission`` permissions on one node and ``Confirmation`` on another to increase the
-liveness of the system.
+setups where a party is hosted with ``Submission`` permissions on one node and ``Confirmation`` on another to increase
+the liveness of the party.
 
 .. note::
 
@@ -643,16 +744,6 @@ liveness of the system.
     the party. This is due to Canton's high level of privacy where validators do not know the identity of the
     submitting participant. Therefore, a party who delegates ``Confirmation`` permissions to a participant
     should trust the participant sufficiently.
-
-Before we continue, we need to ensure that the target participant is now disconnected from the affected domains, in order to
-avoid the target participant receiving transactions for the new party prior to the complete transfer of the
-active contract store. Therefore, we disconnect the participant from all domains:
-
-.. snippet:: party_on_two_nodes
-    .. success:: participant2.domains.disconnect_all()
-
-This is currently the reason why this feature is only supported as alpha: we can not guarantee that a user does not
-damage their system by accident due to forgetting to disconnect from the domain.
 
 Next, add the ``RequestSide.From`` transaction such that the party is activated on the target participant:
 
@@ -665,51 +756,18 @@ Check that the party is now hosted by two participants:
     .. success:: participant1.parties.list("Alice")
     .. assert:: participant1.parties.list("Alice").flatMap(_.participants.map(_.participant)).contains(participant2.id)
 
-In the next step, you store the active contract set of the party into a file.
-
-.. todo::
-   `Remove this workaround of running a ping <https://github.com/DACH-NY/canton/issues/13414>`_.
-   It is only needed to make sure that the clean request counter prehead is past the timestamp of the topology transactions.
-
-Make sure that the participant to supply the ACS has seen some transactions after the topology state has become active,
-but those transactions should not involve the migrated party.
-So just run a health check:
+Finally, the transaction processing on the domain can be re-enabled again:
 
 .. snippet:: party_on_two_nodes
-    .. success:: participant1.health.ping(participant1.id)
+    .. success:: mydomain.service.set_max_rate_per_participant(100)
+    .. hidden:: import scala.jdk.CollectionConverters._
+    .. hidden:: import com.digitalasset.canton.participant.admin.workflows.java.pingpong.Cycle
+    .. hidden:: participant1.ledger_api.javaapi.commands.submit_flat(Seq(alice), new Cycle("hello", alice.toProtoPrimitive).create.commands.asScala.toSeq)
 
-If there is no traffic on the participant node and you can be sure that nothing has changed for the party,
-you can just straight use the ``repair.download`` command.
-Otherwise, you must find the timestamp when the party was activated. One way to find that timestamp is by
-looking at the topology store of that particular domain connection:
-
-.. snippet:: party_on_two_nodes
-    .. success:: val timestamp = participant1.topology.party_to_participant_mappings.list(filterStore="mydomain", filterParty="Alice").map(_.context.validFrom).max
-
-Take the ``max`` of the two timestamps which corresponds to the ``RequestSide.From`` topology transaction that you
-added above. Use this timestamp now to export the state using:
-
-.. snippet:: party_on_two_nodes
-    .. success:: participant1.repair.download(Set(alice), "alice.acs.gz", filterDomainId="mydomain", timestamp = Some(timestamp))
-
-Note that you need to do this for every domain separately with the correct timestamp of the activation of the party.
-In our example, there is only one domain.
-
-Subsequently, the active contract set is imported on the target participant:
-
-.. snippet:: party_on_two_nodes
-    .. success:: repair.party_migration.step2_import_acs(participant2, "alice.acs.gz")
-
-Once the entire active contract store has been imported, the target participant can reconnect to the domain:
-
-.. snippet:: party_on_two_nodes
-    .. success:: participant2.domains.reconnect_all()
-    .. assert:: participant2.health.maybe_ping(participant2).nonEmpty
-
-Now, both participant host the party and can act on behalf of it.
-
-.. snippet:: party_on_two_nodes
-    .. assert:: { import scala.jdk.CollectionConverters._; val cycle = participant2.ledger_api.javaapi.acs.await(com.digitalasset.canton.participant.admin.workflows.java.pingpong.Cycle.COMPANION)(alice); participant2.ledger_api.javaapi.commands.submit_flat(Seq(alice), cycle.id.exerciseRepeat().commands.asScala.toSeq); true }
+Both participants will now see the same contracts, and depending on the permissions, be able to submit on behalf of
+the party. Each hosting participant will be included in the transaction, which means that there is an upper limit
+on where this feature is useful. If you need to share contract data with many participants, you should consider
+using explicit disclosure and share contract data out of band.
 
 .. _manually_initializing_node:
 

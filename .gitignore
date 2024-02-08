@@ -3,3 +3,4 @@
 .vscode/
 .idea/
 docs.daml.com.iml
+/.python-env/

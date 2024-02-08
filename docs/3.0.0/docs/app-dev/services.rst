@@ -269,7 +269,7 @@ The feature descriptor can be retrieved using the :ref:`Version service <version
 With user management enabled you can use both new user-based and old custom Daml authorization tokens.
 Consult the :doc:`Authorization documentation </app-dev/authorization>` to understand how Ledger API requests are authorized, and how to use user management to dynamically change an application's rights.
 
-User management is available in Canton-enabled drivers and not yet available in the Daml for VMware Blockchain driver.
+User management is available in Canton-enabled drivers.
 
 
 .. _identity-provider-config-service:
