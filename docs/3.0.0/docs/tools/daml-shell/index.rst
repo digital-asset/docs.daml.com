@@ -1,10 +1,10 @@
-.. Copyright (c) 2024 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. Copyright (c) 2024, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
 Daml Shell
 ##########
 
-Getting started
+Getting Started
 ***************
 
 Prerequisites
@@ -17,8 +17,8 @@ documentation <https://docs.daml.com/query/pqs-user-guide.html>`__.
 Running Daml Shell
 ==================
 
-You can run Daml Shell from a ``jar`` artifact or from a ``Docker`` image
-(`tag
+You can run Daml Shell from a ``jar`` artifact or from a ``Docker``
+image (`tag
 list <https://hub.docker.com/repository/docker/digitalasset/daml-shell/tags?ordering=last_updated>`__).
 
 .. code-block:: sh
@@ -35,8 +35,7 @@ You can recurse into commands by typing
 ``help <command> <sub-command> [...]``. Auto-completion at the bottom of
 the screen suggests possible command options.
 
-.. figure:: images/001-help-output.gif
-   :alt: Help
+|001-help-output.gif|
 
 ::
 
@@ -65,60 +64,11 @@ the screen suggests possible command options.
          * set - configure application settings
          * transaction - transaction details
 
-FAQ
-***
-
-.. _no-archived-contracts:
-
-Why don't I see any archived contracts?
-=======================================
-
-If you don't see any archived contracts, PQS might be configured to seed the database from
-the ACS, which does not include historical offsets, archived contracts,
-or exercised choices.
-
-To see pre-existing archived contracts, seed the database 
-from the ``Transaction Stream`` or ``Transaction Tree Stream``.
-
-For best results, set ``--pipeline-ledger-start`` to ``Genesis`` when running
-PQS for the first time (refer to the `PQS
-documentation <https://docs.daml.com/query/pqs-user-guide.html>`__ or
-``--help`` output).
-
-Why don't I see any choices?
-============================
-
-Choices are only visible on the Ledger API's
-``Transaction Tree Stream``. Set ``--pipeline-datasource`` to
-``TransactionTreeStream`` when running PQS (refer to the `PQS
-documentation <https://docs.daml.com/query/pqs-user-guide.html>`__ or
-``--help`` output).
-
-If you still don't see choices, see :ref:`no-archived-contracts`
-
-Why don't I see any interface views?
-====================================
-
-Interfaces are only visible on the Ledger API's ``Transaction Stream``
-or ACS (not the ``Transaction Tree Stream``).
-
-Set ``--pipeline-datasource`` to ``TransactionStream`` when running PQS
-(refer to the `PQS
-documentation <https://docs.daml.com/query/pqs-user-guide.html>`__ or
-``--help`` output).
-
-Why do all contracts show the same ledger offset?
-=================================================
-
-See :ref:`no-archived-contracts`
-
 Configuration
 *************
 
-
-You can configure Daml Shell via CLI arguments, environment variables,
-a configuration file, or interactively using the ``set``
-command.
+You can configure Daml Shell via CLI arguments, environment variables, a
+configuration file, or interactively using the ``set`` command.
 
 Command line arguments
 ======================
@@ -143,9 +93,8 @@ To see available command line options, run Daml Shell with the
 Configuration file
 ==================
 
-You can set Daml Shell parameters in a reusable
-configuration file in HOCON (a JSON superset) using the flag
-``--config <filename>``.
+You can set Daml Shell parameters in a reusable configuration file in
+HOCON (a JSON superset) using the flag ``--config <filename>``.
 
 Example file content:
 
@@ -171,8 +120,8 @@ Example:
    > set identifier-hash-length full 
    Disabled identifier shortening
 
-Type ``help set`` or ``help set <setting>`` to learn more about
-specific settings.
+Type ``help set`` or ``help set <setting>`` to learn more about specific
+settings.
 
 Usage
 *****
@@ -192,8 +141,7 @@ example:
 The status bar shows the connected status, the session offset range, and
 the datastore offset range.
 
-.. figure:: images/003-connect.gif
-   :alt: Connect
+|003-connect.gif|
 
 Offsets
 =======
@@ -230,8 +178,7 @@ compare between (see ``help net-changes``).
    +3 PingPong:IAsset [89a08f0324025f1…]
    -3 PingPong:IAssetTransferProposal [89a08f0324025f1…]
 
-.. figure:: images/003-offset-commands.gif
-   :alt: Connect
+|003-offset-commands.gif|
 
 Summary information
 ===================
@@ -255,26 +202,24 @@ fully qualified identifier names. For details, run ``help <command>``.
    │ PingPong:Ping [89a08f0324025f1…]        │ Template  │     2 │
    └─────────────────────────────────────────┴───────────┴───────┘
 
-.. figure:: images/003-summary-commands.gif
-   :alt: Summary commands
-
+|003-summary-commands.gif|
 
 Payloads by fully qualified name
 ================================
 
 Specify a fully qualified name (FQN) with the command ``active``,
-``archives``, ``creates``, or ``exercises`` to list all
-applicable payloads for that FQN.
+``archives``, ``creates``, or ``exercises`` to list all applicable
+payloads for that FQN.
 
-To return payloads from a particular package only, include the package ID in
-the FQN:
+To return payloads from a particular package only, include the package
+ID in the FQN:
 
 ::
 
    > active 89a08f0324025f1254f09edc0195ca24459c6302e88d2b9f636d2be5a615d1f1:PingPong:Ping
 
-If you omit the package ID, payloads from all
-package IDs are returned, as long as they have the same name.
+If you omit the package ID, payloads from all package IDs are returned,
+as long as they have the same name.
 
 ::
 
@@ -298,7 +243,7 @@ Contract lookup
 You can look up contracts by contract ID. Interface views are also
 displayed, if any.
 
-The contract ID can be copied with the wildcard character (here "...")
+The contract ID can be copied with the wildcard character (here "…”)
 included. The wildcard character will be expanded to any matching ID.
 
 ::
@@ -344,27 +289,24 @@ included. The wildcard character will be expanded to any matching ID.
 You can also compare two contracts in a ``diff``-style output format
 using the ``compare-contracts <id1> <id2>`` command.
 
-.. figure:: images/003-compare-contracts.gif
-   :alt: compare-contracts
+|003-compare-contracts.gif|
 
 Transaction lookup
 ==================
 
-You can look up transactions by either transaction ID or offset,
-by running ``transaction <transaction-id>`` or
-``transaction at <offset>``, respectively. Note the ``at`` syntax when looking
-up by offset.
+You can look up transactions by either transaction ID or offset, by
+running ``transaction <transaction-id>`` or ``transaction at <offset>``,
+respectively. Note the ``at`` syntax when looking up by offset.
 
-To display the current transaction at the head of the session offset range,
-run ``transaction``.
+To display the current transaction at the head of the session offset
+range, run ``transaction``.
 
-The ``transaction`` command shows which contracts were created,
-which were archived, and what choices were exercised. It also
-displays the event ID for each of those events, as well as contract IDs
-and package IDs.
+The ``transaction`` command shows which contracts were created, which
+were archived, and what choices were exercised. It also displays the
+event ID for each of those events, as well as contract IDs and package
+IDs.
 
-.. figure:: images/003-transactions.gif
-   :alt: compare-contracts
+|003-transactions.gif|
 
 Exercise lookup
 ===============
@@ -444,15 +386,66 @@ The output of ``creates [<fqn>]`` and ``archives [<fqn>]`` can be
 bounded by ``set oldest`` (for the lower bound) and ``set latest`` (for
 the upper bound). ``go`` is an alias for ``set latest``.
 
-.. figure:: images/003-bounded-lookup.gif
-   :alt: bounded lookup
+|003-bounded-lookup.gif|
 
 Finding transactions that created or archived a contract
 ========================================================
 
-Once you know the offsets that a contract was created at (for example, by
-using the ``archives`` command), you can look up the relevant
+Once you know the offsets that a contract was created at (for example,
+by using the ``archives`` command), you can look up the relevant
 transactions using the ``transaction at <offset>`` command.
 
-.. figure:: images/003-from-contract-to-transactions.gif
-   :alt: event transaction
+|003-from-contract-to-transactions.gif| # FAQ
+
+.. _no-archived-contracts:
+
+Why don't I see any archived contracts?
+=======================================
+
+If you don't see any archived contracts, PQS might be configured to seed
+the database from the ACS, which does not include historical offsets,
+archived contracts, or exercised choices.
+
+To see pre-existing archived contracts, seed the database from the
+``Transaction Stream`` or ``Transaction Tree Stream``.
+
+For best results, set ``--pipeline-ledger-start`` to ``Genesis`` when
+running PQS for the first time (refer to the `PQS
+documentation <https://docs.daml.com/query/pqs-user-guide.html>`__ or
+``--help`` output).
+
+Why don't I see any choices?
+============================
+
+Choices are only visible on the Ledger API's
+``Transaction Tree Stream``. Set ``--pipeline-datasource`` to
+``TransactionTreeStream`` when running PQS (refer to the `PQS
+documentation <https://docs.daml.com/query/pqs-user-guide.html>`__ or
+``--help`` output).
+
+If you still don't see choices, see :ref:`no-archived-contracts`
+
+Why do I not see any interface views?
+=====================================
+
+Interfaces are only visible on the Ledger API's ``Transaction Stream``
+or ACS (not the ``Transaction Tree Stream``).
+
+Set ``--pipeline-datasource`` to ``TransactionStream`` when running PQS
+(refer to the `PQS
+documentation <https://docs.daml.com/query/pqs-user-guide.html>`__ or
+``--help`` output).
+
+Why do all contracts show the same ledger offset?
+=================================================
+
+See :ref:`no-archived-contracts`
+
+.. |001-help-output.gif| image:: images/001-help-output.gif
+.. |003-connect.gif| image:: images/003-connect.gif
+.. |003-offset-commands.gif| image:: images/003-offset-commands.gif
+.. |003-summary-commands.gif| image:: images/003-summary-commands.gif
+.. |003-compare-contracts.gif| image:: images/003-compare-contracts.gif
+.. |003-transactions.gif| image:: images/003-transactions.gif
+.. |003-bounded-lookup.gif| image:: images/003-bounded-lookup.gif
+.. |003-from-contract-to-transactions.gif| image:: images/003-from-contract-to-transactions.gif
