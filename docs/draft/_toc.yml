@@ -1,0 +1,10 @@
+root: index
+subtrees:
+- entries:
+  - url: "https://docs.daml.com/"
+    title: "Back to Daml Documentation"
+
+- caption: "Draft Features"
+  entries:
+
+  - file: draft
