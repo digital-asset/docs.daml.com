@@ -30,7 +30,7 @@ template body
 
     Can include:
 
-    :ref:`template-local definitions <daml-ref-template-let>`
+    :ref:`template-local definitions (deprecated) <daml-ref-template-let>`
         ``let`` keyword
 
         Lets you make definitions that have access to the contract arguments and are available in the rest of the template definition.
@@ -45,7 +45,7 @@ template body
 
     	Optional. Parties that aren't signatories but who you still want to be able to see this contract.
 
-    :ref:`an agreement <daml-ref-agreements>`
+    :ref:`an agreement (deprecated) <daml-ref-agreements>`
         ``agreement`` keyword
 
         Optional. Text that describes the agreement that this contract represents.
