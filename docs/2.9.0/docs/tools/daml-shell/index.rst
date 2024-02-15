@@ -428,8 +428,8 @@ documentation <https://docs.daml.com/query/pqs-user-guide.html>`__ or
 
 If you still don't see choices, see :ref:`no-archived-contracts`
 
-Why do I not see any interface views?
-=====================================
+Why don't I see any interface views?
+====================================
 
 Interfaces are only visible on the Ledger API's ``Transaction Stream``
 or ACS (not the ``Transaction Tree Stream``).
