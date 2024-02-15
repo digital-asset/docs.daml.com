@@ -395,7 +395,10 @@ Once you know the offsets that a contract was created at (for example,
 by using the ``archives`` command), you can look up the relevant
 transactions using the ``transaction at <offset>`` command.
 
-|003-from-contract-to-transactions.gif| # FAQ
+|003-from-contract-to-transactions.gif|
+
+FAQ
+***
 
 .. _no-archived-contracts:
 

@@ -8,10 +8,3 @@ subtrees:
   entries:
 
   - file: draft
-
-- caption: "Early Access"
-  entries:
-
-  - file: tools/daml-shell/index
-    title: "Daml Shell"
-
