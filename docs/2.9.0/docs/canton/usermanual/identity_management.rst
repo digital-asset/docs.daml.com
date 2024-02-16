@@ -636,7 +636,7 @@ the active contract set of the party:
     .. hidden:: participant1.topology.synchronisation.await_idle()
     .. success:: val alice = sourceParticipant.parties.find("Alice")
     .. hidden:: com.digitalasset.canton.concurrent.Threading.sleep(2000)
-    .. success:: repair.party_migration.step1_store_acs(sourceParticipant, Set(alice), "alice.acs.gz")
+    .. success:: repair.party_migration.step1_store_acs(sourceParticipant, Set(alice), partiesOffboarding = true, "alice.acs.gz")
 
 This will store all the contracts into the file. If the file ends with ".gz", then the content will be compressed.
 After transferring the file to the target participant, you first need to disconnect the target participant from the
