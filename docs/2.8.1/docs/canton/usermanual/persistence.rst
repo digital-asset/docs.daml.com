@@ -622,8 +622,11 @@ Order of Backups
 
 It is important that the participant's backup is not more recent than that of
 the domain's, as that would constitute a ledger fork. Therefore, if you back up
-both participant and domain databases, always back up the participant database before the
-domain. If you are using a domain integration, then backup the sequencer node before backing
+both participant and domain databases sequentially, always back up the participant database before the
+domain. If you are able to perform a complete system backup in a single step (e.g. when using
+a cloud RDS) you have to ensure that no component is making writes to the db while the backup is ongoing.
+
+If you are using a domain integration (Fabric, Besu), then backup the sequencer node before backing
 up the underlying domain storage (e.g. Besu files).
 
 In case of a domain restore from a backup, if a participant is ahead of the
