@@ -628,19 +628,19 @@ both participant and domain databases sequentially, the following constraints ap
 
 - If you run different nodes of the domain separately (sequencer, mediators, domain topology manager):
 
-  - Back up the mediators, the domain manager and participants before the sequencer;
-    otherwise they may not be able to reconnect to the sequencer (``ForkHappened``).
+  - Back up the mediators, the domain manager, and participants before the sequencer;
+    otherwise, they may not be able to reconnect to the sequencer (``ForkHappened``).
     The relative order of mediators, domain topology manager, and participants does not matter.
 
-  - On a :ref:`permissioned domain <permissioned-domains>`, make sure that
-    no participant is registered at the domain topology manager
+  - On a :ref:`permissioned domain <permissioned-domains>`, make sure
+    no participant is registered with the domain topology manager
     between the backup of the domain topology manager and the backup of the sequencer.
-    Otherwise the participant may not work correctly after the recovery.
+    Otherwise, the participant may not work correctly after the recovery.
 
-If you are able to perform a complete system backup in a single step (e.g. when using
-a cloud RDS) you have to ensure that no component is making writes to the db while the backup is ongoing.
+If you perform a complete system backup in a single step (for example, using
+a cloud RDS), make sure no component writes to the database while the backup is in progress.
 
-If you are using a domain integration (Fabric, Besu), then backup the sequencer node before backing
+If you are using a domain integration such as Fabric or Besu, back up the sequencer node before backing
 up the underlying domain storage (e.g. Besu files).
 
 In case of a domain restore from a backup, if a participant is ahead of the
