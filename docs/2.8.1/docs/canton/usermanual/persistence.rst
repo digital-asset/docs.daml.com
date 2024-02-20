@@ -622,8 +622,25 @@ Order of Backups
 
 It is important that the participant's backup is not more recent than that of
 the domain's, as that would constitute a ledger fork. Therefore, if you back up
-both participant and domain databases, always back up the participant database before the
-domain. If you are using a domain integration, then backup the sequencer node before backing
+both participant and domain databases sequentially, the following constraints apply:
+
+- If you run a composite domain node, always back up the participant database before the domain.
+
+- If you run different nodes of the domain separately (sequencer, mediators, domain topology manager):
+
+  - Back up the mediators, the domain manager, and participants before the sequencer;
+    otherwise, they may not be able to reconnect to the sequencer (``ForkHappened``).
+    The relative order of mediators, domain topology manager, and participants does not matter.
+
+  - On a :ref:`permissioned domain <permissioned-domains>`, make sure
+    no participant is registered with the domain topology manager
+    between the backup of the domain topology manager and the backup of the sequencer.
+    Otherwise, the participant may not work correctly after the recovery.
+
+If you perform a complete system backup in a single step (for example, using
+a cloud RDS), make sure no component writes to the database while the backup is in progress.
+
+If you are using a domain integration such as Fabric or Besu, back up the sequencer node before backing
 up the underlying domain storage (e.g. Besu files).
 
 In case of a domain restore from a backup, if a participant is ahead of the
@@ -636,18 +653,6 @@ either:
 The state of applications that interact with participant's ledger API must be
 backed up before the participant, otherwise the application state has to be
 reset.
-
-Among the different nodes of a domain (sequencer, mediators, domain topology manager),
-the following constraints apply:
-
-- Back up the mediators and the domain manager before the sequencer;
-  otherwise they may not be able to reconnect to the sequencer (``ForkHappened``).
-  The relative order of mediators, domain topology manager, and participants does not matter.
-
-- On a :ref:`permissioned domain <permissioned-domains>`, make sure that
-  no participant is registered at the domain topology manager
-  between the backup of the domain topology manager and the backup of the sequencer.
-  Otherwise the participant may not work correctly after the recovery.
 
 .. _restore_caveats:
 
