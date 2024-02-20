@@ -248,7 +248,7 @@ jobs:
              --keep AWS_ACCESS_KEY_ID \
              --keep AWS_SECRET_ACCESS_KEY \
              --keep CI \
-             --run bin/publish-snapshots
+             --run "source .python-env/bin/activate; bin/publish-snapshots"
 
 workflows:
   version: 2
