@@ -7,8 +7,8 @@
 
 API Configuration
 =================
-A domain node exposes two main APIs: the admin-api and the public-api, while the participant node
-exposes the ledger-api and the admin-api. In this section, we will explain what the APIs do and how
+A synchronizer exposes two main APIs, the admin API and the public API, while the participant node
+exposes the ledger API and the admin API. In this section, we will explain what the APIs do and how
 they can be configured.
 
 Default Ports
@@ -25,9 +25,9 @@ The ports are allocated according to the following scheme:
 
 Administration API
 ------------------
-The nature and scope of the admin api on participant and domain nodes has some overlap. As an example,
-you will find the same key management commands on the domain and the participant node API, whereas
-the participant has different commands to connect to several domains.
+The nature and scope of the admin API on participant nodes and the admin API on synchronizers has some overlap. As an example,
+you will find the same key management commands on the synchronizer and the participant node API, whereas
+the participant has different commands to connect to several synchronizers.
 
 The configuration currently is simple (see the TLS example below) and just takes an address and a port.
 The address defaults to ``127.0.0.1`` and a default port is assigned if not explicitly configured.
@@ -39,7 +39,7 @@ You should not expose the admin-api publicly in an unsecured way as it serves ad
 TLS Configuration
 -----------------
 
-Both, the Ledger API and the admin API provide the same TLS capabilities and can be configured using
+Both the Ledger API and the admin API provide the same TLS capabilities and can be configured using
 the same configuration directives. TLS provides end-to-end channel encryption between the server and
 client, and depending on the settings, server or mutual authentication.
 
@@ -54,13 +54,13 @@ In this example, we have also enabled client authentication, which means that th
 present a valid certificate (and have the corresponding private key). The certificate is valid if
 it has been signed by a key in the trust store.
 
-The ``trust-collection-file`` allows us to provide a file based trust store. If omitted, the system
+The ``trust-collection-file`` allows us to provide a file-based trust store. If omitted, the system
 will default to the built-in ``JVM`` trust store. The file must contain all client certificates
-(or parent certificates which were used to sign the client certificate) who are trusted to use
+(or parent certificates that were used to sign the client certificate) who are trusted to use
 the API. The format is just a collection of PEM certificates (in the right order or hierarchy), not a
-java based trust store.
+Java-based trust store.
 
-If you want to use mTLS on the Admin API, you must sign the client certificates with the certificate
+If you want to use mTLS on the admin API, you must sign the client certificates with the certificate
 defined in the ``trust-collection-file``.
 
 In order to operate the server just with server-side authentication, you can just omit the section
@@ -99,7 +99,7 @@ as the output can be very verbose and may impact the performance of your applica
 
 Keep Alive
 ----------
-In order to prevent load-balancers or firewalls from terminating long running RPC calls in the event of some silence on the
+In order to prevent load-balancers or firewalls from terminating long-running RPC calls in the event of some silence on the
 connection, all GRPC connections enable keep-alive by default. An example configuration for an adjusted setting is given below:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/integration-testing/src/main/resources/include/participant2.conf
@@ -118,7 +118,7 @@ Max Inbound Message Size
 ------------------------
 
 The APIs exposed by both the participant (ledger API and admin API) as well as
-by the domain (public API and admin API) have an upper limit on incoming message
+by the synchronizer (public API and admin API) have an upper limit on incoming message
 size. To increase this limit to accommodate larger payloads, the flag
 ``max-inbound-message-size`` has to be set for the respective API to the maximum
 message size in **bytes**.
@@ -192,7 +192,7 @@ Leeway Parameters for JWT Authorization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 You can define leeway parameters for authorization using JWT tokens.
-An authorization which fails due to clock skew between the signing and the verification of the tokens can be eased by
+An authorization that fails due to clock skew between the signing and the verification of the tokens can be eased by
 specifying a leeway window in which the token should still be considered valid.
 Leeway can be defined either specifically for the **Expiration Time ("exp")**, **Not Before ("nbf")** and
 **Issued At ("iat")** claims of the token or by a default value for all three. The values defining the
@@ -204,7 +204,7 @@ given in seconds and can be defined as in the example configuration below:
 Configuring the Target Audience for JWT Authorization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The default audience (``aud`` field in the audience based token) for authenticating on the Ledger Api using JWT is
+The default audience (``aud`` field in the audience-based token) for authenticating on the Ledger Api using JWT is
 ``https://daml.com/participant/jwt/aud/participant/${participantId}``. Other audiences can be configured explicitly
 using the custom target audience configuration option:
 
@@ -213,7 +213,7 @@ using the custom target audience configuration option:
 Configuring the Target Scope for JWT Authorization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The default scope (``scope`` field in the scope based access token) for authenticating on the Ledger API using JWT is ``daml_ledger_api``.
+The default scope (``scope`` field in the scope-based access token) for authenticating on the Ledger API using JWT is ``daml_ledger_api``.
 
 Other scopes can be configured explicitly using the custom target scope configuration option:
 
@@ -227,7 +227,7 @@ Ledger API Caches
 
 The ``max-contract-state-cache-size`` and ``max-contract-key-state-cache-size`` parameters control the sizes of the
 ledger API contract and contract key caches, respectively. Modifying these parameters changes the likelihood that a
-transaction using a contract or a contract-key that was recently accessed (created or read) can still find it in the
+transaction using a contract or a contract key that was recently accessed (created or read) can still find it in the
 memory, rather than needing to query it from the database. Larger caches might be of interest when there is a big pool of
 ambient contracts that are consistently being fetched or used for non-consuming exercises. Larger caches can also benefit
 use cases where a big pool of contracts rotates through a create -> archive -> create-successor cycle.
@@ -248,24 +248,24 @@ than 100 tx/s.
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/large-in-memory-fan-out.conf
 
-Domain Configurations
----------------------
+Synchronizer Configurations
+---------------------------
 
 .. _public-api-configuration:
 
 
-Public Api
+Public API
 ~~~~~~~~~~
-The domain configuration requires the same configuration of the ``admin-api`` as the participant.
-Next to the ``admin-api``, we need to configure the ``public-api``, which is the api where
+The synchronizer configuration requires the same configuration of the ``admin-api`` as the participant.
+Next to the ``admin-api``, we need to configure the ``public-api``, which is the API where
 all participants connect.
 
 Authentication Token
 ^^^^^^^^^^^^^^^^^^^^
-Authentication of the restricted services is built into the public sequencer api, leveraging the
+Authentication of the restricted services is built into the public sequencer API, leveraging the
 participant signing keys. You don't need to do anything in order to set this up; it is enforced
 automatically and can't be turned off. The same mechanism is used to check the authentication of
-the domain topology manager and the mediator.
+the synchronizer topology manager and the mediator.
 
 The token is generated during the handshake between the node and the sequencer. By default, it is valid for one hour.
 The nodes automatically renew the token in the background before it expires. The lifetime of the
@@ -277,10 +277,10 @@ However, we suggest keeping the default values.
 
 TLS Encryption
 ^^^^^^^^^^^^^^
-As with the admin-api, network traffic can (and should) be encrypted using TLS. This is particularly
-crucial for the Public API.
+As with the admin API, network traffic can (and should) be encrypted using TLS. This is particularly
+crucial for the public API.
 
-An example configuration section which enables TLS encryption and server-side TLS authentication is given by
+An example configuration section which enables TLS encryption and server-side TLS authentication is given by:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/integration-testing/src/main/resources/include/domain2.conf
    :start-after: architecture-handbook-entry-begin: DomainPublicApi

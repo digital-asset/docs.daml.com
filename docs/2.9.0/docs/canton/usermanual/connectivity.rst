@@ -9,20 +9,20 @@ Sequencer Connections
 =====================
 
 Any member of a Canton network, whether a participant, mediator or topology manager, connects to the
-domain by virtue of connecting to a sequencer of that domain (there can be multiple thereof). The
+synchronizer by virtue of connecting to a sequencer of that synchronizer (there can be multiple thereof). The
 component managing this connection is called the ``SequencerClient``.
 
-A participant can connect to multiple domains (preview) simultaneously, but a mediator or topology
-manager will only connect to a single domain. Therefore, managing the sequencer connections of a participant
+A participant can connect to multiple synchronizers (preview) simultaneously, but a mediator or topology
+manager will only connect to a single synchronizer. Therefore, managing the sequencer connections of a participant
 differs slightly from managing a mediator or topology manager connection.
 
-In the following sections, we will explain how to manage such sequencer connections.
+In the following sections, we explain how to manage such sequencer connections.
 
 Participant Connections
 -----------------------
 
-The :ref:`domain connectivity commands <participant_domain_connectivity>` allow the administrator of a Canton node
-to manage connectivity to domains. Generally, the key command to add new connections is given by the
+The :ref:`synchronizer connectivity commands <participant_domain_connectivity>` allow the administrator of a Canton node
+to manage connectivity to synchronizers. Generally, the key command to add new connections is given by the
 :ref:`register command <domains.register>`. While this is the command with the broadest ability to configure
 the connection, there are a few convenience macros that combine a series of steps to simplify administrative
 operations.
@@ -35,8 +35,8 @@ Connect Using Macros
 Connect to Local Sequencers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When a participant should connect to a sequencer or domain that is running in the same process, you
-can use the ``domains.connect_local`` macro and simply provide the reference to the local node.
+When a participant should connect to a sequencer or synchronizer that is running in the same process, you
+can use the ``domains.connect_local`` macro and provide the reference to the local node.
 
 .. snippet:: participant_connectivity
     .. assert:: { domainManager1.setup.bootstrap_domain(Seq(sequencer1), mediators.local); true }
@@ -48,7 +48,7 @@ The ``connect_local`` macro will generate the appropriate configuration settings
 the participant to connect to it using the ``register`` command.
 
 Please note that you can also pass a local ``DomainReference`` to the ``connect_local`` call in case you are running an
-embedded domain.
+embedded synchronizer.
 
 .. _connectivity_participant_connect_remote:
 
@@ -121,7 +121,7 @@ Such a connection can be configured using the ``connect_multi``:
 In such a setting, if a sequencer node goes down, the participant will round-robin through the available list of sequencers.
 The :ref:`reference documentation <domains.connect_multi>` provides further information on how to
 connect to highly available sequencers, and the :ref:`high availability guide <ha_user_manual>` has instructions
-on how to set up highly available domains.
+on how to set up highly available synchronizers.
 
 Currently, all the sequencer connections used by a node need to be using TLS or not. A mixed mode where one sequencer
 is using TLS and another not is not supported.
@@ -131,17 +131,17 @@ is using TLS and another not is not supported.
 Connect Using Register
 ~~~~~~~~~~~~~~~~~~~~~~
 
-The highest level of control over your domain connection is given by using ``register`` with a configuration of
-type ``DomainConnectionConfig``. By default, the connection configuration only requires two arguments: the domain
-alias and the connection URL. In this guide, we'll cover all arguments.
+The highest level of control over your synchronizer connection is given by using ``register`` with a configuration of
+type ``DomainConnectionConfig``. By default, the connection configuration only requires two arguments: the synchronizer
+alias and the connection URL. In this guide, we cover all arguments.
 
-First, we need to associate the domain connection to an alias. An alias is an arbitrary name chosen by the operator of
+First, we need to associate the synchronizer connection to an alias. An alias is an arbitrary name chosen by the operator of
 the participant to manage the given connection:
 
 .. snippet:: participant_connectivity
     .. success:: val domainAlias = "mydomain"
 
-A domain alias is just a string wrapped into the type "DomainAlias". This is done implicitly in the console, which allows
+A synchronizer alias is just a string wrapped into the type "DomainAlias". This is done implicitly in the console, which allows
 you to use a string instead.
 
 Next, you need to create a connection description of type ``SequencerConnection``. The public sequencer API in Canton
@@ -150,7 +150,7 @@ is based on gRPC, which uses ``HTTP 2.0``. In this example, we build the URLs by
 .. snippet:: participant_connectivity
     .. success:: val urls = Seq(sequencer1, sequencer2).map(_.config.publicApi.port).map(port => s"http://127.0.0.1:${port}")
 
-However, the url can also be entered as a string. A connection is then built using:
+However, the URL can also be entered as a string. A connection is then built using:
 
 .. snippet:: participant_connectivity
     .. success:: val sequencerConnectionWithoutHighAvailability = com.digitalasset.canton.sequencing.GrpcSequencerConnection.tryCreate(urls(0))
@@ -169,30 +169,30 @@ to create an appropriate sequencer connection:
     .. success:: val certificate = com.digitalasset.canton.util.BinaryFileUtil.tryReadByteStringFromFile("tls/root-ca.crt")
     .. success:: val connectionWithTLS = com.digitalasset.canton.sequencing.GrpcSequencerConnection.tryCreate("https://daml.com", customTrustCertificates = Some(certificate))
 
-Next, you can assign a priority to the domain by setting the priority parameter:
+Next, you can assign a priority to the synchronizer by setting the priority parameter:
 
 .. snippet:: participant_connectivity
     .. success:: val priority = 10 // default is 0 if not set
 
-This parameter is used to determine the domain to which a transaction should be sent if there are multiple domains
-connected (early access feature). The domain with the highest priority that can run a certain transaction will be picked.
+This parameter is used to determine the synchronizer to which a transaction should be sent if there are multiple synchronizers
+connected (early access feature). The synchronizer with the highest priority that can run a certain transaction will be picked.
 
-Finally, when configuring a domain connection, the parameter ``manualConnect`` can be used when the domain
+Finally, when configuring a synchronizer connection, the parameter ``manualConnect`` can be used when the synchronizer
 should not be auto-reconnected on startup. By default, you would set:
 
 .. snippet:: participant_connectivity
     .. success:: val manualConnect = false
 
-If a domain connection is configured to be manual, it will not reconnect automatically on startup; it has to
+If a synchronizer connection is configured to be manual, it will not reconnect automatically on startup; it has to
 be reconnected specifically using:
 
 .. snippet:: participant_connectivity
     .. success:: participant3.domains.reconnect("mydomain")
 
-Very security sensitive users that do not trust TLS to check for authenticity of the sequencer API can additionally
-pass an optional ``domainId`` of the target domain into the configuration. In this case, the participant will check
-that the sequencer it is connecting to can produce the cryptographic evidence that it actually is the expected domain.
-The domainId can be obtained from the domain manager:
+Very security-sensitive users who do not trust TLS to check for the authenticity of the sequencer API can additionally
+pass an optional ``domainId`` of the target synchronizer into the configuration. In this case, the participant will check
+that the sequencer it is connecting to can produce cryptographic evidence that it actually is the expected synchronizer.
+The domainId can be obtained from the synchronizer manager:
 
 .. snippet:: participant_connectivity
     .. success:: val domainId = Some(domainManager1.id)
@@ -213,19 +213,19 @@ participant to a sequencer:
 Inspect Connections
 ^^^^^^^^^^^^^^^^^^^
 
-You can inspect the registered domain connections using:
+You can inspect the registered synchronizer connections using:
 
 .. snippet:: participant_connectivity
     .. success:: participant2.domains.list_registered()
     .. assert::  participant2.domains.list_registered().length == 1
 
-You can also get the aliases of the currently connected domains using:
+You can also get the aliases of the currently connected synchronizers using:
 
 .. snippet:: participant_connectivity
     .. success:: participant2.domains.list_connected()
     .. assert::  participant2.domains.list_connected().length == 1
 
-And you can inspect the configuration of a specific domain connection using:
+And you can inspect the configuration of a specific synchronizer connection using:
 
 .. snippet:: participant_connectivity
     .. success:: participant2.domains.config("mydomain")
@@ -235,7 +235,7 @@ And you can inspect the configuration of a specific domain connection using:
 Modify Connections
 ^^^^^^^^^^^^^^^^^^
 
-Domain connection configurations can be updated using the ``modify`` function:
+Synchronizer connection configurations can be updated using the ``modify`` function:
 
 .. snippet:: participant_connectivity
     .. success:: participant2.domains.modify("mydomain", _.copy(priority = 20))
@@ -246,14 +246,14 @@ overriding arguments.
 
 .. todo(#13058): immediately apply a new sequencer connection config
 
-The modify command on the participant will only take effect after restarting the domain connection
+The modify command on the participant will only take effect after restarting the synchronizer connection
 explicitly (or restarting the entire node):
 
 .. snippet:: participant_connectivity
     .. success:: participant2.domains.disconnect("mydomain")
     .. success:: participant2.domains.reconnect("mydomain")
 
-On the mediator and domain manager node, the change is effected immediately.
+On the mediator and synchronizer manager node, the change is effected immediately.
 
 Update a Custom TLS Trust Certificate
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -278,41 +278,41 @@ Finally, you update the sequencer connection settings on the participant node:
 .. snippet:: participant_connectivity
     .. success:: participant2.domains.modify("mydomain", _.copy(sequencerConnections=SequencerConnections.single(connection)))
 
-For mediators / domain managers, you can update the certificate accordingly.
+For mediators/synchronizer managers, you can update the certificate accordingly.
 
 .. _connectivity_participant_reconnect:
 
 Enable and Disable Connections
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-A participant can disconnect from a domain using:
+A participant can disconnect from a synchronizer using:
 
 .. snippet:: participant_connectivity
     .. assert:: participant2.domains.list_connected().length == 1
     .. success:: participant2.domains.disconnect("mydomain")
     .. assert:: participant2.domains.list_connected().isEmpty
 
-Reconnecting to the domain can be done either on a per domain basis:
+Reconnecting to the synchronizer can be done either on a per synchronizer basis:
 
 .. snippet:: participant_connectivity
     .. success:: participant2.domains.reconnect("mydomain")
 
-Or for all registered domains that are not configured to require a manual connection:
+Or for all registered synchronizers that are not configured to require a manual connection:
 
 .. snippet:: participant_connectivity
     .. success:: participant2.domains.reconnect_all()
 
 
-Mediator and Domain Manager
----------------------------
+Mediator and Synchronizer Manager
+---------------------------------
 
-Both the mediator and the domain manager connect to the domain using sequencer connections. The sequencer connections
+Both the mediator and the synchronizer manager connect to the synchronizer using sequencer connections. The sequencer connections
 are configured when the nodes are initialized:
 
 .. snippet:: participant_connectivity
     .. success(output=6):: mediator1.mediator.help("initialize")
 
-The sequencer connection of a mediator and domain manager can be inspected using:
+The sequencer connection of a mediator and synchronizer manager can be inspected using:
 
 .. snippet:: participant_connectivity
     .. success:: mediator1.sequencer_connection.get()

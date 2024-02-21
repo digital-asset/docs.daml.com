@@ -6,17 +6,17 @@ Overview
 
 **High Availability** (HA) is the elimination of single points of failure to ensure that applications continue to operate when a component they depend on, such as a server, fails. 
 
-HA for Daml solutions focuses on the following components running in separate processes:
+HA for Daml solutions focus on the following components running in separate processes:
 
 * Participant nodes
 
-* Domains:
+* Synchronizers:
 
     * Sequencer
 
     * Mediator
 
-    * Domain Topology Manager
+    * Synchronizer Topology Manager
 
 
 .. _components-for-ha:
@@ -39,10 +39,10 @@ For example, if they both host the same party, transactions involving the party 
 .. NOTE::
     An application operating on behalf of a party cannot transparently failover from one participant node to another due to the difference in offsets emitted on each participant.
 
-Domains
-~~~~~~~
+Synchronizers
+~~~~~~~~~~~~~
 
-A participant node's availability is not affected by the availability of the domain, except for workflows that use the domain. This allows participant nodes and domains to take care of their HA separately.
+A participant node's availability is not affected by the availability of the synchronizer, except for workflows that use the synchronizer. This allows participant nodes and synchronizers to take care of their HA separately.
 
 Replication
 ~~~~~~~~~~~

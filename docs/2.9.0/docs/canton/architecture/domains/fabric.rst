@@ -3,8 +3,8 @@
 ..
    Proprietary code. All rights reserved.
 
-Canton Domain on Fabric
-#######################
+Canton Synchronizer on Fabric
+#############################
 
 Introduction to Hyperledger Fabric
 **********************************
@@ -16,7 +16,7 @@ platform.
 Components of the Fabric Blockchain Network
 ===========================================
 
-The following key concepts of Fabric are relevant for the Canton domain
+The following key concepts of Fabric are relevant for the Canton synchronizer
 integration with Fabric. For further details, refer to the `Fabric documentation
 <https://hyperledger-fabric.readthedocs.io/en/release-2.2/key_concepts.html>`_.
 
@@ -31,18 +31,18 @@ integration with Fabric. For further details, refer to the `Fabric documentation
    client applications can send calls to their associated peers on the network.
 
 * **Peers:** A network entity that maintains a Fabric ledger and runs chaincode
-  containers in order to perform read/write operations to the Fabric ledger.
+  containers to perform read/write operations to the Fabric ledger.
   Peers are owned and maintained by organizations.
 
-* **Channels:** A channel is a private blockchain overlay which allows for data
+* **Channels:** A channel is a private blockchain overlay that allows for data
   isolation and confidentiality. A channel-specific Fabric ledger is shared
   across the peers in the channel, and transacting parties must be authenticated
-  to a channel in order to interact with it. Members who are not a part of the
-  channel are unable see the transactions or even know that the channel exists.
+  to a channel to interact with it. Members who are not a part of the
+  channel are unable to see the transactions or even know that the channel exists.
 
 * **Ordering Service:** Also known as orderer. A defined collective of nodes
   that orders transactions into a block and then distributes blocks to connected
-  peers for validation and commit. The ordering service exists independent of
+  peers for validation and commitment. The ordering service exists independently of
   the peer processes and orders transactions on a first-come-first-serve basis
   for all channels on the network.
 
@@ -56,18 +56,17 @@ integration with Fabric. For further details, refer to the `Fabric documentation
   Fabric ledger.
 
 * **Applications:** Client applications in a Fabric-based network interact
-  with the Fabric ledger using one of the available Fabric SDKs. Applications are
-  able to propose changes to the ledger as well as to query the state of the ledger
+  with the Fabric ledger using one of the available Fabric SDKs. Applications can propose changes to the ledger as well as query the state of the ledger
   by using an identity issued by the organization's certificate authority (CA).
 
 Architecture
 ************
 
 In the v1 architecture of the Fabric driver, only the sequencer is
-integrated on top of Fabric. The other domain components are reused from the
+integrated on top of Fabric. The other synchronizer components are reused from the
 relational database driver. The Fabric-based sequencer supports running in
 a multi-writer, multi-reader topology for high availability, scalability, and
-trust. The following diagrams shows the architecture of a Fabric-based domain
+trust. The following diagram shows the architecture of a Fabric-based synchronizer
 integration.
 
 .. figure:: ./images/fabric-arch.png
@@ -77,14 +76,14 @@ integration.
 Fabric-based Sequencer
 ======================
 
-The Fabric Sequencer Application serves as an external standalone sequencer application that participants and other domain entities
+The Fabric Sequencer Application serves as an external standalone sequencer application that participants and other synchronizer entities
 in a Canton network connect to in order to exchange ordered messages. It is an application that runs over Fabric by a consortium of organizations.
 
 Typically each app operates via one Fabric client that belongs to a specific organization.
 These Fabric peers have visibility of the sequencer messages' metadata (sender and recipients of the messages),
 however the messages' payloads are fully encrypted.
 
-A Canton domain requires beside the Sequencers one Domain Manager and one or more independently operated Mediators.
+A Canton synchronizer requires, besides the Sequencers, one Synchronizer Manager and one or more independently operated Mediators.
 All these nodes exclusively communicate with Participants via the Sequencer.
 
 Participants trust the app they connect to and they can specify which one to connect to among the available ones.
@@ -93,10 +92,10 @@ or periodically checking other apps as they all need to report the same data.
 
 The application supports a multi-writer, multi-reader architecture, such that multiple Fabric applications can operate on top of
 the same Fabric ledger.
-Sequencer clients within the Participants, Domain Manager or Mediators will communicate with the Sequencer Fabric Application
-and they can read or write from any of the available sequencer apps as they will have shared view of the Sequencer history for the domain.
+Sequencer clients within the Participants, Synchronizer Manager, or Mediators will communicate with the Sequencer Fabric Application
+and they can read or write from any of the available sequencer apps as they will have a shared view of the Sequencer history for the synchronizer.
 
-Additionally, the same Fabric setup with a different channel can be used to operate different domains on the same Fabric infrastructure,
+Additionally, the same Fabric setup with a different channel can be used to operate different synchronizers on the same Fabric infrastructure,
 since each channel contains a separate isolated Fabric ledger.
 
 Sequencer Chaincode
@@ -128,7 +127,7 @@ requirements:
 
 :ref:`Synchronization <synchronization-domain-req>`
    Fabric's ordering service establishes a total-order of transactions within a
-   channel. A Canton domain is based on a single channel.
+   channel. A Canton synchronizer is based on a single channel.
 
 :ref:`Transparency <transparency-domain-req>`
    The Fabric blockchain ensures that all sequencer nodes obtain the same set of
@@ -185,9 +184,9 @@ Performance
 Reliability
 ===========
 
-:ref:`Seamless fail-over for domain entities <fail-over-domain-req>`
+:ref:`Seamless fail-over for synchronizer entities <fail-over-domain-req>`
    The sequencer can be deployed in a multi-writer and multi-reader topology
-   (i.e. multiple sequencer nodes for the same domain) to achieve high
+   (i.e. multiple sequencer nodes for the same synchronizer) to achieve high
    availability. Since all Fabric sequencer nodes run on top of the same Fabric
    ledger, they will all see the same data and does not matter which sequencer
    is being used to write to and read from.
@@ -204,10 +203,10 @@ Reliability
    by clients for this purpose. It will indicate that it is unhealthy if it loses
    connection to the Fabric ledger or to its database.
 
-   Both the mediator and domain manager are also highly available via an active / passive mechanism (one active instance
+   Both the mediator and synchronizer manager are also highly available via an active/passive mechanism (one active instance
    and 1-N passive replicas).
 
-:ref:`Resilience to faulty domain behavior <resilience-domain-req>`
+:ref:`Resilience to faulty synchronizer behavior <resilience-domain-req>`
    Although Fabric supports for pluggable consensus protocols such as crash
    fault-tolerant (CFT) or byzantine fault tolerant (BFT) protocols that enable
    the platform to be customized to fit particular use cases and trust models,
@@ -236,10 +235,10 @@ Scalability
 ===========
 
 :ref:`Horizontal scalability <horizontal-scalability-domain-req>`
-   Adding an additional sequencer to a domain is simply a matter of creating a new Fabric
+   Adding a sequencer to a synchronizer is simply a matter of creating a new Fabric
    user and a new sequencer application with that configuration.
    A new Fabric organization and more Fabric peers could also be created, but this is optional.
-   The setup will horizontally scale as well as a Fabric ledger will, which means performance
+   The setup scales horizontally as well as a Fabric ledger, which means performance
    could suffer if the Fabric topology is made more complex by adding peers and
    orderer nodes, in particular if their latency to each other is high.
    But there are ways to make up for that such as using a simpler endorsement
@@ -255,7 +254,7 @@ Scalability
 Security
 ========
 
-:ref:`Domain entity compromise recovery <compromise-recovery-domain-req>`
+:ref:`Synchronizer entity compromise recovery <compromise-recovery-domain-req>`
    Without BFT support, a compromised orderer node cannot be recovered from
    automatically. Operational procedures, such as revoking the node's
    certificate, can limit further impact.
@@ -266,7 +265,7 @@ Security
    and malicious sequencer node can be detected if their stream differs.
 
 :ref:`Standards compliant cryptography <standard-crypto-domain-req>`
-   The sequencer node and the other Canton domain entities use standard modern
+   The sequencer node and the other Canton synchronizer entities use standard modern
    cryptography (EC-DSA with NIST curves and Ed25519 for signatures, AES128 GCM
    for symmetric encryption, SHA256 for hashes) provided by Tink/BouncyCastle.
    Fabric nodes can be deployed using cryptography provided by an `HSM
@@ -276,8 +275,8 @@ Security
    Authentication is implemented such that any sequencer client
    needs to be registered by the topology manager before they can connect.
    There are also authorization checks such as making sure that the declared sender
-   is the currently authenticated client. And based on the type of member that is
-   authenticated there are certain operations which may or may not be allowed.
+   is the currently authenticated client. Based on the type of member that is
+   authenticated there are certain operations that may or may not be allowed.
 
 :ref:`Secure channel (TLS) <secure-channel-domain-req>`
    The sequencer node provides an API secured with TLS. The Fabric network
@@ -286,7 +285,7 @@ Security
 :ref:`Distributed Trust <distributed-trust-domain-req>`
    A Fabric network can be operated by multiple organizations forming a
    consortium and distributing the trust among the organizations.
-   The Mediator(s) and Domain Manager can only be operated by a single entity,
+   The Mediator(s) and Synchronizer Manager can only be operated by a single entity,
    so there is no distribution of trust for these nodes.
 
 :ref:`Transaction Metadata Privacy <transaction-privacy-domain-req>`
@@ -304,14 +303,14 @@ Manageability
    them in private data collections (which can be purged).
 
 :ref:`Upgradeability <upgradeability-domain-req>`
-   Upgrades of individual domain entities with minimal downtime not yet
+   Upgrades of individual synchronizer entities with minimal downtime not yet
    implemented.
 
 :ref:`Semantic versioning <semantic-versioning-domain-req>`
    Canton is released under semantic versioning. The sequencer gRPC API is
    versioned with a major version number.
 
-:ref:`Domain approved protocol versions <version-handshake-domain-req>`
+:ref:`Synchronizer approved protocol versions <version-handshake-domain-req>`
    The authentication protocol validates the version compatibility between
    the sequencer nodes and the connecting node.
 

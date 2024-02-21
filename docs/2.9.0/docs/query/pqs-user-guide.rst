@@ -141,16 +141,16 @@ How a participant node (PN) models time
 
 Understanding time in a distributed application is challenging because there is no global clock. This section describes how a participant node understands time. If you are familiar with Canton, skip this section and move to the section :ref:`Time Model within PQS <pqs-time-model>`.
 
-A participant node models time advancing in its local ledger using an index called an *offset*. An offset is a unique index of the participant node's local ledger. You can think of this as selecting an item in the ledger using a specific offset (or index) into the ledger. For example, in the figure, Participant A has transaction “ABC” at offset #011. An offset represents a point in time of that participant node and a given domain, where the offset values order the events that are changes to the ledger. Specifically, subscribers to UpdateService observe the order for a specific domain. 
+A participant node models time advancing in its local ledger using an index called an *offset*. An offset is a unique index of the participant node's local ledger. You can think of this as selecting an item in the ledger using a specific offset (or index) into the ledger. For example, in the figure, Participant A has transaction “ABC” at offset #011. An offset represents a point in time of that participant node and a given synchronizer, where the offset values order the events that are changes to the ledger. Specifically, subscribers to UpdateService observe the order for a specific synchronizer. 
 
 In general, a larger participant offset means that the event happened after the event at a smaller participant offset in that participant node. Since ledger entries can be made at any time, they can advance at different rates. For example, Participant A may only process requests every several minutes, so its offset counters increase slowly. However, Participant B may be processing requests very frequently, so its offset counters may increase several times a second. 
 
 The sequence of offsets of a participant may contain gaps. That is because some offsets may be used for purposes internal to the participant that never show up on the ledger API. Also, filtering for certain types of changes (such as by party or by template ID) naturally results in gaps in the sequence of offsets.
 
 .. image:: ./images/offset-sequence.svg
-   :alt: Charts of offsets and transactions for two participants connected by a sync domain
+   :alt: Charts of offsets and transactions for two participants connected by a synchronizer
 
-You cannot compare offset values across participants. The same ledger change (such as a transaction) for multiple participant nodes is stored at a different offset in each participant node. For example, in the figure, the transaction ABC is at offset #011 in Participant A but at offset #010 in Participant B. Similarly, the same offset value across participant nodes refers to different ledger changes. In the figure, Participant A's offset #011 records “Tx ABC” while Participant B's offset #011 records “Tx DEF”. Comparing offsets across synchronization domains does not provide a causal ordering of the events because there is no common reference.
+You cannot compare offset values across participants. The same ledger change (such as a transaction) for multiple participant nodes is stored at a different offset in each participant node. For example, in the figure, the transaction ABC is at offset #011 in Participant A but at offset #010 in Participant B. Similarly, the same offset value across participant nodes refers to different ledger changes. In the figure, Participant A's offset #011 records “Tx ABC” while Participant B's offset #011 records “Tx DEF”. Comparing offsets across synchronizers does not provide a causal ordering of the events because there is no common reference.
 
 Single offset values returned by the Ledger API can be used as-is (for example, to keep track of processed transactions and provide an application restart point in case you need to retry the request). 
 
@@ -164,7 +164,7 @@ A transaction ID compares to an offset in the following ways:
  - There is, at most, one transaction ID at a single offset.
  - Every accepted transaction is published at a single offset. 
  - Offsets are local to a participant, whereas transaction IDs are virtual ledger-wide identifiers to correlate transactions across multiple participants.
- - Offsets can establish a temporal ordering within the same sync domain ("happened-before" relationship) between transactions and/or events from different transactions.
+ - Offsets can establish a temporal ordering within the same synchronizer ("happened-before" relationship) between transactions and/or events from different transactions.
 
 For analysis of a participant node's ledger, the offset is a better identifier than transaction ID because it can be used for ordering and an offset range can be specified to limit the analysis. However, if the analysis must coordinate with other participant nodes, then transaction IDs are better. 
 

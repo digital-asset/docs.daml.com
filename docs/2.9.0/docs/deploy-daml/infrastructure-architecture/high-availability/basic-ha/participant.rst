@@ -40,7 +40,7 @@ Shared Database
 The nodes require a shared database for the following reasons:
 
 1. To share the command ID deduplication state of the Ledger API command submission service. This prevents double submission of commands in case of failover.
-2. To obtain consistent ledger offsets without which the application cannot seamlessly failover. The database stores ledger offsets in a non-deterministic manner based on the insertion order of publishing events in the multi-domain event log.
+2. To obtain consistent ledger offsets without which the application cannot seamlessly failover. The database stores ledger offsets in a non-deterministic manner based on the insertion order of publishing events in the multi-synchronizer event log.
 
 Leader Election
 ~~~~~~~~~~~~~~~
@@ -78,9 +78,9 @@ Prevent Passive Node Replica Activity
 .. IMPORTANT::
   A passive node replica does not hold the exclusive lock and cannot write to the shared database. 
 
-To avoid passive node replicas attempting to write to the database - any such attempt fails and produces an error - we use a coarse-grained guard on domain connectivity and API services.
+To avoid passive node replicas attempting to write to the database - any such attempt fails and produces an error - we use a coarse-grained guard on synchronizer connectivity and API services.
 
-To prevent the passive node from processing domain events, and ensure it rejects incoming Ledger API requests, we keep the passive node disconnected from the domains as coarse-grained enforcement.
+To prevent the passive node from processing synchronizer events, and ensure it rejects incoming Ledger API requests, we keep the passive node disconnected from the synchronizers as coarse-grained enforcement.
 
 Lock Loss and Failover
 """"""""""""""""""""""
@@ -91,4 +91,4 @@ The active node has a grace period in which it may rebuild the connection and re
 
 The passive node continuously attempts to acquire the lock within a configurable interval. Once the lock is acquired, the participant node's replication manager sets the state of the successful node to active.
 
-When a passive node becomes active, it connects to previously connected domains to resume event processing. The new active node accepts incoming requests, e.g. on the Ledger API which starts when the node becomes active. The former active node, which is now passive, shuts down its Ledger API to stop accepting incoming requests.
+When a passive node becomes active, it connects to previously connected synchronizers to resume event processing. The new active node accepts incoming requests, e.g. on the Ledger API which starts when the node becomes active. The former active node, which is now passive, shuts down its Ledger API to stop accepting incoming requests.

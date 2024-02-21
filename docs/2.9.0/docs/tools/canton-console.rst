@@ -10,7 +10,7 @@ Introduction
 Canton offers a console where you can run administrative or debugging commands.
 
 When you run the Sandbox using ``daml start`` or ``daml sandbox``, you are effectively starting an
-in-memory instance of Canton with a single domain and a single participant.
+in-memory instance of Canton with a single synchronizer and a single participant.
 
 As such, you can interact with the running Sandbox using the console, just like you would
 in a production environment.

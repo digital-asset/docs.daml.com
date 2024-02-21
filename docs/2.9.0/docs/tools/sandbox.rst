@@ -24,7 +24,7 @@ Sandbox can also be run manually as in this example:
   Canton sandbox is ready.
 
 Behind the scenes, Sandbox spins up a Canton ledger with an in-memory
-participant ``sandbox`` and an in-memory domain ``local``. You can pass additional
+participant ``sandbox`` and an in-memory synchronizer ``local``. You can pass additional
 Canton configuration files via ``-c``. This option can be specified multiple times and
 the resulting configuration files will be merged.
 

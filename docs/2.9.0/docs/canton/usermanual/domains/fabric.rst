@@ -5,10 +5,10 @@
 
 .. enterprise-only::
 
-Fabric Domain
-=============
+Fabric Synchronizer
+===================
 
-The Canton-on-Fabric integration runs a Canton domain where events are sequenced using the `Hyperledger Fabric <https://hyperledger-fabric.readthedocs.io/en/latest/whatis.html>`_ ledger.
+The Canton-on-Fabric integration runs a Canton synchronizer where events are sequenced using the `Hyperledger Fabric <https://hyperledger-fabric.readthedocs.io/en/latest/whatis.html>`_ ledger.
 
 
 Tutorial
@@ -18,12 +18,12 @@ To run the demo Canton Fabric deployment, you will need access to the following:
 
 
 - a Daml Enterprise release for access to the example files and the Canton binary
-- :ref:`Canton Enterprise docker repository <docker-instructions>` access, in order to obtain the Canton docker image
+- :ref:`Canton Enterprise docker repository <docker-instructions>` access, to obtain the Canton docker image
 
 Also make sure to have docker and docker-compose installed.
 
 The following example explains how to set up Canton on Fabric using a topology with 2 sequencer nodes,
-(belonging to two different organizations) a domain manager, a mediator, and two participants nodes.
+(belonging to two different organizations) a synchronizer manager, a mediator, and two participant nodes.
 
 The demo can be found in the examples directory of the Canton Enterprise release.
 Unpack the Canton Enterprise release and then ``cd`` into ``examples/e01-fabric-domain/canton-on-fabric``.
@@ -34,7 +34,7 @@ The script will start the following:
 
 1. A Fabric ledger with 2 peers and one orderer node.
 2. Two Canton Sequencer nodes that interact with the Fabric ledger.
-3. A Canton process running a Canton domain manager, a mediator, and 2 participants. The configuration for this Canton process is in ``config/canton/demo.conf``
+3. A Canton process running a Canton synchronizer manager, a mediator, and 2 participants. The configuration for this Canton process is in ``config/canton/demo.conf``
 
 Once the script has finished setting up (you should see the ``canton`` service print "Successfully initialized Canton-on-Fabric" together with the Canton console startup message), you will be able to interact with the two participants using the config at ``config/remote/demo.conf``.
 
@@ -61,9 +61,9 @@ You can then perform various commands in the Canton console:
 User Manual
 -----------
 
-The example files located at ``examples/e01-fabric-domain/canton-on-fabric`` provide you with more flexibility than to run the basic demo just shown.
+The example files located at ``examples/e01-fabric-domain/canton-on-fabric`` provide you with more flexibility than running the basic demo just shown.
 
-You will find in this directory our main script called ``run.sh``. If you run the script, it will show you the help instructions with all the options that you can choose to run the deployment with.
+You will find our main script called ``run.sh`` in this directory. If you run the script, it will show you the help instructions with all the options that you can choose to run the deployment.
 
 The demo deployment will by default use the Canton version from the release.
 If you wish to use a different version, you can specify it with the ``CANTON_VERSION``
@@ -72,13 +72,13 @@ You can choose ``dev`` for the latest main build of Canton.
 
 Depending on which options you choose, it will run a docker-compose command using a different subset of the following docker-compose files below:
 
-- ``docker-compose-ledger.yaml``: Sets up the Fabric ledger. You can see that there is a service in it called ``ledger-setup`` that is a service responsible for creating the crypto materials, setting up the channel and deploying the chaincode. It uses a customized and simplified version of the ``test-network`` from `fabric-samples <https://github.com/hyperledger/fabric-samples/tree/v2.0.0/test-network>`_ inside a docker container.
+- ``docker-compose-ledger.yaml``: Sets up the Fabric ledger. You can see that there is a service called ``ledger-setup`` that is a service responsible for creating the crypto materials, setting up the channel and deploying the chaincode. It uses a customized and simplified version of the ``test-network`` from `fabric-samples <https://github.com/hyperledger/fabric-samples/tree/v2.0.0/test-network>`_ inside a docker container.
 - ``docker-compose-blockchain-explorer.yaml``: Runs a `blockchain explorer <https://github.com/hyperledger/blockchain-explorer>`_ that allows visualizing the Fabric ledger on the browser.
-- ``docker-compose-canton.yaml``: Runs all canton components: a domain manager, a mediator, the two Fabric sequencer(s) and two participants.
+- ``docker-compose-canton.yaml``: Runs all Canton components: a synchronizer manager, a mediator, the two Fabric sequencer(s) and two participants.
 
-The bootstrapping process of the distributed domain is done by the
+The bootstrapping process of the distributed synchronizer is done by the
 ``docker-compose-canton.yaml`` docker-compose file which uses the ``config/canton/demo.canton`` script.
-If you wish to learn more about this process please refer to :ref:`domain bootstrapping <domain_bootstrapping>`.
+If you wish to learn more about this process please refer to :ref:`synchronizer bootstrapping <domain_bootstrapping>`.
 
 Run with Docker Compose
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -93,7 +93,7 @@ That is equivalent to running the following docker-compose command:
 
     <<canton-release>>/examples/e01-fabric-domain/canton-on-fabric$ COMPOSE_PROJECT_NAME="fabric-sequencer-demo" docker-compose -f docker-compose-ledger.yaml -f docker-compose-canton.yaml up
 
-Note that you can at this point connect the remote participants to this setup just like in demo from the tutorial.
+Note that you can at this point connect the remote participants to this setup just like in the demo from the tutorial.
 
 Cleanup
 ~~~~~~~
@@ -101,10 +101,10 @@ Cleanup
 When you're done running the sequencer, make sure to run ``./run.sh down``.
 This will clean up all docker resources so that the next run can happen smoothly.
 
-Using the Canton Binary instead of docker
+Using the Canton Binary instead of Docker
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To run the full Canton setup separately outside of docker (with the canton binary or jar):
+To run the full Canton setup separately outside of Docker (with the Canton binary or jar):
 
 .. code-block:: bash
 
@@ -118,7 +118,7 @@ exposing the port 7050. Next run the following:
 
     <<canton-release>>/examples/e01-fabric-domain/canton-on-fabric$ ../../../bin/canton -c config/self-contained/demo.conf --bootstrap config/canton/demo.canton
 
-To run the jar file instead of the canton binary, simply replace ``../../../bin/canton`` above with ``java -jar ../../../lib/canton-enterprise-*.jar``.
+To run the jar file instead of the Canton binary, simply replace ``../../../bin/canton`` above with ``java -jar ../../../lib/canton-enterprise-*.jar``.
 
 Blockchain Explorer
 ~~~~~~~~~~~~~~~~~~~
@@ -200,7 +200,7 @@ If your use case operates under high traffic, you may benefit from increasing th
 If you care more about latency and don't need to support high traffic, then decreasing block size will be of help.
 
 Currently, we have set the values of 200ms for batch timeout and 50 for block size as it has empirically shown to be a good tradeoff
-after some rounds of long running tests, but feel free to pick parameters that fit your use-case best.
+after some rounds of long-running tests, but feel free to pick parameters that fit your use case best.
 
 Note: See slide 17 of http://www.mscs.mu.edu/~mascots/Papers/blockchain.pdf for a discussion on block size influence on throughput and latency.
 
@@ -223,7 +223,7 @@ the capabilities of organizations in the channel. See more on that under :ref:`E
 Endorsement Policies
 ~~~~~~~~~~~~~~~~~~~~
 
-Fabric `Policies <https://hyperledger-fabric.readthedocs.io/en/latest/policies/policies.html>`__ can be used to define how members come to agreement on accepting or rejecting changes to the network, a channel or a smart contract.
+Fabric `Policies <https://hyperledger-fabric.readthedocs.io/en/latest/policies/policies.html>`__ can be used to define how members come to an agreement on accepting or rejecting changes to the network, a channel or a smart contract.
 
 Versatile policies can be written using combinations of ``AND``, ``OR`` and ``NOutOf`` (`more detail here <https://hyperledger-fabric.readthedocs.io/en/latest/policies/policies.html#how-do-you-write-a-policy-in-fabric>`__).
 

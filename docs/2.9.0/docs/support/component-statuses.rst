@@ -48,7 +48,7 @@ Runtime Components
    * - Canton Application and Console
      - Stable
      -
-   * - Canton Administrative APIs for participant and domain nodes
+   * - Canton Administrative APIs for participant nodes and synchronizers
      - Stable
      -
    * - Canton Protocol
@@ -66,7 +66,7 @@ Runtime Components
    * - Sequencer for Hyperledger Besu
      - Beta
      -
-   * - Support for connecting a single participant to multiple domains
+   * - Support for connecting a single participant to multiple synchronizers
      - Alpha
      -
    * - **JSON API**

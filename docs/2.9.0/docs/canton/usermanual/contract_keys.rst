@@ -9,16 +9,16 @@ Contract Keys in Canton
 =======================
 
 Daml provides a "contract key" mechanism for contracts, similar to primary keys in relational databases. When using
-multi-domain topologies, Canton will support the full syntax of contract keys, but only a reduced semantics.
+multi-synchronizer topologies, Canton will support the full syntax of contract keys, but only a reduced semantics.
 That is, all valid Daml contracts using keys will run on Canton, but their behavior may deviate from the prescribed one.
 This document explains the deviation, as well as ways of recovering the full functionality of keys in some scenarios.
 It assumes a reasonable familiarity with Daml.
 
 .. note::
-    This section covers a preview feature, when using contract keys in a multi-domain setup. By default,
+    This section covers a preview feature, when using contract keys in a multi-synchronizer setup. By default,
     contract key uniqueness is enabled, and therefore this section does not apply.
     However, contract key uniqueness will soon be deprecated, as uniqueness cannot be enforced among
-    multiple domains. We encourage to build your models already anticipating this change.
+    multiple synchronizers. We encourage you to build your models already anticipating this change.
 
 
 Keys have two main functions:
@@ -36,16 +36,16 @@ Keys have two main functions:
    One is that they can serve to de-duplicate data coming from external sources.
    Another one is that they allow "natural" mutable references, e.g., referring to a user by their username or e-mail.
 
-Canton participants and domains can be run in two modes:
+Canton participants and synchronizers can be run in two modes:
 
-#. In *unique-contract-key (UCK) mode*, contract keys in Canton provide both functions; there can be at most one active contract for each key on a UCK domain.
-    However, only UCK participants can connect to UCK domains and the first UCK domain a UCK participant connects to is the only domain that the participant can connect to in its lifetime.
-    UCK domains and their participants are thus isolated islands that are deprived of Canton's composability and interoperability features.
+#. In *unique-contract-key (UCK) mode*, contract keys in Canton provide both functions; there can be at most one active contract for each key on a UCK synchronizer.
+    However, only UCK participants can connect to UCK synchronizers and the first UCK synchronizer a UCK participant connects to is the only synchronizer that the participant can connect to in its lifetime.
+    UCK synchronizers and their participants are thus isolated islands that are deprived of Canton's composability and interoperability features.
 
 #. In *non-unique-keys mode*, contract keys in Canton provide the first, but not the second function, at least not without additional effort or restrictions.
    In particular:
 
-   #. In Canton, two (or more) active contracts with the same key may exist simultaneously on the same or different domains.
+   #. In Canton, two (or more) active contracts with the same key may exist simultaneously on the same or different synchronizers.
    #. If no submitting party is a stakeholder of an active contract instance of template ``Template`` with the key ``k``
       visible on the submitting participant when the participant processes the submission,
       then a ``lookupByKey @Template k`` may return ``None``
@@ -57,47 +57,47 @@ In the remainder of the document we:
 
 * give :ref:`more detailed examples <canton_keys_difference_examples>` of the differences above
 * give an :ref:`overview of how keys are implemented <canton_keys_implementation_summary>` so that you can better understand their behavior
-* show :ref:`workarounds for recovering the uniqueness functionality <canton_keys_workarounds>` in particular scenarios on normal domains
+* show :ref:`workarounds for recovering the uniqueness functionality <canton_keys_workarounds>` in particular scenarios on normal synchronizers
 * give a :ref:`formal semantics of keys <canton_key_formal_semantics>` in Canton, in terms of the :ref:`Daml ledger model <da-ledgers>`
-* explain how to :ref:`run a domain in UCK mode <canton_uck>`.
+* explain how to :ref:`run a synchronizer in UCK mode <canton_uck>`.
 
 
 .. _canton_uck:
 
-Domains with Uniqueness Guarantees
-----------------------------------
+Synchronizers with Uniqueness Guarantees
+----------------------------------------
 
-By default, Canton domains and participants are currently configured to provide unique contract key (UCK) semantics. This will be deprecated in the future, as such a uniqueness constraint cannot be supported on
+By default, Canton synchronizers and participants are currently configured to provide unique contract key (UCK) semantics. This will be deprecated in the future, as such a uniqueness constraint cannot be supported on
 a distributed system in a useful way. The :ref:`semantic differences from the ledger model <canton_keys_difference_examples>`
-disappear if the transactions are submitted to a participant connected to a Canton domain in :ref:`UCK mode <canton_uck>`.
+disappear if the transactions are submitted to a participant connected to a Canton synchronizer in :ref:`UCK mode <canton_uck>`.
 The :ref:`workarounds <canton_keys_workarounds>` are therefore not needed.
 
-A UCK participant can connect only to a UCK domain.
-Moreover, once it has successfully connected to a UCK domain, it will refuse to connect to another domain.
-Accordingly, conflict detection on a single domain suffices to check for key uniqueness.
-Participants connected to a UCK domain check for key conflicts whenever they host one of the key maintainers:
+A UCK participant can connect only to a UCK synchronizer.
+Moreover, once it has successfully connected to a UCK synchronizer, it will refuse to connect to another synchronizer.
+Accordingly, conflict detection on a single synchronizer suffices to check for key uniqueness.
+Participants connected to a UCK synchronizer check for key conflicts whenever they host one of the key maintainers:
 
 * When a contract is created, they check that there is no other active contract with the same key.
 
 * When the submitted transaction contains a negative key lookup, the participants check that there is indeed no active contract for the given key.
 
 .. warning::
-   Daml workflows deployed on a UCK domain are locked into this domain.
+   Daml workflows deployed on a UCK synchron are locked into this synchronizer.
    They cannot use Canton's composability and interoperability features
-   because the participants will refuse to connect to other domains.
+   because the participants will refuse to connect to other synchronizers.
 
 
-Non Unique Contract Keys Mode
+Non-Unique Contract Keys Mode
 -----------------------------
 
-This section explains how contract keys behave on participants connected to Canton domains without unique contract keys.
+This section explains how contract keys behave on participants connected to Canton synchronizers without unique contract keys.
 This mode can be activated by setting
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/non-uck-mode.conf
 
 .. note::
 
-    Non-Unique contract keys is preview only and currently broken. Multiple keys will override each other.
+    The non-unique contract keys feature is preview-only. Currently, multiple keys will override each other.
 
 .. _canton_keys_difference_examples:
 
@@ -203,7 +203,7 @@ When a command is submitted, the Ledger API Server evaluates the command against
 Submitted commands are evaluated in parallel, both on a single node and across different nodes.
 
 The evaluated command is then sent to the sync service, which runs Canton's :ref:`commit protocol <canton-overview>`.
-The protocol provides a linear ordering of all transactions on a single domain, and participants check all transactions for conflicts, with an earlier-transaction-wins policy.
+The protocol provides a linear ordering of all transactions on a single synchronizer, and participants check all transactions for conflicts, with an earlier-transaction-wins policy.
 As participants only see parts of transactions (the joint :ref:`projection <da-model-projections>` of the parties they host), they only check conflicts on contracts for which they host stakeholders.
 During conflict detection, positive key lookups (that find a contract ID based on a key) are treated as ordinary ``fetch`` commands on the found contract ID, and the contract ID is checked to still be active.
 Negative key lookups, on the other hand, are never checked by Canton (a malicious submitter, for example, can always successfully claim that the lookup was negative).
@@ -211,12 +211,12 @@ Similarly, contract creations are not checked for duplicate keys.
 Logically, both of these checks would require checking a "there is no such key" statement.
 Canton does not check such statements.
 While adding the check to the individual participants is straightforward, it is hard to get meaningful guarantees from such local checks because each participant has only a limited view of the entire virtual global ledger.
-For example, the check could pass locally on a participant even though there exists a contract with the given key on some domain that the participant is not connected to.
-Similarly, since the processing of different domains runs in parallel, it is unclear how to consistently handle the case where transactions on different domains create two contracts with the same key.
+For example, the check could pass locally on a participant even though there exists a contract with the given key on some synchronizer that the participant is not connected to.
+Similarly, since the processing of different synchronizers runs in parallel, it is unclear how to consistently handle the case where transactions on different synchronizers create two contracts with the same key.
 
 For integrity, the participants also re-evaluate the submitted command (or, more precisely, the subtransaction in the joint :ref:`projection <da-model-projections>` of the parties they host).
 The commit protocol ensures that any two involved participants will evaluate the key lookups in the same way as the Ledger API Server of the submitting participant.
-That is, if there are two active contracts with the key ``k``, the protocol insures that a ``fetchByKey k`` will return the same contract on all participants.
+That is, if there are two active contracts with the key ``k``, the protocol ensures that a ``fetchByKey k`` will return the same contract on all participants.
 
 Once the sync protocol commits a transaction, it informs the Ledger API server, which then atomically updates its set of active contracts.
 The transactions are passed to the Ledger API server in the order in which they are recorded on the ledger.
@@ -229,7 +229,7 @@ Workarounds for Recovering Uniqueness
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Since some form of uniqueness for ledger data is necessary in many cases, we list some strategies to achieve it in Canton
-without being locked into a UCK domain.
+without being locked into a UCK synchronizer.
 The strategies' applicability depends on your contracts and the deployment setup of your application.
 In general, none of the strategies apply to the case where creations and deletions of contracts with keys are delegated.
 
@@ -278,8 +278,8 @@ Caveats to keep in mind are:
   However, this is easy to change.
 - This approach relies on a particular internal behavior of Canton (as discussed below).
   While we don't expect the behavior to change, we do not currently make strong guarantees that it will not change.
-- If the participant is connected to multiple domains, the approach may fail in future versions of Canton.
-  To be future-proof, you should only use it in the settings when your participant is connected to a single domain.
+- If the participant is connected to multiple synchronizers, the approach may fail in future versions of Canton.
+  To be future-proof, you should only use it in the settings when your participant is connected to a single synchronizer.
 
 A usage example script is below.
 
@@ -341,7 +341,7 @@ Be aware that you must still structure this such that you only ever create one `
 Formal Semantics of Keys in Canton
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In terms of the :ref:`Daml ledger model <da-ledgers>`, Canton's virtual shared ledger satisfies key consistency only when it represents a single UCK domain.
+In terms of the :ref:`Daml ledger model <da-ledgers>`, Canton's virtual shared ledger satisfies key consistency only when it represents a single UCK synchronizer.
 In general, Canton's virtual shared ledger violates key consistency.
 That is, ``NoSuchKey k`` actions may happen on the ledger even when there exists an active contract with the key ``k``.
 Similarly, ``Create`` actions for a contract with the key ``k`` may appear on the ledger even if another active contract with the key ``k`` exists.

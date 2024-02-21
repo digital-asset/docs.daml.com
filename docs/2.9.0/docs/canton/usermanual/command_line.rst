@@ -13,7 +13,7 @@ we explain the most relevant ones.
 Selecting a Configuration
 -------------------------
 Canton requires a configuration file to run. There is no default topology configuration built in and
-therefore, the user needs to at least define what kind of node (domain or participant) and how many
+therefore, the user needs to at least define what kind of node (synchronizer or participant) and how many
 they want to run in the given process. Sample configuration files can be found in our release package,
 under the ``examples`` directory.
 

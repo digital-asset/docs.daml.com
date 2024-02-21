@@ -168,8 +168,8 @@ Participant Metrics
    This file is generated:
 .. include:: /canton/includes/generated/participant_metrics.rst.inc
 
-Domain Metrics
-~~~~~~~~~~~~~~
+Synchronizer Metrics
+~~~~~~~~~~~~~~~~~~~~
 
 ..
    This file is generated:
@@ -550,7 +550,7 @@ At span 3, the participant node is on the client side of the ledger API. In othe
 
 Missing steps from the trace (which account for part of the gap between spans 5 and 6) are:
 
-- The domain routing where the participant decides which domain to use for the command submission.
+- The synchronizer routing where the participant decides which synchronizer to use for the command submission.
 - The preparation of the initial set of messages to be sent.
 
 The start of the Canton transaction protocol begins at span 6. In this span, ``participant1`` sends a request to ``sequencer1`` to sequence the initial set of confirmation request messages as part of phase 1 of the transaction protocol. The transaction protocol has :ref:`seven phases <canton-overview-tx-processing>`.
@@ -592,20 +592,20 @@ The ``NodeStatus`` differs depending on the node type. A participant node respon
 - ``Participant id``: the participant id of the node
 - ``Uptime``: the uptime of this node
 - ``Ports``: the ports on which the participant node exposes the Ledger and the Admin API.
-- ``Connected domains``: the list of domains to which the participant is properly connected
-- ``Unhealthy domains``: the list of domains to which the participant is trying to connect, but the connection is not ready for command submission
+- ``Connected domains``: the list of synchronizers to which the participant is properly connected
+- ``Unhealthy domains``: the list of synchronizers to which the participant is trying to connect, but the connection is not ready for command submission
 - ``Active``: true if this instance is the active replica (It can be false in the case of the passive instance of a high-availability deployment.)
 
 
-A domain node or a sequencer node responds with a message containing:
+A synchronizer node or a sequencer node responds with a message containing:
 
-- ``Domain id``: the unique identifier of the domain
+- ``Domain id``: the unique identifier of the synchronizer
 - ``Uptime``: the uptime of this node
-- ``Ports``: the ports on which the domain node exposes the Public and the Admin API
+- ``Ports``: the ports on which the synchronizer exposes the Public and the Admin API
 - ``Connected Participants``: the list of connected participants
 - ``Sequencer``: a boolean flag indicating whether the embedded sequencer writer is operational
 
-A domain topology manager or a mediator node returns:
+A synchronizer topology manager or a mediator node returns:
 
 - ``Node uid``: the unique identifier of the node
 - ``Uptime``: the uptime of this node
@@ -613,7 +613,7 @@ A domain topology manager or a mediator node returns:
 - ``Active``: true if this instance is the active replica (It can be false in the case of the passive instance of a high-availability deployment.)
 
 
-Additionally, all nodes also return a ``components`` field detailing the health state of each of its internal runtime dependencies. The actual components differ per node and can give further insights into the node's current status. Example components include storage access, domain connectivity, and sequencer backend connectivity.
+Additionally, all nodes also return a ``components`` field detailing the health state of each of its internal runtime dependencies. The actual components differ per node and can give further insights into the node's current status. Example components include storage access, synchronizer connectivity, and sequencer backend connectivity.
 
 
 .. _health-check:

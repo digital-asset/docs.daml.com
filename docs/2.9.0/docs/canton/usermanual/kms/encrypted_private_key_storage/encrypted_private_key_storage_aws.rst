@@ -38,7 +38,7 @@ Both new and existing nodes can be configured to use this feature.
 **In both cases, keys are stored encrypted in the Canton node's database**
 
 The example below configures encrypted private key storage with AWS KMS,
-for all nodes, in a simple distributed domain environment.
+for all nodes, in a simple distributed synchronizer environment.
 
 .. code-block:: none
 
@@ -71,7 +71,7 @@ Note that if you are using an existing AWS key, it should be created as follows:
 - Key usage: `ENCRYPT_DECRYPT <https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#symmetric-cmks>`_
 
 After subsequent restarts the operator does not need to specify the identifier for the wrapper key;
-Canton stores the generated wrapper key id in the database.
+Canton stores the generated wrapper key ID in the database.
 
 .. important::
     Restoring from a database backup requires access to the wrapper keys used during the encryption of the data in the backup.

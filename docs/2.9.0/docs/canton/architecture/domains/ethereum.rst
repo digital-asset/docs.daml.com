@@ -5,11 +5,11 @@
 
 .. _ethereum-architecture:
 
-Canton Domain on Ethereum
-=========================
+Canton Synchronizer on Ethereum
+===============================
 
-A Canton Ethereum domain uses a sequencer backed by Ethereum instead of by another ledger
-(such as Postgres or Fabric). The other domain components (mediator, domain manager) are reused from the relational database driver.
+A Canton Ethereum synchronizer uses a sequencer backed by Ethereum instead of by another ledger
+(such as Postgres or Fabric). The other synchronizer components (mediator, synchronizer manager) are reused from the relational database driver.
 Architecturally, the Canton Ethereum sequencer is a JVM application that interacts with an Ethereum client
 via the `RPC JSON API <https://eth.wiki/json-rpc/API>`_
 to write events to the blockchain.
@@ -18,7 +18,7 @@ to persist transactions and requests to the blockchain.
 It uses the configured Ethereum account to execute these calls.
 Analogous to the database-based sequencer implementations, multiple Ethereum sequencer applications can read and write to the same
 ``Sequencer.sol`` smart contract instance and they can do so through different Ethereum client nodes for high availability,
-scalability, and trust. The following diagrams shows the architecture of an Ethereum-based domain:
+scalability, and trust. The following diagram shows the architecture of an Ethereum-based synchronizer:
 
 .. note:: When running in a multi-writer setup, each Ethereum Sequencer application needs to use a separate Ethereum account.
     Otherwise, transactions may get stuck due to nonce mismatches.
@@ -26,7 +26,7 @@ scalability, and trust. The following diagrams shows the architecture of an Ethe
 .. figure:: ./images/ethereum-arch.png
    :align: center
    :width: 100%
-   :alt: Architecture of an Ethereum domain
+   :alt: Architecture of an Ethereum synchronizer
 
 Smart contract Sequencer.sol
 ----------------------------

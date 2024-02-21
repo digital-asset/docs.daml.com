@@ -25,7 +25,7 @@ Daml Ledger
 ===========
 
 A Daml ledger is a distributed ledger system running `Daml smart contracts <#contract>`__ according to the :doc:`Daml ledger model </concepts/ledger-model/index>` and exposes the Daml Ledger APIs.
-All current implementations of Daml ledgers consist of a Daml driver that utilizes an underlying Synchronization Technology to either implement the Daml ledger directly, or to run the Canton protocol.
+All current implementations of Daml ledgers consist of a Daml driver that utilizes an underlying Synchronization Technology to either implement the Daml ledger directly or to run the Canton protocol.
 
 Canton Ledger
 -------------
@@ -35,7 +35,7 @@ A Canton ledger is a privacy-enabled Daml ledger implemented using the Canton ap
 Canton Protocol
 ===============
 
-The Canton protocol is the technology which synchronizes `participant nodes <#participant-node>`__ across any Daml-enabled blockchain or database.  The Canton protocol not only makes Daml
+The Canton protocol is the technology that synchronizes `participant nodes <#participant-node>`__ across any Daml-enabled blockchain or database.  The Canton protocol not only makes Daml
 applications portable between different underlying `synchronization technologies <#synchronization-technology>`__, but also allows applications to transact with each other across them.
 
 .. Synchronization technology.  Not 'Environment', 'Infrastructure layer', 'Messaging layer', 'Topology layer', 'Underlying <enter-any-previous-term>'
@@ -478,15 +478,15 @@ A trust domain encompasses a part of the system (in particular, a Daml ledger) o
 Canton Concepts
 ***************
 
-Domain
+Synchronizer
 ======
 
-The domain provides total ordered, guaranteed delivery multi-cast to the participants. This means that participant nodes communicate with each other by sending end-to-end encrypted messages
-through the domain.
+The synchronizer provides total ordered, guaranteed delivery multi-cast to the participants. This means that participant nodes communicate with each other by sending end-to-end encrypted messages
+through the synchronizer.
 
-The `sequencer service <#sequencer>`__ of the domain orders these messages without knowing about the content and ensures that every participant receives the messages in the same order.
+The `sequencer service <#sequencer>`__ of the synchronizer orders these messages without knowing about the content and ensures that every participant receives the messages in the same order.
 
-The other services of the domain are the `mediator <#mediator>`__ and the `domain identity manager <#domain-identity-manager>`__.
+The other services of the synchronizer are the `mediator <#mediator>`__ and the `synchronizer identity manager <#domain-identity-manager>`__.
 
 Private Contract Store
 ======================
@@ -499,25 +499,25 @@ Virtual Global Ledger
 While every participant has their own private contract store (PCS), the `Canton protocol <#canton-protocol>`__ guarantees that the contracts which are stored in the PCS are well-authorized
 and that any change to the store is justified, authorized, and valid. The result is that every participant only possesses a small part of the *virtual global ledger*. All the local
 stores together make up that *virtual global ledger* and they are thus synchronized. The Canton protocol guarantees that the virtual ledger provides integrity, privacy,
-transparency, and auditability. The ledger is logically global, even though physically, it runs on segregated and isolated domains that are not aware of each other.
+transparency, and auditability. The ledger is logically global, even though physically, it runs on segregated and isolated synchronizers that are not aware of each other.
 
 Mediator
 ========
 
-The mediator is a service provided by the `domain <#domain>`__ and used by the `Canton protocol <#canton-protocol>`__. The mediator acts as commit coordinator, collecting individual transaction verdicts issued by validating
+The mediator is a service provided by the `synchronizer <#domain>`__ and used by the `Canton protocol <#canton-protocol>`__. The mediator acts as commit coordinator, collecting individual transaction verdicts issued by validating
 participants and aggregating them into a single result. The mediator does not learn about the content of the transaction, they only learn about the involved participants.
 
 Sequencer
 =========
 
-The sequencer is a service provided by the `domain <#domain>`__, used by the `Canton protocol <#canton-protocol>`__. The sequencer forwards encrypted addressed messages from participants and ensures that every member receives
+The sequencer is a service provided by the `synchronizer <#domain>`__, used by the `Canton protocol <#canton-protocol>`__. The sequencer forwards encrypted addressed messages from participants and ensures that every member receives
 the messages in the same order. Think about registered and sealed mail delivered according to the postal datestamp.
 
-Domain Identity Manager
-=======================
+Synchronizer Identity Manager
+=============================
 
-The Domain Identity Manager is a service provided by the `domain <#domain>`__, used by the `Canton protocol <#canton-protocol>`__. Participants join a new domain by registering with the domain identity manager. The domain
-identity manager establishes a consistent identity state among all participants. The domain identity manager only forwards identity updates. It can not invent them.
+The Synchronizer Identity Manager is a service provided by the `synchronizer <#domain>`__, used by the `Canton protocol <#canton-protocol>`__. Participants join a new synchronizer by registering with the synchronizer identity manager. The synchronizer
+identity manager establishes a consistent identity state among all participants. The synchronizer identity manager only forwards identity updates. It can not invent them.
 
 
 Consensus
@@ -525,7 +525,7 @@ Consensus
 
 The Canton protocol does not use PBFT or any similar consensus algorithm. There is no proof of work or proof of stake involved. Instead, Canton uses a variant of a stakeholder-based
 two-phase commit protocol. As such, only stakeholders of a transaction are involved in it and need to process it, providing efficiency, privacy, and horizontal scalability. Canton-based
-ledgers are resilient to malicious participants as long as there is at least a single honest participant. A domain integration itself might be using the consensus mechanism of the underlying
+ledgers are resilient to malicious participants as long as there is at least a single honest participant. A synchronizer integration itself might be using the consensus mechanism of the underlying
 platform, but participant nodes will not be involved in that process.
 
 .. Transaction
