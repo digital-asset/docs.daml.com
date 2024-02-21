@@ -479,7 +479,7 @@ Canton Concepts
 ***************
 
 Synchronizer
-======
+============
 
 The synchronizer provides total ordered, guaranteed delivery multi-cast to the participants. This means that participant nodes communicate with each other by sending end-to-end encrypted messages
 through the synchronizer.
