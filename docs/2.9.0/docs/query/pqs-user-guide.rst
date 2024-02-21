@@ -4,6 +4,13 @@
 Participant Query Store User Guide
 ##################################
 
+Docker image
+************
+
+To get the Participant Query Store (PQS) Docker image, run the following command::
+
+    docker pull digitalasset-docker.jfrog.io/participant-query-store:0.1.0
+
 Introduction
 ************
 
