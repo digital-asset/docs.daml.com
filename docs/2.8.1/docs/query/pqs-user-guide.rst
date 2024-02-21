@@ -4,6 +4,13 @@
 Participant Query Store User Guide
 ##################################
 
+Docker Image
+************
+
+You can get the Docker image with::
+
+    docker pull digitalasset-docker.jfrog.io/participant-query-store:0.1.0
+
 Introduction
 ************
 
