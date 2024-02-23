@@ -5,7 +5,7 @@
   },
   "189" : {
     "command" : "participant.health.ping(participant)",
-    "output" : "res7: Duration = 936 milliseconds"
+    "output" : "res7: Duration = 791 milliseconds"
   },
   "522" : {
     "command" : "",
@@ -25,7 +25,7 @@
   },
   "562" : {
     "command" : "participant.domains.list_connected()",
-    "output" : "res8: Seq[ListConnectedDomainsResult] = Vector(\n  ListConnectedDomainsResult(\n    domainAlias = Domain 'newdomain',\n    domainId = newdomain::12202fddf98c...,\n    healthy = true\n  )\n)"
+    "output" : "res8: Seq[ListConnectedDomainsResult] = Vector(\n  ListConnectedDomainsResult(\n    domainAlias = Domain 'newdomain',\n    domainId = newdomain::12201f387643...,\n    healthy = true\n  )\n)"
   },
   "159" : {
     "command" : "participant.start()",
@@ -89,7 +89,7 @@
   },
   "573" : {
     "command" : "participant.health.ping(participant)",
-    "output" : "res10: Duration = 1196 milliseconds"
+    "output" : "res10: Duration = 766 milliseconds"
   },
   "172" : {
     "command" : "participant.domains.connect_local(testdomain)",
@@ -121,6 +121,6 @@
   },
   "183" : {
     "command" : "participant.domains.list_connected()",
-    "output" : "res6: Seq[ListConnectedDomainsResult] = Vector(\n  ListConnectedDomainsResult(\n    domainAlias = Domain 'testdomain',\n    domainId = testdomain::1220fff58660...,\n    healthy = true\n  )\n)"
+    "output" : "res6: Seq[ListConnectedDomainsResult] = Vector(\n  ListConnectedDomainsResult(\n    domainAlias = Domain 'testdomain',\n    domainId = testdomain::1220affd9711...,\n    healthy = true\n  )\n)"
   }
 }
