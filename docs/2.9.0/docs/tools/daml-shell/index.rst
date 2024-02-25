@@ -6,7 +6,7 @@
 Daml Shell
 ##########
 
-Getting Started
+Getting started
 ***************
 
 Prerequisites
