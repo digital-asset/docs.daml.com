@@ -46,10 +46,10 @@ asymmetric encryption, and MAC with the following supported schemes:
     +--------------------------------------------------------+------------+-----------+----------+
     | **Asymmetric Encryption**                                                                  |
     +--------------------------------------------------------+------------+-----------+----------+
-    | ECIES on P-256 with HMAC-SHA256 and AES128-GCM         |      D     |     D     |     /    |
+    | ECIES on P-256 with HMAC-SHA256 and AES128-GCM         |      D     |     D     |     P    |
     | `[ecies-p-256-hkdf-hmac-sha-256-aes-128-gcm]`          |            |           |          |
     +--------------------------------------------------------+------------+-----------+----------+
-    | ECIES on P-256 with HMAC-SHA256 and AES128-CBC         |      /     |     S     |     /    |
+    | ECIES on P-256 with HMAC-SHA256 and AES128-CBC         |      /     |     S     |     P    |
     | `[ecies-p-256-hkdf-hmac-sha-256-aes-128-cbc]`          |            |           |          |
     +--------------------------------------------------------+------------+-----------+----------+
     | RSA 2048 with OAEP and SHA-256                         |      /     |     S     |     D    |
