@@ -109,8 +109,7 @@ To see available command line options, run Daml Shell with the
                               Path to the TLS key file for Postgres connection. Implies --connect. Default: none
      --connect                Auto-connect to the database on startup.
 
-Daml Shell will automatically connect to the database on startup if any
-of the ``--postgres-*`` flags have been specified.
+If you specify a ``--postgres-*`` flag, Daml Shell will automatically connect to the database on startup. 
 
 Configuration file
 ==================
@@ -269,15 +268,14 @@ Filtering with ``where`` clauses
 ================================
 
 To refine your queries when listing contracts, you can use ``where``
-clauses to filter based on specific payload fields. This uses a SQL-like
-syntax for conditionals, and is supported for the ``active``,
-``creates``, ``archives`` and ``exercises`` commands.
+clauses to filter on specific payload fields. ``where`` clauses use a SQL-like
+syntax for conditionals and are supported for the ``active``,
+``creates``, ``archives``, and ``exercises`` commands.
 
-Nested field names are identified using dot notation such as
-``parent.child.value``.
+To access nested fields, use dot notation: ``parent.child.value``
 
-Supported comparison operators
-==============================
+Comparison operators
+--------------------
 
 -  ``=``: Equal to
 -  ``!=``: Not equal to
@@ -289,7 +287,7 @@ Supported comparison operators
    character
 
 Logical operators
-=================
+-----------------
 
 -  ``and``: Both conditions must be satisfied
 -  ``or``: Either condition may be satisfied
@@ -297,21 +295,24 @@ Logical operators
 You can use parentheses to group conditions and direct the order of
 evaluation.
 
-Type casting in ``where`` clauses
-=================================
+Type casting
+------------
 
 To ensure proper comparison, you can optionally cast fields to a
 specific type using the ``::`` operator. Supported types for casting
-are: - ``numeric``: For numerical comparisons - ``timestamp``: For
-date/time comparisons - ``text``: For textual comparisons
+are: 
+
+- ``numeric``: For numerical comparisons 
+- ``timestamp``: For date/time comparisons
+- ``text``: For textual comparisons
 
 Field values are sorted and compared lexicographically if no cast is
 specified.
 
 ``where`` clause examples
-=========================
+-------------------------
 
-Below are examples of how to use ``where`` clauses in commands:
+Here are some examples of how to use ``where`` clauses in commands:
 
 -  Filter by a string pattern:
 
@@ -328,7 +329,7 @@ Below are examples of how to use ``where`` clauses in commands:
 
       > active where deeply.nested.value :: numeric > 1000
 
-   Lists contracts where a the nested field ``value`` is greater than
+   Lists contracts where the nested field ``value`` is greater than
    ``1000``.
 
 -  Filter with exact string match (note the use of double quotes):
@@ -338,7 +339,7 @@ Below are examples of how to use ``where`` clauses in commands:
       > active where label = "loren ipsum"
 
    Lists contracts where the label field is exactly ``loren ipsum``.
-   Double quotes allow values to contain whitespaces.
+   Use double quotes with values that contain whitespace characters.
 
 -  Combine different conditions:
 
