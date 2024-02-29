@@ -109,7 +109,8 @@ To see available command line options, run Daml Shell with the
                               Path to the TLS key file for Postgres connection. Implies --connect. Default: none
      --connect                Auto-connect to the database on startup.
 
-If you specify a ``--postgres-*`` flag, Daml Shell will automatically connect to the database on startup. 
+If you specify a ``--postgres-*`` flag, Daml Shell will automatically
+connect to the database on startup.
 
 Configuration file
 ==================
@@ -268,8 +269,8 @@ Filtering with ``where`` clauses
 ================================
 
 To refine your queries when listing contracts, you can use ``where``
-clauses to filter on specific payload fields. ``where`` clauses use a SQL-like
-syntax for conditionals and are supported for the ``active``,
+clauses to filter on specific payload fields. ``where`` clauses use a
+SQL-like syntax for conditionals and are supported for the ``active``,
 ``creates``, ``archives``, and ``exercises`` commands.
 
 To access nested fields, use dot notation: ``parent.child.value``
@@ -277,13 +278,13 @@ To access nested fields, use dot notation: ``parent.child.value``
 Comparison operators
 --------------------
 
--  ``=``: Equal to
--  ``!=``: Not equal to
--  ``>``: Greater than
--  ``>=``: Greater than or equal to
--  ``<``: Less than
--  ``<=``: Less than or equal to
--  ``like``: Used for pattern matching, ``%`` serves as a wildcard
+-  ``=`` Equal to
+-  ``!=`` Not equal to
+-  ``>`` Greater than
+-  ``>=`` Greater than or equal to
+-  ``<`` Less than
+-  ``<=`` Less than or equal to
+-  ``like`` Used for pattern matching, ``%`` serves as a wildcard
    character
 
 Logical operators
@@ -299,12 +300,8 @@ Type casting
 ------------
 
 To ensure proper comparison, you can optionally cast fields to a
-specific type using the ``::`` operator. Supported types for casting
-are: 
-
-- ``numeric``: For numerical comparisons 
-- ``timestamp``: For date/time comparisons
-- ``text``: For textual comparisons
+specific type using the ``::`` operator. The available casting types are
+``numeric``, ``timestamp``, and ``text``.
 
 Field values are sorted and compared lexicographically if no cast is
 specified.
@@ -338,8 +335,8 @@ Here are some examples of how to use ``where`` clauses in commands:
 
       > active where label = "loren ipsum"
 
-   Lists contracts where the label field is exactly ``loren ipsum``.
-   Use double quotes with values that contain whitespace characters.
+   Lists contracts where the label field is exactly ``loren ipsum``. Use
+   double quotes with values that contain whitespace characters.
 
 -  Combine different conditions:
 
