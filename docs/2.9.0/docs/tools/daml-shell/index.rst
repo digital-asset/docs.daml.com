@@ -91,6 +91,26 @@ To see available command line options, run Daml Shell with the
      --identifier-trim-location <leading|middle|trailing>
                               Where to trim long identifiers. Default: "trailing"
      --disable-color          Disable ANSI colored output.
+     --postgres-host <host>   Postgres host to connect to. Implies --connect. Default: "localhost"
+     --postgres-port <port>   Postgres port to connect to. Implies --connect. Default: 5432
+     --postgres-username <username>
+                              Postgres username to connect with. Implies --connect. Default: "postgres"
+     --postgres-password <password>
+                              Postgres password to connect with. Implies --connect. Default: none
+     --postgres-database <name>
+                              Postgres database to connect to. Implies --connect. Default: "postgres"
+     --postgres-tls-mode <Disable|VerifyCA|VerifyFull>
+                              TLS mode for Postgres connection. Implies --connect. Default: "Disable"
+     --postgres-tls-cafile <path>
+                              Path to the TLS CA file for Postgres connection. Implies --connect. Default: none
+     --postgres-tls-cert <path>
+                              Path to the TLS certificate file for Postgres connection. Implies --connect. Default: none
+     --postgres-tls-key <path>
+                              Path to the TLS key file for Postgres connection. Implies --connect. Default: none
+     --connect                Auto-connect to the database on startup.
+
+If you specify a ``--postgres-*`` flag, Daml Shell will automatically
+connect to the database on startup.
 
 Configuration file
 ==================
@@ -110,6 +130,12 @@ Example file content:
    identifier-trim-location = "trailing"
    full-identifiers = false
    disable-color = false
+   postgres-host = "localhost"
+   postgres-port = 5432
+   postgres-username = "postgres"
+   postgres-password = "mypassword"
+   postgres-database = "postgres"
+   postgres-tls-mode = "Disable"
 
 Interactive configuration
 =========================
@@ -238,6 +264,90 @@ as long as they have the same name.
 
 The auto-completion provides both FQN variants (with and without package
 ID).
+
+Filtering with ``where`` clauses
+================================
+
+To refine your queries when listing contracts, you can use ``where``
+clauses to filter on specific payload fields. ``where`` clauses use a
+SQL-like syntax for conditionals and are supported for the ``active``,
+``creates``, ``archives``, and ``exercises`` commands.
+
+To access nested fields, use dot notation: ``parent.child.value``
+
+Comparison operators
+--------------------
+
+-  ``=`` Equal to
+-  ``!=`` Not equal to
+-  ``>`` Greater than
+-  ``>=`` Greater than or equal to
+-  ``<`` Less than
+-  ``<=`` Less than or equal to
+-  ``like`` Used for pattern matching, ``%`` serves as a wildcard
+   character
+
+Logical operators
+-----------------
+
+-  ``and``: Both conditions must be satisfied
+-  ``or``: Either condition may be satisfied
+
+You can use parentheses to group conditions and direct the order of
+evaluation.
+
+Type casting
+------------
+
+To ensure proper comparison, you can optionally cast fields to a
+specific type using the ``::`` operator. The available casting types are
+``numeric``, ``timestamp``, and ``text``.
+
+Field values are sorted and compared lexicographically if no cast is
+specified.
+
+``where`` clause examples
+-------------------------
+
+Here are some examples of how to use ``where`` clauses in commands:
+
+-  Filter by a string pattern:
+
+   ::
+
+      > active where owner like Alice%
+
+   Lists contracts where the ``owner`` field starts with the string
+   ``Alice``.
+
+-  Filter by a nested numeric field:
+
+   ::
+
+      > active where deeply.nested.value :: numeric > 1000
+
+   Lists contracts where the nested field ``value`` is greater than
+   ``1000``.
+
+-  Filter with exact string match (note the use of double quotes):
+
+   ::
+
+      > active where label = "loren ipsum"
+
+   Lists contracts where the label field is exactly ``loren ipsum``. Use
+   double quotes with values that contain whitespace characters.
+
+-  Combine different conditions:
+
+   ::
+
+      > active where (owner like Bob% or value :: numeric < 100) and myfield = myvalue
+
+   Lists contracts where the ``owner`` starts with ``Bob`` or the
+   ``value`` is less than ``100``, and ``myfield`` is ``myvalue``.
+
+|003-where-clause.gif|
 
 Contract lookup
 ===============
@@ -450,6 +560,7 @@ See :ref:`no-archived-contracts`
 .. |003-connect.gif| image:: images/003-connect.gif
 .. |003-offset-commands.gif| image:: images/003-offset-commands.gif
 .. |003-summary-commands.gif| image:: images/003-summary-commands.gif
+.. |003-where-clause.gif| image:: images/003-where-clause.gif
 .. |003-compare-contracts.gif| image:: images/003-compare-contracts.gif
 .. |003-transactions.gif| image:: images/003-transactions.gif
 .. |003-bounded-lookup.gif| image:: images/003-bounded-lookup.gif
