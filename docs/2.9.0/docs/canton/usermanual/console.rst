@@ -26,7 +26,7 @@ Commands are organized by thematic groups. Some commands also need to be explici
 configuration directives to be accessible.
 
 Some operations are available on both types of nodes, whereas some operations are specific to either participant nodes
-or synchronizers. For consistency, we organize the manual by node type, which means that some commands will
+or sync domains. For consistency, we organize the manual by node type, which means that some commands will
 appear twice. However, the detailed explanations are only given within the participant documentation.
 
 .. _canton_remote_console:
@@ -98,9 +98,9 @@ Node References
 ---------------
 
 To issue the command on a particular node, you must refer to it via its reference, which is a Scala variable.
-Named variables are created for all synchronizer entities and participants using their configured identifiers.
+Named variables are created for all sync domain entities and participants using their configured identifiers.
 For example, the sample ``examples/01-simple-topology/simple-topology.conf`` configuration file references the
-synchronizer ``mydomain``, and participants ``participant1`` and ``participant2``.
+sync domain ``mydomain``, and participants ``participant1`` and ``participant2``.
 These are available in the console as ``mydomain``, ``participant1`` and ``participant2``.
 
 The console also provides additional generic references that allow you to consult a list
@@ -154,7 +154,7 @@ or to get detailed help explanation for each command (``participant1.parties.hel
 Lifecycle Operations
 --------------------
 
-These are supported by individual and sequences of synchronizers and participants.
+These are supported by individual and sequences of sync domains and participants.
 If called on a sequence, operations will be called sequentially in the order of the sequence.
 For example:
 
@@ -162,7 +162,7 @@ For example:
 
    nodes.local.start()
 
-can be used to start all configured local synchronizers and participants.
+can be used to start all configured local sync domains and participants.
 
 If the node is running with database persistence, it will support the database migration command (``db.migrate``).
 The migrations are performed automatically when the node is started for the first time.
@@ -176,8 +176,8 @@ using the following configuration option:
 
 Note that data continuity (and therefore database migration) is only guaranteed to work across minor and patch version updates.
 
-The synchronizer, sequencer and mediator nodes might need extra setup to be fully functional.
-Check :ref:`synchronizer bootstrapping <domain_bootstrapping>` for more details.
+The sync domain, sequencer and mediator nodes might need extra setup to be fully functional.
+Check :ref:`sync domain bootstrapping <domain_bootstrapping>` for more details.
 
 Timeouts
 --------

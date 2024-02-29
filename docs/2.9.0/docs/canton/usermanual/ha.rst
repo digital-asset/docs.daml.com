@@ -12,36 +12,36 @@ High Availability Usage
 
 This section looks at some of the components already mentioned and supplies useful Canton commands.
 
-Synchronizer Manager
---------------------
+Sync Domain Manager
+-------------------
 
-As explained in :ref:`domain-architecture`, a synchronizer internally comprises a sequencer, a mediator, and a topology manager.
-When running a simple synchronizer (configured with ``canton.domains``, as shown in most of the examples), this node will be running a topology manager,
+As explained in :ref:`domain-architecture`, a sync domain internally comprises a sequencer, a mediator, and a topology manager.
+When running a simple sync domain (configured with ``canton.domains``, as shown in most of the examples), this node will be running a topology manager,
 a sequencer, and a mediator all internally.
 
 It is possible to run sequencer(s) and mediator(s) as standalone nodes, as will be explained in the next topics.
-But to complete the synchronizer setup, it is also necessary to run a synchronizer manager node (configured with ``canton.domain-managers``),
-which takes care of the bootstrapping of the distributed synchronizer setup and runs the topology manager.
+But to complete the sync domain setup, it is also necessary to run a sync domain manager node (configured with ``canton.domain-managers``),
+which takes care of the bootstrapping of the distributed sync domain setup and runs the topology manager.
 
-The synchronizer bootstrapping process is explained in :ref:`domain_bootstrapping`.
+The sync domain bootstrapping process is explained in :ref:`domain_bootstrapping`.
 
-The synchronizer manager can be made highly available by running an active node and an arbitrary number of replicated passive nodes
-on hot standby, similar to the mediator HA mechanism (see below). The only requirement is shared storage between all the synchronizer
+The sync domain manager can be made highly available by running an active node and an arbitrary number of replicated passive nodes
+on hot standby, similar to the mediator HA mechanism (see below). The only requirement is shared storage between all the sync domain
 manager instances, which must be either Postgres or Oracle. Nodes automatically handle their state and become active/passive
 whenever the active instance fails, such that from a configuration perspective this is entirely transparent.
 
-An example configuration of a standalone HA synchronizer manager node could therefore look like this:
+An example configuration of a standalone HA sync domain manager node could therefore look like this:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/external-domain-managers.conf
 
 
-In a replicated setup, only the active synchronizer manager can be used to issue topology transactions (for instance bootstrapping a synchronizer or onboarding new mediators/sequencers).
-To find out if a synchronizer manager is active, one can run `domainManager1.health.active` in the Canton console (for a synchronizer manager node named `domainManager1`).
-Another way to avoid this manual check is to place a load balancer in front of the synchronizer managers and let it pick the active instance.
+In a replicated setup, only the active sync domain manager can be used to issue topology transactions (for instance bootstrapping a sync domain or onboarding new mediators/sequencers).
+To find out if a sync domain manager is active, one can run `domainManager1.health.active` in the Canton console (for a sync domain manager node named `domainManager1`).
+Another way to avoid this manual check is to place a load balancer in front of the sync domain managers and let it pick the active instance.
 See :ref:`Load Balancer Configuration <load-balancer-configuration>` for more information.
 
-Commands that indirectly use the synchronizer manager (for instance connecting a participant to a synchronizer) will automatically be picked up by the active synchronizer manager, so this is only relevant when
-issuing commands directly against a specific synchronizer manager.
+Commands that indirectly use the sync domain manager (for instance connecting a participant to a sync domain) will automatically be picked up by the active sync domain manager, so this is only relevant when
+issuing commands directly against a specific sync domain manager.
 
 HA Setup on Oracle
 ------------------
@@ -82,23 +82,23 @@ The applications need to retry the underlying commands.
 Running a Stand-Alone Mediator Node
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A synchronizer may be statically configured with a single embedded mediator node or it may be configured to work with external mediators.
-Once the synchronizer has been initialized further mediators can be added at runtime.
+A sync domain may be statically configured with a single embedded mediator node or it may be configured to work with external mediators.
+Once the sync domain has been initialized further mediators can be added at runtime.
 
-By default, a synchronizer will run an embedded mediator node itself.
-This is useful in simple deployments where all synchronizer functionality can be co-located on a single host.
-In a distributed setup where synchronizer services are operated over many machines,
-you can instead configure a synchronizer manager node and bootstrap the synchronizer with mediator(s) running externally.
+By default, a sync domain will run an embedded mediator node itself.
+This is useful in simple deployments where all sync domain functionality can be co-located on a single host.
+In a distributed setup where sync domain services are operated over many machines,
+you can instead configure a sync domain manager node and bootstrap the sync domain with mediator(s) running externally.
 
-Mediator nodes can be defined in the same manner as Canton participants and synchronizers.
+Mediator nodes can be defined in the same manner as Canton participants and sync domains.
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/external-mediators.conf
    :start-after: user-manual-entry-begin: ExternalMediatorNode
    :end-before: user-manual-entry-end: ExternalMediatorNode
    :dedent:
 
-When the synchronizer starts it will automatically provide the embedded mediator information about the synchronizer.
-External mediators have to be initialized using runtime administration in order to complete the synchronizer initialization.
+When the sync domain starts it will automatically provide the embedded mediator information about the sync domain.
+External mediators have to be initialized using runtime administration in order to complete the sync domain initialization.
 
 HA Configuration
 ~~~~~~~~~~~~~~~~
@@ -117,7 +117,7 @@ mediator node replica:
 
     Starting from canton 2.4.0, mediator replication is enabled by default when using supported storage.
 
-Only the active mediator node replica has to be initialized through the synchronizer
+Only the active mediator node replica has to be initialized through the sync domain
 bootstrap commands. The passive replicas observe the initialization via the
 shared database.
 
@@ -132,7 +132,7 @@ Sequencer
 The database-based sequencer can be horizontally scaled and placed behind a load balancer to provide
 high availability and performance improvements.
 
-Deploy multiple sequencer nodes for the synchronizer with the following configuration:
+Deploy multiple sequencer nodes for the sync domain with the following configuration:
 
  - All sequencer nodes share the same database so ensure that the storage configuration for each sequencer matches.
  - All sequencer nodes must be configured with `high-availability.enabled = true`.
@@ -145,11 +145,11 @@ Deploy multiple sequencer nodes for the synchronizer with the following configur
    :start-after: user-manual-entry-begin: SequencerHAConfig
    :end-before: user-manual-entry-end: SequencerHAConfig
 
-The synchronizer node only supports embedded sequencers, so a distributed setup using a synchronizer manager node must then be
+The sync domain node only supports embedded sequencers, so a distributed setup using a sync domain manager node must then be
 configured to use these sequencer nodes by pointing it at these external services.
 
-Once configured the synchronizer must be bootstrapped with the new external sequencer using the
-:ref:`bootstrap_synchronizer <domain_bootstrapping>` operational process.
+Once configured the sync domain must be bootstrapped with the new external sequencer using the
+:ref:`bootstrap_sync_domain <domain_bootstrapping>` operational process.
 These sequencers share a database so just use a single instance for bootstrapping and the replicas
 will come online once the shared database has a sufficient state for starting.
 
@@ -170,7 +170,7 @@ The ``sequencer.high-availability.total-node-count`` parameter is used to divide
 The parameter should not be changed once a set of sequencer nodes has been deployed. Because each message sequenced must
 have a unique timestamp, a sequencer node will use timestamps `modulo` the ``total-node-count`` plus its own index to create timestamps that do not conflict with other sequencer nodes while sequencing the messages in a parallel
 database insertion process. Canton uses microseconds, which yields a theoretical max throughput of 1 million messages
-per second per synchronizer. Now, this theoretical throughput is divided equally among all sequencer nodes
+per second per sync domain. Now, this theoretical throughput is divided equally among all sequencer nodes
 (``total-node-count``). Therefore, if you set ``total-node-count`` too high, then a sequencer might not be able to
 operate at the maximum theoretical throughput. We recommend keeping the default value of ``10``, as all above explanations
 are only theoretical and we have not yet seen a database/hard disk that can handle the theoretical throughput.
@@ -210,7 +210,7 @@ Client-side load balancing
 Using client-side load balancing is recommended where an external load-balancing service is unavailable (or lacks http2+grpc
 support), and the set of sequencers is static and can be configured at the client.
 
-To simply specify multiple sequencers use the ``domains.connect_multi`` console command when registering/connecting to the synchronizer::
+To simply specify multiple sequencers use the ``domains.connect_multi`` console command when registering/connecting to the sync domain::
 
   myparticipant.domains.connect_multi(
     "my_domain_alias",
@@ -218,9 +218,9 @@ To simply specify multiple sequencers use the ``domains.connect_multi`` console 
   )
 
 See the :ref:`sequencer connectivity documentation <sequencer_connections>` for more details on how to add many sequencer URLs
-when combined with other synchronizer connection options.
-The synchronizer connection configuration can also be changed at runtime to add or replace configured sequencer connections.
-Note the synchronizer will have to be disconnected and reconnected at the participant for the updated configuration to be used.
+when combined with other sync domain connection options.
+The sync domain connection configuration can also be changed at runtime to add or replace configured sequencer connections.
+Note the sync domain will have to be disconnected and reconnected at the participant for the updated configuration to be used.
 
 Participant
 -----------
@@ -242,11 +242,11 @@ replica:
     Starting from Canton 2.4.0, participant replication is enabled by default when using supported storage.
 
 
-Synchronizer Connectivity during Fail-over
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Sync Domain Connectivity during Fail-Over
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-During fail-over from one replica to another, the new active replica re-connects to all configured synchronizers for which
-``manualConnect = false``. This means if the former active replica was manually connected to a synchronizer, this synchronizer
+During fail-over from one replica to another, the new active replica re-connects to all configured sync domains for which
+``manualConnect = false``. This means if the former active replica was manually connected to a sync domain, this sync domain
 connection is not automatically re-established during fail-over but must be performed manually again.
 
 Manual Trigger of a Fail-over

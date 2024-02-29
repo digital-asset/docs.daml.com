@@ -7,7 +7,7 @@
 
 API Configuration
 =================
-A synchronizer exposes two main APIs, the admin API and the public API, while the participant node
+A sync domain exposes two main APIs, the admin API and the public API, while the participant node
 exposes the ledger API and the admin API. In this section, we will explain what the APIs do and how
 they can be configured.
 
@@ -25,9 +25,9 @@ The ports are allocated according to the following scheme:
 
 Administration API
 ------------------
-The nature and scope of the admin API on participant nodes and the admin API on synchronizers has some overlap. As an example,
-you will find the same key management commands on the synchronizer and the participant node API, whereas
-the participant has different commands to connect to several synchronizers.
+The nature and scope of the admin API on participant nodes and the admin API on sync domains has some overlap. As an example,
+you will find the same key management commands on the sync domain and the participant node API, whereas
+the participant has different commands to connect to several sync domains.
 
 The configuration currently is simple (see the TLS example below) and just takes an address and a port.
 The address defaults to ``127.0.0.1`` and a default port is assigned if not explicitly configured.
@@ -118,7 +118,7 @@ Max Inbound Message Size
 ------------------------
 
 The APIs exposed by both the participant (ledger API and admin API) as well as
-by the synchronizer (public API and admin API) have an upper limit on incoming message
+by the sync domain (public API and admin API) have an upper limit on incoming message
 size. To increase this limit to accommodate larger payloads, the flag
 ``max-inbound-message-size`` has to be set for the respective API to the maximum
 message size in **bytes**.
@@ -248,15 +248,15 @@ than 100 tx/s.
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/large-in-memory-fan-out.conf
 
-Synchronizer Configurations
----------------------------
+Sync Domain Configurations
+--------------------------
 
 .. _public-api-configuration:
 
 
 Public API
 ~~~~~~~~~~
-The synchronizer configuration requires the same configuration of the ``admin-api`` as the participant.
+The sync domain configuration requires the same configuration of the ``admin-api`` as the participant.
 Next to the ``admin-api``, we need to configure the ``public-api``, which is the API where
 all participants connect.
 
@@ -265,7 +265,7 @@ Authentication Token
 Authentication of the restricted services is built into the public sequencer API, leveraging the
 participant signing keys. You don't need to do anything in order to set this up; it is enforced
 automatically and can't be turned off. The same mechanism is used to check the authentication of
-the synchronizer topology manager and the mediator.
+the sync domain topology manager and the mediator.
 
 The token is generated during the handshake between the node and the sequencer. By default, it is valid for one hour.
 The nodes automatically renew the token in the background before it expires. The lifetime of the

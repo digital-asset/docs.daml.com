@@ -42,7 +42,7 @@ bootstrap) or for an existing deployment.
 Simply adding the following configuration is not enough.
 
 In the example below, we configure **a new** Canton participant node (called ``participant1``) to generate and
-store private keys in an external AWS KMS. The same configuration is applicable for all other node entities, including the synchronizer manager,
+store private keys in an external AWS KMS. The same configuration is applicable for all other node entities, including the sync domain manager,
 mediators, and sequencers.
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/aws-kms-provider-tagged.conf
@@ -87,15 +87,15 @@ Here is a reminder of the initial keys that each node owns:
 
 .. table:: List of keys that each node owns
 
-    +-----------------------------------+------------------+--------------------------+---------------+--------------+-----------------+
-    | **Keys**                          | **Synchronizer** | **Synchronizer Manager** | **Sequencer** | **Mediator** | **Participant** |
-    +===================================+==================+==========================+===============+==============+=================+
-    | `(Signing) Namespace Key`         | x                | x                        |               |              | x               |
-    +-----------------------------------+------------------+--------------------------+---------------+--------------+-----------------+
-    | `Signing Key`                     | x                | x                        | x             | x            | x               |
-    +-----------------------------------+------------------+--------------------------+---------------+--------------+-----------------+
-    | `(Asymmetric) Encryption Key`     |                  |                          |               |              | x               |
-    +-----------------------------------+------------------+--------------------------+---------------+--------------+-----------------+
+    +-----------------------------------+-----------------+-------------------------+---------------+--------------+-----------------+
+    | **Keys**                          | **Sync Domain** | **Sync Domain Manager** | **Sequencer** | **Mediator** | **Participant** |
+    +===================================+=================+=========================+===============+==============+=================+
+    | `(Signing) Namespace Key`         | x               | x                       |               |              | x               |
+    +-----------------------------------+-----------------+-------------------------+---------------+--------------+-----------------+
+    | `Signing Key`                     | x               | x                       | x             | x            | x               |
+    +-----------------------------------+-----------------+-------------------------+---------------+--------------+-----------------+
+    | `(Asymmetric) Encryption Key`     |                 |                         |               |              | x               |
+    +-----------------------------------+-----------------+-------------------------+---------------+--------------+-----------------+
 
 Depending on the key purpose and the default signing and encryption schemes defined in Canton,
 you need to pre-generate the corresponding AWS KMS keys with the correct settings:
@@ -109,7 +109,7 @@ you need to pre-generate the corresponding AWS KMS keys with the correct setting
     |                   | - **Key Algorithms:** `ECC_NIST_P256` or `ECC_NIST_P384`              | - **Key Algorithm:** `RSA_2048`                     |
     +-------------------+-----------------------------------------------------------------------+-----------------------------------------------------+
 
-Below are links to guides on how to manually initialize participant nodes and synchronizer.
+Below are links to guides on how to manually initialize participant nodes and sync domain.
 In those guides, keys are generated using console commands such as:
 
 .. code-block:: none
@@ -119,5 +119,5 @@ In those guides, keys are generated using console commands such as:
 Make sure to **replace those commands with the ones shown above** with which you registered your existing keys
 instead of generating new ones.
 
-- :ref:`initialize synchronizer <manually-init-domain>`
+- :ref:`initialize sync domain <manually-init-domain>`
 - :ref:`initialize participants <manually-init-participant>`

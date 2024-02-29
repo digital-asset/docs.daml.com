@@ -13,12 +13,12 @@ Identity Management
 Identity Providing Service
 **************************
 
-Every synchronizer requires a shared and synchronized knowledge of
-identities and their associated keys among all participants and synchronizer entities
+Every sync domain requires a shared and synchronized knowledge of
+identities and their associated keys among all participants and sync domain entities
 as the synchronization protocol is built with the principle that provided the
 same data, all validators must come verifiably to the same result.
 
-The service that establishes this shared understanding in a synchronizer is the
+The service that establishes this shared understanding in a sync domain is the
 *Identity Providing Service* (**IPS**). From a synchronization protocol
 perspective, the IPS is an abstract component and the synchronization protocol
 only ever interacts with the read API of the IPS. There is no assumption on how
@@ -27,15 +27,15 @@ synchronization perspective.
 
 The participant nodes, the sequencer and the mediator have a
 local component called the *Identity Providing Service Client* (**IPS
-client**). This component establishes the connection to the IPS of the synchronizer
-to read and validate the identity information in the synchronizer.
+client**). This component establishes the connection to the IPS of the sync domain
+to read and validate the identity information in the sync domain.
 
-The IPS client exposes a read API providing aggregated access to the synchronizer
-topology information and public keys provided by the IPS of one or more synchronizers.
+The IPS client exposes a read API providing aggregated access to the sync domain
+topology information and public keys provided by the IPS of one or more sync domains.
 
 The identity-providing service receives keys and certificates through some
 process and evaluates the justifications, before presenting the information to
-the IPS clients of the participant or synchronizer entities. The IPS clients verify
+the IPS clients of the participant or sync domain entities. The IPS clients verify
 the information. The local consumers of the IPS client-read API trust the
 provided information without verifying the justifications, leading to a
 separation of synchronization and identity management.
@@ -68,12 +68,12 @@ i.e., the synchronization layer components.
   confirmation), confirmation, or observation (read-only). This also satisfies the
   high-level requirement on :ref:`read-only participants <read-only-participants-hlreq>`.
 
-* **Synchronizer-aware mapping of Participants to Keys**. I can query the state at a
+* **Sync-Domain-Aware Mapping of Participants to Keys**. I can query the state at a
   certain time and subscribe to a stream of updates mapping participants to a
-  set of keys per synchronizer.
+  set of keys per sync domain.
 
-* **Synchronizer Entity Keys**. I can query the current state and subscribe to a
-  stream of updates on the keys of the synchronizer entities.
+* **Sync Domain Entity Keys**. I can query the current state and subscribe to a
+  stream of updates on the keys of the sync domain entities.
 
 * **Lifetime and Purpose of Keys**. I can learn, for any key that I receive, what
   it is used for, what cryptographic protocol it refers to, and when it expires.
@@ -88,7 +88,7 @@ i.e., the synchronization layer components.
 
 * **Immutability**. The history of all keys is preserved within the same time
   boundaries as my audit logs such that I can always audit my participant or
-  synchronizer entity logs.
+  sync domain entity logs.
 
 * **Evidence**. For any data which I receive from the IPS I can get the set of
   associated evidence such that I can prove my arguments in a legal dispute. The
@@ -246,9 +246,9 @@ The unique identifier within the project is defined as
 
 
 We use the global unique identifier to identify participant nodes `N =
-(N, I_{k})`, parties `P = (P,I_{k})` and synchronizer entities `D = (D,I_{k})` (which means
+(N, I_{k})`, parties `P = (P,I_{k})` and sync domain entities `D = (D,I_{k})` (which means
 that `X` is short for `(X,I_{k})`). For parties `P` and participant nodes `N`,
-we should use a sufficiently long random number for privacy reasons. For synchronizers
+we should use a sufficiently long random number for privacy reasons. For sync domains
 `D`, we use readable names.
 
 Incremental Changes
@@ -279,7 +279,7 @@ distribution together with the timestamp `t`.
 Topology Transactions
 ---------------------
 We can distinguish three types of topology transactions: identity delegations,
-mapping updates, and synchronizer governance updates. In the following,
+mapping updates, and sync domain governance updates. In the following,
 we establish what these transactions mean, what they do, and what the
 authorization rules are.
 
@@ -373,21 +373,21 @@ and the removal operation through
 
 There are four different sub-types of valid mapping transactions:
 
-* **Synchronizer Keys**: The mapping transaction of
+* **Sync Domain Keys**: The mapping transaction of
   `\{+, D \rightarrow (p_{D}, \textrm{ct})\}^{s_{D}}` updates the keys for
-  the synchronizer entities. Valid qualifiers for `ct` are *identity*, *sequencer*,
-  *mediator*. As every state update needs to be signed by the synchronizer, the
-  synchronizer definition corresponds to the initial seed of the identity
+  the sync domain entities. Valid qualifiers for `ct` are *identity*, *sequencer*,
+  *mediator*. As every state update needs to be signed by the sync domain, the
+  sync domain definition corresponds to the initial seed of the identity
   transaction stream `\{D \rightarrow (p_{D}, \textrm{identity})\}^{s_{D}}`.
-  If a participant knows the synchronizer ID of `D`, it can verify that this initial
+  If a participant knows the sync domain ID of `D`, it can verify that this initial
   seed is correctly authorized by the owner of the key governing the unique
-  identifier of the synchronizer ID.
+  identifier of the sync domain ID.
 
 .. _owner-to-key-mapping:
 
 * **Owner to Key Mappings**: The mapping transaction
   `\{+, (N,I_k) \rightarrow (p_{l}, \textrm{ct})\}^{[\tilde{s}_{k}]}` updates
-  the keys that are associated with an owner such as a participant or a synchronizer entity.
+  the keys that are associated with an owner such as a participant or a sync domain entity.
   The key purposes can be *signing* and/or *encryption*. If more than one key is defined,
   all systems are supposed to use the key that was observed first and is still active.
 
@@ -411,12 +411,12 @@ There are four different sub-types of valid mapping transactions:
 Participant State Updates
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 The fourth type of topology transactions are participant state updates as
-synchronizer governance transactions `\{d|a|c|p, N\}^{s_{D}}`. Here, `d` means
+sync domain governance transactions `\{d|a|c|p, N\}^{s_{D}}`. Here, `d` means
 *disabled* (participant cannot be involved in any transaction), `a` means
 the participant is *active*, `c` means the participant cannot submit transactions but
 only *confirm*, `p` means the participant is *purged* and will never be back
 again. Participant states are owned by the operator of the committer. It is at the
-committer's discretion to decide whether a participant is allowed to use the synchronizer
+committer's discretion to decide whether a participant is allowed to use the sync domain
 or not.
 
 .. literalinclude:: /canton/includes/mirrored/community/base/src/main/scala/com/digitalasset/canton/topology/transaction/TopologyMapping.scala
@@ -430,15 +430,15 @@ Some Considerations
 Removal Authorizations
 ^^^^^^^^^^^^^^^^^^^^^^
 We note that the authorization rules for the addition are more strict than for
-the removal: Any removal can be authorized by the synchronizer key `s_{D}` such that
-the synchronizer operator can prune the topology state if necessary, which is fine,
-as the accessibility of a synchronizer is anyway dependent on the cooperation of the
-synchronizer operator.
+the removal: Any removal can be authorized by the sync domain key `s_{D}` such that
+the sync domain operator can prune the topology state if necessary, which is fine,
+as the accessibility of a sync domain is anyway dependent on the cooperation of the
+sync domain operator.
 
 Therefore, when talking about removal authorization, we explain the
 authorization check the IPS will make if it receives a removal request from an
 untrusted source. Consequently, all participants will at least be aware
-whether a certain topology transaction removal was authorized by the synchronizer topology
+whether a certain topology transaction removal was authorized by the sync domain topology
 manager or by the actual authority of that topology transaction.
 
 Revocations
@@ -453,27 +453,27 @@ the key has signed" requires publishing a set of topology transactions together.
     Support key revocation in identity management operations `#1309 <https://github.com/DACH-NY/canton/issues/1309>`_
 
 
-Synchronizer Topology State
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Looking at the given formalism, we can distinguish between the *topology state* and the *synchronizer topology state*.
+Sync Domain Topology State
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+Looking at the given formalism, we can distinguish between the *topology state* and the *sync domain topology state*.
 The difference between these two is that the *topology state* is comprised of all
-delegation and mapping transactions. The synchronizer topology state extends this definition by adding
-*synchronizer governance updates* such as participant states. The synchronizer topology state overrides the
-authorization rule by allowing a synchronizer to remove any previous topology transaction.
+delegation and mapping transactions. The sync domain topology state extends this definition by adding
+*sync domain governance updates* such as participant states. The sync domain topology state overrides the
+authorization rule by allowing a sync domain to remove any previous topology transaction.
 
 .. _bootstrapping-idm:
 
 Bootstrapping
 ^^^^^^^^^^^^^
-Based on the above explanations, we observe that the authorized synchronizer topology state is given by all signed and properly
-authorized topology transactions which additionally have been ordered and signed by the synchronizer topology manager and
-distributed (and signed) by the sequencer. Consequently, for a new participant connecting to a synchronizer,
+Based on the above explanations, we observe that the authorized sync domain topology state is given by all signed and properly
+authorized topology transactions which additionally have been ordered and signed by the sync domain topology manager and
+distributed (and signed) by the sequencer. Consequently, for a new participant connecting to a sync domain,
 to validate the topology state and know that they are talking to the right sequencer, it only needs to know
-the unique identifier of the synchronizer. Using this unique identifier, the participant can verify the authenticity and correctness
+the unique identifier of the sync domain. Using this unique identifier, the participant can verify the authenticity and correctness
 of the topology state, as it can verify the correct authorization of the corresponding topology transactions.
 
-This is the bootstrapping problem of any Canton network: To connect to a synchronizer, a participant needs to know
-the synchronizer ID (a unique identifier) of a synchronizer, which it needs to receive through a trusted channel.
+This is the bootstrapping problem of any Canton network: To connect to a sync domain, a participant needs to know
+the sync domain ID (a unique identifier) of a sync domain, which it needs to receive through a trusted channel.
 
 Default Party
 ^^^^^^^^^^^^^
@@ -497,7 +497,7 @@ Topology State Accumulation
 ---------------------------
 
 Now, we define the topology state `S_{t}` at time `t` as provided by the
-identity service provider of a synchronizer incrementally as
+identity service provider of a sync domain incrementally as
 
 .. math::
 
@@ -512,8 +512,8 @@ corresponds to the mapping updates and the third one to the participant state up
 We assume that the identity providing service (which is part of the committer) is
 presented by someone with a topology transaction `\{.\}^{s_k}`. Upon a vetting
 operation where the operator can decide if the proposed change is acceptable, the
-IPS sequences, validates, signs (using the synchronizer key `s_{D}`) and distributes the
-topology state changes to all affected synchronizer entities.
+IPS sequences, validates, signs (using the sync domain key `s_{D}`) and distributes the
+topology state changes to all affected sync domain entities.
 
 Privacy by Design
 -----------------
@@ -550,19 +550,19 @@ parties e.g. a participant manages. This prevents learning questions such as
 how many parties are represented by a certain participant (how many clients
 does my competitor have).
 
-Cross-Synchronizer Delegations
-------------------------------
+Cross-Sync-Domain Delegations
+-----------------------------
 
 In our design of participants and parties, we observe that a participant is a
 system entity whereas a party is meant to represent some actor in the real
 world. In order to commoditize the ledger as a service, we need to provide a
 way that makes a party something fluid that can be moved around from
 participant. As the participant should just be a service, it might be
-acceptable to keep it pinned to an identity synchronizer. But a party should be able
+acceptable to keep it pinned to an identity sync domain. But a party should be able
 to travel but still be held accountable for the obligations.
 
 Permissioning a party on a second participant node that exists in the same
-synchronizer is already possible in the present formalism:
+sync domain is already possible in the present formalism:
 `\{(P,I_{k}) \rightarrow (N_{2}, I_{k})\}^{s_{k}}`
 
 A straight-forward extension to permission a party on a second participant in
@@ -575,15 +575,15 @@ The party delegation transaction supports delegating the
 permissioning of a party to a key outside of the root key namespace:
 `\{(P,I_{k}) \Rightarrow p_{l}\}^{s_{k}}`
 
-Multi-Synchronizer Transaction
-------------------------------
+Multi-Sync-Domain Transaction
+-----------------------------
 
 .. todo::
-    Add multi-synchronizer transfer permission information to topology state `#1252 <https://github.com/DACH-NY/canton/issues/1252>`_
+    Add multi-sync domain transfer permission information to topology state `#1252 <https://github.com/DACH-NY/canton/issues/1252>`_
 
 
 The key challenge of the identity management aspect is to design it such that
-we can support multi-synchronizer synchronization without requiring the committers
+we can support multi-sync domain synchronization without requiring the committers
 to cooperate.
 
 First, we note that we avoid collision problems by design using globally unique
@@ -593,20 +593,20 @@ Second, we note that we do not need complete consistency of identities
 between the committers. All that is required is a sufficient overlap.
 
 We first introduce a new mapping transaction denoting the transfer permission
-as `\{P \rightarrow D_{T}\}` on the source synchronizer `D_{S}`. The transfer
+as `\{P \rightarrow D_{T}\}` on the source sync domain `D_{S}`. The transfer
 permission means that for the given party, out-transfers of contracts to the
-target synchronizer `D_{T}` are allowed. However, this does not imply that the
-target synchronizer has corresponding permission to move the contract back. It
+target sync domain `D_{T}` are allowed. However, this does not imply that the
+target sync domain has corresponding permission to move the contract back. It
 might, but there is no guarantee.
 
 Right now, in the transfer-out protocol, the transfer-out request check reads
-*The target synchronizer is acceptable to all stakeholders*. By introducing `\{P
-\rightarrow D\}` we are now explicit about what an acceptable synchronizer is: for
+*The target sync domain is acceptable to all stakeholders*. By introducing `\{P
+\rightarrow D\}` we are now explicit about what an acceptable sync domain is: for
 all stakeholder parties of the particular contract, there is an appropriate
-transfer permission on the current synchronizer.
+transfer permission on the current sync domain.
 
 However, there are edge cases we need to deal with: what happens if on
-synchronizer `D_{T}`, the party `P` doesn't exist? Or what happens if the
+sync domain `D_{T}`, the party `P` doesn't exist? Or what happens if the
 participants representing `P` on `D_{S}` are completely different than on
 `D_{T}`? This can happen either due to a misconfiguration or due to a
 race-condition of an inflight change.
@@ -622,7 +622,7 @@ Therefore, we introduce two new rules
 
 These rules boil down to the simple verbal requirement that at least one
 participant representing the affected party needs to be present on both
-synchronizers while the transfer takes place from `t_{0}` to `t_{2}`.
+sync domains while the transfer takes place from `t_{0}` to `t_{2}`.
 
 Validation
 ----------
@@ -666,12 +666,12 @@ Scenario: *I can migrate a party from one participant to another.*
 Implementation
 **************
 
-Synchronizer ID
-===============
+Sync Domain ID
+==============
 
-We assume that the synchronizer ID is shared with the connecting participant through a trusted channel. This can be
+We assume that the sync domain ID is shared with the connecting participant through a trusted channel. This can be
 implemented as a secure out-of-band process or by trusting TLS server authentication
-when initially requesting the synchronizer ID from the *Sequencer Service*.
+when initially requesting the sync domain ID from the *Sequencer Service*.
 
 Identity Providing Service API
 ==============================
@@ -701,9 +701,9 @@ protocol behind the *SyncCryptoApi*.
 This class contains the appropriate methods in order to *sign*, *verify signatures*, *encrypt* or *decrypt*
 on a per-member basis. Which key and which cryptographic method is used is hidden entirely behind this API.
 
-The API is obtained on a per synchronizer and timestamp basis. The *SyncCryptoApiProvider* combines the information about the
-owner of the node, the connected synchronizer, the cryptographic module in use and the topology state for a particular
-time and provides a factory method to obtain the *SyncCryptoApi* for a particular synchronizer and time combination.
+The API is obtained on a per sync domain and timestamp basis. The *SyncCryptoApiProvider* combines the information about the
+owner of the node, the connected sync domain, the cryptographic module in use and the topology state for a particular
+time and provides a factory method to obtain the *SyncCryptoApi* for a particular sync domain and time combination.
 
 High-Level Picture
 ==================
@@ -718,7 +718,7 @@ Transaction Flow
 ================
 
 The following chart lays out all components of the Canton identity management system. Some
-of the components are shared between the participant node and synchronizer, while some have
+of the components are shared between the participant node and sync domain, while some have
 slightly different functionality. The arrow indicates data flow.
 
 .. https://www.lucidchart.com/documents/edit/1561b894-2b34-4fb1-a58c-9eb3b3e93abd
@@ -748,28 +748,28 @@ command until it reaches the IPSC.
 
 * **Participant Topology Dispatcher** - The dispatcher monitors the topology state managed by the
   local topology manager and tries to push the local authorized topology state to any
-  connected synchronizer. As an example, if a party is added locally, the dispatcher tries to propagate
-  the corresponding topology transaction to any connected synchronizer.
+  connected sync domain. As an example, if a party is added locally, the dispatcher tries to propagate
+  the corresponding topology transaction to any connected sync domain.
 
 * **Sequencer Connect Service** - Every sequencer exposes a public service, called sequencer connect service,
-  for handshake and administrative purposes. Here, participants obtain the applicable synchronizer rules, the protocol
-  version and the synchronizer ID.
+  for handshake and administrative purposes. Here, participants obtain the applicable sync domain rules, the protocol
+  version and the sync domain ID.
 
-* **Synchronizer Topology Manager Request Service** - Any topology transaction upload from the synchronizer service
+* **Sync Domain Topology Manager Request Service** - Any topology transaction upload from the sync domain service
   is processed through the request service. The request service is configured with a **request strategy**.
   The request strategy inspects the topology transaction and decides how to deal with a topology transaction.
-  Right now, three strategies have been implemented: auto-approve for un-permissioned synchronizers, queue
-  for permissioned synchronizers (where transactions are just stored for later decision in the *Request Store*)
-  and rejection for closed synchronizers.
+  Right now, three strategies have been implemented: auto-approve for un-permissioned sync domains, queue
+  for permissioned sync domains (where transactions are just stored for later decision in the *Request Store*)
+  and rejection for closed sync domains.
 
-* **Synchronizer Topology Manager** - Similar to the participant node topology manager, except with the added
-  functionality required for a synchronizer, allowing it to set participant states. Changes to the synchronizer topology
+* **Sync Domain Topology Manager** - Similar to the participant node topology manager, except with the added
+  functionality required for a sync domain, allowing it to set participant states. Changes to the sync domain topology
   manager either come from the local administrator through the topology manager write service or
   through accepted topology transactions from the request service.
-  The sequencer listens to the synchronizer topology manager and sets up new member queues if a new participant
+  The sequencer listens to the sync domain topology manager and sets up new member queues if a new participant
   is added to the system.
 
-* **Synchronizer Topology Dispatcher** - The synchronizer topology dispatcher monitors the local authorized synchronizer
+* **Sync Domain Topology Dispatcher** - The sync domain topology dispatcher monitors the local authorized sync domain
   topology state. Upon a change, the dispatcher computes who needs to be informed of the given topology
   transaction (i.e. all active participant nodes). Or, if a new participant has been added, the dispatcher
   ensures that the first transactions a new participant will observe when connecting to the sequencer
@@ -779,7 +779,7 @@ command until it reaches the IPSC.
   previously established order. The message forwarder therefore ensures the absolute guaranteed in-order
   delivery of all topology transactions, in particular in the case of temporary delivery to sequencer failure.
   The message forwarder sends the topology transactions as instructed by the dispatcher via the
-  sequencer to all participant nodes and synchronizer entities.
+  sequencer to all participant nodes and sync domain entities.
 
 * **Identity Providing Service Client** - The implementation of the IPSC listens to the stream of sequenced
   messages and receives the identity updates. The client inspects the message, validates the signatures
@@ -789,13 +789,13 @@ command until it reaches the IPSC.
 
 Not a direct part of the transaction flow, but essential components for topology management are the following components:
 
-* **Authorized/Request/Synchronizer Topology Store** - There are several stores for topology transactions.
+* **Authorized/Request/Sync Domain Topology Store** - There are several stores for topology transactions.
   The authorized store is the set of topology transactions that have been added to the local
-  topology manager. The synchronizer topology store is the store of topology transactions that have
-  been timestamped by the sequencer. The authorized store of a synchronizer and the synchronizer topology store
+  topology manager. The sync domain topology store is the store of topology transactions that have
+  been timestamped by the sequencer. The authorized store of a sync domain and the sync domain topology store
   contain the same content, except that the authorized store can hold data that has not
-  yet been timestamped by the sequencer. The content of the synchronizer topology stores on the participant
-  (one per connected synchronizer) is identical among all participants on a synchronizer. These stores are
+  yet been timestamped by the sequencer. The content of the sync domain topology stores on the participant
+  (one per connected sync domain) is identical among all participants on a sync domain. These stores are
   used by the synchronization protocol.
 
 * **Topology Manager Read Service** - The topology manager read service just serves inspection purposes

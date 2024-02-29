@@ -8,7 +8,7 @@
 Upgrading
 =========
 
-This section covers the processes to upgrade Canton participant nodes and synchronizers. Upgrading Daml
+This section covers the processes to upgrade Canton participant nodes and sync domains. Upgrading Daml
 applications is `covered elsewhere <https://docs.daml.com/upgrade/upgrade.html>`_.
 
 As elaborated in the :ref:`versioning guide <canton_versioning>`, new features, improvements
@@ -74,16 +74,16 @@ of your convenience, such that **you can test the upgrade process without affect
 While we extensively test the upgrade process ourselves, we cannot exclude the eventuality that you are using the system
 in a non-anticipated way. Testing is cumbersome, but breaking a production system is worse.
 
-If you are upgrading a participant, then we suggest that you also use an in-memory synchronizer which you can
+If you are upgrading a participant, then we suggest that you also use an in-memory sync domain which you can
 tear down after you have tested that the upgrade of the participant is working. You might do that by adding
-a simple synchronizer definition as a configuration mixin to your participant configuration.
+a simple sync domain definition as a configuration mixin to your participant configuration.
 
 Generally, if you are running a high-availability setup, please take all nodes offline before
 performing an upgrade. If the update requires a database migration (check the release notes), avoid
 running older and newer binaries in a replicated setup, as the two binaries might expect a different
 database layout.
 
-You can upgrade the binaries of a microservice-based synchronizer in any order, as long as you upgrade
+You can upgrade the binaries of a microservice-based sync domain in any order, as long as you upgrade
 the binaries of nodes accessing the same database at the same time. For example, you could upgrade
 the binary of a replicated mediator node on one weekend and an active-active database sequencer on
 another weekend.
@@ -166,19 +166,19 @@ Test Your Upgrade
 ~~~~~~~~~~~~~~~~~
 
 Once your node is up and running, you can test it by running a ping. If you are testing
-the upgrade of your participant node, then you might want to connect to the test synchronizer
+the upgrade of your participant node, then you might want to connect to the test sync domain
 
 .. snippet:: migrating_participant
     .. success:: testdomain.start()
     .. success:: participant.domains.connect_local(testdomain)
 
 If you did the actual upgrade of the production instance, then you would just reconnect
-to the current synchronizer before running the ping:
+to the current sync domain before running the ping:
 
 .. snippet:: migrating_participant
     .. success:: participant.domains.reconnect_all()
 
-You can check that the synchronizer is up and running using
+You can check that the sync domain is up and running using
 
 .. snippet:: migrating_participant
     .. success:: participant.domains.list_connected()
@@ -242,8 +242,8 @@ Breaking console commands
 The ``owner_to_key_mappings.rotate_key`` command was changed to avoid unwanted key rotations.
 It now expects a node reference to perform additional checks.
 
-**Synchronizer filtering in testing commands**:
-To improve consistency and code safety, some testing console commands now expect an optional synchronizer alias (rather than a plain synchronizer alias).
+**Sync domain filtering in testing commands**:
+To improve consistency and code safety, some testing console commands now expect an optional sync domain alias (rather than a plain sync domain alias).
 For example, the following call needs to be rewritten:
 
 .. code:: bash
@@ -288,11 +288,11 @@ This mode can be enabled by setting the appropriate storage parameter:
     canton.X.Y.storage.parameters.migrate-and-start = yes
 
 To benefit from the new security features in protocol version 5,
-you must :ref:`upgrade the synchronizer accordingly <canton_domain_protocol_version_upgrading>`.
+you must :ref:`upgrade the sync domain accordingly <canton_domain_protocol_version_upgrading>`.
 
 Activation of unsupported features
 """"""""""""""""""""""""""""""""""
-In order to activate unsupported features, you now need to explicitly enable `dev-version-support` on the synchronizer (in addition to the non-standard config flag).
+In order to activate unsupported features, you now need to explicitly enable `dev-version-support` on the sync domain (in addition to the non-standard config flag).
 More information can be found in the :ref:`documentation <how-do-i-enable-unsupported-features>`.
 
 Breaking changes around console commands
@@ -317,16 +317,16 @@ Hence, the command to add a new sequencer connection to the mediator would be ch
 
 Unique contract key deprecation
 """""""""""""""""""""""""""""""
-The unique-contract-keys parameters for both participant nodes and synchronizers are now marked as deprecated.
+The unique-contract-keys parameters for both participant nodes and sync domains are now marked as deprecated.
 As of this release, the meaning and default value (true) remain unchanged.
-However, contract key uniqueness will not be available in the next major version, featuring multi-synchronizer connectivity.
+However, contract key uniqueness will not be available in the next major version, featuring multi-sync-domain connectivity.
 If you are already setting this key to false explicitly (preview), this behavior will be the default one after the configuration key is removed.
 If you don't explicitly set this value to false, you are encouraged to evaluate evolving your existing applications and services to avoid relying on this feature.
 You can read more on the topic in the :ref:`documentation <canton_keys>`.
 
 Causality tracking
 """"""""""""""""""
-An obsolete early access feature to enable causality tracking, related to preview multi-synchronizer, was removed. If you enabled it, you need to remove the following config lines, as they will not compile anymore:
+An obsolete early access feature to enable causality tracking, related to preview multi-sync-domain, was removed. If you enabled it, you need to remove the following config lines, as they will not compile anymore:
 
 .. code:: bash
 
@@ -390,29 +390,29 @@ Some configuration arguments have changed. While rewrite rules are in place for 
 we recommend that you test your configuration before upgrading and update the settings to avoid
 using deprecated flags.
 
-IMPORTANT: Existing synchronizers and synchronizer managers need to be reconfigured to keep on working. It is important
+IMPORTANT: Existing sync domains and sync domain managers need to be reconfigured to keep on working. It is important
 that before attempting the binary upgrade, you configure the currently used protocol version explicitly:
 
 .. code:: bash
 
     canton.domains.mydomain.init.domain-parameters.protocol-version = 3
 
-Nodes persist the static synchronizer parameters used during initialization now. Version 2.5 is the last version
+Nodes persist the static sync domain parameters used during initialization now. Version 2.5 is the last version
 that will require this explicit configuration setting during upgrading.
 
-If you started the synchronizer node accidentally before changing your configuration, your participants won't be able to
-reconnect to the synchronizer, as they will fail with a message like:
+If you started the sync domain node accidentally before changing your configuration, your participants won't be able to
+reconnect to the sync domain, as they will fail with a message like:
 
-    DOMAIN_PARAMETERS_CHANGED(9,d5dfa5ce): The synchronizer parameters have changed
+    DOMAIN_PARAMETERS_CHANGED(9,d5dfa5ce): The sync domain parameters have changed
 
-To recover from this, you need to force a reset of the stored static synchronizer parameters using:
+To recover from this, you need to force a reset of the stored static sync domain parameters using:
 
 .. code:: bash
 
     canton.domains.mydomain.init.domain-parameters.protocol-version = 3
     canton.domains.mydomain.init.domain-parameters.reset-stored-static-config = yes
 
-To benefit from protocol version 4, you will have to :ref:`upgrade the synchronizer accordingly <canton_domain_protocol_version_upgrading>`.
+To benefit from protocol version 4, you will have to :ref:`upgrade the sync domain accordingly <canton_domain_protocol_version_upgrading>`.
 
 Upgrade to Release 2.4
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -425,7 +425,7 @@ and the change only affects special arguments (mainly timeouts), your script sho
 we recommend that you test your scripts for compilation issues. Please check the detailed release
 notes on the specific changes and their impact.
 
-There was no change to the protocol. Participants and synchronizers running 2.3 can also run 2.4, as
+There was no change to the protocol. Participants and sync domains running 2.3 can also run 2.4, as
 both versions use the same protocol version.
 
 Upgrade to Release 2.3
@@ -443,15 +443,15 @@ On the participant, you need to turn on support for deprecated protocols explici
 
     canton.participants.myparticipant.parameters.minimum-protocol-version = 2.0.0
 
-The default settings have changed to use protocol 3, while existing synchronizers run protocol 2.
-Therefore, if you upgrade the binary on synchronizers and synchronizer manager nodes, you need to explicitly
+The default settings have changed to use protocol 3, while existing sync domains run protocol 2.
+Therefore, if you upgrade the binary on sync domains and sync domain manager nodes, you need to explicitly
 set the protocol version as follows:
 
 .. code:: bash
 
     canton.domains.mydomain.init.domain-parameters.protocol-version = 2.0.0
 
-**You cannot upgrade the protocol of a deployed synchronizer!** You need to keep it running with the existing protocol.
+**You cannot upgrade the protocol of a deployed sync domain!** You need to keep it running with the existing protocol.
 Please follow the protocol upgrade guide to learn how to introduce a new protocol version.
 
 Change the Canton Protocol Version
@@ -466,36 +466,36 @@ to a binary that can run the version.
 
 .. _canton_domain_protocol_version_upgrading:
 
-Upgrade the Synchronizer to a new Protocol Version
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Upgrade the Sync Domain to a new Protocol Version
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A synchronizer is tied to a protocol version. This protocol version is configured when
-the synchronizer is initialized and cannot be changed afterward. Therefore, **you can
-not upgrade the protocol version of a synchronizer**. Instead, you deploy a new synchronizer
-side by side with the old synchronizer process.
+A sync domain is tied to a protocol version. This protocol version is configured when
+the sync domain is initialized and cannot be changed afterward. Therefore, **you can
+not upgrade the protocol version of a sync domain**. Instead, you deploy a new sync domain
+side by side with the old sync domain process.
 
-This applies to all synchronizer services, be it sequencer, mediator, or topology manager.
+This applies to all sync domain services, be it sequencer, mediator, or topology manager.
 
-Please note that currently, the synchronizer ID cannot be preserved during upgrades.
-The new synchronizer must have a different synchronizer ID because the participant
-associates a synchronizer connection with a synchronizer ID, and that association
+Please note that currently, the sync domain ID cannot be preserved during upgrades.
+The new sync domain must have a different sync domain ID because the participant
+associates a sync domain connection with a sync domain ID, and that association
 must be unique.
 
 Therefore, the protocol upgrade process boils down to:
 
-- Deploy a new synchronizer next to the old synchronizer. Ensure that the new synchronizer is using the desired protocol version.
+- Deploy a new sync domain next to the old sync domain. Ensure that the new sync domain is using the desired protocol version.
   Also make sure to use different databases (or at least different schemas in the same database)
-  for the synchronizer services (mediator, sequencer node, and topology manager), channel names, smart contract addresses, etc.
-  The new synchronizer must be completely separate, but you can reuse your DLT backend as long
+  for the sync domain services (mediator, sequencer node, and topology manager), channel names, smart contract addresses, etc.
+  The new sync domain must be completely separate, but you can reuse your DLT backend as long
   as you use different sequencer contract addresses or Fabric channels.
-- Instruct the participants individually using the hard synchronizer migration to use the new synchronizer.
+- Instruct the participants individually using the hard sync domain migration to use the new sync domain.
 
-Note: to use the same database with different schemas for the old and the new synchronizer, set the `currentSchema` either in the JDBC URL or as a parameter in `storage.config.properties`.
+Note: to use the same database with different schemas for the old and the new sync domain, set the `currentSchema` either in the JDBC URL or as a parameter in `storage.config.properties`.
 
-Hard Synchronizer Connection Upgrade
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Hard Sync Domain Connection Upgrade
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A hard synchronizer connection upgrade can be performed using the :ref:`respective migration command <repair.migrate_domain>`.
+A hard sync domain connection upgrade can be performed using the :ref:`respective migration command <repair.migrate_domain>`.
 Again, please ensure that you have appropriate backups in place and that you have tested this procedure before applying
 it to your production system. You will have to enable these commands using a special config switch:
 
@@ -504,7 +504,7 @@ it to your production system. You will have to enable these commands using a spe
     canton.features.enable-repair-commands=yes
 
 The process of a hard migration is quite straightforward. Assuming that we have several participants,
-all connected to a synchronizer named ``olddomain``, then ensure that there are no pending transactions.
+all connected to a sync domain named ``olddomain``, then ensure that there are no pending transactions.
 You can do that by either controlling your applications, or by
 :ref:`setting the resource limits <resources.set_resource_limits>` to 0 on all participants:
 
@@ -515,13 +515,13 @@ You can do that by either controlling your applications, or by
     .. success:: participant.resources.set_resource_limits(ResourceLimits(Some(0), Some(0)))
 
 This will reject all commands and finish processing the pending commands. Once you are sure that
-your participant node is idle, disconnect the participant node from the old synchronizer
+your participant node is idle, disconnect the participant node from the old sync domain
 connection:
 
 .. snippet:: migrating_protocol
     .. success:: participant.domains.disconnect("olddomain")
 
-Test that the synchronizer is disconnected by checking the list of active connections:
+Test that the sync domain is disconnected by checking the list of active connections:
 
 .. snippet:: migrating_protocol
     .. success:: participant.domains.list_connected()
@@ -534,35 +534,35 @@ This is a good time to perform a backup of the database before proceeding:
     CREATE DATABASE newdb WITH TEMPLATE originaldb OWNER dbuser;
 
 Next, we want to run the migration step. For this, we need to run the ``repair.migrate_domain`` command.
-The command expects two input arguments: The alias of the source synchronizer and a synchronizer connection
-configuration describing the new synchronizer.
+The command expects two input arguments: The alias of the source sync domain and a sync domain connection
+configuration describing the new sync domain.
 
-In order to build a synchronizer connection config, we can just type
+In order to build a sync domain connection config, we can just type
 
 .. snippet:: migrating_protocol
     .. success(output=5):: val config = DomainConnectionConfig("newdomain", GrpcSequencerConnection.tryCreate("https://127.0.0.1:5018"))
 
-where the URL should point to the correct synchronizer. If you are testing the upgrade
-process locally in a single Canton process using a target synchronizer named ``newdomain`` (which is
-what we are doing in this example here), you can grab the connection details using
+where the URL should point to the correct sync domain. If you are testing the upgrade
+process locally in a single Canton process using a target sync domain named ``newdomain`` (which is
+what we are doing in this example), you can grab the connection details using
 
 .. snippet:: migrating_protocol
     .. success(output=5):: val config = DomainConnectionConfig("newdomain", newdomain.sequencerConnection)
 
-Now, using this configuration object, we can trigger the hard synchronizer connection migration using
+Now, using this configuration object, we can trigger the hard sync domain connection migration using
 
 .. snippet:: migrating_protocol
     .. success:: participant.repair.migrate_domain("olddomain", config)
 
-This command will register the new synchronizer and re-associate the contracts tied to ``olddomain`` to
-the new synchronizer.
+This command will register the new sync domain and re-associate the contracts tied to ``olddomain`` to
+the new sync domain.
 
-Once all participants have performed the migration, they can reconnect to the synchronizer
+Once all participants have performed the migration, they can reconnect to the sync domain
 
 .. snippet:: migrating_protocol
     .. success:: participant.domains.reconnect_all()
 
-Now, the new synchronizer should be connected:
+Now, the new sync domain should be connected:
 
 .. snippet:: migrating_protocol
     .. success:: participant.domains.list_connected()
@@ -573,7 +573,7 @@ As we've previously set the resource limits to 0, we need to reset this back
 .. snippet:: migrating_protocol
     .. success:: participant.resources.set_resource_limits(ResourceLimits(None, None))
 
-Finally, we can test that the participant can process a transaction by running a ping on the new synchronizer
+Finally, we can test that the participant can process a transaction by running a ping on the new sync domain
 
 .. snippet:: migrating_protocol
     .. success:: participant.health.ping(participant)
@@ -581,10 +581,10 @@ Finally, we can test that the participant can process a transaction by running a
 .. note::
 
     Note that currently, the hard migration is the only supported way to migrate a production system.
-    This is because unique contract keys are restricted to a single synchronizer.
+    This is because unique contract keys are restricted to a single sync domain.
 
-While the synchronizer migration command is mainly used for upgrading, it can also be used to recover
-contracts associated with a broken synchronizer. Synchronizer migrations can be performed back and forth,
+While the sync domain migration command is mainly used for upgrading, it can also be used to recover
+contracts associated with a broken sync domain. Sync domain migrations can be performed back and forth,
 allowing you to roll back in case of issues.
 
 After the upgrade, the participants may report a mismatch between commitments during the first commitment
@@ -595,8 +595,8 @@ Expected Performance
 ^^^^^^^^^^^^^^^^^^^^
 
 Performance-wise, we can note the following: when we migrate contracts, we write directly into
-the respective event logs. This means that on the source synchronizer, we insert a transfer-out, while
-we write a transfer-in and the contract into the target synchronizer. Writing this information is substantially
+the respective event logs. This means that on the source sync domain, we insert a transfer-out, while
+we write a transfer-in and the contract into the target sync domain. Writing this information is substantially
 faster than any kind of transaction processing (several thousand migrations per second on a
 single CPU/16-core test server). However, with very large datasets, the process can
 still take quite some time. Therefore, we advise you to measure the time the migration takes during
@@ -605,20 +605,20 @@ the upgrade test to understand the necessary downtime required for the migration
 Furthermore, upon reconnecting, the participant needs to recompute the new set of commitments. This can take
 a while for large numbers of contracts.
 
-Soft Synchronizer Connection Upgrade
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Soft Sync Domain Connection Upgrade
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note ::
 
-    The soft synchronizer connection upgrade is currently only supported as an alpha feature.
+    The soft sync domain connection upgrade is currently only supported as an alpha feature.
 
-The hard synchronizer connection upgrade requires coordination among all participants in a network. The
-soft synchronizer connection upgrade is operationally much simpler, and can be leveraged using multi-synchronizer
+The hard sync domain connection upgrade requires coordination among all participants in a network. The
+soft sync domain connection upgrade is operationally much simpler, and can be leveraged using multi-sync-domain
 support (which exists as a pre-alpha feature only for now). By turning off non-unique contract keys,
-participants can connect to multiple synchronizers and transfer contracts between synchronizers. This allows us to avoid using the ``repair.migrate_domain`` step.
+participants can connect to multiple sync domains and transfer contracts between sync domains. This allows us to avoid using the ``repair.migrate_domain`` step.
 
-Assuming the same setup as before, where the participant is connected to the old synchronizer,
-we can just connect it to the new synchronizer
+Assuming the same setup as before, where the participant is connected to the old sync domain,
+we can just connect it to the new sync domain
 
 .. snippet:: soft_migration_with_transfer
     .. assert:: { participant.db.migrate(); true }
@@ -628,23 +628,23 @@ we can just connect it to the new synchronizer
     .. assert:: participant.domains.list_connected().map(_.domainAlias.unwrap).toSet == Set("newdomain", "olddomain")
 
 Give the new connection precedence over the old connection by changing the ``priority`` flag of the new
-synchronizer connection:
+sync domain connection:
 
 .. snippet:: soft_migration_with_transfer
     .. success:: participant.domains.modify("newdomain", _.copy(priority=10))
 
-You can check the priority settings of the synchronizers using
+You can check the priority settings of the sync domains using
 
 .. snippet:: soft_migration_with_transfer
     .. success:: participant.domains.list_registered().map { case (c,_) => (c.domain, c.priority) }
 
-Existing contracts will not automatically move over to the new synchronizer. The synchronizer router will
-pick the synchronizer by minimizing the number of transfers and the priority. Therefore, most contracts
-will remain on the old synchronizer without additional action. However, by using
-the :ref:`transfer command <transfer.execute>`, contracts can be moved over to the new synchronizer
-one by one, such that eventually, all contracts are associated with the new synchronizer, allowing
-the old synchronizer to be decommissioned and turned off.
+Existing contracts will not automatically move over to the new sync domain. The sync domain router will
+pick the sync domain by minimizing the number of transfers and the priority. Therefore, most contracts
+will remain on the old sync domain without additional action. However, by using
+the :ref:`transfer command <transfer.execute>`, contracts can be moved over to the new sync domain
+one by one, such that eventually, all contracts are associated with the new sync domain, allowing
+the old sync domain to be decommissioned and turned off.
 
-The soft upgrade path provides a smooth user experience that does not require a hard migration of the synchronizer connection to be 
+The soft upgrade path provides a smooth user experience that does not require a hard migration of the sync domain connection to be 
 coordinated across all participants. Instead, participants upgrade individually, whenever they
 are ready, allowing them to reverse the process if needed.

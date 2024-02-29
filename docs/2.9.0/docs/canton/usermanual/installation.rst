@@ -12,8 +12,8 @@ This guide will guide you through the process of setting up your Canton nodes to
 ledger. You will learn the following:
 
 #. How to set up and configure a participant node
-#. How to set up and configure an embedded or distributed synchronizer
-#. How to connect a participant node to a synchronizer
+#. How to set up and configure an embedded or distributed sync domain
+#. How to connect a participant node to a sync domain
 
 A single Canton process can run multiple nodes, which is very useful for testing and demonstration. In a
 production environment, you typically run one node per process.
@@ -37,7 +37,7 @@ You can also use the Daml Enterprise Canton Docker images by following our :ref:
 Your Topology
 -------------
 The first question we need to address is what the topology is that you are going after. The Canton topology
-is made up of parties, participants and synchronizers, as depicted in the following figure.
+is made up of parties, participants and sync domains, as depicted in the following figure.
 
 .. https://app.lucidchart.com/documents/edit/da3c4533-a787-4669-b1e9-2446996072dc/0_0
 .. figure:: ../images/topology.svg
@@ -46,12 +46,12 @@ is made up of parties, participants and synchronizers, as depicted in the follow
 
 The Daml code runs on the participant node and expresses smart contracts between parties.
 Parties are hosted on participant nodes. Participant nodes synchronize their state with other
-participant nodes by exchanging messages with each other through synchronizers. Synchronizers are nodes that integrate
+participant nodes by exchanging messages with each other through sync domains. Sync domains are nodes that integrate
 with the underlying storage technology such as databases or other distributed ledgers. As the Canton protocol
 is written in a way that assumes that participant nodes don't trust each other, you would normally expect that
 every organization runs only one participant node, except for scaling purposes.
 
-If you want to build up a test network for yourself, you need at least a participant node and a synchronizer.
+If you want to build up a test network for yourself, you need at least a participant node and a sync domain.
 
 The following instructions assume that you are running all commands in the root directory of the release bundle:
 
@@ -83,9 +83,9 @@ The config directory contains a set of reference configuration files, one per no
 
 - ``participant.conf``: a participant node configuration
 - ``sequencer.conf``, ``mediator.conf``, ``manager.conf``: a sequencer, mediator, and manager node configuration for a Daml
-  Enterprise synchronizer deployment.
-- ``domain.conf``: an embedded synchronizer, which runs the three synchronizer processes in one node (the only open source synchronizer option).
-- ``sandbox.conf``: a simple setup for a single participant node connected to a single synchronizer node, using in-memory stores for testing.
+  Enterprise sync domain deployment.
+- ``domain.conf``: an embedded sync domain, which runs the three sync domain processes in one node (the only open source sync domain option).
+- ``sandbox.conf``: a simple setup for a single participant node connected to a single sync domain node, using in-memory stores for testing.
 
 In addition, you'll find the following files and directories:
 
@@ -193,7 +193,7 @@ The reference example configurations use TLS to secure the APIs. You can find th
 
 - ``tls-ledger-api.conf``: TLS configuration for the Ledger API, exposed by the participant node.
 - ``mtls-admin-api.conf``: TLS configuration for the Administration API, exposed by all node types.
-- ``tls-public-api.conf``: TLS configuration for the Public API, exposed by the sequencer and synchronizer node.
+- ``tls-public-api.conf``: TLS configuration for the Public API, exposed by the sequencer and sync domain node.
 
 The client authentication on the Public API is built in and cannot be disabled. It uses specific signing keys
 associated with the node's identity. The Ledger API supports :ref:`JWT based authentication <ledger-api-jwt-configuration>`.
@@ -249,64 +249,64 @@ Canton distinguishes static from dynamic configuration.
 * :ref:`Static configuration <static_configuration>` are items which are not supposed to change and are therefore captured in the configuration file.
   An example is to which port to bind to.
 
-* Dynamic configuration are items such as Daml archives (DARs), synchronizer connections, or parties. All such changes are effected
+* Dynamic configuration are items such as Daml archives (DARs), sync domain connections, or parties. All such changes are effected
   through :ref:`console commands <canton_console>` (or the :ref:`administration APIs <administration_apis>`).
 
-If you don't know how to connect to synchronizers, onboard parties, or provision Daml code, please read the
+If you don't know how to connect to sync domains, onboard parties, or provision Daml code, please read the
 :ref:`getting started guide <canton-getting-started>`.
 
-Setting up a Synchronizer
--------------------------
+Setting up a Sync Domain
+------------------------
 
 Your participant node is now ready to connect to other participants to form a distributed ledger. The connection
-is facilitated by a synchronizer, which is formed by three separate processes:
+is facilitated by a sync domain, which is formed by three separate processes:
 
 - a sequencer, which is responsible for ordering encrypted messages
 - a mediator, which is responsible for aggregating validation responses by the individual participants
-- a synchronizer manager, which is responsible for verifying the validity of topology changes (distributed configuration changes)
-  before they are distributed on the synchronizer
+- a sync domain manager, which is responsible for verifying the validity of topology changes (distributed configuration changes)
+  before they are distributed on the sync domain
 
 These nodes don't store any ledger data, but just facilitate the communication between the participants.
 
-In order to set up a synchronizer, you need to decide what kind of driver you want to use for the sequencer.
+In order to set up a sync domain, you need to decide what kind of driver you want to use for the sequencer.
 Drivers are provided for different infrastructure types. These drivers have different levels of fidelity in terms of
 trust and performance. Your current options are the following:
 
-#. Postgres-based synchronizer
-#. :ref:`Oracle-based synchronizer <oracle-domain>`
-#. Hyperledger Fabric-based synchronizer
-#. Ethereum-based synchronizer
+#. Postgres-based sync domain
+#. :ref:`Oracle-based sync domain <oracle-domain>`
+#. Hyperledger Fabric-based sync domain
+#. Ethereum-based sync domain
 
 In the near future, there will also be a native Canton BFT driver (which will be used for the `Canton Network <https://canton.network/>`__).
 
-This section explains how to set up a Postgres-based synchronization synchronizer. Please consult :ref:`the Enterprise driver section <canton-enterprise-drivers>`
+This section explains how to set up a Postgres-based synchronization sync domain. Please consult :ref:`the Enterprise driver section <canton-enterprise-drivers>`
 with respect to the other drivers.
 
-Using an Embedded Synchronizer
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Using an Embedded Sync Domain
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The simplest way to run a synchronizer is to use the embedded configuration which runs all three processes
+The simplest way to run a sync domain is to use the embedded configuration which runs all three processes
 in a single node. Using the same storage (but different database name) as configured for the participant node,
-you can start the synchronizer using:
+you can start the sync domain using:
 
 .. code-block:: bash
 
     ./bin/canton -c config/domain.conf
 
-The embedded synchronizer is your only choice if you are using the community version of Canton. It supports crash recovery,
+The embedded sync domain is your only choice if you are using the community version of Canton. It supports crash recovery,
 but not high availability.
 
 Using Microservices
 ~~~~~~~~~~~~~~~~~~~
 
-If you are using Daml Enterprise, you can start the synchronizer processes as separate microservices:
+If you are using Daml Enterprise, you can start the sync domain processes as separate microservices:
 
 .. code-block:: bash
 
     ./bin/canton daemon -c config/[mediator|sequencer|manager].conf
 
 Before the nodes work together, they need to be initialized and connected. Consult the
-detailed guide :ref:`on how to bootstrap a synchronizer <domain_bootstrapping>`.
+detailed guide :ref:`on how to bootstrap a sync domain <domain_bootstrapping>`.
 
 Generally, you can connect the nodes using either the embedded console (if they run in the same process)
 or through the remote console:
@@ -324,7 +324,7 @@ Subsequently, just run the boostrap command:
 Connect the Participant
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-The final step is to connect the participant to the synchronizer. Refer to :ref:`the connectivity guide <sequencer_connections>`
+The final step is to connect the participant to the sync domain. Refer to :ref:`the connectivity guide <sequencer_connections>`
 for detailed instructions. In the simplest case, you just need to run the following command in the participant's console:
 
 .. code-block:: scala
@@ -345,8 +345,8 @@ Next Steps
 ~~~~~~~~~~
 The above configuration provides you with an initial setup. Without going into details, the next steps would be:
 
-#. Control who can join the synchronizer by :ref:`configuring the synchronizer to be permissioned <permissioned-domains>` (default is "everyone can join").
-#. Create high availability setups for :ref:`your synchronizer <components-for-ha>` or :ref:`your participants <ha_participant_arch>`.
+#. Control who can join the sync domain by :ref:`configuring the sync domain to be permissioned <permissioned-domains>` (default is "everyone can join").
+#. Create high availability setups for :ref:`your sync domain <components-for-ha>` or :ref:`your participants <ha_participant_arch>`.
 
 Multi-Node Setup
 ----------------

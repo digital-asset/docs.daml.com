@@ -3,22 +3,22 @@
 ..
    Proprietary code. All rights reserved.
 
-Manage Synchronizers
-====================
+Manage Sync Domains
+===================
 
 .. _permissioned-domains:
 
-Permissioned Synchronizers
---------------------------
+Permissioned Sync Domains
+-------------------------
 
 .. enterprise-only::
 
 Canton as a network is an open virtual shared ledger. Whoever runs a Canton participant node is part of the same
-virtual shared ledger. However, the network itself is made up of synchronizers that are used by participants to run the Canton
-protocol and communicate to their peers. Such synchronizers can be `open`, allowing any participant with access to
-a sequencer node to enter and participate in the network. But synchronizers can also be **permissioned**, where the operator
-of the synchronizer topology managers needs to explicitly add the participant to the allow-list before the participant
-can register with a synchronizer.
+virtual shared ledger. However, the network itself is made up of sync domains that are used by participants to run the Canton
+protocol and communicate to their peers. Such sync domains can be `open`, allowing any participant with access to
+a sequencer node to enter and participate in the network. But sync domains can also be **permissioned**, where the operator
+of the sync domain topology managers needs to explicitly add the participant to the allow-list before the participant
+can register with a sync domain.
 
 While the Canton architecture is designed to be resilient against malicious participants, there can never be a
 guarantee that the implementation of said architecture is absolutely secure. Therefore, it makes sense for most
@@ -27,30 +27,30 @@ networks to impose control on which participant can be part of the network.
 The first layer of control is given by securing access to the public API of the sequencers in the network. This
 can be done using standard network tools such as firewalls and virtual private networks.
 
-The second layer of control is given by setting the appropriate configuration flag of the synchronizer manager (or synchronizer):
+The second layer of control is given by setting the appropriate configuration flag of the sync domain manager (or sync domain):
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/documentation-snippets/permissioned-domain-manager1.conf
 
-Assuming we have set up a synchronizer with this flag turned off, the config for that particular synchronizer would read:
+Assuming we have set up a sync domain with this flag turned off, the config for that particular sync domain would read:
 
 .. snippet:: permissioned_domain
     .. assert:: { domainManager1.setup.bootstrap_domain(Seq(sequencer1), Seq(mediator1)); true }
     .. success(output=5):: val config = DomainConnectionConfig("mydomain", sequencer1.sequencerConnection)
 
-When a participant attempts to join the synchronizer, it will be rejected:
+When a participant attempts to join the sync domain, it will be rejected:
 
 .. snippet:: permissioned_domain
     .. failure:: participant1.domains.register(config)
     .. assert:: participant1.domains.list_connected().isEmpty
 
-In order to allow the participant to join the synchronizer, we must first actively enable it on the topology
+In order to allow the participant to join the sync domain, we must first actively enable it on the topology
 manager. We assume now that the operator of the participant :ref:`extracts its id <getting-started-extracting-ids>`
 into a string:
 
 .. snippet:: permissioned_domain
     .. success:: val participantAsString = participant1.id.toProtoPrimitive
 
-and communicates this string to the operator of the synchronizer topology manager:
+and communicates this string to the operator of the sync domain topology manager:
 
 .. snippet:: permissioned_domain
     .. success:: val participantIdFromString = ParticipantId.tryFromProtoPrimitive(participantAsString)
@@ -66,19 +66,19 @@ Note that the participant is not active yet:
     .. success:: domainManager1.participants.active(participantIdFromString)
     .. assert:: !domainManager1.participants.active(participantIdFromString)
 
-So far, what we've done with setting the state is to issue a "synchronizer trust certificate", where the synchronizer
-topology manager declares that it trusts the participant enough to become a participant of the synchronizer.
+So far, what we've done with setting the state is to issue a "sync domain trust certificate", where the sync domain
+topology manager declares that it trusts the participant enough to become a participant of the sync domain.
 We can inspect this certificate using:
 
 .. snippet:: permissioned_domain
     .. success:: domainManager1.topology.participant_domain_states.list(filterStore="Authorized").map(_.item)
     .. assert:: domainManager1.topology.participant_domain_states.list(filterStore="Authorized").map(_.item.side) == Seq(RequestSide.From)
 
-In order to have the participant become active on the synchronizer, we need to register the signing keys and
-the "synchronizer trust certificate" of the participant. The certificate is generated by the participant
-automatically and sent to the synchronizer during the initial handshake.
+In order to have the participant become active on the sync domain, we need to register the signing keys and
+the "sync domain trust certificate" of the participant. The certificate is generated by the participant
+automatically and sent to the sync domain during the initial handshake.
 
-We can trigger that handshake again by attempting to reconnect to the synchronizer:
+We can trigger that handshake again by attempting to reconnect to the sync domain:
 
 .. snippet:: permissioned_domain
     .. success:: participant1.domains.reconnect_all()
@@ -90,39 +90,39 @@ Now, we can check that the participant is active:
     .. success:: domainManager1.participants.active(participantIdFromString)
     .. assert:: domainManager1.participants.active(participantIdFromString)
 
-We can also observe that we now have both sides of the synchronizer trust certificate, the ``From`` and the ``To``:
+We can also observe that we now have both sides of the sync domain trust certificate, the ``From`` and the ``To``:
 
 .. snippet:: permissioned_domain
     .. success:: domainManager1.topology.participant_domain_states.list(filterStore="Authorized").map(_.item)
     .. assert:: domainManager1.topology.participant_domain_states.list(filterStore="Authorized").map(_.item.side).toSet == Set(RequestSide.From, RequestSide.To)
 
-Finally, the participant is healthy and can use the synchronizer:
+Finally, the participant is healthy and can use the sync domain:
 
 .. snippet:: permissioned_domain
     .. success:: participant1.health.ping(participant1)
 
 
-Synchronizer Rules
-------------------
-Every synchronizer has its own rules in terms of what parameters are used by the participants while
-running the protocol. The participants obtain these parameters before connecting to the synchronizer.
+Sync Domain Rules
+-----------------
+Every sync domain has its own rules in terms of what parameters are used by the participants while
+running the protocol. The participants obtain these parameters before connecting to the sync domain.
 They can be configured using the specific parameter section. An example would be:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/integration-testing/src/main/resources/include/domain-parameters.conf
 
 The full set of available parameters can be found in the `scala reference documentation <https://docs.daml.com/__VERSION__/canton/scaladoc/com/digitalasset/canton/domain/config/DomainParametersConfig.html>`_.
 
-Dynamic synchronizer parameters
--------------------------------
+Dynamic sync domain parameters
+------------------------------
 
 .. _dynamic_domain_parameters:
 
 In addition to the parameters that are specified in the configuration, some parameters can be changed at runtime (i.e.,
-while the synchronizer is running); these are called **dynamic synchronizer parameters**. When the synchronizer is bootstrapped, default
-values are used for the dynamic synchronizer parameters. They can be changed subsequently using the console commands described
+while the sync domain is running); these are called **dynamic sync domain parameters**. When the sync domain is bootstrapped, default
+values are used for the dynamic sync domain parameters. They can be changed subsequently using the console commands described
 below.
 
-A participant can get the current parameters on a synchronizer it is connected to using the following command:
+A participant can get the current parameters on a sync domain it is connected to using the following command:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/dynamicdomainparameters/DomainParametersChangeIntegrationTest.scala
    :language: scala
@@ -157,8 +157,8 @@ Alternatively, several can be set at the same time:
 .. note::
 
     When increasing `max request size`, the sequencer nodes need to be restarted
-    for the new value to be taken into account. If the synchronizer is not distributed,
-    it means that the synchronizer node needs to be restarted.
+    for the new value to be taken into account. If the sync domain is not distributed,
+    it means that the sync domain node needs to be restarted.
 
 Recover From a Small Max Request Size
 -------------------------------------
@@ -171,7 +171,7 @@ also be rejected.
 
 To recover from this crash, you need to configure `override-max-request-size` on both the sequencer node and the sequencer clients.
 
-On a non-distributed deployment, this means modifying both the synchronizer and the participant configuration as follows:
+On a non-distributed deployment, this means modifying both the sync domain and the participant configuration as follows:
 
 .. code-block:: none
 
@@ -191,7 +191,7 @@ On a non-distributed deployment, this means modifying both the synchronizer and 
       }
     }
 
-On a distributed deployment, for each synchronizer entity deployed on its own node,
+On a distributed deployment, for each sync domain entity deployed on its own node,
 you will need to override the `max-request-size` as follows:
 
 .. code-block:: none
@@ -223,7 +223,7 @@ you will need to override the `max-request-size` as follows:
     }
 
 
-After the configuration is modified, disconnect all the participants from the synchronizer and then restart all nodes.
+After the configuration is modified, disconnect all the participants from the sync domain and then restart all nodes.
 
 On a non-distributed deployment, you can stop Canton by following these steps:
 

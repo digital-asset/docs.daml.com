@@ -10,7 +10,7 @@ Enterprise Drivers
 ==================
 
 The Daml Enterprise edition of the Canton ledger provides the following drivers in
-addition to the PostgreSQL-based synchronizer in the open-source edition.
+addition to the PostgreSQL-based sync domain in the open-source edition.
 
 .. .. toctree::
    :maxdepth: 1

@@ -9,8 +9,8 @@ Static Configuration
 ====================
 
 Canton differentiates between static and dynamic configuration. Static configuration is immutable and therefore has
-to be known from the beginning of the process. An example for a static configuration are the connectivity
-parameters to the local persistence store or the port the admin-apis should bind to. On the other hand, connecting to a synchronizer
+to be known from the beginning of the process. For a static configuration, examples would be the connectivity
+parameters to the local persistence store or the port the admin-apis should bind to. On the other hand, connecting to a sync domain
 or adding parties are not matters of static configuration and therefore are not set via the config file but through
 :ref:`console commands <canton_console>` (or the :ref:`administration APIs <administration_apis>`).
 
@@ -26,11 +26,11 @@ format with some extensions:
   but behave as expected using ``ms``, ``s``, ``m``, ``h``, ``d`` to refer to milliseconds, seconds, minutes, hours and days.
   Durations have to be non-negative in our context.
 
-Canton does not run one node, but any number of nodes, be it synchronizers or participant nodes in the same process. Therefore,
-the root configuration allows to define several instances of synchronizers and participant nodes together with a set of
+Canton does not run one node, but any number of nodes, be it sync domains or participant nodes in the same process. Therefore,
+the root configuration allows to define several instances of sync domains and participant nodes together with a set of
 general process parameters.
 
-A sample configuration file for two participant nodes and a single synchronizer can be seen below.
+A sample configuration file for two participant nodes and a single sync domain can be seen below.
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/01-simple-topology/simple-topology.conf
 
@@ -40,7 +40,7 @@ Configuration reference
 -----------------------
 
 The Canton configuration file for static properties is based on `PureConfig <https://pureconfig.github.io/>`__. PureConfig
-maps Scala case classes and their class structure into analog configuration options (see e.g. the `PureConfig quick start <https://pureconfig.github.io/docs/#quick-start>`__ for an example). Therefore, the ultimate source of truth for all
+maps Scala case classes and their class structure into analogue configuration options (see e.g. the `PureConfig quick start <https://pureconfig.github.io/docs/#quick-start>`__ for an example). Therefore, the ultimate source of truth for all
 available configuration options and the configuration file syntax is given by the appropriate scaladocs of the
 `CantonConfig <https://docs.daml.com/__VERSION__/canton/scaladoc/com/digitalasset/canton/config/index.html>`__ classes.
 
@@ -98,7 +98,7 @@ Configuration Mixin
 Even more than multiple configuration files, we can leverage `PureConfig <https://github.com/pureconfig/pureconfig>`__
 to create shared configuration items that refer to environment variables.
 A handy example is the following, which allows for sharing database
-configuration settings in a setup involving several synchronizers or participant nodes:
+configuration settings in a setup involving several sync domains or participant nodes:
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/pack/config/storage/postgres.conf
 
@@ -117,20 +117,20 @@ Such a definition can subsequently be referenced in the actual node definition:
 
 .. _multiple-domains-config:
 
-Multiple Synchronizers
-----------------------
+Multiple Sync Domains
+---------------------
 
-A Canton configuration allows you to define multiple synchronizers. Also, a Canton participant can connect to
-multiple synchronizers. This is however only supported as a preview feature and not yet suitable for
+A Canton configuration allows you to define multiple sync domains. Also, a Canton participant can connect to
+multiple sync domains. This is however only supported as a preview feature and not yet suitable for
 production use.
 
-In particular, contract key uniqueness cannot be enforced over multiple synchronizers. In this situation,
+In particular, contract key uniqueness cannot be enforced over multiple sync domains. In this situation,
 we need to turn contract key uniqueness off by setting
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/non-uck-mode.conf
 
 Please note that the setting is final and cannot be changed subsequently. We will provide a migration
-path once multi-synchronizer functionality is fully implemented.
+path once multi-sync-domain functionality is fully implemented.
 
 Fail Fast Mode
 --------------

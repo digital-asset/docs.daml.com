@@ -63,7 +63,7 @@ In Canton, committing the example transaction consists of two steps:
    The views for the
    DvP, and their recipients, are shown in the figure below. Alice's
    participant submits the request to a **sequencer**, who orders all
-   confirmation requests on a Canton synchronizer; whenever two participants see the
+   confirmation requests on a Canton sync domain; whenever two participants see the
    same two requests, they will see them according to this sequencer order.
    The sequencer has only two functions: ordering messages and
    delivering them to their stated recipients. The message contents are
@@ -159,10 +159,10 @@ example runs their own participant node.
    :name: canton-core-message-sequence-tx-diagram
 
 The sequencer and the mediator, together with a so-called **topology manager** (described shortly), constitute a
-**Canton Synchronizer**.
-All messages within the synchronizer are exchanged over the sequencer,
+**Canton Sync Domain**.
+All messages within the sync domain are exchanged over the sequencer,
 which ensures a **total order** between all messages exchanged within a
-synchronizer.
+sync domain.
 
 The total ordering ensures that participants see all confirmation
 requests and responses in the same order.
@@ -181,7 +181,7 @@ This has the following implications:
    either the correctness of their responses or the reason for
    the incorrect rejections.
 
-#. The global ordering creates a (virtual) **global time** within a synchronizer, measured at the sequencer;
+#. The global ordering creates a (virtual) **global time** within a sync domain, measured at the sequencer;
    participants learn that time has progressed
    whenever they receive a message from the sequencer.
    This global time is used for detecting and resolving conflicts and determining when timeouts occur.
@@ -192,8 +192,8 @@ This has the following implications:
    but conceptually this happens at the timestamp `ts1` of the global time,
    and similarly for the result message at timestamp `ts6`.
 
-In this document, we focus on the basic version of Canton, with just a single synchronizer.
-Canton also supports connecting a participant to multiple synchronizers and transferring contracts between synchronizers (see :ref:`composability <canton-composability>`).
+In this document, we focus on the basic version of Canton, with just a single sync domain.
+Canton also supports connecting a participant to multiple sync domains and transferring contracts between sync domains (see :ref:`composability <canton-composability>`).
 
 As mentioned in the introduction, the main challenges for Canton are reconciling
 integrity and privacy concerns while ensuring progress with the
@@ -202,7 +202,7 @@ offline, or simply refusing to respond. The main ways we cope with this
 problem are as follows:
 
 - We use timeouts: if a transaction’s validity cannot be determined
-  after a timeout (which is a synchronizer-wide parameter),
+  after a timeout (which is a sync domain-wide parameter),
   the transaction is rejected.
 
 .. - If a confirmation request times out,
@@ -212,7 +212,7 @@ problem are as follows:
 
 - Flexible confirmation policies:
   To offer a trade-off between trust, integrity, and liveness, we
-  allow Canton synchronizers to choose their *confirmation policies*.
+  allow Canton sync domains to choose their *confirmation policies*.
   Confirmation policies specify which participants need to confirm
   which views.
   This enables the mediator to determine the sufficient conditions to declare a request
@@ -334,20 +334,20 @@ is assigned by the sequencer when registering the confirmation request (initial 
 of the transaction).
 
 There is only a bounded relationship between these times, ensuring that the `ledger time` must be
-in a pre-defined bound around the `record time`. The tolerance is defined on the synchronizer
-as a synchronizer parameter, known to all participants:
+in a pre-defined bound around the `record time`. The tolerance is defined on the sync domain
+as a sync domain parameter, known to all participants:
 
 .. code-block:: bash
 
    canton.domains.mydomain.parameters.ledger-time-record-time-tolerance
 
-The bounds are symmetric in Canton, so the Canton synchronizer parameter ``ledger-time-record-time-tolerance`` equals
+The bounds are symmetric in Canton, so the Canton sync domain parameter ``ledger-time-record-time-tolerance`` equals
 the ``skew_min`` and ``skew_max`` parameters from the ledger model.
 
 .. note::
 
    Canton does not support querying the time model parameters via the ledger API, as the time model is
-   a per-synchronizer property and this cannot be properly exposed on the respective ledger API endpoint.
+   a per-sync domain property and this cannot be properly exposed on the respective ledger API endpoint.
 
 Checking that the `record time` is within the required bounds is done by the validating participants
 and is visible to everyone. The sequencer does not know the `ledger time` and therefore cannot perform
@@ -364,7 +364,7 @@ Subtransaction privacy
 ~~~~~~~~~~~~~~~~~~~~~~
 
 Canton splits a Daml transaction into views, as described above under :ref:`transaction processing <canton-overview-tx-processing>`.
-The submitting participant sends these views via the synchronizer's sequencer to all involved participants on a need-to-know basis.
+The submitting participant sends these views via the sync domain's sequencer to all involved participants on a need-to-know basis.
 This section explains how the views are encrypted, distributed, and stored
 so that only the intended recipients learn the contents of the transaction.
 
@@ -396,7 +396,7 @@ As illustrated in the :ref:`confirmation workflow <101-tx-message-diagram>`, the
 This ensures **subtransaction privacy** as a participant receives only the data for the witnesses it hosts, not all of the transaction.
 Each Canton participant persists all messages it receives from the sequencer, including the views.
 
-Moreover, Canton hides the transaction contents from the synchronizer too.
+Moreover, Canton hides the transaction contents from the sync domain too.
 To that end, the submitting participant encrypts the views using the following hybrid encryption scheme:
 
 #. It generates cryptographic randomness for the transaction, the transaction seed.
@@ -420,32 +420,32 @@ To that end, the submitting participant encrypts the views using the following h
       The latter participants can nevertheless decrypt the Merkle tree because they receive the view seed of a parent view and can derive the symmetric key of the witnessed view using the derivation functions.
 
 Even though the sequencer persists the encrypted views for a limited period,
-the synchronizer cannot access the symmetric keys unless it knows the secret key of one of the informee participants.
-Therefore, the transaction contents remain confidential with respect to the synchronizer.
+the sync domain cannot access the symmetric keys unless it knows the secret key of one of the informee participants.
+Therefore, the transaction contents remain confidential with respect to the sync domain.
 
 
-Synchronizer Entities
----------------------
+Sync Domain Entities
+--------------------
 
-A Canton synchronizer consists of three entities:
+A Canton sync domain consists of three entities:
 
 - the sequencer
 - the mediator
 - and the **topology manager**, providing a PKI infrastructure, and party
   to participant mappings.
 
-We call these the **synchronizer entities**. The high-level communication
-channels between the synchronizer entities are depicted below.
+We call these the **sync domain entities**. The high-level communication
+channels between the sync domain entities are depicted below.
 
 .. https://www.lucidchart.com/documents/edit/b22cd15e-496e-41cb-8013-89fd1f42ab34
 .. image:: ./images/overview/canton-domain-diagram.svg
    :align: center
    :width: 80%
 
-In general, every synchronizer entity can run in a separate trust domain
+In general, every sync domain entity can run in a separate trust domain
 (i.e., can be operated by an independent organization). In practice,
-we assume that all synchronizer entities are run by a single organization
-and that the synchronizer entities belong to a single trust domain.
+we assume that all sync domain entities are run by a single organization
+and that the sync domain entities belong to a single trust domain.
 
 Furthermore, each participant node runs in its own trust domain.
 Additionally, the participant may outsource a part of its identity management infrastructure, for example to a
@@ -456,7 +456,7 @@ Some participant nodes can be designated as **VIP nodes**, meaning
 that they are operated by trusted organizations. Such nodes are important
 for the VIP confirmation policy.
 
-The generic term **member** will refer to either a synchronizer or a participant node.
+The generic term **member** will refer to either a sync domain or a participant node.
 
 .. _sequencer-overview:
 
@@ -518,7 +518,7 @@ Topology Manager
 ~~~~~~~~~~~~~~~~
 
 The topology manager allows participants to join and leave
-the Canton synchronizer, and to register, revoke, and rotate public keys.
+the Canton sync domain, and to register, revoke, and rotate public keys.
 It knows the parties **hosted** by a given participant. It
 defines the **trust level** of each participant. The trust level is
 either **ordinary** or **VIP**.
@@ -541,19 +541,19 @@ to receive the corresponding events.
 The **command submission service** receives a command, parses it, and performs some basic validation.
 Next, the command is submitted to **DAMLe (DAML engine)**, which translates it to a **transaction**;
 a **command** consists only of a **root node** whereas a **transaction** also recursively contains all **consequences** of all exercise actions.
-Then, the **synchronizer router** chooses a synchronizer that is suitable for executing the transaction.
+Then, the **sync domain router** chooses a sync domain that is suitable for executing the transaction.
 
 The **transaction processor** translates the transaction to a **confirmation request**;
 in particular, it computes the view decomposition, embeds the transaction into a Merkle tree, and
 creates different envelopes tailored to the different members validating the request.
 It uses the **sequencer client** to send the confirmation request to the mediator and all participants involved in the transaction.
 
-The **transaction processor** also uses the sequencer client to **receive confirmation requests** from the synchronizer,
+The **transaction processor** also uses the sequencer client to **receive confirmation requests** from the sync domain,
 to **send mediator responses,** and to **receive the result messages** from the mediator.
 
-The **multi-synchronizer event log** stores every committed request and every rollback.
-It also stores the order of events coming from the synchronizers the participant is connected to.
-The **parallel indexer subscription** reads events from the multi-synchronizer event log and stores them in a format that is optimized for **fast read access.**
+The **multi-sync-domain event log** stores every committed request and every rollback.
+It also stores the order of events coming from the sync domains the participant is connected to.
+The **parallel indexer subscription** reads events from the multi-sync-domain event log and stores them in a format that is optimized for **fast read access.**
 The **command completion service** allows ledger applications to read the completions corresponding to the commands it has previously submitted.
 The **transaction service** provides a stream of all transactions that have been committed to the virtual shared ledger and are visible to the participant.
 
@@ -562,7 +562,7 @@ The **transaction service** provides a stream of all transactions that have been
 Trust Assumptions
 ----------------------------------
 
-The different sets of rules that Canton synchronizers specify affect the
+The different sets of rules that Canton sync domains specify affect the
 security and liveness properties in different ways. In this section,
 we summarize the system model that we assume, as well as the trust
 assumptions.
@@ -585,7 +585,7 @@ These assumptions are relevant for all system properties, except for privacy.
 
 - The mediator is trusted to produce and distribute all results correctly.
 
-- The synchronizer topology manager (including the underlying public key
+- The sync domain topology manager (including the underlying public key
   infrastructure, if any) is operating correctly.
 
 When a transaction is submitted with the VIP confirmation policy (in
@@ -657,7 +657,7 @@ In addition to the general trust assumptions, the following additional assumptio
 liveness functional requirements on the system: bounded decision
 time, and no unnecessary rejections:
 
-- All the synchronizer entities in Canton (the sequencer, the mediator,
+- All the sync domain entities in Canton (the sequencer, the mediator,
   and the topology manager) are highly available.
 
 - The sequencer is trusted to deliver the messages timely and fairly.

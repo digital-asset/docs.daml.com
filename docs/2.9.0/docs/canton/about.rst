@@ -23,8 +23,8 @@ Canton faithfully implements the authorization and privacy requirements set out 
 
    Parties are hosted on participant nodes. Applications connect as parties to their participant node using the Ledger API.
    The participant node runs the Daml interpreter for the locally installed Daml smart contract code and stores the smart contracts
-   in the *private contract store (PCS)*. The participants connect to synchronizers and synchronize their states
-   with other participants by exchanging Canton protocol messages with other participants leveraging the synchronizer
+   in the *private contract store (PCS)*. The participants connect to sync domains and synchronize their states
+   with other participants by exchanging Canton protocol messages with other participants leveraging the sync domain
    services. The use of the Canton protocol creates a virtual global ledger.
 
 Canton is written in Scala and runs as a Java process against a database (currently H2 and Postgres).

@@ -7,13 +7,13 @@
 
 .. _oracle-domain:
 
-Oracle Synchronizer
-^^^^^^^^^^^^^^^^^^^
+Oracle Sync Domain
+^^^^^^^^^^^^^^^^^^
 
-In Daml Enterprise, you can run a Canton synchronizer (sequencer, mediator, synchronizer
+In Daml Enterprise, you can run a Canton sync domain (sequencer, mediator, sync domain
 manager nodes) based on an Oracle enterprise database.
 
-Refer to the following section on how to setu p Oracle for Canton as well as how
+Refer to the following section on how to set up Oracle for Canton as well as how
 to configure Canton to use an Oracle database.
 
 - :ref:`Installation and Configuration of Canton on Oracle <persistence-oracle>`

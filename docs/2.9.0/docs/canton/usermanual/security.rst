@@ -16,7 +16,7 @@ nodes. It assumes that the configuration sets `auto-init = true` which leads to 
 generation of the default keys on a node's startup.
 
 The scope of cryptographic keys covers all Canton-protocol-specific keys,
-private keys for TLS, as well as additional keys required for the synchronizer
+private keys for TLS, as well as additional keys required for the sync domain
 integrations, e.g., with Besu.
 
 Supported Cryptographic Schemes in Canton
@@ -160,33 +160,33 @@ The private key for the TLS server certificate is provided as a file, which can
 optionally be encrypted and the symmetric decryption key is fetched from a given
 URL.
 
-Synchronizer Topology Manager Keys
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Sync Domain Topology Manager Keys
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Synchronizer Namespace Signing Key
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Sync Domain Namespace Signing Key
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The synchronizer topology manager governs the namespace of the synchronizer and has a
+The sync domain topology manager governs the namespace of the sync domain and has a
 signing key pair for the namespace. The hash of the public key forms the
-namespace and all entities in the synchronizer (mediator, sequencer, the topology
-manager itself) may have identities under the synchronizer namespace.
+namespace and all entities in the sync domain (mediator, sequencer, the topology
+manager itself) may have identities under the sync domain namespace.
 
-The synchronizer topology manager signs and thereby authorizes the following topology
+The sync domain topology manager signs and thereby authorizes the following topology
 transactions:
 
 - `NamespaceDelegation` to register the namespace public key for the new namespace
 - `OwnerToKeyMapping` to register both its own signing public key (see next
-  section) and the signing public keys of the other synchronizer entities as part of
-  the synchronizer onboarding
-- `ParticipantState` to enable a new participant on the synchronizer
-- `MediatorDomainState` to enable a new mediator on the synchronizer
+  section) and the signing public keys of the other sync domain entities as part of
+  the sync domain onboarding
+- `ParticipantState` to enable a new participant on the sync domain
+- `MediatorDomainState` to enable a new mediator on the sync domain
 
 Signing Key
 ^^^^^^^^^^^
 
-The synchronizer topology manager is not part of the Canton transaction protocol, but
+The sync domain topology manager is not part of the Canton transaction protocol, but
 it receives topology transactions via the sequencer. Therefore, in addition to
-the synchronizer namespace, the synchronizer topology manager has a signing key pair, which
+the sync domain namespace, the sync domain topology manager has a signing key pair, which
 is registered in the topology state for the topology manager. This signing key
 is used to perform the challenge-response protocol of the sequencer.
 
@@ -239,10 +239,10 @@ key pair for the following:
 - Signing of transaction results, transfer results, and rejections of malformed
   mediator requests.
 
-Synchronizer Node Keys
-~~~~~~~~~~~~~~~~~~~~~~
+Sync Domain Node Keys
+~~~~~~~~~~~~~~~~~~~~~
 
-The synchronizer node embeds a sequencer, mediator, and synchronizer topology manager. The
+The sync domain node embeds a sequencer, mediator, and sync domain topology manager. The
 set of keys remains the same as for the individual nodes.
 
 Canton Console Keys
@@ -264,7 +264,7 @@ Canton supports the rotation of node keys (signing and encryption) during live
 operation through its topology management. In order to ensure continuous
 operation, the new key is added first and then the previous key is removed.
 
-For participant nodes, synchronizer nodes, and synchronizer topology managers, the
+For participant nodes, sync domain nodes, and sync domain topology managers, the
 nodes can rotate their keys directly using their own identity manager with
 the following command for example:
 
@@ -274,11 +274,11 @@ the following command for example:
    :end-before: user-manual-entry-end: RotateNodeKeys
    :dedent:
 
-On a participant node both the signing and encryption key pairs are rotated. On a synchronizer and synchronizer manager node only
+On a participant node both the signing and encryption key pairs are rotated. On a sync domain and sync domain manager node only
 the signing key pair, because they do not have an encryption key pair. Identity namespace root or intermediate keys are
 not rotated with this command, see below for commands on namespace key management.
 
-For sequencer and mediator nodes that are part of a synchronizer, the synchronizer topology
+For sequencer and mediator nodes that are part of a sync domain, the sync domain topology
 manager authorizes the key rotation and a reference needs to be passed in to the command, for example:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/topology/KeyManagementIntegrationTest.scala
@@ -368,7 +368,7 @@ Ledger-API Authorization
 
 The Ledger API provides :ref:`authorization support <ledger-api-jwt-configuration>` using `JWT <https://jwt.io>`_
 tokens. While the JWT token authorization allows third-party applications to be authorized properly, it poses some issues
-for Canton internal services such as the `PingService` or the `DarService`, which are used to manage synchronizer-wide
+for Canton internal services such as the `PingService` or the `DarService`, which are used to manage sync domain-wide
 concerns. Therefore Canton generates a new admin bearer token (64 bytes, randomly generated, hex-encoded) on each startup,
 which is communicated to these services internally and used by these services to
 authorize themselves on the Ledger API. The admin token allows to act as any party registered on that participant node.

@@ -8,7 +8,7 @@
 Persistence
 ===========
 
-Participant nodes and synchronizers both require storage configurations. Both use the same configuration
+Participant nodes and sync domains both require storage configurations. Both use the same configuration
 format and therefore support the same configuration options. There are three different configurations
 available:
 
@@ -172,23 +172,23 @@ corruption / data loss in case of a data center failover.
 Setup Oracle Schemas
 ^^^^^^^^^^^^^^^^^^^^
 
-For a simple Oracle-based Canton deployment with one synchronizer and one participant
+For a simple Oracle-based Canton deployment with one sync domain and one participant
 the following Oracle schemas (i.e., users) are required:
 
-+---------------------------+-------------------+--------------------+-------------------------------+
-| Component                 | Schema name       | Description        | Authentication                |
-+===========================+===================+====================+===============================+
-|                           | DD4ODRUN          | Runtime user       | Password configured per 2.2.7 |
-| Oracle Synchronizer       |                   |                    |                               |
-+---------------------------+-------------------+--------------------+ Site administrator may change |
-|                           | DD4OPRUN          | Runtime user for   | at will (i.e., default        |
-| Participant               |                   | Participant Canton | password is never hardcoded   |
-|                           |                   | component          | or assumed)                   |
-|                           +-------------------+--------------------+                               |
-|                           | DD4OPLEDG         | Runtime user for   |                               |
-|                           |                   | Participant API    |                               |
-|                           |                   | ledger component   |                               |
-+---------------------------+-------------------+--------------------+-------------------------------+
++--------------------------+-------------------+--------------------+-------------------------------+
+| Component                | Schema name       | Description        | Authentication                |
++==========================+===================+====================+===============================+
+|                          | DD4ODRUN          | Runtime user       | Password configured per 2.2.7 |
+| Oracle sync domain       |                   |                    |                               |
++--------------------------+-------------------+--------------------+ Site administrator may change |
+|                          | DD4OPRUN          | Runtime user for   | at will (i.e., default        |
+| Participant              |                   | Participant Canton | password is never hardcoded   |
+|                          |                   | component          | or assumed)                   |
+|                          +-------------------+--------------------+                               |
+|                          | DD4OPLEDG         | Runtime user for   |                               |
+|                          |                   | Participant API    |                               |
+|                          |                   | ledger component   |                               |
++--------------------------+-------------------+--------------------+-------------------------------+
 
 The DD4ODRUN,  DD4OPRUN, and DD4OPLEDG users all need the following schema privileges:
 
@@ -216,7 +216,7 @@ Run the following commands as the system user (e.g., for the runtime user
     SQL> GRANT SELECT ON V_$LOCK TO DD4OPRUN;
     SQL> GRANT SELECT ON V_$PARAMETER TO DD4OPRUN;
 
-For additional synchronizers or participant nodes create the corresponding schemas with
+For additional sync domains or participant nodes create the corresponding schemas with
 one schema per node.
 
 If you are getting an error message like:
@@ -242,7 +242,7 @@ You can then test whether creating the user worked using ``sqlplus``:
 Configuring Canton Nodes for Oracle
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The following is an example configuration for an Oracle-backed synchronizer for the
+The following is an example configuration for an Oracle-backed sync domain for the
 persistence of its sequencer, mediator, and topology manager nodes. The
 placeholders ``<ORACLE_HOST>``, ``<ORACLE_PORT>``, and ``<ORACLE_DB>`` will need
 to be replaced with the correct settings to match the environment and
@@ -517,7 +517,7 @@ The number ``Z`` of the connections used by the exclusive sequencer writer compo
 
     canton.sequencers.<sequencer-name>.sequencer.high-availability.exclusive-storage.max-connections = Z
 
-A Canton participant node will establish up to ``X + Y + 2`` permanent connections with the database, whereas a synchronizer
+A Canton participant node will establish up to ``X + Y + 2`` permanent connections with the database, whereas a sync domain
 will use up to ``X`` permanent connections, except for a sequencer with HA setup that will allocate up to ``2X`` connections. During
 startup, the node will use an additional set of at most ``X`` temporary connections during database initialisation.
 
@@ -529,35 +529,35 @@ will be reserved to a dedicated *main* connection responsible for managing the l
 The following table summarizes the detailed split of the connection pools in different Canton nodes. ``R`` signifies a *read* pool, ``W``
 a *write* pool, ``A`` a *ledger api* pool, ``I`` an *indexer* pool, ``RW`` a combined *read/write* pool, and ``M`` the *main* pool.
 
-+------------------------+--------------------+--------------------+--------------------+
-|  Node Type             | Enterprise Edition | Enterprise Edition | Community Edition  |
-|                        | with Replication   |                    |                    |
-+========================+====================+====================+====================+
-| Participant            | | A = X / 2        | | A = X / 2        | | A = X / 2        |
-|                        | | R = X / 4        | | R = X / 4        | | RW = X / 2       |
-|                        | | W = X / 4 - 1    | | W = X / 4 - 1    | | I = Y            |
-|                        | | M = 1            | | M = 1            |                    |
-|                        | | I = Y            | | I = Y            |                    |
-+------------------------+--------------------+--------------------+--------------------+
-| Mediator               | | R = X / 2        | N/A                | N/A                |
-|                        | | W = X / 2 - 1    |                    |                    |
-|                        | | M = 1            |                    |                    |
-+------------------------+--------------------+--------------------+--------------------+
-| Sequencer              | RW =  X            | N/A                | N/A                |
-+------------------------+--------------------+--------------------+--------------------+
-| Sequencer writer       | | R = X / 2        | N/A                | N/A                |
-|                        | | W = X / 2 - 1    |                    |                    |
-|                        | | M = 1            |                    |                    |
-+------------------------+--------------------+--------------------+--------------------+
-| Sequencer              | | R = Z / 2        | N/A                | N/A                |
-| exclusive writer       | | W = Z / 2        |                    |                    |
-+------------------------+--------------------+--------------------+--------------------+
-| Synchronizer manager   | | R = X / 2        | N/A                | N/A                |
-|                        | | W = X / 2 - 1    |                    |                    |
-|                        | | M = 1            |                    |                    |
-+------------------------+--------------------+--------------------+--------------------+
-| Synchronizer           | N/A                | RW = X             | RW = X             |
-+------------------------+--------------------+--------------------+--------------------+
++-----------------------+--------------------+--------------------+--------------------+
+|  Node Type            | Enterprise Edition | Enterprise Edition | Community Edition  |
+|                       | with Replication   |                    |                    |
++=======================+====================+====================+====================+
+| Participant           | | A = X / 2        | | A = X / 2        | | A = X / 2        |
+|                       | | R = X / 4        | | R = X / 4        | | RW = X / 2       |
+|                       | | W = X / 4 - 1    | | W = X / 4 - 1    | | I = Y            |
+|                       | | M = 1            | | M = 1            |                    |
+|                       | | I = Y            | | I = Y            |                    |
++-----------------------+--------------------+--------------------+--------------------+
+| Mediator              | | R = X / 2        | N/A                | N/A                |
+|                       | | W = X / 2 - 1    |                    |                    |
+|                       | | M = 1            |                    |                    |
++-----------------------+--------------------+--------------------+--------------------+
+| Sequencer             | RW =  X            | N/A                | N/A                |
++-----------------------+--------------------+--------------------+--------------------+
+| Sequencer writer      | | R = X / 2        | N/A                | N/A                |
+|                       | | W = X / 2 - 1    |                    |                    |
+|                       | | M = 1            |                    |                    |
++-----------------------+--------------------+--------------------+--------------------+
+| Sequencer             | | R = Z / 2        | N/A                | N/A                |
+| exclusive writer      | | W = Z / 2        |                    |                    |
++-----------------------+--------------------+--------------------+--------------------+
+| Sync domain manager   | | R = X / 2        | N/A                | N/A                |
+|                       | | W = X / 2 - 1    |                    |                    |
+|                       | | M = 1            |                    |                    |
++-----------------------+--------------------+--------------------+--------------------+
+| Sync domain           | N/A                | RW = X             | RW = X             |
++-----------------------+--------------------+--------------------+--------------------+
 
 The results of the divisions are always rounded down unless they yield a zero. In that case, a minimal pool
 size of 1 is ascertained.
@@ -611,41 +611,41 @@ Backup and Restore
 
 It is recommended that your database is frequently backed up so that the data can be restored in case of a disaster.
 
-In the case of a restore, a participant can replay missing data from the synchronizer
-as long as the synchronizer's backup is more recent than that of the participant's.
+In the case of a restore, a participant can replay missing data from the sync domain
+as long as the sync domain's backup is more recent than that of the participant's.
 
 .. todo::
-  #. `Ability to recover from partial data loss on a synchronizer <https://github.com/DACH-NY/canton/issues/4839>`_.
+  #. `Ability to recover from partial data loss on a sync domain <https://github.com/DACH-NY/canton/issues/4839>`_.
 
 Order of Backups
 ~~~~~~~~~~~~~~~~
 
-It is important that the participant's backup is not more recent than the synchronizer's, as that would constitute a ledger fork. Therefore, if you back up
-both participant and synchronizer databases, always back up the participant database before the
-synchronizer. If you are using a sycnrhonizer integration, then back up the sequencer node before backing
-up the underlying synchronizer storage (e.g. Besu files).
+It is important that the participant's backup is not more recent than the sync domain's, as that would constitute a ledger fork. Therefore, if you back up
+both participant and sync domain databases, always back up the participant database before the
+sync domain. If you are using a sync domain integration, then back up the sequencer node before backing
+up the underlying sync domain storage (e.g. Besu files).
 
-In case of a synchronizer restore from a backup, if a participant is ahead of the
-synchronizer the participant will refuse to connect to the synchronizer (``ForkHappened``) and you must
+In case of a sync domain restore from a backup, if a participant is ahead of the
+sync domain the participant will refuse to connect to the sync domain (``ForkHappened``) and you must
 either:
 
-- restore the participant's state to a backup before the disaster of the synchronizer, or
-- roll out a new synchronizer as a repair strategy in order to :ref:`recover from a lost synchronizer <recovering_from_lost_domain>`
+- restore the participant's state to a backup before the disaster of the sync domain, or
+- roll out a new sync domain as a repair strategy in order to :ref:`recover from a lost sync domain <recovering_from_lost_domain>`
 
 The state of applications that interact with a participant's ledger API must be
 backed up before the participant, otherwise the application state has to be
 reset.
 
-Among the different nodes of a synchronizer (sequencer, mediators, synchronizer topology manager),
+Among the different nodes of a sync domain (sequencer, mediators, sync domain topology manager),
 the following constraints apply:
 
-- Back up the mediators and the synchronizer manager before the sequencer;
+- Back up the mediators and the sync domain manager before the sequencer;
   otherwise they may not be able to reconnect to the sequencer (``ForkHappened``).
-  The relative order of mediators, synchronizer topology manager, and participants does not matter.
+  The relative order of mediators, sync domain topology manager, and participants does not matter.
 
-- On a :ref:`permissioned synchronizer <permissioned-domains>`, make sure that
-  no participant is registered at the synchronizer topology manager
-  between the backup of the synchronizer topology manager and the backup of the sequencer.
+- On a :ref:`permissioned sync domain <permissioned-domains>`, make sure that
+  no participant is registered at the sync domain topology manager
+  between the backup of the sync domain topology manager and the backup of the sequencer.
   Otherwise the participant may not work correctly after the recovery.
 
 .. _restore_caveats:
@@ -671,8 +671,8 @@ This tracking will be in sync again when:
    request from before the restore that could be sequenced again
 
 Such submission requests have a max sequencing time of the ledger time plus the
-ledger-time-record-time-tolerance of the synchronizer. It should be enough to observe
-a timestamp from the synchronizer that is after the time when the participant was
+ledger-time-record-time-tolerance of the sync domain. It should be enough to observe
+a timestamp from the sync domain that is after the time when the participant was
 stopped before the restore by more than the tolerance. Once such a timestamp is
 observed, the in-flight submission tracking is in sync again and applications
 can resume submitting commands with full command deduplication guarantees.
@@ -709,7 +709,7 @@ To avoid this situation, perform the key rotation steps in this order:
 Postgres Example
 ~~~~~~~~~~~~~~~~
 
-If you are using Postgres to persist the participant node or synchronizer data, you can create backups to a file and restore it using Postgres's utility commands ``pg_dump`` and ``pg_restore`` as shown below:
+If you are using Postgres to persist the participant node or sync domain data, you can create backups to a file and restore it using Postgres's utility commands ``pg_dump`` and ``pg_restore`` as shown below:
 
 Backing up Postgres database to a file:
 
@@ -737,8 +737,8 @@ Database Replication for Disaster Recovery
 Synchronous Replication
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-We recommend that in production at least the synchronizer should be run with offsite
-synchronous replication to ensure that the state of the synchronizer is always newer
+We recommend that in production at least the sync domain should be run with offsite
+synchronous replication to ensure that the state of the sync domain is always newer
 than the state of the participants. However to avoid similar
 :ref:`caveats as with backup restore <restore_caveats>` the participants should either use synchronous
 replication too or as part of the manual disaster recovery failure procedure the

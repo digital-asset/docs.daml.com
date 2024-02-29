@@ -21,10 +21,10 @@ The ledger state in Canton does not exist globally so there is no
 single node that, by design, hosts all contracts. Instead, participant nodes are
 involved in transactions that operate on the ledger state on a strict
 need-to-know basis (data minimization), only exchanging (encrypted)
-information on the synchronizers used as coordination points for the given
+information on the sync domains used as coordination points for the given
 input contracts. For example, if participants Alice and Bank transact
-on an i-owe-you contract on synchronizer A, another participant Bob, or
-another synchronizer B, does not receive a single bit related to this
+on an i-owe-you contract on sync domain A, another participant Bob, or
+another sync domain B, does not receive a single bit related to this
 transaction. This is in contrast to blockchains, where each node has to
 process each block regardless of how active or directly affected
 they are by a given transaction. This lends itself to a
@@ -32,8 +32,8 @@ micro-service approach that can scale horizontally.
 
 The micro-services deployment of Canton includes the set of
 participant nodes (hereafter, "participant" or
-"participants") and synchronizers, as well as the
-services internal to the synchronizer (e.g., Topology Manager). In general,
+"participants") and sync domains, as well as the
+services internal to the sync domain (e.g., Topology Manager). In general,
 each Canton micro-service follows the best practice of having its own
 local database which increases throughput. Deploying a service
 to its
@@ -50,18 +50,18 @@ early access feature). For example, if 100 parties are performing
 multi-lateral transactions with each other, then the system can
 reallocate parties to 10 participants with 10 parties each, or 100
 participants with 1 party each. As most of the computation occurs on
-the participants, a synchronizer can sustain a very substantial load from
-multiple participants. If the synchronizer were to be a bottleneck then the
+the participants, a sync domain can sustain a very substantial load from
+multiple participants. If the sync domain were to be a bottleneck then the
 sequencer(s), topology manager, and mediator can be run on their own
-compute server which increases the synchronizer throughput. Therefore, new
+compute server which increases the sync domain throughput. Therefore, new
 compute servers with additional Canton nodes can be added to the
 network when needed, allowing the entire system to scale horizontally.
 
-If even more throughput is needed then the multiple-synchronizer feature of
+If even more throughput is needed then the multiple-sync-domain feature of
 Canton can be leveraged to increase throughput. In a large and active network
-where a synchronizer reaches the capacity limit, additional synchronizers can be
+where a sync domain reaches the capacity limit, additional sync domains can be
 rolled out, such that the workflows can be sharded over the available
-synchronizers (early access). This is a standard technique for load
+sync domains (early access). This is a standard technique for load
 balancing where the client application does the load balancing via sharding.
 
 If a single party is a bottleneck then the throughput can be increased
@@ -83,7 +83,7 @@ through which all transactions need to be validated introduces a
 bottleneck so it is also an anti-pattern to avoid.
 
 The bottom line is that a Canton system can scale out horizontally if
-commands involve only a small number of participants and synchronizers.
+commands involve only a small number of participants and sync domains.
 
 
 .. enterprise-only::
@@ -114,7 +114,7 @@ Performance and Sizing
 ----------------------
 
 A Daml workflow can be computationally arbitrarily complex, performing lots of computation (cpu!) or fetching many
-contracts (io!), and involve different numbers of parties, participants, and synchronizers. Canton nodes store their entire
+contracts (io!), and involve different numbers of parties, participants, and sync domains. Canton nodes store their entire
 data in the storage layer (database), with additional indexes. Every workflow and topology is different,
 and therefore, sizing requirements depend on the Daml application that is going to run, and on the resource
 requirements of the storage layer. Therefore, to obtain sizing estimates you must measure the resource usage

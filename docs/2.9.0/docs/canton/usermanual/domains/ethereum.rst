@@ -5,8 +5,8 @@
 
 .. enterprise-only::
 
-Ethereum Synchronizer
----------------------
+Ethereum Sync Domain
+--------------------
 
 Introduction
 ~~~~~~~~~~~~~~~~~
@@ -46,7 +46,7 @@ Both scenarios will start several dockerised services:
 * An Ethereum testnet, using four Besu nodes with the QBFT consensus protocol.
   This is the same for the simple and advanced scenario.
 * An instance of Canton. This includes two participants and a
-  synchronizer with one Ethereum sequencer for the simple scenario and two Ethereum sequencers for the advanced scenario.
+  sync domain with one Ethereum sequencer for the simple scenario and two Ethereum sequencers for the advanced scenario.
   The respective Canton configurations are in ``canton-conf/simple`` and ``canton-conf/advanced``.
 
 The environment variable ``CANTON_VERSION`` is used to select the version of
@@ -273,7 +273,7 @@ Other setups are possible, but they should fulfill the following requirements:
 * The block size limit (often measured in gas, and sometimes referred to as
   the 'gas limit') must be larger than any message to be sequenced. It is
   recommended to set this parameter as high as possible.
-* The contract size limit must be big enough for the Canton Ethereum synchronizer
+* The contract size limit must be big enough for the Canton Ethereum sync domain
   to store all required states for sequencing messages. It is recommended to set
   this parameter as high as possible.
 * Proof of authority protocols are recommended over proof of work.

@@ -13,7 +13,7 @@ that stores the Canton private keys.
 If you want to continue to have other nodes
 running a `non-KMS Canton` you are obliged to use a ``jce`` provider
 and you must explicitly configure it to use the KMS supported algorithms as the required algorithms. Here is an
-example on how to set it up for a simple distributed synchronizer:
+example on how to set it up for a simple distributed sync domain:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/aws-kms-provider-tagged.conf
    :language: none

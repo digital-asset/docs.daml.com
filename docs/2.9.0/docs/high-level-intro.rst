@@ -93,19 +93,19 @@ The Daml code that collectively makes up the data schema and rules for an applic
 
 Using the Daml language, developers define the schema for a virtual shared system of record (VSSR). A VSSR is the combined data from all parties involved in the application. The Canton protocol ensures that each party gets a unique view into the VSSR, which is their projection of the full system.
 
-In the execution model for Canton, each party of the application is hosted on a Participant Node (Diagram 1). The Participant Node stores the party’s unique projection and history of the shared system of record. Participant Nodes synchronize by running a consensus protocol (the Canton Protocol) between them. The protocol is executed by sending encrypted messages through synchronizers, which route messages and offer guaranteed delivery and order consistency. Synchronizers are also units of access control and availability, meaning an application can be additionally protected from interference by other applications or malicious actors by synchronizing it only through a given synchronizers, and restricting which participants can connect to it.
+In the execution model for Canton, each party of the application is hosted on a Participant Node (Diagram 1). The Participant Node stores the party’s unique projection and history of the shared system of record. Participant Nodes synchronize by running a consensus protocol (the Canton Protocol) between them. The protocol is executed by sending encrypted messages through sync domains, which route messages and offer guaranteed delivery and order consistency. Sync domains are also units of access control and availability, meaning an application can be additionally protected from interference by other applications or malicious actors by synchronizing it only through a given sync domain, and restricting which participants can connect to it.
 
 Diagram 1:
 
 .. figure:: arch-intro-1.png
-   :alt: A synchronizer (center) with four participant nodes. Participant Node One hosts Party A; Participant Node Two hosts Party B; Participant Node Three hosts Party C; and Participant Node Four hosts Parties D, E, and F. The synchronizer can be centralized or distributed, public or private.
+   :alt: A sync domain (center) with four participant nodes. Participant Node One hosts Party A; Participant Node Two hosts Party B; Participant Node Three hosts Party C; and Participant Node Four hosts Parties D, E, and F. The sync domain can be centralized or distributed, public or private.
 
-In a composed solution, each synchronizer is a sub-network. A participant node connects to one or more synchronizers, enabling transactions that span synchronizers (Diagram 2).
+In a composed solution, each sync domain is a sub-network. A participant node connects to one or more sync domains, enabling transactions that span sync domains (Diagram 2).
 
 Diagram 2:
 
 .. figure:: arch-intro-2.png
-   :alt: Three sychrnoizers with five participant nodes, each hosting one or more parties. Synchronizers A (HL Fabric) and B (Ethereum) have two synchronizer nodes each, while Synchronizer C (SQL) has a single synchronizer node. Each participant node can connect to different synchronizers.
+   :alt: Three sync domains with five participant nodes, each hosting one or more parties. Sync Domains A (HL Fabric) and B (Ethereum) have two sync domain nodes each, while Sync Domain C (SQL) has a single sync domain node. Each participant node can connect to different sync domains.
 
 
 Transfer Example Using Daml

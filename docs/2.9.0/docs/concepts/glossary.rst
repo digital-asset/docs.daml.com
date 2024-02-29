@@ -478,15 +478,15 @@ A trust domain encompasses a part of the system (in particular, a Daml ledger) o
 Canton Concepts
 ***************
 
-Synchronizer
-============
+Sync Domain
+===========
 
-The synchronizer provides total ordered, guaranteed delivery multi-cast to the participants. This means that participant nodes communicate with each other by sending end-to-end encrypted messages
-through the synchronizer.
+The sync domain provides total ordered, guaranteed delivery multi-cast to the participants. This means that participant nodes communicate with each other by sending end-to-end encrypted messages
+through the sync domain.
 
-The `sequencer service <#sequencer>`__ of the synchronizer orders these messages without knowing about the content and ensures that every participant receives the messages in the same order.
+The `sequencer service <#sequencer>`__ of the sync domain orders these messages without knowing about the content and ensures that every participant receives the messages in the same order.
 
-The other services of the synchronizer are the `mediator <#mediator>`__ and the `synchronizer identity manager <#domain-identity-manager>`__.
+The other services of the sync domain are the `mediator <#mediator>`__ and the `sync domain identity manager <#domain-identity-manager>`__.
 
 Private Contract Store
 ======================
@@ -499,25 +499,25 @@ Virtual Global Ledger
 While every participant has their own private contract store (PCS), the `Canton protocol <#canton-protocol>`__ guarantees that the contracts which are stored in the PCS are well-authorized
 and that any change to the store is justified, authorized, and valid. The result is that every participant only possesses a small part of the *virtual global ledger*. All the local
 stores together make up that *virtual global ledger* and they are thus synchronized. The Canton protocol guarantees that the virtual ledger provides integrity, privacy,
-transparency, and auditability. The ledger is logically global, even though physically, it runs on segregated and isolated synchronizers that are not aware of each other.
+transparency, and auditability. The ledger is logically global, even though physically, it runs on segregated and isolated sync domains that are not aware of each other.
 
 Mediator
 ========
 
-The mediator is a service provided by the `synchronizer <#domain>`__ and used by the `Canton protocol <#canton-protocol>`__. The mediator acts as commit coordinator, collecting individual transaction verdicts issued by validating
+The mediator is a service provided by the `sync domain <#domain>`__ and used by the `Canton protocol <#canton-protocol>`__. The mediator acts as commit coordinator, collecting individual transaction verdicts issued by validating
 participants and aggregating them into a single result. The mediator does not learn about the content of the transaction, they only learn about the involved participants.
 
 Sequencer
 =========
 
-The sequencer is a service provided by the `synchronizer <#domain>`__, used by the `Canton protocol <#canton-protocol>`__. The sequencer forwards encrypted addressed messages from participants and ensures that every member receives
+The sequencer is a service provided by the `sync domain <#domain>`__, used by the `Canton protocol <#canton-protocol>`__. The sequencer forwards encrypted addressed messages from participants and ensures that every member receives
 the messages in the same order. Think about registered and sealed mail delivered according to the postal datestamp.
 
-Synchronizer Identity Manager
-=============================
+Sync Domain Identity Manager
+============================
 
-The Synchronizer Identity Manager is a service provided by the `synchronizer <#domain>`__, used by the `Canton protocol <#canton-protocol>`__. Participants join a new synchronizer by registering with the synchronizer identity manager. The synchronizer
-identity manager establishes a consistent identity state among all participants. The synchronizer identity manager only forwards identity updates. It can not invent them.
+The sync domain identity manager is a service provided by the `sync domain <#domain>`__, used by the `Canton protocol <#canton-protocol>`__. Participants join a new sync domain by registering with the sync domain identity manager. The sync domain
+identity manager establishes a consistent identity state among all participants. The sync domain identity manager only forwards identity updates. It can not invent them.
 
 
 Consensus
@@ -525,7 +525,7 @@ Consensus
 
 The Canton protocol does not use PBFT or any similar consensus algorithm. There is no proof of work or proof of stake involved. Instead, Canton uses a variant of a stakeholder-based
 two-phase commit protocol. As such, only stakeholders of a transaction are involved in it and need to process it, providing efficiency, privacy, and horizontal scalability. Canton-based
-ledgers are resilient to malicious participants as long as there is at least a single honest participant. A synchronizer integration itself might be using the consensus mechanism of the underlying
+ledgers are resilient to malicious participants as long as there is at least a single honest participant. A sync domain integration itself might be using the consensus mechanism of the underlying
 platform, but participant nodes will not be involved in that process.
 
 .. Transaction

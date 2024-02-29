@@ -67,7 +67,7 @@ After an identifier is returned, the ledger is set up in such a way that the par
 However, the newly provisioned identifier need not be visible to the other participant nodes.
 For example, consider the setup with two participants ``P1`` and ``P2``, where the party ``Alice_123`` is hosted on ``P1``.
 Assume that a new party ``Bob_456`` is next successfully allocated on ``P2``.
-As long as ``P1`` and ``P2`` are connected to the same Canton synchronizer or Daml ledger, ``Alice_123`` can now submit a command with ``Bob_456`` as an informee.
+As long as ``P1`` and ``P2`` are connected to the same Canton sync domain or Daml ledger, ``Alice_123`` can now submit a command with ``Bob_456`` as an informee.
 
 For diagnostics, the ledger provides a :ref:`ListKnownParties <com.daml.ledger.api.v1.admin.ListKnownPartiesRequest>` method which lists parties known to the participant node.
 The parties can be local (i.e., hosted by the participant) or not.

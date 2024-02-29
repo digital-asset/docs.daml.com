@@ -11,7 +11,7 @@ The figure below assembles the components already described using the single-end
    :align: center
    :width: 80%
 
-The figure below uses client-side load balancing for the synchronizer owner's sequencer access. Separate sequencer nodes are shown for the distributed application user's connectivity.
+The figure below uses client-side load balancing for the sync domain owner's sequencer access. Separate sequencer nodes are shown for the distributed application user's connectivity.
 
 .. https://lucid.app/lucidchart/d3a7916c-acaa-419d-b7ef-9fcaaa040447/edit?invitationId=inv_b7a43920-f4af-4da9-88fc-5985f8083c95&page=0_0#
 .. image:: solution-2.png

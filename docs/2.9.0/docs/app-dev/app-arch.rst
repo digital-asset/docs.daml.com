@@ -15,7 +15,7 @@ The above image shows the recommended Daml solution architecture. Here there are
 
 In the recommended architecture, the Daml model determines the DAR files that underpin both the front end and back end. The front end includes user code such as a React Web Frontend, Daml React libraries or other integration libraries, and generated code from the DAR files (TypeScript). A client service can access the Daml application backend instead of a GUI frontend with no change to the rest of the architecture.
 
-From the client point of view, the Daml application backend consists of the JSON API and a participant node. The backend uses a Canton synchronizer (not shown) to distribute changes to the ledger made by the application, as well as changes made by other applications, to all synchronizer-connected participants.
+From the client point of view, the Daml application backend consists of the JSON API and a participant node. The backend uses a Canton sync domain (not shown) to distribute changes to the ledger made by the application, as well as changes made by other applications, to all sync domain-connected participants.
 
 Integrations with a Daml application are done via Java bindings, while automation can be done with Daml Script and/or Daml Triggers. Daml Scripts allows you to write automations that can be triggered by any off-ledger condition, such as the availability of a file in a folder or a message coming from a broker or a user interacting with the system directly. Daml Triggers allow a similar approach but are triggered by on-ledger events, such as the creation of a contract.
 

@@ -38,7 +38,7 @@ Both new and existing nodes can be configured to use this feature.
 **In both cases, keys are stored encrypted in the Canton node's database**
 
 The example below configures encrypted private key storage with AWS KMS,
-for all nodes, in a simple distributed synchronizer environment.
+for all nodes, in a simple distributed sync domain environment.
 
 .. code-block:: none
 
