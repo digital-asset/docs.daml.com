@@ -1,0 +1,210 @@
+{
+  "252" : {
+    "command" : "val createIouCmd = ledger_api_utils.create(packageId,\"Iou\",\"Iou\",Map(\"payer\" -> participant1.adminParty,\"owner\" -> participant1.adminParty,\"amount\" -> Map(\"value\" -> 100.0, \"currency\" -> \"EUR\"),\"viewers\" -> List()))",
+    "output" : "createIouCmd : com.daml.ledger.api.v1.commands.Command = Command(\n  command = Create(\n    value = CreateCommand(\n      templateId = Some(\n        value = Identifier(\n.."
+  },
+  "124" : {
+    "command" : "val darHash_ = participant1.dars.list().filter(_.name == \"CantonExamples\").head.hash",
+    "output" : "darHash_ : String = \"12204bc4767d74039aad3fab9f92bdf15f59d08ff9c8224c946833b8e5415f2e45f1\""
+  },
+  "173" : {
+    "command" : "participant1.ledger_api.commands.submit(Seq(participant1.adminParty), Seq(archiveIouCmd))",
+    "output" : "res24: com.daml.ledger.api.v1.transaction.TransactionTree = TransactionTree(\n  transactionId = \"1220fb2cabebd4d915ab28021da27b648a261c9135a2a8307daac8f5262219c0a492\",\n  commandId = \"43b83365-9d94-4b0a-81f8-9a0588b94aca\",\n  workflowId = \"\",\n  effectiveAt = Some(\n.."
+  },
+  "118" : {
+    "command" : "val packagesBefore = participant1.packages.list().map(_.packageId).toSet",
+    "output" : "packagesBefore : Set[String] = HashSet(\n  \"86828b9843465f419db1ef8a8ee741d1eef645df02375ebf509cdc8c3ddd16cb\",\n  \"5921708ce82f4255deb1b26d2c05358b548720938a5a325718dc69f381ba47ff\",\n  \"cc348d369011362a5190fe96dd1f0dfbc697fdfd10e382b9e9666f0da05961b7\",\n  \"6839a6d3d430c569b2425e9391717b44ca324b88ba621d597778811b2d05031d\",\n  \"99a2705ed38c1c26cbb8fe7acf36bbf626668e167a33335de932599219e0a235\",\n  \"e22bce619ae24ca3b8e6519281cb5a33b64b3190cc763248b4c3f9ad5087a92c\",\n  \"d58cf9939847921b2aab78eaa7b427dc4c649d25e6bee3c749ace4c3f52f5c97\",\n  \"6c2c0667393c5f92f1885163068cd31800d2264eb088eb6fc740e11241b2bf06\",\n  \"23814c2011b113b47225f6ae8a1001bbc2dd7ae29bdf2a5c7943277ac58cd110\",\n.."
+  },
+  "159" : {
+    "command" : "participant1.domains.connect_local(mydomain)",
+    "output" : ""
+  },
+  "263" : {
+    "command" : "val iou = participant1.ledger_api.acs.find_generic(participant1.adminParty, _.templateId.isModuleEntity(\"Iou\", \"Iou\"))",
+    "output" : "iou : com.digitalasset.canton.admin.api.client.commands.LedgerApiTypeWrappers.WrappedCreatedEvent = WrappedCreatedEvent(\n  event = CreatedEvent(\n    eventId = \"#122048bd18e7d637bfb0782d67ca5c5f352ed5ed41be64c9f87d80f896f001f78d37:0\",\n    contractId = \"00a25f342d5064d046786664ad9229b9c791a33f75c4e0c51d01b0269e06ac6cc1ca021220ff2e0d2d2ff46c590ad7a1c576d1e643c660b49483a0d5cb31924342c77bd49f\",\n    templateId = Some(\n      value = Identifier(\n        packageId = \"9c022a1adf23eee51cb64a3a5d600ef83eadf1089044117cdf1e46e7553058d4\",\n        moduleName = \"Iou\",\n        entityName = \"Iou\"\n      )\n.."
+  },
+  "195" : {
+    "command" : "participant1.dars.remove(darHash)",
+    "output" : "ERROR com.digitalasset.canton.integration.EnterpriseEnvironmentDefinition$$anon$3 - Request failed for participant1.\n  GrpcRequestRefusedByServer: FAILED_PRECONDITION/PACKAGE_OR_DAR_REMOVAL_ERROR(9,4d0051d3): An error was encountered whilst trying to unvet the DAR DarDescriptor(SHA-256:4bc4767d7403...,CantonExamples) with main package 9c022a1adf23eee51cb64a3a5d600ef83eadf1089044117cdf1e46e7553058d4 for DAR removal. Details: IdentityManagerParentError(Mapping(VettedPackages(\n  participant = participant1::12201e36812e...,\n  packages = Seq(\n    9c022a1adf23...,\n    a566728bb2d4...,\n    cb0552debf21...,\n    3f4deaf145a1...,\n    86828b984346...,\n    f20de1e4e37b...,\n    76bf0fd12bd9...,\n    38e6274601b2...,\n    d58cf...\n  Request: RemoveDar(12204bc4767d74039aad3fab9f92bdf15f59d08ff9c8224c946833b8e5415f2e45f1)\n  CorrelationId: 4d0051d3a59338ac9130df5e3d1f11f1\n  Context: Map(participant -> participant1, test -> PackageDarManagementDocumentationIntegrationTest, tid -> 4d0051d3a59338ac9130df5e3d1f11f1)\n  Command ParticipantAdministration$dars$.remove invoked from cmd10000076.sc:1"
+  },
+  "276" : {
+    "command" : "participant1.packages.remove(packageId)",
+    "output" : ""
+  },
+  "247" : {
+    "command" : "val darHash = participant1.dars.upload(\"dars/CantonExamples.dar\")",
+    "output" : "darHash : String = \"12204bc4767d74039aad3fab9f92bdf15f59d08ff9c8224c946833b8e5415f2e45f1\""
+  },
+  "42" : {
+    "command" : "val darContent = participant2.dars.list_contents(hash)",
+    "output" : "darContent : DarMetadata = DarMetadata(\n  name = \"CantonExamples\",\n  main = \"9c022a1adf23eee51cb64a3a5d600ef83eadf1089044117cdf1e46e7553058d4\",\n  packages = Vector(\n    \"9c022a1adf23eee51cb64a3a5d600ef83eadf1089044117cdf1e46e7553058d4\",\n    \"a566728bb2d4ad0103eb11ff8140296f4cea4fc94f1f95ddc6c3e4f983d107f1\",\n    \"cb0552debf219cc909f51cbb5c3b41e9981d39f8f645b1f35e2ef5be2e0b858a\",\n    \"3f4deaf145a15cdcfa762c058005e2edb9baa75bb7f95a4f8f6f937378e86415\",\n.."
+  },
+  "37" : {
+    "command" : "val hash = dars.head.hash",
+    "output" : "hash : String = \"12204bc4767d74039aad3fab9f92bdf15f59d08ff9c8224c946833b8e5415f2e45f1\""
+  },
+  "125" : {
+    "command" : "",
+    "output" : ""
+  },
+  "157" : {
+    "command" : "val darHash = participant1.dars.upload(\"dars/CantonExamples.dar\")",
+    "output" : "darHash : String = \"12204bc4767d74039aad3fab9f92bdf15f59d08ff9c8224c946833b8e5415f2e45f1\""
+  },
+  "189" : {
+    "command" : "val packageIds = participant1.packages.list().filter(_.sourceDescription == \"CantonExamples\").map(_.packageId).map(PackageId.assertFromString)",
+    "output" : "packageIds : Seq[PackageId] = Vector(\n  \"86828b9843465f419db1ef8a8ee741d1eef645df02375ebf509cdc8c3ddd16cb\",\n  \"cc348d369011362a5190fe96dd1f0dfbc697fdfd10e382b9e9666f0da05961b7\",\n.."
+  },
+  "20" : {
+    "command" : "participant2.dars.upload(\"dars/CantonExamples.dar\")",
+    "output" : "res1: String = \"12204bc4767d74039aad3fab9f92bdf15f59d08ff9c8224c946833b8e5415f2e45f1\""
+  },
+  "253" : {
+    "command" : "participant1.ledger_api.commands.submit(Seq(participant1.adminParty), Seq(createIouCmd))",
+    "output" : "res39: com.daml.ledger.api.v1.transaction.TransactionTree = TransactionTree(\n  transactionId = \"122048bd18e7d637bfb0782d67ca5c5f352ed5ed41be64c9f87d80f896f001f78d37\",\n  commandId = \"56a979c3-e9cd-45c1-b9a6-c6ace431389d\",\n  workflowId = \"\",\n  effectiveAt = Some(\n    value = Timestamp(\n      seconds = 1708676274L,\n      nanos = 784312000,\n      unknownFields = UnknownFieldSet(fields = Map())\n    )\n.."
+  },
+  "238" : {
+    "command" : "participant1.packages.remove(packageId)",
+    "output" : ""
+  },
+  "147" : {
+    "command" : "assert(packages == packagesBefore)",
+    "output" : ""
+  },
+  "221" : {
+    "command" : "val darHash = participant1.dars.upload(\"dars/CantonExamples.dar\")",
+    "output" : "darHash : String = \"12204bc4767d74039aad3fab9f92bdf15f59d08ff9c8224c946833b8e5415f2e45f1\""
+  },
+  "265" : {
+    "command" : "participant1.ledger_api.commands.submit(Seq(participant1.adminParty), Seq(archiveIouCmd))",
+    "output" : "res42: com.daml.ledger.api.v1.transaction.TransactionTree = TransactionTree(\n  transactionId = \"12202796747e0bb9a66bd489c86a854854be5673b2cde9057fd593b46e517c5433c3\",\n  commandId = \"57cf267d-3331-4eb8-b184-4d895dcc2e4d\",\n  workflowId = \"\",\n  effectiveAt = Some(\n    value = Timestamp(\n      seconds = 1708676275L,\n      nanos = 167952000,\n      unknownFields = UnknownFieldSet(fields = Map())\n    )\n  ),\n  offset = \"00000000000000000c\",\n.."
+  },
+  "292" : {
+    "command" : "participant1.packages.remove(packageId, force = true)",
+    "output" : ""
+  },
+  "233" : {
+    "command" : "participant1.topology.vetted_packages.authorize(TopologyChangeOp.Remove, participant1.id, packageIds, force = true)",
+    "output" : "res35: com.google.protobuf.ByteString = <ByteString@1835065a size=2386 contents=\"\\n\\317\\022\\n\\375\\017\\n\\370\\017\\n\\365\\017\\b\\001\\022 GEFzai5AA6cnfgLuWRTUnJa89S7IYhC...\">"
+  },
+  "270" : {
+    "command" : "val packageIds = participant1.topology.vetted_packages.list().map(_.item.packageIds).filter(_.contains(packageId)).head",
+    "output" : "packageIds : Seq[com.digitalasset.canton.package.LfPackageId] = Vector(\n  \"9c022a1adf23eee51cb64a3a5d600ef83eadf1089044117cdf1e46e7553058d4\",\n  \"a566728bb2d4ad0103eb11ff8140296f4cea4fc94f1f95ddc6c3e4f983d107f1\",\n.."
+  },
+  "201" : {
+    "command" : "participant1.dars.remove(darHash)",
+    "output" : ""
+  },
+  "28" : {
+    "command" : "participant2.dars.list()",
+    "output" : "res2: Seq[com.digitalasset.canton.participant.admin.v0.DarDescription] = Vector(\n  DarDescription(\n    hash = \"12204bc4767d74039aad3fab9f92bdf15f59d08ff9c8224c946833b8e5415f2e45f1\",\n    name = \"CantonExamples\"\n  ),\n  DarDescription(\n    hash = \"12207dd6f1ebef1441d185e9468e32555abbb8955e2c447c7ff78aa9c64a99db7c78\",\n    name = \"AdminWorkflowsWithVacuuming\"\n  )\n)"
+  },
+  "160" : {
+    "command" : "val createIouCmd = ledger_api_utils.create(packageId,\"Iou\",\"Iou\",Map(\"payer\" -> participant1.adminParty,\"owner\" -> participant1.adminParty,\"amount\" -> Map(\"value\" -> 100.0, \"currency\" -> \"EUR\"),\"viewers\" -> List()))",
+    "output" : ".."
+  },
+  "188" : {
+    "command" : "import com.daml.lf.data.Ref.IdString.PackageId",
+    "output" : ""
+  },
+  "141" : {
+    "command" : "packageIds.filter(id => ! packagesBefore.contains(id)).foreach(id => participant1.packages.remove(id))",
+    "output" : ""
+  },
+  "166" : {
+    "command" : "participant1.dars.remove(darHash)",
+    "output" : "ERROR com.digitalasset.canton.integration.EnterpriseEnvironmentDefinition$$anon$3 - Request failed for participant1.\n  GrpcRequestRefusedByServer: FAILED_PRECONDITION/PACKAGE_OR_DAR_REMOVAL_ERROR(9,40e734ef): The DAR DarDescriptor(SHA-256:4bc4767d7403...,CantonExamples) cannot be removed because its main package 9c022a1adf23eee51cb64a3a5d600ef83eadf1089044117cdf1e46e7553058d4 is in-use by contract ContractId(00ac6164979849ee6dfe436090254ebc2c652d5e8a5de78e7ba6392a4d1d469dcbca0212205bfb31479ef42fa1ae7affca646cafbf12402920bb953224d4c3dceadd0c2d41)\non domain mydomain::122053050d88....\n  Request: RemoveDar(12204bc4767d74039aad3fab9f92bdf15f59d08ff9c8224c946833b8e5415f2e45f1)\n  CorrelationId: 40e734ef2dd8028f8976bfbec8e0310f\n  Context: HashMap(participant -> participant1, test -> PackageDarManagementDocumentationIntegrationTest, pkg -> 9c022a1adf23eee51cb64a3a5d600ef83eadf1089044117cdf1e46e7553058d4, tid -> 40e734ef2dd8028f8976bfbec8e0310f)\n  Command ParticipantAdministration$dars$.remove invoked from cmd10000056.sc:1"
+  },
+  "264" : {
+    "command" : "val archiveIouCmd = ledger_api_utils.exercise(\"Archive\", Map.empty, iou.event)",
+    "output" : "archiveIouCmd : com.daml.ledger.api.v1.commands.Command = Command(\n  command = Exercise(\n    value = ExerciseCommand(\n      templateId = Some(\n        value = Identifier(\n          packageId = \"9c022a1adf23eee51cb64a3a5d600ef83eadf1089044117cdf1e46e7553058d4\",\n          moduleName = \"Iou\",\n          entityName = \"Iou\"\n        )\n      ),\n.."
+  },
+  "161" : {
+    "command" : "participant1.ledger_api.commands.submit(Seq(participant1.adminParty), Seq(createIouCmd))",
+    "output" : "res21: com.daml.ledger.api.v1.transaction.TransactionTree = TransactionTree(\n  transactionId = \"1220e16bf01517a3b3d05e9c762f7520f62d8fcd8f95f53d7762d264024943821f49\",\n  commandId = \"7198efab-093b-4aba-ae4c-91ebe84fc3ad\",\n  workflowId = \"\",\n  effectiveAt = Some(\n.."
+  },
+  "187" : {
+    "command" : "val darHash = participant1.dars.upload(\"dars/CantonExamples.dar\", vetAllPackages = false)",
+    "output" : "darHash : String = \"12204bc4767d74039aad3fab9f92bdf15f59d08ff9c8224c946833b8e5415f2e45f1\""
+  },
+  "172" : {
+    "command" : "val archiveIouCmd = ledger_api_utils.exercise(\"Archive\", Map.empty, iou.event)",
+    "output" : ".."
+  },
+  "271" : {
+    "command" : "participant1.topology.vetted_packages.authorize(TopologyChangeOp.Remove, participant1.id, packageIds, force = true)",
+    "output" : "res44: com.google.protobuf.ByteString = <ByteString@63efb1bf size=2386 contents=\"\\n\\317\\022\\n\\375\\017\\n\\370\\017\\n\\365\\017\\b\\001\\022 UO6kJigo12vgHp3NrFaaq6CbDbj78UP...\">"
+  },
+  "130" : {
+    "command" : "participant1.dars.remove(darHash)",
+    "output" : ""
+  },
+  "135" : {
+    "command" : "val packageIds = participant1.packages.list().filter(_.sourceDescription == \"CantonExamples\").map(_.packageId)",
+    "output" : "packageIds : Seq[String] = Vector(\n  \"86828b9843465f419db1ef8a8ee741d1eef645df02375ebf509cdc8c3ddd16cb\",\n  \"cc348d369011362a5190fe96dd1f0dfbc697fdfd10e382b9e9666f0da05961b7\",\n  \"e491352788e56ca4603acc411ffe1a49fefd76ed8b163af86cf5ee5f4c38645b\",\n  \"cb0552debf219cc909f51cbb5c3b41e9981d39f8f645b1f35e2ef5be2e0b858a\",\n  \"38e6274601b21d7202bb995bc5ec147decda5a01b68d57dda422425038772af7\",\n  \"a36e8cc4c06a26970b7309812a74f7efa85662bb1d01c4baa18a8fd0ecf6dc1f\",\n  \"99a2705ed38c1c26cbb8fe7acf36bbf626668e167a33335de932599219e0a235\",\n  \"a566728bb2d4ad0103eb11ff8140296f4cea4fc94f1f95ddc6c3e4f983d107f1\",\n  \"f20de1e4e37b92280264c08bf15eca0be0bc5babd7a7b5e574997f154c00cb78\",\n.."
+  },
+  "258" : {
+    "command" : "participant1.packages.remove(packageId)",
+    "output" : "ERROR com.digitalasset.canton.integration.EnterpriseEnvironmentDefinition$$anon$3 - Request failed for participant1.\n  GrpcRequestRefusedByServer: FAILED_PRECONDITION/PACKAGE_OR_DAR_REMOVAL_ERROR(9,23ca4899): Package 9c022a1adf23eee51cb64a3a5d600ef83eadf1089044117cdf1e46e7553058d4 is currently in-use by contract ContractId(00a25f342d5064d046786664ad9229b9c791a33f75c4e0c51d01b0269e06ac6cc1ca021220ff2e0d2d2ff46c590ad7a1c576d1e643c660b49483a0d5cb31924342c77bd49f) on domain mydomain::122053050d88.... It may also be in-use by other contracts.\n  Request: RemovePackage(9c022a1adf23eee51cb64a3a5d600ef83eadf1089044117cdf1e46e7553058d4,false)\n  CorrelationId: 23ca4899ef2a98109f8a2f01141e4da9\n  Context: HashMap(participant -> participant1, test -> PackageDarManagementDocumentationIntegrationTest, domain -> mydomain::122053050d88..., pkg -> 9c022a1adf23eee51cb64a3a5d600ef83eadf1089044117cdf1e46e7553058d4, tid -> 23ca4899ef2a98109f8a2f01141e4da9, contract -> ContractId(00a25f342d5064d046786664ad9229b9c791a33f75c4e0c51d01b0269e06ac6cc1ca021220ff2e0d2d2ff46c590ad7a1c576d1e643c660b49483a0d5cb31924342c77bd49f))\n  Command ParticipantAdministration$packages$.remove invoked from cmd10000103.sc:1"
+  },
+  "158" : {
+    "command" : "val packageId = participant1.packages.find(\"Iou\").head.packageId",
+    "output" : "packageId : String = \"9c022a1adf23eee51cb64a3a5d600ef83eadf1089044117cdf1e46e7553058d4\""
+  },
+  "55" : {
+    "command" : "participant2.packages.list_contents(darContent.main)",
+    "output" : "res7: Seq[com.digitalasset.canton.participant.admin.v0.ModuleDescription] = Vector(\n  ModuleDescription(name = \"CantonExamples\"),\n  ModuleDescription(name = \"ContractKeys\"),\n  ModuleDescription(name = \"SafePaint\"),\n  ModuleDescription(name = \"LockIou\"),\n  ModuleDescription(name = \"Iou\"),\n  ModuleDescription(name = \"Divulgence\"),\n  ModuleDescription(name = \"Paint\"),\n.."
+  },
+  "171" : {
+    "command" : "val iou = participant1.ledger_api.acs.find_generic(participant1.adminParty, _.templateId.isModuleEntity(\"Iou\", \"Iou\"))",
+    "output" : "iou : com.digitalasset.canton.admin.api.client.commands.LedgerApiTypeWrappers.WrappedCreatedEvent = WrappedCreatedEvent(\n  event = CreatedEvent(\n    eventId = \"#1220e16bf01517a3b3d05e9c762f7520f62d8fcd8f95f53d7762d264024943821f49:0\",\n    contractId = \"00ac6164979849ee6dfe436090254ebc2c652d5e8a5de78e7ba6392a4d1d469dcbca0212205bfb31479ef42fa1ae7affca646cafbf12402920bb953224d4c3dceadd0c2d41\",\n    templateId = Some(\n      value = Identifier(\n        packageId = \"9c022a1adf23eee51cb64a3a5d600ef83eadf1089044117cdf1e46e7553058d4\",\n        moduleName = \"Iou\",\n        entityName = \"Iou\"\n      )\n.."
+  },
+  "75" : {
+    "command" : "participant2.topology.vetted_packages.list()",
+    "output" : "res8: Seq[ListVettedPackagesResult] = Vector(\n  ListVettedPackagesResult(\n    context = BaseResult(\n      domain = \"Authorized\",\n      validFrom = 2024-02-23T08:17:44.112144Z,\n      validUntil = None,\n      operation = Add,\n      serialized = <ByteString@5c08dd08 size=2582 contents=\"\\n\\223\\024\\n\\301\\021\\n\\274\\021\\n\\271\\021\\022 0MP0id4z6fibkmgPUdIJciNgIZzc2bcUJ...\">,\n.."
+  },
+  "119" : {
+    "command" : "val darHash = participant1.dars.upload(\"dars/CantonExamples.dar\")",
+    "output" : "darHash : String = \"12204bc4767d74039aad3fab9f92bdf15f59d08ff9c8224c946833b8e5415f2e45f1\""
+  },
+  "287" : {
+    "command" : "participant1.dars.upload(\"dars/CantonExamples.dar\")",
+    "output" : "res46: String = \"12204bc4767d74039aad3fab9f92bdf15f59d08ff9c8224c946833b8e5415f2e45f1\""
+  },
+  "36" : {
+    "command" : "val dars = participant2.dars.list(filterName = \"CantonExamples\")",
+    "output" : "dars : Seq[com.digitalasset.canton.participant.admin.v0.DarDescription] = Vector(\n  DarDescription(\n    hash = \"12204bc4767d74039aad3fab9f92bdf15f59d08ff9c8224c946833b8e5415f2e45f1\",\n    name = \"CantonExamples\"\n  )\n)"
+  },
+  "146" : {
+    "command" : "val packages = participant1.packages.list().map(_.packageId).toSet",
+    "output" : "packages : Set[String] = HashSet(\n  \"86828b9843465f419db1ef8a8ee741d1eef645df02375ebf509cdc8c3ddd16cb\",\n  \"5921708ce82f4255deb1b26d2c05358b548720938a5a325718dc69f381ba47ff\",\n  \"cc348d369011362a5190fe96dd1f0dfbc697fdfd10e382b9e9666f0da05961b7\",\n  \"6839a6d3d430c569b2425e9391717b44ca324b88ba621d597778811b2d05031d\",\n  \"99a2705ed38c1c26cbb8fe7acf36bbf626668e167a33335de932599219e0a235\",\n  \"e22bce619ae24ca3b8e6519281cb5a33b64b3190cc763248b4c3f9ad5087a92c\",\n  \"d58cf9939847921b2aab78eaa7b427dc4c649d25e6bee3c749ace4c3f52f5c97\",\n  \"6c2c0667393c5f92f1885163068cd31800d2264eb088eb6fc740e11241b2bf06\",\n  \"23814c2011b113b47225f6ae8a1001bbc2dd7ae29bdf2a5c7943277ac58cd110\",\n.."
+  },
+  "190" : {
+    "command" : "participant1.topology.vetted_packages.authorize(TopologyChangeOp.Add, participant1.id, packageIds)",
+    "output" : "res29: com.google.protobuf.ByteString = <ByteString@43acbf66 size=2384 contents=\"\\n\\315\\022\\n\\373\\017\\n\\366\\017\\n\\363\\017\\022 AVrDnQ1BwLCywzjHMu1WHK3V1bIqBXxTJ...\">"
+  },
+  "47" : {
+    "command" : "participant2.packages.list()",
+    "output" : "res6: Seq[com.digitalasset.canton.participant.admin.v0.PackageDescription] = Vector(\n  PackageDescription(\n    packageId = \"86828b9843465f419db1ef8a8ee741d1eef645df02375ebf509cdc8c3ddd16cb\",\n    sourceDescription = \"CantonExamples\"\n  ),\n  PackageDescription(\n    packageId = \"cc348d369011362a5190fe96dd1f0dfbc697fdfd10e382b9e9666f0da05961b7\",\n    sourceDescription = \"CantonExamples\"\n.."
+  },
+  "200" : {
+    "command" : "participant1.topology.vetted_packages.authorize(TopologyChangeOp.Remove, participant1.id, packageIds, force = true)",
+    "output" : "res30: com.google.protobuf.ByteString = <ByteString@50e752ab size=2386 contents=\"\\n\\317\\022\\n\\375\\017\\n\\370\\017\\n\\365\\017\\b\\001\\022 AVrDnQ1BwLCywzjHMu1WHK3V1bIqBXx...\">"
+  },
+  "178" : {
+    "command" : "participant1.dars.remove(darHash)",
+    "output" : ""
+  },
+  "227" : {
+    "command" : "participant1.packages.remove(packageId)",
+    "output" : "ERROR com.digitalasset.canton.integration.EnterpriseEnvironmentDefinition$$anon$3 - Request failed for participant1.\n  GrpcRequestRefusedByServer: FAILED_PRECONDITION/PACKAGE_OR_DAR_REMOVAL_ERROR(9,27dee565): Package 9c022a1adf23eee51cb64a3a5d600ef83eadf1089044117cdf1e46e7553058d4 is currently vetted and available to use.\n  Request: RemovePackage(9c022a1adf23eee51cb64a3a5d600ef83eadf1089044117cdf1e46e7553058d4,false)\n  CorrelationId: 27dee565dda6e98cf8e2641205d508c4\n  Context: Map(participant -> participant1, test -> PackageDarManagementDocumentationIntegrationTest, tid -> 27dee565dda6e98cf8e2641205d508c4)\n  Command ParticipantAdministration$packages$.remove invoked from cmd10000087.sc:1"
+  },
+  "222" : {
+    "command" : "val packageId = participant1.packages.find(\"Iou\").head.packageId",
+    "output" : "packageId : String = \"9c022a1adf23eee51cb64a3a5d600ef83eadf1089044117cdf1e46e7553058d4\""
+  },
+  "232" : {
+    "command" : "val packageIds = participant1.topology.vetted_packages.list().map(_.item.packageIds).filter(_.contains(packageId)).head",
+    "output" : "packageIds : Seq[com.digitalasset.canton.package.LfPackageId] = Vector(\n  \"9c022a1adf23eee51cb64a3a5d600ef83eadf1089044117cdf1e46e7553058d4\",\n  \"a566728bb2d4ad0103eb11ff8140296f4cea4fc94f1f95ddc6c3e4f983d107f1\",\n.."
+  }
+}

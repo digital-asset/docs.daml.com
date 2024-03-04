@@ -14,15 +14,7 @@ To get the Participant Query Store (PQS) Docker image, run the following command
 Introduction
 ************
 
-The term operational datastore (ODS) usually refers to a database that mirrors
-the ledger and allows for efficient querying. The Participant Query Store
-(PQS) feature acts as an ODS for the participant node. PQS provides a
-unidirectional path for exporting data from the ledger event stream to a
-PostgreSQL datastore. Data is exported in an append-only fashion and provides
-a stable view of data for purposes such as point-in-time queries. It stores
-contract creation, contract archival, and exercise information in a PostgreSQL
-database using a JSONB column format. You access the data using SQL over a
-JDBC connection.
+The term operational datastore (ODS) usually refers to a database that mirrors the ledger and allows for efficient querying. The Participant Query Store (PQS) feature acts as an ODS for the participant node. It stores contract creation, contract archival, and exercise information in a PostgreSQL database using a JSONB column format. You access the data using SQL over a JDBC connection.
 
 The PQS is intended for high throughput and complex queries, for which the Canton ledger (gRPC Ledger API) and the JSON API are not optimized. The PQS is useful for:
 
@@ -33,6 +25,65 @@ The PQS is intended for high throughput and complex queries, for which the Canto
 -  Report writers to extract historical data and then stream indefinitely (either from the start of the ledger or from a specific offset).
 
 There are many other uses.
+
+In the Early Access implementation, the PQS provides a unidirectional path for exporting data from the ledger event stream to a PostgreSQL datastore. Data is exported in an append-only fashion and provides a stable view of data for purposes such as point-in-time queries.
+
+Early Access purpose and limitations
+************************************
+
+The Early Access (EA) release allows users to learn about the architecture and programming model of the PQS. This enhancement to the participant node provides new capabilities that can take time to explore. The EA release is not fully production-ready, but is rapidly becoming enterprise-hardened. Since applications take time to develop, the EA version is recommended for learning and development. New patch releases are provided as enhancements are made and gaps are closed.
+
+The current limitations of the EA version are:
+
+-  PQS has not been performance optimized, so it is not yet ready for large- or high-throughput queries.
+-  As is typical of EA releases, backward compatibility between EA releases may be sacrificed to make improvements in the user experience and design of PQS. You may need to make adjustments in your use through the EA period.
+
+Future early access releases are planned to remove or reduce these limitations. Please check back to this section for announcements of a new early access release.
+
+Early Access release versions
+=============================
+
+The historical table below lists the available Early Access releases of the Participant Query Store. Click the date to download the JAR.
+
++---------------+-----------------------------------------------------+
+| Date          | Description                                         |
++===============+=====================================================+
+| `2023-08-09`_ | Initial early access release.                       |
++---------------+-----------------------------------------------------+
+| `2023-08-31`_ | Added OAuth support.                                |
++---------------+-----------------------------------------------------+
+| `2023-09-06`_ | Documentation updated. Added *PQS Schema Design*,   |
+|               | *Offset Management*, *Querying Patterns*, *Advanced |
+|               | Querying Topics* sections.                          |
++---------------+-----------------------------------------------------+
+| `2023-09-18`_ | Documentation updated. Updated command line         |
+|               | options and added information about using           |
+|               | ``--pipeline-filter`` option.                       |
++---------------+-----------------------------------------------------+
+| `2023-09-19`_ | New release. JDBC driver fix to not inject ``?``.   |
+|               | ``--target-postgres-autoapplyschema`` renamed to    |
+|               | ``--target-schema-autoapply``                       |
++---------------+-----------------------------------------------------+
+| `2023-09-22`_ | New release. Added pruning documentation.           |
+|               | Environment variables now have ``SCRIBE_`` prefix   |
+|               | to avoid name clashes. Updated the                  |
+|               | ``--pipeline-parties`` option information.          |
++---------------+-----------------------------------------------------+
+| `2023-09-26`_ | New release. The filter is now applied on the DB    |
+|               | functions, such as choices.                         |
++---------------+-----------------------------------------------------+
+| `2023-10-06`_ | New release.  JWT audience bug fix.  Name format    |
+|               | change.                                             |
++---------------+-----------------------------------------------------+
+
+.. _2023-08-09: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B2986-e45c930.tar.gz
+.. _2023-08-31: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B3614-6b5f082.tar.gz
+.. _2023-09-06: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B3614-6b5f082.tar.gz
+.. _2023-09-18: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B3614-6b5f082.tar.gz
+.. _2023-09-19: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B4004-3b542d2.tar.gz
+.. _2023-09-22: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B4057-a74e52c.tar.gz
+.. _2023-09-26: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.1-main%2B4073-9c286ff.tar.gz
+.. _2023-10-06: https://digitalasset.jfrog.io/artifactory/scribe/scribe-v0.0.2-main.20231006.156.4444.vbb4c8a1.tar.gz
 
 Overview
 ********
@@ -148,7 +199,7 @@ How a participant node (PN) models time
 
 Understanding time in a distributed application is challenging because there is no global clock. This section describes how a participant node understands time. If you are familiar with Canton, skip this section and move to the section :ref:`Time Model within PQS <pqs-time-model>`.
 
-A participant node models time advancing in its local ledger using an index called an *offset*. An offset is a unique index of the participant node's local ledger. You can think of this as selecting an item in the ledger using a specific offset (or index) into the ledger. For example, in the figure, Participant A has transaction “ABC” at offset #011. An offset represents a point in time of that participant node and a given sync domain, where the offset values order the events that are changes to the ledger. Specifically, subscribers to UpdateService observe the order for a specific sync domain. 
+A participant node models time advancing in its local ledger using an index called an *offset*. An offset is a unique index of the participant node's local ledger. You can think of this as selecting an item in the ledger using a specific offset (or index) into the ledger. For example, in the figure, Participant A has transaction “ABC” at offset #011. An offset represents a point in time of that participant node and a given domain, where the offset values order the events that are changes to the ledger. Specifically, subscribers to UpdateService observe the order for a specific domain. 
 
 In general, a larger participant offset means that the event happened after the event at a smaller participant offset in that participant node. Since ledger entries can be made at any time, they can advance at different rates. For example, Participant A may only process requests every several minutes, so its offset counters increase slowly. However, Participant B may be processing requests very frequently, so its offset counters may increase several times a second. 
 
@@ -157,7 +208,7 @@ The sequence of offsets of a participant may contain gaps. That is because some 
 .. image:: ./images/offset-sequence.svg
    :alt: Charts of offsets and transactions for two participants connected by a sync domain
 
-You cannot compare offset values across participants. The same ledger change (such as a transaction) for multiple participant nodes is stored at a different offset in each participant node. For example, in the figure, the transaction ABC is at offset #011 in Participant A but at offset #010 in Participant B. Similarly, the same offset value across participant nodes refers to different ledger changes. In the figure, Participant A's offset #011 records “Tx ABC” while Participant B's offset #011 records “Tx DEF”. Comparing offsets across sync domains does not provide a causal ordering of the events because there is no common reference.
+You cannot compare offset values across participants. The same ledger change (such as a transaction) for multiple participant nodes is stored at a different offset in each participant node. For example, in the figure, the transaction ABC is at offset #011 in Participant A but at offset #010 in Participant B. Similarly, the same offset value across participant nodes refers to different ledger changes. In the figure, Participant A's offset #011 records “Tx ABC” while Participant B's offset #011 records “Tx DEF”. Comparing offsets across synchronization domains does not provide a causal ordering of the events because there is no common reference.
 
 Single offset values returned by the Ledger API can be used as-is (for example, to keep track of processed transactions and provide an application restart point in case you need to retry the request). 
 
@@ -296,7 +347,7 @@ Meet prerequisites
 
 Here are the prerequisites to run PQS:
 
--  A PostgreSQL database that can be reached from the PQS. Note that PQS uses the JSONB data type for storing JSON data, which requires Postgres versions 11 through 16.
+-  A PostgreSQL database that can be reached from the PQS. Note that PQS uses the JSONB data type for storing JSON data, which requires Postgres versions 11, 13, and 15.
 -  An empty database (recommended) to avoid schema and table collisions.
 -  Daml ledger as the source of events. m/TLS is supported for the participant node ledger API. Alternatively, it can run against the ``Sandbox``.
 -  Installation of `The Daml Enterprise SDK <https://docs.daml.com/getting-started/installation.html#install-daml-enterprise>`__.
@@ -304,7 +355,7 @@ Here are the prerequisites to run PQS:
 Deploy the Scribe component
 ===========================
 
-The PQS consists of two components: the PostgreSQL database and a ledger component called *Scribe*, as shown in the figure. Scribe is packaged as a Java JAR file and is available from `the Digital Asset Artifactory path <https://digitalasset.jfrog.io/ui/native/scribe>`__.
+The PQS consists of two components: the PostgreSQL database and a ledger component called *Scribe*, as shown in the figure. Scribe is packaged as a Java JAR file. To run the PQS during Early Access, retrieve ``scribe.jar`` from `the Digital Asset Artifactory path <https://digitalasset.jfrog.io/ui/native/scribe>`__.
 
 .. image:: ./images/scribe.svg
    :alt: A diagram showing the components of the Participant Query Store
@@ -394,105 +445,54 @@ You can discover commands and parameters through the embedded ``--help`` (rememb
 .. code-block:: bash
 
     ./scribe.jar pipeline --help
-   Usage: scribe pipeline SOURCE TARGET [OPTIONS]
+    Usage: pipeline SOURCE TARGET [OPTIONS]
 
-   Initiate continuous ledger data export
+    Initiate continuous ledger data export
 
-   Available sources:
-   ledger    Daml ledger
+    Available sources:
+      ledger   Daml ledger
 
-   Available targets:
-   postgres-document    Postgres database (w/ document payload representation)
+    Available targets:
+      postgres-document   Postgres database (w/ document payload representation)
+      postgres-relational Postgres database (w/ relational payload representation)
 
-   Options:
-   --config file                              Path to configuration overrides via an external HOCON file (optional)
-   --pipeline-datasource enum                 Ledger API service to use as data source (default: TransactionStream)
-   --pipeline-oauth-clientid string           Client's identifier (optional)
-   --pipeline-oauth-accesstoken string        Access token (optional)
-   --pipeline-oauth-parameters map            Custom parameters
-   --pipeline-oauth-cafile file               Trusted Certificate Authority (CA) certificate (optional)
-   --pipeline-oauth-endpoint uri              Token endpoint URL (optional)
-   --pipeline-oauth-clientsecret string       Client's secret (optional)
-   --pipeline-filter-parties string           Filter expression determining Daml party identifiers to filter on (default: *)
-   --pipeline-filter-metadata string          Filter expression determining which templates and interfaces to capture metadata for (default: !*)
-   --pipeline-filter-contracts string         Filter expression determining which templates and interfaces to include (default: *)
-   --pipeline-ledger-start [enum | string]    Start offset (default: Latest)
-   --pipeline-ledger-stop [enum | string]     Stop offset (default: Never)
-   --health-port int                          HTTP port to use to expose application health info (default: 8080)
-   --logger-level enum                        Log level (default: Info)
-   --logger-mappings map                      Custom mappings for log levels
-   --logger-format enum                       Log output format (default: Plain)
-   --logger-pattern [enum | string]           Log pattern (default: Plain)
-   --target-postgres-host string              Postgres host (default: localhost)
-   --target-postgres-tls-mode enum            SSL mode required for Postgres connectivity (default: Disable)
-   --target-postgres-tls-cert file            Client's certificate (optional)
-   --target-postgres-tls-key file             Client's private key (optional)
-   --target-postgres-tls-cafile file          Trusted Certificate Authority (CA) certificate (optional)
-   --target-postgres-maxconnections int       Maximum number of JDBC connections (default: 16)
-   --target-postgres-password string          Postgres user password (default: ********)
-   --target-postgres-username string          Postgres user name (default: postgres)
-   --target-postgres-database string          Postgres database (default: postgres)
-   --target-postgres-port int                 Postgres port (default: 5432)
-   --target-schema-autoapply boolean          Apply metadata inferred schema on startup (default: true)
-   --source-ledger-host string                Ledger API host (default: localhost)
-   --source-ledger-auth enum                  Authorisation mode (default: NoAuth)
-   --source-ledger-tls-cafile file            Trusted Certificate Authority (CA) certificate (optional)
-   --source-ledger-tls-cert file              Client's certificate (leave empty if embedded into private key file) (optional)
-   --source-ledger-tls-key file               Client's private key (leave empty for server-only TLS) (optional)
-   --source-ledger-port int                   Ledger API port (default: 6865)
+    Options:
+      --config file                                Path to configuration overrides via an external HOCON file (optional)
+      --pipeline-parties string                    Daml party identifiers to filter on (comma-separated) (default: List())
+      --pipeline-oauth-clientid string             Client's identifier (optional)
+      --pipeline-oauth-cafile file                 Trusted Certificate Authority (CA) certificate (optional)
+      --pipeline-oauth-endpoint uri                Token endpoint URL (optional)
+      --pipeline-oauth-clientsecret string         Client's secret (optional)
+      --pipeline-filter string                     Filter expression determining which templates and interfaces to include (default: *)
+      --pipeline-ledger-start [enum | string]      Start offset (default: Latest)
+      --pipeline-ledger-stop [enum | string]       Stop offset (default: Never)
+      --pipeline-datasource enum                   Ledger API service to use as data source (default: TransactionStream)
+      --logger-level enum                          Log level (default: Info)
+      --logger-mappings map                        Custom mappings for log levels
+      --logger-format enum                         Log output format (default: Plain)
+      --logger-pattern [enum | string]             Log pattern (default: Plain)
+      --target-postgres-host string                Postgres host (default: localhost)
+      --target-postgres-tls-mode enum              SSL mode required for Postgres connectivity (default: Disable)
+      --target-postgres-tls-cert file              Client's certificate (optional)
+      --target-postgres-tls-key file               Client's private key (optional)
+      --target-postgres-tls-cafile file            Trusted Certificate Authority (CA) certificate (optional)
+      --target-postgres-password string            Postgres user password (default: ********)
+      --target-postgres-username string            Postgres user name (default: postgres)
+      --target-postgres-database string            Postgres database (default: postgres)
+      --target-postgres-port int                   Postgres port (default: 5432)
+      --target-schema-autoapply boolean            Apply metadata inferred schema on startup (default: true)
+      --source-ledger-host string                  Ledger API host (default: localhost)
+      --source-ledger-auth enum                    Authorisation mode (default: NoAuth)
+      --source-ledger-tls-cafile file              Trusted Certificate Authority (CA) certificate (optional)
+      --source-ledger-tls-cert file                Client's certificate (leave empty if embedded into private key file) (optional)
+      --source-ledger-tls-key file                 Client's private key (leave empty for server-only TLS) (optional)
+      --source-ledger-port int                     Ledger API port (default: 6865)
 
 For more help, use the command:
 
 .. code-block:: bash
 
     ./scribe.jar pipeline --help-verbose
-
-Use a ``--config`` file to define multiple options or reflect an infrastructure-as-code approach. Here's an example configuration file:
-
-.. code-block:: none
-
-   {
-      health.port = 8080
-
-      logger {
-         # level = "Debug"
-         format = "Plain"
-         pattern = "Plain"
-      }
-
-      pipeline {
-         datasource = "TransactionStream"
-
-         filter {
-            parties = "*"
-            metadata = "!*"
-            contracts = "*"
-         }
-
-         ledger {
-            start = "Latest"
-            stop = "Never"
-         }
-      }
-
-      source {
-         ledger {
-            host = "canton"
-            port = 10011
-         }
-      }
-
-      target {
-         postgres {
-            host = "pqs-postgres"
-            port = 5432
-            username = "postgres"
-            database = "postgres"
-            maxConnections = 16
-         }
-      }
-      schema.autoApply = true
-   }
 
 Following is an example of a basic command to run PQS to extract all data, including exercises, for a party with the display name Alice. You can replace the argument values with those that match your environment.
 
@@ -968,7 +968,7 @@ PQS analyzes package metadata as part of its operation and displays the required
 PQS database schema
 ===================
 
-The following schema is representative for the exported ledger data. It is subject to change since it is hidden behind the table functions.
+The following schema is representative for the exported ledger data. It is subject to change, as it is an Early Access feature.
 
 .. code-block:: bash
 

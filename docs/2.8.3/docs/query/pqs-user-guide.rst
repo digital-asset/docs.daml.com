@@ -148,7 +148,7 @@ How a participant node (PN) models time
 
 Understanding time in a distributed application is challenging because there is no global clock. This section describes how a participant node understands time. If you are familiar with Canton, skip this section and move to the section :ref:`Time Model within PQS <pqs-time-model>`.
 
-A participant node models time advancing in its local ledger using an index called an *offset*. An offset is a unique index of the participant node's local ledger. You can think of this as selecting an item in the ledger using a specific offset (or index) into the ledger. For example, in the figure, Participant A has transaction “ABC” at offset #011. An offset represents a point in time of that participant node and a given sync domain, where the offset values order the events that are changes to the ledger. Specifically, subscribers to UpdateService observe the order for a specific sync domain. 
+A participant node models time advancing in its local ledger using an index called an *offset*. An offset is a unique index of the participant node's local ledger. You can think of this as selecting an item in the ledger using a specific offset (or index) into the ledger. For example, in the figure, Participant A has transaction “ABC” at offset #011. An offset represents a point in time of that participant node and a given domain, where the offset values order the events that are changes to the ledger. Specifically, subscribers to UpdateService observe the order for a specific domain. 
 
 In general, a larger participant offset means that the event happened after the event at a smaller participant offset in that participant node. Since ledger entries can be made at any time, they can advance at different rates. For example, Participant A may only process requests every several minutes, so its offset counters increase slowly. However, Participant B may be processing requests very frequently, so its offset counters may increase several times a second. 
 
@@ -157,7 +157,7 @@ The sequence of offsets of a participant may contain gaps. That is because some 
 .. image:: ./images/offset-sequence.svg
    :alt: Charts of offsets and transactions for two participants connected by a sync domain
 
-You cannot compare offset values across participants. The same ledger change (such as a transaction) for multiple participant nodes is stored at a different offset in each participant node. For example, in the figure, the transaction ABC is at offset #011 in Participant A but at offset #010 in Participant B. Similarly, the same offset value across participant nodes refers to different ledger changes. In the figure, Participant A's offset #011 records “Tx ABC” while Participant B's offset #011 records “Tx DEF”. Comparing offsets across sync domains does not provide a causal ordering of the events because there is no common reference.
+You cannot compare offset values across participants. The same ledger change (such as a transaction) for multiple participant nodes is stored at a different offset in each participant node. For example, in the figure, the transaction ABC is at offset #011 in Participant A but at offset #010 in Participant B. Similarly, the same offset value across participant nodes refers to different ledger changes. In the figure, Participant A's offset #011 records “Tx ABC” while Participant B's offset #011 records “Tx DEF”. Comparing offsets across synchronization domains does not provide a causal ordering of the events because there is no common reference.
 
 Single offset values returned by the Ledger API can be used as-is (for example, to keep track of processed transactions and provide an application restart point in case you need to retry the request). 
 
@@ -394,52 +394,52 @@ You can discover commands and parameters through the embedded ``--help`` (rememb
 .. code-block:: bash
 
     ./scribe.jar pipeline --help
-   Usage: scribe pipeline SOURCE TARGET [OPTIONS]
+    Usage: scribe pipeline SOURCE TARGET [OPTIONS]
 
-   Initiate continuous ledger data export
+    Initiate continuous ledger data export
 
-   Available sources:
-   ledger    Daml ledger
+    Available sources:
+      ledger    Daml ledger
 
-   Available targets:
-   postgres-document    Postgres database (w/ document payload representation)
-
-   Options:
-   --config file                              Path to configuration overrides via an external HOCON file (optional)
-   --pipeline-datasource enum                 Ledger API service to use as data source (default: TransactionStream)
-   --pipeline-oauth-clientid string           Client's identifier (optional)
-   --pipeline-oauth-accesstoken string        Access token (optional)
+    Available targets:
+      postgres-document    Postgres database (w/ document payload representation)
+      
+    Options:
+      --config file                              Path to configuration overrides via an external HOCON file (optional)
+      --pipeline-datasource enum                 Ledger API service to use as data source (default: TransactionStream)
+      --pipeline-oauth-clientid string           Client's identifier (optional)
+      --pipeline-oauth-accesstoken string        Access token (optional)
    --pipeline-oauth-parameters map            Custom parameters
    --pipeline-oauth-cafile file               Trusted Certificate Authority (CA) certificate (optional)
-   --pipeline-oauth-endpoint uri              Token endpoint URL (optional)
-   --pipeline-oauth-clientsecret string       Client's secret (optional)
-   --pipeline-filter-parties string           Filter expression determining Daml party identifiers to filter on (default: *)
+      --pipeline-oauth-endpoint uri              Token endpoint URL (optional)
+      --pipeline-oauth-clientsecret string       Client's secret (optional)
+      --pipeline-filter-parties string           Filter expression determining Daml party identifiers to filter on (default: *)
    --pipeline-filter-metadata string          Filter expression determining which templates and interfaces to capture metadata for (default: !*)
    --pipeline-filter-contracts string         Filter expression determining which templates and interfaces to include (default: *)
-   --pipeline-ledger-start [enum | string]    Start offset (default: Latest)
-   --pipeline-ledger-stop [enum | string]     Stop offset (default: Never)
-   --health-port int                          HTTP port to use to expose application health info (default: 8080)
-   --logger-level enum                        Log level (default: Info)
-   --logger-mappings map                      Custom mappings for log levels
-   --logger-format enum                       Log output format (default: Plain)
-   --logger-pattern [enum | string]           Log pattern (default: Plain)
-   --target-postgres-host string              Postgres host (default: localhost)
-   --target-postgres-tls-mode enum            SSL mode required for Postgres connectivity (default: Disable)
-   --target-postgres-tls-cert file            Client's certificate (optional)
-   --target-postgres-tls-key file             Client's private key (optional)
-   --target-postgres-tls-cafile file          Trusted Certificate Authority (CA) certificate (optional)
+      --pipeline-ledger-start [enum | string]    Start offset (default: Latest)
+      --pipeline-ledger-stop [enum | string]     Stop offset (default: Never)
+      --health-port int                          HTTP port to use to expose application health info (default: 8080)
+      --logger-level enum                        Log level (default: Info)
+      --logger-mappings map                      Custom mappings for log levels
+      --logger-format enum                       Log output format (default: Plain)
+      --logger-pattern [enum | string]           Log pattern (default: Plain)
+      --target-postgres-host string              Postgres host (default: localhost)
+      --target-postgres-tls-mode enum            SSL mode required for Postgres connectivity (default: Disable)
+      --target-postgres-tls-cert file            Client's certificate (optional)
+      --target-postgres-tls-key file             Client's private key (optional)
+      --target-postgres-tls-cafile file          Trusted Certificate Authority (CA) certificate (optional)
    --target-postgres-maxconnections int       Maximum number of JDBC connections (default: 16)
-   --target-postgres-password string          Postgres user password (default: ********)
-   --target-postgres-username string          Postgres user name (default: postgres)
-   --target-postgres-database string          Postgres database (default: postgres)
-   --target-postgres-port int                 Postgres port (default: 5432)
-   --target-schema-autoapply boolean          Apply metadata inferred schema on startup (default: true)
-   --source-ledger-host string                Ledger API host (default: localhost)
-   --source-ledger-auth enum                  Authorisation mode (default: NoAuth)
-   --source-ledger-tls-cafile file            Trusted Certificate Authority (CA) certificate (optional)
-   --source-ledger-tls-cert file              Client's certificate (leave empty if embedded into private key file) (optional)
-   --source-ledger-tls-key file               Client's private key (leave empty for server-only TLS) (optional)
-   --source-ledger-port int                   Ledger API port (default: 6865)
+      --target-postgres-password string          Postgres user password (default: ********)
+      --target-postgres-username string          Postgres user name (default: postgres)
+      --target-postgres-database string          Postgres database (default: postgres)
+      --target-postgres-port int                 Postgres port (default: 5432)
+      --target-schema-autoapply boolean          Apply metadata inferred schema on startup (default: true)
+      --source-ledger-host string                Ledger API host (default: localhost)
+      --source-ledger-auth enum                  Authorisation mode (default: NoAuth)
+      --source-ledger-tls-cafile file            Trusted Certificate Authority (CA) certificate (optional)
+      --source-ledger-tls-cert file              Client's certificate (leave empty if embedded into private key file) (optional)
+      --source-ledger-tls-key file               Client's private key (leave empty for server-only TLS) (optional)
+      --source-ledger-port int                   Ledger API port (default: 6865)
 
 For more help, use the command:
 
@@ -450,7 +450,7 @@ For more help, use the command:
 Use a ``--config`` file to define multiple options or reflect an infrastructure-as-code approach. Here's an example configuration file:
 
 .. code-block:: none
-
+   
    {
       health.port = 8080
 

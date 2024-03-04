@@ -261,6 +261,8 @@ subtrees:
             title: "Build Projects"
           - file: tools/assistant-commands
             title: "Run Commands"
+      - file: tools/daml-shell/index
+        title: "Daml Shell"
       - file: tools/canton-console
         title: "Canton Console"
       - file: deploy/generic_ledger

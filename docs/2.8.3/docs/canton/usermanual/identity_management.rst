@@ -10,19 +10,19 @@ Identity Management
 On-ledger identity management focuses on the distributed aspect of identities across Canton system entities, while
 user identity management focuses on individual participants managing access of their users to their ledger APIs.
 
-Canton comes with a built-in identity management system used to manage on-ledger identities. The technical details
-are explained in the :ref:`architecture section <identity-manager-1>`, while this write-up here is meant to give a high
+Canton comes with a built in identity management system used to manage on-ledger identities. The technical details
+are explained in the :ref:`architecture section <identity-manager-1>`, while this write up here is meant to give a high
 level explanation.
 
 The identity management system is self-contained and built without a trusted central entity or pre-defined root
-certificate such that anyone can connect with anyone, without the need for some central approval and without the
+certificate such that anyone can connect with anyone, without the need of some central approval and without the
 danger of losing self-sovereignty.
 
 Introduction
 ------------
 What is a Canton Identity?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-When two system entities such as a participant, sync domain topology manager, mediator or sequencer communicate
+When two system entities such as a participant, domain topology manager, mediator or sequencer communicate
 with each other, they will use asymmetric cryptography to encrypt messages and sign message contents
 such that only the recipient can decrypt the content, verify the authenticity of the message, or prove its origin.
 Therefore, we need a method to uniquely identify the system entities and a way to associate encryption and signing keys
@@ -30,7 +30,7 @@ with them.
 
 On top of that, Canton uses the contract language Daml, which represents contract ownership and rights
 through `parties <https://docs.daml.com/concepts/glossary.html#party>`_. But parties are not primary members
-of the Canton synchronization protocol. They are represented by participants and therefore we need to
+of the Canton synchronisation protocol. They are represented by participants and therefore we need to
 uniquely identify parties and relate them to participants, such that a participant can represent several
 parties (and in Canton, a party can be represented by several participants).
 
@@ -38,15 +38,15 @@ Unique Identifier
 ~~~~~~~~~~~~~~~~~
 A Canton identity is built out of two components: a random string ``X`` and a fingerprint of a public key ``N``.
 This combination, ``(X,N)``, is called a *unique identifier* and is assumed to be globally unique by design.
-This unique identifier is used in Canton to refer to particular parties, participants, or sync domain entities.
+This unique identifier is used in Canton to refer to particular parties, participants or domain entities.
 A system entity (such as a party) is described by the combination of role (party, participant, mediator, sequencer,
-sync domain topology manager) and its unique identifier.
+domain topology manager) and its unique identifier.
 
-The system entities require knowledge about the keys that are used for encryption and signing by the
+The system entities require knowledge about the keys which will be used for encryption and signing by the
 respective other entities.
 This knowledge is distributed and therefore, the system entities require a way to verify that a certain
 association of an entity with a key is correct and valid. This is the purpose of the fingerprint
-of a public key in the unique identifier, which is referred to as *Namespace*. The secret key of the
+of a public key in the unique identifier, which is referred to as *Namespace*. And the secret key of the
 corresponding namespace acts as the *root of trust* for that particular namespace, as explained later.
 
 .. _identity-transactions:
@@ -54,7 +54,7 @@ corresponding namespace acts as the *root of trust* for that particular namespac
 Topology Transactions
 ~~~~~~~~~~~~~~~~~~~~~
 In order to remain flexible and be able to change keys and cryptographic algorithms, we don't identify the
-entities using a single static key, but we need a way to dynamically associate participants or sync domain entities
+entities using a single static key, but we need a way to dynamically associate participants or domain entities
 with keys and parties with participants. We do this through topology transactions.
 
 A topology transaction establishes a certain association of a unique identifier with either a key or a relationship
@@ -69,8 +69,9 @@ Now, this poses two questions: who authorizes these transactions, and who distri
 For the authorization, we need to look at the second part of the unique identifier, the *Namespace*. A
 topology transaction that refers to a particular unique identifier operates on that namespace and we require
 that such a topology transaction is authorized by the corresponding secret key through a cryptographic
-signature of the serialized topology transaction. This authorization can be either direct, if it is signed
-by the secret key of the namespace, or indirect, if it is signed by a delegated key. To delegate the signing right to another key, there are other topology transactions of type *NamespaceDelegation* or
+signature of the serialised topology transaction. This authorization can be either direct, if it is signed
+by the secret key of the namespace, or indirect, if it is signed by a delegated key. In order
+to delegate the signing right to another key, there are other topology transactions of type *NamespaceDelegation* or
 *IdentifierDelegation* that allow one to do that. A :ref:`namespace delegation <namespace-delegation>` delegates
 entire namespaces to a certain key, such as saying the key identifier through the fingerprint *AABBCCDDEE...* is now
 allowed to authorize topology transactions within the namespace of the key *VVWWXXYYZZ...*. An
@@ -78,29 +79,29 @@ allowed to authorize topology transactions within the namespace of the key *VVWW
 which means that the delegation key can only authorize topology transactions that act on a specific identifier and not
 the entire namespace.
 
-Signing of topology transactions happens in a ``TopologyManager``. Canton has many topology managers. Every
-participant node and every sync domain have topology managers with exactly the same functional capabilities, just different
-impacts. They can create new keys, new namespaces, and the identity of new participants, parties, and sync domains. And
-they can export these topology transactions such that they can be imported by another topology manager. This allows you to
+Now, signing of topology transactions happens in a ``TopologyManager``. Canton has many topology managers. In fact, every
+participant node and every domain have topology managers with exactly the same functional capabilities, just different
+impact. They can create new keys, new namespaces and the identity of new participants, parties and even domains. And
+they can export these topology transactions such that they can be imported at another topology manager. This allows to
 manage Canton identities in quite a wide range of ways. A participant can operate their own topology manager which
 allows them individually to manage their parties. Or they can associate themselves with another topology manager and let them
 manage the parties that they represent or keys they use. Or something in between, depending on the introduced
 delegations and associations.
 
-The difference between the sync domain topology manager and the participant topology manager is that the sync domain topology
-manager establishes the valid topology state in a particular sync domain by distributing topology transactions in a way that
-every sync domain member ends up with the same topology state. However, the sync domain topology manager is just a gatekeeper of
-the sync domain that decides who is let in and who is not on that particular sync domain, but the actual topology statements originate from
-various sources. As such, the sync domain topology manager can only block the distribution, but cannot fake topology
+The difference between the domain topology manager and the participant topology manager is that the domain topology
+manager establishes the valid topology state in a particular domain by distributing topology transactions in a way that
+every domain member ends up with the same topology state. However, the domain topology manager is just a gate keeper of
+the domain that decides who is let in and who not on that particular domain, but the actual topology statements originate from
+various sources. As such, the domain topology manager can only block the distribution, but cannot fake topology
 transactions.
 
 The participant topology manager only manages an isolated topology state. However, there is a dispatcher attached to
-this particular topology manager that attempts to register locally registered identities with remote sync domains, by sending
-them to the sync domain topology managers, who then decide on whether they want to include them or not.
+this particular topology manager that attempts to register locally registered identities with remote domains, by sending
+them to the domain topology managers, who then decide on whether they want to include them or not.
 
 The careful reader will have noted that the described identity system indeed does not have a single root of trust or
 decision maker on who is part of the overall system or not. But also that the topology state for the distributed
-synchronization varies from sync domain to sync domain, allowing very flexible topologies and setups.
+synchronisation varies from domain to domain, allowing very flexible topologies and setups.
 
 Legal Identities
 ~~~~~~~~~~~~~~~~
@@ -108,7 +109,7 @@ In Canton, we separate a system identity from the legal identity. While the abov
 establish a common, verified and authorized knowledge of system entities, it doesn't guarantee that a
 certain unique identifier really corresponds to a particular legal identity. Even more so, while the
 unique identifier remains stable, a legal identity might change, for example in the case of a merger of
-two companies. Therefore, Canton provides an administrative command which allows one to associate a randomized
+two companies. Therefore, Canton provides an administrative command which allows to associate a randomized
 system identity with a human readable *display name* using the ``participant.parties.set_display_name`` command.
 
 ..  note::
@@ -124,16 +125,16 @@ is added:
 
 1. The ``participant.parties.enable`` function determines the unique identifier of the participant: ``participant.id``.
 2. The party name is built as ``name::<namespace>``, where the ``namespace`` is the one of the participant.
-3. A new party-to-participant mapping is authorized on the Admin API: ``participant.topology.party_to_participant_mappings.authorize(...)``
+3. A new party to participant mapping is authorized on the Admin Api: ``participant.topology.party_to_participant_mappings.authorize(...)``
 4. The ``ParticipantTopologyManager`` gets invoked by the GRPC request, creating a new ``SignedTopologyTransaction`` and
    tests whether the authorization can be added to the local topology state. If it can, the new topology transaction
    is added to the store.
-5. The ``ParticipantTopologyDispatcher`` picks up the new transaction and requests the addition on all sync domains via the
+5. The ``ParticipantTopologyDispatcher`` picks up the new transaction and requests the addition on all domains via the
    ``RegisterTopologyTransactionRequest`` message sent to the topology manager through the sequencer.
-6. A sync domain receives this request and processes it according to the policy (open or permissioned). The default setting
+6. A domain receives this request and processes it according to the policy (open or permissioned). The default setting
    is open.
 7. If approved, the request service attempts to add the new topology transaction to the ``DomainTopologyManager``.
-8. The ``DomainTopologyManager`` checks whether the new topology transaction can be added to the sync domain topology state. If
+8. The ``DomainTopologyManager`` checks whether the new topology transaction can be added to the domain topology state. If
    yes, it gets written to the local topology store.
 9. The ``DomainTopologyDispatcher`` picks up the new transaction and sends it to all participants (and back to itself)
    through the sequencer.
@@ -144,13 +145,13 @@ is added:
 Note that the ``participant.parties.enable`` macro only works if the participant controls their namespace themselves, either
 directly by having the namespace key or through delegation (via ``NamespaceDelegation``).
 
-.. TODO(i9579): adjust documentation in step 6 for closed sync domains
+.. TODO(i9579): adjust documentation in step 6 for closed domains
 
 Participant Onboarding
 ~~~~~~~~~~~~~~~~~~~~~~
-Key to supporting topological flexibility is that participants can easily be added to new syncrhonizers. Therefore, the
-on-boarding of new participants to sync domains needs to be secure but convenient. Looking at the console command, we note
-that in most examples, we are using the ``connect`` command to connect a participant to a sync domain. The connect command
+Key to support topological flexibility is that participants can easily be added to new domains. Therefore, the
+on-boarding of new participants to domains needs to be secure but convenient. Looking at the console command, we note
+that in most examples, we are using the ``connect`` command to connect a participant to a domain. The connect command
 just wraps a set of admin-api commands:
 
 .. literalinclude:: /canton/includes/mirrored/community/app-base/src/main/scala/com/digitalasset/canton/console/commands/ParticipantAdministration.scala
@@ -166,101 +167,101 @@ just wraps a set of admin-api commands:
    :dedent:
 
 We note that from a user perspective, all that needs to happen by default is to provide the connection information and
-accept the terms of service (if required by the sync domain) to set up a new sync domain connection. There is no separate
-onboarding step performed, no giant certificate signing exercise happens, everything is set up during the
+accepting the terms of service (if required by the domain) to set up a new domain connection. There is no separate
+on-boarding step performed, no giant certificate signing exercise happens, everything is set up during the
 first connection attempt. However, quite a few steps happen behind the scenes. Therefore, we briefly
 summarise the process here step by step:
 
-1. The administrator of an existing participant needs to invoke the ``domains.register`` command to add a new sync domain.
-   The mandatory arguments are a sync domain *alias* (used internally to refer to a particular connection) and the
+1. The administrator of an existing participant needs to invoke the ``domains.register`` command to add a new domain.
+   The mandatory arguments are a domain *alias* (used internally to refer to a particular connection) and the
    sequencer connection URL (http or https) including an optional port *http[s]://hostname[:port]/path*.
    Optional are a certificates path for a custom TLS certificate chain (otherwise the default jre root certificates
-   are used) and the *sync domain ID* of a sync domain. The *sync domain ID* is the unique identifier of the sync domain that can
-   be defined to prevent man-in-the-middle attacks (very similar to an SSH key fingerprint).
+   are used) and the *domain id* of a domain. The *domain id* is the unique identifier of the domain that can
+   be defined to prevent man-in-the-middle attacks (very similar to an ssh key fingerprint).
 
 2. The participant opens a GRPC channel to the ``SequencerConnectService``.
 
-3. The participant contacts the ``SequencerConnectService`` and checks if using the sync domain requires signing
+3. The participant contacts the ``SequencerConnectService`` and checks if using the domain requires signing
    specific terms of services. If required, the terms of service are displayed to the user and an approval is
    locally stored at the participant for later. If approved, the participant attempts to connect to the sequencer.
 
-4. The participant verifies that the remote sync domain is running a protocol version compatible with the participant's
+4. The participant verifies that the remote domain is running a protocol version compatible with the participant's
    version using the ``SequencerConnectService.handshake``. If the participant runs an incompatible protocol version, the connection
    will fail.
 
-5. The participant downloads and verifies the sync domain ID from the sync domain. The :ref:`sync domain ID <bootstrapping-idm>`
-   can be used to verify the correct authorization of the topology transactions of the sync domain entities.
-   If the sync domain ID has been provided previously during the ``domains.register`` call (or in a previous session), the two
-   IDs are compared. If they are not equal, the connection fails. If the sync domain ID was not provided during the
-   ``domains.register`` call, the participant uses and stores the one downloaded. We assume here that the sync domain ID is
-   obtained by the participant through a secure channel such that it is sure to be talking to the right sync domain.
+5. The participant will download and verify the domain id from the domain. The :ref:`domain id <bootstrapping-idm>`
+   can be used to verify the correct authorization of the topology transactions of the domain entities.
+   If the domain id has been provided previously during the ``domains.register`` call (or in a previous session), the two
+   ids will be compared. If they are not equal, the connection will fail. If the domain id was not provided during the
+   ``domains.register`` call, the participant will use and store the one downloaded. We assume here that the domain id is
+   obtained by the participant through a secure channel such that it is sure to be talking to the right domain.
    Therefore, this secure channel can be either something happening outside of Canton or can be provided by TLS during
-   the first time we contact a sync domain.
+   the first time we contact a domain.
 
-6. The participant downloads the *static sync domain parameters*, which are the parameters used for the transaction protocol
-   on the particular sync domain, such as the cryptographic keys supported by this sync domain.
+6. The participant downloads the *static domain parameters*, which are the parameters used for the transaction protocol
+   on the particular domain, such as the cryptographic keys supported on this domain.
 
 7. The participant connects to the sequencer initially as an unauthenticated member. Such members can only send
-   transactions to the sync domain topology manager. The participant then sends an initial set of topology transactions
+   transactions to the domain topology manager. The participant then sends an initial set of topology transactions
    required to identify the participant and define the keys used by the participant to the ``DomainTopologyManagerRequestService``.
-   The request service inspects the validity of the transactions and decides based on the configured sync domain on-boarding
+   The request service inspects the validity of the transactions and decides based on the configured domain on-boarding
    policy. The currently supported policies are ``open`` (default) and ``permissioned``.
    While ``open`` is convenient for permissionless systems and for development, it will accept any new participant and any topology transaction.
    The ``permissioned`` policy will accept the participant's onboarding transactions only if the participant has been
    added to the allow-list beforehand.
 
-8. The request service forwards the transactions to the sync domain topology manager, which attempts to add them to
-   the state (and thus trigger the distribution to the other members on a sync domain).
+8. The request service forwards the transactions to the domain topology manager, who attempts to add it to
+   the state (and thus trigger the distribution to the other members on a domain).
    The result of the onboarding request is sent to the unauthenticated member who disconnects upon receiving
    the response.
 
 9. If the onboarding request is approved, the participant now attempts to connect to the sequencer as the actual
    participant.
 
-10. Once the participant is properly enabled on the sync domain and its signing key is known, the participant can subscribe
-    to the ``SequencerService`` with its identity. To do that and to verify the authorization of any
-    action on the ``SequencerService``, the participant must obtain an authorization token from the sync domain.
-    For this purpose, the participant requests a ``Challenge`` from the sync domain. The sync domain will provide it with a ``nonce``
+10. Once the participant is properly enabled on the domain and its signing key is known, the participant can subscribe
+    to the ``SequencerService`` with its identity. In order to do that and in order to verify the authorisation of any
+    action on the ``SequencerService``, the participant requires to obtain an authorization token from the domain.
+    For this purpose, the participant requests a ``Challenge`` from the domain. The domain will provide it with a ``nonce``
     and the fingerprint of the key to be used for authentication. The participant signs this nonce
-    (together with the sync domain ID) using the corresponding private key.
-    The reason for the fingerprint is simple: the participant needs to sign the token using the participant's signing key
-    as defined by the sync domain topology state. However, as the participant will learn the true sync domain topology state only
-    by reading from the ``SequencerService``, it cannot know what the key is. Therefore, the sync domain discloses this part
-    of the sync domain topology state as part of the authorization challenge.
+    (together with the domain id) using the corresponding private key.
+    The reason for the fingerprint is simple: the participant needs to sign the token using the participants signing key
+    as defined by the domain topology state. However, as the participant will learn the true domain topology state only
+    by reading from the ``SequencerService``, it cannot know what the key is. Therefore, the domain discloses this part
+    of the domain topology state as part of the authorisation challenge.
 
-11. Using the created authentication token, the participant starts to use the *SequencerService*. On the sync domain side,
-    the sync domain verifies the authenticity and validity of the token by verifying that the token is the expected one and
+11. Using the created authentication token, the participant starts to use the *SequencerService*. On the domain side,
+    the domain verifies the authenticity and validity of the token by verifying that the token is the expected one and
     is signed by the participant's signing key. The token is used to authenticate every GRPC invocation and needs
     to be renewed regularly.
 
 12. The participant sets up the ``ParticipantTopologyDispatcher``, which is the process that tries to push all topology transactions
-    created at the participant node's topology manager to the sync domain topology manager. If the participant is using its
+    created at the participant node's topology manager to the domain topology manager. If the participant is using its
     topology manager to manage its identity on its own, these transactions contain all the information about the
     registered parties or supported packages.
 
-13. As mentioned above, the first set of messages received by the participant through the sequencer contains the
-    sync domain topology state, which includes the signing keys of the sync domain entities. These messages are signed by the
-    sequencer and topology manager and are self-consistent. If the participants know the sync domain ID, they can verify that
-    they are talking to the expected sync domain and that the keys of the sync domain entities have been authorized by the owner of the
-    key governing the sync domain ID.
+13. As mentioned above, the first set of messages received by the participant through the sequencer will contain the
+    domain topology state, which includes the signing keys of the domain entities. These messages are signed by the
+    sequencer and topology manager and are self-consistent. If the participants know the domain id, they can verify that
+    they are talking to the expected domain and that the keys of the domain entities have been authorized by the owner of the
+    key governing the domain id.
 
 14. Once the initial topology transactions have been read, the participant is ready to process transactions and send
     commands.
 
-15. When a participant is (re-)enabled, the sync domain topology dispatcher analyses the set of topology transactions the
+15. When a participant is (re-)enabled, the domain topology dispatcher analyses the set of topology transactions the
     participant has missed before. It sends these transactions to the participant via the sequencer, before publicly
     enabling the participant. Therefore, when the participant starts to read messages from the sequencer, the
-    initially received messages will be the topology state of the sync domain.
+    initially received messages will be the topology state of the domain.
 
 Default Initialization
 ~~~~~~~~~~~~~~~~~~~~~~
-The default initialization behavior of participant nodes and sync domains is to run their own topology manager. This provides
+The default initialization behaviour of participant and domain nodes is to run their own topology manager. This provides
 a convenient, automatic way to configure the nodes and make them usable without manual intervention, but it can be
 turned off by setting the ``auto-init = false`` configuration option **before** the first startup.
 
-During the auto initialization, the following steps occur:
+During the auto initialization, the following steps will happen:
 
-1. On the sync domain, we generate four signing keys: one for the namespace and one each for the sequencer, mediator and
+1. On the domain, we generate four signing keys: one for the namespace and one each for the sequencer, mediator and
    topology manager. On the participant, we generate three keys: a namespace key, a signing key and an encryption key.
 
 2. Using the fingerprint of the namespace, we generate the participant identity. For understandability, we use
@@ -269,7 +270,7 @@ During the auto initialization, the following steps occur:
 
 3. We create a root certificate as ``NamespaceDelegation`` using the namespace key, signing with the namespace key.
 
-4. Then, we create an ``OwnerToKeyMapping`` for the participant or sync domain entities.
+4. Then, we create an ``OwnerToKeyMapping`` for the participant or domain entities.
 
 The `init.identity` object can be set to control the behavior of the auto initialization. For instance,
 it is possible to control the identifier name that will be given to the node during the initialization.
@@ -289,7 +290,7 @@ There are 3 possible configurations:
 
 Identity Setup Guide
 ~~~~~~~~~~~~~~~~~~~~
-As explained, Canton nodes auto-initialize by default, running their own topology managers. This is
+As explained, Canton nodes auto-initialise themselves by default, running their own topology managers. This is
 convenient for development and prototyping. Actual deployments require more care and therefore, this section should
 serve as a brief guideline.
 
@@ -299,7 +300,7 @@ and issuing a new owner to key association. Therefore, it is advisable that part
 with a namespace managed by a topology manager that has sufficient operational setups to guarantee the security and
 integrity of the namespace.
 
-Therefore, a participant or sync domain can
+Therefore, a participant or domain can
 
 1. Run their own topology manager with their identity namespace key as part of the participant node.
 
@@ -314,8 +315,8 @@ Therefore, a participant or sync domain can
 Obviously, there are more combinations and options possible, but these options here describe some common options
 with different security and recoverability options.
 
-To reduce the risk of losing namespace keys, additional keys can be created and allowed to operate on a
-certain namespace. In fact, we recommend doing this and avoiding storing the root key on a live node.
+In order to reduce the risk of losing namespace keys, additional keys can be created and allowed to operate on a
+certain namespace. In fact, we recommend doing this and avoid storing the root key on a live node.
 
 User Identity Management
 ------------------------
@@ -329,20 +330,20 @@ A ledger API server manages applications' identities through:
 - authentication: recognizing which user an application corresponds to (essentially by matching an application name with a user name)
 - authorization: knowing which rights an authenticated user has and restricting their Ledger API access according to those rights
 
-Authentication is based on JWT and covered in the `application development/authorization section <https://docs.daml.com/app-dev/authorization.html>`_
+Authentication is based on JWT and covered in the `application development / authorization section <https://docs.daml.com/app-dev/authorization.html>`_
 of the manual; the related Ledger API authorization configuration is covered in the :ref:`Ledger API JWT configuration section <ledger-api-jwt-configuration>`.
 
 Authorization is managed by the Ledger API's User Management Service.
 In essence, a user is a mapping from a user name to a set of parties with read or write permissions.
 In more detail a user consists of:
 
-- a user ID (also called user name)
+- a user id (also called user name)
 - an active/deactivated status (can be used to temporarily ban a user from accessing the Ledger API)
-- an optional primary party (indicates which party to use by default when submitting a Ledger API command request as this user)
+- an optional primary party (indicates which party to use by default when submitting a Ledger API command requests as this user)
 - a set of user rights (describes whether a user has access to the admin portion of the Ledger API and what parties this user can act or read as)
-- a set of custom annotations (string-based key-value pairs, stored locally on the Ledger API server, that can be used to attach extra information to this party, e.g. how it relates to some business entity)
+- a set of custom annotations (string based key-value pairs, stored locally on the Ledger API server, that can be used to attach extra information to this party, e.g. how it relates to some business entity)
 
-All these properties except the user ID can be modified.
+All these properties except the user id can be modified.
 To learn more about annotations refer to the `Ledger API Reference documentation <https://docs.daml.com/app-dev/grpc/proto-docs.html#objectmeta>`_ .
 For an overview of the ledger API's UserManagementService, see this `section  <https://docs.daml.com/app-dev/services.html#user-management-service>`_.
 
@@ -372,7 +373,7 @@ and has some custom annotations.
     .. success:: val user = participant1.ledger_api.users.create(id = "myuser", actAs = Set(alice), readAs = Set(bob), primaryParty = Some(alice), participantAdmin = false, isActive = true, annotations = Map("foo" -> "bar", "description" -> "This is a description"))
     .. assert:: user.id == "myuser"
 
-There are some restrictions on what constitutes a valid annotation key. In contrast, the only constraint for annotation values is that they must not be empty.
+There are some restrictions for what constitutes a valid annotation key. In contrast, the only constraint for annotation values is that they must not be empty.
 To learn more about annotations refer to the `Ledger API Reference documentation <https://docs.daml.com/app-dev/grpc/proto-docs.html#objectmeta>`_.
 
 Update
@@ -392,8 +393,8 @@ The return value contains the updated state of the user:
     .. assert:: updatedUser.id == "myuser"
     .. assert:: updatedUser.annotations == Map("description" -> "This is a new description", "baz" -> "bar")
 
-You can also update the user's identity provider ID.
-In the following snippets, you change the user's identity provider ID to the newly created one.
+You can also update the user's identity provider id.
+In the following snippets, you change the user's identity provider id to the newly created one.
 Note that originally the user belonged to the default identity provider whose id is represented as the empty string ```""```.
 
 .. snippet:: user_management
@@ -401,7 +402,7 @@ Note that originally the user belonged to the default identity provider whose id
     .. success:: participant1.ledger_api.users.update_idp("myuser", sourceIdentityProviderId="", targetIdentityProviderId="idp-id1")
     .. success:: participant1.ledger_api.users.get("myuser", identityProviderId="idp-id1")
 
-You can change the user's identity provider ID back to the default one:
+You can change the user's identity provider id back to the default one:
 
 .. snippet:: user_management
     .. success:: participant1.ledger_api.users.update_idp("myuser", sourceIdentityProviderId="idp-id1", targetIdentityProviderId="")
@@ -439,7 +440,7 @@ Now that you have granted and revoked some rights, you can fetch all of the user
     .. success:: participant1.ledger_api.users.rights.list(user.id)
 
 Also, multiple users can be fetched at the same time.
-To do that, first create another user called ``myotheruser`` and then list all the users whose user name starts with ``my``:
+In order to do that, first create another user called ``myotheruser`` and then list all the users whose user name starts with ``my``:
 
 .. snippet:: user_management
     .. success:: participant1.ledger_api.users.create(id = "myotheruser")
@@ -449,7 +450,7 @@ To do that, first create another user called ``myotheruser`` and then list all t
 Decommission
 ^^^^^^^^^^^^^^
 
-You can delete a user by its ID:
+You can delete a user by its id:
 
 .. snippet:: user_management
     .. success:: participant1.ledger_api.users.delete("myotheruser")
@@ -472,10 +473,10 @@ Configure a default Participant Admin
 
 Fresh participant nodes come with a default participant admin user called ``participant_admin``, which
 can be used to bootstrap other users.
-You might prefer to have an admin user with a different user ID ready on a participant startup.
-For such situations, you can specify an additional participant admin user with the user ID of your choice.
+You might prefer to have an admin user with a different user id ready on a participant startup.
+For such situations, you can specify an additional participant admin user with the user id of your choice.
 
-.. note:: If a user with the specified ID already exists, then no additional user will be created,
+.. note:: If a user with the specified id already exists, then no additional user will be created,
           even if the preexisting user was not an admin user.
 
 .. code-block:: none
@@ -496,7 +497,7 @@ party on a given participant if the participant is running their own topology ma
    :end-before: architecture-handbook-entry-end: EnableParty
    :dedent:
 
-This will create a new party in the namespace of the participant's topology manager.
+This will create a new party in the namespace of the participants topology manager.
 
 And there is the corresponding disable macro:
 
@@ -519,18 +520,18 @@ Client Controlled Party
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 Parties are only weakly tied to participant nodes. They can be allocated in their own namespace and then
-delegated to a given participant. For simplicity and convenience, the participant creates new parties
+be delegated to a given participant. For simplicity and convenience, the participant creates new parties
 in its own namespace by default, but there are situations where this is not desired.
 
 A common scenario is that you first host the party on behalf of your client, but subsequently hand over
-the party to the client's node. With the default party allocation, you would still control the party of the client.
+the party to the client's own node. With the default party allocation, you would still control the party of the client.
 
 To avoid this, you need your client to create a new party on their own and export a party delegation
 to you. This party delegation can then be imported into your topology state, which will then allow you
 to act on behalf of the party.
 
-For this process, we use a participant node which won't be connected to any sync domain. We don't need the full
-node, but just the topology manager. First, we need to find out the participant ID of the hosting node:
+For this process, we use a participant node which won't be connected to any domain. We don't need the full
+node, but just the topology manager. First, we need to find out the participant id of the hosting node:
 
 .. snippet:: client_controlled_party
     .. hidden:: participant2.domains.connect_local(mydomain)
@@ -555,7 +556,7 @@ This root certificate needs to be exported into a file:
     .. success:: import com.digitalasset.canton.util.BinaryFileUtil
     .. success:: BinaryFileUtil.writeByteStringToFile("rootCert.bin", rootCert)
 
-Define the party ID of the party you want to create:
+Define the party id of the party you want to create:
 
 .. snippet:: client_controlled_party
     .. success:: val partyId = PartyId("Client", secret.fingerprint)
@@ -596,11 +597,11 @@ Replicate Party to Another Participant Node
     - The improved macros are available in Daml Enterprise 2.x as of release 2.8.1.
     - In 2.x, party migration has limitations. Please read the documentation carefully.
     - The macros work with protocol version 4 or later.
-    - The involved participants must be entirely quiet during the migration. Therefore, the migration can only happen during a maintenance window of the sync domain where the rate is set to 0.
+    - The involved participants must be entirely quiet during the migration. Therefore, the migration can only happen during a maintenance window of the domain where the rate is set to 0.
     - The target participant must not know about any contract involving the party prior to the migration.
 
 The weak coupling of parties to participants allows you to migrate parties together with their active contract set from
-one participant node to another. The process described below uses a specific set of commands that have to be executed in the right order with some care.
+one participant node to another. The process described below uses a specific set of commands which have to be executed in the right order with some care.
 
 We assume that there are three participants: The ``sourceParticipant`` from which the existing contract set will be copied,
 a ``targetParticipant`` to which the contract set will be copied, and a ``controllingParticipant`` that owns the party.
@@ -613,7 +614,7 @@ In some cases, the controlling participant will be the same as the source partic
     transactions, the processing data will eventually become corrupt, breaking your node. The macros
     will refuse to run if the system is not idle. Therefore, follow the steps below carefully.
 
-First, turn off transaction processing on the sync domain by setting the rate to 0 and wait for all timeouts to have
+First, turn off transaction processing on the domain by setting the rate to 0 and wait for all timeouts to have
 elapsed (mediator & participant reaction timeout):
 
 .. snippet:: party_migration
@@ -637,9 +638,9 @@ the active contract set of the party:
     .. hidden:: com.digitalasset.canton.concurrent.Threading.sleep(2000)
     .. success:: repair.party_migration.step1_store_acs(sourceParticipant, Set(alice), partiesOffboarding = true, "alice.acs.gz")
 
-This will store all the contracts in the file. If the file ends with ".gz", then the content will be compressed.
+This will store all the contracts into the file. If the file ends with ".gz", then the content will be compressed.
 After transferring the file to the target participant, you first need to disconnect the target participant from the
-sync domain, because the repair service cannot run with an active sync domain connection:
+domain, because the repair service cannot run with an active domain connection:
 
 .. snippet:: party_migration
     .. success:: targetParticipant.domains.disconnect_all()
@@ -651,7 +652,7 @@ Once disconnected, import the contracts using the next repair macro:
 
 Although this step has imported the contracts, the party is still not enabled on the target participant. For a
 party to be delegated to a participant, both the owner of the party and the participant need to issue the
-required topology transactions. If the controlling participant is connected to the sync domain, you run the next
+required topology transactions. If the controlling participant is connected to the domain, you run the next
 step:
 
 .. snippet:: party_migration
@@ -661,7 +662,7 @@ step:
     .. hidden:: utils.synchronize_topology()
 
 This will issue the party to participant topology transaction of type ``From``. The ``To`` transaction must be
-issued on the ``targetParticipant``, using the fourth step. The participant must be connected to the sync domain for this step:
+issued on the ``targetParticipant``, using the fourth step. The participant must be connected to the domain for this step:
 
 .. snippet:: party_migration
     .. success:: targetParticipant.domains.reconnect_all()
@@ -671,12 +672,12 @@ After this step, the party is enabled on the target participant and the active c
 but the party is now hosted by both ``sourceParticipant`` and ``targetParticipant``.
 
 If you want to remove the party from the source participant, continue with the next step before resetting
-the sync domain rate back to its original value. First, unregister the party from the source participant:
+the domain rate back to its original value. First, unregister the party from the source participant:
 
 .. snippet:: party_migration
     .. success:: repair.party_migration.step5_remove_party_delegation_from_source(controllingParticipant, Set(alice), sourceParticipant)
 
-Then, disconnect the source participant from the sync domain:
+Then, disconnect the source participant from the domain:
 
 .. snippet:: party_migration
     .. success:: sourceParticipant.domains.disconnect_all()
@@ -686,7 +687,7 @@ Finally, remove the active contracts of ``Alice`` from the source participant:
 .. snippet:: party_migration
     .. success:: repair.party_migration.step6_cleanup_source(sourceParticipant, "alice.acs.gz", Set(alice))
 
-Thereafter, reconnect to the sync domain and re-enable transaction processing on the sync domain:
+Thereafter, reconnect to the domain and re-enable transaction processing on the domain:
 
 .. snippet:: party_migration
     .. success:: sourceParticipant.domains.reconnect_all()
@@ -710,8 +711,8 @@ namespace ``N2``. In order to set this up, we need to appropriately authorize th
 party. In this example, we assume that the party is added to both nodes at the same time before any contract is
 created. If you want to migrate an existing party, :ref:`follow the guide above <offline-party-migration>`.
 
-To make sure that we don't accidentally create a contract that is observed by one node and not
-the others, set the sync domain rate to 0, which will ensure that no contracts can be created on the sync domain during
+In order to make sure that there is no contract created by accident which is only observed by one node and not
+the others, set the domain rate to 0, which will ensure that no contracts can be created on the domain during
 this maintenance period:
 
 .. snippet:: party_on_two_nodes
@@ -755,7 +756,7 @@ Check that the party is now hosted by two participants:
     .. success:: participant1.parties.list("Alice")
     .. assert:: participant1.parties.list("Alice").flatMap(_.participants.map(_.participant)).contains(participant2.id)
 
-Finally, the transaction processing on the sync domain can be re-enabled again:
+Finally, the transaction processing on the domain can be re-enabled again:
 
 .. snippet:: party_on_two_nodes
     .. success:: mydomain.service.set_max_rate_per_participant(100)
@@ -766,7 +767,7 @@ Finally, the transaction processing on the sync domain can be re-enabled again:
 Both participants will now see the same contracts, and depending on the permissions, be able to submit on behalf of
 the party. Each hosting participant will be included in the transaction, which means that there is an upper limit
 on where this feature is useful. If you need to share contract data with many participants, you should consider
-using explicit disclosure and sharing contract data out of band.
+using explicit disclosure and share contract data out of band.
 
 .. _manually_initializing_node:
 
@@ -777,7 +778,7 @@ each step of the initialization. For example, when a node in the setup does
 not control its own identity, when we do not want to store the identity key on the node for security
 reasons, or when we want to set our own keys (e.g. when keys are externally stored in a Key Management Service - KMS).
 
-In the following, we demonstrate the basic steps of how to initialize a node:
+In the following, we demonstrate the basic steps how to initialise a node:
 
 Keys Initialization
 ^^^^^^^^^^^^^^^^^^^
@@ -797,9 +798,9 @@ The following steps describe how to manually generate the necessary Canton keys 
 
 .. _manually-init-domain:
 
-Sync Domain Initialization
-^^^^^^^^^^^^^^^^^^^^^^^^^^
-The following steps describe how to manually initialize a sync domain node:
+Domain Initialization
+^^^^^^^^^^^^^^^^^^^^^
+The following steps describe how to manually initialize a domain node:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/topology/TopologyManagementHelper.scala
    :language: scala
