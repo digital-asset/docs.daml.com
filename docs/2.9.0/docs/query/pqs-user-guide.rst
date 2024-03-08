@@ -24,11 +24,9 @@ The PQS is intended for high throughput and complex queries, for which the Canto
 -  Support teams to debug any problems that happen in production.
 -  Application operators to take a full snapshot of the ledger (from the start of the ledger to the current latest transaction). Alternatively, they can take a partial snapshot of the ledger (between specific `offsets <https://docs.daml.com/app-dev/grpc/proto-docs.html#ledgeroffset>`__).
 -  Report writers to extract historical data and then stream indefinitely (either from the start of the ledger or from a specific offset).
-
+There are many other uses.
 
 :ref:`daml-shell-header` is a command-line tool that leverages PQS to inspect a Daml ledger.
-
-There are many other uses.
 
 Docker image
 ************
