@@ -8,7 +8,7 @@
 Daml Shell (``daml-shell``)
 ###########################
 
-Daml shell is a terminal-based application that is used to inspect a Daml
+Daml Shell is a terminal-based application that enables you to inspect a Daml
 ledger by connecting to a live PQS datastore.  It can examine current or
 historical states of the ledger by querying ledger events, transactions, and
 contracts in a user-friendly manner.  The Daml Shell CLI  includes extensive
