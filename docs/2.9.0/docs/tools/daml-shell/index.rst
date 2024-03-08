@@ -21,7 +21,7 @@ Some of the actions that Daml Shell supports are:
 * Auto-completion for identifiers such as contract IDs, fully qualified names, and package IDs.
 * List active, inactive, or all contracts for a template using a template FQN.
 * Apply queries and filters to commands to manage the output.
-* Use the ``diff`` command to highlight the delta between two contract IDs for the same template.
+* Use the ``compare-contracts`` command to highlight the delta between two contract IDs for the same template.
 
 To bound a search, specify a minimum and maximum offset value.
 
