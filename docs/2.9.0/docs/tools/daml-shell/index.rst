@@ -25,7 +25,7 @@ Some of the actions that Daml Shell supports are:
 
 Searches can be bounded by specifying a minimum and maximum offset value to search within.
 
-Daml shell leverages PQS as its data store and connects using JDBC.  This is explained in :ref:`pqs-connect-header`.
+Daml Shell leverages PQS as its datastore and connects using JDBC. For more information, see :ref:`pqs-connect-header`.
 
 
 Getting started
