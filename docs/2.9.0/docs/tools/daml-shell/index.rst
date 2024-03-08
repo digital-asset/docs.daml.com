@@ -23,7 +23,7 @@ Some of the actions that Daml Shell supports are:
 * Apply queries and filters to commands to manage the output.
 * Use the ``diff`` command to highlight the delta between two contract IDs for the same template.
 
-Searches can be bounded by specifying a minimum and maximum offset value to search within.
+To bound a search, specify a minimum and maximum offset value.
 
 Daml Shell leverages PQS as its datastore and connects using JDBC. For more information, see :ref:`pqs-connect-header`.
 
