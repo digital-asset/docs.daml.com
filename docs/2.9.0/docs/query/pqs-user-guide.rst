@@ -26,7 +26,7 @@ The PQS is intended for high throughput and complex queries, for which the Canto
 -  Report writers to extract historical data and then stream indefinitely (either from the start of the ledger or from a specific offset).
 
 
-:ref:`daml-shell-header` is a command line tool that leverages PQS to inspect a Daml ledger.
+:ref:`daml-shell-header` is a command-line tool that leverages PQS to inspect a Daml ledger.
 
 There are many other uses.
 
