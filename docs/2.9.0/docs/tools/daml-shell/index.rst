@@ -3,8 +3,30 @@
 
 .. enterprise-only::
 
-Daml Shell
-##########
+.. _daml-shell-header:
+
+Daml Shell (``daml-shell``)
+###########################
+
+Daml Shell is a terminal-based application that enables you to inspect a Daml
+ledger by connecting to a live PQS datastore. With Daml Shell, you can examine current or
+historical states of the ledger by querying ledger events, transactions, and
+contracts. The Daml Shell CLI includes extensive
+help via the ``help`` command.
+
+Some of the actions that Daml Shell supports are:
+
+* Find a specific contract and display it. For example, if you have a contract ID, you can use Daml Shell to inspect the corresponding contract using the ``contract`` command.
+* Find all events related to a transaction ID. A transaction is displayed as a series of ledger events (creates, archives, and exercises).
+* Auto-completion for identifiers such as contract IDs, fully qualified names, and package IDs.
+* List active, inactive, or all contracts for a template using a template FQN.
+* Apply queries and filters to commands to manage the output.
+* Use the ``compare-contracts`` command to highlight the delta between two contract IDs for the same template.
+
+To bound a search, specify a minimum and maximum offset value.
+
+Daml Shell leverages PQS as its datastore and connects using JDBC. For more information, see :ref:`pqs-connect-header`.
+
 
 Getting started
 ***************

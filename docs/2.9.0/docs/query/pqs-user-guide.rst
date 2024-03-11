@@ -4,13 +4,6 @@
 Participant Query Store User Guide
 ##################################
 
-Docker image
-************
-
-To get the Participant Query Store (PQS) Docker image, run the following command::
-
-    docker pull digitalasset-docker.jfrog.io/participant-query-store:0.1.0
-
 Introduction
 ************
 
@@ -33,6 +26,15 @@ The PQS is intended for high throughput and complex queries, for which the Canto
 -  Report writers to extract historical data and then stream indefinitely (either from the start of the ledger or from a specific offset).
 
 There are many other uses.
+
+:ref:`daml-shell-header` is a command-line tool that leverages PQS to inspect a Daml ledger.
+
+Docker image
+************
+
+To get the Participant Query Store (PQS) Docker image, run the following command::
+
+    docker pull digitalasset-docker.jfrog.io/participant-query-store:0.1.0
 
 Overview
 ********
@@ -355,6 +357,8 @@ To connect the database, create a PostgreSQL database with three users:
 -  **Ops**: Provides a way for database administrators or Scribe to access DDL for schema creation and general maintenance.
 -  **Writer**: Allows Scribe to connect, such as during "pipeline" operations of writing the ledger.
 -  **Reader**: Supports all other users.
+
+.. _pqs-connect-header:
 
 Connect to the PQS PostgreSQL datastore
 =======================================
