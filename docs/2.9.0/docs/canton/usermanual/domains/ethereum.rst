@@ -5,14 +5,14 @@
 
 .. enterprise-only::
 
-Ethereum Domain
----------------
+Ethereum Synchronization Domain
+-------------------------------
 
 Introduction
 ~~~~~~~~~~~~~~~~~
 
 Daml Enterprise includes a Canton Ethereum Sequencer integration, which interacts via an Ethereum client with a smart contract ``Sequencer.sol``
-deployed on an external Ethereum network. It uses the blockchain as source-of-truth for sequenced events and
+deployed on an external Ethereum network. It uses the blockchain as a source of truth for sequenced events and
 is currently tested with the Ethereum client `Hyperledger Besu <https://www.hyperledger.org/use/besu>`_.
 The :ref:`architecture document <ethereum-architecture>` contains more details on the architecture of the integration.
 
@@ -43,10 +43,10 @@ will create a new Besu testnet for the demo deployment and then start the demo.
 It has two scenarios: a simple and an advanced scenario.
 Both scenarios will start several dockerised services:
 
-* An ethereum testnet, using four Besu nodes with the QBFT consensus protocol.
+* An Ethereum testnet, using four Besu nodes with the QBFT consensus protocol.
   This is the same for the simple and advanced scenario.
-* An instance of Canton. This includes two Participants and a
-  Domain with one Ethereum sequencer for the simple scenario and two Ethereum sequencers for the advanced scenario.
+* An instance of Canton. This includes two participants and a
+  sync domain with one Ethereum sequencer for the simple scenario and two Ethereum sequencers for the advanced scenario.
   The respective Canton configurations are in ``canton-conf/simple`` and ``canton-conf/advanced``.
 
 The environment variable ``CANTON_VERSION`` is used to select the version of
@@ -273,8 +273,8 @@ Other setups are possible, but they should fulfill the following requirements:
 * The block size limit (often measured in gas, and sometimes referred to as
   the 'gas limit') must be larger than any message to be sequenced. It is
   recommended to set this parameter as high as possible.
-* The contract size limit must be big enough for the Canton Ethereum Domain
-  to store all required state for sequencing messages. It is recommended to set
+* The contract size limit must be big enough for the Canton Ethereum sync domain
+  to store all required states for sequencing messages. It is recommended to set
   this parameter as high as possible.
 * Proof of authority protocols are recommended over proof of work.
 * Currently, consensus protocols must have

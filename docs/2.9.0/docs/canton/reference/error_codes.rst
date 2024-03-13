@@ -26,7 +26,7 @@ containing the status code, an optional status message and optional metadata. We
 
 - improved consistency of the returned errors across API endpoints
 
-- richer error payload format with clearly distinguished machine readable parts to facilitate
+- richer error payload format with clearly distinguished machine-readable parts to facilitate
   automated error handling strategies
 
 - complete inventory of all error codes with an explanation, suggested resolution and
@@ -130,8 +130,8 @@ We use following error details:
  - An optional ``com.google.rpc.RetryInfo`` containing retry interval with milliseconds resolution.
 
  - An optional ``com.google.rpc.ResourceInfo`` containing information about the resource the failure is based on.
-   Any request that fails due to some well-defined resource issues (such as contract, contract-key, package, party, template, domain, etc.) contains these.
-   Particular resources are implementation specific and vary across ledger implementations.
+   Any request that fails due to some well-defined resource issues (such as contract, contract key, package, party, template, sync domain, etc.) contains these.
+   Particular resources are implementation-specific and vary across ledger implementations.
 
 Many errors will include more information,
 but there is no guarantee that additional information will be preserved across versions.
@@ -238,7 +238,7 @@ processing). Such errors are only logged.
 Generally, we use the following log levels on the server:
 
 - INFO to log user errors where the error leads to a failure of the request but the system remains healthy.
-- WARN to log degradations of the system or point out unusual behaviour.
+- WARN to log degradations of the system or point out unusual behavior.
 - ERROR to log internal errors where the system does not behave properly and immediate attention is required.
 
 On the client side, failures are considered to be errors and logged as such.
@@ -268,7 +268,7 @@ Therefore, to support automatic error processing, an application may:
 
 - parse the error information from the beginning of the description to obtain the error-id, the error category and the component.
 - use the gRPC-code to get the set of possible error categories.
-- if present, use the ``ResourceInfo`` included as ``Status.details``. Any request that fails due to some well-defined resource issues (contract, contract-key, package, party, template, domain) will contain these, calling out on what resource the failure is based on.
+- if present, use the ``ResourceInfo`` included as ``Status.details``. Any request that fails due to some well-defined resource issues (contract, contract key, package, party, template, sync domain) will contain these, calling out on what resource the failure is based on.
 - use the ``RetryInfo`` to determine the recommended retry interval (or make this decision based on the category / gRPC code).
 - use the ``RequestInfo.id`` as the :ref:`correlation-id <tracing>`, included as ``Status.details``.
 - use the ``ErrorInfo.reason`` as error-id and ``ErrorInfo.metadata("category")`` as error category, included as ``Status.details``.
@@ -278,8 +278,8 @@ errors include more information, but there is no guarantee that additional infor
 across versions.
 
 Generally, automated error handling can be done on any level (e.g. load balancer using gRPC status codes, application
-using ``ErrorCategory`` or human reacting to error-ids). In most cases it is advisable to deal with errors on a per category
-basis and deal with error-ids in very specific situations which are application dependent. For example, a command failure
+using ``ErrorCategory`` or human reacting to error IDs). In most cases it is advisable to deal with errors on a per-category
+basis and deal with error IDs in very specific situations which are application-dependent. For example, a command failure
 with the message "CONTRACT_NOT_FOUND" may be an application failure in case the given application is the only actor on
 the contracts, whereas a "CONTRACT_NOT_FOUND" message is to be expected in a case where multiple independent actors operate
 on the ledger state.
@@ -287,7 +287,7 @@ on the ledger state.
 Example
 *******
 
-If an application submits a Daml transaction that exceeds the size limits enforced on a domain, the command
+If an application submits a Daml transaction that exceeds the size limits enforced on a sync domain, the command
 will be rejected. Using the logs of one of our test cases, the participant node will log the following message:
 
 .. code::

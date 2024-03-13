@@ -41,7 +41,7 @@ bootstrap) or for an existing deployment.
 Simply adding the following configuration is not enough.
 
 In the example below, you configure a Canton participant node (called ``participant1``) to generate and
-store private keys in an external GCP KMS. The same configuration is applicable for all other node entities, including the domain manager,
+store private keys in an external GCP KMS. The same configuration is applicable for all other node entities, including the sync domain manager,
 mediators, and sequencers.
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/aws-kms-provider-tagged.conf
@@ -84,15 +84,15 @@ Here is a reminder of the initial keys that each node owns:
 
 .. table:: List of keys that each node owns
 
-    +-----------------------------------+------------+--------------------+---------------+--------------+-----------------+
-    | **Keys**                          | **Domain** | **Domain-Manager** | **Sequencer** | **Mediator** | **Participant** |
-    +===================================+============+====================+===============+==============+=================+
-    | `(Signing) Namespace Key`         | x          | x                  |               |              | x               |
-    +-----------------------------------+------------+--------------------+---------------+--------------+-----------------+
-    | `Signing Key`                     | x          | x                  | x             | x            | x               |
-    +-----------------------------------+------------+--------------------+---------------+--------------+-----------------+
-    | `(Asymmetric) Encryption Key`     |            |                    |               |              | x               |
-    +-----------------------------------+------------+--------------------+---------------+--------------+-----------------+
+    +-----------------------------------+-----------------+-------------------------+---------------+--------------+-----------------+
+    | **Keys**                          | **Sync Domain** | **Sync Domain Manager** | **Sequencer** | **Mediator** | **Participant** |
+    +===================================+=================+=========================+===============+==============+=================+
+    | `(Signing) Namespace Key`         | x               | x                       |               |              | x               |
+    +-----------------------------------+-----------------+-------------------------+---------------+--------------+-----------------+
+    | `Signing Key`                     | x               | x                       | x             | x            | x               |
+    +-----------------------------------+-----------------+-------------------------+---------------+--------------+-----------------+
+    | `(Asymmetric) Encryption Key`     |                 |                         |               |              | x               |
+    +-----------------------------------+-----------------+-------------------------+---------------+--------------+-----------------+
 
 Depending on the key purpose and the default signing and encryption schemes defined in Canton,
 you need to pre-generate the corresponding GCP KMS keys with the correct settings:
@@ -106,7 +106,7 @@ you need to pre-generate the corresponding GCP KMS keys with the correct setting
     |                   | - **Key Algorithms:** `EC_SIGN_P256_SHA256` or `EC_SIGN_P384_SHA384`  | - **Key Algorithm:** `RSA_DECRYPT_OAEP_2048_SHA256` |
     +-------------------+-----------------------------------------------------------------------+-----------------------------------------------------+
 
-Below are links to guides on how to manually initialize participant and domain nodes.
+Below are links to guides on how to manually initialize participant and sync domain nodes.
 In those guides, keys are generated using console commands such as:
 
 .. code-block:: none
@@ -116,5 +116,5 @@ In those guides, keys are generated using console commands such as:
 Make sure to **replace those commands with the ones shown above** with which you registered your existing keys
 instead of generating new ones.
 
-- :ref:`initialize domain <manually-init-domain>`
+- :ref:`initialize sync domain <manually-init-domain>`
 - :ref:`initialize participants <manually-init-participant>`

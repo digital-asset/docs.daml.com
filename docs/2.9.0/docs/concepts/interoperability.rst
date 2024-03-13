@@ -232,7 +232,7 @@ Incoming and outgoing ledgers are encoded as colors (green for Ledger 1 and yell
 .. note::
    As for ordinary causality graphs, the diagrams for multi-ledger causality graphs omit transitive edges for readability.
 
-As an example for a cross-domain transaction, consider the :ref:`split paint counteroffer workflow with the cross-domain transaction <cross-ledger-transaction>`.
+As an example of a cross-domain transaction, consider the :ref:`split paint counteroffer workflow with the cross-domain transaction <cross-ledger-transaction>`.
 The corresponding multi-ledger causality graph is shown below.
 The last transaction `tx4` is a cross-ledger transaction because its actions have more than one color.
 

@@ -8,13 +8,13 @@
 Ledger Pruning
 ==============
 
-Pruning refers to the selective removal of old, stale, or unneeded data from participant, domain sequencer, and mediator
+Pruning refers to the selective removal of old, stale, or unneeded data from participant, sync domain sequencer, and mediator
 nodes. Nodes operate continuously for an indefinite amount of time on a limited amount of storage. In addition, privacy
 demands may require removing Personally Identifiable Information (PII) upon request.
 
 Pruning participant nodes means removing archived contracts (and associated transactions and events). Pruning never
-removes active (i.e., non-archived) Daml contracts. For domain sequencers and mediators, pruning relates to the removal
-of processed messages. Participants and domain sequencers and mediators can have different pruning schedules set.
+removes active (i.e., non-archived) Daml contracts. For sync domain sequencers and mediators, pruning relates to the removal
+of processed messages. Participants and sync domain sequencers and mediators can have different pruning schedules set.
 
 Enable Automatic Pruning
 ------------------------
@@ -25,7 +25,7 @@ Enable automatic pruning by specifying a pruning schedule consisting of the foll
 - A maximum duration specifying pruning "end times" relative to the begin times of the cron expression.
 - A retention period to specify how far to prune relative to the current time.
 
-For example, to run pruning every Saturday starting at 8am until 4pm (both in UTC):
+For example, to run pruning every Saturday starting at 8 am until 4 pm (both in UTC):
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/pruning/PruningDocumentationTest.scala
    :start-after: user-manual-entry-begin: AutoPruneAllNodes
@@ -73,7 +73,7 @@ Best Practices
 - A catastrophic failure of a participant and its backup can be mitigated by rebuilding its state from the sequencer by
   replaying messages. However, this becomes impossible once the required messages have been pruned from the sequencer.
   For this reason, the backup strategy for participant nodes should be coordinated with the sequencer’s pruning schedule.
-- For high availability nodes that share a common database, the pruning schedule has to be set on an active replica
+- For high-availability nodes that share a common database, the pruning schedule has to be set on an active replica
   (participant, mediator) or one active shard (database sequencer).
 - Participants, mediators, and sequencers also expose "manual" `prune*` methods that come with pitfalls. The methods
   might appear to be hanging unless the range of events and messages specified for pruning is not broken up into
@@ -93,7 +93,7 @@ Current Limitations
   there is a default limitation that a system with idle but connected clients cannot be pruned with a retention window of less
   than 24 hours. As the topology manager connects to the sequencer but is often idle and only invoked on topology changes,
   this limitation manifests itself when pruning test environments where aggressive pruning windows of less
-  than 24 hours are used. This can be fixed by adjusting the domain-tracker time of the topology manager:
+  than 24 hours are used. This can be fixed by adjusting the sync domain-tracker time of the topology manager:
   ``canton.domains.mydomain.time-tracker.min-observation-duration = 1h``.
 - Pruning of participants requires the participant to have received a commitment from each counter-participant with which
   it shares a contract. If a participant becomes defunct and stops sending commitments, pruning of the participant will

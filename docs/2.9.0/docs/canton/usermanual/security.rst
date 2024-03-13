@@ -15,8 +15,8 @@ This section covers the generation and usage of cryptographic keys in the Canton
 nodes. It assumes that the configuration sets `auto-init = true` which leads to the
 generation of the default keys on a node's startup.
 
-The scope of cryptographic keys covers all Canton-protocol specific keys,
-private keys for TLS, as well as additional keys required for the domain
+The scope of cryptographic keys covers all Canton-protocol-specific keys,
+private keys for TLS, as well as additional keys required for the sync domain
 integrations, e.g., with Besu.
 
 Supported Cryptographic Schemes in Canton
@@ -160,33 +160,33 @@ The private key for the TLS server certificate is provided as a file, which can
 optionally be encrypted and the symmetric decryption key is fetched from a given
 URL.
 
-Domain Topology Manager Keys
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Synchronization Domain Topology Manager Keys
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Domain Namespace Signing Key
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Synchronization Domain Namespace Signing Key
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The domain topology manager governs the namespace of the domain and has a
+The sync domain topology manager governs the namespace of the sync domain and has a
 signing key pair for the namespace. The hash of the public key forms the
-namespace and all entities in the domain (mediator, sequencer, the topology
-manager itself) may have identities under the domain namespace.
+namespace and all entities in the sync domain (mediator, sequencer, the topology
+manager itself) may have identities under the sync domain namespace.
 
-The domain topology manager signs and thereby authorizes the following topology
+The sync domain topology manager signs and thereby authorizes the following topology
 transactions:
 
 - `NamespaceDelegation` to register the namespace public key for the new namespace
 - `OwnerToKeyMapping` to register both its own signing public key (see next
-  section) and the signing public keys of the other domain entities as part of
-  the domain onboarding
-- `ParticipantState` to enable a new participant on the domain
-- `MediatorDomainState` to enable a new mediator on the domain
+  section) and the signing public keys of the other sync domain entities as part of
+  the sync domain onboarding
+- `ParticipantState` to enable a new participant on the sync domain
+- `MediatorDomainState` to enable a new mediator on the sync domain
 
 Signing Key
 ^^^^^^^^^^^
 
-The domain topology manager is not part of the Canton transaction protocol, but
+The sync domain topology manager is not part of the Canton transaction protocol, but
 it receives topology transactions via the sequencer. Therefore, in addition to
-the domain namespace, the domain topology manager has a signing key pair, which
+the sync domain namespace, the sync domain topology manager has a signing key pair, which
 is registered in the topology state for the topology manager. This signing key
 is used to perform the challenge-response protocol of the sequencer.
 
@@ -239,18 +239,18 @@ key pair for the following:
 - Signing of transaction results, transfer results, and rejections of malformed
   mediator requests.
 
-Domain Node Keys
-~~~~~~~~~~~~~~~~
+Synchronizer Domain Node Keys
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The domain node embeds a sequencer, mediator, and domain topology manager. The
+The sync domain node embeds a sequencer, mediator, and sync domain topology manager. The
 set of keys remains the same as for the individual nodes.
 
 Canton Console Keys
 ~~~~~~~~~~~~~~~~~~~
 
-When the Canton console runs separate from the node and mutual authentication is
+When the Canton console runs separately from the node and mutual authentication is
 configured on the Admin API, then the console requires a TLS client certificate
-and corresponding private key as a file.
+and the corresponding private key as a file.
 
 Cryptographic Key Management
 ----------------------------
@@ -260,11 +260,11 @@ Cryptographic Key Management
 Rotating Canton Node Keys
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Canton supports rotation of node keys (signing and encryption) during live
+Canton supports the rotation of node keys (signing and encryption) during live
 operation through its topology management. In order to ensure continuous
 operation, the new key is added first and then the previous key is removed.
 
-For participant nodes, domain nodes, and domain topology managers, the
+For participant nodes, sync domain nodes, and sync domain topology managers, the
 nodes can rotate their keys directly using their own identity manager with
 the following command for example:
 
@@ -274,11 +274,11 @@ the following command for example:
    :end-before: user-manual-entry-end: RotateNodeKeys
    :dedent:
 
-On a participant node both the signing and encryption key pairs are rotated. On a domain and domain manager node only
-the signing key pair, because they do not have a encryption key pair. Identity namespace root or intermediate keys are
+On a participant node both the signing and encryption key pairs are rotated. On a sync domain and sync domain manager node only
+the signing key pair, because they do not have an encryption key pair. Identity namespace root or intermediate keys are
 not rotated with this command, see below for commands on namespace key management.
 
-For sequencer and mediator nodes that are part of a domain, the domain topology
+For sequencer and mediator nodes that are part of a sync domain, the sync domain topology
 manager authorizes the key rotation and a reference needs to be passed in to the command, for example:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/topology/KeyManagementIntegrationTest.scala
@@ -367,8 +367,8 @@ Ledger-API Authorization
 ------------------------
 
 The Ledger API provides :ref:`authorization support <ledger-api-jwt-configuration>` using `JWT <https://jwt.io>`_
-tokens. While the JWT token authorization allows third party applications to be authorized properly, it poses some issues
-for Canton internal services such as the `PingService` or the `DarService`, which are used to manage domain wide
+tokens. While the JWT token authorization allows third-party applications to be authorized properly, it poses some issues
+for Canton internal services such as the `PingService` or the `DarService`, which are used to manage sync domain-wide
 concerns. Therefore Canton generates a new admin bearer token (64 bytes, randomly generated, hex-encoded) on each startup,
 which is communicated to these services internally and used by these services to
 authorize themselves on the Ledger API. The admin token allows to act as any party registered on that participant node.

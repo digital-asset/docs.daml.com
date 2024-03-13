@@ -26,7 +26,7 @@ file:
 
   build-options: [--target=1.15]
 
-If using Canton, the protocol version of the domain should be `4` or
+If using Canton, the protocol version of the sync domain should be `4` or
 higher, see :ref:`Canton protocol version <protocol_version>` for more
 details.
 

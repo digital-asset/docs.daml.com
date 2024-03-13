@@ -8,7 +8,7 @@
 Persistence
 ===========
 
-Participant and domain nodes both require storage configurations. Both use the same configuration
+Participant nodes and sync domains both require storage configurations. Both use the same configuration
 format and therefore support the same configuration options. There are three different configurations
 available:
 
@@ -23,7 +23,7 @@ as ``canton.participants.myparticipant.storage.type = memory``. Memory storage d
 setting.
 
 For the actual database driver, Canton does not directly define how they are configured, but leverages
-a third party library (`slick <https://scala-slick.org/doc/3.3.1>`_) for it, exposing all configuration
+a third-party library (`slick <https://scala-slick.org/doc/3.3.1>`_) for it, exposing all configuration
 methods therein. If you need to, please consult the `respective detailed documentation <https://scala-slick.org/doc/3.3.1/database.html#using-typesafe-config>`_
 to learn about all configuration options if you want to leverage any exotic option. Here, we will only
 describe our default, recommended and supported setup.
@@ -39,7 +39,7 @@ Consult the reference ``config`` directory to get a set of configuration files t
 Postgres
 --------
 
-Our reference driver based definition for Postgres configuration is:
+Our reference driver-based definition for Postgres configuration is:
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/pack/config/storage/postgres.conf
 
@@ -52,7 +52,7 @@ The above configurations are included in the reference ``config/storage`` folder
 SSL
 ~~~
 
-This snippet shows how ssl can be configured for Postgres. You can find more information about the settings in the
+This snippet shows how SSL can be configured for Postgres. You can find more information about the settings in the
 (`postgres documentation <https://jdbc.postgresql.org/documentation/head/ssl-client.html>`_):
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/postgres-ssl.conf
@@ -65,7 +65,7 @@ Sizing and Performance
 ~~~~~~~~~~~~~~~~~~~~~~
 
 Note that your Postgres database setup requires appropriate tuning to achieve the desired performance. Canton
-is database heavy. This section should give you a starting point for your tuning efforts. You may want to consult
+is database-heavy. This section should give you a starting point for your tuning efforts. You may want to consult
 the :ref:`troubleshooting section <how_to_measure_db_performance>` on how to analyze whether the database is a limiting factor.
 
 This guide can give you a starting point for tuning. Ultimately, every use case is different and the exact resource requirements cannot
@@ -172,23 +172,23 @@ corruption / data loss in case of a data center failover.
 Setup Oracle Schemas
 ^^^^^^^^^^^^^^^^^^^^
 
-For a simple Oracle-based Canton deployment with one domain and one participant
+For a simple Oracle-based Canton deployment with one sync domain and one participant
 the following Oracle schemas (i.e., users) are required:
 
-+---------------------+-------------------+--------------------+-------------------------------+
-| Component           | Schema name       | Description        | Authentication                |
-+=====================+===================+====================+===============================+
-|                     | DD4ODRUN          | Runtime user       | Password configured per 2.2.7 |
-| Oracle Domain       |                   |                    |                               |
-+---------------------+-------------------+--------------------+ Site administrator may change |
-|                     | DD4OPRUN          | Runtime user for   | at will (i.e., default        |
-| Participant         |                   | Participant Canton | password is never hardcoded   |
-|                     |                   | component          | or assumed)                   |
-|                     +-------------------+--------------------+                               |
-|                     | DD4OPLEDG         | Runtime user for   |                               |
-|                     |                   | Participant API    |                               |
-|                     |                   | ledger component   |                               |
-+---------------------+-------------------+--------------------+-------------------------------+
++--------------------------+-------------------+--------------------+-------------------------------+
+| Component                | Schema name       | Description        | Authentication                |
++==========================+===================+====================+===============================+
+|                          | DD4ODRUN          | Runtime user       | Password configured per 2.2.7 |
+| Oracle sync domain       |                   |                    |                               |
++--------------------------+-------------------+--------------------+ Site administrator may change |
+|                          | DD4OPRUN          | Runtime user for   | at will (i.e., default        |
+| Participant              |                   | Participant Canton | password is never hardcoded   |
+|                          |                   | component          | or assumed)                   |
+|                          +-------------------+--------------------+                               |
+|                          | DD4OPLEDG         | Runtime user for   |                               |
+|                          |                   | Participant API    |                               |
+|                          |                   | ledger component   |                               |
++--------------------------+-------------------+--------------------+-------------------------------+
 
 The DD4ODRUN,  DD4OPRUN, and DD4OPLEDG users all need the following schema privileges:
 
@@ -204,7 +204,7 @@ Run the following commands as the system user (e.g., for the runtime user
 (DD4OPRUN) provisioning using Oracle SQL\*Plus from the command line):
 
 ..
-    The $ in the sql below is not parsed properly so using bash parsing. See https://github.com/sphinx-doc/sphinx/issues/3175
+    The $ in the SQL below is not parsed properly so using bash parsing. See https://github.com/sphinx-doc/sphinx/issues/3175
 
 .. code-block:: bash
 
@@ -216,10 +216,10 @@ Run the following commands as the system user (e.g., for the runtime user
     SQL> GRANT SELECT ON V_$LOCK TO DD4OPRUN;
     SQL> GRANT SELECT ON V_$PARAMETER TO DD4OPRUN;
 
-For additional domain or participant nodes create the corresponding schemas with
+For additional sync domains or participant nodes create the corresponding schemas with
 one schema per node.
 
-If you are getting an error messages like:
+If you are getting an error message like:
 
 .. code-block:: bash
 
@@ -242,7 +242,7 @@ You can then test whether creating the user worked using ``sqlplus``:
 Configuring Canton Nodes for Oracle
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The following is an example configuration for an Oracle-backed domain for the
+The following is an example configuration for an Oracle-backed sync domain for the
 persistence of its sequencer, mediator, and topology manager nodes. The
 placeholders ``<ORACLE_HOST>``, ``<ORACLE_PORT>``, and ``<ORACLE_DB>`` will need
 to be replaced with the correct settings to match the environment and
@@ -253,7 +253,7 @@ to be replaced with the correct settings to match the environment and
 The environment variable for ``ORACLE_PASSWORD`` needs to be set and exported so that it
 is accessible for substitution in the configuration files.
 
-The persistence configuration for the Participant is an extended version based
+The persistence configuration for the Participant is an extended version-based
 on the previous configuration for participant nodes with the addition of the
 Ledger API JDBC URL string:
 
@@ -517,7 +517,7 @@ The number ``Z`` of the connections used by the exclusive sequencer writer compo
 
     canton.sequencers.<sequencer-name>.sequencer.high-availability.exclusive-storage.max-connections = Z
 
-A Canton participant node will establish up to ``X + Y + 2`` permanent connections with the database, whereas a domain node
+A Canton participant node will establish up to ``X + Y + 2`` permanent connections with the database, whereas a sync domain
 will use up to ``X`` permanent connections, except for a sequencer with HA setup that will allocate up to ``2X`` connections. During
 startup, the node will use an additional set of at most ``X`` temporary connections during database initialisation.
 
@@ -529,40 +529,40 @@ will be reserved to a dedicated *main* connection responsible for managing the l
 The following table summarizes the detailed split of the connection pools in different Canton nodes. ``R`` signifies a *read* pool, ``W``
 a *write* pool, ``A`` a *ledger api* pool, ``I`` an *indexer* pool, ``RW`` a combined *read/write* pool, and ``M`` the *main* pool.
 
-+------------------+--------------------+--------------------+--------------------+
-|  Node Type       | Enterprise Edition | Enterprise Edition | Community Edition  |
-|                  | with Replication   |                    |                    |
-+==================+====================+====================+====================+
-| Participant      | | A = X / 2        | | A = X / 2        | | A = X / 2        |
-|                  | | R = X / 4        | | R = X / 4        | | RW = X / 2       |
-|                  | | W = X / 4 - 1    | | W = X / 4 - 1    | | I = Y            |
-|                  | | M = 1            | | M = 1            |                    |
-|                  | | I = Y            | | I = Y            |                    |
-+------------------+--------------------+--------------------+--------------------+
-| Mediator         | | R = X / 2        | N/A                | N/A                |
-|                  | | W = X / 2 - 1    |                    |                    |
-|                  | | M = 1            |                    |                    |
-+------------------+--------------------+--------------------+--------------------+
-| Sequencer        | RW =  X            | N/A                | N/A                |
-+------------------+--------------------+--------------------+--------------------+
-| Sequencer writer | | R = X / 2        | N/A                | N/A                |
-|                  | | W = X / 2 - 1    |                    |                    |
-|                  | | M = 1            |                    |                    |
-+------------------+--------------------+--------------------+--------------------+
-| Sequencer        | | R = Z / 2        | N/A                | N/A                |
-| exclusive writer | | W = Z / 2        |                    |                    |
-+------------------+--------------------+--------------------+--------------------+
-| Domain manager   | | R = X / 2        | N/A                | N/A                |
-|                  | | W = X / 2 - 1    |                    |                    |
-|                  | | M = 1            |                    |                    |
-+------------------+--------------------+--------------------+--------------------+
-| Domain           | N/A                | RW = X             | RW = X             |
-+------------------+--------------------+--------------------+--------------------+
++-----------------------+--------------------+--------------------+--------------------+
+|  Node Type            | Enterprise Edition | Enterprise Edition | Community Edition  |
+|                       | with Replication   |                    |                    |
++=======================+====================+====================+====================+
+| Participant           | | A = X / 2        | | A = X / 2        | | A = X / 2        |
+|                       | | R = X / 4        | | R = X / 4        | | RW = X / 2       |
+|                       | | W = X / 4 - 1    | | W = X / 4 - 1    | | I = Y            |
+|                       | | M = 1            | | M = 1            |                    |
+|                       | | I = Y            | | I = Y            |                    |
++-----------------------+--------------------+--------------------+--------------------+
+| Mediator              | | R = X / 2        | N/A                | N/A                |
+|                       | | W = X / 2 - 1    |                    |                    |
+|                       | | M = 1            |                    |                    |
++-----------------------+--------------------+--------------------+--------------------+
+| Sequencer             | RW =  X            | N/A                | N/A                |
++-----------------------+--------------------+--------------------+--------------------+
+| Sequencer writer      | | R = X / 2        | N/A                | N/A                |
+|                       | | W = X / 2 - 1    |                    |                    |
+|                       | | M = 1            |                    |                    |
++-----------------------+--------------------+--------------------+--------------------+
+| Sequencer             | | R = Z / 2        | N/A                | N/A                |
+| exclusive writer      | | W = Z / 2        |                    |                    |
++-----------------------+--------------------+--------------------+--------------------+
+| Sync domain manager   | | R = X / 2        | N/A                | N/A                |
+|                       | | W = X / 2 - 1    |                    |                    |
+|                       | | M = 1            |                    |                    |
++-----------------------+--------------------+--------------------+--------------------+
+| Sync domain           | N/A                | RW = X             | RW = X             |
++-----------------------+--------------------+--------------------+--------------------+
 
 The results of the divisions are always rounded down unless they yield a zero. In that case, a minimal pool
 size of 1 is ascertained.
 
-The values obtained from that formula can be overridden using explicit configuration settings for the *ledger api* ``A``,
+The values obtained from that formula can be overridden using explicit configuration settings for the *ledger API* ``A``,
 the *read* ``R``, the *write* ``W`` pools.
 
 ::
@@ -597,9 +597,9 @@ Canton may schedule more database queries than the database can handle. As a res
 will be placed into the database queue. By default, the database queue has a size of 1000 queries.
 Reaching the queueing limit will lead to a ``DB_STORAGE_DEGRADATION`` warning. The impact of this warning
 is that the queuing will overflow into the asynchronous execution context and slowly degrade the processing,
-which will result in less database queries being created. However, for high performance
+which will result in fewer database queries being created. However, for high-performance
 setups, such spikes might occur more regularly. Therefore, to avoid the degradation warning
-appearing too frequent, the queue size can be configured using:
+appearing too frequently, the queue size can be configured using:
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/storage-queue-size.conf
 
@@ -611,11 +611,11 @@ Backup and Restore
 
 It is recommended that your database is frequently backed up so that the data can be restored in case of a disaster.
 
-In the case of a restore, a participant can replay missing data from the domain
-as long as the domain's backup is more recent than that of the participant's.
+In the case of a restore, a participant can replay missing data from the sync domain
+as long as the sync domain's backup is more recent than that of the participant's.
 
 .. todo::
-  #. `Ability to recover from partial data loss on a domain <https://github.com/DACH-NY/canton/issues/4839>`_.
+  #. `Ability to recover from partial data loss on a sync domain <https://github.com/DACH-NY/canton/issues/4839>`_.
 
 Order of Backups
 ~~~~~~~~~~~~~~~~
@@ -643,14 +643,14 @@ a cloud RDS), make sure no component writes to the database while the backup is 
 If you are using a domain integration such as Fabric or Besu, back up the sequencer node before backing
 up the underlying domain storage (e.g. Besu files).
 
-In case of a domain restore from a backup, if a participant is ahead of the
-domain the participant will refuse to connect to the domain (``ForkHappened``) and you must
+In case of a sync domain restore from a backup, if a participant is ahead of the
+sync domain the participant will refuse to connect to the sync domain (``ForkHappened``) and you must
 either:
 
-- restore the participant's state to a backup before the disaster of the domain, or
-- roll out a new domain as a repair strategy in order to :ref:`recover from a lost domain <recovering_from_lost_domain>`
+- restore the participant's state to a backup before the disaster of the sync domain, or
+- roll out a new sync domain as a repair strategy in order to :ref:`recover from a lost sync domain <recovering_from_lost_domain>`
 
-The state of applications that interact with participant's ledger API must be
+The state of applications that interact with a participant's ledger API must be
 backed up before the participant, otherwise the application state has to be
 reset.
 
@@ -677,8 +677,8 @@ This tracking will be in sync again when:
    request from before the restore that could be sequenced again
 
 Such submission requests have a max sequencing time of the ledger time plus the
-ledger-time-record-time-tolerance of the domain. It should be enough to observe
-a timestamp from the domain that is after the time when the participant was
+ledger-time-record-time-tolerance of the sync domain. It should be enough to observe
+a timestamp from the sync domain that is after the time when the participant was
 stopped before the restore by more than the tolerance. Once such a timestamp is
 observed, the in-flight submission tracking is in sync again and applications
 can resume submitting commands with full command deduplication guarantees.
@@ -715,7 +715,7 @@ To avoid this situation, perform the key rotation steps in this order:
 Postgres Example
 ~~~~~~~~~~~~~~~~
 
-If you are using Postgres to persist the participant or domain node data, you can create backups to a file and restore it using Postgres's utility commands ``pg_dump`` and ``pg_restore`` as shown below:
+If you are using Postgres to persist the participant node or sync domain data, you can create backups to a file and restore it using Postgres's utility commands ``pg_dump`` and ``pg_restore`` as shown below:
 
 Backing up Postgres database to a file:
 
@@ -729,7 +729,7 @@ Restoring Postgres database data from a file:
 
     pg_restore -U <user> -h <host> -p <port> -w -d <dbName> <fileName>
 
-Although the approach shown above works for small deployments, it is not recommended in larger deployments.
+Although the approach shown above works for small deployments, it is not recommended for larger deployments.
 For that, we suggest looking into incremental backups and refer to the resources below:
 
 - `PostgreSQL Documentation: Backup and Restore <https://www.postgresql.org/docs/current/backup.html>`_
@@ -743,8 +743,8 @@ Database Replication for Disaster Recovery
 Synchronous Replication
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-We recommend that in production at least the domain should be run with offsite
-synchronous replication to assure that the state of the domain is always newer
+We recommend that in production at least the sync domain should be run with offsite
+synchronous replication to ensure that the state of the sync domain is always newer
 than the state of the participants. However to avoid similar
 :ref:`caveats as with backup restore <restore_caveats>` the participants should either use synchronous
 replication too or as part of the manual disaster recovery failure procedure the

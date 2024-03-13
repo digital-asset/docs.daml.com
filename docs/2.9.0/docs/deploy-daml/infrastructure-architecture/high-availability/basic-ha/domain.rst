@@ -1,26 +1,26 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-HA on the Domain
-################
+HA on the Synchronization Domain
+################################
 
-The diagram shows a domain containing the topology manager, mediator, and sequencer components. 
+The diagram shows a sync domain containing the topology manager, mediator, and sequencer components. 
 
 .. _components-for-ha:
 .. image:: canton-components-for-ha.svg
    :align: center
    :width: 60%
 
-A domain is fully available only when all components are available. However, transaction processing still runs even when only the mediator and the sequencer are available. 
+A sync domain is fully available only when all components are available. However, transaction processing still runs even when only the mediator and the sequencer are available. 
 
-As all of the domain components run in separate processes, HA is architected per component. This means that in an HA deployment, the domain is not deployed as a domain node (which would run the mediator, sequencer, and manager in a single process).
+As all of the sync domain components run in separate processes, HA is architected per component. This means that in an HA deployment, the sync domain is not deployed as a node (which would run the mediator, sequencer, and manager in a single process).
 
 Sequencer
 ---------
 
 Sequencer HA depends on the chosen implementation. For example, when using a ledger such as `Hyperledger Fabric <../../../../canton/usermanual/domains/fabric.html>`_, HA is already set up. Multiple sequencer nodes must be deployed. 
 
-The domain returns multiple sequenced endpoints, any of which can be used to interact with the underlying ledger.
+The sync domain returns multiple sequenced endpoints, any of which can be used to interact with the underlying ledger.
 
 Database Sequencer
 ~~~~~~~~~~~~~~~~~~

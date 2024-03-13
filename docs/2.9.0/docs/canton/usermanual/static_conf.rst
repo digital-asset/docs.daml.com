@@ -9,9 +9,9 @@ Static Configuration
 ====================
 
 Canton differentiates between static and dynamic configuration. Static configuration is immutable and therefore has
-to be known from the beginning of the process start. An example for a static configuration are the connectivity
-parameters to the local persistence store or the port the admin-apis should bind to. On the other hand, connecting to a domain
-or adding parties however is not a static configuration and therefore is not set via the config file but through
+to be known from the beginning of the process. For a static configuration, examples would be the connectivity
+parameters to the local persistence store or the port the admin-apis should bind to. On the other hand, connecting to a sync domain
+or adding parties are not matters of static configuration and therefore are not set via the config file but through
 :ref:`console commands <canton_console>` (or the :ref:`administration APIs <administration_apis>`).
 
 .. figure:: images/canton_node_initialization.png
@@ -26,11 +26,11 @@ format with some extensions:
   but behave as expected using ``ms``, ``s``, ``m``, ``h``, ``d`` to refer to milliseconds, seconds, minutes, hours and days.
   Durations have to be non-negative in our context.
 
-Canton does not run one node, but any number of nodes, be it domain or participant nodes in the same process. Therefore,
-the root configuration allows to define several instances of domain and participant nodes together with a set of
+Canton does not run one node, but any number of nodes, be it sync domains or participant nodes in the same process. Therefore,
+the root configuration allows to define several instances of sync domains and participant nodes together with a set of
 general process parameters.
 
-A sample configuration file for two participant nodes and a single domain can be seen below.
+A sample configuration file for two participant nodes and a single sync domain can be seen below.
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/01-simple-topology/simple-topology.conf
 
@@ -73,7 +73,7 @@ configuration file can include other configuration files.
 The ``required`` keyword will trigger an error, if the included file does not exist;
 without the ``required`` keyword, any missing files will be silently ignored.
 The ``file`` keyword instructs the configuration parser to interpret its argument as a file name;
-without this keyword, the parser may interpret the given name as URL or classpath resource.
+without this keyword, the parser may interpret the given name as a URL or classpath resource.
 By using the ``file`` keyword, you will also get the most intuitive semantics and most stable semantics of ``include``.
 The precise rules for resolving relative paths can be found `here <https://github.com/lightbend/config/blob/master/HOCON.md#include-semantics-locating-resources>`__.
 
@@ -97,8 +97,8 @@ Configuration Mixin
 
 Even more than multiple configuration files, we can leverage `PureConfig <https://github.com/pureconfig/pureconfig>`__
 to create shared configuration items that refer to environment variables.
-A handy example is the following, which allows to share database
-configuration settings in a setup involving several participant or domain nodes:
+A handy example is the following, which allows for sharing database
+configuration settings in a setup involving several sync domains or participant nodes:
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/pack/config/storage/postgres.conf
 
@@ -117,30 +117,30 @@ Such a definition can subsequently be referenced in the actual node definition:
 
 .. _multiple-domains-config:
 
-Multiple Domains
-----------------
+Multiple Synchronization Domains
+--------------------------------
 
-A Canton configuration allows to define multiple domains. Also, a Canton participant can connect to
-multiple domains. This is however only supported as a preview feature and not yet suitable for
+A Canton configuration allows you to define multiple sync domains. Also, a Canton participant can connect to
+multiple sync domains. This is however only supported as a preview feature and not yet suitable for
 production use.
 
-In particular, contract key uniqueness cannot be enforced over multiple domains. In this situation,
+In particular, contract key uniqueness cannot be enforced over multiple sync domains. In this situation,
 we need to turn contract key uniqueness off by setting
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/non-uck-mode.conf
 
 Please note that the setting is final and cannot be changed subsequently. We will provide a migration
-path once multi-domain is fully implemented.
+path once multi-sync-domain functionality is fully implemented.
 
 Fail Fast Mode
 --------------
 
-Be default, Canton will fail to start if it cannot access some external dependency such as the database. This is
+By default, Canton will fail to start if it cannot access some external dependency such as the database. This is
 preferable during initial deployment and development, as it provides instantaneous feedback, but can cause problems
 in production. As an example, if Canton is started with a database in parallel, the Canton process would fail if the
 database is not ready before the Canton process attempts to access it. To avoid this problem, you can configure a node
 to wait indefinitely for an external dependency such as a database to start. The config option below will disable
-the "fail fast" behaviour for ``participant1``.
+the "fail fast" behavior for ``participant1``.
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/no-fail-fast.conf
 

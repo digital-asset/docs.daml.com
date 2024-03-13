@@ -11,7 +11,7 @@ Introduction
 
 This section describes how to deploy a complete Daml solution in an HA configuration with horizontal scaling characteristics. 
 
-The distributed solution uses Daml v2.x Enterprise with Canton services, HTTP JSON API server, Trigger services, and OAuth 2.0 middleware components. In this document we primarily discuss a SQL domain that uses PostgreSQL as the synchronization mechanism for the sequencer backend. We also describe a blockchain domain. 
+The distributed solution uses Daml v2.x Enterprise with Canton services, HTTP JSON API server, Trigger services, and OAuth 2.0 middleware components. In this document we primarily discuss a SQL sync domain that uses PostgreSQL as the synchronization mechanism for the sequencer backend. We also describe a blockchain syncrhonizer. 
 
 Information in this section is useful for the following:
 
@@ -24,7 +24,7 @@ Information in this section is useful for the following:
 Target audience
 ===============
 
-1. A distributed application provider who runs a domain and their own participant service.
+1. A distributed application provider who runs a sync domain and their own participant service.
 2. Distributed application users who run a participant service.
 3. Infrastructure operators or site reliability engineers (SREs).
 

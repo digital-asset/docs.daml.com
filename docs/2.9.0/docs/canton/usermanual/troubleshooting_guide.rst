@@ -11,16 +11,16 @@ Troubleshooting Guide
 Introduction
 ------------
 
-Distributed systems can fail in many ways and finding the cause of an error is not straight forward. This guide here captures the common steps our engineers take when trying to troubleshoot issues found during development or support.
+Distributed systems can fail in many ways and finding the cause of an error is not straightforward. This guide here captures the common steps our engineers take when trying to troubleshoot issues found during development or support.
 
 Enable Information Gathering
 ----------------------------
 
-The following switches / steps should be taken in order to improve analyzing errors. Without these, you might not be able to diagnose “harder” issues.
+The following switches/steps should be taken to improve analyzing errors. Without these, you might not be able to diagnose “harder” issues.
 
 * **Create Health Dumps**
 
-     Ensure that you are able to create :ref:`Health Dumps <creating_dumps>`. You need to share these health dumps during any support request. The health dumps provide a lot of diagnostic information that we need to troubleshoot issues.
+     Ensure that you can create :ref:`Health Dumps <creating_dumps>`. You need to share these health dumps during any support request. The health dumps provide a lot of diagnostic information that we need to troubleshoot issues.
 
 * **Turn on Debug Logging**
 
@@ -159,7 +159,7 @@ Log Files
 
      The log lines often also contain the “context” of the component. Examples:
 
-     * This log line tells us which component of which participant (participant1) of which domain connection (da) has been emitting this log line. It also includes the trace id of the underlying request::
+     * This log line tells us which component of which participant (participant1) of which sync domain connection (da) has been emitting this log line. It also includes the trace ID of the underlying request::
 
           2022-10-04 15:55:50,077 [⋮] DEBUG
           c.d.c.p.p.TransactionProcessingSteps:participant=participant1/domain=da

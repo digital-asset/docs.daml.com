@@ -114,14 +114,14 @@ The Example Topology
 To understand the basic elements of Canton, let's briefly look at this starting configuration.
 It is written in the `HOCON <https://github.com/lightbend/config/blob/master/HOCON.md>`__ format as shown below.
 It specifies that you wish to run two *participant nodes*, whose local aliases are ``participant1`` and ``participant2``, and a single
-*synchronization domain*, with the local alias ``mydomain``.
+*sync domain*, with the local alias ``mydomain``.
 It also specifies the storage backend that each node should use (in this tutorial we're using in-memory storage), and the network ports for various services, which we will describe shortly.
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/pack/examples/01-simple-topology/simple-topology.conf
    :language: none
 
-To run the protocol, the participants must connect to one or more synchronization domains (domains for short).
-To execute a *transaction* (a change that updates the shared contracts of several parties), all the parties' participant nodes must be connected to the same domain.
+To run the protocol, the participants must connect to one or more sync domains.
+To execute a *transaction* (a change that updates the shared contracts of several parties), all the parties' participant nodes must be connected to the same sync domain.
 In the remainder of this tutorial, you will construct a network topology that will enable the three parties
 Alice, Bob, and Bank to transact with each other, as shown here:
 
@@ -135,48 +135,48 @@ handle the interactions and display the data in a user-friendly interface.
 In addition to the Ledger API, each participant node also exposes an *Admin API*.
 The Admin API allows the administrator (that is, you) to:
 
-- manage the participant node's connections to domains
+- manage the participant node's connections to sync domains
 - add or remove parties to be hosted at the participant node
 - upload new Daml archives
 - configure the operational data of the participant, such as cryptographic keys
 - run diagnostic commands
 
-The domain node exposes a *Public API* that is used by participant nodes to communicate with the synchronization domain.
+The sync domain exposes a *Public API* that is used by participant nodes to communicate with the synchronization sync domain.
 This must be accessible from where the participant nodes are hosted.
 
-Similar to the participant node, a domain node also exposes an Admin API for administration services.
-You can use these to manage keys, set domain parameters and enable or disable participant nodes within a domain, for example.
-The console provides access to the Admin APIs of the configured participants and domains.
+Similar to the participant node, a sync domain also exposes an Admin API for administration services.
+You can use these to manage keys, set sync domain parameters and enable or disable participant nodes within a sync domain, for example.
+The console provides access to the Admin APIs of the configured participants and sync domains.
 
 .. note:: Canton's Admin APIs must not be confused with the ``admin`` package of the Ledger API.
    The ``admin`` package of the Ledger API provides services for managing parties and packages on *any Daml participant.*
-   Canton's Admin APIs allows you to administrate *Canton-based nodes.* Both the ``participant`` and the ``domain`` nodes
+   Canton's Admin APIs allows you to administrate *Canton-based nodes.* Both the ``participant`` node and the ``sync domain``
    expose an Admin API with partially overlapping functionality.
 
-Furthermore, participant and domain nodes communicate with each other through the Public API. The participants do not communicate with each
-other directly, but are free to connect to as many domains as they desire.
+Furthermore, participant nodes and sync domains communicate with each other through the Public API. The participants do not communicate with each
+other directly, but are free to connect to as many sync domains as they desire.
 
 As you can see, nothing in the configuration specifies that our ``participant1`` and ``participant2`` should connect to ``mydomain``.
-Canton connections are not statically configured -- they are added dynamically. So first, let's connect the participants to the domain.
+Canton connections are not statically configured -- they are added dynamically. So first, let's connect the participants to the sync domain.
 
 .. _connecting-the-nodes:
 
-Connecting The Nodes
---------------------
+Connecting The Participant Nodes and Synchronization Domains
+------------------------------------------------------------
 
-Using the console we can run commands on each of the configured (participant or domain) nodes. As such,
-we can check the health of a node using the `health.status` command:
+Using the console we can run commands on each of the configured participant nodes and sync domains. As such,
+we can check their health using the `health.status` command:
 
 .. snippet:: getting_started
     .. success:: health.status
 
-We can do this also individually on each node. As an example, to query the status of ``participant1``:
+We can also do this individually. As an example, to query the status of ``participant1``:
 
 .. snippet:: getting_started
     .. success:: participant1.health.status
     .. assert:: RES.successOption.nonEmpty
 
-or for the domain:
+or for the sync domain:
 
 .. snippet:: getting_started
     .. success:: mydomain.health.status
@@ -188,10 +188,10 @@ behavior can be overridden using the ``--manual-start`` command line flag or app
 
 For the moment, ignore the long hexadecimal strings that follow the node aliases; these have to do with Canton's
 identities, which we will explain shortly.
-As you see, the domain doesn't have any connected participants, and the participants are also not connected to any
-domains.
+As you see, the sync domain doesn't have any connected participants, and the participants are also not connected to any
+sync domains.
 
-To connect the participants to the domain:
+To connect the participants to the sync domain:
 
 .. snippet:: getting_started
     .. success:: participant1.domains.connect_local(mydomain)
@@ -204,7 +204,7 @@ Now, check the status again:
 .. snippet:: getting_started
     .. success(output=15):: health.status
 
-As you can read from the status, both participants are now connected to the domain.
+As you can read from the status, both participants are now connected to the sync domain.
 You can test the connection with the following diagnostic command, inspired by the ICMP ping:
 
 .. snippet:: getting_started
@@ -230,10 +230,10 @@ For this, you need to be able to provision parties.
 Canton Identities and Provisioning Parties
 ------------------------------------------
 
-In Canton, the identity of each party, participant, or domain is represented by a *unique identifier*.
+In Canton, the identity of each party, participant, or sync domain is represented by a *unique identifier*.
 A unique identifier consists of two components: a human-readable string and the fingerprint of a public key.
 When displayed in Canton the components are separated by a double colon.
-You can see the identifiers of the participants and the domains by running the following in the console:
+You can see the identifiers of the participants and the sync domains by running the following in the console:
 
 .. snippet:: getting_started
     .. success:: mydomain.id
@@ -272,9 +272,9 @@ Similarly, Bob will use ``participant2``. Canton provides a handy macro for this
     .. assert:: bob.uid.id.unwrap == "Bob"
 
 This creates the new parties in the participants' respective namespaces.
-It also notifies the domain of the new parties and allows the participants to submit commands on behalf of
+It also notifies the sync domain of the new parties and allows the participants to submit commands on behalf of
 those parties.
-The domain allows this since, e.g., Alice's unique identifier uses the same namespace as ``participant1`` and ``participant1`` holds the secret key of this namespace.
+The sync domain allows this since, e.g., Alice's unique identifier uses the same namespace as ``participant1`` and ``participant1`` holds the secret key of this namespace.
 You can check that the parties are now known to ``mydomain`` by running the following:
 
 .. snippet:: getting_started
@@ -302,17 +302,17 @@ then you can't ping as we did before:
 .. snippet:: getting_started
     .. success(output=0):: participant1.health.ping(participant2)
 
-Instead, extract the participant id of one node:
+Instead, extract the participant ID of one node:
 
 .. snippet:: getting_started
     .. success:: val extractedId = participant2.id.toProtoPrimitive
 
-This id can then be shared with the other participant, who in turn can parse the id back into an appropriate object:
+This ID can then be shared with the other participant, who in turn can parse the ID back into an appropriate object:
 
 .. snippet:: getting_started
     .. success:: val p2Id = ParticipantId.tryFromProtoPrimitive(extractedId)
 
-And subsequently, this id can be used to ping as well:
+Subsequently, this ID can be used to ping as well:
 
 .. snippet:: getting_started
     .. success:: participant1.health.ping(p2Id)
@@ -372,13 +372,13 @@ and on the second participant, run:
     .. success:: participant2.dars.list()
     .. assert:: RES.length == 2 && RES.exists(dar => dar.name == "CantonExamples")
 
-One important observation is that you cannot list the uploaded DARs on the domain ``mydomain``. You
+One important observation is that you cannot list the uploaded DARs on the sync domain ``mydomain``. You
 will simply get an error if you run ``mydomain.dars.list()``.
-This is due the fact that the domain does not know anything about Daml or smart contracts. All the contract code
-is only executed by the involved participants on a need to know basis and needs to be explicitly
+This is because the sync domain does not know anything about Daml or smart contracts. All the contract code
+is only executed by the involved participants on a need-to-know basis and needs to be explicitly
 enabled by them.
 
-Now you are ready to actually start running smart contracts using Canton.
+Now you are ready to start running smart contracts using Canton.
 
 .. _canton-run-daml-scenarios:
 
@@ -395,7 +395,7 @@ First, we need to add the Bank as a party:
     .. success:: val bank = participant2.parties.enable("Bank", waitForDomain = DomainChoice.All)
 
 You might have noticed that we've added a ``waitForDomain`` argument here. This is necessary to force some
-synchronisation between the nodes to ensure that the new party is known within the distributed system before it is used.
+synchronization between the nodes to ensure that the new party is known within the distributed system before it is used.
 
 .. note::
 
@@ -404,10 +404,10 @@ synchronisation between the nodes to ensure that the new party is known within t
    Creating the ``Bank`` party is an operation local to ``participant2``, and ``mydomain`` becomes aware of the
    party with a delay (see :ref:`Topology Transactions <identity-transactions>` for more detail).
    Processing and network delays also exist for all other operations that affect multiple nodes, though everyone sees
-   the operations on the domain in the same order. When you execute commands interactively, the delays are usually
+   the operations on the sync domain in the same order. When you execute commands interactively, the delays are usually
    too small to notice. However, if you're programming Canton scripts or applications that talk to multiple nodes,
    you might need some form of manual synchronization.
-   Most Canton console commands have some form of synchronisation to simplify your life and sometimes,
+   Most Canton console commands have some form of synchronization to simplify your life and sometimes,
    using ``utils.retry_until_true(...)`` is a handy solution.
 
 The corresponding Daml contracts that we are going to use for this example are:
@@ -430,7 +430,7 @@ experimentation. The Ledger API uses `gRPC <http://grpc.io>`__.
 
 In theory, we would need to compile the Daml code into a DAR and then upload it to the participant nodes.
 We actually did this already by uploading the ``CantonExamples.dar``, which includes the contracts. Now we can create our first contract using the template ``Iou.Iou``. The name of the template is not enough to uniquely
-identify it. We also need the package id, which is just the `sha256` hash of the binary module containing the
+identify it. We also need the package ID, which is just the `sha256` hash of the binary module containing the
 respective template.
 
 Find that package by running:
@@ -478,7 +478,7 @@ provides convenient functions to manipulate the ``CreatedEvent``\s in the Canton
     .. success:: participant1.ledger_api.acs.of_party(alice).map(x => (x.templateId, x.arguments))
 
 Going back to our story, Bob now wants to offer to paint Alice's house in exchange for money. Again, we need to
-grab the package id, as the Paint contract is in a different module:
+grab the package ID, as the Paint contract is in a different module:
 
 .. snippet:: getting_started
     .. success:: val pkgPaint = participant1.packages.find("Paint").head
@@ -507,7 +507,7 @@ Looking at the ACS of Alice, Bob and the Bank, we note that Bob sees only the pa
        .. success:: participant2.ledger_api.acs.of_party(bob).map(x => (x.templateId, x.arguments))
        .. assert:: RES.length == 1
 
-while the Bank sees the Iou contract:
+while the Bank sees the IOU contract:
 
 .. snippet:: getting_started
        .. success:: participant2.ledger_api.acs.of_party(bank).map(x => (x.templateId, x.arguments))
@@ -519,7 +519,7 @@ But Alice sees both on her participant node:
        .. success:: participant1.ledger_api.acs.of_party(alice).map(x => (x.templateId, x.arguments))
        .. assert:: RES.length == 2
 
-If there were a third participant node, it wouldn't have even noticed that there was anything happening, let alone have received any contract data. Or if we had deployed the Bank on that third node, that node
+If there were a third participant node, it wouldn't have even noticed that anything was happening, let alone have received any contract data. Or if we had deployed the Bank on that third node, that node
 would not have been informed about the Paint offer. This privacy feature goes so far in Canton that not even
 everybody within a single atomic transaction is aware of each other. This is a property unique to the Canton
 synchronization protocol, which we call *sub-transaction privacy*. The protocol ensures that only eligible
@@ -527,14 +527,14 @@ participants will receive any data. Furthermore, while the node running ``mydoma
 is encrypted and ``mydomain`` cannot read it.
 
 We can run such a step with sub-transaction privacy by accepting the offer, which will lead to the transfer of the Bank
-Iou, without the Bank actually learning about the Paint agreement:
+IOU, without the Bank learning about the Paint agreement:
 
 .. snippet:: getting_started
     .. success(output=0):: import com.digitalasset.canton.protocol.LfContractId
     .. success(output=6):: val acceptOffer = ledger_api_utils.exercise("AcceptByOwner", Map("iouId" -> LfContractId.assertFromString(aliceIou.event.contractId)),paintOffer.event)
     .. success(output=6):: participant1.ledger_api.commands.submit_flat(Seq(alice), Seq(acceptOffer))
 
-Note that the conversion to ``LfContractId`` was required to pass in the Iou contract id as the correct type.
+Note that the conversion to ``LfContractId`` was required to pass in the IOU contract ID as the correct type.
 
 Your Development Choices
 ------------------------

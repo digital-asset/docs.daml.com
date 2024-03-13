@@ -313,8 +313,8 @@ and design limitations :ref:`later in the section
   infinite, so this unnecessary rejection doesn't happen in practice, and
   the situation would be resolved operationally before the queue fills up.
 
-  **Design limitation 4**: If the mediator of the domain has crashed and lost
-  the in-flight transaction, which will then timeout.
+  **Design limitation 4**: If the mediator of the sync domain has crashed and lost
+  the in-flight transaction, which then times out.
 
   .. todo::
     #. `Referee for algorithmic dispute resolution <https://github.com/DACH-NY/canton/issues/191>`_
@@ -415,7 +415,7 @@ operation. In addition to the participant nodes, the implementation of
 the synchronization protocol may involve a set of additional
 operational entities. For example, this set can include a sequencer.
 We call a single deployment of such a set of operational
-entities a **domain**, and refer to the entities as **domain
+entities a **sync domain**, and refer to the entities as **sync domain
 entities**.
 
 As before, the requirements are expressed as user stories, with the user always
@@ -433,21 +433,21 @@ section <requirements-exceptions>`.
   to this action. In particular, other participant nodes must not receive
   any information about the action, not even in an encrypted form.
 
-  **Exception**: domain entities operated by trusted third parties
+  **Exception**: Sync domain entities operated by trusted third parties
   (such as market operators) may receive encrypted versions of any of
   the ledger data (but not plain text).
 
   **Design limitation 1**: Participant nodes of parties privy to an
   action (according to the ledger privacy model) may learn the following:
 
-  * How deeply lies the action within a ledger commit.
+  * How deeply the action lies within a ledger commit.
 
   * How many sibling actions each parent action has.
 
   * The transaction identifiers (but not the transactions' contents)
     that have created the contracts used by the action.
 
-  **Design limitation 2**: Domain entities operated by trusted third
+  **Design limitation 2**: Sync domain entities operated by trusted third
   parties may learn the hierarchical structure and stakeholders of all
   actions of the ledger (but none of the contents of the contracts,
   such as templates used or their arguments).
@@ -505,15 +505,15 @@ section <requirements-exceptions>`.
 
 .. _configurable-trust-liveness-trade-off-hlreq:
 
-* **Configurable trust-liveness trade-off**. I want each domain to
-  allow me to choose from a predefined (by the domain) set of trade-offs
+* **Configurable trust-liveness trade-off**. I want each sync domain to
+  allow me to choose from a predefined (by the sync domain) set of trade-offs
   between trust and liveness for my change requests, so that my change
   requests get included in the ledger even if some of the participant nodes
   of my counterparties are offline or Byzantine, at the expense of
-  making additional trust assumptions: on (1) the domain entities (for
+  making additional trust assumptions: on (1) the sync domain entities (for
   privacy and integrity), and/or (2) participant nodes run by
   counterparties in my change request that are marked as "VIP" by
-  the domain (for integrity), and/or (3) participant nodes run by other counterparties
+  the sync domain (for integrity), and/or (3) participant nodes run by other counterparties
   in my change request (also for integrity).
 
   **Exception**: If the honest and online participants do not
@@ -567,50 +567,50 @@ section <requirements-exceptions>`.
 
   .. _multi-domain-participant-nodes-hlreq:
 
-* **Multi-domain participant nodes**. I want to be able to use
-  multiple domains simultaneously from the same participant node.
+* **Multi-sync-domain participant nodes**. I want to be able to use
+  multiple sync domains simultaneously from the same participant node.
 
   This item is only delivered in an experimental state and scheduled on the
   roadmap for GA.
 
   .. _internal-participant-node-domain-hlreq:
 
-* **Internal participant node domain**. I want to be able to use
-  an internal domain for workflows involving only local parties
+* **Internal participant node sync domain**. I want to be able to use
+  an internal sync domain for workflows involving only local parties
   exclusively hosted by the participant node.
 
   This item is scheduled on the roadmap.
 
   .. _connecting-to-domains-hlreq:
 
-* **Connecting to domains**. I want to be able to connect my participant
-  node to a new domain at any point in time, as long as I am accepted
-  by the domain operators.
+* **Connecting to sync domain**. I want to be able to connect my participant
+  node to a new sync domain at any point in time, as long as I am accepted
+  by the sync domain operators.
 
-  **Exception** If the participant has been connected to a domain with unique
-  contract key mode turned on, then connecting to another domain is forbidden.
+  **Exception** If the participant has been connected to a sync domain with unique
+  contract key mode turned on, then connecting to another sync domain is forbidden.
 
   .. _workflow-transfer-hlreq:
 
 * **Workflow transfer**. I want to be able to transfer the processing
   of any Daml contract that I am a stakeholder of or have delegation
-  rights on, from one domain to another domain that has been
+  rights on, from one sync domain to another sync domain that has been
   vetted as appropriate by all contract stakeholders through some
   procedure defined by the synchronization service, so that I can use
-  domains with better performance, do load balancing and
+  sync domains with better performance, do load balancing and
   disaster recovery.
 
   .. _workflow-composability-hlreq:
 
 * **Workflow composability**. I want to be able to atomically execute
-  steps (Daml actions) in different workflows across different domains, as long as
-  there exists a single domain to which all participants in all
+  steps (Daml actions) in different workflows across different sync domains, as long as
+  there exists a single sync domains to which all participants in all
   workflows are connected.
 
   This item is scheduled on the roadmap.
 
   .. todo::
-    #. `Atomic Multi-Domain Transactions <https://github.com/DACH-NY/canton/issues/167>`_.
+    #. `Atomic Multi-Sync-Domain Transactions <https://github.com/DACH-NY/canton/issues/167>`_.
 
 .. _standards-compliant-cryptography-hlreq:
 
@@ -632,12 +632,12 @@ section <requirements-exceptions>`.
   improvements to the components and the protocol without stopping the
   system's operation.
 
-  **Design Limitation 1** When a domain needs to be upgraded to a new protocol
-  version a new domain is deployed and the participants migrate the active
-  contracts' synchronization to the new domain.
+  **Design Limitation 1** When a sync domain needs to be upgraded to a new protocol
+  version a new sync domain is deployed and the participants migrate the active
+  contracts' synchronization to the new sync domain.
 
   **Design Limitation 2** When a replicated node needs to be upgraded, all
-  replicas of the node needs to be upgraded at the same time.
+  replicas of the node need to be upgraded at the same time.
 
   .. todo::
     #. `Upgradability <https://github.com/DACH-NY/canton/issues/169>`_.
@@ -662,12 +662,12 @@ section <requirements-exceptions>`.
 
   .. _domain-approved-protocol-versions-hlreq:
 
-* **Domain approved protocol versions**. I want domains to specify the
-  allowed set of protocol versions on the domain, so that old versions
-  of the protocol can be decommissioned, and that new versions can be
+* **Synch domain approved protocol versions**. I want sync domains to specify the
+  allowed set of protocol versions on the sync domain, so that old versions
+  of the protocol can be decommissioned, and new versions can be
   introduced and rolled back if operational problems are discovered.
 
-  **Design limitation**: Initially, the domain can specify only a
+  **Design limitation**: Initially, the sync domain can specify only a
   single protocol version as allowed, which can change over time.
 
   .. _multiple-protocol-compatibility-hlreq:
@@ -675,7 +675,7 @@ section <requirements-exceptions>`.
 * **Multiple protocol compatibility**. I want new versions of system components
   to still support at least one previous major version of the synchronization
   protocol, so that entities capable of using newer versions of the protocol can
-  still use domains that specify only old versions as allowed.
+  still use sync domains that specify only old versions as allowed.
 
 .. _testability-participant-node-upgrades-historic-data-hlreq:
 
@@ -702,27 +702,27 @@ section <requirements-exceptions>`.
 
 .. _seamless-domain-entities-failover-hlreq:
 
-* **Seamless failover for domain entities**. I want the implementation of all
-  domain entities to include seamless failover capabilities, so that
+* **Seamless failover for sync domain entities**. I want the implementation of all
+  sync domain entities to include seamless failover capabilities, so that
   the system can continue operating uninterruptedly on the failure
-  of an instance of a domain entity.
+  of an instance of a sync domain entity.
 
 .. _backups-hlreq:
 
-* **Backups**. I want to be able to periodically backup
+* **Backups**. I want to be able to periodically back up
   the system state (ledger databases) so that it can be
   subsequently restored if required for disaster recovery purposes.
 
 .. _site-wide-disaster-recovery-hlreq:
 
 * **Site-wide disaster recovery**. I want the system to be built with
-  the ability to recover from a failure of an entire data center by
+  the ability to recover from the failure of an entire data center by
   moving the operations to a different data center, without loss of
   data.
 
   .. todo::
     #. `Participant site disaster recovery <https://github.com/DACH-NY/canton/issues/189>`_.
-    #. `Domain site disaster recovery <https://github.com/DACH-NY/canton/issues/190>`_.
+    #. `Sync domain site disaster recovery <https://github.com/DACH-NY/canton/issues/190>`_.
 
 .. _participant-compromise-recovery-hlreq:
 
@@ -738,22 +738,22 @@ section <requirements-exceptions>`.
 
 .. _domain-entity-compromise-recovery-hlreq:
 
-* **Domain entity corruption recovery**. I want to have a procedure
-  in place that can be followed to recover a malfunctioning or corrupted domain entity,
+* **Sync domain entity corruption recovery**. I want to have a procedure
+  in place that can be followed to recover a malfunctioning or corrupted sync domain entity,
   so that the system guarantees can be restored after the procedure
   is complete.
 
   This item is scheduled on the roadmap.
 
   .. todo::
-    #. `Domain entities compromise attack recovery <https://github.com/DACH-NY/canton/issues/188>`_.
+    #. `Sync domain entities compromise attack recovery <https://github.com/DACH-NY/canton/issues/188>`_.
 
 .. _fundamental-dispute-resolution:
 
 * **Fundamental dispute resolution**. I want to have a procedure in place
   that allows me to limit and resolve the damage to the ledger state in
   the case of a fundamental dispute on the outcome of a transaction that
-  was added to the virtual shared ledger, so that I can reconcile the
+  was added to the virtual shared ledger, so that I could reconcile the
   set of active contracts with my counterparties in case of any disagreement
   over this set. Example causes of disagreement include disagreement
   with the state found after recovering a compromised participant, or
@@ -881,7 +881,7 @@ section <requirements-exceptions>`.
 .. _large-transaction-support-hlreq:
 
 * **Large transaction support**. I want the system to support
-  large transactions such that I can guarantee atomicity of large scale
+  large transactions such that I can guarantee atomicity of large-scale
   workflows.
 
   This item is scheduled on the roadmap.
@@ -891,33 +891,33 @@ section <requirements-exceptions>`.
 
 .. _resilience-to-erroneous-behavior-hlreq:
 
-* **Resilience to erroneous behavior**. I want that the system
+* **Resilience to erroneous behavior**. I want the system
   to be resilient against erroneous behavior of users and participants
   such that I can entrust the system to handle my business.
 
   This item is scheduled on the roadmap.
 
   .. todo::
-    #. `Resilience to erroneous behaviour <https://github.com/DACH-NY/canton/issues/211>`_.
+    #. `Resilience to erroneous behavior <https://github.com/DACH-NY/canton/issues/211>`_.
 
 .. _resilience-to-faulty-domain-behavior-hlreq:
 
-* **Resilience to faulty domain behavior**. I want that the system
-  to be able to detect and recover from faulty behaviour of
-  domain components, such that occasional issues don't break the system
+* **Resilience to faulty sync domain behavior**. I want the system
+  to be able to detect and recover from faulty behavior of
+  sync domain components, such that occasional issues do not break the system
   permanently.
 
   This item is scheduled on the roadmap.
 
   .. todo::
-    #. `Resilience to faulty domain behaviour <https://github.com/DACH-NY/canton/issues/212>`_.
+    #. `Resilience to faulty sync domain behavior <https://github.com/DACH-NY/canton/issues/212>`_.
 
 .. _requirements-known-limitations:
 
 Known limitations
 -----------------
 
-In this section, we explain current limitations of Canton that we intend to overcome in future versions.
+In this section, we explain the current limitations of Canton that we intend to overcome in future versions.
 
 Limitations that apply always
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -925,13 +925,13 @@ Limitations that apply always
 Missing Key features
 ^^^^^^^^^^^^^^^^^^^^
 
-* **Cross-domain transactions** currently require the submitter of the transaction to transfer all used contracts
-  to a common domain.
-  Cross-domain transactions without first transferring to a single domain are not supported yet.
-  Only the stakeholders of a contract may transfer the contract to a different domain.
-  Therefore, if a transaction spans several domains and makes use of delegation to non-stakeholders,
+* **Cross-sync-domain transactions** currently require the submitter of the transaction to transfer all used contracts
+  to a common sync domain.
+  Cross-sync-domain transactions without first transferring to a single sync domain are not supported yet.
+  Only the stakeholders of a contract may transfer the contract to a different sync domain.
+  Therefore, if a transaction spans several sync domains and makes use of delegation to non-stakeholders,
   the submitter currently needs to coordinate with other participants to run the transaction,
-  because the submitter by itself cannot transfer all used contracts to a single domain.
+  because the submitter by itself cannot transfer all used contracts to a single sync domain.
 
 Reliability
 ^^^^^^^^^^^
@@ -942,22 +942,22 @@ Manageability
 ^^^^^^^^^^^^^
 
 * **Party migration** is still an experimental feature.
-  A party can already be migrated to a "fresh" participant that has not yet been connected to any domains.
+  A party can already be migrated to a "fresh" participant that has not yet been connected to any sync domains.
   Party migration is currently a manual process that needs to be executed with some care.
 
 Security
 ^^^^^^^^
 
 * **Denial of service attacks:** We have not yet implemented all countermeasures
-  to denial of service attacks. However the domain already protects against
+  to denial of service attacks. However, the sync domain already protects against
   faulty participants sending too many requests and message size limits protect
   against malicious participants trying to send large amounts of data via a
-  domain. Further rate limit on the ledger API protects against malicious/faulty
+  sync domain. Further rate limit on the ledger API protects against malicious/faulty
   applications.
 
 * **Public identity information:**
-  The topology state of a domain (i.e., participants known to the domain and parties hosted by them) is known to
-  all participants connected to the domain.
+  The topology state of a sync domain (i.e., participants known to the sync domain and parties hosted by them) is known to
+  all participants connected to the sync domain.
 
 .. todo::
    #. `Only selectively disclose topology information <https://github.com/DACH-NY/canton/issues/1251>`_.
@@ -1112,12 +1112,12 @@ identities of the parties involved in any part of the transaction
 other than the IOU transfer. This illustrates the first design
 limitation for the privacy requirement.
 
-At the bottom, we see that the domain entities run by a trusted third
+At the bottom, we see that the sync domain entities run by a trusted third
 party can learn the complete structure of the transaction and the
 stakeholders of all actions in the transaction (second design
 limitations). Lastly, they also see some data about the contracts on
 which the actions are performed, but this data is visible *only in an
-encrypted form*. The decryption keys are never shared with the domain
+encrypted form*. The decryption keys are never shared with the sync domain
 entities.
 
 
