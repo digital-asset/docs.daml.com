@@ -5,7 +5,7 @@ Daml REPL (Deprecated)
 ######################
 
 .. warning::
-   Since Daml 2.9.0, ``daml repl`` is deprecated. It will be removed in a future release.
+   Since Daml 2.9.0, ``daml repl`` is deprecated. It will be removed in Daml 3.0.
 
 The Daml REPL allows you to use the :doc:`/daml-script/index` API
 interactively. This is useful for debugging and for interactively
