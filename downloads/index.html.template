@@ -3,9 +3,19 @@
   <head>
     <meta charset="utf-8">
     <title>Daml Enterprise Downloads</title>
-    <link rel="stylesheet" href="/_static/css/theme.css">
+    <link rel="stylesheet" href="https://docs.daml.com/_static/css/theme.css" type="text/css">
   </head>
   <body>
+  <div class="navbar">
+    <h1><img src="https://docs.daml.com/_static/images/Daml_Logo_Blue.svg">Docs</h1>
+    <div class="navbar-menu">
+      <div class="da-menu-item da-menu-depth-1" role="menu">
+        <a href="https://docs.daml.com" role="menuitem" class="da-menu-link">Go Back to Docs</a>
+      </div>
+    </div>
+  </div>
+  </div>
+    </div>
     <h1>Daml Enterprise Downloads</h1>
     <ul>
     <% for (v of versions) { %>
