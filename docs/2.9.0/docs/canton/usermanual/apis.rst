@@ -248,8 +248,8 @@ than 100 tx/s.
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/large-in-memory-fan-out.conf
 
-Sync Domain Configurations
---------------------------
+Synchronization Domain Configurations
+-------------------------------------
 
 .. _public-api-configuration:
 

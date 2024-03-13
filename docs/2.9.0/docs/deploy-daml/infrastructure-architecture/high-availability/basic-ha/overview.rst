@@ -39,8 +39,8 @@ For example, if they both host the same party, transactions involving the party 
 .. NOTE::
     An application operating on behalf of a party cannot transparently failover from one participant node to another due to the difference in offsets emitted on each participant.
 
-Sync Domains
-~~~~~~~~~~~~
+Synchronization Domains
+~~~~~~~~~~~~~~~~~~~~~~~
 
 A participant node's availability is not affected by the availability of the sync domain, except for workflows that use the sync domain. This allows participant nodes and sync domains to take care of their HA separately.
 

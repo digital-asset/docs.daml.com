@@ -5,8 +5,8 @@
 
 .. enterprise-only::
 
-Fabric Sync Domain
-==================
+Fabric Synchronization Domain
+=============================
 
 The Canton-on-Fabric integration runs a Canton sync domain where events are sequenced using the `Hyperledger Fabric <https://hyperledger-fabric.readthedocs.io/en/latest/whatis.html>`_ ledger.
 

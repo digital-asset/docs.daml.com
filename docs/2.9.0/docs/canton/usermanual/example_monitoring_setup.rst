@@ -72,8 +72,8 @@ Using only a single Postgres container, create databases for the sync domain, al
    :language: sql
    :caption: etc/postgres-init.sql 
 
-Sync Domain Setup
-~~~~~~~~~~~~~~~~~
+Synchronization Domain Setup
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Run the sync domain with the `--log-profile container` that writes plain text to standard out at debug level.
 
 .. literalinclude:: ./monitoring/etc/domain0-docker-compose.yml

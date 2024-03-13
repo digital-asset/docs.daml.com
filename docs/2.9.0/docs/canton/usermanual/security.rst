@@ -160,11 +160,11 @@ The private key for the TLS server certificate is provided as a file, which can
 optionally be encrypted and the symmetric decryption key is fetched from a given
 URL.
 
-Sync Domain Topology Manager Keys
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Synchronization Domain Topology Manager Keys
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Sync Domain Namespace Signing Key
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Synchronization Domain Namespace Signing Key
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The sync domain topology manager governs the namespace of the sync domain and has a
 signing key pair for the namespace. The hash of the public key forms the
@@ -239,8 +239,8 @@ key pair for the following:
 - Signing of transaction results, transfer results, and rejections of malformed
   mediator requests.
 
-Sync Domain Node Keys
-~~~~~~~~~~~~~~~~~~~~~
+Synchronizer Domain Node Keys
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The sync domain node embeds a sequencer, mediator, and sync domain topology manager. The
 set of keys remains the same as for the individual nodes.

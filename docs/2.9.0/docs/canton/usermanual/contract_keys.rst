@@ -64,8 +64,8 @@ In the remainder of the document we:
 
 .. _canton_uck:
 
-Sync Domains with Uniqueness Guarantees
----------------------------------------
+Synchronization Domains with Uniqueness Guarantees
+--------------------------------------------------
 
 By default, Canton sync domains and participants are currently configured to provide unique contract key (UCK) semantics. This will be deprecated in the future, as such a uniqueness constraint cannot be supported on
 a distributed system in a useful way. The :ref:`semantic differences from the ledger model <canton_keys_difference_examples>`
@@ -82,7 +82,7 @@ Participants connected to a UCK sync domain check for key conflicts whenever the
 * When the submitted transaction contains a negative key lookup, the participants check that there is indeed no active contract for the given key.
 
 .. warning::
-   Daml workflows deployed on a UCK synchron are locked into this sync domain.
+   Daml workflows deployed on a UCK sync domain are locked into this sync domain.
    They cannot use Canton's composability and interoperability features
    because the participants will refuse to connect to other sync domains.
 

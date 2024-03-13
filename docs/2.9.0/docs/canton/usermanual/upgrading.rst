@@ -466,8 +466,8 @@ to a binary that can run the version.
 
 .. _canton_domain_protocol_version_upgrading:
 
-Upgrade the Sync Domain to a new Protocol Version
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Upgrade the Synchronization Domain to a new Protocol Version
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A sync domain is tied to a protocol version. This protocol version is configured when
 the sync domain is initialized and cannot be changed afterward. Therefore, **you can
@@ -492,8 +492,8 @@ Therefore, the protocol upgrade process boils down to:
 
 Note: to use the same database with different schemas for the old and the new sync domain, set the `currentSchema` either in the JDBC URL or as a parameter in `storage.config.properties`.
 
-Hard Sync Domain Connection Upgrade
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Hard Synchronization Domain Connection Upgrade
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A hard sync domain connection upgrade can be performed using the :ref:`respective migration command <repair.migrate_domain>`.
 Again, please ensure that you have appropriate backups in place and that you have tested this procedure before applying
@@ -605,8 +605,8 @@ the upgrade test to understand the necessary downtime required for the migration
 Furthermore, upon reconnecting, the participant needs to recompute the new set of commitments. This can take
 a while for large numbers of contracts.
 
-Soft Sync Domain Connection Upgrade
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Soft Synchronization Domain Connection Upgrade
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note ::
 

@@ -49,8 +49,8 @@ All console commands are also summarized in the bootstrap scripts ``composabilit
 
 .. _canton-composability-part1:
 
-Part 1: A multi-sync-domain workflow
-------------------------------------
+Part 1: A multi-synchronization-domain workflow
+-----------------------------------------------
 
 We consider the :ref:`paint agreement scenario <canton-run-daml-scenarios>` from the :ref:`Getting started <canton-getting-started>` tutorial.
 The house owner and the painter want to enter a paint agreement that obliges the painter to paint the house owner's house.
@@ -132,8 +132,8 @@ In this case, both sync domains are eligible because on each sync domain, every 
    :start-after: architecture-handbook-entry-begin: paint-offer
    :end-before: architecture-handbook-entry-end: paint-offer
 
-Contracts and Their Sync Domains
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Contracts and Their Synchronization Domains
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In Canton, each contract is only known to the participants involved in that contract. The
 involved participants are the only ones with unencrypted copies of the contract, which they store in their respective
@@ -290,8 +290,8 @@ The automatic-transfer transactions are only enabled when all of the following a
 * All contracts used by the transaction must have at least one stakeholder that is also a transaction submitter.
 
 
-Take aways
-~~~~~~~~~~
+Takeaways
+~~~~~~~~~
 
 * A contract resides on a sync domain. This means that the current agreement of the stakeholders
   is to communicate and sequence all access and changes to a given contract on a particular
@@ -497,8 +497,8 @@ For example, the painter can call the IOU.
    :start-after: architecture-handbook-entry-begin: call
    :end-before: architecture-handbook-entry-end: call
 
-Take aways
-~~~~~~~~~~
+Takeaways
+~~~~~~~~~
 
 * Contract transfers take two atomic steps: transfer-out and transfer-in.
   While the contract is being transferred, the contract does not reside on any sync domain.

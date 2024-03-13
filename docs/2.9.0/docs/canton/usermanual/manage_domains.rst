@@ -3,13 +3,13 @@
 ..
    Proprietary code. All rights reserved.
 
-Manage Sync Domains
-===================
+Manage Synchronization Domains
+==============================
 
 .. _permissioned-domains:
 
-Permissioned Sync Domains
--------------------------
+Permissioned Synchronization Domains
+------------------------------------
 
 .. enterprise-only::
 
@@ -102,8 +102,8 @@ Finally, the participant is healthy and can use the sync domain:
     .. success:: participant1.health.ping(participant1)
 
 
-Sync Domain Rules
------------------
+Synchronization Domain Rules
+----------------------------
 Every sync domain has its own rules in terms of what parameters are used by the participants while
 running the protocol. The participants obtain these parameters before connecting to the sync domain.
 They can be configured using the specific parameter section. An example would be:
@@ -112,8 +112,8 @@ They can be configured using the specific parameter section. An example would be
 
 The full set of available parameters can be found in the `scala reference documentation <https://docs.daml.com/__VERSION__/canton/scaladoc/com/digitalasset/canton/domain/config/DomainParametersConfig.html>`_.
 
-Dynamic sync domain parameters
-------------------------------
+Dynamic synchronization domain parameters
+-----------------------------------------
 
 .. _dynamic_domain_parameters:
 

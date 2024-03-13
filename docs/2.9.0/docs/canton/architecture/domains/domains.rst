@@ -5,8 +5,8 @@
 
 .. _domain-architecture:
 
-Sync Domain Architecture and Integrations
-#########################################
+Synchronization Domain Architecture and Integrations
+####################################################
 
 Recall the high-level topology with Canton sync domain being backed by different
 technologies, such as a relational database as well as block-chains like
@@ -21,8 +21,8 @@ In this chapter, we define the requirements specific to a Canton sync domain, ex
 the generic sync domain architecture, as well as the concrete integrations for Canton
 sync domain.
 
-Sync Domain-Specific Requirements
-*********************************
+Synchronization Domain-Specific Requirements
+********************************************
 
 The :ref:`high-level requirements <requirements>` define requirements for Canton
 in general, covering both participants and sync domains. This section categorizes and
@@ -200,8 +200,8 @@ Manageability
   endpoint for monitoring.
 
 
-Sync Domain-Internal Components
-*******************************
+Synchronization Domain-Internal Components
+******************************************
 
 The following diagram shows the architecture and components of a Canton sync domain
 as well as how a participant node interacts with the sync domain.

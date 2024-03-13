@@ -255,8 +255,8 @@ Canton distinguishes static from dynamic configuration.
 If you don't know how to connect to sync domains, onboard parties, or provision Daml code, please read the
 :ref:`getting started guide <canton-getting-started>`.
 
-Setting up a Sync Domain
-------------------------
+Setting up a Synchronization Domain
+-----------------------------------
 
 Your participant node is now ready to connect to other participants to form a distributed ledger. The connection
 is facilitated by a sync domain, which is formed by three separate processes:
@@ -282,8 +282,8 @@ In the near future, there will also be a native Canton BFT driver (which will be
 This section explains how to set up a Postgres-based synchronization sync domain. Please consult :ref:`the Enterprise driver section <canton-enterprise-drivers>`
 with respect to the other drivers.
 
-Using an Embedded Sync Domain
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Using an Embedded Synchronization Domain
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The simplest way to run a sync domain is to use the embedded configuration which runs all three processes
 in a single node. Using the same storage (but different database name) as configured for the participant node,

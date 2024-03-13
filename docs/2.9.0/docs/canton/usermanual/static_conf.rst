@@ -117,8 +117,8 @@ Such a definition can subsequently be referenced in the actual node definition:
 
 .. _multiple-domains-config:
 
-Multiple Sync Domains
----------------------
+Multiple Synchronization Domains
+--------------------------------
 
 A Canton configuration allows you to define multiple sync domains. Also, a Canton participant can connect to
 multiple sync domains. This is however only supported as a preview feature and not yet suitable for

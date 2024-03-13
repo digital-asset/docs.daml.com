@@ -35,8 +35,8 @@ Applications using Canton have the following guarantees:
 As a result, applications written today can keep running unchanged for a minimum of 12 months while upgrading participants and sync domains within a major release version.
 See also the `versioning <https://docs.daml.com/support/releases.html#support-duration>`__ as well as `portability, compatibility and support duration guarantees <https://docs.daml.com/support/compatibility.html>`__ that hold for any Daml application.
 
-For Canton participant and sync domain operators
-------------------------------------------------
+For Canton participant and synchronization domain operators
+-----------------------------------------------------------
 
 In addition to the Canton release version, the Canton protocol version is the most important version for participant and sync domain operators. It used to have 3 digits, but
 starting protocol version `4` it's represented by one digit.

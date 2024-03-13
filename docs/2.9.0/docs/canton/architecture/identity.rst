@@ -453,8 +453,8 @@ the key has signed" requires publishing a set of topology transactions together.
     Support key revocation in identity management operations `#1309 <https://github.com/DACH-NY/canton/issues/1309>`_
 
 
-Sync Domain Topology State
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+Synchronization Domain Topology State
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Looking at the given formalism, we can distinguish between the *topology state* and the *sync domain topology state*.
 The difference between these two is that the *topology state* is comprised of all
 delegation and mapping transactions. The sync domain topology state extends this definition by adding
@@ -550,8 +550,8 @@ parties e.g. a participant manages. This prevents learning questions such as
 how many parties are represented by a certain participant (how many clients
 does my competitor have).
 
-Cross-Sync-Domain Delegations
------------------------------
+Cross-Synchronization-Domain Delegations
+----------------------------------------
 
 In our design of participants and parties, we observe that a participant is a
 system entity whereas a party is meant to represent some actor in the real
@@ -575,8 +575,8 @@ The party delegation transaction supports delegating the
 permissioning of a party to a key outside of the root key namespace:
 `\{(P,I_{k}) \Rightarrow p_{l}\}^{s_{k}}`
 
-Multi-Sync-Domain Transaction
------------------------------
+Multi-Synchronization-Domain Transaction
+----------------------------------------
 
 .. todo::
     Add multi-sync domain transfer permission information to topology state `#1252 <https://github.com/DACH-NY/canton/issues/1252>`_
@@ -666,8 +666,8 @@ Scenario: *I can migrate a party from one participant to another.*
 Implementation
 **************
 
-Sync Domain ID
-==============
+Synchronization Domain ID
+=========================
 
 We assume that the sync domain ID is shared with the connecting participant through a trusted channel. This can be
 implemented as a secure out-of-band process or by trusting TLS server authentication
@@ -687,8 +687,8 @@ crypto operations used in the synchronization protocol from the crypto protocol
 and identity management implementation.
 
 
-Sync Crypto API
-===============
+Synchronization Crypto API
+==========================
 
 Within Canton, the entire identity, key and signing management is abstracted and hidden from the synchronization
 protocol behind the *SyncCryptoApi*.

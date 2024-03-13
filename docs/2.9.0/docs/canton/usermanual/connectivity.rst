@@ -303,8 +303,8 @@ Or for all registered sync domains that are not configured to require a manual c
     .. success:: participant2.domains.reconnect_all()
 
 
-Mediator and Sync Domain Manager
---------------------------------
+Mediator and Synchronization Domain Manager
+-------------------------------------------
 
 Both the mediator and the sync domain manager connect to the sync domain using sequencer connections. The sequencer connections
 are configured when the nodes are initialized:

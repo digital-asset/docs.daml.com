@@ -168,8 +168,8 @@ Participant Metrics
    This file is generated:
 .. include:: /canton/includes/generated/participant_metrics.rst.inc
 
-Sync Domain Metrics
-~~~~~~~~~~~~~~~~~~~
+Synchronization Domain Metrics
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ..
    This file is generated:

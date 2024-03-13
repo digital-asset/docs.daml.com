@@ -161,8 +161,8 @@ Canton connections are not statically configured -- they are added dynamically. 
 
 .. _connecting-the-nodes:
 
-Connecting The Participant Nodes and Sync Domains
--------------------------------------------------
+Connecting The Participant Nodes and Synchronization Domains
+------------------------------------------------------------
 
 Using the console we can run commands on each of the configured participant nodes and sync domains. As such,
 we can check their health using the `health.status` command:

@@ -7,8 +7,8 @@
 
 .. _oracle-domain:
 
-Oracle Sync Domain
-^^^^^^^^^^^^^^^^^^
+Oracle Synchronization Domain
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In Daml Enterprise, you can run a Canton sync domain (sequencer, mediator, sync domain
 manager nodes) based on an Oracle enterprise database.

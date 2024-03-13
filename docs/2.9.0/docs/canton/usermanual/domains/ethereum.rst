@@ -5,14 +5,14 @@
 
 .. enterprise-only::
 
-Ethereum Sync Domain
---------------------
+Ethereum Synchronization Domain
+-------------------------------
 
 Introduction
 ~~~~~~~~~~~~~~~~~
 
 Daml Enterprise includes a Canton Ethereum Sequencer integration, which interacts via an Ethereum client with a smart contract ``Sequencer.sol``
-deployed on an external Ethereum network. It uses the blockchain as a source-of-truth for sequenced events and
+deployed on an external Ethereum network. It uses the blockchain as a source of truth for sequenced events and
 is currently tested with the Ethereum client `Hyperledger Besu <https://www.hyperledger.org/use/besu>`_.
 The :ref:`architecture document <ethereum-architecture>` contains more details on the architecture of the integration.
 

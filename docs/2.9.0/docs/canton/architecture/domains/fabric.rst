@@ -3,8 +3,8 @@
 ..
    Proprietary code. All rights reserved.
 
-Canton Sync Domain on Fabric
-############################
+Canton Synchronization Domain on Fabric
+#######################################
 
 Introduction to Hyperledger Fabric
 **********************************

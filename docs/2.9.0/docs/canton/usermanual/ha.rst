@@ -12,8 +12,8 @@ High Availability Usage
 
 This section looks at some of the components already mentioned and supplies useful Canton commands.
 
-Sync Domain Manager
--------------------
+Synchronization Domain Manager
+------------------------------
 
 As explained in :ref:`domain-architecture`, a sync domain internally comprises a sequencer, a mediator, and a topology manager.
 When running a simple sync domain (configured with ``canton.domains``, as shown in most of the examples), this node will be running a topology manager,
@@ -164,7 +164,7 @@ There are two methods available for exposing the horizontally scaled sequencer i
 
 .. _total_node_count:
 
-Total Node Count
+Total node count
 ~~~~~~~~~~~~~~~~
 The ``sequencer.high-availability.total-node-count`` parameter is used to divide up time among the database sequencers.
 The parameter should not be changed once a set of sequencer nodes has been deployed. Because each message sequenced must
@@ -242,14 +242,14 @@ replica:
     Starting from Canton 2.4.0, participant replication is enabled by default when using supported storage.
 
 
-Sync Domain Connectivity during Fail-Over
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Synchronization domain connectivity during fail-over
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 During fail-over from one replica to another, the new active replica re-connects to all configured sync domains for which
 ``manualConnect = false``. This means if the former active replica was manually connected to a sync domain, this sync domain
 connection is not automatically re-established during fail-over but must be performed manually again.
 
-Manual Trigger of a Fail-over
+Manual trigger of a fail-over
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Fail-over from the active to a passive replica is done automatically when the active replica has a failure, but one can also initiate a graceful fail-over
@@ -267,7 +267,7 @@ active.
 
 .. _load-balancer-configuration:
 
-Load Balancer Configuration
+Load balancer configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Many replicated participants can be placed behind an appropriately sophisticated load balancer that will by health checks

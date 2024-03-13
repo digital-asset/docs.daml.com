@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-HA on the Sync Domain
-#####################
+HA on the Synchronization Domain
+################################
 
 The diagram shows a sync domain containing the topology manager, mediator, and sequencer components. 
 

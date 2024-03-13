@@ -424,8 +424,8 @@ the sync domain cannot access the symmetric keys unless it knows the secret key 
 Therefore, the transaction contents remain confidential with respect to the sync domain.
 
 
-Sync Domain Entities
---------------------
+Synchronization Domain Entities
+-------------------------------
 
 A Canton sync domain consists of three entities:
 
@@ -526,7 +526,7 @@ A VIP trust level indicates that the participant is trusted to act honestly.
 A canonical example is a participant run by a trusted market operator.
 
 
-Participant-internal Canton Components
+Participant-Internal Canton Components
 --------------------------------------
 
 The following diagram shows the main components of a participant.

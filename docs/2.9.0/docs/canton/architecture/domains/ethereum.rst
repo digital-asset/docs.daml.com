@@ -5,8 +5,8 @@
 
 .. _ethereum-architecture:
 
-Canton Sync Domain on Ethereum
-==============================
+Canton Synchronization Domain on Ethereum
+=========================================
 
 A Canton Ethereum sync domain uses a sequencer backed by Ethereum instead of by another ledger
 (such as Postgres or Fabric). The other sync domain components (mediator, sync domain manager) are reused from the relational database driver.

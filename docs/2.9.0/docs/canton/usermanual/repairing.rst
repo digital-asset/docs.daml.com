@@ -181,8 +181,8 @@ empowered to continue their workflows on a new sync domain.
 This guide will illustrate how to replace a lost sync domain with a new sync domain providing business continuity to affected
 participants.
 
-Recovering from a Lost Sync Domain
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Recovering from a Lost Synchronization Domain
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   .. _recovering_from_lost_domain:
 
 .. note::

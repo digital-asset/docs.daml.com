@@ -478,8 +478,8 @@ A trust domain encompasses a part of the system (in particular, a Daml ledger) o
 Canton Concepts
 ***************
 
-Sync Domain
-===========
+Synchronization Domain
+======================
 
 The sync domain provides total ordered, guaranteed delivery multi-cast to the participants. This means that participant nodes communicate with each other by sending end-to-end encrypted messages
 through the sync domain.
@@ -513,8 +513,8 @@ Sequencer
 The sequencer is a service provided by the `sync domain <#domain>`__, used by the `Canton protocol <#canton-protocol>`__. The sequencer forwards encrypted addressed messages from participants and ensures that every member receives
 the messages in the same order. Think about registered and sealed mail delivered according to the postal datestamp.
 
-Sync Domain Identity Manager
-============================
+Synchronization Domain Identity Manager
+=======================================
 
 The sync domain identity manager is a service provided by the `sync domain <#domain>`__, used by the `Canton protocol <#canton-protocol>`__. Participants join a new sync domain by registering with the sync domain identity manager. The sync domain
 identity manager establishes a consistent identity state among all participants. The sync domain identity manager only forwards identity updates. It can not invent them.

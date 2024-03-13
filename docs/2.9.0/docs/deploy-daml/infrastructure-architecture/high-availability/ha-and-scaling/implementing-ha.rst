@@ -149,8 +149,8 @@ The option on the right is a gRPC java client library providing a round-robin se
 
 See the Canton documentation on :ref:`connection to high availability sequencers <connectivity_participant_connect_ha>` and `client load balancing </canton/usermanual/ha.html#client-side-load-balancing>`__ for more information.
 
-Blockchain sync domains
-=======================
+Blockchain synchronization domains
+==================================
 
 A blockchain sync domain has a fully decentralized data path and is used when there is no trust between the distributed application providers and users. Whereas the sequencer queries the PostgreSQL backend directly in a SQL sync domain, this cannot be done in a blockchain sync domain. Instead, a local database to the sequencer is added to speed things up. The sequencer backend then uses the blockchain to provide a guaranteed ordered multicast of events.
 
@@ -169,8 +169,8 @@ This figure has a load balancer fronting the sequencer nodes, but client-side lo
 
 Since sequencer nodes are always active, horizontal scaling for a blockchain sequencer service is achieved by adding a new sequencer along with its associated local cache database and enabling it for client use.
 
-SQL sync domains
-================
+SQL synchronization domains
+===========================
 
 The SQL sync domain is only partially decentralized and is used when the sequencer's backend data is stored in a single PostgreSQL database managed by a centralized distributed application provider. This option requires participant users to have some trust in the application provider.
 
@@ -200,8 +200,8 @@ Horizontal scaling is achieved by adding another mediator service.
    :align: center
    :width: 80%
 
-Sync Domain Manager Service
-***************************
+Synchronization Domain Manager Service
+**************************************
 
 The sync domain manager service also has no client-facing ingest point. Like the mediator services, the sync domain manager is in an active-passive configuration. There is, however, only a single sync domain manager service per sync domain. This means that there is no horizontal load-balancing model for the sync domain manager. This is feasible because the sync domain manager is not in the transaction processing path path and so it manages topology transactions which are orders of magnitude less frequent than the Daml transactions that the mediators manage. 
 

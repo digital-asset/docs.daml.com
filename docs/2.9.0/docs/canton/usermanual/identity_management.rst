@@ -797,8 +797,8 @@ The following steps describe how to manually generate the necessary Canton keys 
 
 .. _manually-init-domain:
 
-Sync Domain Initialization
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+Synchronization Domain Initialization
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The following steps describe how to manually initialize a sync domain node:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/topology/TopologyManagementHelper.scala

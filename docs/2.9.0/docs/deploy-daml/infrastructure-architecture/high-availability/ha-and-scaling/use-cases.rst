@@ -9,8 +9,8 @@ Distributed Application Provider
 
 The distributed application provider is also the sync domain owner and the sync domain administrator. Their deployment activities come first since all other activities require a sync domain.
 
-Deploy a sync domain
-====================
+Deploy a synchronization domain
+===============================
 
 The distributed application provider deploys the following components: 
 
@@ -76,8 +76,8 @@ The distributed application provider communicates specific information to a new 
     participantAlise.domains.connect_multi("AliceDomainName", Seq(sequencer1, sequencer2))
 
 
-Prepare sync domain infrastructure for adding new participant nodes
-===================================================================
+Prepare synchronization domain infrastructure for adding new participant nodes
+==============================================================================
 
 A distributed application provider expands the use of their application by allowing more participant nodes to join their sync domain. A sequencer node is the gateway to the sync domain for all participant nodes. It follows that the policy on when to add a new sequencer is important and must be clearly defined. 
 
