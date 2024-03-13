@@ -1,8 +1,11 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Daml REPL
-#########
+Daml REPL (Deprecated)
+######################
+
+.. warning::
+   Since Daml 2.9.0, ``daml repl`` is deprecated. It will be removed in a future release.
 
 The Daml REPL allows you to use the :doc:`/daml-script/index` API
 interactively. This is useful for debugging and for interactively

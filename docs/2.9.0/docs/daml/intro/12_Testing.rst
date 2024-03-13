@@ -33,7 +33,7 @@ There are three primary tools available in the SDK to test and interact with Dam
 
   Daml Navigator is a UI that runs against a Ledger API and allows interaction with contracts.
 
-:doc:`Daml REPL </daml-repl/index>`
+:doc:`Daml REPL (Deprecated) </daml-repl/index>`
 
   If you want to do things interactively, Daml REPL is the tool to use. The best way to think of Daml REPL is as an interactive version of Daml Script, but it doubles up as a language REPL (Read-Evaluate-Print Loop), allowing you to evaluate pure expressions and inspect the results.
 

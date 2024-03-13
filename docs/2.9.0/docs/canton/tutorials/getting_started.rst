@@ -546,7 +546,7 @@ convenient tools to inspect and manipulate the ledger content:
 - The console version  `Navigator <https://docs.daml.com/tools/navigator/console.html>`__
 - `Daml script <https://docs.daml.com/daml-script>`__ for scripting
 - `Daml triggers <https://docs.daml.com/triggers>`__ for reactive operations
-- `Daml REPL <https://docs.daml.com/daml-repl>`__ for interactive manipulations
+- `Daml REPL (Deprecated) <https://docs.daml.com/daml-repl>`__ for interactive manipulations
 - `Json API <https://docs.daml.com/json-api>`__ for browser based UIs
 - `Bindings in a variety of languages <https://docs.daml.com/app-dev/ledger-api.html>`__ to build your own applications
 
