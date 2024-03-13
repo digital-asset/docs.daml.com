@@ -271,9 +271,6 @@ Developer Tools
    * - Daml Linter (``daml damlc lint``)
      - Stable
      -
-   * - Daml REPL (``daml damlc repl``)
-     - See Daml REPL heading below
-     -
    * - Daml Language Server CLI (``daml damlc ide``)
      - Labs
      -
@@ -315,15 +312,6 @@ Developer Tools
      -
    * - Navigator graphQL Schema (``daml navigator dump-graphql-schema``)
      - Labs
-     -
-   * - **Daml REPL Interactive Shell**
-     -
-     -
-   * - ``daml repl`` :doc:`CLI </daml-repl/index>`
-     - Stable
-     -
-   * - :doc:`Daml and meta-APIs of the REPL </daml-repl/index>`
-     - Stable
      -
    * - **Ledger Administration CLI**
      -

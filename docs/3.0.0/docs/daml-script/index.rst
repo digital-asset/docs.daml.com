@@ -18,8 +18,6 @@ point it against an actual ledger. This means that you can use it for
 application scripting, to test automation logic and also for
 :ref:`ledger initialization <script-ledger-initialization>`.
 
-You can also use Daml Script interactively using :doc:`/daml-repl/index`.
-
 .. hint::
 
   Remember that you can access all the example code by running ``daml new script-example --template script-example``

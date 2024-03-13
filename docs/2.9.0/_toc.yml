@@ -268,7 +268,7 @@ subtrees:
       - file: deploy/generic_ledger
         title: "Deploy to Generic Daml Ledger"
       - file: daml-repl/index
-        title: "Experiment: Daml REPL"
+        title: "Experiment: Daml REPL (Deprecated)"
       - file: daml/daml-studio
         title: "Write: Daml Studio"
       - file: tools/sandbox

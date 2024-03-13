@@ -265,8 +265,6 @@ subtrees:
         title: "Canton Console"
       - file: deploy/generic_ledger
         title: "Deploy to Generic Daml Ledger"
-      - file: daml-repl/index
-        title: "Experiment: Daml REPL"
       - file: daml/daml-studio
         title: "Write: Daml Studio"
       - file: tools/sandbox
