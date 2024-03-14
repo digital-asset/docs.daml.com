@@ -308,13 +308,13 @@ Developer Tools
      -
      -
    * - :doc:`Daml Navigator Development UI </tools/navigator/index>` (``daml navigator server``)
-     - Stable
+     - Deprecated
      -
    * - Navigator Config File Creation (``daml navigator create-config``)
-     - Stable
+     - Deprecated
      -
    * - Navigator graphQL Schema (``daml navigator dump-graphql-schema``)
-     - Labs
+     - Labs, Deprecated
      -
    * - **Daml REPL Interactive Shell (Deprecated)**
      -
