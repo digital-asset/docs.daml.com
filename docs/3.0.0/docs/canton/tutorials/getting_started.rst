@@ -540,8 +540,6 @@ Your Development Choices
 While the ``ledger_api`` functions in the Console can be handy for educational purposes, the Daml SDK provides you with much more
 convenient tools to inspect and manipulate the ledger content:
 
-- The browser based `Navigator <https://docs.daml.com/tools/navigator/index.html>`__
-- The console version  `Navigator <https://docs.daml.com/tools/navigator/console.html>`__
 - `Daml script <https://docs.daml.com/daml-script>`__ for scripting
 - `Daml triggers <https://docs.daml.com/triggers>`__ for reactive operations
 - `Json API <https://docs.daml.com/json-api>`__ for browser based UIs
@@ -574,13 +572,11 @@ You are now ready to start using Canton for serious tasks. If you want to develo
 we recommend the following resources:
 
 #. Install the `Daml SDK <https://docs.daml.com/getting-started/installation.html>`__ to get access to the Daml IDE and
-   other tools, such as the Navigator.
+   other tools.
 #. Run through the :ref:`Daml SDK getting-started example <use-daml-sdk>` to learn how to build your own Daml applications
    on Canton.
 #. Follow the `Daml documentation <https://docs.daml.com/>`__ to learn how to program new contracts, or check out the
    `Daml Examples <https://daml.com/examples/>`__ to find existing ones for your needs.
-#. Use the `Navigator <https://docs.daml.com/tools/navigator/index.html>`__ for easy Web-based access and manipulation
-   of your contracts.
 
 If you want to understand more about Canton:
 

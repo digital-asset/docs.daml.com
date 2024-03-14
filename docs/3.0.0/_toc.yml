@@ -269,8 +269,6 @@ subtrees:
         title: "Write: Daml Studio"
       - file: tools/sandbox
         title: "Test: Daml Sandbox"
-      - file: tools/navigator/index
-        title: "Visualize: Daml Navigator"
       - file: tools/profiler
         title: "Measure: Daml Profiler"
       - file: tools/codegen

@@ -61,7 +61,6 @@ The project contains the following files:
 - ``daml.yaml`` is a Daml project config file used by the SDK to find out how to build the Daml project and how to run it.
 - ``daml`` contains the :ref:`Daml code <quickstart-daml>` specifying the contract model for the ledger.
 - ``daml/Tests`` contains :ref:`test scripts <quickstart-scripts>` for the Daml model.
-- ``frontend-config.js`` is a configuration file for the :ref:`Navigator <quickstart-navigator>` frontend.
 - ``pom.xml`` and ``src/main/java`` constitute a :ref:`Java application <quickstart-application>` that provides REST services to interact with the ledger.
 
 You will explore these in more detail through the rest of this guide.
@@ -142,116 +141,6 @@ In this section, you will run the quickstart application and get introduced to t
 
     daml script --ledger-host localhost --ledger-port 6865 --dar .daml/dist/quickstart-0.0.1.dar --script-name Main:initialize --output-file output.json
 
-.. _quickstart-navigator:
-
-- Start the :doc:`Navigator </tools/navigator/index>`, a browser-based ledger front-end, by running::
-
-    daml navigator server localhost 6865 --port 7500
-
-
-  The Navigator automatically connects to the sandbox. You can access it on port ``7500``.
-
-.. _quickstart-work:
-
-Try the Application
-*******************
-
-Now everything is running, you can try out the quickstart application:
-
-#. Go to `http://localhost:7500/ <http://localhost:7500/>`_. This is the :doc:`Navigator </tools/navigator/index>`, which you launched :ref:`earlier <quickstart-navigator>`.
-#. On the login screen, select ``alice`` from the dropdown. This logs you in as ``alice``.
-
-   This takes you to the contracts view:
-
-   .. figure:: quickstart/images/contracts.png
-      :alt: The Contracts view in the Navigator, showing one existing contract.
-
-   This is showing you what contracts are currently active on the sandbox ledger and visible to ``alice``. You can see that there is a single such contract, in our case with Id ``002eb5...``, created from a *template* called ``Iou:Iou@8f199da...``.
-
-   Your contract ID will vary. The actual value doesn't matter. We'll refer to this contract as ``002eb5`` in the rest of this document, and you'll need to substitute your own value mentally.
-
-#. On the left-hand side, you can see what the pages the Navigator contains:
-
-   - Contracts
-   - Templates
-   - Issued Ious
-   - Owned Ious
-   - Iou Transfers
-   - Trades
-
-   **Contracts** and **Templates** are standard views, available in any application. The others are created just for this application, specified in the ``frontend-config.js`` file.
-
-   For information on creating custom Navigator views, see :ref:`navigator-custom-views`.
-
-#. Click **Templates** to open the Templates page.
-
-   This displays all available *contract templates*. Instances of contracts (or just *contracts*) are created from these templates. The names of the templates are of the format `module:template@hash`. Including the hash disambiguates templates, even when identical module and template names are used between packages.
-
-   On the far right, you see the number of *contracts* that you can see for each template, if any, or ``-`` for "no contract".
-
-#. Try creating a contract from a template. Issue an Iou to yourself by clicking on the ``Iou:Iou@8f199...`` row, filling it out as shown below (use the provided auto-complete feature for the ``Party`` values in ``issuer`` and ``owner``) and clicking **Submit**.
-
-   .. figure:: quickstart/images/createIou.png
-      :alt: Fill out the form by entering Alice as the Issuer and as the Owner, AliceCoin as the Currency, and 1.0 as the Amount.
-
-#. On the left-hand side, click **Issued Ious** to go to that page. You can see the Iou you just issued yourself.
-#. Now, try transferring this Iou to someone else. Click on your Iou, select ``Iou_Transfer``, select ``Bob::...`` as the new owner and hit **Submit**.
-#. Go to the **Owned Ious** page.
-
-   The screen shows the same contract ``002eb5`` that you already saw on the *Contracts* page. It is an Iou for €100, issued by ``EUR_Bank::...``.
-#. Go to the **Iou Transfers** page. It shows the transfer of your recently issued Iou to Bob, but Bob has not accepted the transfer, so it is not settled.
-
-   This is an important part of Daml: nobody can be forced into owning an *Iou*, or indeed agreeing to any other contract. They must explicitly consent.
-
-   You could cancel the transfer by using the ``IouTransfer_Cancel`` choice within it, but for this walk-through, leave it alone for the time being.
-#. Try asking *Bob* to exchange your €100 for $110. To do so, you first have to show your Iou to *Bob* so that he can verify the settlement transaction, should he accept the proposal.
-
-   Go back to **Owned Ious**, open the Iou for €100 and click on the button ``Iou_AddObserver``. Select ``Bob::...`` as the ``newObserver``.
-
-   Contracts in Daml are immutable, meaning they cannot be changed, only created and archived. If you head back to the **Owned Ious** screen, you can see that the Iou now has a new Contract ID. In our case, it's ``00018fe...``.
-#. To propose the trade, go to the **Templates** screen. Click on the ``IouTrade:IouTrade@...`` template, fill in the form as shown below and submit the transaction. Remember to use the dropdown for the values of ``buyer``, ``seller``, ``baseIouCid``, ``baseIssuer``, and ``quoteIssuer``.
-
-   .. figure:: quickstart/images/tradeProp.png
-      :alt: Fill out the form; use the provided dropdown to select Alice as the buyer, Bob as the seller, the new contract we just created as the baseIouCid, and EUR_Bank as the baseIssuer; enter EUR as the baseCurrency, 100.00 as the baseAmount; select USD_Bank from the dropdown as the quote_Issuer; enter USD as the quoteCurrency, and 110.0 as the quoteAmount.
-
-#. Go to the **Trades** page. It shows the just-proposed trade.
-#. You are now going to switch user to Bob, so you can accept the trades you have just proposed. Start by clicking on the logout button next to the username, at the top of the screen. On the login page, select ``bob`` from the dropdown.
-#. First, accept the transfer of the *AliceCoin*. Go to the **Iou Transfers** page, click on the row of the transfer, and click ``IouTransfer_Accept``, then **Submit**.
-#. Go to the **Owned Ious** page. It now shows the *AliceCoin*.
-
-   It also shows an *Iou* for $110 issued by ``USD_Bank::...``. This matches the trade proposal you made earlier as Alice. Remember the first few characters of its Contract ID (in our case ``0086c84``).
-
-   .. figure:: quickstart/images/bobOwnedIous.png
-      :alt: List of Owned Ious for Bob at this point. Includes Bob's $110 from USD_Bank.
-
-#. Settle the trade. Go to the **Trades** page, and click on the row of the proposal. Accept the trade by clicking ``IouTrade_Accept``. In the popup, select the Contract ID you just noted from the dropdown as the ``quoteIouCid``, then click **Submit**.
-
-   The two legs of the transfer are now settled atomically in a single transaction. The trade either fails or succeeds as a whole.
-#. Privacy is an important feature of Daml. You can check that Alice and Bob's privacy relative to the Banks was preserved.
-
-   To do this, log out, then log in as ``us``, which maps to ``USD_Bank::...``.
-
-   On the **Contracts** page, select **Include archived**. The page now shows all the contracts that ``USD_Bank::...`` has ever known about.
-
-   There are just five contracts:
-
-   * Three contracts created on startup:
-
-     1. A self-issued *Iou* for $110.
-     2. The *IouTransfer* to transfer that *Iou* to Bob
-     3. The resulting *Iou* owned by Bob.
-
-   * The transfer of Bob’s *Iou* to Alice that happened as part of the trade.
-     Note that this is a transient contract that got archived in the same transaction
-     it got created in.
-   * The new $110 *Iou* owned by Alice. This is the only active contract.
-
-   Importantly, ``USD_Bank::...`` does not know anything about the trade or the EUR-leg. It has no idea what was exchanged for those $110, or indeed if anything was exchanged at all. For more information on privacy, refer to the :ref:`da-ledgers`.
-
-   .. note::
-
-     ``USD_Bank::...`` does know about an intermediate *IouTransfer* contract that was created and consumed as part of the atomic settlement in the previous step. Since that contract was never active on the ledger, it is not shown in Navigator. You will see how to view a complete transaction graph, including who knows what, in :ref:`quickstart-scripts` below.
-
 .. _quickstart-daml:
 
 Get Started with Daml
@@ -304,11 +193,6 @@ In this case, there are two conditions:
 - The ``amount`` needs to be positive.
 
 Earlier, as Alice, you authorized the creation of an ``Iou``. The ``amount`` was ``1.0``, and Alice was both ``issuer`` and ``owner``, so both conditions were satisfied, and you could successfully create the contract.
-
-To see this in action, go back to the Navigator and try to create the same ``Iou`` again, but with Bob as ``owner`` (with Alice as issuer). It will not work. Note that the Navigator shows success an failures as a small icon in the top right, as highlighted here (it would be a small "v" for success):
-
-.. figure:: quickstart/images/navError.png
-   :alt: Navigator showing an error.
 
 Observers are specified using the ``observer`` keyword:
 
@@ -385,7 +269,7 @@ The following block, for example, issues an ``Iou`` and transfers it to Alice:
   :start-after: -- BEGIN_SCRIPT
   :end-before: -- END_SCRIPT
 
-Compare the script with the ``initialize`` script in ``daml/Main.daml``. You will see that the script you used to initialize the sandbox is an initial segment of the ``trade_test`` script. The latter adds transactions to perform the trade you performed through Navigator, and a couple of transactions in which expectations are verified.
+Compare the script with the ``initialize`` script in ``daml/Main.daml``. You will see that the script you used to initialize the sandbox is an initial segment of the ``trade_test`` script. The latter adds a couple of transactions in which expectations are verified.
 
 After a short time, the text *Script results* should appear above the test. Click on it (in ``daml/Tests/Trade.daml``) to open the visualization of the resulting ledger state.
 
@@ -490,7 +374,7 @@ The ``submit`` function used in this script tries to perform a transaction and f
 
     All interaction with a Daml ledger, be it sandbox or any other implementation, happens via the :doc:`Ledger API </app-dev/ledger-api>`. It is based on `gRPC <https://grpc.io/>`_.
 
-    The Navigator uses this API, as will any :ref:`custom integration <quickstart-application>`.
+    Any :ref:`custom integration <quickstart-application>` will use this API.
 
     This section show a way to fetch data and submit commands via a command-line interface.
 
@@ -532,10 +416,6 @@ returns, for a newly-created sandbox (where you have just run the init script to
 
     {"0":{"issuer":"EUR_Bank::NAMESPACE","owner":"Alice::NAMESPACE","currency":"EUR","amount":100.0000000000,"observers":[]}}
 
-If you still have the same sandbox running against which you have run the Navigator steps above, the output might look more like::
-
-    {"0":{"issuer":"Alice::NAMESPACE","owner":"Bob::NAMESPACE","currency":"AliceCoin","amount":1.0000000000,"observers":[]},"1":{"issuer":"USD_Bank::NAMESPACE","owner":"Alice::NAMESPACE","currency":"USD","amount":110.0000000000,"observers":[]}}
-
 To start the same application on another port, use the command-line parameter ``-Drestport=PORT``. To start it for another party,  use  ``-Dparty=PARTY``. For example, to start the application for Bob on ``8081``, run::
 
     mvn exec:java@run-quickstart -Drestport=8081 -Dparty=Bob$(cat output.json | sed 's/\[\"//' | sed 's/".*//')
@@ -562,7 +442,7 @@ The following REST services are included:
 
 - ``POST`` on ``http://localhost:8080/iou/ID/transfer`` transfers the Iou with Id ``ID``.
 
-  Check the index of your new *AliceCoin* by listing all active Ious. If you have just run the init script, it will be ``0``; if you have run the Navigator section, it will likely be ``2``. Once you have the index, you can run::
+  Check the index of your new *AliceCoin* by listing all active Ious. If you have just run the init script, it will be ``0``. Once you have the index, you can run::
 
     ns=$(cat output.json | sed 's/\[\"Alice:://' | sed 's/".*//'); curl -X POST -d "{\"newOwner\":\"Bob::${ns}\"}" http://localhost:8080/iou/0/transfer
 

@@ -173,6 +173,7 @@ Let's create some certificates!
 First, we run a setup script to create 3 users ``alice``, ``bob`` and ``charlie``
 and corresponding parties. We write out the actual party ids to a JSON
 file so we can later use them in Navigator.
+..  FIXME!(https://github.com/digital-asset/daml/issues/18650) this needs to be rewritten to avoid 'daml navigator'
 
 .. code-block:: none
 

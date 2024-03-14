@@ -6,7 +6,7 @@ Test Daml Contracts
 
 This chapter is all about testing and debugging the Daml contracts you've built using the tools from earlier chapters. You've already met Daml Script as a way of testing your code inside the IDE. In this chapter you'll learn about more ways to test with Daml Script and its other uses, as well as other tools you can use for testing and debugging. You'll also learn about a few error cases that are most likely to crop up only in actual distributed testing, and which need some care to avoid. Specifically we will cover:
 
-- Daml Test tooling - Script and Navigator
+- Daml Test tooling - Daml Script
 - Checking choice coverage
 - The ``trace`` and ``debug`` functions
 - Contention
@@ -18,7 +18,7 @@ If you no longer have your projects set up, load all the code for this parts 1 a
 Daml Test Tooling
 -----------------
 
-There are three primary tools available in the SDK to test and interact with Daml contracts. It is highly recommended to explore the respective docs. The :doc:`9_Dependencies` model lends itself well to being tested using these tools.
+The primary tool available in the SDK to test and interact with Daml contracts is Daml Script. The :doc:`9_Dependencies` model lends itself well to being tested using this tool.
 
 :doc:`Daml Script </daml-script/index>`
 
@@ -28,10 +28,6 @@ There are three primary tools available in the SDK to test and interact with Dam
    2. Run the Script Service via the CLI, which is useful for quick regression testing.
    3. Start a Sandbox and run against that for regression testing against an actual Ledger API.
    4. Run against any other already running Ledger.
-
-:doc:`Daml Navigator </tools/navigator/index>`
-
-  Daml Navigator is a UI that runs against a Ledger API and allows interaction with contracts.
 
 Debug, Trace, and Stacktraces
 -----------------------------

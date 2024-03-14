@@ -18,12 +18,11 @@ Daml Assistant (``daml``)
 - Launch the tools in the SDK:
 
   - Launch :doc:`Daml Studio </daml/daml-studio>`: ``daml studio``
-  - Launch :doc:`Sandbox </tools/sandbox>`, :doc:`Navigator </tools/navigator/index>` and the :doc:`/json-api/index`: ``daml start``
+  - Launch :doc:`Sandbox </tools/sandbox>` and the :doc:`/json-api/index`: ``daml start``
     You can disable the HTTP JSON API by passing ``--json-api-port none`` to ``daml start``.
-    To specify additional options for sandbox/navigator/the HTTP JSON API you can use
-    ``--sandbox-option=opt``, ``--navigator-option=opt`` and ``--json-api-option=opt``.
+    To specify additional options for sandbox/the HTTP JSON API you can use
+    ``--sandbox-option=opt`` and ``--json-api-option=opt``.
   - Launch Sandbox: ``daml sandbox``
-  - Launch Navigator: ``daml navigator``
   - Launch the :doc:`/json-api/index`: ``daml json-api``
   - Run :doc:`Daml codegen </tools/codegen>`: ``daml codegen``
 
@@ -76,7 +75,7 @@ Here is an example ``daml-config.yaml``:
 Project Config File (``daml.yaml``)
 ===================================
 
-The project config file ``daml.yaml`` must be in the root of your Daml project directory. It controls how the Daml project is built and how tools like Sandbox and Navigator interact with it.
+The project config file ``daml.yaml`` must be in the root of your Daml project directory. It controls how the Daml project is built and how tools like Sandbox interact with it.
 
 The existence of a ``daml.yaml`` file is what tells ``daml`` that this directory contains a Daml project, and lets you use project-aware commands like ``daml build`` and ``daml start``.
 
@@ -119,7 +118,6 @@ Here is what each field means:
 - ``name``: the name of the project. This determines the filename of the ``.dar`` file compiled by ``daml build``.
 - ``source``: the root folder of your Daml source code files relative to the project root.
 - ``init-script``: the name of the Daml script to run when using ``daml start``.
-- ``parties``: the parties to display in the Navigator when using ``daml start``.
 - ``version``: the project version.
 - ``exposed-modules``: the Daml modules that are exposed by this project, which can be imported in other projects.
   If this field is not specified all modules in the project are exposed.
@@ -139,14 +137,9 @@ Here is what each field means:
 
 - ``build-options``: a list of tokens that will be appended to some invocations of ``damlc`` (currently `build` and `ide`). Note that there is no further shell parsing applied.
 - ``sandbox-options``: a list of options that will be passed to Sandbox in ``daml start``.
-- ``navigator-options``: a list of options that will be passed to Navigator in ``daml start``.
 - ``json-api-options``: a list of options that will be passed to the HTTP JSON API in ``daml start``.
 - ``script-options``: a list of options that will be passed to the Daml script
   runner when running the ``init-script`` as part of ``daml start``.
-- ``start-navigator``: Controls whether navigator is started as part
-  of ``daml start``. Defaults to ``true``. If this is specified as a CLI argument,
-  say ``daml start --start-navigator=true``, the CLI argument takes precedence over
-  the value in ``daml.yaml``.
 
 Recommended ``build-options``
 =============================

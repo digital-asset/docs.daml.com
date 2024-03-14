@@ -324,18 +324,6 @@ You can also run the Sandbox connected to a PostgreSQL back end, which gives you
 
 See :doc:`/tools/sandbox`.
 
-Navigator
-=========
-
-**Navigator** is a tool for exploring what's on the ledger. You can use it to see what contracts can be seen by different parties, and `submit commands <#submitting-commands-writing-to-the-ledger>`__ on behalf of those parties.
-
-Navigator GUI
--------------
-
-This is the version of Navigator that runs as a web app.
-
-See :doc:`/tools/navigator/index`.
-
 Building Applications
 *********************
 

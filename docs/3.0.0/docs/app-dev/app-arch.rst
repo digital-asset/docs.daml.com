@@ -52,7 +52,7 @@ with a JSON API server by running the following command in the root of the proje
 
 .. code-block:: bash
 
-  daml start --start-navigator=no
+  daml start
 
 Daml Sandbox exposes the same Daml Ledger API a Participant Node would
 expose without requiring a fully-fledged Daml network to back the application. Once your

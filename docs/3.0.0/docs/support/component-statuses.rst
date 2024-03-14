@@ -301,18 +301,6 @@ Developer Tools
    * - ``daml script`` :doc:`CLI to run Scripts against live ledgers. </daml-script/index>`
      - Stable
      -
-   * - **Navigator**
-     -
-     -
-   * - :doc:`Daml Navigator Development UI </tools/navigator/index>` (``daml navigator server``)
-     - Stable
-     -
-   * - Navigator Config File Creation (``daml navigator create-config``)
-     - Stable
-     -
-   * - Navigator graphQL Schema (``daml navigator dump-graphql-schema``)
-     - Labs
-     -
    * - **Ledger Administration CLI**
      -
      -

@@ -40,6 +40,7 @@ the upgrade:
 
 #. A Daml script that will be executed once by Alice and creates an
    ``UpgradeCarbonCertProposal`` contract for each owner.
+..  FIXME!(https://github.com/digital-asset/daml/issues/18650) this needs to be rewritten to avoid 'daml navigator'
 #. Navigator to accept the ``UpgradeCarbonCertProposal`` as Bob. While we
    could also use a Daml script to accept the proposal, this step will
    often be exposed as part of a web UI so doing it interactively in
