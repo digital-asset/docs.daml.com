@@ -1,8 +1,11 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Navigator
-#########
+Navigator (Deprecated)
+######################
+
+.. warning::
+   Since Daml 2.9.0, ``daml navigator`` is deprecated. It will be removed in Daml 3.0.
 
 The Navigator is a front-end that you can use to connect to any Daml Ledger and inspect and modify the ledger. You can use it during Daml development to explore the flow and implications of the Daml models.
 

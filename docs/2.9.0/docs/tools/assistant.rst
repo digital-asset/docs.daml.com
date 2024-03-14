@@ -23,7 +23,7 @@ Daml Assistant (``daml``)
     To specify additional options for sandbox/navigator/the HTTP JSON API you can use
     ``--sandbox-option=opt``, ``--navigator-option=opt`` and ``--json-api-option=opt``.
   - Launch Sandbox: ``daml sandbox``
-  - Launch Navigator: ``daml navigator``
+  - Launch Navigator (Deprecated): ``daml navigator``
   - Launch the :doc:`/json-api/index`: ``daml json-api``
   - Run :doc:`Daml codegen </tools/codegen>`: ``daml codegen``
 

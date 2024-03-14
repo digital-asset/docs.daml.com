@@ -29,7 +29,7 @@ There are three primary tools available in the SDK to test and interact with Dam
    3. Start a Sandbox and run against that for regression testing against an actual Ledger API.
    4. Run against any other already running Ledger.
 
-:doc:`Daml Navigator </tools/navigator/index>`
+:doc:`Daml Navigator (Deprecated) </tools/navigator/index>`
 
   Daml Navigator is a UI that runs against a Ledger API and allows interaction with contracts.
 

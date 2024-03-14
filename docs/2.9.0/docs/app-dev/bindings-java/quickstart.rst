@@ -61,7 +61,7 @@ The project contains the following files:
 - ``daml.yaml`` is a Daml project config file used by the SDK to find out how to build the Daml project and how to run it.
 - ``daml`` contains the :ref:`Daml code <quickstart-daml>` specifying the contract model for the ledger.
 - ``daml/Tests`` contains :ref:`test scripts <quickstart-scripts>` for the Daml model.
-- ``frontend-config.js`` is a configuration file for the :ref:`Navigator <quickstart-navigator>` frontend.
+- ``frontend-config.js`` is a configuration file for the :ref:`Navigator (Deprecated) <quickstart-navigator>` frontend.
 - ``pom.xml`` and ``src/main/java`` constitute a :ref:`Java application <quickstart-application>` that provides REST services to interact with the ledger.
 
 You will explore these in more detail through the rest of this guide.
@@ -144,7 +144,7 @@ In this section, you will run the quickstart application and get introduced to t
 
 .. _quickstart-navigator:
 
-- Start the :doc:`Navigator </tools/navigator/index>`, a browser-based ledger front-end, by running::
+- Start the :doc:`Navigator (Deprecated) </tools/navigator/index>`, a browser-based ledger front-end, by running::
 
     daml navigator server localhost 6865 --port 7500
 
