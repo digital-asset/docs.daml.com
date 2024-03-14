@@ -633,6 +633,6 @@ See :ref:`no-archived-contracts`
 .. |003-where-clause.gif| image:: images/003-where-clause.gif
 .. |003-compare-contracts.gif| image:: images/003-compare-contracts.gif
 .. |003-transactions.gif| image:: images/003-transactions.gif
-.. |003-csv-export.gif| image:: images/003-csv-export
+.. |003-csv-export.gif| image:: images/003-csv-export.gif
 .. |003-bounded-lookup.gif| image:: images/003-bounded-lookup.gif
 .. |003-from-contract-to-transactions.gif| image:: images/003-from-contract-to-transactions.gif
