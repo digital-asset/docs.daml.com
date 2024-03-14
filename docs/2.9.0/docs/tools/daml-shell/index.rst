@@ -3,30 +3,36 @@
 
 .. enterprise-only::
 
-.. _daml-shell-header:
-
 Daml Shell (``daml-shell``)
 ###########################
 
-Daml Shell is a terminal-based application that enables you to inspect a Daml
-ledger by connecting to a live PQS datastore. With Daml Shell, you can examine current or
-historical states of the ledger by querying ledger events, transactions, and
-contracts. The Daml Shell CLI includes extensive
-help via the ``help`` command.
+Daml Shell is a terminal-based application that enables you to inspect a
+Daml ledger by connecting to a live PQS datastore. With Daml Shell, you
+can examine current or historical states of the ledger by querying
+ledger events, transactions, and contracts. The Daml Shell CLI includes
+extensive help via the ``help`` command.
 
 Some of the actions that Daml Shell supports are:
 
-* Find a specific contract and display it. For example, if you have a contract ID, you can use Daml Shell to inspect the corresponding contract using the ``contract`` command.
-* Find all events related to a transaction ID. A transaction is displayed as a series of ledger events (creates, archives, and exercises).
-* Auto-completion for identifiers such as contract IDs, fully qualified names, and package IDs.
-* List active, inactive, or all contracts for a template using a template FQN.
-* Apply queries and filters to commands to manage the output.
-* Use the ``compare-contracts`` command to highlight the delta between two contract IDs for the same template.
+-  Find a specific contract and display it. For example, if you have a
+   contract ID, you can use Daml Shell to inspect the corresponding
+   contract using the ``contract`` command.
+-  Find all events related to a transaction ID. A transaction is
+   displayed as a series of ledger events (creates, archives, and
+   exercises).
+-  Auto-completion for identifiers such as contract IDs, fully qualified
+   names, and package IDs.
+-  List active, inactive, or all contracts for a template using a
+   template FQN.
+-  Apply queries and filters to commands to manage the output.
+-  Use the ``compare-contracts`` command to highlight the delta between
+   two contract IDs for the same template.
 
 To bound a search, specify a minimum and maximum offset value.
 
-Daml Shell leverages PQS as its datastore and connects using JDBC. For more information, see :ref:`pqs-connect-header`.
-
+Daml Shell leverages PQS as its datastore and connects using JDBC. For
+more information, see
+:ref:`configuration`
 
 Getting started
 ***************
@@ -52,8 +58,8 @@ list <https://hub.docker.com/repository/docker/digitalasset/daml-shell/tags?orde
 Commands
 ========
 
-The easiest way to discover commands is to type the ``help`` command
-while Daml Shell is running.
+The easiest way to discover commands and filters is to type the ``help``
+command while Daml Shell is running.
 
 You can recurse into commands by typing
 ``help <command> <sub-command> [...]``. Auto-completion at the bottom of
@@ -84,9 +90,24 @@ the screen suggests possible command options.
          * exercise - choice by event-id
          * exercises - exercised choices
          * go - upper offset bound
+         * help - Display usage instructions
          * net-changes - net contract counts
+         * quit - quit the shell
          * set - configure application settings
          * transaction - transaction details
+
+       Available filters:
+         * csv - transform table data to csv format
+         * export - write output to local file
+
+Filters
+=======
+
+You can pipe command output through one or more ``filters`` using the
+``|`` (pipe) symbol. For example,
+``active Foo:Bar | csv | export ~/my_foos.csv``.
+
+.. _configuration:
 
 Configuration
 *************
@@ -181,8 +202,13 @@ This section provides some basic usage examples.
 Connecting
 ==========
 
-To connect, enter the JDBC URL of your PQS PostgreSQL database. For
-example:
+Daml Shell leverages PQS as its datastore and connects using JDBC. You
+can set connection parameters via configuration parameters or
+interactively using a JDBC URL. For more information, see
+:ref:`configuration`
+
+To connect interactively, enter the JDBC URL of your PQS PostgreSQL
+database. For example:
 
 ::
 
@@ -513,6 +539,28 @@ To look up individual exercises, use the event ID:
    ║ Result       ║ 00a8753f0ccbc503ab393dae99d7ca982b15f1429b61739c03dad299d123f21e5aca02122090c1f0e10da810f4ee1a961a91701863dd22f9f360f676725540929069cee17e ║
    ╙──────────────╨────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╜
 
+Transforming and exporting command output
+*****************************************
+
+You can convert tabular output to CSV by piping it through the ``csv``
+filter:
+
+::
+
+   > active PingPong:Ping | csv
+
+You can then write this output to a file by piping it through the
+``export`` filter:
+
+::
+
+   > active PingPong:Ping | csv | export ~/my_pings.csv
+
+The ``export`` filter will write any command output to the specified
+file. You can use it without the ``csv`` filter.
+
+|003-csv-export.gif|
+
 Setting offset bounds
 =====================
 
@@ -585,5 +633,6 @@ See :ref:`no-archived-contracts`
 .. |003-where-clause.gif| image:: images/003-where-clause.gif
 .. |003-compare-contracts.gif| image:: images/003-compare-contracts.gif
 .. |003-transactions.gif| image:: images/003-transactions.gif
+.. |003-csv-export.gif| image:: images/003-csv-export
 .. |003-bounded-lookup.gif| image:: images/003-bounded-lookup.gif
 .. |003-from-contract-to-transactions.gif| image:: images/003-from-contract-to-transactions.gif
