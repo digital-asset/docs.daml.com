@@ -558,8 +558,8 @@ You can then write this output to a file by piping it through the
 
    > active PingPong:Ping | csv | export ~/my_pings.csv
 
-The ``export`` filter will write any command output to the specified
-file. You can use it without the ``csv`` filter.
+The ``export`` filter writes any command output to the specified file.
+You can use it without the ``csv`` filter.
 
 |003-csv-export.gif|
 
