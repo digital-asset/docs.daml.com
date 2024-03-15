@@ -3,6 +3,8 @@
 
 .. enterprise-only::
 
+.. _daml-shell-header:
+
 Daml Shell (``daml-shell``)
 ###########################
 
