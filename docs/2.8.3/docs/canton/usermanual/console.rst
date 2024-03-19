@@ -34,35 +34,47 @@ appear twice. However, the detailed explanations are only given within the parti
 Remote Administration
 ---------------------
 
-The console works in-process against local nodes. However, you can also run the console separate from the node process,
-and you can use a single console to administrate many remote nodes.
+The Canton console works with both
+local in-process nodes and remote nodes.
+Once you've configured the network address, port, and authentication information,
+you can use a single Canton console to administer all the nodes in your system.
 
-As an example, you might start Canton in daemon mode using
+As an example, you might have previously started a Canton instance in daemon mode using something like the following:
 
 .. code-block:: bash
 
     ./bin/canton daemon -c <some config>
 
-Assuming now that you've started a participant, you can access this participant using a ``remote-participant``
-configuration such as:
+You can then execute commands against this up-and-running participant
+using a ``remote-participant`` configuration such as:
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/pack/config/remote/participant.conf
 
-Naturally, you can then also use the remote configuration to run a script:
+Given a remote config file, start a local Canton console configured to execute commands on a remote Canton instance like this:
 
 .. code-block:: bash
 
-    ./bin/canton daemon -c config/remote/participant.conf --bootstrap <some-script>
+    ./bin/canton -c config/remote-participant1.conf
 
-Please note that a remote node will support almost all commands except a few that a local node supports.
+Additionally, you can use the remote configuration to run a script:
 
-If you want to generate a skeleton remote configuration of a normal config file, you can use
+.. code-block:: bash
+
+    ./bin/canton run <some-canton-script> -c config/remote-participant1.conf
+
+Note that most Canton commands can be executed from a remote console.
+However, a few commands can only be called
+from the local console of the node itself.
+
+Given a participant's config file, you can generate a skeleton remote config file
+using the ``generate`` command:
 
 .. code-block:: bash
 
     ./bin/canton generate remote-config -c participant1.conf
 
-However, you might have then to edit the config and adjust the hostname.
+Depending on your network, you might need to manually edit the auto-generated configuration to adjust the hostname.
+You might also want to consolidate the auto-generated configurations into a single remote configuration file.
 
 TLS and Authorization
 ^^^^^^^^^^^^^^^^^^^^^
