@@ -149,9 +149,30 @@ A transaction is composed of multiple views due to sub-transaction privacy.
 Instead of duplicating each view by directly encrypting the view for each
 recipient using their participant encryption public key, Canton derives a
 symmetric key for each view to encrypt that view. The key is derived using a
-HKDF from a secure seed that is only stored encrypted under the public
-encryption key of a participants. Thereby, only the encrypted seed is duplicated
+HKDF from a secure seed that is only stored encrypted under a session key.
+Thereby, only the encrypted session key is duplicated
 but not a view.
+
+Session Encryption Key
+^^^^^^^^^^^^^^^^^^^
+
+To avoid having to asymmetrically decrypt the view encryption key for all
+transactions we make use of a short-lived session key that is used as a
+middle encryption layer between the view encryption and the encryption
+with the participants' keys. The result from encrypting the session key
+with a participants public key is cached in memory for a short time
+and allows for similar transactions (that share
+the same participants) to use this session key directly to obtain the
+view encryption key without having to asymmetrically decrypt it.
+
+:warning:
+Reusing session keys between requests sacrifices forward secrecy,
+but offers a better performance overall. For optimal security, in
+exchange of performance, we recommend disabling caching.
+
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/session-key-cache.conf
+   :language: none
+
 
 Ledger API TLS Key
 ^^^^^^^^^^^^^^^^^^
