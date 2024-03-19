@@ -157,18 +157,16 @@ Session Encryption Key
 ^^^^^^^^^^^^^^^^^^^
 
 To avoid having to asymmetrically decrypt the view encryption key for all
-transactions we make use of a short-lived session key that is used as a
-middle encryption layer between the view encryption and the encryption
-with the participants' keys. The result from encrypting the session key
-with a participants public key is cached in memory for a short time
-and allows for similar transactions (that share
-the same participants) to use this session key directly to obtain the
-view encryption key without having to asymmetrically decrypt it.
+transactions we make use of a short-lived session key that acts as an intermediary encryption layer positioned
+between the view encryption and the encryption with the participants' keys.
+The process involves encrypting and decrypting the session key (that is used to encrypt the view encryption key)
+using the participants' public and private keys, with the resulting data cached temporarily in memory.
+This caching mechanism enables similar transactions involving the same participants to make use of the cached
+information, thereby acquiring the session key without necessitating asymmetric key operations for each transaction.
 
 :warning:
-Reusing session keys between requests sacrifices forward secrecy,
-but offers a better performance overall. For optimal security, in
-exchange of performance, we recommend disabling caching.
+Reusing session keys between requests sacrifices forward secrecy, but enhances overall performance.
+For optimal security, we suggest disabling caching in exchange of performance improvements.
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/session-key-cache.conf
    :language: none
