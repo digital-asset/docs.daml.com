@@ -392,7 +392,7 @@ How Canton produces log files can be configured extensively on the command line 
 - ``--log-file-rolling-history=12`` configures the number of historical files to keep when using the rolling appender.
 - ``--log-file-rolling-pattern=YYYY-mm-dd`` configures the rolling file suffix (and therefore the frequency) of how files should be rolled.
 - ``--log-truncate`` configures whether the log file should be truncated on startup.
-- ``--log-profile=container`` provides a default set of logging settings for a particular setup. Only the ``container`` profile is supported, which logs to STDOUT. It turns off flat file logging to avoid storage leaks due to log files within a container.
+- ``--log-profile=container`` provides a default set of logging settings for a particular setup. Only the ``container`` profile is supported, which logs to both STDOUT and rolling log files.
 - ``--log-immediate-flush=false`` turns off immediate flushing of the log output to the log file.
 
 Note that if you use ``--log-profile``, the order of the command line arguments matters. The profile settings can be overridden on the command line by placing adjustments after the profile has been selected.
