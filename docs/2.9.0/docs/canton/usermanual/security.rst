@@ -165,8 +165,7 @@ This caching mechanism enables similar transactions involving the same participa
 information, thereby acquiring the session key without necessitating asymmetric key operations for each transaction.
 
 :warning:
-Reusing session keys between requests sacrifices forward secrecy, but enhances overall performance.
-For optimal security, we suggest disabling caching in exchange of performance improvements.
+Reusing session keys between requests sacrifices forward secrecy, but enhances overall performance. For optimal security, we suggest disabling caching in exchange of performance improvements.
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/session-key-cache.conf
    :language: none
