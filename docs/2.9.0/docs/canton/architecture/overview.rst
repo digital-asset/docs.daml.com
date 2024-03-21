@@ -413,8 +413,8 @@ To that end, the submitting participant encrypts the views using the following e
 #. It encrypts the serialization of each view's Merkle tree with the symmetric key derived for this view.
    The view seed itself is encrypted with a short-lived symmetric session key that is generated for each distinct
    recipient informee group (set of participants that will receive the view). Finally this session key is encrypted
-   with the public key of each participant hosting an informee of the view. If caching is enabled, we store the
-   asymmetric encryption/decryption results for a limited short time in memory to
+   with the public key of each participant hosting an informee of the view. If caching is enabled, the
+   asymmetric encryption/decryption results are briefly stored in memory, to
    reduce the number of asymmetric operations for future similar views.
    The encrypted Merkle tree and the encryptions of the session key form the data that is sent via the sequencer
    to the recipients.
@@ -427,7 +427,7 @@ To that end, the submitting participant encrypts the views using the following e
       view seed of a parent view and can derive the symmetric key of the witnessed view using the derivation functions.
 
 Even though the sequencer persists the encrypted views for a limited period,
-the sync domain cannot access the symmetric session, and consequently, view keys unless it knows
+the sync domain cannot access the symmetric session, and, consequently, cannot view keys unless it knows
 the secret key of one of the informee participants.
 Therefore, the transaction contents remain confidential with respect to the sync domain.
 

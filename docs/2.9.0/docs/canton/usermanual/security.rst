@@ -154,7 +154,7 @@ Thereby, only the encrypted session key is duplicated
 but not a view.
 
 Session Encryption Key
-^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^
 
 To avoid having to asymmetrically decrypt the view encryption key for all
 transactions we make use of a short-lived session key that acts as an intermediary encryption layer positioned
