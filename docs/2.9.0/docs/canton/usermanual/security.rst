@@ -164,7 +164,10 @@ using the participants' public and private keys, with the resulting data cached 
 This caching mechanism enables similar transactions involving the same participants to make use of the cached
 information, thereby acquiring the session key without necessitating asymmetric key operations for each transaction.
 
-:warning: Reusing session keys across requests can compromise security, but enhances overall performance. For optimal security, we suggest disabling caching in exchange of the performance improvements.
+
+ Without session keys and a compromised view seed an attacker could only decrypt that view and its subsequent views
+
+:warning: Using session keys can improve overall performance, but increases the impact of a key compromise. With session keys enabled and a session key compromised an attacker could decrypt all (subsequent) views for an informee group until that session key is rotated. Without session keys and a compromised view seed an attacker could only decrypt that view and its subsequent views. It is possible to either disable caching or adjust the session key rotation time using the Canton configuration file.
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/session-key-cache.conf
    :language: none
