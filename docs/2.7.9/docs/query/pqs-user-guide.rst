@@ -696,7 +696,7 @@ the available history:
    set_latest(NULL);
    set_oldest(NULL);
    SELECT c.*
-     FROM archive('Test.User:User') AS a
+     FROM archives('Test.User:User') AS a
        JOIN create('Test.User:User') AS c USING contract_id;
 
 Query the ledger using a point in time
