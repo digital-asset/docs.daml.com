@@ -164,7 +164,7 @@ using the participants' public and private keys, with the resulting data cached 
 This caching mechanism enables similar transactions involving the same participants to make use of the cached
 information, thereby acquiring the session key without necessitating asymmetric key operations for each transaction.
 
-:warning: Reusing session keys between requests sacrifices forward secrecy, but enhances overall performance. For optimal security, we suggest disabling caching in exchange of performance improvements.
+:warning: Reusing session keys across requests can compromise security, but enhances overall performance. For optimal security, we suggest disabling caching in exchange of the performance improvements.
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/session-key-cache.conf
    :language: none
