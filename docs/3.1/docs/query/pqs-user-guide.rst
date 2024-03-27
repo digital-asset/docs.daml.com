@@ -1060,8 +1060,8 @@ Operate PQS
 
 This section discusses common tasks when operating a PQS.
 
-Status Health Check
-===================
+Check Health
+============
 
 The health of the Scribe component that feeds data to the Postgres database can be monitored using the health check
 endpoint ``/livez``. The health check endpoint is available at the ``--health-port`` specified when launching Scribe:
