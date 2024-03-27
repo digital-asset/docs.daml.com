@@ -133,7 +133,7 @@ and Operators <https://www.postgresql.org/docs/12/functions-json.html>`__ in
 the PostgreSQL manual. The operators ``->``, ``->>``, ``#>``, ``#>>``, and
 ``@>`` may be of particular interest.
 
-The :ref:`JSON format section below <pqs-json-encoding>` summarizes how the ledger data is encoded in JSON.
+The `JSON format section below <#pqs-json-encoding>`__ summarizes how the ledger data is encoded in JSON.
 
 Continuity
 ==========
@@ -148,7 +148,7 @@ Multiple isolated instances of PQS can be instantiated without any cross-depende
 How a participant node (PN) models time
 ***************************************
 
-Understanding time in a distributed application is challenging because there is no global clock. This section describes how a participant node understands time. If you are familiar with Canton, skip this section and move to the section :ref:`Time Model within PQS <pqs-time-model>`.
+Understanding time in a distributed application is challenging because there is no global clock. This section describes how a participant node understands time. If you are familiar with Canton, skip this section and move to the section `Time Model within PQS <#pqs-time-model>`__.
 
 A participant node models time advancing in its local ledger using an index called an *offset*. An offset is a unique index of the participant node's local ledger. You can think of this as selecting an item in the ledger using a specific offset (or index) into the ledger. For example, in the figure, Participant A has transaction “ABC” at offset #011. An offset represents a point in time of that participant node and a given sync domain, where the offset values order the events that are changes to the ledger. Specifically, subscribers to UpdateService observe the order for a specific sync domain. 
 
@@ -1073,8 +1073,6 @@ endpoint ``/livez``. The health check endpoint is available at the ``--health-po
     $ curl http://<host>:<health-port>/livez
     {"status":"ok"}
 
-.. code-block:: bash
-
 Purge excessive historical ledger data
 ======================================
 
@@ -1190,7 +1188,7 @@ argument:
    SELECT * FROM prune_to_offset('<offset>');
 
 This function deletes transactions and updates active contracts as
-described :ref:`earlier in this section <pqs-pruning-behavior>`.
+described `earlier in this section <#pqs-pruning-behavior>`__.
 
 To prune data up to a specific timestamp or interval, use ``prune_to_offset`` 
 in combination with the ``get_offset`` function. For example, the following 
