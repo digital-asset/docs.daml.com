@@ -1059,16 +1059,16 @@ This section discusses common tasks when operating a PQS.
 Status Health Check
 ======================================
 
+The health check endpoint can be used to determine if the Scribe component is running and healthy.
+
 The health of the Scribe component that feeds data to the Postgres database can be monitored using the health check
-endpoint ``/livez``. The health check endpoint is available at port specified through ``--health-port`` when Scribe is launched:
+endpoint ``/livez``. The health check endpoint is available at theport specified through ``--health-port`` when Scribe is launched:
 
-```
     --health-port int                          HTTP port to use to expose application health info (default: 8080)
-```
 
-```
     Expect: responseStatus("/livez") is Status.Ok
-```
+
+
 
 Purge excessive historical ledger data
 ======================================
