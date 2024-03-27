@@ -104,8 +104,8 @@ In a composed solution, each sync domain is a sub-network. A participant node co
 
 Diagram 2:
 
-.. figure:: arch-intro-2.png
-   :alt: Three sync domains with five participant nodes, each hosting one or more parties. Sync Domains A (HL Fabric) and B (Ethereum) have two sync domain nodes each, while Sync Domain C (SQL) has a single sync domain node. Each participant node can connect to different sync domains.
+.. figure:: arch-intro-2b.png
+   :alt: Three sync domains with four participant nodes, each hosting one or more parties. Each participant node can connect to different sync domains.
 
 
 Transfer Example Using Daml
