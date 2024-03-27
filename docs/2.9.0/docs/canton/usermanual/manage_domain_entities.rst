@@ -30,8 +30,8 @@ This is only applicable for ``domain/domain-manager`` nodes.
 Keys Initialization
 -------------------
 
-When manual initialization is enabled cryptographic keys in the nodes are not automatically generated
-and registered in Canton. The following command generates a Canton signing key.
+When manual initialization is enabled, cryptographic keys in the nodes are not automatically generated
+and registered in Canton. The following command manually generates a Canton signing key.
 
 .. code-block:: none
 
@@ -158,8 +158,8 @@ The sync domain ID, serialized as a string, must also be transmitted.
     .. success:: val domainIdString = domainManager1.id.toProtoPrimitive
 
 Then the sequencer must receive this file, deserialize it and initialize itself.
-As part of the initialization, the sequencer either creates a new signing key pair or uses a previous generated key
-that must then be transmitted via file. Optionally, repeat this for any extra sequencer nodes.
+As part of the initialization, the sequencer creates a signing key pair whose public key it must then
+transmit via file. Optionally, repeat this for any extra sequencer nodes.
 
 .. snippet:: distributed_domain_install_separate_consoles
     .. success:: val domainParameters = com.digitalasset.canton.admin.api.client.data.StaticDomainParameters.tryReadFromFile("tmp/domain-bootstrapping-files/params.proto")
