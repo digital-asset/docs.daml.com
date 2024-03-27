@@ -411,12 +411,12 @@ You can discover commands and parameters through the embedded ``--help`` (rememb
    Options:
    --config file                              Path to configuration overrides via an external HOCON file (optional)
    --pipeline-datasource enum                 Ledger API service to use as data source (default: TransactionStream)
-   --pipeline-oauth-clientid string           Client's identifier (optional)
+   --pipeline-oauth-clientid string           Client identifier (optional)
    --pipeline-oauth-accesstoken string        Access token (optional)
    --pipeline-oauth-parameters map            Custom parameters
    --pipeline-oauth-cafile file               Trusted Certificate Authority (CA) certificate (optional)
    --pipeline-oauth-endpoint uri              Token endpoint URL (optional)
-   --pipeline-oauth-clientsecret string       Client's secret (optional)
+   --pipeline-oauth-clientsecret string       Client secret (optional)
    --pipeline-filter-parties string           Filter expression determining Daml party identifiers to filter on (default: *)
    --pipeline-filter-metadata string          Filter expression determining which templates and interfaces to capture metadata for (default: !*)
    --pipeline-filter-contracts string         Filter expression determining which templates and interfaces to include (default: *)
@@ -429,8 +429,8 @@ You can discover commands and parameters through the embedded ``--help`` (rememb
    --logger-pattern [enum | string]           Log pattern (default: Plain)
    --target-postgres-host string              Postgres host (default: localhost)
    --target-postgres-tls-mode enum            SSL mode required for Postgres connectivity (default: Disable)
-   --target-postgres-tls-cert file            Client's certificate (optional)
-   --target-postgres-tls-key file             Client's private key (optional)
+   --target-postgres-tls-cert file            Client certificate (optional)
+   --target-postgres-tls-key file             Client private key (optional)
    --target-postgres-tls-cafile file          Trusted Certificate Authority (CA) certificate (optional)
    --target-postgres-maxconnections int       Maximum number of JDBC connections (default: 16)
    --target-postgres-password string          Postgres user password (default: ********)
@@ -441,8 +441,8 @@ You can discover commands and parameters through the embedded ``--help`` (rememb
    --source-ledger-host string                Ledger API host (default: localhost)
    --source-ledger-auth enum                  Authorisation mode (default: NoAuth)
    --source-ledger-tls-cafile file            Trusted Certificate Authority (CA) certificate (optional)
-   --source-ledger-tls-cert file              Client's certificate (leave empty if embedded into private key file) (optional)
-   --source-ledger-tls-key file               Client's private key (leave empty for server-only TLS) (optional)
+   --source-ledger-tls-cert file              Client certificate (leave empty if embedded into private key file) (optional)
+   --source-ledger-tls-key file               Client private key (leave empty for server-only TLS) (optional)
    --source-ledger-port int                   Ledger API port (default: 6865)
 
 For more help, use the command:
