@@ -27,13 +27,13 @@ Keys Initialization
 
 Besides a namespace key and a signing key a participant node also has an encryption key that it
 uses to encrypt transactions. Key are created automatically, however, if you are manually setting up your
-participant node you must the following commands to generate your signing keys (for namespace and signing)
+participant node you must use the following commands to generate your signing keys (for namespace and signing)
 and the encryption key:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/topology/TopologyManagementHelper.scala
    :language: scala
-   :start-after: architecture-handbook-entry-begin: ManualInitParticipant
-   :end-before: architecture-handbook-entry-end: ManualInitParticipant
+   :start-after: architecture-handbook-entry-begin: ManualInitKeys
+   :end-before: architecture-handbook-entry-end: ManualInitKeys
    :dedent:
 
 We reiterate again the fact that if you are using a Key Management Service (KMS) to handle Canton's keys
@@ -42,8 +42,8 @@ and you want to use a set of pre-generated keys you must use instead the command
 
 Please refer to :ref:`External Key Storage with a Key Management Service (KMS) <external_key_storage>` for more details.
 
-Participant Initialization
---------------------------
+Participant Manual Initialization
+---------------------------------
 The following steps describe how to manually initialize a participant node after the keys have been generated:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/topology/TopologyManagementHelper.scala

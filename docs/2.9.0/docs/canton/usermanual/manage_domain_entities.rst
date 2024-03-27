@@ -82,8 +82,8 @@ First make sure the nodes are fresh and have not yet been initialized:
     .. success:: domainManager1.health.initialized()
     .. assert:: !RES
 
-If the sync domain manager has ``auto-init = true`` (the default value) it also needs its
-identity to be generated and ready before we can bootstrap the sync domain:
+If the sync domain manager has ``auto-init = true`` (the default value) we need to make sure that the
+identity is generated and ready before we can bootstrap the sync domain:
 
 .. snippet:: distributed_domain_install
     .. success:: domainManager1.health.wait_for_identity()
@@ -94,7 +94,8 @@ identity to be generated and ready before we can bootstrap the sync domain:
 
 .. _manual_init_domain_manager:
 
-If the sync domain manager has ``auto-init = false``, then you need to manually generate its identity:
+If the sync domain manager has ``auto-init = false``, then you need to manually generate its identity and set-up
+its keys:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/topology/TopologyManagementHelper.scala
    :language: scala
@@ -102,7 +103,7 @@ If the sync domain manager has ``auto-init = false``, then you need to manually 
    :end-before: architecture-handbook-entry-end: ManualInitDistributedDomain
    :dedent:
 
-Optionally, you can pre-generate signing keys for mediators and sequencers by running:
+If you want, before continuing, you can pre-generate signing keys for mediators and sequencers by running:
 
 .. snippet:: generate_keys_mediator_sequencer
     .. success:: mediator1.keys.secret.generate_signing_key(name = mediator1.name + "-signing")
