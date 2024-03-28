@@ -135,7 +135,7 @@ and Operators <https://www.postgresql.org/docs/12/functions-json.html>`__ in
 the PostgreSQL manual. The operators ``->``, ``->>``, ``#>``, ``#>>``, and
 ``@>`` may be of particular interest.
 
-The :ref:`JSON format section below <pqs-json-encoding>` summarizes how the ledger data is encoded in JSON.
+The `JSON format section below <#pqs-json-encoding>`__ summarizes how the ledger data is encoded in JSON.
 
 Continuity
 ==========
@@ -150,7 +150,7 @@ Multiple isolated instances of PQS can be instantiated without any cross-depende
 How a participant node (PN) models time
 ***************************************
 
-Understanding time in a distributed application is challenging because there is no global clock. This section describes how a participant node understands time. If you are familiar with Canton, skip this section and move to the section :ref:`Time Model within PQS <pqs-time-model>`.
+Understanding time in a distributed application is challenging because there is no global clock. This section describes how a participant node understands time. If you are familiar with Canton, skip this section and move to the section `Time Model within PQS <#pqs-time-model>`__.
 
 A participant node models time advancing in its local ledger using an index called an *offset*. An offset is a unique index of the participant node's local ledger. You can think of this as selecting an item in the ledger using a specific offset (or index) into the ledger. For example, in the figure, Participant A has transaction “ABC” at offset #011. An offset represents a point in time of that participant node and a given sync domain, where the offset values order the events that are changes to the ledger. Specifically, subscribers to UpdateService observe the order for a specific sync domain.
 
@@ -522,6 +522,9 @@ Following is an example of a basic command to run PQS to extract all data, inclu
 
 NOTE: Only ``postgres-document`` is currently implemented, with ``postgres-relational`` to follow soon.
 
+--pipeline-ledger-start
+-----------------------
+
 The ``-pipeline-ledger-start`` argument is an enum with the following possible values:
 
 -  ``Latest``: Use the latest offset that is known or resume where it left off. This is the default behavior, where streaming starts at the latest known end. The first time you start, this will result in PQS calling ``ActiveContractService`` to get a state snapshot, which it will load into the ``_creates`` table. It will then start streaming creates, archives, and (optionally) exercises from the offset of that ``ActiveContractService``. When you restart PQS, it will start from the point it last left off. You should always use this mode on restart.
@@ -532,6 +535,9 @@ PQS is able to start and finish at prescribed ledger offsets, specified by the
 arguments ``--pipeline-ledger-start`` and ``--pipeline-ledger-stop``. The
 ``./scribe.jar pipeline --help-verbose`` command provides extensive help
 information.
+
+--pipeline-filter
+-----------------
 
 The ``--pipeline-filter string`` option needs a filter expression to determine
 which templates and interfaces to include. A filter expression is a simple wildcard
@@ -545,6 +551,9 @@ inclusion statement with basic Boolean logic, where whitespace is ignored. Below
 - ``a.b.c.Foo & a.b.c.Bar``: this is an error because it can't be both
 - ``(a.b.c.Foo | a.b.c.Bar)``: these two fully qualified names
 - ``(a.b.c.* & !(a.b.c.Foo | a.b.c.Bar) | g.e.f.Baz)``: everything in ``a.b.c`` except for ``Foo`` and ``Bar``, and also include ``g.e.f.Baz``
+
+--pipeline-parties
+------------------
 
 The ``--pipeline-parties`` option supports the same filter expressions as the
 ``--pipeline-filter``. So to filter for two parties ``alice::abc123...`` and
@@ -1077,6 +1086,20 @@ Operate PQS
 
 This section discusses common tasks when operating a PQS.
 
+Check Health
+============
+
+The health of the Scribe component that feeds data to the Postgres database can be monitored using the health check
+endpoint ``/livez``. The health check endpoint is available at the ``--health-port`` specified when launching Scribe:
+
+    --health-port int   HTTP port to use to expose application health info (default: 8080)
+
+.. code-block:: bash
+
+    $ curl http://<host>:<health-port>/livez
+    {"status":"ok"}
+
+
 Purge excessive historical ledger data
 ======================================
 
@@ -1192,7 +1215,7 @@ argument:
    SELECT * FROM prune_to_offset('<offset>');
 
 This function deletes transactions and updates active contracts as
-described :ref:`earlier in this section <pqs-pruning-behavior>`.
+described `earlier in this section <#pqs-pruning-behavior>`__.
 
 To prune data up to a specific timestamp or interval, use ``prune_to_offset``
 in combination with the ``get_offset`` function. For example, the following
