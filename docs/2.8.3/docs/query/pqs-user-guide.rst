@@ -511,6 +511,9 @@ Following is an example of a basic command to run PQS to extract all data, inclu
 
 NOTE: Only ``postgres-document`` is currently implemented, with ``postgres-relational`` to follow soon.
 
+--pipeline-ledger-start
+-----------------------
+
 The ``-pipeline-ledger-start`` argument is an enum with the following possible values:
 
 -  ``Latest``: Use the latest offset that is known or resume where it left off. This is the default behavior, where streaming starts at the latest known end. The first time you start, this will result in PQS calling ``ActiveContractService`` to get a state snapshot, which it will load into the ``_creates`` table. It will then start streaming creates, archives, and (optionally) exercises from the offset of that ``ActiveContractService``. When you restart PQS, it will start from the point it last left off. You should always use this mode on restart.
@@ -521,6 +524,9 @@ PQS is able to start and finish at prescribed ledger offsets, specified by the
 arguments ``--pipeline-ledger-start`` and ``--pipeline-ledger-stop``. The
 ``./scribe.jar pipeline --help-verbose`` command provides extensive help
 information.
+
+--pipeline-filter
+-----------------
 
 The ``--pipeline-filter string`` option needs a filter expression to determine
 which templates and interfaces to include. A filter expression is a simple wildcard
@@ -534,6 +540,10 @@ inclusion statement with basic Boolean logic, where whitespace is ignored. Below
 - ``a.b.c.Foo & a.b.c.Bar``: this is an error because it can't be both
 - ``(a.b.c.Foo | a.b.c.Bar)``: these two fully qualified names
 - ``(a.b.c.* & !(a.b.c.Foo | a.b.c.Bar) | g.e.f.Baz)``: everything in ``a.b.c`` except for ``Foo`` and ``Bar``, and also include ``g.e.f.Baz``
+
+
+--pipeline-parties
+------------------
 
 The ``--pipeline-parties`` option supports the same filter expressions as the
 ``--pipeline-filter``. So to filter for two parties ``alice::abc123...`` and
