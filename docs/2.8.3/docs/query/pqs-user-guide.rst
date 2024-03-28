@@ -119,7 +119,7 @@ data as JSONB only.
 
 An example query might look like this:
 
-.. code-block:: none
+.. code-block:: sql
 
     SELECT *
     FROM contract
@@ -229,7 +229,7 @@ Only contract creation and archival are shown in a following figure.
 
 A snippet of the example follows:
 
-.. code-block:: none
+.. code-block:: haskell
 
     template BirthCertificate
       with
@@ -407,7 +407,7 @@ You can discover commands and parameters through the embedded ``--help`` (rememb
     Options:
       --config file                              Path to configuration overrides via an external HOCON file (optional)
       --pipeline-datasource enum                 Ledger API service to use as data source (default: TransactionStream)
-      --pipeline-oauth-clientid string           Client's identifier (optional)
+      --pipeline-oauth-clientid string           Client identifier (optional)
       --pipeline-oauth-accesstoken string        Access token (optional)
       --pipeline-oauth-parameters map            Custom parameters
       --pipeline-oauth-cafile file               Trusted Certificate Authority (CA) certificate (optional)
@@ -867,7 +867,7 @@ read-consistency with other ledger data or commands you have executed,
 consider providing a function that returns the latest
 checkpoint offset:
 
-.. code-block:: none
+.. code-block:: sql
 
    -- utility functions
    create or replace function latest_checkpoint()
@@ -1206,7 +1206,7 @@ Indexing
 
 Indexes are an important tool to make queries with (JSON) expressions perform well. Here is one example of an index:
 
-.. code-block:: none
+.. code-block:: sql
 
     CREATE INDEX issueDateIdx
     ON contract
@@ -1266,7 +1266,7 @@ For efficient pagination iteration, you need a column to sort on. The requiremen
 
 You can then perform queries like this:
 
-.. code-block:: none
+.. code-block:: sql
 
     SELECT *
     FROM the_table
@@ -1278,7 +1278,7 @@ The ``???`` value represents the last (largest) value for ``the_sort_col`` that 
 
 Here is an example of random access to display page 10 of the search results:
 
-.. code-block:: none
+.. code-block:: sql
 
     SELECT *
     FROM the_table
@@ -1310,21 +1310,21 @@ Type ``psql <dbname>`` on the command line to enter the PostgreSQL ```REPL``` (i
 
 To create databases and users, try this:
 
-.. code-block:: none
+.. code-block:: sql
 
     CREATE DATABASE the_db;
     CREATE USER the_user WITH PASSWORD 'abc123';
 
 To later remove them, try this:
 
-.. code-block:: none
+.. code-block:: sql
 
     DROP DATABASE the_db;
     DROP USER the_user;
 
 psql can also be used for scripting:
 
-.. code-block:: none
+.. code-block:: bash
 
     psql postgres <<END
     ...
@@ -1339,7 +1339,7 @@ EXPLAIN ANALYZE
 
 Type ``EXPLAIN ANALYZE`` followed by a query in ``psql`` or similar tools to get an explanation of how the query would be executed. This is an invaluable tool to verify that a query you might want to run uses the indexes that you think it does.
 
-.. code-block:: none
+.. code-block:: sql
 
     EXPLAIN ANALYZE
     SELECT COUNT(*) FROM the_table;
