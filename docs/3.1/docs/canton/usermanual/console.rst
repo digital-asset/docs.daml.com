@@ -74,8 +74,12 @@ using the ``generate`` command:
     ./bin/canton generate remote-config -c participant1.conf
 
 Depending on your network, you might need to manually edit the auto-generated configuration to adjust the hostname.
-You may also want to consolidate the auto-generated configurations into a single remote configuration file.
+To access multiple remote nodes, consolidate the auto-generated configurations into a single remote configuration file
+or include all configuration files on the command line:
 
+.. code-block:: bash
+
+    ./bin/canton -c participant1.conf,participant2.conf,mydomain.conf
 
 TLS and Authorization
 ^^^^^^^^^^^^^^^^^^^^^
