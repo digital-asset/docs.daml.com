@@ -397,7 +397,7 @@ This ensures **subtransaction privacy** as a participant receives only the data 
 Each Canton participant persists all messages it receives from the sequencer, including the views.
 
 Moreover, Canton hides the transaction contents from the sync domain too.
-To that end, the submitting participant encrypts the views using the following hybrid encryption scheme:
+To that end, the submitting participant encrypts the views using the following encryption scheme:
 
 #. It generates cryptographic randomness for the transaction, the transaction seed.
    From the transaction seed, a view seed is derived for each view following the hierarchical view structure, using a pseudo-random function.
@@ -411,16 +411,25 @@ To that end, the submitting participant encrypts the views using the following h
    each such symmetric key is used only once.
 
 #. It encrypts the serialization of each view's Merkle tree with the symmetric key derived for this view.
-   The view seed itself is encrypted with the public key of each participant hosting an informee of the view.
-   The encrypted Merkle tree and the encryptions of the view seed form the data that is sent via the sequencer to the recipients.
+   The view seed itself is encrypted with a short-lived symmetric session key that is generated for each distinct
+   recipient informee group (set of participants that will receive the view). Finally this session key is encrypted
+   with the public key of each participant hosting an informee of the view. If caching is enabled, the session key
+   and the corresponding ciphertexts, which originated from asymmetrically encrypting this key with a
+   participant's public key, are briefly stored in memory. This temporarily eliminates the need to
+   asymmetrically encrypt/decrypt the session key for future similar views.
+   The encrypted Merkle tree and the encrypted session key for each informee participant form the data that is
+   sent via the sequencer.
 
    .. note::
-      The view seed is encrypted only with the public key of the participants that host an informee,
+      The view seed is encrypted only with the session key and this key is encrypted with the public key
+      of the participants that host an informee,
       while the encrypted Merkle tree itself is also sent to participants hosting only witnesses.
-      The latter participants can nevertheless decrypt the Merkle tree because they receive the view seed of a parent view and can derive the symmetric key of the witnessed view using the derivation functions.
+      The latter participants can nevertheless decrypt the Merkle tree because they receive the
+      view seed of a parent view and can derive the symmetric key of the witnessed view using the derivation functions.
 
 Even though the sequencer persists the encrypted views for a limited period,
-the sync domain cannot access the symmetric keys unless it knows the secret key of one of the informee participants.
+the sync domain cannot access the symmetric session key, and, consequently, cannot decrypt the views unless it knows
+the private key of one of the informee participants.
 Therefore, the transaction contents remain confidential with respect to the sync domain.
 
 
