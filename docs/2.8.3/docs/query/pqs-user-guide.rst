@@ -867,7 +867,7 @@ read-consistency with other ledger data or commands you have executed,
 consider providing a function that returns the latest
 checkpoint offset:
 
-.. code-block:: sql
+.. code-block:: bash
 
    -- utility functions
    create or replace function latest_checkpoint()
