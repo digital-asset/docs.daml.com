@@ -1322,6 +1322,8 @@ subtrees:
         title: "Manage Domains"
       - file: canton/usermanual/manage_domain_entities
         title: "Manage Domain Entities"
+      - file: canton/usermanual/manage_participant
+        title: "Manage Participant"
       - file: canton/usermanual/pruning
         title: "Ledger Pruning"
       - file: ops/pruning
