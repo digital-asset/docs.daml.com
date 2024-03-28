@@ -7,9 +7,11 @@ Participant Query Store User Guide
 Docker image
 ************
 
-To get the Participant Query Store (PQS) Docker image, run the following command::
+To get the Participant Query Store (PQS) Docker image, run the following command:
 
-    docker pull digitalasset-docker.jfrog.io/participant-query-store:0.1.0
+.. code-block:: console
+
+    $ docker pull digitalasset-docker.jfrog.io/participant-query-store:0.1.0
 
 Introduction
 ************
@@ -148,9 +150,9 @@ How a participant node (PN) models time
 
 Understanding time in a distributed application is challenging because there is no global clock. This section describes how a participant node understands time. If you are familiar with Canton, skip this section and move to the section `Time Model within PQS <#pqs-time-model>`__.
 
-A participant node models time advancing in its local ledger using an index called an *offset*. An offset is a unique index of the participant node's local ledger. You can think of this as selecting an item in the ledger using a specific offset (or index) into the ledger. For example, in the figure, Participant A has transaction “ABC” at offset #011. An offset represents a point in time of that participant node and a given domain, where the offset values order the events that are changes to the ledger. Specifically, subscribers to UpdateService observe the order for a specific domain. 
+A participant node models time advancing in its local ledger using an index called an *offset*. An offset is a unique index of the participant node's local ledger. You can think of this as selecting an item in the ledger using a specific offset (or index) into the ledger. For example, in the figure, Participant A has transaction “ABC” at offset #011. An offset represents a point in time of that participant node and a given domain, where the offset values order the events that are changes to the ledger. Specifically, subscribers to UpdateService observe the order for a specific domain.
 
-In general, a larger participant offset means that the event happened after the event at a smaller participant offset in that participant node. Since ledger entries can be made at any time, they can advance at different rates. For example, Participant A may only process requests every several minutes, so its offset counters increase slowly. However, Participant B may be processing requests very frequently, so its offset counters may increase several times a second. 
+In general, a larger participant offset means that the event happened after the event at a smaller participant offset in that participant node. Since ledger entries can be made at any time, they can advance at different rates. For example, Participant A may only process requests every several minutes, so its offset counters increase slowly. However, Participant B may be processing requests very frequently, so its offset counters may increase several times a second.
 
 The sequence of offsets of a participant may contain gaps. That is because some offsets may be used for purposes internal to the participant that never show up on the ledger API. Also, filtering for certain types of changes (such as by party or by template ID) naturally results in gaps in the sequence of offsets.
 
@@ -159,21 +161,21 @@ The sequence of offsets of a participant may contain gaps. That is because some 
 
 You cannot compare offset values across participants. The same ledger change (such as a transaction) for multiple participant nodes is stored at a different offset in each participant node. For example, in the figure, the transaction ABC is at offset #011 in Participant A but at offset #010 in Participant B. Similarly, the same offset value across participant nodes refers to different ledger changes. In the figure, Participant A's offset #011 records “Tx ABC” while Participant B's offset #011 records “Tx DEF”. Comparing offsets across synchronization domains does not provide a causal ordering of the events because there is no common reference.
 
-Single offset values returned by the Ledger API can be used as-is (for example, to keep track of processed transactions and provide an application restart point in case you need to retry the request). 
+Single offset values returned by the Ledger API can be used as-is (for example, to keep track of processed transactions and provide an application restart point in case you need to retry the request).
 
 The Ledger API endpoints that take offset values also allow an offset range which is a portion of the participant's ledger that is relevant for the client to read. An offset range is analogous to a duration or slice of time. For example, a client application can specify the offset range from #010 through #012 to perform a search within Participant B's ledger.
 
 Although the figure shows integers as an offset value, this may change. The format of offsets should be treated as opaque to the client. No client-side transformation of an offset (such as subtracting or adding one offset to another and using that in a ledger read)  is guaranteed to return a meaningful offset. However, you can always expect that offsets are lexicographically comparable.
 
 A transaction ID compares to an offset in the following ways:
- 
+
  - Not every offset has a transaction ID. For example, the completion event of a rejected transaction does not have a transaction ID because the transaction did not successfully complete.
  - There is, at most, one transaction ID at a single offset.
- - Every accepted transaction is published at a single offset. 
+ - Every accepted transaction is published at a single offset.
  - Offsets are local to a participant, whereas transaction IDs are virtual ledger-wide identifiers to correlate transactions across multiple participants.
  - Offsets can establish a temporal ordering within the same sync domain ("happened-before" relationship) between transactions and/or events from different transactions.
 
-For analysis of a participant node's ledger, the offset is a better identifier than transaction ID because it can be used for ordering and an offset range can be specified to limit the analysis. However, if the analysis must coordinate with other participant nodes, then transaction IDs are better. 
+For analysis of a participant node's ledger, the offset is a better identifier than transaction ID because it can be used for ordering and an offset range can be specified to limit the analysis. However, if the analysis must coordinate with other participant nodes, then transaction IDs are better.
 
 If a participant node's ledger is restored from a backup, it reviews the data on the sequencer and processes it to the latest information. However, in performing this rehydration, the resulting PN can have a different set of offset values than it had before the backup. For Daml 2.x, the order of event processing and transaction IDs remain the same, but the resulting offsets likely change. If a client application caches offset data or stores it in a database, those datastores also need to be replayed to have the proper offset values of the restored participant node.
 
@@ -229,7 +231,8 @@ Only contract creation and archival are shown in a following figure.
 
 A snippet of the example follows:
 
-.. code-block:: haskell
+
+.. code-block:: daml
 
     template BirthCertificate
       with
@@ -323,7 +326,7 @@ Authorize PQS
 
 If you are running PQS against a participant node's ledger API that verifies authorization, you must provide credentials for the `OAuth Client Credentials Flow <https://auth0.com/docs/get-started/authentication-and-authorization-flow/client-credentials-flow>`__. For example:
 
-.. code-block:: bash
+.. code-block:: console
 
   $ ./scribe.jar pipeline ledger postgres-document \
       --source-ledger-auth OAuth \
@@ -339,7 +342,7 @@ Scribe will obtain tokens from the Authorization Server on startup, and it will 
 If you are not authenticated, there is no user to connect to a list of
 ``readAs`` parties, so you must specify the parties using the
 ``-pipeline-parties`` argument. This argument acts as a filter, restricting
-the data to only what's visible to the supplied list of party identifiers. 
+the data to only what's visible to the supplied list of party identifiers.
 
 The authentication of PQS needs to match the participant nodes (PN) setup. For
 example, if PQS is run with authentication by setting OAuth and the PN is not
@@ -368,14 +371,14 @@ The database connection is handled by the JDBC API, so you need to provide the f
 
 The following example connects to a PostgreSQL instance running on localhost on the default port, with a user for which Postgres has not set a password and a database called ``daml_pqs``. This is a typical setup on a developer machine with a default PostgreSQL install.
 
-.. code-block:: bash
+.. code-block:: console
 
     $ ./scribe.jar pipeline ledger postgres-document \
          --target-postgres-database daml_pqs
 
 The next example connects to a database on host ``192.168.1.12``, listening on port ``5432``. The database is called ``daml_pqs``.
 
-.. code-block:: bash
+.. code-block:: console
 
     $ ./scribe.jar pipeline ledger postgres-document \
          --target-postgres-host 192.168.1.12 \
@@ -389,11 +392,16 @@ By default, the PQS logs to ``stderr``, with ``INFO`` verbose level. To change t
 Using command line options
 ==========================
 
-You can discover commands and parameters through the embedded ``--help`` (remember to include ``pipeline`` before ``--help``), as shown in the following example.
+You can discover commands and parameters through the embedded ``--help`` (remember to include ``pipeline`` before ``--help``). For example, running:
 
-.. code-block:: bash
+.. code-block:: console
 
-    ./scribe.jar pipeline --help
+    $ ./scribe.jar pipeline --help
+
+yields:
+
+.. code-block:: none
+
     Usage: scribe pipeline SOURCE TARGET [OPTIONS]
 
     Initiate continuous ledger data export
@@ -403,7 +411,7 @@ You can discover commands and parameters through the embedded ``--help`` (rememb
 
     Available targets:
       postgres-document    Postgres database (w/ document payload representation)
-      
+
     Options:
       --config file                              Path to configuration overrides via an external HOCON file (optional)
       --pipeline-datasource enum                 Ledger API service to use as data source (default: TransactionStream)
@@ -443,14 +451,14 @@ You can discover commands and parameters through the embedded ``--help`` (rememb
 
 For more help, use the command:
 
-.. code-block:: bash
+.. code-block:: console
 
-    ./scribe.jar pipeline --help-verbose
+    $ ./scribe.jar pipeline --help-verbose
 
 Use a ``--config`` file to define multiple options or reflect an infrastructure-as-code approach. Here's an example configuration file:
 
 .. code-block:: none
-   
+
    {
       health.port = 8080
 
@@ -496,7 +504,7 @@ Use a ``--config`` file to define multiple options or reflect an infrastructure-
 
 Following is an example of a basic command to run PQS to extract all data, including exercises, for a party with the display name Alice. You can replace the argument values with those that match your environment.
 
-.. code-block:: bash
+.. code-block:: console
 
     $ ./scribe.jar pipeline ledger postgres-document \
     --pipeline-parties Alice::12209942561b94adc057995f9ffca5a0b974953e72ba25e0eb158e05c801149639b9 \
@@ -550,7 +558,7 @@ The ``--pipeline-parties`` option supports the same filter expressions as the
 ``bob::def567...``, you could write ``--pipeline-parties="(alice* | bob*)"``.
 If you want to specify a specific party, include the hash behind the party
 hint (such as
-``Alice_1::122055fc4b190e3ff438587b699495a4b6388e911e2305f7e013af160f49a76080ab``). 
+``Alice_1::122055fc4b190e3ff438587b699495a4b6388e911e2305f7e013af160f49a76080ab``).
 
 Please note that the separator is a pipe character (``|``) instead of a comma.
 
@@ -561,10 +569,10 @@ Alice_2::122053933e4803c2995e41faa8a29981ca0d1faf6b4ffbf917ba1edd0db133acb634
 | Peter-1::358400000000000000000000000`` Specifying the parties in a short
 form can be done by using the ``*`` as a wildcard. For example,
 ``--pipeline-parties="Alice* | *358400000000000000000000000"`` selects
-``Alice_1``, ``Alice_2``, and ``Peter-1``. 
+``Alice_1``, ``Alice_2``, and ``Peter-1``.
 
 More advanced expressions can make use of brackets, such as
-``--pipeline-parties="Alice* | Bob* | (participant* & !(participant3::*))"``.  
+``--pipeline-parties="Alice* | Bob* | (participant* & !(participant3::*))"``.
 
 
 Handle configuration changes
@@ -574,13 +582,13 @@ PQS initializes its behavior on startup by reading its configuration files.
 It currently doesn't support dynamic configuration updates, so making a
 configuration change (such as adding a new party, new template, or new
 interface) requires stopping PQS, modifying its configuration, and then
-starting PQS. On startup, PQS will read the updated configuration.  
+starting PQS. On startup, PQS will read the updated configuration.
 
 When the configuration changes, the default is that PQS will not go back in
 time (older offset) but only move forward in time (current watermark offset
 and newer). If the database is dropped, then PQS can be started at the
 oldest, unpruned offset of the participant node and use the participant node's
-history to extract the events based on the updated configuration.  
+history to extract the events based on the updated configuration.
 
 
 PQS development
@@ -668,7 +676,7 @@ In this pattern, a user wants to query the most recent available state of the le
 treats the ledger Active Contract Set as a virtual database table and is not
 concerned with offsets because the latest result is desired.
 
-This user wants to query the (latest) state of the ledger 
+This user wants to query the (latest) state of the ledger
 without consideration for offsets. Querying is inherently limited to one
 data source, as the user has no control over the actual offset that will
 be used.
@@ -763,7 +771,7 @@ offset. The example queries presented above are unchanged.
 Set the oldest offset to consider
 ---------------------------------
 
-In this pattern, a user wants to present a limited amount of history to users. 
+In this pattern, a user wants to present a limited amount of history to users.
 
 If readers wish to limit the event history, they can call:
 
@@ -827,7 +835,7 @@ data in the datastore: state and events.
 *State*, in the form of the Active Contract Set by the function
 ``active(name)``, uses the latest offset only, using the following rules:
 
-.. code-block:: none
+.. code-block:: sql
 
   creation_offset <= latest_offset; AND
   no archive_offset <= latest_offset
@@ -835,7 +843,7 @@ data in the datastore: state and events.
 *Events* (create, exercise, archive) make use of the oldest and
 latest range offset:
 
-.. code-block:: none
+.. code-block:: sql
 
   event_offset <= latest_offset; AND
   event_offset >= oldest_offset
@@ -932,11 +940,16 @@ User-defined types
 Display of metadata-inferred database schema
 ============================================
 
-PQS analyzes package metadata as part of its operation and displays the required schema as shown in the following example:
+PQS analyzes package metadata as part of its operation and displays the required schema. For example, running
 
-.. code-block:: bash
+.. code-block:: console
 
     $ ./scribe.jar datastore postgres-document schema show
+
+yields:
+
+.. code-block:: none
+
     [...]
     /**********************************************************
     * generated by scribe, version: v0.0.1-main+2151-7961ecb *
@@ -951,11 +964,16 @@ PQS analyzes package metadata as part of its operation and displays the required
     );
     [...]
 
-*or* it applies the schema on the fly idempotently (default).
+It can aslo apply the schema on the fly idempotently (default), as in:
 
-.. code-block:: bash
+.. code-block:: console
 
     $ ./scribe.jar pipeline ledger postgres-document --pipeline-party=Alice
+
+which yields:
+
+.. code-block:: none
+
     18:27:26.799 I [zio-fiber-64] com.digitalasset.scribe.appversion.package:11 scribe, version: v0.0.1-main+2151-7961ecb
     18:27:27.159 I [zio-fiber-68] com.digitalasset.scribe.configuration.package:40 Applied configuration:
     pipeline {
@@ -980,7 +998,7 @@ PQS database schema
 
 The following schema is representative for the exported ledger data. It is subject to change since it is hidden behind the table functions.
 
-.. code-block:: bash
+.. code-block:: sql
 
     /**********************************************************
      * generated by scribe, version: v0.0.1-main+2151-7961ecb *
@@ -1122,7 +1140,7 @@ The following data is deleted:
 -  Events, archived contracts, and exercise payloads associated with the
    deleted transactions.
 
-The following data is unaffected: 
+The following data is unaffected:
 
 - Transaction-related data (event, choices, or contracts) for a transaction with
   an offset that is greater than the effective pruning target offset.
@@ -1146,38 +1164,38 @@ The PQS CLI provides a ``prune`` command to prune the
 ledger data up to a specified offset, timestamp, or duration.
 
 For detailed information on all available options, please run
-``./PQS.jar datastore postgres-document prune --help-verbose``.
+``./scribe.jar datastore postgres-document prune --help-verbose``.
 
 To use the ``prune`` command, provide a pruning target as an
 argument. The pruning target can be an offset, a timestamp (ISO 8601),
 or a duration (ISO 8601):
 
-::
+.. code-block:: console
 
-   ./PQS.jar datastore postgres-document prune --prune-target <pruning_target>
+   $ ./scribe.jar datastore postgres-document prune --prune-target <pruning_target>
 
 By default, the ``prune`` command performs a dry run, which means it
 will only display the effects of the pruning operation without actually
 deleting any data. To execute the pruning operation, add the
 ``--prune-mode Force`` option:
 
-::
+.. code-block:: console
 
-   ./PQS.jar datastore postgres-document prune --prune-target <pruning_target> --prune-mode Force
+   $ ./scribe.jar datastore postgres-document prune --prune-target <pruning_target> --prune-mode Force
 
 Instead of providing an offset as the ``--prune-target``, you can use a timestamp
 or duration as the pruning cutoff. For example, the following command prunes
 data older than 30 days (relative to now):
 
-::
+.. code-block:: console
 
-   ./PQS.jar datastore postgres-document prune --prune-target P30D
+   $ ./scribe.jar datastore postgres-document prune --prune-target P30D
 
 The following example prunes data up to a specific timestamp:
 
-::
+.. code-block:: console
 
-   ./PQS.jar datastore postgres-document prune --prune-target 2023-01-30T00:00:00.000Z
+   $ ./scribe.jar datastore postgres-document prune --prune-target 2023-01-30T00:00:00.000Z
 
 Prune with ``prune_to_offset``
 ------------------------------
@@ -1190,18 +1208,18 @@ offer dry runs.
 To use ``prune_to_offset``, provide an offset as a text
 argument:
 
-.. code:: sql
+.. code-block:: sql
 
    SELECT * FROM prune_to_offset('<offset>');
 
 This function deletes transactions and updates active contracts as
 described `earlier in this section <#pqs-pruning-behavior>`__.
 
-To prune data up to a specific timestamp or interval, use ``prune_to_offset`` 
-in combination with the ``get_offset`` function. For example, the following 
+To prune data up to a specific timestamp or interval, use ``prune_to_offset``
+in combination with the ``get_offset`` function. For example, the following
 query prunes data older than 30 days:
 
-.. code:: sql
+.. code-block:: sql
 
    SELECT * FROM prune_to_offset(get_offset(interval '30 days'));
 
@@ -1334,9 +1352,9 @@ To later remove them, try this:
 
 psql can also be used for scripting:
 
-.. code-block:: bash
+.. code-block:: console
 
-    psql postgres <<END
+    $ psql postgres <<END
     ...
     CREATE DATABASE the_db;
     ...
@@ -1364,7 +1382,7 @@ Cannot connect to the ledger node
 
 If the PQS cannot connect to the ledger node on startup, you see a message in the logs like the following example and the PQS terminates.
 
-.. code-block:: bash
+.. code-block:: none
 
     21:15:02.084 E [zio-fiber-0] com.digitalasset.scribe.app.ComposableApp:34 Exception in thread
     "zio-fiber-" io.grpc.StatusException: UNAVAILABLE: io exception
@@ -1399,7 +1417,7 @@ Cannot connect to the PQS database
 
 If the database is not available before the transaction stream is started, the PQS terminates and you see an error from the JDBC driver in the logs similar to the following example.
 
-.. code-block:: bash
+.. code-block:: none
 
     21:16:32.116 E [zio-fiber-0] com.digitalasset.scribe.app.ComposableApp:34 Exception in thread
     "zio-fiber-" org.postgresql.util.PSQLException: Connection to localhost:5432 refused. Check
