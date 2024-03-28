@@ -222,15 +222,6 @@ The **Daml standard library** is a set of `Daml` functions, classes and more tha
 
 For documentation, see :doc:`/daml/stdlib/index`.
 
-Agreement
-=========
-
-An **agreement** is part of a `contract <#contract>`__. It is the text that explains what the contract represents.
-
-It can be used to clarify the legal intent of a contract, but this text isn't evaluated programmatically.
-
-See :doc:`/daml/reference/templates`.
-
 Create
 ======
 

@@ -260,22 +260,6 @@ The following types are *not serializable*, and thus may not be used in template
 - Defined data types with any type parameter of kind ``Nat``, or any kind other than ``*``.
   This means higher-kinded types, and types that take a parameter just to pass to ``Numeric``, are not serializable.
 
-.. _daml-ref-agreements:
-
-Agreements
-**********
-
-.. literalinclude:: ../code-snippets/Reference.daml
-   :language: daml
-   :start-after: -- start template agree snippet
-   :end-before: -- end template agree snippet
-
-- ``agreement`` keyword, followed by text.
-- Represents what the contract means in text. They're usually the boundary between on-ledger and off-ledger rights and obligations.
-- Usually, they look like ``agreement tx``, where ``tx`` is of type ``Text``.
-
-  You can use the built-in operator ``show`` to convert party names to a string, and concatenate with ``<>`` .
-
 .. _daml-ref-preconditions:
 
 Preconditions
