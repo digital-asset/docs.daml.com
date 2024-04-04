@@ -199,27 +199,6 @@ Signing Key
 The sequencer has a signing key pair that is used to sign all events the
 sequencer sends to a subscriber.
 
-Ethereum Sequencer
-^^^^^^^^^^^^^^^^^^
-
-The Ethereum-based sequencer is a client of a Besu node and additional keys are
-used in this deployment:
-
-- TLS client certificate and private key to authenticate towards a Besu node if
-  mutual authentication is configured.
-- A Wallet (in BIP-39 or UTC / JSON format), which contains or will result in a
-  signing key pair for Ethereum transactions.
-
-Fabric Sequencer
-^^^^^^^^^^^^^^^^
-
-The Fabric-based sequencer is a Fabric application connecting to an
-organization's peer node and the following additional keys are required:
-
-- TLS client certificate and private key to authenticate towards a Fabric peer
-  node if mutual authentication is required.
-- The client identity's certificate and private key.
-
 Public API TLS Key
 ^^^^^^^^^^^^^^^^^^
 
