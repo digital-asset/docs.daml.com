@@ -171,8 +171,8 @@ Typically `X` only contains the receiver of the transfer, but not the contract a
 
 Then, we observe the following storage usage:
 
-- Two encrypted envelopes with payload `Y` each, one symmetric key per
-  view and informee participant of that view, two root hashes for each
+- Two encrypted envelopes with payload `Y` each, one view seed per view, one symmetric key per
+  informee group, two root hashes for each
   participant and the participant IDs as recipients at the sequencer
   store, and the informee tree for the mediator (informees and
   transaction metadata, but no payload), together with the sequencer

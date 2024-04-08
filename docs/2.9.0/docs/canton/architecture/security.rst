@@ -418,10 +418,12 @@ Scenario 4: Invalid Encryption of View
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 A view is encrypted with a symmetric key and the secret to derive the symmetric
-key for a view is encrypted for each recipient of the view with their public
-encryption key. The dishonest submitter produces a correct view and a complete
+key for a view is encrypted with another symmetric key (i.e. a session key).
+This short-lived session key is encrypted for each recipient of the view
+with their public encryption key and the result sent to the recipients.
+The dishonest submitter produces a correct view and a complete
 recipient list of the corresponding sequencer message, but encrypts the
-symmetric key secret for Alice with an invalid key. Alice's participant will be
+session key for Alice with an invalid key. Alice's participant will be
 notified about the view but unable to decrypt it.
 
 Mitigation
