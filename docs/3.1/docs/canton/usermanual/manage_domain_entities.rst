@@ -59,7 +59,7 @@ Please note that if your sequencer is database-based and you're horizontally sca
 :ref:`sequencer high availability <ha_sequencer>`, you do not need to pass all sequencer nodes into the command above.
 Since they all share the same relational database, you only need to run this initialization step on one of them.
 
-For a non-database-based sequencer such as Ethereum or Fabric sequencers you need to have each node initialized individually.
+For a non-database-based sequencer you need to have each node initialized individually.
 You can either initialize such sequencers as part of the initial sync domain bootstrap shown above or
 dynamically add a new sequencer at a later point as described in :ref:`operational processes <dynamically_adding_sequencers>`.
 
@@ -77,7 +77,7 @@ in steps with the exchange of data via files using any secure channel of communi
     Please ensure that all of the nodes in the distributed sync domain are started before proceeding.
 
 
-Initially the sync domain manager must transmit its sync domain parameters from its console by saving the parameters to a file.
+Initially, the sync domain manager must transmit its sync domain parameters from its console by saving the parameters to a file.
 The sync domain ID, serialized as a string, must also be transmitted.
 
 .. snippet:: distributed_domain_install_separate_consoles
@@ -152,7 +152,7 @@ At this point the distributed sync domain should be completely initialized and a
     .. success:: participant1.domains.connect_local(sequencer1)
     .. success:: participant1.health.ping(participant1)
 
-Additionally, please note that if more than one sequencer has been initialized, any mediator node and sychronizer manager can choose
+Additionally, please note that if more than one sequencer has been initialized, any mediator node and synchronizer manager can choose
 to connect to just a subset of them.
 
 
@@ -161,7 +161,7 @@ to connect to just a subset of them.
 Adding new sequencers to a distributed synchronization domain
 -------------------------------------------------------------
 
-For non-database-based sequencers such as Ethereum or Fabric sequencers, you can either initialize them as part of the
+For non-database-based sequencers, you can either initialize them as part of the
 regular :ref:`distributed sync domain bootstrapping process <domain_bootstrapping>` or dynamically add a new sequencer at a later point as follows:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/sequencer/DynamicOnboardingIntegrationTest.scala
@@ -171,7 +171,7 @@ regular :ref:`distributed sync domain bootstrapping process <domain_bootstrappin
    :dedent:
 
 Similarly to :ref:`initializing a distributed sync domain with separate consoles <domain_bootstrapping_separate_consoles>`,
-dynamically onboarding new sequencers (supported by Fabric and Ethereum sequencers) can be achieved in separate consoles as follows:
+dynamically onboarding new sequencers can be achieved in separate consoles as follows:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/sequencer/DomainBootstrapWithMultipleConsolesAndSequencersTest.scala
    :language: scala

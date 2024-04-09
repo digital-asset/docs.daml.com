@@ -268,19 +268,14 @@ is facilitated by a sync domain, which is formed by three separate processes:
 
 These nodes don't store any ledger data, but just facilitate the communication between the participants.
 
-In order to set up a sync domain, you need to decide what kind of driver you want to use for the sequencer.
+To set up a sync domain, you need to decide what kind of driver you want to use for the sequencer.
 Drivers are provided for different infrastructure types. These drivers have different levels of fidelity in terms of
 trust and performance. Your current options are the following:
 
 #. Postgres-based sync domain
-#. :ref:`Oracle-based sync domain <oracle-domain>`
-#. Hyperledger Fabric-based sync domain
-#. Ethereum-based sync domain
+#. Native Canton BFT driver (used for the `Canton Network <https://canton.network/>`__).
 
-In the near future, there will also be a native Canton BFT driver (which will be used for the `Canton Network <https://canton.network/>`__).
-
-This section explains how to set up a Postgres-based synchronization sync domain. Please consult :ref:`the Enterprise driver section <canton-enterprise-drivers>`
-with respect to the other drivers.
+This section explains how to set up a Postgres-based synchronization sync domain. 
 
 Using an Embedded Synchronization Domain
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
