@@ -1186,17 +1186,6 @@ subtrees:
         title: "Work With the Docker Containers"
       - file: canton/usermanual/static_conf
         title: "Set Configuration Options"
-      - file: canton/usermanual/domains/domains
-        title: "Set Up A Daml Domain With Enterprise Drivers"
-        subtrees:
-        - hidden: False
-          entries:
-          - file: canton/usermanual/domains/oracle
-            title: "Oracle Domain"
-          - file: canton/usermanual/domains/fabric
-            title: "Fabric Domain"
-          - file: canton/usermanual/domains/ethereum
-            title: "Ethereum Domain"
   - file: deploy-daml/infrastructure-architecture/high-availability/main-menu
     subtrees:
     - hidden: False
@@ -1533,13 +1522,6 @@ subtrees:
           title: "Contract Keys in Canton"
         - file: canton/architecture/domains/domains
           title: "Domain Architecture and Integrations"
-          subtrees:
-          - hidden: False
-            entries:
-            - file: canton/architecture/domains/ethereum
-              title: "Canton Domain on Ethereum"
-            - file: canton/architecture/domains/fabric
-              title: "Canton Domain on Fabric"
         - file: canton/architecture/identity
           title: "Identity Management"
         - file: canton/architecture/requirements/requirements
