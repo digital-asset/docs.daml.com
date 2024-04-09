@@ -333,12 +333,6 @@ An obsolete early access feature to enable causality tracking, related to previe
     participants.participant.init.parameters.unsafe-enable-causality-tracking = true
     participants.participant.parameters.enable-causality-tracking = true
 
-Besu and Fabric drivers
-"""""""""""""""""""""""
-In order to allow for independent updates of the different components, we have moved the drivers into a separate jar, which needs to be loaded into a separate classpath.
-As a result, deployments that use Fabric or Besu need to additionally download the jar and place it in the appropriate directory.
-Please :ref:`consult the installation documentation <canton-enterprise-drivers>` on how to obtain this additional jar.
-
 Removal of deploy_sequencer_contract
 """"""""""""""""""""""""""""""""""""
 The command ``deploy_sequencer_contract`` has been removed and exchanged with a deployment through genesis block in examples.
