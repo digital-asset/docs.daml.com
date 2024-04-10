@@ -323,15 +323,6 @@ a request or escalate to the operator.
    This file is generated:
 .. include:: error-categories-inventory.rst.inc
 
-
-Error Codes Inventory - Daml
-****************************
-
-..
-   This file is generated:
-.. include:: error-codes-inventory.rst.inc
-
-
 Error Codes Inventory - Canton
 ******************************
 
