@@ -107,6 +107,12 @@ access the node’s system and inspect its memory. Using a KMS's underlying moni
 (e.g. AWS CloudTrail Logs or GCP Cloud Audit Logs) in combination with Canton logging also offers a
 reliable way to maintain the security, reliability of Canton, and identify any possible misuse of its private keys.
 
+.. https://lucid.app/lucidchart/0f9bfceb-2341-4d79-b8aa-96eb2898843d
+.. image:: ./images/da-kms-external-architecture.svg
+   :width: 70%
+   :align: center
+   :alt: KMS-external architecture
+
 This improvement in security comes with drawbacks, in particular:
 
 - Added latency resulting from the need to use a KMS to decrypt and sign messages.

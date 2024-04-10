@@ -79,7 +79,7 @@ to a secure enclave.
 .. image:: ./images/da-kms-architecture.svg
    :width: 70%
    :align: center
-   :alt: KMS architecture
+   :alt: KMS-envelope architecture
 
 Directly encrypting the Canton private keys with a KMS wrapper key, i.e. `envelope encryption`,
 has multiple advantages compared to storing these keys in the KMS itself:
@@ -106,6 +106,12 @@ safeguards against malicious adversaries that, besides access to the storage lay
 access the node’s system and inspect its memory. Using a KMS's underlying monitoring framework
 (e.g. AWS CloudTrail Logs or GCP Cloud Audit Logs) in combination with Canton logging also offers a
 reliable way to maintain the security, reliability of Canton, and identify any possible misuse of its private keys.
+
+.. https://lucid.app/lucidchart/0f9bfceb-2341-4d79-b8aa-96eb2898843d
+.. image:: ./images/da-kms-external-architecture.svg
+   :width: 70%
+   :align: center
+   :alt: KMS-external architecture
 
 This improvement in security comes with drawbacks, in particular:
 
