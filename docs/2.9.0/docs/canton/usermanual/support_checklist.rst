@@ -8,15 +8,15 @@
 Support Checklist
 =================
 
-In order to successfully provide support, but also to ensure that you are able to troubleshoot the system
+So that we can successfully provide support, and to ensure that you can troubleshoot the system
 efficiently on your own, we recommend that you follow the checklist below to ensure that you have access to
-all the necessary information and tools, and that you have established the necessary administrative access
+all the necessary information and tools to resolve an issue and that you have established the necessary administrative access
 to your production system.
 
 The :ref:`troubleshooting guide <troubleshooting_guide>` goes into detail on how to use the information and tools
 provided in this checklist.
 
-Please note that the below list is used to prepare for the worst case scenario and generally refers to good
+Please note that the below list is used to prepare for the worst-case scenario and generally refers to good
 practices for being prepared for any kind of issue.
 
 .. _support_remote_console:
@@ -34,8 +34,8 @@ Remote Console Access
 
 * **Download the Health Dump**
 
-    Using the admin console, you can run `node.health.dump()` to download a :ref:`health dump <creating-dumps>` of the node.
-    Note that prior to 2.9, you might need to add a ``timeout=10.minutes`` argument to the command.
+    Using the admin console, you can run `node.health.dump()` to download a :ref:`health dump <creating_dumps>` of the node.
+    Note that for versions prior to 2.9, you might need to add a ``timeout=10.minutes`` argument to the command.
 
         * Confirm that you can download the health dump.
         * Confirm that you can upload the health dump to a support ticket.
@@ -53,14 +53,14 @@ Logging
 * **Access to Readable Logs**
 
     You are able to download the native Canton logs from your production system. This is relevant as the logs are highly
-    structured and contain a lot of information that is sometimes omitted when using third party log aggregators.
+    structured and contain information that is sometimes omitted by third-party log aggregators.
 
         * The logs can be read :ref:`using lnav<lnav>`.
         * They include the trace-id (``tid:``)
         * They include at least the log-level INFO.
         * Confirm that you can upload the log files to a support ticket.
 
-    Note that you can set up Canton to create rolling log files which get included in the health dump. Both the standard
+    Note that you can set up Canton to create rolling log files which are included in the health dump. Both the standard
     and the default Canton JSON logging format are fine.
 
 * **Attention to WARN and ERROR logs**
@@ -114,14 +114,14 @@ Configuration and Patching
 
 * **Patch Release Process**
 
-    You have a well defined procedure for applying patch releases to your production system.
+    You have a well-defined procedure for applying patch releases to your production system.
 
 Database Access
 ---------------
 
 * **Access to the Database**
 
-    You have a well defined procedure for database access to run queries if necessary or access database statistics.
+    You have a well-defined procedure for database access to run queries if necessary or access database statistics.
 
 * **Ability to Snapshot**
 
