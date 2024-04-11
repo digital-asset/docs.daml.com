@@ -10,8 +10,8 @@ Support Checklist
 
 So that we can successfully provide support, and to ensure that you can troubleshoot the system
 efficiently on your own, we recommend that you follow the checklist below to ensure that you have access to
-all the necessary information and tools to resolve an issue and that you have established the necessary administrative access
-to your production system.
+all the necessary information and tools to resolve an issue and that you have established the necessary administrative
+access to your production system.
 
 The :ref:`troubleshooting guide <troubleshooting_guide>` goes into detail on how to use the information and tools
 provided in this checklist.
@@ -45,6 +45,14 @@ Remote Console Access
     Using the admin console on a participant, you can ping the participant to run an end-to-end check:
     ``participant.health.ping(participant, id="READY-FOR-PRODUCTION")``
 
+* **Ledger API Access**
+
+    Using the console on a participant, you can access the Ledger API for further troubleshooting.
+    For this, you need to be able to enable the flag ``canton.features.enable-testing-commands = yes``
+    on your remote console.
+
+        * Confirm access by successfully running the command ``participant.ledger_api.acs.of_party(participant.id.adminParty)``.
+
 .. _support_logging:
 
 Logging
@@ -62,6 +70,7 @@ Logging
 
     Note that you can set up Canton to create rolling log files which are included in the health dump. Both the standard
     and the default Canton JSON logging format are fine.
+    If you need custom loggers, please add them as an extension to the built-in `logback.xml <https://github.com/digital-asset/canton/blob/main/community/app/src/main/resources/logback.xml>`_.
 
 * **Attention to WARN and ERROR logs**
 
@@ -72,7 +81,7 @@ Logging
 
     You are able to find the commands that were submitted to Canton in the logs.
     Verify that you can find the previous ping in your logs looking for ``READY-FOR-PRODUCTION`` (which
-    was the argument passed as ``id``). You should several log entries mentioning ``Phase 1 started: Submitting commands for interpretation``,
+    was the argument passed as ``id``). You should see several log entries mentioning ``Phase 1 started: Submitting commands for interpretation``,
     one for each Daml transaction of the ping command.
 
 * **Log File Permanence**
@@ -85,14 +94,14 @@ Logging
 
     You are able to change the log level of the Canton loggers using the remote console command ``node.health.set_log_level(Level.DEBUG)``.
 
-        * Confirm that the log level changes to DEBUG and back.
+        * Confirm that the log level changes to DEBUG and change it back again.
 
 * **Command Id / Trace Id in Application Logs**
 
-    Your applications provide a trace-id or command-id in their logs that can be correlated with the Canton logs.
+    Your applications provide a trace-id or at least the command-id in their logs that can be correlated with the Canton logs.
+    Please consult our :ref:`guide on how to add end-to-end tracing <open-tracing-ledger-api-client>` to your application.
 
-        * Verify that you can find the trace-id in your application logs and correlate it with the Canton logs.
-
+        * Verify that you can find the trace-id or command-id in your application logs and correlate it with the Canton logs.
 
 .. _support_metrics:
 
@@ -110,7 +119,7 @@ Configuration and Patching
 
 * **Access to Configuration Files**
 
-    You are able to edit and change the configuration files of your production system.
+    You are able to edit and change the configuration files of your production system if necessary.
 
 * **Patch Release Process**
 
