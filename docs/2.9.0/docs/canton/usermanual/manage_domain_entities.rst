@@ -94,8 +94,8 @@ identity is generated and ready before we can bootstrap the sync domain:
 
 .. _manual_init_domain_manager:
 
-If the sync domain manager has ``auto-init = false``, then you need to manually generate its identity and set-up
-its keys:
+If the sync domain manager has ``auto-init = false``, then you need to manually initialize it by generating its identity
+and setting-up its keys:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/topology/TopologyManagementHelper.scala
    :language: scala
@@ -105,9 +105,10 @@ its keys:
 
 If you want, before continuing, you can pre-generate signing keys for mediators and sequencers by running:
 
-.. snippet:: generate_keys_mediator_sequencer
-    .. success:: mediator1.keys.secret.generate_signing_key(name = mediator1.name + "-signing")
-    .. success:: sequencer1.keys.secret.generate_signing_key(name = sequencer1.name + "-signing")
+.. code-block:: none
+
+    mediator1.keys.secret.generate_signing_key(name = mediator1.name + "-signing")
+    sequencer1.keys.secret.generate_signing_key(name = sequencer1.name + "-signing")
 
 Now you can initialize the distributed sync domain as follows:
 

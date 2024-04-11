@@ -14,6 +14,22 @@ The general idea is to replicate the old node into a new one that uses a KMS pro
 a KMS-compatible sync domain (e.g. :ref:`running JCE with KMS-supported encryption and
 signing keys <external_key_storage_interoperability>`).
 
+.. note::
+
+    This process applies to any type of Participant node migration, not just KMS-related ones.
+
+
+
+
+
+
+
+
+
+
+
+
+
 First, delegate the namespace of the old participant to the new participant:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/kms/KmsMigrationIntegrationTest.scala
