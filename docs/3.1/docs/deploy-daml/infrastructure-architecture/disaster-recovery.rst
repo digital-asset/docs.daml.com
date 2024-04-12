@@ -4,7 +4,7 @@
 Disaster Recovery (DR)
 ######################
 
-Disaster recovery (DR) is the process of maintaining or reestablishing vital infrastructure and systems following a natural or human-induced disaster, such as a storm or battle. It employs policies, tools, and procedures. This section presents an overview of DR.  See the section :ref:`Repairing Nodes <repairing-nodes>` for the steps to recover Canton nodes in a DR situation. 
+Disaster recovery (DR) is the process of maintaining or reestablishing vital infrastructure and systems following a natural or human-induced disaster, such as a storm or battle. It employs policies, tools, and procedures. This section presents an overview of DR. See :ref:`Repairing Nodes <repairing-nodes>` for the steps to recover Canton nodes in a DR situation. 
 
 Disaster recovery assumes that the primary site is not immediately recoverable and restores data and services to a secondary site. [#f1]_
 
