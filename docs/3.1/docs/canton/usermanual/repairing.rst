@@ -3,6 +3,8 @@
 ..
    Proprietary code. All rights reserved.
 
+.. _repairing-nodes:
+
 Repairing Nodes
 ===============
 
