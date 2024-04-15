@@ -87,3 +87,4 @@ fs.writeFileSync(output_dir + '/index.html', index);
 for (v of versions) {
   fs.writeFileSync(output_dir + "/" + v.version + ".html", v.rendered);
 }
+fs.copyFileSync("downloads.css", "out/downloads.css")

@@ -1,0 +1,80 @@
+body {
+  font-family: 'Lato', sans-serif;
+}
+
+#navbar {
+  padding: 3ex;
+  display: flex;
+  justify-content: space-between;
+}
+
+#navbar .left > img {
+  max-width: 150px;
+}
+
+#navbar .right a {
+  border: 1px solid #577FF1;
+  border-radius: 21px;
+  padding: 1.5ex 2ex;
+  color: black;
+  text-decoration: none;
+}
+
+#banner {
+  width: 100%;
+  background-color: #D1F9FB;
+  text-align: center;
+  padding: 2.5ex 0;
+}
+
+#banner h1 {
+  margin: 0;
+  padding: 0 0 1ex 0;
+}
+
+#content {
+  margin-top: 5ex;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#content div {
+  width: max-content;
+}
+
+#content .dropdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#content table {
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+#content thead {
+  background-color: #F1F2F4;
+}
+
+#content tr, #content td, #content th, #content table {
+  border: 1px solid #B9BCC6;
+}
+
+#content table {
+  border-radius: 40px;
+  border: 1px solid black;
+}
+
+#content {
+  text-align: center;
+}
+
+#content td div {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2ex;
+}
+
