@@ -38,7 +38,7 @@ working environment for each version of the documentation.
 :warning: Make sure you select Mac OS on the left menu for the correct Nix installation command.
 
 * [JFrog access](https://digitalasset.jfrog.io/ui/admin/artifactory/user_profile)
-  You need a JFrog account for accessing the build artifacts. Check you can see the `assembly` directory in the list of Artifacts. If you don't have it, ask `#org-security` for `readers` access.
+  You need a JFrog account to access the build artifacts. Check you can see the `assembly` directory in the list of Artifacts. If you don't have it, ask `#org-security` for `readers` access.
 
 ### Clone the repo
 
@@ -58,7 +58,7 @@ direnv: using nix
 direnv: export +AR +AR_FOR_TARGET +ARTIFACTORY_USERNAME +ARTIFACTORY_PASSWORD ...
 ```
 
-The bottom list is longer, but it is important that you see `ARTIFACTORY_USERNAME` and `ARTIFACTORY_PASSWORD` in it.
+The bottom list is longer, but you must see `ARTIFACTORY_USERNAME` and `ARTIFACTORY_PASSWORD` in it.
 
 :warning: The first time you do this, you won't see these variables, as you won't have had added them yet.
 
@@ -76,10 +76,10 @@ export ARTIFACTORY_PASSWORD=Long_string_of_gibberish_abcdefghijklmnopqrstuvwxyzA
 - `ARTIFACTORY_USERNAME`:
   Find your username in [JFrog](https://digitalasset.jfrog.io/ui/admin/artifactory/user_profile); usually `firstname.lastname`.
 - `ARTIFACTORY_PASSWORD`:
-  This is your **API Key**, *NOT* your password. Find your API key at the bottom of **Authentication Settings** in your profile.
+  This is your **API Key**, *NOT* your password. Find your API key at the bottom of **Authentication Settings** in [your JFrog profile](https://digitalasset.jfrog.io/ui/user_profile).
 
 These credentials will be used by every version under the `docs` folder. You
-only need to set them up once, at the top-level of the repo.
+only need to set them up once, at the top level of the repo.
 
 > :warning: You need to have read access to the assembly repo on Artifactory.
 > If you don't, please send an email to help@ to request access.
@@ -91,7 +91,7 @@ When there is a change to the root website, the entire site needs to be reindexe
 1. Log into SiteSearch360 (https://www.sitesearch360.com/).
 2. At the bottom of the sidebar menu, select **Index**.
 3. Scroll down to see a blue button and a red button.
-4. Click the red button for **Empty Entire Index**. It take a couple of minutes to process.
+4. Click the red button for **Empty Entire Index**. It takes a couple of minutes to process.
 5. When that has completed, click the blue button for **Re-index All Configured Sources**. This may take about a half hour.
 6. When this has completed, the site search should work as expected.
 

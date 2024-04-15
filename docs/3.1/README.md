@@ -27,7 +27,7 @@ Then pointing your web browser to [http://localhost:8000](http://localhost:8000)
 
 ### Dependencies
 
-The `versions.json` file in this folder defines the dependencies used by this version of the docs:
+The `versions.json` file in this folder defines the dependencies used by this version of the docs. For example:
 
 ```json
 {
