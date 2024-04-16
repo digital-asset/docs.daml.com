@@ -53,21 +53,40 @@ body {
 
 #content table {
   table-layout: fixed;
-  border-collapse: collapse;
+  border-spacing: 0;
+  border-radius: 4px;
+  border: 1px solid black;
 }
 
 #content thead {
   background-color: #F1F2F4;
+  border: none;
+  border-radius: 4px 4px 0 0;
 }
 
-#content tr, #content td, #content th, #content table {
-  border: 1px solid #B9BCC6;
+#content th:first-child {
+  border-radius: 4px 0 0 0;
+  border-left: none;
 }
 
-#content table {
-  border-radius: 40px;
-  border: 1px solid black;
+#content th:last-child {
+  border-radius: 0 4px 0 0;
 }
+
+#content th {
+  border-left: 1px solid black;
+  padding: 1ex 0;
+}
+
+#content td:first-child {
+  border-left: none;
+}
+
+#content td {
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+}
+
 
 #content {
   text-align: center;
@@ -79,4 +98,3 @@ body {
   align-items: center;
   padding: 2ex;
 }
-
