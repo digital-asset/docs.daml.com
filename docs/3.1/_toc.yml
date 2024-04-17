@@ -234,15 +234,10 @@ subtrees:
           - file: daml/resource-management/contention-reducing.rst
           - file: daml/resource-management/contention-techniques.rst
       - file: daml/resource-management/active-contract-set
-  - file: upgrade/index
-    title: "Upgrading and Extending Daml Applications"
-    entries:
-    - file: upgrade/extend
-      title: "Extending Daml Applications"
-    - file: upgrade/upgrade
-      title: "Upgrading Daml Applications"
-    - file: upgrade/automation
-      title: "Automating the Upgrade Process"
+  - file: upgrade/extend
+    title: "Extending Daml Applications"
+    file: upgrade/upgrade
+    title: "Upgrading Daml Applications"
   - file: create-daml-apps/developer-tools/index
     title: "Developer Tools"
     subtrees:
