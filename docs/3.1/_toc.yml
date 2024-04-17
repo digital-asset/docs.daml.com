@@ -238,6 +238,8 @@ subtrees:
     title: "Extending Daml Applications"
     file: upgrade/upgrade
     title: "Upgrading Daml Applications"
+    file: upgrade/automation
+    title: "Automating Daml Application Upgrades"
   - file: create-daml-apps/developer-tools/index
     title: "Developer Tools"
     subtrees:
