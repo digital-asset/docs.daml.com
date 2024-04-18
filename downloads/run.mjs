@@ -88,3 +88,4 @@ for (v of versions) {
   fs.writeFileSync(output_dir + "/" + v.version + ".html", v.rendered);
 }
 fs.copyFileSync("downloads.css", "out/downloads.css")
+fs.copyFileSync("down.svg", "out/down.svg")

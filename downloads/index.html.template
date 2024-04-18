@@ -22,12 +22,16 @@
   </div>
   <div id="content">
     <div class="dropdown">
-      <label for="version">Release Version:</label>
-      <select name="version" id="version">
+      <div class="label">Release Version:</div>
+      <div class="select closed">
+        <div class="version">Version 2.8.3</div>
+        <img src="down.svg" />
+      </div>
+      <div class="menu closed">
         <% for (v of versions) { %>
-        <option value="<%= v.version %>"><%= v.version %></option>
+        <div class="option">Version <%= v.version %></div>
         <% }%>
-      </select>
+      </div>
     </div>
     <table>
       <thead>

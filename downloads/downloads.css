@@ -98,3 +98,32 @@ body {
   align-items: center;
   padding: 2ex;
 }
+
+#content .dropdown .label {
+  padding: 1ex;
+}
+
+#content .dropdown .select {
+  margin-top: 2ex;
+  margin-bottom: 4ex;
+  padding: 1ex;
+  width: 30ex;
+  border: 1px solid #B9BCC6;
+  border-radius: 2px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+#content .dropdown .select.opened {
+  border-radius: 2px 2px 0 0;
+}
+
+#content .dropdown .menu {
+  width: 30ex;
+}
+
+#content .dropdown .menu.closed {
+  display: none;
+}
