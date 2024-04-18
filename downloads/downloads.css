@@ -55,7 +55,7 @@ body {
   table-layout: fixed;
   border-spacing: 0;
   border-radius: 4px;
-  border: 1px solid black;
+  border: 1px solid #B9BCC6;
 }
 
 #content thead {
@@ -74,7 +74,7 @@ body {
 }
 
 #content th {
-  border-left: 1px solid black;
+  border-left: 1px solid #B9BCC6;
   padding: 1ex 0;
 }
 
@@ -83,8 +83,8 @@ body {
 }
 
 #content td {
-  border-top: 1px solid black;
-  border-left: 1px solid black;
+  border-top: 1px solid #B9BCC6;
+  border-left: 1px solid #B9BCC6;
 }
 
 
