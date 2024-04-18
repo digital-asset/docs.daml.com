@@ -86,6 +86,7 @@ fs.mkdirSync(output_dir);
 fs.writeFileSync(output_dir + '/index.html', index);
 for (v of versions) {
   fs.writeFileSync(output_dir + "/" + v.version + ".html", v.rendered);
-}
-fs.copyFileSync("downloads.css", "out/downloads.css")
-fs.copyFileSync("down.svg", "out/down.svg")
+};
+for (var static_file of ["downloads.css", "down.svg", "up.svg", "check.svg"]) {
+  fs.copyFileSync(static_file, "out/" + static_file)
+};

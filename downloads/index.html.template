@@ -25,13 +25,18 @@
       <div class="label">Release Version:</div>
       <div class="select">
         <div class="version">Version 2.8.3</div>
-        <img src="down.svg" />
+        <img src="down.svg" alt="closed" />
       </div>
       <div class="menu-ctn">
         <div class="menu">
           <div class="options">
             <% for (v of versions) { %>
-            <div class="option">Version <%= v.version %></div>
+              <div class="option">
+                <div class="version">Version <%= v.version %></div>
+                <% if (v.version == "2.8.3") { %>
+                  <img src="check.svg" />
+                <% } %>
+              </div>
             <% }%>
           </div>
         </div>
@@ -72,9 +77,17 @@
   <script>
     var select = document.querySelector("#content .dropdown .select");
     var menu = document.querySelector("#content .dropdown .menu");
+    var img = document.querySelector("#content .dropdown .select > img");
     select.addEventListener("click", (event) => {
       select.classList.toggle("opened");
       menu.classList.toggle("opened");
+      if (img.alt == "closed") {
+        img.alt = "opened";
+        img.src = "up.svg";
+      } else {
+        img.alt = "closed";
+        img.src = "down.svg";
+      }
     });
   </script>
   </body>
