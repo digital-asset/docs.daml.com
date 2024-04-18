@@ -10,7 +10,7 @@
   <div id="navbar">
     <div class="left">
       <img src="https://docs.daml.com/_static/images/Daml_Logo_Blue.svg">
-      <span>Docs</span>
+      <span>Downloads</span>
     </div>
     <div class=right>
       <a href="https://docs.daml.com">Go Back to Docs</a>
