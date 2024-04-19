@@ -23,7 +23,7 @@
   <div id="content">
     <div class="dropdown">
       <div class="label">Release Version:</div>
-      <div class="select">
+      <div class="select" tabindex=0>
         <div class="version">Version <%= default_version %></div>
         <img src="down.svg" alt="closed" />
       </div>
@@ -78,6 +78,9 @@
       } else {
         open_dropdown();
       }
+    });
+    select.addEventListener("blur", (event) => {
+      close_dropdown();
     });
     function data_to_elements(d) {
       if (typeof d == "string") {
