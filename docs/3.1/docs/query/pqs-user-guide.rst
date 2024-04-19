@@ -553,6 +553,7 @@ The ``-pipeline-datasource`` argument is an enum with the following possible val
 -  ``TransactionStream``: Read the ledger's filtered transaction stream for a set of parties. Includes creates, archives and interface views, but excludes transient contracts and exercises. Transient contracts are contracts that were both created and archived in the same transaction.
 -  ``TransactionTreeStream``: Read the ledger's transaction tree stream for a set of parties. Includes creates, exercises and transient contracts, but excludes interface views.
 
+
 --pipeline-filter
 -----------------
 
