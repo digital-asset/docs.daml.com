@@ -56,32 +56,35 @@
   </div>
   <script>
     var versions = <%- JSON.stringify(versions) %>;
-    var select = document.querySelector("#content .dropdown .select");
-    var menu = document.querySelector("#content .dropdown .menu");
-    var img = document.querySelector("#content .dropdown .select > img");
+
+    var dropdown_ctn = document.querySelector("#content > .dropdown");
+    var table_parent = document.querySelector("#content table tbody");
+
     var dropdown_opened = false;
+    var selected_version = "<%= default_version %>";
+
     function close_dropdown() {
-      select.classList.remove("opened");
-      menu.classList.remove("opened");
-      img.src = "down.svg";
       dropdown_opened = false;
+      display_dropdown();
     }
+
     function open_dropdown() {
-      select.classList.add("opened");
-      menu.classList.add("opened");
-      img.src = "up.svg";
       dropdown_opened = true;
+      display_dropdown();
     }
-    select.addEventListener("click", (event) => {
-      if (dropdown_opened) {
+
+    function toggle_dropdown() {
+      dropdown_opened = ! dropdown_opened;
+      display_dropdown();
+    }
+
+    window.addEventListener("click", (e) => {
+      var has_class = (node, c) => node.classList && node.classList.contains(c);
+      if(e.composedPath().filter(n => has_class(n, "select") || has_class(n, "options")).length == 0) {
         close_dropdown();
-      } else {
-        open_dropdown();
       }
     });
-    select.addEventListener("blur", (event) => {
-      close_dropdown();
-    });
+
     function data_to_elements(d) {
       if (typeof d == "string") {
         return document.createTextNode(d);
@@ -93,7 +96,11 @@
         e = document.createElement(d[0]["tag"]);
         for ([k, v] of Object.entries(d[0])) {
           if (k != "tag") {
-            e.setAttribute(k, v);
+            if (k.slice(0, 2) == "on") {
+              e.addEventListener(k.slice(2), v);
+            } else {
+              e.setAttribute(k, v);
+            }
           }
         }
       }
@@ -102,18 +109,35 @@
       }
       return e;
     }
-    var table_parent = document.querySelector("#content table tbody");
+
     function display_table(version) {
       var new_version = versions.filter((v) => v.version == version).at(0);
       var new_table = new_version.components
                                  .map((c) => ["tr",
                                               ["td", ["div", c.name]],
-                                              ["td", ["div"].concat(c.files.map((f) => [{"tag": "a", "href": f.url}, f.name]))],
+                                              ["td", ["div"].concat(c.files.map((f) => [{tag: "a", href: f.url}, f.name]))],
                                               ["td", ["div", c.docker]]])
                                  .map(data_to_elements);
       table_parent.replaceChildren(...new_table);
     }
-    display_table("<%= default_version %>");
+
+    function display_dropdown() {
+          var new_dropdown = [[{tag: "div", class: "label"}, "Release Version:"],
+                              [{tag: "div", class: "select" + (dropdown_opened ? " opened" : ""), tabindex: 0, onclick: toggle_dropdown},
+                               [{tag: "div", class: "version"}, "Version " + selected_version],
+                               [{tag: "img", src: dropdown_opened ? "up.svg" : "down.svg"}]],
+                              [{tag: "div", class: "menu-ctn"},
+                               [{tag: "div", class: "menu" + (dropdown_opened ? " opened" : "")},
+                                [{tag: "div", class: "options"}]
+                                 .concat(versions.map((v) => [{tag: "div", class: "option"},
+                                                              [{tag: "div", class: "version"}, "Version " + v.version]]
+                                                              .concat(v.version == selected_version ? [[{tag: "img", src: "check.svg"}]] : [])))]]]
+                             .map(data_to_elements);
+      dropdown_ctn.replaceChildren(...new_dropdown);
+    }
+
+    display_table(selected_version);
+    display_dropdown();
   </script>
   </body>
 </html>
