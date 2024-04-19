@@ -75,6 +75,7 @@
     </table>
   </div>
   <script>
+    var versions = <%- JSON.stringify(versions) %>;
     var select = document.querySelector("#content .dropdown .select");
     var menu = document.querySelector("#content .dropdown .menu");
     var img = document.querySelector("#content .dropdown .select > img");
