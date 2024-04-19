@@ -76,7 +76,7 @@ const data = await Promise.all(fs.readFileSync('../dropdown_versions', 'utf8')
             return {name: c.name, files};})};
 }));
 
-const index = ejs.render(index_template, {versions: data});
+const index = ejs.render(index_template, {versions: data, default_version});
 
 const output_dir = __dirname + '/out';
 
