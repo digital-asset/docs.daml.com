@@ -22,25 +22,6 @@
   </div>
   <div id="content">
     <div class="dropdown">
-      <div class="label">Release Version:</div>
-      <div class="select" tabindex=0>
-        <div class="version">Version <%= default_version %></div>
-        <img src="down.svg" alt="closed" />
-      </div>
-      <div class="menu-ctn">
-        <div class="menu">
-          <div class="options">
-            <% for (v of versions) { %>
-              <div class="option">
-                <div class="version">Version <%= v.version %></div>
-                <% if (v.version == default_version) { %>
-                  <img src="check.svg" />
-                <% } %>
-              </div>
-            <% }%>
-          </div>
-        </div>
-      </div>
     </div>
     <table>
       <thead>
