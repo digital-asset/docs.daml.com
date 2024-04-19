@@ -519,6 +519,12 @@ Following is an example of a basic command to run PQS to extract all data, inclu
 
 NOTE: Only ``postgres-document`` is currently implemented, with ``postgres-relational`` to follow soon.
 
+
+PQS is able to start and finish at prescribed ledger offsets, specified by the
+arguments ``--pipeline-ledger-start`` and ``--pipeline-ledger-stop``. The
+``./scribe.jar pipeline --help-verbose`` command provides extensive help
+information.
+
 --pipeline-ledger-start
 -----------------------
 
@@ -528,10 +534,21 @@ The ``-pipeline-ledger-start`` argument is an enum with the following possible v
 -  ``Genesis``: Use the first original offset of the ledger. This causes PQS to try to start from offset ``0``. It allows you to load historic creates, archives or (optionally) exercises from a ledger that already has data on it. If you try to restart on an already populated database in this mode, PQS will rewrite data if it needs to.
 -  ``Oldest``: Use the oldest available (unpruned) offset on the ledger or resume where it left off.
 
-PQS is able to start and finish at prescribed ledger offsets, specified by the
-arguments ``--pipeline-ledger-start`` and ``--pipeline-ledger-stop``. The
-``./scribe.jar pipeline --help-verbose`` command provides extensive help
-information.
+--pipeline-ledger-stop
+-----------------------
+
+The ``-pipeline-ledger-stop`` argument is an enum with the following possible values:
+
+-  ``Latest``: Stop reading stream when latest offset is reached.
+-  ``Never``: Continue reading stream indefinitely.
+
+--pipeline-datasource
+---------------------
+
+The ``-pipeline-datasource`` argument is an enum with the following possible values:
+
+-  ``TransactionStream``: Read the ledger's filtered transaction stream for a set of parties. Includes creates, archives, and interface views, but excludes transient contracts and exercises. Transient contracts are contracts that were both created and archived in the same transaction.
+-  ``TransactionTreeStream``: Read the ledger's transaction tree stream for a set of parties. Includes creates, exercises, and transient contracts, but excludes interface views.
 
 --pipeline-filter
 -----------------
