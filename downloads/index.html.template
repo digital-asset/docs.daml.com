@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Daml Enterprise Downloads</title>
     <link rel="stylesheet" href="downloads.css" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet" type="text/css">
   </head>
   <body>
   <div id="navbar">
@@ -22,25 +22,6 @@
   </div>
   <div id="content">
     <div class="dropdown">
-      <div class="label">Release Version:</div>
-      <div class="select">
-        <div class="version">Version 2.8.3</div>
-        <img src="down.svg" alt="closed" />
-      </div>
-      <div class="menu-ctn">
-        <div class="menu">
-          <div class="options">
-            <% for (v of versions) { %>
-              <div class="option">
-                <div class="version">Version <%= v.version %></div>
-                <% if (v.version == "2.8.3") { %>
-                  <img src="check.svg" />
-                <% } %>
-              </div>
-            <% }%>
-          </div>
-        </div>
-      </div>
     </div>
     <table>
       <thead>
@@ -51,44 +32,102 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td><div>SDK</div></td>
-          <td>
-            <div>
-              <a>Linux</a>
-              <a>macOS</a>
-              <a>Windows</a>
-            </div>
-          </td>
-          <td><div>N/A</div></td>
-        </tr>
-        <tr>
-          <td><div>Canton for Daml Enterprise</div></td>
-          <td>
-            <div>
-              <a>Standalone JAR file</a>
-            </div>
-          </td>
-          <td><div>digitalasset-docker.jfrog.io/canton-enterprise:placeholder</div></td>
-        </tr>
       </tbody>
     </table>
   </div>
   <script>
-    var select = document.querySelector("#content .dropdown .select");
-    var menu = document.querySelector("#content .dropdown .menu");
-    var img = document.querySelector("#content .dropdown .select > img");
-    select.addEventListener("click", (event) => {
-      select.classList.toggle("opened");
-      menu.classList.toggle("opened");
-      if (img.alt == "closed") {
-        img.alt = "opened";
-        img.src = "up.svg";
-      } else {
-        img.alt = "closed";
-        img.src = "down.svg";
+    var versions = <%- JSON.stringify(versions) %>;
+
+    var dropdown_ctn = document.querySelector("#content > .dropdown");
+    var table_parent = document.querySelector("#content table tbody");
+
+    var dropdown_opened = false;
+    var selected_version = "<%= default_version %>";
+
+    function close_dropdown() {
+      dropdown_opened = false;
+      refresh_dropdown();
+    }
+
+    function open_dropdown() {
+      dropdown_opened = true;
+      refresh_dropdown();
+    }
+
+    function toggle_dropdown() {
+      dropdown_opened = ! dropdown_opened;
+      refresh_dropdown();
+    }
+
+    function select_version(version) {
+      return () => {
+        selected_version = version;
+        dropdown_opened = false;
+        refresh_dropdown();
+        refresh_table();
+      };
+    }
+
+    window.addEventListener("click", (e) => {
+      var has_class = (node, c) => node.classList && node.classList.contains(c);
+      if(e.composedPath().filter(n => has_class(n, "select") || has_class(n, "options")).length == 0) {
+        close_dropdown();
       }
     });
+
+    function data_to_elements(d) {
+      if (typeof d == "string") {
+        return document.createTextNode(d);
+      }
+      var e;
+      if (typeof d[0] == "string") {
+        e = document.createElement(d[0]);
+      } else {
+        e = document.createElement(d[0]["tag"]);
+        for ([k, v] of Object.entries(d[0])) {
+          if (k != "tag") {
+            if (k.slice(0, 2) == "on") {
+              e.addEventListener(k.slice(2), v);
+            } else {
+              e.setAttribute(k, v);
+            }
+          }
+        }
+      }
+      for (var child of d.splice(1).map(data_to_elements)) {
+        e.appendChild(child);
+      }
+      return e;
+    }
+
+    function refresh_table() {
+      var new_version = versions.filter((v) => v.version == selected_version).at(0);
+      var new_table = new_version.components
+                                 .map((c) => ["tr",
+                                              ["td", ["div", c.name]],
+                                              ["td", ["div"].concat(c.files.map((f) => [{tag: "a", href: f.url}, f.name]))],
+                                              ["td", ["div", c.docker]]])
+                                 .map(data_to_elements);
+      table_parent.replaceChildren(...new_table);
+    }
+
+    function refresh_dropdown() {
+          var new_dropdown = [[{tag: "div", class: "label"}, "Release Version:"],
+                              [{tag: "div", class: "select" + (dropdown_opened ? " opened" : ""), tabindex: 0, onclick: toggle_dropdown},
+                               [{tag: "div", class: "version"}, "Version " + selected_version],
+                               [{tag: "img", src: dropdown_opened ? "up.svg" : "down.svg"}]],
+                              [{tag: "div", class: "menu-ctn"},
+                               [{tag: "div", class: "menu" + (dropdown_opened ? " opened" : "")},
+                                [{tag: "div", class: "options"}]
+                                 .concat(versions.map((v) => [{tag: "div", class: "option", onclick: select_version(v.version)},
+                                                              [{tag: "div", class: "version"}, "Version " + v.version]]
+                                                              .concat(v.version == selected_version ? [[{tag: "img", src: "check.svg"}]] : [])))]]]
+                             .map(data_to_elements);
+      dropdown_ctn.replaceChildren(...new_dropdown);
+    }
+
+    refresh_table();
+    refresh_dropdown();
   </script>
   </body>
 </html>
