@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Daml Enterprise Downloads</title>
     <link rel="stylesheet" href="downloads.css" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet" type="text/css">
   </head>
   <body>
   <div id="navbar">
@@ -59,16 +59,18 @@
     var select = document.querySelector("#content .dropdown .select");
     var menu = document.querySelector("#content .dropdown .menu");
     var img = document.querySelector("#content .dropdown .select > img");
+    var dropdown_opened = false;
     select.addEventListener("click", (event) => {
-      select.classList.toggle("opened");
-      menu.classList.toggle("opened");
-      if (img.alt == "closed") {
-        img.alt = "opened";
-        img.src = "up.svg";
-      } else {
-        img.alt = "closed";
+      if (dropdown_opened) {
+        select.classList.remove("opened");
+        menu.classList.remove("opened");
         img.src = "down.svg";
+      } else {
+        select.classList.add("opened");
+        menu.classList.add("opened");
+        img.src = "up.svg";
       }
+      dropdown_opened = !dropdown_opened;
     });
     function data_to_elements(d) {
       if (typeof d == "string") {
