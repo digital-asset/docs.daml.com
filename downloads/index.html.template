@@ -65,17 +65,26 @@
 
     function close_dropdown() {
       dropdown_opened = false;
-      display_dropdown();
+      refresh_dropdown();
     }
 
     function open_dropdown() {
       dropdown_opened = true;
-      display_dropdown();
+      refresh_dropdown();
     }
 
     function toggle_dropdown() {
       dropdown_opened = ! dropdown_opened;
-      display_dropdown();
+      refresh_dropdown();
+    }
+
+    function select_version(version) {
+      return () => {
+        selected_version = version;
+        dropdown_opened = false;
+        refresh_dropdown();
+        refresh_table();
+      };
     }
 
     window.addEventListener("click", (e) => {
@@ -110,8 +119,8 @@
       return e;
     }
 
-    function display_table(version) {
-      var new_version = versions.filter((v) => v.version == version).at(0);
+    function refresh_table() {
+      var new_version = versions.filter((v) => v.version == selected_version).at(0);
       var new_table = new_version.components
                                  .map((c) => ["tr",
                                               ["td", ["div", c.name]],
@@ -121,7 +130,7 @@
       table_parent.replaceChildren(...new_table);
     }
 
-    function display_dropdown() {
+    function refresh_dropdown() {
           var new_dropdown = [[{tag: "div", class: "label"}, "Release Version:"],
                               [{tag: "div", class: "select" + (dropdown_opened ? " opened" : ""), tabindex: 0, onclick: toggle_dropdown},
                                [{tag: "div", class: "version"}, "Version " + selected_version],
@@ -129,15 +138,15 @@
                               [{tag: "div", class: "menu-ctn"},
                                [{tag: "div", class: "menu" + (dropdown_opened ? " opened" : "")},
                                 [{tag: "div", class: "options"}]
-                                 .concat(versions.map((v) => [{tag: "div", class: "option"},
+                                 .concat(versions.map((v) => [{tag: "div", class: "option", onclick: select_version(v.version)},
                                                               [{tag: "div", class: "version"}, "Version " + v.version]]
                                                               .concat(v.version == selected_version ? [[{tag: "img", src: "check.svg"}]] : [])))]]]
                              .map(data_to_elements);
       dropdown_ctn.replaceChildren(...new_dropdown);
     }
 
-    display_table(selected_version);
-    display_dropdown();
+    refresh_table();
+    refresh_dropdown();
   </script>
   </body>
 </html>
