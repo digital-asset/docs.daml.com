@@ -60,17 +60,24 @@
     var menu = document.querySelector("#content .dropdown .menu");
     var img = document.querySelector("#content .dropdown .select > img");
     var dropdown_opened = false;
+    function close_dropdown() {
+      select.classList.remove("opened");
+      menu.classList.remove("opened");
+      img.src = "down.svg";
+      dropdown_opened = false;
+    }
+    function open_dropdown() {
+      select.classList.add("opened");
+      menu.classList.add("opened");
+      img.src = "up.svg";
+      dropdown_opened = true;
+    }
     select.addEventListener("click", (event) => {
       if (dropdown_opened) {
-        select.classList.remove("opened");
-        menu.classList.remove("opened");
-        img.src = "down.svg";
+        close_dropdown();
       } else {
-        select.classList.add("opened");
-        menu.classList.add("opened");
-        img.src = "up.svg";
+        open_dropdown();
       }
-      dropdown_opened = !dropdown_opened;
     });
     function data_to_elements(d) {
       if (typeof d == "string") {
