@@ -47,15 +47,32 @@ async function list(version) {
 const components = [{name: "Daml SDK",
                      files: [{name: "Linux tar.gz", pattern: /^daml-sdk-.*-linux-ee\.tar\.gz$/},
                              {name: "macOS tar.gz", pattern: /^daml-sdk-.*-macos-ee\.tar\.gz$/},
-                             {name: "Windows installer", pattern: /^daml-sdk-.*windows-ee\.exe$/}]},
-                    {name: "Canton", files: [{name: "jar", pattern: /^canton-.*-ee\.jar$/}]},
-                    {name: "Daml Finance", files: [{name: "tar.gz", pattern: /^daml-finance-.*-ee\.tar\.gz$/}]},
-                    {name: "Daml Script", files: [{name: "jar", pattern: /^daml-script-.*-ee\.jar$/}]},
-                    {name: "HTTP JSON API", files: [{name: "jar", pattern: /^http-json-.*-ee\.jar$/}]},
-                    {name: "OAuth2 Middleware", files: [{name: "jar", pattern: /^oauth2-middleware-.*-ee\.jar$/}]},
-                    {name: "Participant Query Store", files: [{name: "Scribe jar", pattern: /^participant-query-store-.*-ee\.jar$/}]},
-                    {name: "Trigger Runner", files: [{name: "jar", pattern: /^trigger-runner-.*-ee\.jar$/}]},
-                    {name: "Trigger Service", files: [{name: "jar", pattern: /^trigger-service-.*-ee\.jar$/}]}]
+                             {name: "Windows installer", pattern: /^daml-sdk-.*windows-ee\.exe$/}],
+                     docker: "todo"},
+                    {name: "Canton",
+                     files: [{name: "jar", pattern: /^canton-.*-ee\.jar$/}],
+                     docker: "todo"},
+                    {name: "Daml Finance",
+                     files: [{name: "tar.gz", pattern: /^daml-finance-.*-ee\.tar\.gz$/}],
+                     docker: "todo"},
+                    {name: "Daml Script",
+                     files: [{name: "jar", pattern: /^daml-script-.*-ee\.jar$/}],
+                     docker: "todo"},
+                    {name: "HTTP JSON API",
+                     files: [{name: "jar", pattern: /^http-json-.*-ee\.jar$/}],
+                     docker: "todo"},
+                    {name: "OAuth2 Middleware",
+                     files: [{name: "jar", pattern: /^oauth2-middleware-.*-ee\.jar$/}],
+                     docker: "todo"},
+                    {name: "Participant Query Store",
+                     files: [{name: "Scribe jar", pattern: /^participant-query-store-.*-ee\.jar$/}],
+                     docker: "todo"},
+                    {name: "Trigger Runner",
+                     files: [{name: "jar", pattern: /^trigger-runner-.*-ee\.jar$/}],
+                     docker: "todo"},
+                    {name: "Trigger Service",
+                     files: [{name: "jar", pattern: /^trigger-service-.*-ee\.jar$/}],
+                     docker: "todo"}]
 
 const index_template = fs.readFileSync('index.html.template', 'utf8');
 const default_version = fs.readFileSync('../root', 'utf8').trim();
@@ -73,7 +90,7 @@ const data = await Promise.all(fs.readFileSync('../dropdown_versions', 'utf8')
                       url: d_url(v, file[0]),
                       signature: d_url(v, file[0] + ".asc")};
             });
-            return {name: c.name, files};})};
+            return {name: c.name, files, docker: c.docker};})};
 }));
 
 const index = ejs.render(index_template, {versions: data, default_version});

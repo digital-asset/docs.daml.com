@@ -51,26 +51,6 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td><div>SDK</div></td>
-          <td>
-            <div>
-              <a>Linux</a>
-              <a>macOS</a>
-              <a>Windows</a>
-            </div>
-          </td>
-          <td><div>N/A</div></td>
-        </tr>
-        <tr>
-          <td><div>Canton for Daml Enterprise</div></td>
-          <td>
-            <div>
-              <a>Standalone JAR file</a>
-            </div>
-          </td>
-          <td><div>digitalasset-docker.jfrog.io/canton-enterprise:placeholder</div></td>
-        </tr>
       </tbody>
     </table>
   </div>
@@ -90,6 +70,38 @@
         img.src = "down.svg";
       }
     });
+    function data_to_elements(d) {
+      if (typeof d == "string") {
+        return document.createTextNode(d);
+      }
+      var e;
+      if (typeof d[0] == "string") {
+        e = document.createElement(d[0]);
+      } else {
+        e = document.createElement(d[0]["tag"]);
+        for ([k, v] of Object.entries(d[0])) {
+          if (k != "tag") {
+            e.setAttribute(k, v);
+          }
+        }
+      }
+      for (var child of d.splice(1).map(data_to_elements)) {
+        e.appendChild(child);
+      }
+      return e;
+    }
+    var table_parent = document.querySelector("#content table tbody");
+    function display_table(version) {
+      var new_version = versions.filter((v) => v.version == version).at(0);
+      var new_table = new_version.components
+                                 .map((c) => ["tr",
+                                              ["td", ["div", c.name]],
+                                              ["td", ["div"].concat(c.files.map((f) => [{"tag": "a", "href": f.url}, f.name]))],
+                                              ["td", ["div", c.docker]]])
+                                 .map(data_to_elements);
+      table_parent.replaceChildren(...new_table);
+    }
+    display_table("<%= default_version %>");
   </script>
   </body>
 </html>
