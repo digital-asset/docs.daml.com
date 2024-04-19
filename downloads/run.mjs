@@ -58,7 +58,12 @@ const components = [{name: "Daml SDK",
                     {name: "Trigger Service", files: [{name: "jar", pattern: /^trigger-service-.*-ee\.jar$/}]}]
 
 const index_template = fs.readFileSync('index.html.template', 'utf8');
-const data = await Promise.all(fs.readFileSync('published_versions', 'utf8').split('\n').slice(0, -1).map(async (v) => {
+const default_version = fs.readFileSync('../root', 'utf8').trim();
+const data = await Promise.all(fs.readFileSync('../dropdown_versions', 'utf8')
+                                 .split('\n')
+                                 .slice(0, -1)
+                                 .filter((v) => !v.startsWith("1."))
+                                 .map(async (v) => {
   const all_files = await list(v);
   return {version: v,
           components: components.map((c) => {
