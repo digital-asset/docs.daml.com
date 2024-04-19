@@ -550,8 +550,8 @@ The ``-pipeline-ledger-stop`` argument is an enum with the following possible va
 
 The ``-pipeline-datasource`` argument is an enum with the following possible values:
 
--  ``TransactionStream``: Read the ledger's filtered transaction stream and related reassignments for a set of parties. For transactions it lists only creates and archives, but no other events. Omits all events on transient contracts, i.e., contracts that were both created and archived in the same transaction.
--  ``TransactionTreeStream``: Read the ledger's complete transaction tree stream and related reassignments for a set of parties. The stream will be filtered only by the parties as wildcard parties. The template/interface filters describe the respective fields in the CreatedEvent results.
+-  ``TransactionStream``: Read the ledger's filtered transaction stream for a set of parties. Includes creates, archives and interface views, but excludes transient contracts and exercises. Transient contracts are contracts that were both created and archived in the same transaction.
+-  ``TransactionTreeStream``: Read the ledger's transaction tree stream for a set of parties. Includes creates, exercises and transient contracts, but excludes interface views.
 
 --pipeline-filter
 -----------------
