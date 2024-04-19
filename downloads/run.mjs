@@ -58,7 +58,6 @@ const components = [{name: "Daml SDK",
                     {name: "Trigger Service", files: [{name: "jar", pattern: /^trigger-service-.*-ee\.jar$/}]}]
 
 const index_template = fs.readFileSync('index.html.template', 'utf8');
-const version_template = fs.readFileSync('version.html.template', 'utf8');
 const data = await Promise.all(fs.readFileSync('published_versions', 'utf8').split('\n').slice(0, -1).map(async (v) => {
   const all_files = await list(v);
   return {version: v,
@@ -73,8 +72,6 @@ const data = await Promise.all(fs.readFileSync('published_versions', 'utf8').spl
 }));
 
 const index = ejs.render(index_template, {versions: data});
-const versions = data.map((v) => ({version: v.version,
-                                   rendered: ejs.render(version_template, {v: v})}));
 
 const output_dir = __dirname + '/out';
 
@@ -84,9 +81,6 @@ if (fs.existsSync(output_dir)) {
 
 fs.mkdirSync(output_dir);
 fs.writeFileSync(output_dir + '/index.html', index);
-for (v of versions) {
-  fs.writeFileSync(output_dir + "/" + v.version + ".html", v.rendered);
-};
 for (var static_file of ["downloads.css", "down.svg", "up.svg", "check.svg"]) {
   fs.copyFileSync(static_file, "out/" + static_file)
 };
