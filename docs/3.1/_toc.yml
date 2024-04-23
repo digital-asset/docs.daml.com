@@ -1342,8 +1342,6 @@ subtrees:
     entries:
     - file: support/status-definitions
       title: "Status Definitions"
-    - file: support/component-statuses
-      title: "Feature and Component Statuses"
   - file: support/releases
     title: "Releases and Versioning"
 
