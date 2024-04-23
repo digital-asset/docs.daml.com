@@ -8,7 +8,6 @@ Daml Ecosystem Overview
    :hidden:
 
    status-definitions
-   component-statuses
 
 This page is intended to give you an overview of the components that constitute the Daml Ecosystem, what status they are in, and how they fit together. It lays out Daml's "public API" in the sense of :ref:`Semantic Versioning <versioning>`, and is a prerequisite to understanding Daml's :doc:`compatibility`.
 
