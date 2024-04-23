@@ -53,12 +53,12 @@ Daml Components
 Runtime components
 ==================
 
-Runtime components are standalone components that run alongside participant nodes or applications and expose additional services like query endpoints, automations, or integrations. Each Runtime component has public APIs, which are covered in :doc:`component-statuses`. Typically there is a command line interface, and one or more "Runtime APIs" as indicated in the above diagram.
+Runtime components are standalone components that run alongside participant nodes or applications and expose additional services like query endpoints, automations, or integrations. Each Runtime component has public APIs. Typically there is a command line interface, and one or more "Runtime APIs" as indicated in the above diagram.
 
 Libraries
 =========
 
-Libraries naturally provide public APIs in their target language, be it Daml or secondary languages like JavaScript or Java. For details on available libraries and their interfaces, see :doc:`component-statuses`.
+Libraries naturally provide public APIs in their target language, be it Daml or secondary languages like JavaScript or Java.
 
 Generated code
 ==============
