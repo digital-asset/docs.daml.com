@@ -48,7 +48,7 @@ Please refer to :ref:`External Key Storage with a Key Management Service (KMS) <
 
 .. note::
    The following sections assume that we are using Canton keys and that we do not have a KMS set-up. If you are running
-   your environment with KMS and want to provide your own keys replace all instances of ``generate_signing_key()`` by
+   your environment with KMS and want to provide your own keys, replace all instances of ``generate_signing_key()`` by
    the correct ``register_kms_signing_key()`` command.
 
 .. _manually-init-domain:
