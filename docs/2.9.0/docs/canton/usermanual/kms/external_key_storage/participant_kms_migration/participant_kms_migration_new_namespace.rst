@@ -9,12 +9,16 @@ Participant Node Migration with a New Namespace
 -----------------------------------------------
 
 To migrate a non-KMS participant to a KMS-enabled one we need to make sure we have this new participant
-connected to a domain that runs the required cryptographic schemes (see table x) and enable KMS for that participant.
+connected to a domain that runs the required cryptographic schemes (see :ref:`table <canton_supported_keys>`) and enable KMS for that participant.
 Afterwards, we transfer all parties, contracts and DARs from the old participant to the new one. Since,
 in this case we do not transfer the identities from the old node to the new one we need to re-write our contracts
 so that they refer to the correct party ids. With this method, we can easily migrate our old participant
 that runs an older protocol version to a new participant with KMS enabled. Furthermore,
 we do not need to safe-keep the old node's root namespace key because our participant namespace changes.
+
+.. warning::
+    Currently this current migration only works if you are migrating from an old participant node running protocol
+    version 3.
 
 First, you must recreate all parties of the old participant in the new participant, keeping the same display name,
 but with different ids:

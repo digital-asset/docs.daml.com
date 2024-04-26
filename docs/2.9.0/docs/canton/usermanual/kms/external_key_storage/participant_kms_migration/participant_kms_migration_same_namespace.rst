@@ -9,13 +9,15 @@ Participant Node Migration with the Same Namespace
 --------------------------------------------------
 
 One way of migrating a non-KMS participant to a new KMS-enabled one is to create a new participant
-connected to a domain that runs the required cryptographic schemes (see table x), enable KMS and then
-transfer the data from the old node to the new. In this example we do not only transfer the contracts and DARs,
+connected to a domain that runs the required cryptographic schemes (see :ref:`table <canton_supported_keys>``), enable KMS and then
+transfer the data from the old node to the new. In this example, we do not only transfer the contracts and DARs,
 but we also transfer the node's identity, and thus, both old and new participant will share the same namespace.
-However, if you following this particular migration path you must save the root namespace key of the old participant
-somewhere offline so that it can be used, in the future, to migrate the node to a new protocol version.
-This is necessary because we require signing topology transactions with the root namespace key everytime
-we migrate a node to a new protocol version.
+
+.. warning::
+    You must save the :ref:`root namespace key <moving_namespace_to_offline_storage>` of the old participant
+    somewhere offline so that it can be used, in the future, to migrate the node to a new protocol version.
+    This is necessary because we require signing topology transactions with the root namespace key everytime
+    we migrate a node to a new protocol version.
 
 First, delegate the namespace of the old participant to the new participant:
 
