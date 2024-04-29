@@ -320,20 +320,13 @@ in a sensible way to automatically deal with errors and decide whether to retry
 a request or escalate to the operator.
 
 ..
-   This file is generated:
-.. include:: error-categories-inventory.rst.inc
+   This file is manually generated using ErrorCategoryInventoryDocsGenApp the checked in
+   This was done as the daml variant is not maintained and due for removal
+.. include:: ./canton-error-categories-inventory.rst.inc
 
 
-Error Codes Inventory - Daml
-****************************
-
-..
-   This file is generated:
-.. include:: error-codes-inventory.rst.inc
-
-
-Error Codes Inventory - Canton
-******************************
+Error Codes Inventory
+*********************
 
 ..
    This file is generated:
