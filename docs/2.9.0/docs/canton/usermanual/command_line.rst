@@ -5,7 +5,7 @@
 
 .. _command-line-arguments:
 
-Command-line Arguments
+Command-Line Arguments
 ======================
 Canton supports a variety of command line arguments. Please run ``bin/canton --help`` to see all of them. Here,
 we explain the most relevant ones.

@@ -5,8 +5,8 @@
 
 .. _static_configuration:
 
-Static Configuration
-====================
+Configuration Options
+=====================
 
 Canton differentiates between static and dynamic configuration. Static configuration is immutable and therefore has
 to be known from the beginning of the process. For a static configuration, examples would be the connectivity

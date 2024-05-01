@@ -7,7 +7,7 @@ subtrees:
 - caption: "Home"
   entries:
 
-  - file: high-level-intro
+  - file: multiparty-application-intro
     title: "Introduction to Multi-Party Applications and Daml"
 
 - caption: "Set Up Your Developer Environment"
@@ -1186,9 +1186,9 @@ subtrees:
       - file: canton/usermanual/docker
         title: "Work With the Docker Containers"
       - file: canton/usermanual/static_conf
-        title: "Set Configuration Options"
+        title: "Configuration Options"
       - file: canton/usermanual/domains/domains
-        title: "Set Up A Daml Domain With Enterprise Drivers"
+        title: "Enterprise Drivers"
         subtrees:
         - hidden: False
           entries:
@@ -1238,9 +1238,9 @@ subtrees:
       titlesonly: True
       entries:
       - file: canton/usermanual/command_line
-        title: "Use the Canton Command Line"
+        title: "Command-Line Arguments"
       - file: canton/usermanual/console
-        title: "Console Quickstart"
+        title: "Canton Console"
       - file: canton/reference/console
         title: "Console Commands"
   - file: canton/usermanual/monitoring

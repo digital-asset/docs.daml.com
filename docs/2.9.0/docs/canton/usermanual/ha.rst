@@ -164,7 +164,7 @@ There are two methods available for exposing the horizontally scaled sequencer i
 
 .. _total_node_count:
 
-Total node count
+Total Node count
 ~~~~~~~~~~~~~~~~
 The ``sequencer.high-availability.total-node-count`` parameter is used to divide up time among the database sequencers.
 The parameter should not be changed once a set of sequencer nodes has been deployed. Because each message sequenced must
@@ -176,7 +176,7 @@ operate at the maximum theoretical throughput. We recommend keeping the default 
 are only theoretical and we have not yet seen a database/hard disk that can handle the theoretical throughput.
 Also note that a message might contain multiple events, such that we are talking about high numbers here.
 
-External load balancer
+External Load balancer
 ~~~~~~~~~~~~~~~~~~~~~~
 
 Using a load balancer is recommended when you have a http2+grpc supporting load balancer available, and can't/don't
@@ -204,7 +204,7 @@ otherwise, you have to wait for the TCP timeout to occur before failover happens
 exposes the standard `GRPC health endpoints <https://github.com/grpc/grpc/blob/master/doc/health-checking.md>`__, but
 these are currently not supported by HAProxy, hence you need to fall back on the HTTP/health endpoint.
 
-Client-side load balancing
+Client-Side Load Balancing
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Using client-side load balancing is recommended where an external load-balancing service is unavailable (or lacks http2+grpc

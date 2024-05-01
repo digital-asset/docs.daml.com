@@ -187,7 +187,7 @@ in the Canton config file you may also need to update the corresponding docker c
 in directory ``docker-compose/``.
 
 
-Error codes
+Error Codes
 ~~~~~~~~~~~
 
 The Ethereum Sequencer application auto-detects many common configuration and deployment issues and logs them
@@ -195,7 +195,7 @@ as warnings or errors with :ref:`error codes <error_codes>`. If you see such a w
 the :ref:`respective error code explanation and resolution <3. ethereumerrors_canton_error_codes>`.
 
 
-TLS configuration
+TLS Configuration
 ~~~~~~~~~~~~~~~~~
 
 Canton supports mutual TLS between Canton and Ethereum client nodes and the demo contains an example of how to
@@ -212,7 +212,7 @@ If Canton is not configured to use TLS with an Ethereum node, it will attempt to
 For more details on the Canton configuration, please see the scaladocs of the `TLS configuration <https://docs.daml.com/__VERSION__/canton/scaladoc/com/digitalasset/canton/domain/sequencing/config/EthereumLedgerNodeConfig$$TlsConfig.html>`_.
 For more details on how to configure Besu to accept TLS connections (as done in the demo, see especially file ``start-node.sh``), please see the `Besu documentation <https://besu.hyperledger.org/en/21.10.6/HowTo/Configure/TLS/Configure-TLS/#create-the-known-clients-file>`_.
 
-Ethereum accounts and wallets
+Ethereum Accounts and Wallets
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Canton allows you to configure an Ethereum wallet (and therefore an Ethereum account) to be used by an Ethereum sequencer application.
@@ -244,7 +244,7 @@ The BIP39-based wallet mix-in looks as follows:
 
 For more details, please refer to the `Canton scaladoc documentation <https://docs.daml.com/__VERSION__/canton/scaladoc/com/digitalasset/canton/domain/sequencing/config/EthereumLedgerNodeConfig$$WalletConfig.html>`_.
 
-Deployment of the sequencer contract
+Deployment of the Sequencer Contract
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Manual deployment
