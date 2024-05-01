@@ -96,7 +96,7 @@ subtrees:
         - file: daml/patterns/legends
           title: "Diagram Legends"
       - file: daml/intro/12_Testing
-        title: "Testing Daml Contracts"
+        title: "Test Daml Contracts"
       - file: daml/intro/99_NextSteps
         title: "Next Steps"
   - file: create-daml-apps/off-ledger/index
