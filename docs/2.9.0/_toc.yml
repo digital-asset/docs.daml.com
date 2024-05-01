@@ -257,7 +257,7 @@ subtrees:
           titlesonly: True
           entries:
           - file: tools/assistant-install
-            title: "Managing SDK Versions"
+            title: "Manage SDK Versions"
           - file: tools/assistant-build
             title: "Build Daml Projects"
           - file: tools/assistant-commands
