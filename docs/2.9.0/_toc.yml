@@ -106,7 +106,7 @@ subtrees:
       titlesonly: True
       entries:
       - file: building-applications
-        title: "Building Applications"
+        title: "Build Applications"
       - file: app-dev/app-arch
         title: "Daml Application Architecture"
       - file: app-dev/parties-users
