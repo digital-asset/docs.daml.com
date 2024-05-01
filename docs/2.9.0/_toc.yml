@@ -124,7 +124,7 @@ subtrees:
           - file: json-api/search-query-language
             title: "Query Language"
           - file: app-dev/bindings-ts/index
-            title: "Using JavaScript Client Libraries with Daml"
+            title: "Use JavaScript Client Libraries with Daml"
             subtrees:
             - hidden: False
               titlesonly: True
