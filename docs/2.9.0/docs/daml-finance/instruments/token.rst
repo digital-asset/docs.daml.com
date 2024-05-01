@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-How to use the Token Instrument package
-#######################################
+Token Instrument
+################
 
 A Token is a simple instrument template whose economic terms on the ledger are defined by two
 textual fields, namely an ``id`` and a ``description``.

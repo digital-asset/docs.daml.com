@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Daml Assistant (``daml``)
-#########################
+Daml Assistant
+##############
 
 ``daml`` is a command-line tool that does a lot of useful things related to the SDK. Using ``daml``, you can:
 

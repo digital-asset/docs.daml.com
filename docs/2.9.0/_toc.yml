@@ -8,16 +8,17 @@ subtrees:
   entries:
 
   - file: high-level-intro
-    title: "Introduction to Multi-Party Applications"
+    title: "Introduction to Multi-Party Applications and Daml"
 
 - caption: "Set Up Your Developer Environment"
   entries:
 
   - file: ops/requirements
+    title: "System Requirements"
   - file: getting-started/installation
     title: "Installation"
   - file: getting-started/path-variables
-    title: "Set JAVA_HOME and PATH Variables"
+    title: "Setting JAVA_HOME and PATH Variables"
   - file: getting-started/manual-download
     title: "Manual Installation"
 
@@ -31,13 +32,13 @@ subtrees:
   - file: getting-started/first-feature
     title: "Your First Feature"
   - file: getting-started/testing
-    title: "Test Your App"
+    title: "Testing Your App"
 
 - caption: "Create Daml Apps"
   entries:
 
   - file: daml/considerations
-    title: "Introduction"
+    title: "Important Considerations When Building Applications With Daml"
   - file: create-daml-apps/intro/index
     title: "Write Smart Contracts with Daml"
     subtrees:
@@ -45,11 +46,11 @@ subtrees:
       titlesonly: True
       entries:
       - file: daml/intro/0_Intro
-        title: "Introduction"
+        title: "An Introduction to Daml"
       - file: daml/intro/1_Token
         title: "Basic Contracts"
       - file: daml/intro/2_DamlScript
-        title: "Test Templates With Daml Script"
+        title: "Test Templates Using Daml Script"
       - file: daml/intro/3_Data
         title: "Data Types"
       - file: daml/intro/4_Transformations
@@ -95,7 +96,7 @@ subtrees:
         - file: daml/patterns/legends
           title: "Diagram Legends"
       - file: daml/intro/12_Testing
-        title: "Testing"
+        title: "Testing Daml Contracts"
       - file: daml/intro/99_NextSteps
         title: "Next Steps"
   - file: create-daml-apps/off-ledger/index
@@ -105,9 +106,9 @@ subtrees:
       titlesonly: True
       entries:
       - file: building-applications
-        title: "Introduction"
+        title: "Building Applications"
       - file: app-dev/app-arch
-        title: "Architectural Patterns"
+        title: "Daml Application Architecture"
       - file: app-dev/parties-users
         title: "Parties and Users On a Daml Ledger"
       - file: create-daml-apps/off-ledger/json-api/index
@@ -117,13 +118,13 @@ subtrees:
           titlesonly: True
           entries:
           - file: json-api/index
-            title: "Overview"
+            title: "HTTP JSON API Service"
           - file: json-api/lf-value-specification
             title: "Daml-LF JSON Encoding"
           - file: json-api/search-query-language
             title: "Query Language"
           - file: app-dev/bindings-ts/index
-            title: "Javascript Client Libraries"
+            title: "Using JavaScript Client Libraries with Daml"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -137,7 +138,7 @@ subtrees:
               - file: app-dev/bindings-ts/daml-types
                 title: "@daml/types"
           - file: create-daml-apps/off-ledger/json-api/production-setup/index
-            title: "Production Setup"
+            title: "JSON API Production Setup"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -169,7 +170,7 @@ subtrees:
             - file: app-dev/bindings-java/codegen
               title: "Generate Java Code from Daml"
             - file: app-dev/bindings-java/example
-              title: "Ping Pong Example"
+              title: "Java Bindings Example Project"
             - file: app-dev/bindings-java/quickstart
               title: "Iou Quickstart Tutorial"
             - file: app-dev/bindings-java/open-tracing
@@ -256,11 +257,11 @@ subtrees:
           titlesonly: True
           entries:
           - file: tools/assistant-install
-            title: "Manage Versions"
+            title: "Managing SDK Versions"
           - file: tools/assistant-build
-            title: "Build Projects"
+            title: "Build Daml Projects"
           - file: tools/assistant-commands
-            title: "Run Commands"
+            title: "Run Assistant Commands"
       - file: tools/daml-shell/index
         title: "Daml Shell"
       - file: tools/canton-console
@@ -285,7 +286,7 @@ subtrees:
   maxdepth: 0
   entries:
   - file: daml-finance/index
-    title: "Introduction"
+    title: "Daml Finance Documentation"
   - file: daml-finance/overview/index
     title: "Overview"
     subtrees:
@@ -320,15 +321,15 @@ subtrees:
     - file: daml-finance/instruments/token
       title: "Token Instrument"
     - file: daml-finance/instruments/bond
-      title: "Bond Instruments"
+      title: "Bond Instrument"
     - file: daml-finance/instruments/equity
-      title: "Equity Instruments"
+      title: "Equity Instrument"
     - file: daml-finance/instruments/option
-      title: "Option Instruments"
+      title: "Option Instrument"
     - file: daml-finance/instruments/structured-product
-      title: "Structured Products"
+      title: "Structured Product"
     - file: daml-finance/instruments/swap
-      title: "Swap Instruments"
+      title: "Swap Instrument"
     - file: daml-finance/instruments/generic
       title: "Generic Instrument"
       entries:
@@ -717,7 +718,7 @@ subtrees:
         title: "Payoff Modeling"
         entries:
         - file: daml-finance/tutorials/payoff-modeling/basic-builders
-          title: "Basic builders"
+          title: "Basic Builders"
         - file: daml-finance/tutorials/payoff-modeling/observations
           title: "Observations"
       - file: daml-finance/tutorials/advanced-topics/intro
@@ -726,7 +727,7 @@ subtrees:
         - file: daml-finance/tutorials/advanced-topics/lifecycling/intermediated-lifecycling
           title: "Intermediated Lifecycling of an Instrument"
         - file: daml-finance/tutorials/advanced-topics/instrument-modeling/contingent-claims-instrument
-          title: "Leverage Contingent Claims in custom Instrument implementations"
+          title: "Leverage Contingent Claims in Custom Instrument Implementations"
         - file: daml-finance/tutorials/advanced-topics/instrument-modeling/date-utilities
           title: "Date Utility Functions: Calendar, Schedule, and Day Count"
   - file: daml-finance/reference/index
@@ -1155,15 +1156,15 @@ subtrees:
   entries:
 
   - file: deploy-daml/intro/index
-    title: "Introducing Canton"
+    title: "Canton"
     subtrees:
     - hidden: False
       titlesonly: True
       entries:
       - file: canton/about
-        title: "Introducing Canton"
+        title: "Introduction"
       - file: canton/architecture/overview
-        title: "Canton Overview"
+        title: "Overview and Assumptions"
       - file: canton/tutorials/demo
         title: "Canton Demo"
       - file: canton/tutorials/getting_started
@@ -1173,7 +1174,7 @@ subtrees:
       - file: canton/tutorials/composability
         title: "Composability"
       - file: canton/usermanual/versioning
-        title: "Compatibility Matrix and Supported Dependencies"
+        title: "Versioning"
   - file: canton/usermanual/downloading
     title: "Download and Install Canton"
     subtrees:
@@ -1181,7 +1182,7 @@ subtrees:
       titlesonly: True
       entries:
       - file: canton/usermanual/installation
-        title: "Basic Installation"
+        title: "Installation"
       - file: canton/usermanual/docker
         title: "Work With the Docker Containers"
       - file: canton/usermanual/static_conf

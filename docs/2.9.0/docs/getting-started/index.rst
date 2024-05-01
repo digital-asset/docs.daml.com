@@ -3,8 +3,8 @@
 
 .. _new-quickstart:
 
-Getting Started with Daml
-#########################
+Getting Started
+###############
 
 The goal of this tutorial is to get you up and running with full-stack Daml development.
 Through the example of a simple social networking application,

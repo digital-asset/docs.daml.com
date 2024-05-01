@@ -554,7 +554,7 @@ All these tools work against the Ledger API.
 
 .. _automation-using-bootstrap-scripts:
 
-Automation using bootstrap scripts
+Automation Using Bootstrap Scripts
 ----------------------------------
 
 You can configure a bootstrap script to avoid having to manually complete routine tasks such as starting nodes or provisioning parties each time Canton is

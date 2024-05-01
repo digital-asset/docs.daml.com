@@ -5,8 +5,8 @@
 
 .. _installation:
 
-Installing Canton
-=================
+Installation
+============
 
 This guide will guide you through the process of setting up your Canton nodes to build a distributed Daml
 ledger. You will learn the following:
