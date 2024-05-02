@@ -7,7 +7,7 @@ subtrees:
 - caption: "Home"
   entries:
 
-  - file: high-level-intro
+  - file: multiparty-application-intro
     title: "Introduction to Multi-Party Applications"
 
 - caption: "Set Up Your Developer Environment"
