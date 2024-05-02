@@ -16,9 +16,9 @@ subtrees:
   - file: ops/requirements
     title: "System Requirements"
   - file: getting-started/installation
-    title: "Installation"
+    title: "Install the SDK"
   - file: getting-started/path-variables
-    title: "Setting JAVA_HOME and PATH Variables"
+    title: "Set JAVA_HOME and PATH Variables"
   - file: getting-started/manual-download
     title: "Manual Installation"
 
@@ -26,13 +26,13 @@ subtrees:
   entries:
 
   - file: getting-started/index
-    title: "Getting Started"
+    title: "Getting Started with Daml"
   - file: getting-started/app-architecture
     title: "App Architecture"
   - file: getting-started/first-feature
     title: "Your First Feature"
   - file: getting-started/testing
-    title: "Testing Your App"
+    title: "Test Your App"
 
 - caption: "Create Daml Apps"
   entries:
@@ -62,7 +62,7 @@ subtrees:
       - file: daml/intro/7_Composing
         title: "Composing Choices"
       - file: daml/intro/13_Interfaces
-        title: "Interfaces"
+        title: "Daml Interfaces"
       - file: daml/intro/8_Exceptions
         title: "Exception Handling"
       - file: daml/intro/9_Dependencies
@@ -144,7 +144,7 @@ subtrees:
               titlesonly: True
               entries:
               - file: json-api/production-setup
-                title: "Overview"
+                title: "Production Setup"
               - file: json-api/production-setup/query-store
                 title: "Query Store"
               - file: json-api/production-setup/security-and-privacy
@@ -1162,7 +1162,7 @@ subtrees:
       titlesonly: True
       entries:
       - file: canton/about
-        title: "Introduction"
+        title: "Introduction to Canton"
       - file: canton/architecture/overview
         title: "Overview and Assumptions"
       - file: canton/tutorials/demo
@@ -1182,7 +1182,7 @@ subtrees:
       titlesonly: True
       entries:
       - file: canton/usermanual/installation
-        title: "Installation"
+        title: "Install Canton"
       - file: canton/usermanual/docker
         title: "Work With the Docker Containers"
       - file: canton/usermanual/static_conf

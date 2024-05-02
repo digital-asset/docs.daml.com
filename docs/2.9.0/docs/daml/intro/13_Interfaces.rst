@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Interfaces
-==========
+Daml Interfaces
+===============
 
 After defining a few templates in Daml, you've probably found yourself repeating
 some behaviors between them. For instance, many templates have a notion of

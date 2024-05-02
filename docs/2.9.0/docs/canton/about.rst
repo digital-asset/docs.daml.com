@@ -3,8 +3,8 @@
 ..
    Proprietary code. All rights reserved.
 
-Introduction
-============
+Introduction to Canton
+======================
 
 Canton is a Daml ledger interoperability protocol.
 Parties that are hosted on different participant nodes can transact using smart contracts written in Daml and the Canton
