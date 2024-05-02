@@ -8,8 +8,8 @@ Manage Synchronization Domain Entities
 
 .. _domain_bootstrapping:
 
-Setting up a Distributed Synchronization Domain With a Single Console
----------------------------------------------------------------------
+Set Up a Distributed Synchronization Domain With a Single Console
+-----------------------------------------------------------------
 
 If you're running a sync domain in its default configuration as shown previously,
 it will have a sequence and mediator embedded and these components will be automatically bootstrapped for you.
@@ -65,8 +65,8 @@ dynamically add a new sequencer at a later point as described in :ref:`operation
 
 .. _domain_bootstrapping_separate_consoles:
 
-Setting up a Distributed Synchronization Domain With Separate Consoles
-----------------------------------------------------------------------
+Set Up a Distributed Synchronization Domain With Separate Consoles
+------------------------------------------------------------------
 
 The process outlined in the previous section only works if all nodes are accessible from the same console environment.
 If each node has its own isolated console environment, the bootstrapping process must be coordinated
@@ -158,8 +158,8 @@ to connect to just a subset of them.
 
 .. _dynamically_adding_sequencers:
 
-Adding new sequencers to a distributed synchronization domain
--------------------------------------------------------------
+Add New Sequencers to a Distributed Synchronization Domain
+----------------------------------------------------------
 
 For non-database-based sequencers such as Ethereum or Fabric sequencers, you can either initialize them as part of the
 regular :ref:`distributed sync domain bootstrapping process <domain_bootstrapping>` or dynamically add a new sequencer at a later point as follows:

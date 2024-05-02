@@ -29,7 +29,7 @@ There are many other uses.
 
 :ref:`daml-shell-header` is a command-line tool that leverages PQS to inspect a Daml ledger.
 
-Docker image
+Docker Image
 ************
 
 To get the Participant Query Store (PQS) Docker image, run the following command:
@@ -63,7 +63,7 @@ A contract on the ledger is either created or archived. The relationships betwee
 
 Transactions on the ledger are inserted into PostgreSQL concurrently for high performance. Consistency for readers is provided through a watermark mechanism that indicates a consistent offset from which readers can consume for a fully consistent ledger. These details are managed for readers through the functions available in PostgreSQL. Depending on your needs, readers may wish to use or bypass these mechanisms, depending on the type of query and consistency required.
 
-PQS schema design
+PQS Schema Design
 =================
 
 PQS is not directly involved in querying/reading the datastore - the
@@ -108,7 +108,7 @@ The following principles apply:
    scans. This resolves the uncertainty created by the
    parallel writes.
 
-JSON data
+JSON Data
 =========
 
 Relational databases excel at storing structured data for which the schema is
@@ -142,12 +142,12 @@ Continuity
 
 The PQS is intended for continuous operation. Upon restart after an interruption, PQS determines the last consistent offset and continues incremental processing from that point onward. PQS terminates when encountering any error and leaves it up to the orchestration layer (such as Kubernetes) or the operator to determine the appropriate course of action.
 
-High availability
+High Availability
 =================
 
 Multiple isolated instances of PQS can be instantiated without any cross-dependency. This allows for an active-active high availability clustering model. Please note that different instances might not be at the same offset due to different processing rates or other factors. After querying one active instance, you can see results that are not yet visible on an alternative active instance. This requires consideration for the client to handle the situation where waiting or a retry is required to service "at least up to" requests.
 
-How a participant node (PN) models time
+How a Participant Node (PN) Models Time
 ***************************************
 
 Understanding time in a distributed application is challenging because there is no global clock. This section describes how a participant node understands time. If you are familiar with Canton, skip this section and move to the section `Time Model within PQS <#pqs-time-model>`__.
@@ -183,7 +183,7 @@ If a participant node's ledger is restored from a backup, it reviews the data on
 
 .. _pqs-time-model:
 
-Time model within PQS
+Time Model Within PQS
 =====================
 
 PQS builds on the offset concept of the participant node's ledger, and PQS is a valid representation of that ledger. PQS processes events asynchronously and concurrently, but the PQS programming model is intended to simplify development. The offset forms the basis for the PQS programming model. Helper functions make it easy to reason about offset values, pushing that complexity into the background. This section discusses how PQS models time.
@@ -211,7 +211,7 @@ The asynchronous, concurrent processing of ledger events leads to four concepts 
 
 The following section provides an example of these concepts.
 
-Example Daml model
+Example Daml Model
 ------------------
 
 The example Daml model highlights the following:
@@ -292,10 +292,10 @@ Lastly, a highly available production deployment (see the following figure) has 
 .. image:: ./images/multiple-pqs.svg
    :alt: A diagram showing a multiple PQS deployment
 
-Install and start PQS
+Install and Start PQS
 *********************
 
-Meet prerequisites
+Meet Prerequisites
 ==================
 
 Here are the prerequisites to run PQS:
@@ -305,7 +305,7 @@ Here are the prerequisites to run PQS:
 -  Daml ledger as the source of events. m/TLS is supported for the participant node ledger API. Alternatively, it can run against the ``Sandbox``.
 -  Installation of `The Daml Enterprise SDK <https://docs.daml.com/getting-started/installation.html#install-daml-enterprise>`__.
 
-Deploy the Scribe component
+Deploy the Scribe Component
 ===========================
 
 The PQS consists of two components: the PostgreSQL database and a ledger component called *Scribe*, as shown in the figure. Scribe is packaged as a Java JAR file and is available from `the Digital Asset Artifactory path <https://digitalasset.jfrog.io/ui/native/scribe>`__.
@@ -313,7 +313,7 @@ The PQS consists of two components: the PostgreSQL database and a ledger compone
 .. image:: ./images/scribe.svg
    :alt: A diagram showing the components of the Participant Query Store
 
-Connect the PQS to a ledger
+Connect the PQS to a Ledger
 ===========================
 
 To connect to the participant node ledger, provide separate address and port parameters. For example, you could specify ``--host 10.1.1.10 --port 6865``, or in short form ``-h 10.1.1.168 -p 6865``.
@@ -351,7 +351,7 @@ configured to use authentication, then an error will result. The error will
 have a message like ``requests with an empty user-id are only supported if
 there is an authenticated user``.
 
-Set up PostgreSQL
+Set Up PostgreSQL
 =================
 
 To connect the database, create a PostgreSQL database with three users:
@@ -362,7 +362,7 @@ To connect the database, create a PostgreSQL database with three users:
 
 .. _pqs-connect-header:
 
-Connect to the PQS PostgreSQL datastore
+Connect to the PQS PostgreSQL Datastore
 =======================================
 
 The database connection is handled by the JDBC API, so you need to provide the following (all have defaults):
@@ -392,7 +392,7 @@ Logging
 
 By default, the PQS logs to ``stderr``, with ``INFO`` verbose level. To change the level, use the ``--logger-level enum`` option, as in the example ``--logger-level Trace``.
 
-Using command line options
+Using Command Line Options
 ==========================
 
 You can discover commands and parameters through the embedded ``--help`` (remember to include ``pipeline`` before ``--help``). For example:
@@ -594,7 +594,7 @@ More advanced expressions can make use of brackets, such as
 ``--pipeline-parties="Alice* | Bob* | (participant* & !(participant3::*))"``.
 
 
-Handle configuration changes
+Handle Configuration Changes
 ============================
 
 PQS initializes its behavior on startup by reading its configuration files.
@@ -610,10 +610,10 @@ oldest, unpruned offset of the participant node and use the participant node's
 history to extract the events based on the updated configuration.
 
 
-PQS development
+PQS Development
 ***************
 
-Offset management for querying
+Offset Management for Querying
 ==============================
 
 The following functions control the temporal perspective of the ledger,
@@ -673,7 +673,7 @@ specified:
 -  Partially qualified: ``<module>:<template|interface|choice>``
 
 
-Query patterns
+Query Patterns
 ==============
 
 Several common ways to use the table functions are described in the following sections:
@@ -842,7 +842,7 @@ In this example, the user asks for the very latest and oldest offsets available,
    SELECT set_latest(NULL) AS latest_offset, set_oldest(NULL) AS oldest_offset;
 
 
-Advanced querying topics
+Advanced Querying Topics
 ========================
 
 Reading
@@ -867,7 +867,7 @@ latest range offset:
   event_offset <= latest_offset; AND
   event_offset >= oldest_offset
 
-Write pipeline
+Write Pipeline
 --------------
 
 Typically, you don't need to be concerned with how the
@@ -924,7 +924,7 @@ checkpoint offset:
 Note that the ``Archive`` table represents all ``Archive`` choices in the given
 namespace, such as ``User.Archive`` and ``Alias.Archive`` in the ``User`` namespace.
 
-JSON format
+JSON Format
 ===========
 
 PQS stores create and exercise arguments using a `Daml-LF JSON-based encoding <https://docs.daml.com/json-api/lf-value-specification.html#daml-lf-json-encoding>`__ of Daml-LF values. An overview of the encoding is provided below. For more details, refer to `the Daml-LF page <https://docs.daml.com/json-api/lf-value-specification.html#daml-lf-json-encoding>`__.
@@ -935,7 +935,7 @@ Values on the ledger can be primitive types, user-defined records, or variants. 
 
 These types are translated to `JSON types <https://json-schema.org/understanding-json-schema/reference/index.html>`__ as follows:
 
-Primitive types
+Primitive Types
 ---------------
 
 - ``ContractID``: represented as `string <https://json-schema.org/understanding-json-schema/reference/string.html>`__.
@@ -950,13 +950,13 @@ Primitive types
 - ``Unit`` and ``Empty``: Represented as empty records.
 - ``Optional``: represented as `object <https://json-schema.org/understanding-json-schema/reference/object.html>`__. It is a variant with two possible constructors: ``None`` and ``Some``.
 
-User-defined types
+User-Defined Types
 ------------------
 
 - ``Record``: represented as `object <https://json-schema.org/understanding-json-schema/reference/object.html>`__, where each create parameter's name is a key, and the parameter's value is the JSON-encoded value.
 - ``Variant``: represented as `object <https://json-schema.org/understanding-json-schema/reference/object.html>`__, using the ``{constructor: body}`` format, such as ``{"Left": true}``.
 
-Display of metadata-inferred database schema
+Display of Metadata-Inferred Database Schema
 ============================================
 
 PQS analyzes package metadata as part of its operation and displays the required schema. For example, running
@@ -1012,7 +1012,7 @@ which yields:
     and 0 interfaces
     [...]
 
-PQS database schema
+PQS Database Schema
 ===================
 
 The following schema is representative for the exported ledger data. It is subject to change since it is hidden behind the table functions.

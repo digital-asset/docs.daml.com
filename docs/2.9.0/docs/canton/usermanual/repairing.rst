@@ -5,8 +5,8 @@
 
 .. _repairing-nodes:
 
-Repairing Nodes
-===============
+Repair Nodes
+============
 
 The Canton platform is generally built to self-heal and automatically recover from issues.
 As such, if there is a situation where some degradation can be expected, there exists

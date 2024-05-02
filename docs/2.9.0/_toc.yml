@@ -1240,7 +1240,7 @@ subtrees:
       - file: canton/usermanual/command_line
         title: "Use the Canton Command Line"
       - file: canton/usermanual/console
-        title: "Console Quickstart"
+        title: "Canton Console"
       - file: canton/reference/console
         title: "Console Commands"
   - file: canton/usermanual/monitoring
@@ -1251,11 +1251,11 @@ subtrees:
     - file: canton/usermanual/monitoring_glossary
       title: "Glossary"
   - file: query/pqs-user-guide
-    title: "Querying and Accessing Ledger Data"
+    title: "Participant Query Store User Guide"
   - file: canton/usermanual/identity_management
     title: "Identity Management"
   - file: operate-a-daml-ledger/common-tasks/index
-    title: "Common Tasks"
+    title: "Common Operational Tasks"
     subtrees:
     - hidden: False
       titlesonly: True
@@ -1275,7 +1275,7 @@ subtrees:
           titlesonly: True
           entries:
             - file: canton/usermanual/kms/kms_setup
-              title: "Configure a KMS"
+              title: "Canton Configuration of a KMS"
               subtrees:
                 - hidden: False
                   titlesonly: True
@@ -1285,25 +1285,25 @@ subtrees:
                     - file: canton/usermanual/kms/kms_gcp_setup
                       title: "Configure Google Cloud Provider (GCP) KMS"
             - file: canton/usermanual/kms/encrypted_private_key_storage/encrypted_private_key_storage
-              title: "Configure Encrypted Private Key Storage with a KMS"
+              title: "Configure Encrypted Private Key Storage with a Key Management Service (KMS)"
               subtrees:
                 - hidden: False
                   titlesonly: True
                   entries:
                     - file: canton/usermanual/kms/encrypted_private_key_storage/encrypted_private_key_storage_aws
-                      title: "AWS Setup guide"
+                      title: "Configure Encrypted Private Key Storage with AWS KMS"
                     - file: canton/usermanual/kms/encrypted_private_key_storage/encrypted_private_key_storage_gcp
-                      title: "GCP Setup guide"
+                      title: "Configure Encrypted Private Key Storage with GCP KMS"
             - file: canton/usermanual/kms/external_key_storage/external_key_storage
-              title: "Configure External Key Storage with a KMS"
+              title: "Configure External Key Storage with a Key Management Service (KMS)"
               subtrees:
                 - hidden: False
                   titlesonly: True
                   entries:
                     - file: canton/usermanual/kms/external_key_storage/external_key_storage_aws
-                      title: "AWS Setup guide"
+                      title: "Configure External Key Storage with AWS KMS"
                     - file: canton/usermanual/kms/external_key_storage/external_key_storage_gcp
-                      title: "GCP Setup guide"
+                      title: "Configure External Key Storage with GCP KMS"
                     - file: canton/usermanual/kms/external_key_storage/interoperability
                       title: "Interoperability with other nodes"
                     - file: canton/usermanual/kms/external_key_storage/participant_kms_migration
@@ -1314,7 +1314,7 @@ subtrees:
   - file: canton/usermanual/performance
     title: "Scaling and Performance"
   - file: operate-a-daml-ledger/advanced-operations/index
-    title: "Advanced Operations"
+    title: "Advanced Ledger Operations"
     subtrees:
     - hidden: False
       titlesonly: True
@@ -1347,7 +1347,7 @@ subtrees:
   - file: daml/troubleshooting
     title: "Troubleshooting"
   - file: support/support
-    title: "Getting Help"
+    title: "Get Help"
   - file: support/compatibility
     title: "Portability, Compatibility, and Support Durations"
   - file: support/overview
@@ -1364,14 +1364,14 @@ subtrees:
   - file: concepts/glossary
     title: "Glossary of Concepts"
   - file: reference/example-applications
-    title: "Example Applications"
+    title: "Daml Example Applications"
   - file: reference/daml-language-references
-    title: "Daml Language"
+    title: "Daml Language References"
     subtrees:
     - hidden: False
       entries:
       - file: reference/cheat-sheet
-        title: "Cheat Sheet"
+        title: "Daml Language Cheat Sheet"
       - file: daml/reference/index
         title: "Language Reference"
         subtrees:
@@ -1380,29 +1380,29 @@ subtrees:
           - file: daml/reference/structure
             title: "Overview: Template Structure"
           - file: daml/reference/templates
-            title: "Templates"
+            title: "Reference: Templates"
           - file: daml/reference/choices
-            title: "Choices"
+            title: "Reference: Choices"
           - file: daml/reference/updates
-            title: "Updates"
+            title: "Reference: Updates"
           - file: daml/reference/data-types
-            title: "Data types"
+            title: "Reference: Data types"
           - file: daml/reference/working-with
-            title: "Built-in functions"
+            title: "Reference: Built-in functions"
           - file: daml/reference/expressions
-            title: "Expressions"
+            title: "Reference: Expressions"
           - file: daml/reference/functions
-            title: "Functions"
+            title: "Reference: Functions"
           - file: daml/reference/file-structure
-            title: "File structure"
+            title: "Reference: File structure"
           - file: daml/reference/packages
-            title: "Packages"
+            title: "Reference: Packages"
           - file: daml/reference/contract-keys
-            title: "Contract keys"
+            title: "Reference: Contract keys"
           - file: daml/reference/exceptions
-            title: "Exceptions"
+            title: "Reference: Exceptions"
           - file: daml/reference/interfaces
-            title: "Interfaces"
+            title: "Reference: Interfaces"
       - file: daml/stdlib/index
         title: "The Standard Library"
         subtrees:
@@ -1484,14 +1484,14 @@ subtrees:
           - file: daml/stdlib/GHC-Tuple-Check
             title: "GHC.Tuple.Check"
       - file: daml-script/api/index
-        title: "Script Library"
+        title: "Daml Script Library"
         subtrees:
         - hidden: False
           titlesonly: True
           entries:
             - file: daml-script/api/Daml-Script
       - file: triggers/api/index
-        title: "Trigger Library"
+        title: "Daml Trigger Library"
         subtrees:
         - hidden: False
           titlesonly: True
@@ -1501,7 +1501,7 @@ subtrees:
             - file: triggers/api/Daml-Trigger-Assert
             - file: triggers/api/Daml-Trigger-LowLevel
   - file: reference/daml-ledger-references
-    title: "Daml Ledger"
+    title: "Daml Ledger References"
     subtrees:
     - hidden: False
       entries:
