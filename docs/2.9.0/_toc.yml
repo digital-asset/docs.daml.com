@@ -1306,7 +1306,7 @@ subtrees:
                     - file: canton/usermanual/kms/external_key_storage/interoperability
                       title: "Interoperability with other nodes"
                     - file: canton/usermanual/kms/external_key_storage/participant_kms_migration/participant_kms_migration
-                      title: "Participant Node Migration"
+                      title: "Participant Node Migration to KMS"
                       subtrees:
                         - hidden: False
                           titlesonly: True

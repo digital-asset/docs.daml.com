@@ -8,13 +8,15 @@ Manage Participants
 
 .. _participant_bootstrapping:
 
-Manual vs Automatic Initialization
-----------------------------------
+Manual vs Automatic Identity Initialization
+-------------------------------------------
 
 Similarly to a domain, a participant node can either be initialized automatically, the default behaviour,
-or manually. Managing the initialization manually is particularly useful when a participant
-does not control its own identity, when we do not want to store its identity key on the node for security
-reasons, or when we want to set a participant's keys by ourselves.
+or manually. Managing the initialization manually is particularly useful when a participant:
+
+1. Does not control its own identity;
+2. When we do not want to store its identity key on the node for security reasons;
+3. When we want to set a participant's keys by ourselves.
 
 If you want to disable the automatic initialization of a participant node you have to set:
 
@@ -25,8 +27,8 @@ If you want to disable the automatic initialization of a participant node you ha
 Keys Initialization
 -------------------
 
-Besides a namespace key and a signing key a participant node also has an encryption key that it
-uses to encrypt transactions. Key are created automatically, however, if you are manually setting up your
+Besides a namespace key and a signing key a participant node also has an asymmetric encryption key that it
+uses to decrypt encrypted transactions. Key are created automatically, however, if you are manually setting up your
 participant node you must use the following commands to generate your signing keys (for namespace and signing)
 and the encryption key:
 

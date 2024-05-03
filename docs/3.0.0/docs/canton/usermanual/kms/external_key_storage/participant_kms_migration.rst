@@ -5,12 +5,12 @@
 
 .. _participant_kms_migration:
 
-Participant Node Migration
---------------------------
+Participant Node Migration to KMS
+---------------------------------
 
 To migrate an existing participant node connected to a domain with a non KMS-compatible provider
 and start using KMS external keys, you need to manually execute the following steps.
-The general idea is to replicate the old node into a new one that uses a KMS provider and connects to
+The general idea is to replicate the old node into a new one that uses a KMS crypto provider and connects to
 a KMS-compatible domain (e.g. :ref:`running JCE with KMS supported encryption and
 signing keys <external_key_storage_interoperability>`).
 
