@@ -5,8 +5,8 @@
 
 .. _faq:
 
-Frequently Asked Questions
-==========================
+Canton Frequently Asked Questions
+=================================
 
 This section covers other questions that frequently arise when using Canton. If your question is not answered here,
 consider searching the `Daml forum <https://discuss.daml.com>`_ and creating a post if you can't find the answer.

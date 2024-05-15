@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Getting Started tutorials
-#########################
+Getting Started
+###############
 
 This section explains how some key concepts of Daml Finance work in practice. It combines a step by
 step description of different workflows with supporting Daml code.

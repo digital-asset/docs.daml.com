@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-How to use the calendar, schedule, and day count utility functions
-##################################################################
+Date Utility Functions: Calendar, Schedule, and Day Count
+#########################################################
 
 The Daml Finance library contains date-related utility functions for
 implementing industry-standard conventions. These functions are used
