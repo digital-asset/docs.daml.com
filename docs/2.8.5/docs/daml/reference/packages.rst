@@ -190,7 +190,7 @@ The Daml compiler identifies each DAR dependency in the project by its ``package
 If you have a Daml project which contains multiple common transitive DAR dependencies, those common transitive dependencies must either:
 
 * Have identical contents if they have the same name and version specified in their Daml project's ``daml.yaml`` file, or
-* Have a different version from each others' Daml project's ``daml.yaml`` file if there are differences in the contents.
+* Have a different value for the ``version`` entry in their respective ``daml.yaml`` files.
 
 Otherwise, the Daml project cannot be built into a deployable DAR due to package identification conflicts.
 
