@@ -182,6 +182,25 @@ When importing packages this way, the Daml compiler will try to reconstruct the 
 
 Because of their flexibility, data-dependencies are a tool that is recommended for performing Daml model upgrades. See the :ref:`upgrade documentation <upgrade-overview>` for more details.
 
+Transitive dependency management
+================================
+
+The Daml compiler identifies each DAR dependency in the project by their ``packageId`` and fully qualified name (Daml project package name and version number).
+
+If you have a Daml project which contains multiple common transitive DAR dependencies, those common transitive dependencies must either:
+
+* Have the exact same contents if they have the same name and version specified in their Daml project's ``daml.yaml`` file, or
+* Have a different version from each others' Daml project's ``daml.yaml`` file if there are differences in the contents.
+
+Otherwise, the Daml project cannot be built into a deployable DAR due to package identification conflicts.
+
+For example:
+
+* Daml project X (top-level) has dependencies ``DarA`` and ``DarB``.
+* ``DarA`` and ``DarB`` both contain DAR dependency ``DarC``
+
+When compiling Daml project X, you must ensure that the ``DarC`` dependency referenced by both ``DarA`` and ``DarB`` must either have identical Daml contents or have a different version number if their contents differ. The version number is defined in the daml.yaml file of the Daml project producing ``DarC``, under the ``version`` key.
+
 Reference Daml Packages Already On the Ledger
 =============================================
 
