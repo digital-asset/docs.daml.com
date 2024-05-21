@@ -156,7 +156,7 @@ Controller
 
 A **controller** is a `party <#party>`__ that is able to `exercise <#exercise>`__ a particular `choice <#choice>`__ on a particular `contract <#contract>`__.
 
-Controllers must be at least an `observer`_, otherwise they can't see the contract to exercise it on. But they don't have to be a `signatory`_. this enables the :doc:`propose-accept pattern </daml/patterns/initaccept>`.
+Controllers must be at least an `observer`_, otherwise they can't see the contract to exercise it on. But they don't have to be a `signatory`_. this enables the :doc:`propose-accept pattern </daml/patterns/propose-accept>`.
 
 Choice Observer
 ---------------
@@ -236,7 +236,7 @@ Create
 
 A **create** is an update that creates a `contract <#contract>`__ on the `ledger <#daml-ledger>`__.
 
-Contract creation requires `authorization <#authorization-signing>`__ from all its `signatories <#signatory>`__, or the create will fail. For how to get authorization, see the :doc:`propose-accept </daml/patterns/initaccept>` and :doc:`multi-party agreement </daml/patterns/multiparty-agreement>` patterns.
+Contract creation requires `authorization <#authorization-signing>`__ from all its `signatories <#signatory>`__, or the create will fail. For how to get authorization, see the :doc:`propose-accept </daml/patterns/propose-accept>` and :doc:`multi-party agreement </daml/patterns/multiparty-agreement>` patterns.
 
 A `party <#party>`__ `submits <#submitting-commands-writing-to-the-ledger>`__ a create `command <#commands>`__.
 
