@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-How to leverage Contingent Claims in custom instrument implementations
-######################################################################
+Leverage Contingent Claims in Custom Instrument Implementations
+###############################################################
 
 They :doc:`Payoff Modeling tutorial <../../payoff-modeling/intro>` introduces the
 :doc:`Contingent Claims <../../../instruments/generic/contingent-claims>` modeling framework

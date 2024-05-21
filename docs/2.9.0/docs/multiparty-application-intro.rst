@@ -2,8 +2,8 @@
 .. SPDX-License-Identifier: Apache-2.0
 
 
-An Introduction To Multi-Party Applications and Daml
-####################################################
+Introduction To Multi-Party Applications and Daml
+#################################################
 
 Multi-Party Applications
 ************************

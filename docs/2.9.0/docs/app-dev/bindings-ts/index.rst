@@ -1,7 +1,7 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Using JavaScript Client Libraries with Daml
+Use JavaScript Client Libraries with Daml
 ###########################################
 
 .. _typescript:

@@ -1,7 +1,7 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Basic builders
+Basic Builders
 ##############
 
 This tutorial introduces the basic claim constructors and shows how to use them to

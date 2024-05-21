@@ -3,8 +3,8 @@
 
 .. _daml-script:
 
-Daml Script
-###########
+React to Off-Ledger Events: Daml Script
+#######################################
 
 .. .. toctree::
    :hidden:
