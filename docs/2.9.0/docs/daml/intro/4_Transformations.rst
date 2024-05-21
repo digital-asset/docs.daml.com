@@ -188,4 +188,4 @@ Next Up
 
 You can now store and transform data on the ledger, even giving other parties specific write access through choices.
 
-In :doc:`5_Restrictions`, you will learn how to restrict data and transformations further. In that context, you will also learn about time on Daml ledgers, ``do`` blocks and ``<-`` notation within those.
+In :doc:`5_Constraints`, you will learn how to restrict data and transformations further. In that context, you will also learn about time on Daml ledgers, ``do`` blocks and ``<-`` notation within those.

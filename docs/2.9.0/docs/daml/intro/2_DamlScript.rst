@@ -39,7 +39,7 @@ Before you can create any ``Token`` contracts, you need some parties on the test
 
 - Use of ``<-`` instead of ``=``.
 
-  The reason for this is that ``allocateParty`` is an ``Action`` that can only be performed once the ``Script`` is run in the context of a ledger. ``<-`` means "run the action and bind the result". It can only be run in that context because, depending on the ledger state, ``allocateParty`` gives you back a party with the name you specified or appends a suffix to that name if such a party has already been allocated. You can read more about ``Actions`` and ``do`` blocks in :doc:`5_Restrictions`.
+  The reason for this is that ``allocateParty`` is an ``Action`` that can only be performed once the ``Script`` is run in the context of a ledger. ``<-`` means "run the action and bind the result". It can only be run in that context because, depending on the ledger state, ``allocateParty`` gives you back a party with the name you specified or appends a suffix to that name if such a party has already been allocated. You can read more about ``Actions`` and ``do`` blocks in :doc:`5_Constraints`.
 
 
   If that doesn't quite make sense yet, for the time being you can think of this arrow as extracting the right-hand-side value from the ledger and storing it into the variable on the left.
@@ -134,7 +134,7 @@ Contracts are also archived whenever a `consuming choice </daml/intro/4_Transfor
 
 References to contracts have the type ``ContractId a``, where ``a`` is a *type parameter* representing the template type of the contract that the id refers to. For example, a reference to a ``Token`` would be a ``ContractId Token``.
 
-To ``archiveCmd`` the token Alice has created, you need the contract id. Retrieve the contract id from the ledger with the ``<-`` notation. How this works is discussed in :doc:`5_Restrictions`.
+To ``archiveCmd`` the token Alice has created, you need the contract id. Retrieve the contract id from the ledger with the ``<-`` notation. How this works is discussed in :doc:`5_Constraints`.
 
 This script first checks that Bob cannot archive Alice's token. Then Alice successfully archives it:
 
