@@ -8,7 +8,7 @@ Patterns have been useful in the programming world, as both a source of design i
 
 You can checkout the examples locally via ``daml new daml-patterns --template daml-patterns``.
 
-:doc:`patterns/initaccept`
+:doc:`patterns/propose-accept`
     The Propose and Accept pattern demonstrates how to start a bilateral workflow. One party creates a proposal or an invite contract. This gives another party the chance to accept, reject, or renegotiate.
 :doc:`patterns/multiparty-agreement`
     The Multiple Party Agreement pattern uses a Pending contract as a wrapper for the Agreement contract. Any one of the signatory parties can kick off the workflow by creating a Pending contract on the ledger, filling in themselves in all the signatory fields. The Agreement contract is not created on the ledger until all parties have agreed to the Pending contract, and replaced the initiator's signature with their own.
