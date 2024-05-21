@@ -6,7 +6,7 @@
 Test Templates Using Daml Script
 ================================
 
-In this section we test the ``Token`` model from :doc:`1_Token` using the :doc:`Daml Script </daml-script/index>` integration in :ref:`Daml Studio <script-results>`. This includes:
+In this section we test the ``Token`` model from :doc:`1_Contracts` using the :doc:`Daml Script </daml-script/index>` integration in :ref:`Daml Studio <script-results>`. This includes:
 
 - Script basics
 - Running scripts
@@ -92,7 +92,7 @@ To run the same test from the command line, save your module in a file ``Token_T
 Test for Failure
 ----------------
 
-In :doc:`1_Token` you learned that creating a ``Token`` requires the authority of its owner. In other words, it should not be possible for Alice to create a token for another party, e.g. Bob, or vice versa. A reasonable attempt to test that would be:
+In :doc:`1_Contracts` you learned that creating a ``Token`` requires the authority of its owner. In other words, it should not be possible for Alice to create a token for another party, e.g. Bob, or vice versa. A reasonable attempt to test that would be:
 
 .. literalinclude:: daml/daml-intro-2/daml/Token_Test.daml
   :language: daml
