@@ -73,8 +73,9 @@ Best Practices
 - A catastrophic failure of a participant and its backup can be mitigated by rebuilding its state from the sequencer by
   replaying messages. However, this becomes impossible once the required messages have been pruned from the sequencer.
   For this reason, the backup strategy for participant nodes should be coordinated with the sequencer’s pruning schedule.
-- For high availability nodes that share a common database, the pruning schedule has to be set on an active replica
-  (participant, mediator) or one active shard (database sequencer).
+- For high-availability nodes that share a common database, the pruning schedule has to be set on an active participant
+  or mediator replica or on the admin sequencer. The ``sequencer.health.status`` command helps identify the sequencer
+  that accepts admin changes such as configuring pruning.
 - Participants, mediators, and sequencers also expose "manual" `prune*` methods that come with pitfalls. The methods
   might appear to be hanging unless the range of events and messages specified for pruning is not broken up into
   sufficiently small chunks. In addition, these manual methods have no built-in mechanism to resume on another node after
