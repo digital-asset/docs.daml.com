@@ -75,7 +75,8 @@ Best Practices
   For this reason, the backup strategy for participant nodes should be coordinated with the sequencer’s pruning schedule.
 - For high-availability nodes that share a common database, the pruning schedule has to be set on an active participant
   or mediator replica or on the admin sequencer. The ``sequencer.health.status`` command helps identify the sequencer
-  that accepts admin changes such as configuring pruning.
+  that accepts admin changes such as configuring pruning when
+  ``sequencer.health.status.trySuccess.admin.exists(_.acceptsAdminChanges)`` is true.
 - Participants, mediators, and sequencers also expose "manual" `prune*` methods that come with pitfalls. The methods
   might appear to be hanging unless the range of events and messages specified for pruning is not broken up into
   sufficiently small chunks. In addition, these manual methods have no built-in mechanism to resume on another node after
