@@ -605,6 +605,10 @@ A sync domain node or a sequencer node responds with a message containing:
 - ``Connected Participants``: the list of connected participants
 - ``Sequencer``: a boolean flag indicating whether the embedded sequencer writer is operational
 
+A sequencer node also returns the following additional field starting from Canton 2.8.6:
+
+- ``Accepts admin changes``: a boolean flag indicating whether the sequencer accepts admin changes
+
 A sync domain topology manager or a mediator node returns:
 
 - ``Node uid``: the unique identifier of the node
