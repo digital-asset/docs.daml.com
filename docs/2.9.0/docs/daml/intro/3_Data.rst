@@ -4,7 +4,7 @@
 Data Types
 ==========
 
-In :doc:`1_Token`, you learnt about contract templates, which specify the types of contracts that can be created on the ledger, and what data those contracts hold in their arguments.
+In :doc:`1_Contracts`, you learnt about contract templates, which specify the types of contracts that can be created on the ledger, and what data those contracts hold in their arguments.
 
 In :doc:`2_DamlScript`, you learnt about the script view in Daml Studio, which displays the current ledger state. It shows one table per template, with one row per contract of that type and one column per field in the arguments.
 
@@ -34,7 +34,7 @@ After this section, you should be able to use a Daml ledger as a simple database
 Native Types
 ------------
 
-You have already encountered a few native Daml types: ``Party`` in :doc:`1_Token`, and ``Text`` and ``ContractId`` in :doc:`2_DamlScript`. Here are those native types and more:
+You have already encountered a few native Daml types: ``Party`` in :doc:`1_Contracts`, and ``Text`` and ``ContractId`` in :doc:`2_DamlScript`. Here are those native types and more:
 
 - ``Party``
   Stores the identity of an entity that is able to act on the ledger, in the sense that they can sign contracts and submit transactions. In general, ``Party`` is opaque.

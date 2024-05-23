@@ -16,4 +16,4 @@ Prerequisites:
 
 - You have installed the :doc:`Daml SDK </getting-started/installation>`
 
-Next: :doc:`1_Token`.
+Next: :doc:`1_Contracts`.
