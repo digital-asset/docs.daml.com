@@ -97,7 +97,7 @@ from the cases where the new release is for an older minor.
 For a non-current minor, rename the corresponding folder, update the versions,
 and update the `/dropdown_versions` file.
 
-For example, if you re releasing Daml Enterprise 2.7.6 while the current minor
+For example, if you are releasing Daml Enterprise 2.7.6 while the current minor
 is `2.8`, you need to:
 
 1. Rename the `docs/2.7.5` folder to `docs/2.7.6` (i.e. `git mv docs/2.7.5
