@@ -84,7 +84,54 @@ only need to set them up once, at the top level of the repo.
 > :warning: You need to have read access to the assembly repo on Artifactory.
 > If you don't, please send an email to help@ to request access.
 
-## For each docs release
+# Releases
+
+When a new Daml Enterprise release is made, the documentation needs to be
+updated accordingly. Because the root website (`https://docs.daml.com`) shows
+the same content as the "current minor" (e.g. 2.8 as of 2024-05-28), we need to
+discusse separately the cases where the new release is for the current minor
+from the cases where the new release is for an older minor.
+
+## New patch for previous minor
+
+For a non-current minor, rename the corresponding folder, update the versions,
+and update the `/dropdown_versions` file.
+
+For example, if you re releasing Daml Enterprise 2.7.6 while the current minor
+is `2.8`, you need to:
+
+1. Rename the `docs/2.7.5` folder to `docs/2.7.6` (i.e. `git mv docs/2.7.5
+   docs/2.7.6`).
+2. Update the `2.7.5` line in `dropdown_versions` to say `2.7.6` instead.
+3. Update the `docs/2.7.6/versions.json` file to say `2.7.6` where it used to
+   say `2.7.5`.
+
+## New patch for current minor
+
+For the current minor, follow the same steps as in the previous section, with
+one additional operation: udpate the `root` file to point to the new version.
+For example, if you are publishing `2.8.6` when `2.8` is the current minor, you
+should:
+
+1. Rename the `docs/2.8.5` folder to `docs/2.8.6` (i.e. `git mv docs/2.8.5
+   docs/2.8.6`).
+2. Update the `2.8.5` line in `dropdown_versions` to say `2.8.6` instead. This
+   should be the first line.
+3. Update the `docs/2.8.6/versions.json` file to say `2.8.6` where it used to
+   say `2.8.5`.
+4. Update the `root` file to contain `2.8.6` instead of `2.8.5`.
+
+## Publishing a new minor
+
+To publish a new minor for which the folder already exists, add an entry to
+`dropdown_versions` and, if relevant, update `root`.
+
+## Creating a new minor
+
+Creating a new minor is typically done by copying the previous one and updating
+`versions.json`.
+
+## Reindexing
 
 When there is a change to the root website, the entire site needs to be reindexed for searching. This includes any time a new version of the docs is released. Until the reindexing is done, the site search engine may still bring up deleted and moved pages in search results. Then when a viewer clicks that search result, a 404 error is displayed. Google search will eventually catch up without intervention. Following are the steps to reindex the site search:
 
