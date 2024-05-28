@@ -1,7 +1,7 @@
 {
   "101" : {
     "command" : "participant1.health.ping(participant1)",
-    "output" : "res10: Duration = 2572 milliseconds"
+    "output" : "res10: Duration = 1539 milliseconds"
   },
   "84" : {
     "command" : "",
@@ -21,7 +21,7 @@
   },
   "73" : {
     "command" : "domainManager1.topology.participant_domain_states.list(filterStore=\"Authorized\").map(_.item)",
-    "output" : "res6: Seq[ParticipantState] = Vector(\n  ParticipantState(\n    From,\n    domainManager1::122077832b34...,\n    PAR::participant1::12201becb267...,\n    Submission,\n    Ordinary\n  )\n)"
+    "output" : "res6: Seq[ParticipantState] = Vector(\n  ParticipantState(\n    From,\n    domainManager1::12201c3f3ab6...,\n    PAR::participant1::1220b9b3a16f...,\n    Submission,\n    Ordinary\n  )\n)"
   },
   "66" : {
     "command" : "",
@@ -29,11 +29,11 @@
   },
   "95" : {
     "command" : "domainManager1.topology.participant_domain_states.list(filterStore=\"Authorized\").map(_.item)",
-    "output" : "res9: Seq[ParticipantState] = Vector(\n  ParticipantState(\n    From,\n    domainManager1::122077832b34...,\n    PAR::participant1::12201becb267...,\n    Submission,\n    Ordinary\n  ),\n  ParticipantState(\n    To,\n    domainManager1::122077832b34...,\n    PAR::participant1::12201becb267...,\n    Submission,\n    Ordinary\n  )\n)"
+    "output" : "res9: Seq[ParticipantState] = Vector(\n  ParticipantState(\n    From,\n    domainManager1::12201c3f3ab6...,\n    PAR::participant1::1220b9b3a16f...,\n    Submission,\n    Ordinary\n  ),\n  ParticipantState(\n    To,\n    domainManager1::12201c3f3ab6...,\n    PAR::participant1::1220b9b3a16f...,\n    Submission,\n    Ordinary\n  )\n)"
   },
   "50" : {
     "command" : "val participantAsString = participant1.id.toProtoPrimitive",
-    "output" : "participantAsString : String = \"PAR::participant1::12201becb267d49c3b4b681baf0b27e29cdf1917a2e2d591f93fa8628bb19d706c8a\""
+    "output" : "participantAsString : String = \"PAR::participant1::1220b9b3a16f55c773d85bbfeb94b099eef653f1b37f6babca4a3a6a1f9688e82c0d\""
   },
   "43" : {
     "command" : "",
@@ -41,7 +41,7 @@
   },
   "55" : {
     "command" : "val participantIdFromString = ParticipantId.tryFromProtoPrimitive(participantAsString)",
-    "output" : "participantIdFromString : ParticipantId = PAR::participant1::12201becb267..."
+    "output" : "participantIdFromString : ParticipantId = PAR::participant1::1220b9b3a16f..."
   },
   "36" : {
     "command" : "",
@@ -49,11 +49,11 @@
   },
   "42" : {
     "command" : "participant1.domains.register(config)",
-    "output" : "ERROR com.digitalasset.canton.integration.EnterpriseEnvironmentDefinition$$anon$3 - Request failed for participant1.\n  GrpcRequestRefusedByServer: FAILED_PRECONDITION/PARTICIPANT_IS_NOT_ACTIVE(9,a8f33dc1): The participant is not yet active\n  Request: RegisterDomain(DomainConnectionConfig(\n  domain = Domain 'mydomain',\n  sequencerConnections = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(endpoints = http://127.0.0.1:30243, transportSecurity = false),\n  manualConnect = false\n))\n  CorrelationId: a8f33dc1d66913231aae43c909d073a5\n  Context: HashMap(participant -> participant1, test -> ManagePermissionedDomainsDocumentationManual, serverResponse -> Domain Domain 'mydomain' has rejected our on-boarding attempt, domain -> mydomain, tid -> a8f33dc1d66913231aae43c909d073a5)\n  Command ParticipantAdministration$domains$.register invoked from cmd10000006.sc:1"
+    "output" : "ERROR com.digitalasset.canton.integration.EnterpriseEnvironmentDefinition$$anon$3 - Request failed for participant1.\n  GrpcRequestRefusedByServer: FAILED_PRECONDITION/PARTICIPANT_IS_NOT_ACTIVE(9,d6425182): The participant is not yet active\n  Request: RegisterDomain(DomainConnectionConfig(\n  domain = Domain 'mydomain',\n  sequencerConnections = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(endpoints = http://127.0.0.1:30217, transportSecurity = false),\n  manualConnect = false\n))\n  CorrelationId: d64251824785d8c837d1e401a7153c1f\n  Context: HashMap(participant -> participant1, test -> ManagePermissionedDomainsDocumentationManual, serverResponse -> Domain Domain 'mydomain' has rejected our on-boarding attempt, domain -> mydomain, tid -> d64251824785d8c837d1e401a7153c1f)\n  Command ParticipantAdministration$domains$.register invoked from cmd10000006.sc:1"
   },
   "37" : {
     "command" : "val config = DomainConnectionConfig(\"mydomain\", sequencer1.sequencerConnection)",
-    "output" : "config : DomainConnectionConfig = DomainConnectionConfig(\n  domain = Domain 'mydomain',\n  sequencerConnections = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(\n    endpoints = http://127.0.0.1:30243,\n    transportSecurity = false\n.."
+    "output" : "config : DomainConnectionConfig = DomainConnectionConfig(\n  domain = Domain 'mydomain',\n  sequencerConnections = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(\n    endpoints = http://127.0.0.1:30217,\n    transportSecurity = false\n.."
   },
   "89" : {
     "command" : "domainManager1.participants.active(participantIdFromString)",

@@ -17,8 +17,8 @@ must be upgraded.
 
 There are two key aspects that need to be addressed when upgrading a system:
 
-- Upgrading the Canton binary that is used to run a node.
-- Upgrading the protocol version (wire format and semantics of the APIs used between the nodes).
+- :ref:`Upgrading the Canton binary<upgrade_canton_binary>` that is used to run a node.
+- :ref:`Upgrading the protocol version<change_pv>` that defines how nodes interact with each other.
 
 Canton is a distributed system, where no single operator controls all nodes. Therefore,
 we must support the situation where nodes are upgraded individually, providing a safe upgrade
@@ -31,28 +31,36 @@ of a protocol used in a distributed Canton network is done by individually upgra
 and subsequently changing the protocol version used among the nodes to the
 desired one.
 
-The following recipe is a general guide. Before upgrading to a specific version, please check the
+The following is a general guide. Before upgrading to a specific version, please check the
 individual notes for each version.
 
 This guide also assumes that the upgrade is a minor or a patch release. Major release upgrades might
 differ and will be covered separately if necessary.
 
-Please read the entire guide before proceeding, please back up your data before you do any upgrade,
-and please test your upgrade carefully before attempting to upgrade your production system.
+.. warning::
+
+    Upgrading requires care and preparation.
+      * **Please back up your data before any upgrade.**
+      * **Please test your upgrade thoroughly before attempting to upgrade your production system.**
+
+.. _upgrade_canton_binary:
 
 Upgrade Canton Binary
 ---------------------
 
 A Canton node consists of one or more processes, where each process is defined by
 
-- A Java Virtual Machine application running a versioned jar of Canton.
+- A Java Virtual Machine application running a versioned JAR of Canton.
 - A set of configuration files describing the node that is being run.
 - An optional bootstrap script passed via ``--boostrap``, which runs on startup.
 - A database (with a specific schema), holding the data of the node.
 
-Therefore, to upgrade the node, you will need to not only replace the jar, but also test that
-the configuration files can still be parsed by the new process, that the bootstrap script you
-are using is still working, and you need to upgrade the database schema.
+To upgrade the node,
+
+#. Replace the Canton binary (which contains the Canton JAR).
+#. Test that the configuration files can still be parsed by the new process.
+#. Test that the bootstrap script you are using is still working.
+#. Upgrade the database schema.
 
 Generally, all changes to configuration files should be backward compatible, and therefore not
 be affected by the upgrade process. In rare cases, there might be a minor change to the configuration
@@ -67,7 +75,7 @@ Preparation
 ~~~~~~~~~~~
 
 First, please download the new Canton binary that you want to upgrade to and store it on the test
-system where you want to test the upgrade process first.
+system where you plan to test the upgrade process.
 
 Then, obtain a recent backup of the database of the node and deploy it to a database server
 of your convenience, such that **you can test the upgrade process without affecting your production system**.
@@ -102,10 +110,12 @@ data by cloning it. In Postgres, the command is:
 When doing this, you need to change the database name and user name in above command to match
 your setup.
 
+.. _test-your-config:
+
 Test your Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-First, test that the configuration still works
+Test that the configuration still works
 
 .. code-block:: bash
 
@@ -117,7 +127,7 @@ to match your case.
 If Canton starts and shows the command prompt of the console, then the configuration was
 parsed successfully.
 
-The command line option ``--manual-start`` will ensure that the node is not started automatically,
+The command line option ``--manual-start`` prevents the node from starting up automatically,
 as we first need to migrate the database.
 
 .. _migrating_the_database:
@@ -159,8 +169,8 @@ Subsequently, you can successfully start the node
 .. snippet:: migrating_participant
     .. success:: participant.start()
 
-Please note that while we've used a participant node here as an example, the behavior
-is the same for all other types of nodes.
+Please note that the procedure remains the same for all other types of nodes,
+with a participant node used here as an example.
 
 Test Your Upgrade
 ~~~~~~~~~~~~~~~~~
@@ -194,6 +204,27 @@ The ping command creates two contracts between the admin parties, then exercises
 Version Specific Notes
 ~~~~~~~~~~~~~~~~~~~~~~
 
+.. _upgrade_to_2.9:
+
+Upgrade to Release 2.9
+^^^^^^^^^^^^^^^^^^^^^^
+
+TODO
+
+Deactivated sync domain data cleanup
+""""""""""""""""""""""""""""""""""""
+Version 2.9 adds a new repair command :ref:`participant.repair.purge_deactivated_domain <repair.purge_deactivated_domain>`
+to delete data of a defunct domain.
+
+Using this command is recommended for removing any remaining but unnecessary data from previous
+sync domains that were migrated using the :ref:`participant.repair.migrate_domain <repair.migrate_domain>`
+command.
+
+Note that the ``migrate_domain`` command in 2.9 now automatically removes such data,
+but only for the sync domain on which it has been invoked.
+
+.. _upgrade_to_2.8:
+
 Upgrade to Release 2.8
 ^^^^^^^^^^^^^^^^^^^^^^
 
@@ -211,7 +242,7 @@ Configuration changes
 The configuration value for the KMS wrapper-key now accepts a simple string.
 Update your configuration as follows:
 
-.. code:: bash
+.. code:: text
 
     crypto.private-key-store.encryption.wrapper-key-id = { str = "..."} # version 2.7
     crypto.private-key-store.encryption.wrapper-key-id = "..." # version 2.8
@@ -220,7 +251,7 @@ Update your configuration as follows:
 **Indexer Schema Migration and Cache Weight Configuration**:
 Remove the following configuration lines related to the indexer and Ledger API server schema migration and cache weight:
 
-.. code:: bash
+.. code:: text
 
     participants.participant.parameters.ledger-api-server-parameters.indexer.schema-migration-attempt-backoff
     participants.participant.parameters.ledger-api-server-parameters.indexer.schema-migration-attempts
@@ -230,7 +261,7 @@ Remove the following configuration lines related to the indexer and Ledger API s
 **SQL Batching Parameter**:
 The expert mode SQL batching parameter has been moved. Generally, we recommend not changing this parameter unless advised by support.
 
-.. code:: bash
+.. code:: text
 
     canton.participants.participant.parameters.stores.max-items-in-sql-clause # version 2.7
     canton.participants.participant.parameters.batching.max-items-in-sql-clause # version 2.8
@@ -246,7 +277,7 @@ It now expects a node reference to perform additional checks.
 To improve consistency and code safety, some testing console commands now expect an optional sync domain alias (rather than a plain sync domain alias).
 For example, the following call needs to be rewritten:
 
-.. code:: bash
+.. code:: text
 
     participant.testing.event_search("da") # version 2.7
     participant.testing.event_search(Some("da")) # version 2.8
@@ -259,7 +290,7 @@ We have reverted the packaging change introduced in version 2.7.0;
 the Bouncy Castle JAR is now included back in the Canton JAR.
 However, users with Oracle JRE must explicitly add the Bouncy Castle library to the classpath when running Canton.
 
-.. code-block:: java
+.. code-block:: text
 
     java -cp bcprov-jdk15on-1.70.jar:canton-with-drivers-2.8.0-all.jar com.digitalasset.canton.CantonEnterpriseApp
 
@@ -275,6 +306,7 @@ Deprecations
 """"""""""""
 ``SequencerConnection.addConnection`` is deprecated. Use ``SequencerConnection.addEndpoints`` instead.
 
+.. _upgrade_to_2.7:
 
 Upgrade to Release 2.7
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -283,7 +315,7 @@ Alternatively, you can enable the new "migrate and start" mode in Canton, which 
 when a new minor version is deployed.
 This mode can be enabled by setting the appropriate storage parameter:
 
-.. code:: bash
+.. code:: text
 
     canton.X.Y.storage.parameters.migrate-and-start = yes
 
@@ -308,7 +340,7 @@ method ``addConnection`` has been renamed to ``addEndpoints`` to better reflect 
 
 Hence, the command to add a new sequencer connection to the mediator would be changed to:
 
-.. code:: bash
+.. code:: text
 
     mediator1.sequencer_connection.modifyConnections(
         _.addEndpoints(SequencerAlias.Default, connection)
@@ -328,7 +360,7 @@ Causality tracking
 """"""""""""""""""
 An obsolete early access feature to enable causality tracking, related to preview multi-sync-domain, was removed. If you enabled it, you need to remove the following config lines, as they will not compile anymore:
 
-.. code:: bash
+.. code:: text
 
     participants.participant.init.parameters.unsafe-enable-causality-tracking = true
     participants.participant.parameters.enable-causality-tracking = true
@@ -374,12 +406,16 @@ Specific error changes are as follows:
 
 * The ``ContractKeyNotVisible`` error (previously encapsulated by ``GenericInterpretationError``) is now transformed into a ``ContractKeyNotFound`` to avoid information leaking.
 
+.. _upgrade_to_2.6:
+
 Upgrade to Release 2.6
 ^^^^^^^^^^^^^^^^^^^^^^
 Version 2.6 changes the database schema used. Therefore, you must perform the
 database migration steps. Depending on the size of the database, this operation can take many hours.
 Vacuuming your database before starting your nodes helps avoid long startup times. Otherwise, the participant
 node can refuse to start due to extremely long initial database response times.
+
+.. _upgrade_to_2.5:
 
 Upgrade to Release 2.5
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -393,7 +429,7 @@ using deprecated flags.
 IMPORTANT: Existing sync domains and sync domain managers need to be reconfigured to keep on working. It is important
 that before attempting the binary upgrade, you configure the currently used protocol version explicitly:
 
-.. code:: bash
+.. code:: text
 
     canton.domains.mydomain.init.domain-parameters.protocol-version = 3
 
@@ -407,12 +443,14 @@ reconnect to the sync domain, as they will fail with a message like:
 
 To recover from this, you need to force a reset of the stored static sync domain parameters using:
 
-.. code:: bash
+.. code:: text
 
     canton.domains.mydomain.init.domain-parameters.protocol-version = 3
     canton.domains.mydomain.init.domain-parameters.reset-stored-static-config = yes
 
 To benefit from protocol version 4, you will have to :ref:`upgrade the sync domain accordingly <canton_domain_protocol_version_upgrading>`.
+
+.. _upgrade_to_2.4:
 
 Upgrade to Release 2.4
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -428,6 +466,8 @@ notes on the specific changes and their impact.
 There was no change to the protocol. Participants and sync domains running 2.3 can also run 2.4, as
 both versions use the same protocol version.
 
+.. _upgrade_to_2.3:
+
 Upgrade to Release 2.3
 ^^^^^^^^^^^^^^^^^^^^^^
 Version 2.3 will slightly extend the database schema used. Therefore, you will have to perform the
@@ -439,7 +479,7 @@ you need to turn on support for the deprecated protocol version.
 
 On the participant, you need to turn on support for deprecated protocols explicitly:
 
-.. code:: bash
+.. code:: text
 
     canton.participants.myparticipant.parameters.minimum-protocol-version = 2.0.0
 
@@ -447,12 +487,14 @@ The default settings have changed to use protocol 3, while existing sync domains
 Therefore, if you upgrade the binary on sync domains and sync domain manager nodes, you need to explicitly
 set the protocol version as follows:
 
-.. code:: bash
+.. code:: text
 
     canton.domains.mydomain.init.domain-parameters.protocol-version = 2.0.0
 
 **You cannot upgrade the protocol of a deployed sync domain!** You need to keep it running with the existing protocol.
 Please follow the protocol upgrade guide to learn how to introduce a new protocol version.
+
+.. _change_pv:
 
 Change the Canton Protocol Version
 ----------------------------------
@@ -476,35 +518,56 @@ side by side with the old sync domain process.
 
 This applies to all sync domain services, be it sequencer, mediator, or topology manager.
 
-Please note that currently, the sync domain ID cannot be preserved during upgrades.
-The new sync domain must have a different sync domain ID because the participant
-associates a sync domain connection with a sync domain ID, and that association
-must be unique.
+With that, the protocol upgrade process boils down to:
 
-Therefore, the protocol upgrade process boils down to:
+#. **Deploy a new sync domain with the new protocol version**
 
-- Deploy a new sync domain next to the old sync domain. Ensure that the new sync domain is using the desired protocol version.
-  Also make sure to use different databases (or at least different schemas in the same database)
-  for the sync domain services (mediator, sequencer node, and topology manager), channel names, smart contract addresses, etc.
-  The new sync domain must be completely separate, but you can reuse your DLT backend as long
-  as you use different sequencer contract addresses or Fabric channels.
-- Instruct the participants individually using the hard sync domain migration to use the new sync domain.
+   Deploy a new sync domain and ensure that the new sync
+   domain is using the desired protocol version.
 
-Note: to use the same database with different schemas for the old and the new sync domain, set the `currentSchema` either in the JDBC URL or as a parameter in `storage.config.properties`.
+   Also make sure to use different databases (or at least different schemas in the same database)
+   for the sync domain services (domain node, mediator, sequencer node, and topology manager), channel names,
+   smart contract addresses, etc.
 
-Hard Synchronization Domain Connection Upgrade
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   The new sync domain must be completely separate, but you can reuse
+   your DLT backend as long as you use different sequencer contract addresses or Fabric channels.
 
-A hard sync domain connection upgrade can be performed using the :ref:`respective migration command <repair.migrate_domain>`.
-Again, please ensure that you have appropriate backups in place and that you have tested this procedure before applying
-it to your production system. You will have to enable these commands using a special config switch:
+#. **Carry out a hard sync domain migration**
 
-.. code:: bash
+   Instruct the participants individually using the :ref:`hard sync domain migration<hard_sync_domain_upgrade>`
+   to use the new sync domain.
+
+.. note::
+
+    Currently, the sync domain ID cannot be preserved during upgrades.
+
+.. note::
+
+    To use the same database with different schemas for the old and the new sync domains,
+    set the ``currentSchema`` either in the JDBC URL or as a parameter in ``storage.config.properties``.
+
+.. _hard_sync_domain_upgrade:
+
+Hard Synchronization Domain Migration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. warning::
+
+    Ensure that you have appropriate backups in place and have tested this procedure before applying
+    it to your production system.
+
+A hard sync domain migration is performed using the :ref:`respective migration command <repair.migrate_domain>`.
+
+.. _enable-repair-commands:
+
+You must enable this command using a special config switch:
+
+.. code:: text
 
     canton.features.enable-repair-commands=yes
 
-The process of a hard migration is quite straightforward. Assuming that we have several participants,
-all connected to a sync domain named ``olddomain``, then ensure that there are no pending transactions.
+Assuming that you have several participants all connected to a sync domain named ``olddomain``,
+ensure that there are no pending transactions.
 You can do that by either controlling your applications, or by
 :ref:`setting the resource limits <resources.set_resource_limits>` to 0 on all participants:
 
@@ -514,14 +577,13 @@ You can do that by either controlling your applications, or by
     .. assert:: { participant.domains.connect_local(olddomain); true }
     .. success:: participant.resources.set_resource_limits(ResourceLimits(Some(0), Some(0)))
 
-This will reject all commands and finish processing the pending commands. Once you are sure that
-your participant node is idle, disconnect the participant node from the old sync domain
-connection:
+This rejects any new command and finishes processing the pending commands. Once you are sure that
+your participant node is idle, disconnect the participant node from the old sync domain:
 
 .. snippet:: migrating_protocol
     .. success:: participant.domains.disconnect("olddomain")
 
-Test that the sync domain is disconnected by checking the list of active connections:
+Test that the participant is disconnected from the sync domain by checking the list of active connections:
 
 .. snippet:: migrating_protocol
     .. success:: participant.domains.list_connected()
@@ -533,9 +595,15 @@ This is a good time to perform a backup of the database before proceeding:
 
     CREATE DATABASE newdb WITH TEMPLATE originaldb OWNER dbuser;
 
+.. warning::
+
+    Following steps modify the participant's data storage.
+    Without a database backup for your participant, a potential recovery becomes
+    significantly more difficult.
+
 Next, we want to run the migration step. For this, we need to run the ``repair.migrate_domain`` command.
 The command expects two input arguments: The alias of the source sync domain and a sync domain connection
-configuration describing the new sync domain.
+configuration for the new sync domain.
 
 In order to build a sync domain connection config, we can just type
 
@@ -554,10 +622,10 @@ Now, using this configuration object, we can trigger the hard sync domain connec
 .. snippet:: migrating_protocol
     .. success:: participant.repair.migrate_domain("olddomain", config)
 
-This command will register the new sync domain and re-associate the contracts tied to ``olddomain`` to
-the new sync domain.
+This command registers the new sync domain and re-associate the contracts tied to ``olddomain`` to
+the new sync domain. In addition, some data specific to the old domain is automatically deleted.
 
-Once all participants have performed the migration, they can reconnect to the sync domain
+Once all participants have performed the migration, they can reconnect to the sync domain:
 
 .. snippet:: migrating_protocol
     .. success:: participant.domains.reconnect_all()
@@ -568,24 +636,23 @@ Now, the new sync domain should be connected:
     .. success:: participant.domains.list_connected()
     .. assert:: participant.domains.list_connected().map(_.domainAlias.unwrap) == Seq("newdomain")
 
-As we've previously set the resource limits to 0, we need to reset this back
+As we've previously set the resource limits to 0, we need to reset this back:
 
 .. snippet:: migrating_protocol
     .. success:: participant.resources.set_resource_limits(ResourceLimits(None, None))
 
-Finally, we can test that the participant can process a transaction by running a ping on the new sync domain
+Finally, we can test that the participant can process a transaction by running a ping on the new sync domain:
 
 .. snippet:: migrating_protocol
     .. success:: participant.health.ping(participant)
 
 .. note::
 
-    Note that currently, the hard migration is the only supported way to migrate a production system.
+    Currently, the hard migration is the only supported way to migrate a production system.
     This is because unique contract keys are restricted to a single sync domain.
 
 While the sync domain migration command is mainly used for upgrading, it can also be used to recover
-contracts associated with a broken sync domain. Sync domain migrations can be performed back and forth,
-allowing you to roll back in case of issues.
+contracts associated with a broken sync domain.
 
 After the upgrade, the participants may report a mismatch between commitments during the first commitment
 exchange, as they might have performed the migration at slightly different times. The warning should
@@ -605,46 +672,80 @@ the upgrade test to understand the necessary downtime required for the migration
 Furthermore, upon reconnecting, the participant needs to recompute the new set of commitments. This can take
 a while for large numbers of contracts.
 
-Soft Synchronization Domain Connection Upgrade
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. _one_step_migration:
 
-.. note ::
+One-Step Migration
+------------------
 
-    The soft sync domain connection upgrade is currently only supported as an alpha feature.
+The *one-step migration* covers a :ref:`binary upgrade <upgrade_canton_binary>` from Canton version 2.3 and following minor versions
+up to this minor release version. Additionally, it :ref:`changes the protocol version <change_pv>` supported by
+these prior releases to a protocol version supported by this minor release version
+(see also the :ref:`protocol version table <release-version-to-protocol-version-table>`).
 
-The hard sync domain connection upgrade requires coordination among all participants in a network. The
-soft sync domain connection upgrade is operationally much simpler, and can be leveraged using multi-sync-domain
-support (which exists as a pre-alpha feature only for now). By turning off non-unique contract keys,
-participants can connect to multiple sync domains and transfer contracts between sync domains. This allows us to avoid using the ``repair.migrate_domain`` step.
+.. note::
 
-Assuming the same setup as before, where the participant is connected to the old sync domain,
-we can just connect it to the new sync domain
+    There is no need for a one-step migration when upgrading from one release version to another, as long
+    as both :ref:`release versions support the protocol version <release-version-to-protocol-version-table>`
+    that your current sync domain uses.
+    Follow the steps for :ref:`upgrading the Canton binary <upgrade_canton_binary>` instead.
 
-.. snippet:: soft_migration_with_transfer
-    .. assert:: { participant.db.migrate(); true }
-    .. assert:: { participant.start(); true }
-    .. assert:: { participant.domains.connect_local(olddomain); true }
-    .. success:: participant.domains.connect_local(newdomain)
-    .. assert:: participant.domains.list_connected().map(_.domainAlias.unwrap).toSet == Set("newdomain", "olddomain")
+.. warning::
 
-Give the new connection precedence over the old connection by changing the ``priority`` flag of the new
-sync domain connection:
+    Every upgrade requires specific and thorough testing before applying it to a particular production
+    environment. Even though the one-step migration process has been tested through automatic and manual
+    tests, and its steps are known to work, additional measures and configuration may be required to
+    address the peculiarities of your environment.
 
-.. snippet:: soft_migration_with_transfer
-    .. success:: participant.domains.modify("newdomain", _.copy(priority=10))
+One-Step Migration Recipe for 2.9
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+General recipe to migrate from a sync domain running on a :ref:`2.3 <upgrade_to_2.3>`,
+:ref:`2.4 <upgrade_to_2.4>`, :ref:`2.5 <upgrade_to_2.5>`, :ref:`2.6 <upgrade_to_2.6>`,
+:ref:`2.7 <upgrade_to_2.7>` or :ref:`2.8 <upgrade_to_2.8>` release and protocol
+version 3 or 4 to a new sync domain running on the 2.9 release and protocol version 5:
 
-You can check the priority settings of the sync domains using
+.. note::
 
-.. snippet:: soft_migration_with_transfer
-    .. success:: participant.domains.list_registered().map { case (c,_) => (c.domain, c.priority) }
+    Although version 2.9 supports other protocol versions, it is recommended to use protocol version 5.
 
-Existing contracts will not automatically move over to the new sync domain. The sync domain router will
-pick the sync domain by minimizing the number of transfers and the priority. Therefore, most contracts
-will remain on the old sync domain without additional action. However, by using
-the :ref:`transfer command <transfer.execute>`, contracts can be moved over to the new sync domain
-one by one, such that eventually, all contracts are associated with the new sync domain, allowing
-the old sync domain to be decommissioned and turned off.
+#. Start a new sync domain running protocol version 5
+#. :ref:`Halt activity on the old sync domain <halt-activity-current-domain>`
+#. Wait for pending transactions to complete or time out
+#. Backup the current sync domain including participants
+#. Participants: Upgrade the binary to 2.9
+#. Participants: :ref:`Enable repair commands <enable-repair-commands>`
+#. All nodes: :ref:`Test the configuration <test-your-config>` considering this :ref:`additional change <test-your-config-details>` if your old domain runs protocol version 3.
+#. All nodes: :ref:`Apply the DB migrations <migrating_the_database>`
+#. Participants: Connect to the new sync domain, then disconnect from all domains
+#. Participants: Invoke :ref:`command<repair.migrate_domain>` ``repair.migrate_domain``
+#. Participants: Reconnect to the new sync domain
+#. Decommission the old domain
 
-The soft upgrade path provides a smooth user experience that does not require a hard migration of the sync domain connection to be 
-coordinated across all participants. Instead, participants upgrade individually, whenever they
-are ready, allowing them to reverse the process if needed.
+.. _halt-activity-current-domain:
+
+Halt activity on the current sync domain
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+For a sync domain running protocol version 4 and above, set the
+:ref:`dynamic domain parameter <dynamic_domain_parameters>` ``maxRatePerParticipant``
+to 0 on each participant.
+
+Otherwise, use
+
+.. code-block:: text
+
+    participant.resources.set_resource_limits(ResourceLimits(Some(0), Some(0)))
+
+to set the resource limits to 0 on each participant.
+
+.. _test-your-config-details:
+
+Test the configuration - Additional change if you were running protocol version 3
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+When migrating from protocol version 3, which uses an unauthenticated contract id scheme,
+you may need to specifically allow it on the participants.
+
+.. code-block:: text
+
+    canton.participants.<nodeName>.parameters.allow-for-unauthenticated-contract-ids=true
+
+Please adjust ``<nodeName>`` to match your case.
