@@ -15,8 +15,8 @@ Similarly to a domain, a participant node can either be initialized automaticall
 or manually. Managing the initialization manually is particularly useful when a participant:
 
 1. Does not control its own identity;
-2. When we do not want to store its identity key on the node for security reasons;
-3. When we want to set a participant's keys by ourselves.
+2. When you do not want to store its identity key on the node for security reasons;
+3. When you want to set a participant's keys by yourself.
 
 If you want to disable the automatic initialization of a participant node you have to set:
 

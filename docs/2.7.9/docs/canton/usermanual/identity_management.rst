@@ -714,7 +714,7 @@ Manually Initializing a Node
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 There are situations where a node should not be automatically initialized, but where we prefer to control
 each step of the initialization. For example, when a node in the setup does
-not control its own identity, or when we do not want to store the identity key on the node for security
+not control its own identity, or when you do not want to store the identity key on the node for security
 reasons.
 
 In the following, we demonstrate the basic steps how to initialise a node:

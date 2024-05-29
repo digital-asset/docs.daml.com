@@ -22,7 +22,7 @@ by a single operator, because it is a transparent process for the other operator
 old and new domain have to use the same protocol version and the original root namespace key must be kept safe to allow
 the future migration to a new protocol version.
 The second option re-writes the contracts with new party identifiers in line with the new participant namespace.
-Therefore, we do not need to preserve the original root namespace key for a future migration. This works even if the
+Therefore, you do not need to preserve the original root namespace key for a future migration. This works even if the
 domain nodes don't share the same protocol version. However, for it to work, a single operator must control all the
 contracts or all participant operators have to agree on this rewrite.
 

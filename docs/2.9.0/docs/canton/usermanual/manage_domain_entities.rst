@@ -16,7 +16,7 @@ it will have a sequencer and mediator embedded and these components will be auto
 
 However, there are situations where a node should not be automatically initialized, but where we prefer to control
 each step of the initialization. For example, when a node in the setup does
-not control its own identity, when we do not want to store the identity key on the node for security
+not control its own identity, when you do not want to store the identity key on the node for security
 reasons, or when we want to set our own keys (e.g. when keys are externally stored in a Key Management Service - KMS).
 
 If you want to disable the automatic initialization of domain nodes you have to set:
