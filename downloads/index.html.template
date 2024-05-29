@@ -3,14 +3,131 @@
   <head>
     <meta charset="utf-8">
     <title>Daml Enterprise Downloads</title>
-    <link rel="stylesheet" href="/_static/css/theme.css">
+    <link rel="stylesheet" href="downloads.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet" type="text/css">
   </head>
   <body>
-    <h1>Daml Enterprise Downloads</h1>
-    <ul>
-    <% for (v of versions) { %>
-      <li><a href="./<%= v.version %>.html">Version <%= v.version %></a></li>
-    <% }%>
-    </ul>
+  <div id="navbar">
+    <div class="left">
+      <img src="https://docs.daml.com/_static/images/Daml_Logo_Blue.svg">
+      <span>Downloads</span>
+    </div>
+    <div class=right>
+      <a href="https://docs.daml.com">Go Back to Docs</a>
+    </div>
+  </div>
+  <div id="banner">
+    <h1>Downloads</h1>
+    <span>The files you need to get started with Daml</span>
+  </div>
+  <div id="content">
+    <div class="dropdown">
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Component</th>
+          <th scope="col">File Downloads</th>
+          <th scope="col">Container Image</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+  <script>
+    var versions = <%- JSON.stringify(versions) %>;
+
+    var dropdown_ctn = document.querySelector("#content > .dropdown");
+    var table_parent = document.querySelector("#content table tbody");
+
+    var dropdown_opened = false;
+    var selected_version = "<%= default_version %>";
+
+    function close_dropdown() {
+      dropdown_opened = false;
+      refresh_dropdown();
+    }
+
+    function open_dropdown() {
+      dropdown_opened = true;
+      refresh_dropdown();
+    }
+
+    function toggle_dropdown() {
+      dropdown_opened = ! dropdown_opened;
+      refresh_dropdown();
+    }
+
+    function select_version(version) {
+      return () => {
+        selected_version = version;
+        dropdown_opened = false;
+        refresh_dropdown();
+        refresh_table();
+      };
+    }
+
+    window.addEventListener("click", (e) => {
+      var has_class = (node, c) => node.classList && node.classList.contains(c);
+      if(e.composedPath().filter(n => has_class(n, "select") || has_class(n, "options")).length == 0) {
+        close_dropdown();
+      }
+    });
+
+    function data_to_elements(d) {
+      if (typeof d == "string") {
+        return document.createTextNode(d);
+      }
+      var e;
+      if (typeof d[0] == "string") {
+        e = document.createElement(d[0]);
+      } else {
+        e = document.createElement(d[0]["tag"]);
+        for ([k, v] of Object.entries(d[0])) {
+          if (k != "tag") {
+            if (k.slice(0, 2) == "on") {
+              e.addEventListener(k.slice(2), v);
+            } else {
+              e.setAttribute(k, v);
+            }
+          }
+        }
+      }
+      for (var child of d.splice(1).map(data_to_elements)) {
+        e.appendChild(child);
+      }
+      return e;
+    }
+
+    function refresh_table() {
+      var new_version = versions.filter((v) => v.version == selected_version).at(0);
+      var new_table = new_version.components
+                                 .map((c) => ["tr",
+                                              ["td", ["div", c.name]],
+                                              ["td", ["div"].concat(c.files.map((f) => [{tag: "a", href: f.url}, f.name]))],
+                                              ["td", ["div", c.docker]]])
+                                 .map(data_to_elements);
+      table_parent.replaceChildren(...new_table);
+    }
+
+    function refresh_dropdown() {
+          var new_dropdown = [[{tag: "div", class: "label"}, "Release Version:"],
+                              [{tag: "div", class: "select" + (dropdown_opened ? " opened" : ""), tabindex: 0, onclick: toggle_dropdown},
+                               [{tag: "div", class: "version"}, "Version " + selected_version],
+                               [{tag: "img", src: dropdown_opened ? "up.svg" : "down.svg"}]],
+                              [{tag: "div", class: "menu-ctn"},
+                               [{tag: "div", class: "menu" + (dropdown_opened ? " opened" : "")},
+                                [{tag: "div", class: "options"}]
+                                 .concat(versions.map((v) => [{tag: "div", class: "option", onclick: select_version(v.version)},
+                                                              [{tag: "div", class: "version"}, "Version " + v.version]]
+                                                              .concat(v.version == selected_version ? [[{tag: "img", src: "check.svg"}]] : [])))]]]
+                             .map(data_to_elements);
+      dropdown_ctn.replaceChildren(...new_dropdown);
+    }
+
+    refresh_table();
+    refresh_dropdown();
+  </script>
   </body>
 </html>

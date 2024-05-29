@@ -118,7 +118,11 @@ Such a connection can be configured using the ``connect_multi``:
     .. success:: participant3.domains.connect_multi("mydomain", Seq(sequencer1, sequencer2))
     .. assert:: { participant3.health.ping(participant3); true }
 
-In such a setting, if a sequencer node goes down, the participant will round-robin through the available list of sequencers.
+On the read side, the participant will establish a subscription to one available sequencer to subscribe to the stream of
+encrypted messages. If the sequencer fails, the participant will automatically attempt to resubscribe to the next available
+sequencer. On the write path, the participant will send requests to all available sequencers in a round-robin manner, circling
+through the available sequencers. The same connectivity behavior applies to the domain manager and the mediator.
+
 The :ref:`reference documentation <domains.connect_multi>` provides further information on how to
 connect to highly available sequencers, and the :ref:`high availability guide <ha_user_manual>` has instructions
 on how to set up highly available sync domains.

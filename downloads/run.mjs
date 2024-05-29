@@ -47,19 +47,40 @@ async function list(version) {
 const components = [{name: "Daml SDK",
                      files: [{name: "Linux tar.gz", pattern: /^daml-sdk-.*-linux-ee\.tar\.gz$/},
                              {name: "macOS tar.gz", pattern: /^daml-sdk-.*-macos-ee\.tar\.gz$/},
-                             {name: "Windows installer", pattern: /^daml-sdk-.*windows-ee\.exe$/}]},
-                    {name: "Canton", files: [{name: "jar", pattern: /^canton-.*-ee\.jar$/}]},
-                    {name: "Daml Finance", files: [{name: "tar.gz", pattern: /^daml-finance-.*-ee\.tar\.gz$/}]},
-                    {name: "Daml Script", files: [{name: "jar", pattern: /^daml-script-.*-ee\.jar$/}]},
-                    {name: "HTTP JSON API", files: [{name: "jar", pattern: /^http-json-.*-ee\.jar$/}]},
-                    {name: "OAuth2 Middleware", files: [{name: "jar", pattern: /^oauth2-middleware-.*-ee\.jar$/}]},
-                    {name: "Participant Query Store", files: [{name: "Scribe jar", pattern: /^participant-query-store-.*-ee\.jar$/}]},
-                    {name: "Trigger Runner", files: [{name: "jar", pattern: /^trigger-runner-.*-ee\.jar$/}]},
-                    {name: "Trigger Service", files: [{name: "jar", pattern: /^trigger-service-.*-ee\.jar$/}]}]
+                             {name: "Windows installer", pattern: /^daml-sdk-.*windows-ee\.exe$/}],
+                     docker: "todo"},
+                    {name: "Canton",
+                     files: [{name: "jar", pattern: /^canton-.*-ee\.jar$/}],
+                     docker: "todo"},
+                    {name: "Daml Finance",
+                     files: [{name: "tar.gz", pattern: /^daml-finance-.*-ee\.tar\.gz$/}],
+                     docker: "todo"},
+                    {name: "Daml Script",
+                     files: [{name: "jar", pattern: /^daml-script-.*-ee\.jar$/}],
+                     docker: "todo"},
+                    {name: "HTTP JSON API",
+                     files: [{name: "jar", pattern: /^http-json-.*-ee\.jar$/}],
+                     docker: "todo"},
+                    {name: "OAuth2 Middleware",
+                     files: [{name: "jar", pattern: /^oauth2-middleware-.*-ee\.jar$/}],
+                     docker: "todo"},
+                    {name: "Participant Query Store",
+                     files: [{name: "Scribe jar", pattern: /^participant-query-store-.*-ee\.jar$/}],
+                     docker: "todo"},
+                    {name: "Trigger Runner",
+                     files: [{name: "jar", pattern: /^trigger-runner-.*-ee\.jar$/}],
+                     docker: "todo"},
+                    {name: "Trigger Service",
+                     files: [{name: "jar", pattern: /^trigger-service-.*-ee\.jar$/}],
+                     docker: "todo"}]
 
 const index_template = fs.readFileSync('index.html.template', 'utf8');
-const version_template = fs.readFileSync('version.html.template', 'utf8');
-const data = await Promise.all(fs.readFileSync('published_versions', 'utf8').split('\n').slice(0, -1).map(async (v) => {
+const default_version = fs.readFileSync('../root', 'utf8').trim();
+const data = await Promise.all(fs.readFileSync('../dropdown_versions', 'utf8')
+                                 .split('\n')
+                                 .slice(0, -1)
+                                 .filter((v) => !v.startsWith("1."))
+                                 .map(async (v) => {
   const all_files = await list(v);
   return {version: v,
           components: components.map((c) => {
@@ -69,12 +90,10 @@ const data = await Promise.all(fs.readFileSync('published_versions', 'utf8').spl
                       url: d_url(v, file[0]),
                       signature: d_url(v, file[0] + ".asc")};
             });
-            return {name: c.name, files};})};
+            return {name: c.name, files, docker: c.docker};})};
 }));
 
-const index = ejs.render(index_template, {versions: data});
-const versions = data.map((v) => ({version: v.version,
-                                   rendered: ejs.render(version_template, {v: v})}));
+const index = ejs.render(index_template, {versions: data, default_version});
 
 const output_dir = __dirname + '/out';
 
@@ -84,6 +103,6 @@ if (fs.existsSync(output_dir)) {
 
 fs.mkdirSync(output_dir);
 fs.writeFileSync(output_dir + '/index.html', index);
-for (v of versions) {
-  fs.writeFileSync(output_dir + "/" + v.version + ".html", v.rendered);
-}
+for (var static_file of ["downloads.css", "down.svg", "up.svg", "check.svg"]) {
+  fs.copyFileSync(static_file, "out/" + static_file)
+};

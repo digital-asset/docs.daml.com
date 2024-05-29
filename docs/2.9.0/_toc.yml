@@ -7,15 +7,16 @@ subtrees:
 - caption: "Home"
   entries:
 
-  - file: high-level-intro
-    title: "Introduction to Multi-Party Applications"
+  - file: multiparty-application-intro
+    title: "Introduction to Multi-Party Applications and Daml"
 
 - caption: "Set Up Your Developer Environment"
   entries:
 
   - file: ops/requirements
+    title: "System Requirements"
   - file: getting-started/installation
-    title: "Installation"
+    title: "Install the SDK"
   - file: getting-started/path-variables
     title: "Set JAVA_HOME and PATH Variables"
   - file: getting-started/manual-download
@@ -25,7 +26,7 @@ subtrees:
   entries:
 
   - file: getting-started/index
-    title: "Getting Started"
+    title: "Getting Started with Daml"
   - file: getting-started/app-architecture
     title: "App Architecture"
   - file: getting-started/first-feature
@@ -37,7 +38,7 @@ subtrees:
   entries:
 
   - file: daml/considerations
-    title: "Introduction"
+    title: "Important Considerations When Building Applications With Daml"
   - file: create-daml-apps/intro/index
     title: "Write Smart Contracts with Daml"
     subtrees:
@@ -45,23 +46,23 @@ subtrees:
       titlesonly: True
       entries:
       - file: daml/intro/0_Intro
-        title: "Introduction"
-      - file: daml/intro/1_Token
+        title: "An Introduction to Daml"
+      - file: daml/intro/1_Contracts
         title: "Basic Contracts"
       - file: daml/intro/2_DamlScript
-        title: "Test Templates With Daml Script"
+        title: "Test Templates Using Daml Script"
       - file: daml/intro/3_Data
         title: "Data Types"
       - file: daml/intro/4_Transformations
         title: "Transform Data Using Choices"
-      - file: daml/intro/5_Restrictions
+      - file: daml/intro/5_Constraints
         title: "Add Constraints to a Contract"
       - file: daml/intro/6_Parties
         title: "Parties and Authority"
       - file: daml/intro/7_Composing
         title: "Composing Choices"
       - file: daml/intro/13_Interfaces
-        title: "Interfaces"
+        title: "Daml Interfaces"
       - file: daml/intro/8_Exceptions
         title: "Exception Handling"
       - file: daml/intro/9_Dependencies
@@ -73,7 +74,7 @@ subtrees:
       - file: daml/patterns
         title: "Good Design Patterns"
         entries:
-        - file: daml/patterns/initaccept
+        - file: daml/patterns/propose-accept
           title: "The Propose and Accept Pattern"
         - file: daml/patterns/multiparty-agreement
           title: "The Multiple Party Agreement Pattern"
@@ -95,7 +96,7 @@ subtrees:
         - file: daml/patterns/legends
           title: "Diagram Legends"
       - file: daml/intro/12_Testing
-        title: "Testing"
+        title: "Test Daml Contracts"
       - file: daml/intro/99_NextSteps
         title: "Next Steps"
   - file: create-daml-apps/off-ledger/index
@@ -105,9 +106,9 @@ subtrees:
       titlesonly: True
       entries:
       - file: building-applications
-        title: "Introduction"
+        title: "Build Applications"
       - file: app-dev/app-arch
-        title: "Architectural Patterns"
+        title: "Daml Application Architecture"
       - file: app-dev/parties-users
         title: "Parties and Users On a Daml Ledger"
       - file: create-daml-apps/off-ledger/json-api/index
@@ -117,13 +118,13 @@ subtrees:
           titlesonly: True
           entries:
           - file: json-api/index
-            title: "Overview"
+            title: "HTTP JSON API Service"
           - file: json-api/lf-value-specification
             title: "Daml-LF JSON Encoding"
           - file: json-api/search-query-language
             title: "Query Language"
           - file: app-dev/bindings-ts/index
-            title: "Javascript Client Libraries"
+            title: "Use JavaScript Client Libraries with Daml"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -137,13 +138,13 @@ subtrees:
               - file: app-dev/bindings-ts/daml-types
                 title: "@daml/types"
           - file: create-daml-apps/off-ledger/json-api/production-setup/index
-            title: "Production Setup"
+            title: "JSON API Production Setup"
             subtrees:
             - hidden: False
               titlesonly: True
               entries:
               - file: json-api/production-setup
-                title: "Overview"
+                title: "Production Setup"
               - file: json-api/production-setup/query-store
                 title: "Query Store"
               - file: json-api/production-setup/security-and-privacy
@@ -169,7 +170,7 @@ subtrees:
             - file: app-dev/bindings-java/codegen
               title: "Generate Java Code from Daml"
             - file: app-dev/bindings-java/example
-              title: "Ping Pong Example"
+              title: "Java Bindings Example Project"
             - file: app-dev/bindings-java/quickstart
               title: "Iou Quickstart Tutorial"
             - file: app-dev/bindings-java/open-tracing
@@ -219,7 +220,7 @@ subtrees:
       - file: app-dev/authorization
         title: "Authorization"
       - file: app-dev/explicit-contract-disclosure
-        title: "Explicit Contract Disclosure (Beta)"
+        title: "Explicit Contract Disclosure"
   - file: daml/resource-management/index
     subtrees:
     - hidden: False
@@ -256,11 +257,11 @@ subtrees:
           titlesonly: True
           entries:
           - file: tools/assistant-install
-            title: "Manage Versions"
+            title: "Manage SDK Versions"
           - file: tools/assistant-build
-            title: "Build Projects"
+            title: "Build Daml Projects"
           - file: tools/assistant-commands
-            title: "Run Commands"
+            title: "Run Assistant Commands"
       - file: tools/daml-shell/index
         title: "Daml Shell"
       - file: tools/canton-console
@@ -285,7 +286,7 @@ subtrees:
   maxdepth: 0
   entries:
   - file: daml-finance/index
-    title: "Introduction"
+    title: "Daml Finance Documentation"
   - file: daml-finance/overview/index
     title: "Overview"
     subtrees:
@@ -320,15 +321,15 @@ subtrees:
     - file: daml-finance/instruments/token
       title: "Token Instrument"
     - file: daml-finance/instruments/bond
-      title: "Bond Instruments"
+      title: "Bond Instrument"
     - file: daml-finance/instruments/equity
-      title: "Equity Instruments"
+      title: "Equity Instrument"
     - file: daml-finance/instruments/option
-      title: "Option Instruments"
+      title: "Option Instrument"
     - file: daml-finance/instruments/structured-product
-      title: "Structured Products"
+      title: "Structured Product"
     - file: daml-finance/instruments/swap
-      title: "Swap Instruments"
+      title: "Swap Instrument"
     - file: daml-finance/instruments/generic
       title: "Generic Instrument"
       entries:
@@ -717,7 +718,7 @@ subtrees:
         title: "Payoff Modeling"
         entries:
         - file: daml-finance/tutorials/payoff-modeling/basic-builders
-          title: "Basic builders"
+          title: "Basic Builders"
         - file: daml-finance/tutorials/payoff-modeling/observations
           title: "Observations"
       - file: daml-finance/tutorials/advanced-topics/intro
@@ -726,7 +727,7 @@ subtrees:
         - file: daml-finance/tutorials/advanced-topics/lifecycling/intermediated-lifecycling
           title: "Intermediated Lifecycling of an Instrument"
         - file: daml-finance/tutorials/advanced-topics/instrument-modeling/contingent-claims-instrument
-          title: "Leverage Contingent Claims in custom Instrument implementations"
+          title: "Leverage Contingent Claims in Custom Instrument Implementations"
         - file: daml-finance/tutorials/advanced-topics/instrument-modeling/date-utilities
           title: "Date Utility Functions: Calendar, Schedule, and Day Count"
   - file: daml-finance/reference/index
@@ -1155,15 +1156,15 @@ subtrees:
   entries:
 
   - file: deploy-daml/intro/index
-    title: "Introducing Canton"
+    title: "Canton"
     subtrees:
     - hidden: False
       titlesonly: True
       entries:
       - file: canton/about
-        title: "Introducing Canton"
+        title: "Introduction to Canton"
       - file: canton/architecture/overview
-        title: "Canton Overview"
+        title: "Overview and Assumptions"
       - file: canton/tutorials/demo
         title: "Canton Demo"
       - file: canton/tutorials/getting_started
@@ -1173,7 +1174,7 @@ subtrees:
       - file: canton/tutorials/composability
         title: "Composability"
       - file: canton/usermanual/versioning
-        title: "Compatibility Matrix and Supported Dependencies"
+        title: "Versioning"
   - file: canton/usermanual/downloading
     title: "Download and Install Canton"
     subtrees:
@@ -1181,7 +1182,7 @@ subtrees:
       titlesonly: True
       entries:
       - file: canton/usermanual/installation
-        title: "Basic Installation"
+        title: "Install Canton"
       - file: canton/usermanual/docker
         title: "Work With the Docker Containers"
       - file: canton/usermanual/static_conf
@@ -1239,7 +1240,7 @@ subtrees:
       - file: canton/usermanual/command_line
         title: "Use the Canton Command Line"
       - file: canton/usermanual/console
-        title: "Console Quickstart"
+        title: "Canton Console"
       - file: canton/reference/console
         title: "Console Commands"
   - file: canton/usermanual/monitoring
@@ -1250,11 +1251,11 @@ subtrees:
     - file: canton/usermanual/monitoring_glossary
       title: "Glossary"
   - file: query/pqs-user-guide
-    title: "Querying and Accessing Ledger Data"
+    title: "Participant Query Store User Guide"
   - file: canton/usermanual/identity_management
     title: "Identity Management"
   - file: operate-a-daml-ledger/common-tasks/index
-    title: "Common Tasks"
+    title: "Common Operational Tasks"
     subtrees:
     - hidden: False
       titlesonly: True
@@ -1274,7 +1275,7 @@ subtrees:
           titlesonly: True
           entries:
             - file: canton/usermanual/kms/kms_setup
-              title: "Configure a KMS"
+              title: "Canton Configuration of a KMS"
               subtrees:
                 - hidden: False
                   titlesonly: True
@@ -1284,25 +1285,25 @@ subtrees:
                     - file: canton/usermanual/kms/kms_gcp_setup
                       title: "Configure Google Cloud Provider (GCP) KMS"
             - file: canton/usermanual/kms/encrypted_private_key_storage/encrypted_private_key_storage
-              title: "Configure Encrypted Private Key Storage with a KMS"
+              title: "Configure Encrypted Private Key Storage with a Key Management Service (KMS)"
               subtrees:
                 - hidden: False
                   titlesonly: True
                   entries:
                     - file: canton/usermanual/kms/encrypted_private_key_storage/encrypted_private_key_storage_aws
-                      title: "AWS Setup guide"
+                      title: "Configure Encrypted Private Key Storage with AWS KMS"
                     - file: canton/usermanual/kms/encrypted_private_key_storage/encrypted_private_key_storage_gcp
-                      title: "GCP Setup guide"
+                      title: "Configure Encrypted Private Key Storage with GCP KMS"
             - file: canton/usermanual/kms/external_key_storage/external_key_storage
-              title: "Configure External Key Storage with a KMS"
+              title: "Configure External Key Storage with a Key Management Service (KMS)"
               subtrees:
                 - hidden: False
                   titlesonly: True
                   entries:
                     - file: canton/usermanual/kms/external_key_storage/external_key_storage_aws
-                      title: "AWS Setup guide"
+                      title: "Configure External Key Storage with AWS KMS"
                     - file: canton/usermanual/kms/external_key_storage/external_key_storage_gcp
-                      title: "GCP Setup guide"
+                      title: "Configure External Key Storage with GCP KMS"
                     - file: canton/usermanual/kms/external_key_storage/interoperability
                       title: "Interoperability with other nodes"
                     - file: canton/usermanual/kms/external_key_storage/participant_kms_migration/participant_kms_migration
@@ -1321,7 +1322,7 @@ subtrees:
   - file: canton/usermanual/performance
     title: "Scaling and Performance"
   - file: operate-a-daml-ledger/advanced-operations/index
-    title: "Advanced Operations"
+    title: "Advanced Ledger Operations"
     subtrees:
     - hidden: False
       titlesonly: True
@@ -1345,6 +1346,7 @@ subtrees:
       - file: canton/usermanual/repairing
         title: "Repair Nodes"
   - file: canton/usermanual/troubleshooting_guide
+  - file: canton/usermanual/support_checklist
 
 
 - caption: "Help"
@@ -1355,7 +1357,7 @@ subtrees:
   - file: daml/troubleshooting
     title: "Troubleshooting"
   - file: support/support
-    title: "Getting Help"
+    title: "Get Help"
   - file: support/compatibility
     title: "Portability, Compatibility, and Support Durations"
   - file: support/overview
@@ -1363,8 +1365,6 @@ subtrees:
     entries:
     - file: support/status-definitions
       title: "Status Definitions"
-    - file: support/component-statuses
-      title: "Feature and Component Statuses"
   - file: support/releases
     title: "Releases and Versioning"
 
@@ -1374,14 +1374,14 @@ subtrees:
   - file: concepts/glossary
     title: "Glossary of Concepts"
   - file: reference/example-applications
-    title: "Example Applications"
+    title: "Daml Example Applications"
   - file: reference/daml-language-references
-    title: "Daml Language"
+    title: "Daml Language References"
     subtrees:
     - hidden: False
       entries:
       - file: reference/cheat-sheet
-        title: "Cheat Sheet"
+        title: "Daml Language Cheat Sheet"
       - file: daml/reference/index
         title: "Language Reference"
         subtrees:
@@ -1390,29 +1390,29 @@ subtrees:
           - file: daml/reference/structure
             title: "Overview: Template Structure"
           - file: daml/reference/templates
-            title: "Templates"
+            title: "Reference: Templates"
           - file: daml/reference/choices
-            title: "Choices"
+            title: "Reference: Choices"
           - file: daml/reference/updates
-            title: "Updates"
+            title: "Reference: Updates"
           - file: daml/reference/data-types
-            title: "Data types"
+            title: "Reference: Data types"
           - file: daml/reference/working-with
-            title: "Built-in functions"
+            title: "Reference: Built-in functions"
           - file: daml/reference/expressions
-            title: "Expressions"
+            title: "Reference: Expressions"
           - file: daml/reference/functions
-            title: "Functions"
+            title: "Reference: Functions"
           - file: daml/reference/file-structure
-            title: "File structure"
+            title: "Reference: File structure"
           - file: daml/reference/packages
-            title: "Packages"
+            title: "Reference: Packages"
           - file: daml/reference/contract-keys
-            title: "Contract keys"
+            title: "Reference: Contract keys"
           - file: daml/reference/exceptions
-            title: "Exceptions"
+            title: "Reference: Exceptions"
           - file: daml/reference/interfaces
-            title: "Interfaces"
+            title: "Reference: Interfaces"
       - file: daml/stdlib/index
         title: "The Standard Library"
         subtrees:
@@ -1494,14 +1494,14 @@ subtrees:
           - file: daml/stdlib/GHC-Tuple-Check
             title: "GHC.Tuple.Check"
       - file: daml-script/api/index
-        title: "Script Library"
+        title: "Daml Script Library"
         subtrees:
         - hidden: False
           titlesonly: True
           entries:
             - file: daml-script/api/Daml-Script
       - file: triggers/api/index
-        title: "Trigger Library"
+        title: "Daml Trigger Library"
         subtrees:
         - hidden: False
           titlesonly: True
@@ -1511,7 +1511,7 @@ subtrees:
             - file: triggers/api/Daml-Trigger-Assert
             - file: triggers/api/Daml-Trigger-LowLevel
   - file: reference/daml-ledger-references
-    title: "Daml Ledger"
+    title: "Daml Ledger References"
     subtrees:
     - hidden: False
       entries:

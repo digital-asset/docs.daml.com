@@ -65,8 +65,8 @@ manager, the sequencer and mediator are aggregated into a single entity and depl
    :dedent:
 
 
-Setting up a Distributed Synchronization Domain With a Single Console
----------------------------------------------------------------------
+Set up a Distributed Synchronization Domain With a Single Console
+-----------------------------------------------------------------
 
 If your sync domain operates with external sequencers and mediators,
 you will need to configure a sync domain manager node (which only runs topology management) and bootstrap your sync domain
@@ -138,8 +138,8 @@ dynamically add a new sequencer at a later point as described in :ref:`operation
 
 .. _domain_bootstrapping_separate_consoles:
 
-Setting up a Distributed Synchronization Domain With Separate Consoles
-----------------------------------------------------------------------
+Set Up a Distributed Synchronization Domain With Separate Consoles
+------------------------------------------------------------------
 
 The process outlined in the previous section only works if all nodes are accessible from the same console environment.
 If each node has its own isolated console environment, the bootstrapping process must be coordinated
@@ -233,8 +233,8 @@ to connect to just a subset of them.
 
 .. _dynamically_adding_sequencers:
 
-Adding new sequencers to a distributed synchronization domain
--------------------------------------------------------------
+Add New Sequencers to a Distributed Synchronization Domain
+----------------------------------------------------------
 
 For non-database-based sequencers such as Ethereum or Fabric sequencers, you can either initialize them as part of the
 regular :ref:`distributed sync domain bootstrapping process <domain_bootstrapping>` or dynamically add a new sequencer at a later point as follows:

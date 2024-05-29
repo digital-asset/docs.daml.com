@@ -3,6 +3,10 @@
 ..
    Proprietary code. All rights reserved.
 
+.. |br| raw:: html
+
+   <br />
+
 .. _ledger-pruning:
 
 Ledger Pruning
@@ -40,11 +44,83 @@ Refer to the cron specification to customize the pruning schedule. Here are a fe
    :dedent:
 
 For the maximum duration to specify a reliable pruning window "end time", the leading fields of the cron expression
-should should not be wildcards (`*`) as illustrated in the examples above. If the hour field is fixed, so should the
+should not be wildcards (`*`) as illustrated in the examples above. If the hour field is fixed, so should the
 fields for minute and second.
 
-Monitoring Pruning Progress
----------------------------
+Schedule format
+---------------
+
+Cron expressions are formatted as 7 whitespace-separated fields:
+
+.. list-table::
+   :widths: 30 70
+   :header-rows: 1
+
+   * - Field
+     - Type and valid values\*
+   * - seconds
+     - number from ``0`` to ``59``
+   * - minutes
+     - number from ``0`` to ``59``
+   * - hours
+     - number from ``0`` to ``23``
+   * - day of the month
+     - number from ``1`` to ``31``
+   * - month
+     - number from ``0`` to ``11`` (``0`` = January) 
+       |br|
+       **or** 
+       |br|
+       the first three letters of the month name (``JAN``, ``FEB``, ``MAR``, ...)
+   * - day of the week
+     - number from ``1`` to ``7`` (``1`` = Sunday) 
+       |br|
+       **or** 
+       |br|
+       the first three letters of the day name (``SUN``, ``MON``, ``TUE``, ...)
+   * - year (optional)
+     - number from ``1900`` to ``2099``
+
+*\*Ranges specified with "to" are inclusive of both endpoints.*
+
+Note that although a day-of-the-month value might be valid according to the
+above definition, it might not correspond to an actual date in certain months
+(such as the 31st of November). If you schedule pruning for the 31st of the
+month, every month with fewer than 31 days will be skipped.
+
+Advanced schedule formatting
+****************************
+
+* You can construct **lists and ranges** of values. For example, the day of the
+  week could be a range like ``MON-FRI`` to refer to the days Monday through
+  Friday, or ``TUE,FRI`` to refer to Tuesday and Friday exclusively. Or you
+  could use a mix of both, for example, ``MON,WED-FRI``, meaning "Monday, and
+  also Wednesday through Friday."
+* Use the **asterisk** (``*``) as a wildcard that means "all possible values."
+* Use the **question mark** (``?``) as a wildcard that means "any value" in the
+  day-of-the-month and day-of-the-week fields. For example, to specify "every
+  Monday at noon," use the ``?`` character to indicate that any day of the
+  month is valid: ``0 0 12 ? * MON``
+* To apply **increments** to numeric values, use the slash character (``/``).
+  For example, a value of ``1/2`` in the hours field means "every two hours
+  starting from 1 AM" (1 AM, 3 AM, 5 AM, ...).
+
+
+Here are some examples of valid schedules:
+
+* ``0 30 * * * *`` — Every hour at half past
+* ``0 5/15 12,18-20 * * *`` — Every fifteen minutes, starting from five past,
+  at noon and from 6 to 8 PM
+* ``0 5/15 12,18-20 ? * MON,THU`` — Same as above, but only on Monday and
+  Thursday
+* ``0 0 22 1 * ?`` — Every first day of the month at 10 PM
+
+For more information about cron expressions, see the `Apache Log4j API
+documentation
+<https://logging.apache.org/log4j/2.x/javadoc/log4j-core/org/apache/logging/log4j/core/util/CronExpression.html>`_.
+
+Monitor Pruning Progress
+------------------------
 
 Monitor the pruning state to determine that the pruning schedule allows participant, mediator, and sequencer pruning
 to keep up with ledger growth, and is not stuck for one of the reasons described below in the "Common Notes".
@@ -73,8 +149,10 @@ Best Practices
 - A catastrophic failure of a participant and its backup can be mitigated by rebuilding its state from the sequencer by
   replaying messages. However, this becomes impossible once the required messages have been pruned from the sequencer.
   For this reason, the backup strategy for participant nodes should be coordinated with the sequencer’s pruning schedule.
-- For high-availability nodes that share a common database, the pruning schedule has to be set on an active replica
-  (participant, mediator) or one active shard (database sequencer).
+- For high-availability nodes that share a common database, the pruning schedule has to be set on the active participant
+  replica, the active mediator replica, or the admin sequencer. The ``sequencer.health.status`` command helps identify
+  the sequencer that accepts admin changes such as configuring pruning when
+  ``sequencer.health.status.trySuccess.admin.exists(_.acceptsAdminChanges)`` is true.
 - Participants, mediators, and sequencers also expose "manual" `prune*` methods that come with pitfalls. The methods
   might appear to be hanging unless the range of events and messages specified for pruning is not broken up into
   sufficiently small chunks. In addition, these manual methods have no built-in mechanism to resume on another node after

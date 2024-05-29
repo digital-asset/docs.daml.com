@@ -1,0 +1,151 @@
+body {
+  font-family: 'Lato', sans-serif;
+  margin: 0;
+}
+
+#navbar {
+  padding: 3ex;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#navbar .left > img {
+  max-width: 150px;
+}
+
+#navbar .right a {
+  border: 1px solid #577FF1;
+  border-radius: 21px;
+  padding: 1.5ex 2ex;
+  color: black;
+  text-decoration: none;
+}
+
+#banner {
+  width: 100%;
+  background-color: #D1F9FB;
+  text-align: center;
+  padding: 2.5ex 0;
+}
+
+#banner h1 {
+  margin: 0;
+  padding: 0 0 1ex 0;
+}
+
+#content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#content div {
+  width: max-content;
+}
+
+#content table {
+  table-layout: fixed;
+  border-spacing: 0;
+  border-radius: 4px;
+  border: 1px solid #B9BCC6;
+  margin-bottom: 2ex;
+}
+
+#content thead {
+  background-color: #F1F2F4;
+  border: none;
+  border-radius: 4px 4px 0 0;
+}
+
+#content th:first-child {
+  border-radius: 4px 0 0 0;
+  border-left: none;
+}
+
+#content th:last-child {
+  border-radius: 0 4px 0 0;
+}
+
+#content th {
+  border-left: 1px solid #B9BCC6;
+  padding: 1ex 0;
+}
+
+#content td:first-child {
+  border-left: none;
+}
+
+#content td {
+  text-align: center;
+  border-top: 1px solid #B9BCC6;
+  border-left: 1px solid #B9BCC6;
+}
+
+
+#content td div {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2ex;
+}
+
+#content .dropdown {
+  margin: 6ex 0 4ex 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#content .dropdown .label {
+  padding: 1ex;
+}
+
+#content .dropdown .select {
+  padding: 1ex;
+  width: 30ex;
+  border: 1px solid #B9BCC6;
+  border-radius: 2px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+#content .dropdown .select.opened {
+  border-radius: 2px 2px 0 0;
+  border-bottom: 0;
+  padding-bottom: calc(1ex + 1px);
+}
+
+#content .dropdown .menu-ctn {
+  position: relative;
+  width: 100%
+}
+
+#content .dropdown .menu {
+  width: 30ex;
+  display: none;
+  position: absolute;
+}
+
+#content .dropdown .menu.opened {
+  display: block;
+}
+
+#content .dropdown .menu .option {
+  padding: 1ex;
+  width: 30ex;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  background-color: white;
+  border: 1px solid #B9BCC6;
+  border-bottom: 0;
+}
+
+#content .dropdown .menu .option:last-child {
+  border-bottom: 1px solid #B9BCC6;
+  border-radius: 0 0 2px 2px;
+}

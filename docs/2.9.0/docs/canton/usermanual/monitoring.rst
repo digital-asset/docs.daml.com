@@ -5,8 +5,8 @@
 
 .. _monitoring:
 
-Monitoring
-==========
+Monitoring Best Practices
+=========================
 
 Introduction
 ------------
@@ -392,7 +392,7 @@ How Canton produces log files can be configured extensively on the command line 
 - ``--log-file-rolling-history=12`` configures the number of historical files to keep when using the rolling appender.
 - ``--log-file-rolling-pattern=YYYY-mm-dd`` configures the rolling file suffix (and therefore the frequency) of how files should be rolled.
 - ``--log-truncate`` configures whether the log file should be truncated on startup.
-- ``--log-profile=container`` provides a default set of logging settings for a particular setup. Only the ``container`` profile is supported, which logs to STDOUT. It turns off flat file logging to avoid storage leaks due to log files within a container.
+- ``--log-profile=container`` provides a default set of logging settings for a particular setup. Only the ``container`` profile is supported, which logs to both STDOUT and to 10-hour limited rolling log files history (to avoid storage leaks).
 - ``--log-immediate-flush=false`` turns off immediate flushing of the log output to the log file.
 
 Note that if you use ``--log-profile``, the order of the command line arguments matters. The profile settings can be overridden on the command line by placing adjustments after the profile has been selected.
@@ -604,6 +604,10 @@ A sync domain node or a sequencer node responds with a message containing:
 - ``Ports``: the ports on which the sync domain exposes the Public and the Admin API
 - ``Connected Participants``: the list of connected participants
 - ``Sequencer``: a boolean flag indicating whether the embedded sequencer writer is operational
+
+A sequencer node also returns the following additional field starting from Canton 2.8.6:
+
+- ``Accepts admin changes``: a boolean flag indicating whether the sequencer accepts admin changes
 
 A sync domain topology manager or a mediator node returns:
 

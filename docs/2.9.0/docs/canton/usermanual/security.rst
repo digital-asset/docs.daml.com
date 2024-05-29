@@ -5,8 +5,8 @@
 
 .. _canton-security:
 
-Security
-========
+Security & Key Management
+=========================
 
 Cryptographic Key Usage
 -----------------------
@@ -149,9 +149,26 @@ A transaction is composed of multiple views due to sub-transaction privacy.
 Instead of duplicating each view by directly encrypting the view for each
 recipient using their participant encryption public key, Canton derives a
 symmetric key for each view to encrypt that view. The key is derived using a
-HKDF from a secure seed that is only stored encrypted under the public
-encryption key of a participants. Thereby, only the encrypted seed is duplicated
+HKDF from a secure seed that is only stored encrypted under a session key.
+Thereby, only the encrypted session key is duplicated
 but not a view.
+
+Session Encryption Key
+^^^^^^^^^^^^^^^^^^^^^^
+
+To avoid having to asymmetrically decrypt the view encryption key for all
+transactions we make use of a short-lived session key that acts as an intermediary encryption layer positioned
+between the view encryption and the encryption with the participants' keys.
+The process involves encrypting and decrypting the session key (that is used to encrypt the view encryption key)
+using the participants' public and private keys, with the resulting data cached temporarily in memory.
+This caching mechanism enables similar transactions involving the same participants to make use of the cached
+information, thereby acquiring the session key without necessitating asymmetric key operations for each transaction.
+
+:warning: Using session keys can improve overall performance, but increases the impact of a key compromise. With session keys enabled and a session key compromised an attacker could decrypt all (subsequent) views for an informee group until that session key is rotated. Without session keys and a compromised view seed an attacker could only decrypt that view (including subviews). It is possible to either disable caching or adjust the session key rotation time using the Canton configuration file.
+
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/session-key-cache.conf
+   :language: none
+
 
 Ledger API TLS Key
 ^^^^^^^^^^^^^^^^^^

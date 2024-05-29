@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Introduction to the Daml Standard Library
-=========================================
+The Daml Standard Library
+=========================
 
 In :doc:`3_Data` and :doc:`10_Functional101` you learned how to define your own data types and functions. However, you don't have to implement everything from scratch. Daml comes with the :doc:`Daml Standard Library </daml/stdlib/index>`, which contains types, functions, and typeclasses that cover a large range of use cases.
 
@@ -148,12 +148,12 @@ Other classic examples of Functors are Sets, Maps, Trees, etc.
 Applicative Functor
 ...................
 
-:ref:`Applicative Functors <class-da-internal-prelude-applicative-9257>` are a bit like Actions, which you met in :doc:`5_Restrictions`, except that you can't use the result of one action as the input to another action. The only important Applicative Functor that isn't an action in Daml is the ``Commands`` type submitted in a ``submit`` block in Daml Script. That's why in order to use ``do`` notation in Daml Script, you have to enable the ``ApplicativeDo`` language extension.
+:ref:`Applicative Functors <class-da-internal-prelude-applicative-9257>` are a bit like Actions, which you met in :doc:`5_Constraints`, except that you can't use the result of one action as the input to another action. The only important Applicative Functor that isn't an action in Daml is the ``Commands`` type submitted in a ``submit`` block in Daml Script. That's why in order to use ``do`` notation in Daml Script, you have to enable the ``ApplicativeDo`` language extension.
 
 Actions
 .......
 
-:ref:`Actions <class-da-internal-prelude-action-68790>` were already covered in :doc:`5_Restrictions`. One way to think of them is as "recipes" for a value, which need to be "executed to get at that value. Actions are always Functors (and Applicative Functors). The intuition for that is simply that ``fmap f x`` is the recipe in ``x`` with the extra instruction to apply the pure function ``f`` to the result.
+:ref:`Actions <class-da-internal-prelude-action-68790>` were already covered in :doc:`5_Constraints`. One way to think of them is as "recipes" for a value, which need to be "executed to get at that value. Actions are always Functors (and Applicative Functors). The intuition for that is simply that ``fmap f x`` is the recipe in ``x`` with the extra instruction to apply the pure function ``f`` to the result.
 
 The really important Actions in Daml are ``Update`` and ``Script``, but there are many others, like ``[]``, ``Optional``, and ``Either a``.
 

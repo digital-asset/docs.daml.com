@@ -3,7 +3,7 @@
 ..
    Proprietary code. All rights reserved.
 
-Manage Dars and Packages
+Manage DARs and Packages
 ========================
 
 A package is a unit of compiled Daml code corresponding to one Daml project. A DAR is a collection of packages including

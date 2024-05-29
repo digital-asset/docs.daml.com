@@ -3,8 +3,8 @@
 
 .. _quickstart:
 
-Daml IOU Quickstart Tutorial
-############################
+IOU Quickstart Tutorial
+#######################
 
 In this guide, you will learn about developer tools and Daml applications by:
 

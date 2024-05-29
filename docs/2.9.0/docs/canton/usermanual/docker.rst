@@ -5,8 +5,8 @@
 
 .. _docker-instructions:
 
-Running in Docker
-=================
+Work With the Docker Containers 
+===============================
 
 .. note::
 

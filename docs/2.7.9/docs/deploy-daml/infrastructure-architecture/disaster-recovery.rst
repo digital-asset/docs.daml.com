@@ -4,9 +4,9 @@
 Disaster Recovery (DR)
 ######################
 
-    Disaster recovery (DR) is the process of maintaining or reestablishing vital infrastructure and systems following a natural or human-induced disaster, such as a storm or battle. It employs policies, tools, and procedures. 
+Disaster recovery (DR) is the process of maintaining or reestablishing vital infrastructure and systems following a natural or human-induced disaster, such as a storm or battle. It employs policies, tools, and procedures. This section presents an overview of DR. See :ref:`Repairing Nodes <repairing-nodes>` for the steps to recover Canton nodes in a DR situation. 
 
-    Disaster recovery assumes that the primary site is not immediately recoverable and restores data and services to a secondary site. [#f1]_
+Disaster recovery assumes that the primary site is not immediately recoverable and restores data and services to a secondary site. [#f1]_
 
 DR is only briefly introduced here because it includes business-related recovery processes and mechanisms that are beyond the Daml solution. The previously introduced metrics of Recovery Point Objective (RTO) and Recovery Time Objective (RPO) are important. Recovery from disaster is typically measured using values for RTO and RPO. 
 

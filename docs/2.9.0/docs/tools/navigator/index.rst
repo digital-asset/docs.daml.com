@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Navigator (Deprecated)
-######################
+Visualize: Daml Navigator (Deprecated)
+######################################
 
 .. warning::
    Since Daml 2.9.0, ``daml navigator`` is deprecated. It will be removed in Daml 3.0.

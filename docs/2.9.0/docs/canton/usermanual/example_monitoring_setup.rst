@@ -269,7 +269,7 @@ To interact with the running network, a Canton console can be used with a remote
 
      bin/canton -c etc/remote-participant1.conf
 
-Remote configurations
+Remote Configurations
 ~~~~~~~~~~~~~~~~~~~~~
 
 .. literalinclude:: ./monitoring/etc/remote-domain0.conf
