@@ -20,7 +20,7 @@ do not agree to this migration, because it is transparent to them and their shar
     You must save the :ref:`root namespace key <moving_namespace_to_offline_storage>` of the old participant
     somewhere offline so that it can be used, in the future, to migrate the node to a new protocol version.
     This is necessary because we require signing topology transactions with the root namespace key everytime
-    we migrate a node to a new protocol version.
+    we migrate a node to a new protocol version that is not supported by the old domain.
 
 First, delegate the namespace of the old participant to the new participant:
 
