@@ -11,16 +11,16 @@ Participant Node Migration with the Same Namespace
 One way of migrating a non-KMS participant to a new KMS-enabled one is to create a new participant
 connected to a KMS-compatible sync domain (e.g. :ref:`running JCE with KMS-supported encryption and
 signing keys <external_key_storage_interoperability>`) and then
-transfer the data from the old node to the new one. In this example, we do not only transfer the parties, contracts and DARs,
-but we also transfer the node's identity, and thus, both old and new participant will share the
-same namespace. This has the advantage that it can be done in a multi-operator setting when the other operators
+transfer the data from the old node to the new one. In this example, you transfer the parties, contracts, and
+DARs, along with the node's identity. Thus, both the old and new participants share the
+same namespace. This has the advantage of being feasible in a multi-operator setting even when the other operators
 do not agree to this migration, because it is transparent to them and their shared contracts.
 
 .. warning::
     You must save the :ref:`root namespace key <moving_namespace_to_offline_storage>` of the old participant
     somewhere offline so that it can be used, in the future, to migrate the node to a new protocol version.
-    This is necessary because we require signing topology transactions with the root namespace key everytime
-    we migrate a node to a new protocol version that is not supported by the old domain.
+    This is necessary because you need to sign topology transactions with the root namespace key everytime
+    you migrate a node to a new protocol version that is not supported by the old domain.
 
 First, delegate the namespace of the old participant to the new participant:
 

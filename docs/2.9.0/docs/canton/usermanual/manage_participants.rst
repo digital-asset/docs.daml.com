@@ -38,7 +38,7 @@ and the encryption key:
    :end-before: architecture-handbook-entry-end: ManualInitKeys
    :dedent:
 
-We reiterate again the fact that if you are using a Key Management Service (KMS) to handle Canton's keys
+If you are using a Key Management Service (KMS) to handle Canton's keys
 and you want to use a set of pre-generated keys you must use instead the commands `register_kms_signing_key()` and
 `register_kms_encryption_key()`
 

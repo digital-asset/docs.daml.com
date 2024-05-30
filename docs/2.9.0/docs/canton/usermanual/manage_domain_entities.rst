@@ -14,10 +14,10 @@ Manual vs Automatic Initialization
 If you're running a sync domain in its default configuration as shown previously,
 it will have a sequencer and mediator embedded and these components will be automatically bootstrapped for you.
 
-However, there are situations where a node should not be automatically initialized, but where we prefer to control
+However, there are situations where a node should not be automatically initialized, but where you prefer to control
 each step of the initialization. For example, when a node in the setup does
 not control its own identity, when you do not want to store the identity key on the node for security
-reasons, or when we want to set our own keys (e.g. when keys are externally stored in a Key Management Service - KMS).
+reasons, or when you want to set your own keys (e.g. when keys are externally stored in a Key Management Service - KMS).
 
 If you want to disable the automatic initialization of domain nodes you have to set:
 
@@ -47,7 +47,7 @@ keys you must use instead the following command.
 Please refer to :ref:`External Key Storage with a Key Management Service (KMS) <external_key_storage>` for more details.
 
 .. note::
-   The following sections assume that we are using Canton keys and that we do not have a KMS set-up. If you are running
+   The following sections assume that you are using Canton keys and that you do not have a KMS set-up. If you are running
    your environment with KMS and want to provide your own keys, replace all instances of ``generate_signing_key()`` by
    the correct ``register_kms_signing_key()`` command.
 
@@ -82,8 +82,8 @@ First make sure the nodes are fresh and have not yet been initialized:
     .. success:: domainManager1.health.initialized()
     .. assert:: !RES
 
-If the sync domain manager has ``auto-init = true`` (the default value) we need to make sure that the
-identity is generated and ready before we can bootstrap the sync domain:
+If the sync domain manager has ``auto-init = true`` (the default value) you need to make sure that the
+identity is generated and ready before you can bootstrap the sync domain:
 
 .. snippet:: distributed_domain_install
     .. success:: domainManager1.health.wait_for_identity()

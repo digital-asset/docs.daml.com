@@ -8,15 +8,15 @@
 Participant Node Migration with a New Namespace
 -----------------------------------------------
 
-To migrate a non-KMS participant to a KMS-enabled one we need to make sure we have this new participant
+To migrate a non-KMS participant to a KMS-enabled one you need to make sure you have this new participant
 connected to a KMS-compatible sync domain (e.g. :ref:`running JCE with KMS-supported encryption and
 signing keys <external_key_storage_interoperability>`).
-Afterwards, we transfer all parties, active contracts and DARs from the old participant to the new one. Since, in this case,
-we do not transfer the identities from the old node to the new one we need to re-write our contracts
-so that they refer to the new party ids. With this method, we can easily migrate our old participant
+Afterwards, you transfer all parties, active contracts and DARs from the old participant to the new one. Since, in this
+case, you do not transfer the identities from the old node to the new one. You need to re-write your contracts
+to refer to the new party ids. With this method, you can easily migrate your old participant
 that runs an older protocol version to a new participant with KMS enabled that can be running a more recent
-protocol version. Furthermore, we do not need to safe-keep the old node's root namespace key because
-our participant namespace changes. However, for it to work a single operator must control
+protocol version. Furthermore, you do not need to safe-keep the old node's root namespace key, because
+your participant namespace changes. However, for it to work a single operator must control
 all the contracts or all participant operators have to agree on this rewrite.
 
 .. warning::
@@ -42,7 +42,7 @@ Secondly, you should migrate your DARs to the new participant:
    :dedent:
 
 Finally, you need to transfer the active contracts of all the parties from the old participant to the new one and
-re-write the party ids mentioned in those contracts to match the new party ids. We can then connect to the new sync domain:
+re-write the party ids mentioned in those contracts to match the new party ids. You can then connect to the new sync domain:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/kms/KmsMigrationWithNewNamespaceIntegrationTest.scala
    :language: scala
