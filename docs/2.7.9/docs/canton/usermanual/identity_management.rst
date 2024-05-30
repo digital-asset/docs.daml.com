@@ -712,12 +712,12 @@ Now, both participant host the party and can act on behalf of it.
 
 Manually Initializing a Node
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-There are situations where a node should not be automatically initialized, but where we prefer to control
-each step of the initialization. For example, when a node in the setup does
+There are situations where a node should not be automatically initialized, but where you should control
+each step of the initialization. For example, this might be the case when a node in the setup does
 not control its own identity, or when you do not want to store the identity key on the node for security
 reasons.
 
-In the following, we demonstrate the basic steps how to initialise a node:
+The following demonstrates the basic steps on how to initialize a node:
 
 .. _manually-init-domain:
 

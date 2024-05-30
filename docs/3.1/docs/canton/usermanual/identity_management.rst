@@ -772,12 +772,12 @@ using explicit disclosure and sharing contract data out of band.
 
 Manually Initializing a Node
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-There are situations where a node should not be automatically initialized, but where we prefer to control
-each step of the initialization. For example, when a node in the setup does
+There are situations where a node should not be automatically initialized, but where you should control
+each step of the initialization. For example, this might be the case when a node in the setup does
 not control its own identity, when you do not want to store the identity key on the node for security
-reasons, or when we want to set our own keys (e.g. when keys are externally stored in a Key Management Service - KMS).
+reasons, or when you want to set our own keys (e.g. when keys are externally stored in a Key Management Service - KMS).
 
-In the following, we demonstrate the basic steps of how to initialize a node:
+The following demonstrates the basic steps on how to initialize a node:
 
 Keys Initialization
 ^^^^^^^^^^^^^^^^^^^
