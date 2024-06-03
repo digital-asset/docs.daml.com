@@ -109,7 +109,7 @@ you need to pre-generate the corresponding AWS KMS keys with the correct setting
     |                   | - **Key Algorithms:** `ECC_NIST_P256` or `ECC_NIST_P384`              | - **Key Algorithm:** `RSA_2048`                     |
     +-------------------+-----------------------------------------------------------------------+-----------------------------------------------------+
 
-Below are links to guides on how to manually initialize participant nodes and sync domain.
+Below are links to guides on how to manually initialize participant and sync domain nodes in different settings.
 In those guides, keys are generated using console commands such as:
 
 .. code-block:: none
@@ -119,5 +119,5 @@ In those guides, keys are generated using console commands such as:
 Make sure to **replace those commands with the ones shown above** with which you registered your existing keys
 instead of generating new ones.
 
-- :ref:`initialize sync domain <manually-init-domain>`
-- :ref:`initialize participants <manually-init-participant>`
+- :ref:`initialize sync domain <domain_bootstrapping>`
+- :ref:`initialize participants <participant_bootstrapping>`

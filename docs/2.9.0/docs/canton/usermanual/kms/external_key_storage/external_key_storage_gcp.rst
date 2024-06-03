@@ -106,7 +106,7 @@ you need to pre-generate the corresponding GCP KMS keys with the correct setting
     |                   | - **Key Algorithms:** `EC_SIGN_P256_SHA256` or `EC_SIGN_P384_SHA384`  | - **Key Algorithm:** `RSA_DECRYPT_OAEP_2048_SHA256` |
     +-------------------+-----------------------------------------------------------------------+-----------------------------------------------------+
 
-Below are links to guides on how to manually initialize participant and sync domain nodes.
+Below are links to guides on how to manually initialize participant and sync domain nodes in different settings.
 In those guides, keys are generated using console commands such as:
 
 .. code-block:: none
@@ -116,5 +116,5 @@ In those guides, keys are generated using console commands such as:
 Make sure to **replace those commands with the ones shown above** with which you registered your existing keys
 instead of generating new ones.
 
-- :ref:`initialize sync domain <manually-init-domain>`
-- :ref:`initialize participants <manually-init-participant>`
+- :ref:`initialize sync domain <domain_bootstrapping>`
+- :ref:`initialize participants <participant_bootstrapping>`

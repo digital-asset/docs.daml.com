@@ -8,11 +8,65 @@ Manage Synchronization Domain Entities
 
 .. _domain_bootstrapping:
 
-Set Up a Distributed Synchronization Domain With a Single Console
------------------------------------------------------------------
+Manual vs Automatic Initialization
+----------------------------------
 
 If you're running a sync domain in its default configuration as shown previously,
-it will have a sequence and mediator embedded and these components will be automatically bootstrapped for you.
+it will have a sequencer and mediator embedded and these components will be automatically bootstrapped for you.
+
+However, there are situations where a node should not be automatically initialized, but where you prefer to control
+each step of the initialization. For example, this might be the case when a node in the setup does
+not control its own identity, when you do not want to store the identity key on the node for security
+reasons, or when you want to set your own keys (e.g. when keys are externally stored in a Key Management Service - KMS).
+
+If you want to disable the automatic initialization of domain nodes you have to set:
+
+.. code-block:: none
+
+    <node>.init.auto-init = false
+
+This is only applicable for ``domain/domain-manager`` nodes.
+
+Keys Initialization
+-------------------
+
+When manual initialization is enabled, cryptographic keys in the nodes are not automatically generated
+and registered in Canton. The following command manually generates a Canton signing key.
+
+.. code-block:: none
+
+    <node>.keys.secret.generate_signing_key(<key_name>)
+
+If you are using a Key Management Service (KMS) to handle Canton's keys and you want to use a set of pre-generated
+keys you must use instead the following command.
+
+.. code-block:: none
+
+    node.keys.secret.register_kms_signing_key(<kms_key_id>, <key_name>)
+
+Please refer to :ref:`External Key Storage with a Key Management Service (KMS) <external_key_storage>` for more details.
+
+.. note::
+   The following sections assume that you are using Canton keys and that you do not have a KMS set-up. If you are running
+   your environment with KMS and want to provide your own keys, replace all instances of ``generate_signing_key()`` by
+   the correct ``register_kms_signing_key()`` command.
+
+.. _manually-init-domain:
+
+Embedded Synchronization Domain Initialization
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The following steps describe how to manually initialize an embedded sync domain node, where the domain
+manager, the sequencer and mediator are aggregated into a single entity and deployed together.
+
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/topology/TopologyManagementHelper.scala
+   :language: scala
+   :start-after: architecture-handbook-entry-begin: ManualInitDomain
+   :end-before: architecture-handbook-entry-end: ManualInitDomain
+   :dedent:
+
+
+Set up a Distributed Synchronization Domain With a Single Console
+-----------------------------------------------------------------
 
 If your sync domain operates with external sequencers and mediators,
 you will need to configure a sync domain manager node (which only runs topology management) and bootstrap your sync domain
@@ -28,7 +82,8 @@ First make sure the nodes are fresh and have not yet been initialized:
     .. success:: domainManager1.health.initialized()
     .. assert:: !RES
 
-The sync domain manager also needs its identity to be generated and ready before we can bootstrap the sync domain:
+If the sync domain manager has ``auto-init = true`` (the default value) you need to make sure that the
+identity is generated and ready before you can bootstrap the sync domain:
 
 .. snippet:: distributed_domain_install
     .. success:: domainManager1.health.wait_for_identity()
@@ -36,6 +91,24 @@ The sync domain manager also needs its identity to be generated and ready before
 .. note::
 
     This is technically only required when accessing the sync domain manager through a remote console, but is a good practice regardless.
+
+.. _manual_init_domain_manager:
+
+If the sync domain manager has ``auto-init = false``, then you need to manually initialize it by generating its identity
+and setting-up its keys:
+
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/topology/TopologyManagementHelper.scala
+   :language: scala
+   :start-after: architecture-handbook-entry-begin: ManualInitDistributedDomain
+   :end-before: architecture-handbook-entry-end: ManualInitDistributedDomain
+   :dedent:
+
+If you want, before continuing, you can pre-generate signing keys for mediators and sequencers by running:
+
+.. code-block:: none
+
+    mediator1.keys.secret.generate_signing_key(name = mediator1.name + "-signing")
+    sequencer1.keys.secret.generate_signing_key(name = sequencer1.name + "-signing")
 
 Now you can initialize the distributed sync domain as follows:
 
@@ -75,7 +148,8 @@ in steps with the exchange of data via files using any secure channel of communi
 .. note::
 
     Please ensure that all of the nodes in the distributed sync domain are started before proceeding.
-
+    If you are running the domain manager with ``auto-init = false``, then you need to manually
+    generate its identity using the commands :ref:`listed in the previous section <manual_init_domain_manager>`.
 
 Initially the sync domain manager must transmit its sync domain parameters from its console by saving the parameters to a file.
 The sync domain ID, serialized as a string, must also be transmitted.
@@ -91,6 +165,7 @@ transmit via file. Optionally, repeat this for any extra sequencer nodes.
 .. snippet:: distributed_domain_install_separate_consoles
     .. success:: val domainParameters = com.digitalasset.canton.admin.api.client.data.StaticDomainParameters.tryReadFromFile("tmp/domain-bootstrapping-files/params.proto")
     .. success:: val domainId = DomainId.tryFromString(domainIdString)
+    .. success:: sequencer1.keys.secret.generate_signing_key(sequencer1.name + "-signing")
     .. success:: val initResponse = sequencer1.initialization.initialize_from_beginning(domainId, domainParameters)
     .. success:: initResponse.publicKey.writeToFile("tmp/domain-bootstrapping-files/seq1-key.proto")
 
@@ -103,7 +178,7 @@ The sync domain manager must then authorize the sequencer's key. Optionally, rep
 Now the mediator also needs to create a signing key pair and transmit it. Optionally, repeat this for any extra mediator nodes.
 
 .. snippet:: distributed_domain_install_separate_consoles
-    .. success:: mediator1.keys.secret.generate_signing_key("initial-key").writeToFile("tmp/domain-bootstrapping-files/med1-key.proto")
+    .. success:: mediator1.keys.secret.generate_signing_key(mediator1.name + "-signing").writeToFile("tmp/domain-bootstrapping-files/med1-key.proto")
 
 The sync domain manager must now authorize the mediator's key and also authorize the mediator to act as part of this sync domain.
 Optionally, repeat this for any extra mediator nodes.

@@ -1306,8 +1306,16 @@ subtrees:
                       title: "Configure External Key Storage with GCP KMS"
                     - file: canton/usermanual/kms/external_key_storage/interoperability
                       title: "Interoperability with other nodes"
-                    - file: canton/usermanual/kms/external_key_storage/participant_kms_migration
-                      title: "Participant Node Migration"
+                    - file: canton/usermanual/kms/external_key_storage/participant_kms_migration/participant_kms_migration
+                      title: "Participant Node Migration to KMS"
+                      subtrees:
+                        - hidden: False
+                          titlesonly: True
+                          entries:
+                            - file: canton/usermanual/kms/external_key_storage/participant_kms_migration/participant_kms_migration_same_namespace
+                              title: "With the same Namespace"
+                            - file: canton/usermanual/kms/external_key_storage/participant_kms_migration/participant_kms_migration_new_namespace
+                              title: "With a new Namespace"
                     - file: canton/usermanual/kms/external_key_storage/manual_kms_key_rotation
                       title: "Manual KMS key rotation"
 
@@ -1323,6 +1331,8 @@ subtrees:
         title: "Manage Domains"
       - file: canton/usermanual/manage_domain_entities
         title: "Manage Domain Entities"
+      - file: canton/usermanual/manage_participants
+        title: "Manage Participants"
       - file: canton/usermanual/pruning
         title: "Ledger Pruning"
       - file: ops/pruning
