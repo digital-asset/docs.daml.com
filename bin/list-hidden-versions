@@ -5,7 +5,7 @@ set -euo pipefail
 DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 AUTH="Authorization: token $GITHUB_TOKEN"
-USER_AGENT="User-Agent: Daml docs cron (gary.verhaegen@digital-asset.com)"
+USER_AGENT="User-Agent: Daml docs cron (yves.geissbuehler@digitalasset.com)"
 
 get_releases() (
     url="https://api.github.com/repos/digital-asset/daml/releases"
