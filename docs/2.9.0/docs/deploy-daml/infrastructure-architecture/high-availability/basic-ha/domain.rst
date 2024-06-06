@@ -20,7 +20,7 @@ Sequencer
 
 Sequencer HA depends on the chosen implementation. For example, when using a ledger such as `Hyperledger Fabric <../../../../canton/usermanual/domains/fabric.html>`_, HA is already set up. Multiple sequencer nodes must be deployed. 
 
-The sync domain returns multiple sequenced endpoints, any of which can be used to interact with the underlying ledger.
+The sync domain exposes multiple sequencer endpoints, any of which can be used to submit sequencing requests or read events.
 
 Database Sequencer
 ~~~~~~~~~~~~~~~~~~
