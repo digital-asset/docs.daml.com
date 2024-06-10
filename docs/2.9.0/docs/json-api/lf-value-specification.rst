@@ -181,6 +181,13 @@ risk that users pass in local times. Valid examples::
 The timestamp must be between the bounds specified by Daml-LF and ISO
 8601, [0001-01-01T00:00:00Z, 9999-12-31T23:59:59.999999Z].
 
+Notes:
+
+* When using
+  Java 11, valid ISO 8601 timestamp strings with a TimeZone offset (e.g. ``2016-09-12T16:45:51+01:00``) are rejected due to `JDK-8166138: DateTimeFormatter.ISO_INSTANT should handle offsets <https://bugs.openjdk.org/browse/JDK-8166138>`_.
+* When using Java 17+, all valid ISO 8601 timestamp strings can be parsed and so
+  accepted.
+
 JavaScript
 
 ::
