@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Write Off-Ledger Automation Using Daml
-======================================
+Overview
+========
 
 The Daml smart contract language is mostly meant to provide a way to define on-ledger logic, i.e.
 code that defines how a transaction happens on ledger. Daml is not meant to be used as a general

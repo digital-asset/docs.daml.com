@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Introduction to the Daml Standard Library
-=========================================
+The Daml Standard Library
+=========================
 
 In :doc:`3_Data` and :doc:`10_Functional101` you learned how to define your own data types and functions. However, you don't have to implement everything from scratch. Daml comes with the :doc:`Daml Standard Library </daml/stdlib/index>`, which contains types, functions, and typeclasses that cover a large range of use cases.
 

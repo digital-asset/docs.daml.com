@@ -5,8 +5,8 @@
 
 .. _downloading:
 
-Obtaining Canton
-================
+Download and Install Canton
+===========================
 
 Choosing Open-Source or Enterprise Edition
 ------------------------------------------

@@ -5,8 +5,8 @@
 
 .. _monitoring:
 
-Monitoring
-==========
+Monitoring Best Practices
+=========================
 
 Introduction
 ------------

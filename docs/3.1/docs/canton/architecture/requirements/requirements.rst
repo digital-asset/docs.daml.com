@@ -5,9 +5,9 @@
 
 .. _requirements:
 
-#######################
-High-Level Requirements
-#######################
+##############################
+Canton High-Level Requirements
+##############################
 
 As detailed in the :ref:`DA ledger model <da-ledgers>`, the Daml ledger interoperability protocol
 provides parties with a *virtual shared ledger*, which

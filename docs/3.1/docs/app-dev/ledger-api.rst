@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-The Ledger API
-##############
+Build Integration with the Ledger API
+#####################################
 
 To write an application around a Daml ledger, you will need to interact with the **Ledger API**.
 

@@ -119,8 +119,8 @@ For more information about cron expressions, see the `Apache Log4j API
 documentation
 <https://logging.apache.org/log4j/2.x/javadoc/log4j-core/org/apache/logging/log4j/core/util/CronExpression.html>`_.
 
-Monitoring Pruning Progress
----------------------------
+Monitor Pruning Progress
+------------------------
 
 Monitor the pruning state to determine that the pruning schedule allows participant, mediator, and sequencer pruning
 to keep up with ledger growth, and is not stuck for one of the reasons described below in the "Common Notes".
