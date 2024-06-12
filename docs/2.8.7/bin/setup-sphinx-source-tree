@@ -87,3 +87,13 @@ ln $DIR/../_toc.yml $SPHINX_DIR/source/_toc.yml
 
 # Process canton snippet directives
 python $DIR/canton/snippet_directive.py $SPHINX_DIR/source/canton/includes/snippet_data $SPHINX_DIR/source/canton
+
+# Patch 2.8.7 version to fix download links because artefacts are versioned with 2.8.6
+if [[ "$prefix" == "2.8.7" ]]; then
+    for file in pdf html; do
+      sed -i "s|daml-sdk-{release}-windows.exe|daml-sdk-2.8.6-windows.exe|" $SPHINX_DIR/configs/$file/conf.py
+      sed -i "s|protobufs-{release}.zip|protobufs-2.8.6.zip|" $SPHINX_DIR/configs/$file/conf.py
+      sed -i "s|{release}/ledger-api-test-tool-{release}.jar|2.8.6/ledger-api-test-tool-2.8.6.jar|" $SPHINX_DIR/configs/$file/conf.py
+    done
+fi
+
