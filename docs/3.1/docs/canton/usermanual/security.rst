@@ -5,8 +5,8 @@
 
 .. _canton-security:
 
-Security
-========
+Security & Key Management
+=========================
 
 Cryptographic Key Usage
 -----------------------

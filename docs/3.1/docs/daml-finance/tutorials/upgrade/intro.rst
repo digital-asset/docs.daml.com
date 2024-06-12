@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Upgrade tutorials
-#################
+Upgrade
+#######
 
 This section delves into the processes for upgrading existing contract instances on a Daml ledger.
 A thorough understanding of the different types of upgrades is essential to choose the most suitable

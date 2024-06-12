@@ -360,7 +360,7 @@ certain record time, or the transaction will fail.
 
 .. _canton-overview-subtx-privacy:
 
-Subtransaction privacy
+Subtransaction Privacy
 ~~~~~~~~~~~~~~~~~~~~~~
 
 Canton splits a Daml transaction into views, as described above under :ref:`transaction processing <canton-overview-tx-processing>`.

@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Payoff Modeling tutorials
-#########################
+Payoff Modeling
+###############
 
 This section contains an introduction to the Daml Finance
 :doc:`Generic Instrument <../../instruments/generic>`, which provides a flexible framework to

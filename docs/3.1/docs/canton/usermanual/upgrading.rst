@@ -5,8 +5,8 @@
 
 .. _canton_upgrading:
 
-Upgrading
-=========
+Upgrade To a New Release
+========================
 
 This section covers the processes to upgrade Canton participant nodes and sync domains. Upgrading Daml
 applications is `covered elsewhere <https://docs.daml.com/upgrade/upgrade.html>`_.

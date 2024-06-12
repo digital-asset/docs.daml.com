@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-How to use the Generic Instrument package
-#########################################
+Generic Instrument
+##################
 
 The :doc:`Generic Instrument<../packages/implementations/daml-finance-instrument-generic>`
 provides a flexible framework to model and lifecycle custom payoffs in Daml Finance.

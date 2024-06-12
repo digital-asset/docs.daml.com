@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Lifecycling tutorials
-#####################
+Lifecycling
+###########
 
 This section explains how to lifecycle instruments in Daml Finance. Each tutorial combines a step by
 step description of different workflows with supporting code.
