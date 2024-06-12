@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Auth0 Example Configuration
-###########################
+Configure Auth0 Middleware (With Example Configuration)
+#######################################################
 
 This section describes a minimal example configuration of the trigger service with authorization enabled
 using `Auth0 <auth0_>`_ as the OAuth 2.0 provider together with the OAuth 2.0 middleware included in Daml.
