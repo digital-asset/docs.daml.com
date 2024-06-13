@@ -240,7 +240,7 @@ Until :doc:`7_Composing` the only real kind of control flow introduced has been 
 If ... Else
 ~~~~~~~~~~~
 
-:doc:`5_Restrictions` also showed a seemingly self-explanatory ``if ... else`` expression, but didn't explain it further. Let's implement the function ``boolToInt : Bool -> Int`` which in typical fashion maps ``True`` to ``1`` and ``False`` to ``0``. Here is an implementation using ``case``:
+:doc:`5_Constraints` also showed a seemingly self-explanatory ``if ... else`` expression, but didn't explain it further. Let's implement the function ``boolToInt : Bool -> Int`` which in typical fashion maps ``True`` to ``1`` and ``False`` to ``0``. Here is an implementation using ``case``:
 
 .. literalinclude:: daml/daml-intro-10/daml/Main.daml
   :language: daml
@@ -476,7 +476,7 @@ You may be tempted to make ``reverseWorker`` a local definition inside ``reverse
 Folds and Maps in Action Contexts
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The folds and ``map`` function above are pure in the sense introduced in :doc:`5_Restrictions`: The functions used to map or process items have no side effects. If you have looked at the :doc:`9_Dependencies` models, you'll have noticed ``mapA``, ``mapA_``, and ``forA``, which seem to serve a similar role but within ``Action``\ s . A good example is the ``mapA`` call in the ``testMultiTrade`` script:
+The folds and ``map`` function above are pure in the sense introduced in :doc:`5_Constraints`: The functions used to map or process items have no side effects. If you have looked at the :doc:`9_Dependencies` models, you'll have noticed ``mapA``, ``mapA_``, and ``forA``, which seem to serve a similar role but within ``Action``\ s . A good example is the ``mapA`` call in the ``testMultiTrade`` script:
 
 .. literalinclude:: daml/daml-intro-9/daml/Test/Intro/Asset/MultiTrade.daml
   :language: daml

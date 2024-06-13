@@ -7,7 +7,7 @@ subtrees:
 - caption: "Home"
   entries:
 
-  - file: high-level-intro
+  - file: multiparty-application-intro
     title: "Introduction to Multi-Party Applications and Daml"
 
 - caption: "Set Up Your Developer Environment"
@@ -47,7 +47,7 @@ subtrees:
       entries:
       - file: daml/intro/0_Intro
         title: "An Introduction to Daml"
-      - file: daml/intro/1_Token
+      - file: daml/intro/1_Contracts
         title: "Basic Contracts"
       - file: daml/intro/2_DamlScript
         title: "Test Templates Using Daml Script"
@@ -55,7 +55,7 @@ subtrees:
         title: "Data Types"
       - file: daml/intro/4_Transformations
         title: "Transform Data Using Choices"
-      - file: daml/intro/5_Restrictions
+      - file: daml/intro/5_Constraints
         title: "Add Constraints to a Contract"
       - file: daml/intro/6_Parties
         title: "Parties and Authority"
@@ -74,7 +74,7 @@ subtrees:
       - file: daml/patterns
         title: "Good Design Patterns"
         entries:
-        - file: daml/patterns/initaccept
+        - file: daml/patterns/propose-accept
           title: "The Propose and Accept Pattern"
         - file: daml/patterns/multiparty-agreement
           title: "The Multiple Party Agreement Pattern"
