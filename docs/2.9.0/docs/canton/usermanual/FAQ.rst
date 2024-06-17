@@ -163,6 +163,13 @@ system:
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/dev-version-support.conf
 
+How do I enable preview features?
+-------------------------------------
+To get early access to new features, you can enable the preview version support.
+
+.. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/preview-version-support.conf
+
+
 How to troubleshoot included configuration files?
 ----------------------------------------------------
 
