@@ -165,7 +165,7 @@ system:
 
 How do I enable preview features?
 ---------------------------------
-To get early access to new features, you can enable the preview version support.
+For early access to new features, enable preview version support.
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/preview-version-support.conf
 
