@@ -169,7 +169,7 @@ How do I enable preview features?
 ---------------------------------
 For early access to new features, you need to enable preview version support. A preview protocol version allows the use of features with initial availability.
 Note that IA features are not generally supported. Customers using Daml Enterprise may be able to get commercial support for IA features
-only if we have explicitly agreed to support this use case in production.
+by explicit agreement with Digital Asset. Please contact your relationship manager to discuss any such arrangement.
 
 If you have enabled `dev version support`, you can use the preview protocol versions without any additional configuration.
 
