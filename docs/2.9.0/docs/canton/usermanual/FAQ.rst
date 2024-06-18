@@ -163,6 +163,19 @@ system:
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/dev-version-support.conf
 
+.. _how-do-i-enable-preview-features:
+
+How do I enable preview features?
+---------------------------------
+For early access to new features, you need to enable preview version support. A preview protocol version allows the use of features with initial availability.
+Note that IA features are not generally supported. Customers using Daml Enterprise may be able to get commercial support for IA features
+by explicit agreement with Digital Asset. Please contact your relationship manager to discuss any such arrangement.
+
+If you have enabled `dev version support`, you can use the preview protocol versions without any additional configuration.
+
+.. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/preview-version-support.conf
+
+
 How to troubleshoot included configuration files?
 ----------------------------------------------------
 
