@@ -163,6 +163,8 @@ system:
 
 .. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/dev-version-support.conf
 
+.. _how-do-i-enable-preview-features:
+
 How do I enable preview features?
 ---------------------------------
 For early access to new features, you need to enable preview version support. A preview protocol version allows the use of features with initial availability.
