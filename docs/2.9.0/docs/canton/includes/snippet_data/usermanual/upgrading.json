@@ -1,126 +1,98 @@
 {
-  "511" : {
-    "command" : "",
-    "output" : ""
-  },
-  "512" : {
-    "command" : "",
-    "output" : ""
-  },
-  "625" : {
-    "command" : "",
-    "output" : ""
-  },
-  "633" : {
-    "command" : "participant.domains.modify(\"newdomain\", _.copy(priority=10))",
-    "output" : ""
-  },
-  "562" : {
-    "command" : "participant.domains.reconnect_all()",
-    "output" : ""
-  },
-  "159" : {
+  "170" : {
     "command" : "participant.start()",
     "output" : ""
   },
-  "626" : {
-    "command" : "participant.domains.connect_local(newdomain)",
-    "output" : ""
-  },
-  "521" : {
+  "587" : {
     "command" : "participant.domains.disconnect(\"olddomain\")",
     "output" : ""
   },
-  "627" : {
+  "646" : {
+    "command" : "participant.domains.list_connected()",
+    "output" : "res8: Seq[ListConnectedDomainsResult] = Vector(\n  ListConnectedDomainsResult(\n    domainAlias = Domain 'newdomain',\n    domainId = newdomain::1220905a6a6f...,\n    healthy = true\n  )\n)"
+  },
+  "657" : {
+    "command" : "participant.health.ping(participant)",
+    "output" : "res10: Duration = 469 milliseconds"
+  },
+  "579" : {
     "command" : "",
     "output" : ""
   },
-  "171" : {
+  "641" : {
+    "command" : "participant.domains.reconnect_all()",
+    "output" : ""
+  },
+  "194" : {
+    "command" : "participant.domains.list_connected()",
+    "output" : "res6: Seq[ListConnectedDomainsResult] = Vector(\n  ListConnectedDomainsResult(\n    domainAlias = Domain 'testdomain',\n    domainId = testdomain::122007e9e5c2...,\n    healthy = true\n  )\n)"
+  },
+  "580" : {
+    "command" : "",
+    "output" : ""
+  },
+  "182" : {
     "command" : "testdomain.start()",
     "output" : ""
   },
-  "183" : {
-    "command" : "participant.domains.list_connected()",
-    "output" : "res6: Seq[ListConnectedDomainsResult] = Vector(\n  ListConnectedDomainsResult(\n    domainAlias = Domain 'testdomain',\n    domainId = testdomain::122007a4af7d...,\n    healthy = true\n  )\n)"
-  },
-  "184" : {
-    "command" : "",
-    "output" : ""
-  },
-  "542" : {
-    "command" : "val config = DomainConnectionConfig(\"newdomain\", GrpcSequencerConnection.tryCreate(\"https://127.0.0.1:5018\"))",
-    "output" : "config : DomainConnectionConfig = DomainConnectionConfig(\n  domain = Domain 'newdomain',\n  sequencerConnections = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(\n    endpoints = https://127.0.0.1:5018,\n    transportSecurity = true\n.."
-  },
-  "638" : {
-    "command" : "participant.domains.list_registered().map { case (c,_) => (c.domain, c.priority) }",
-    "output" : "res3: Seq[(com.digitalasset.canton.DomainAlias, Int)] = Vector((Domain 'newdomain', 10), (Domain 'olddomain', 0))"
-  },
-  "189" : {
-    "command" : "participant.health.ping(participant)",
-    "output" : "res7: Duration = 771 milliseconds"
-  },
-  "623" : {
-    "command" : "",
-    "output" : ""
-  },
-  "514" : {
-    "command" : "participant.resources.set_resource_limits(ResourceLimits(Some(0), Some(0)))",
-    "output" : ""
-  },
-  "132" : {
+  "143" : {
     "command" : "participant.start()",
     "output" : "ERROR com.digitalasset.canton.integration.EnterpriseEnvironmentDefinition$$anon$3 - failed to initialize participant: There are 7 pending migrations to get to database schema version 8. Currently on version 1.1. Please run `participant.db.migrate` to apply pending migrations\n  Command LocalParticipantReference.start invoked from cmd10000002.sc:1"
   },
-  "527" : {
-    "command" : "",
-    "output" : ""
-  },
-  "578" : {
-    "command" : "participant.health.ping(participant)",
-    "output" : "res10: Duration = 734 milliseconds"
-  },
-  "141" : {
-    "command" : "participant.db.migrate()",
-    "output" : ""
-  },
-  "554" : {
-    "command" : "participant.repair.migrate_domain(\"olddomain\", config)",
-    "output" : ""
-  },
-  "526" : {
-    "command" : "participant.domains.list_connected()",
-    "output" : "res3: Seq[ListConnectedDomainsResult] = Vector()"
-  },
-  "513" : {
-    "command" : "",
-    "output" : ""
-  },
-  "573" : {
+  "652" : {
     "command" : "participant.resources.set_resource_limits(ResourceLimits(None, None))",
     "output" : ""
   },
-  "172" : {
+  "183" : {
     "command" : "participant.domains.connect_local(testdomain)",
     "output" : ""
   },
-  "567" : {
+  "195" : {
+    "command" : "",
+    "output" : ""
+  },
+  "200" : {
+    "command" : "participant.health.ping(participant)",
+    "output" : "res7: Duration = 536 milliseconds"
+  },
+  "592" : {
     "command" : "participant.domains.list_connected()",
-    "output" : "res8: Seq[ListConnectedDomainsResult] = Vector(\n  ListConnectedDomainsResult(\n    domainAlias = Domain 'newdomain',\n    domainId = newdomain::12202b4311b4...,\n    healthy = true\n  )\n)"
+    "output" : "res3: Seq[ListConnectedDomainsResult] = Vector()"
   },
-  "568" : {
-    "command" : "",
-    "output" : ""
-  },
-  "549" : {
-    "command" : "val config = DomainConnectionConfig(\"newdomain\", newdomain.sequencerConnection)",
-    "output" : "config : DomainConnectionConfig = DomainConnectionConfig(\n  domain = Domain 'newdomain',\n  sequencerConnections = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(\n    endpoints = http://127.0.0.1:30324,\n    transportSecurity = false\n.."
-  },
-  "624" : {
-    "command" : "",
-    "output" : ""
-  },
-  "178" : {
+  "189" : {
     "command" : "participant.domains.reconnect_all()",
+    "output" : ""
+  },
+  "152" : {
+    "command" : "participant.db.migrate()",
+    "output" : ""
+  },
+  "578" : {
+    "command" : "",
+    "output" : ""
+  },
+  "615" : {
+    "command" : "val config = DomainConnectionConfig(\"newdomain\", GrpcSequencerConnection.tryCreate(\"https://127.0.0.1:5018\"))",
+    "output" : "config : DomainConnectionConfig = DomainConnectionConfig(\n  domain = Domain 'newdomain',\n  sequencerConnections = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(\n    endpoints = https://127.0.0.1:5018,\n    transportSecurity = true\n.."
+  },
+  "593" : {
+    "command" : "",
+    "output" : ""
+  },
+  "622" : {
+    "command" : "val config = DomainConnectionConfig(\"newdomain\", newdomain.sequencerConnection)",
+    "output" : "config : DomainConnectionConfig = DomainConnectionConfig(\n  domain = Domain 'newdomain',\n  sequencerConnections = Sequencer 'DefaultSequencer' -> GrpcSequencerConnection(\n    endpoints = http://127.0.0.1:30294,\n    transportSecurity = false\n.."
+  },
+  "647" : {
+    "command" : "",
+    "output" : ""
+  },
+  "627" : {
+    "command" : "participant.repair.migrate_domain(\"olddomain\", config)",
+    "output" : ""
+  },
+  "581" : {
+    "command" : "participant.resources.set_resource_limits(ResourceLimits(Some(0), Some(0)))",
     "output" : ""
   }
 }
