@@ -1252,8 +1252,6 @@ subtrees:
         title: "Manage DARs and Packages"
       - file: canton/usermanual/upgrading
         title: "Upgrade To a New Release"
-      - file: tools/trigger-service/auth0_example
-        title: "Configure Auth0 Middleware (With Example Configuration)"
       - file: canton/usermanual/security
         title: "Security & Key Management"
       - file: canton/usermanual/kms/kms
