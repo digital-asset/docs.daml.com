@@ -855,8 +855,6 @@ subtrees:
             title: "Daml.Finance.Instrument.StructuredProduct.BarrierReverseConvertible.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-StructuredProduct-BarrierReverseConvertible-Instrument
             title: "Daml.Finance.Instrument.StructuredProduct.BarrierReverseConvertible.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-StructuredProduct-Util
-            title: "Daml.Finance.Instrument.StructuredProduct.Util"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Asset-Factory
             title: "Daml.Finance.Instrument.Swap.Asset.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Asset-Instrument
