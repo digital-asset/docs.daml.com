@@ -1,0 +1,314 @@
+{
+  "538" : {
+    "command" : "hosting.id.toProtoPrimitive",
+    "output" : "res1: String = \"PAR::participant2::1220bcc1ea1f66b0bd91c89972e209e55dad66226144c1d1c9bab4ed946088bcecbd\""
+  },
+  "565" : {
+    "command" : "",
+    "output" : ""
+  },
+  "421" : {
+    "command" : "participant1.ledger_api.users.rights.list(user.id)",
+    "output" : "res10: UserRights = UserRights(\n  actAs = Set(alice::12204dfda9e9...),\n  readAs = Set(bob::12204dfda9e9...),\n  participantAdmin = false,\n  identityProviderAdmin = false\n)"
+  },
+  "761" : {
+    "command" : "",
+    "output" : ""
+  },
+  "657" : {
+    "command" : "",
+    "output" : ""
+  },
+  "580" : {
+    "command" : "",
+    "output" : ""
+  },
+  "581" : {
+    "command" : "",
+    "output" : ""
+  },
+  "620" : {
+    "command" : "",
+    "output" : ""
+  },
+  "760" : {
+    "command" : "mydomain.service.set_max_rate_per_participant(100)",
+    "output" : ""
+  },
+  "555" : {
+    "command" : "BinaryFileUtil.writeByteStringToFile(\"rootCert.bin\", rootCert)",
+    "output" : ""
+  },
+  "666" : {
+    "command" : "targetParticipant.domains.reconnect_all()",
+    "output" : ""
+  },
+  "762" : {
+    "command" : "",
+    "output" : ""
+  },
+  "730" : {
+    "command" : "participant2.topology.party_to_participant_mappings.authorize(TopologyChangeOp.Add, alice, participant2.id, RequestSide.To, ParticipantPermission.Submission)",
+    "output" : "res3: com.google.protobuf.ByteString = <ByteString@16790dea size=556 contents=\"\\n\\251\\004\\n\\327\\001\\n\\322\\001\\n\\317\\001\\022 g1MaMAilPoCTDYtrjYYjynYBZ8fc9d002...\">"
+  },
+  "724" : {
+    "command" : "",
+    "output" : ""
+  },
+  "372" : {
+    "command" : "",
+    "output" : ""
+  },
+  "619" : {
+    "command" : "mydomain.service.set_max_rate_per_participant(0)",
+    "output" : ""
+  },
+  "623" : {
+    "command" : "",
+    "output" : ""
+  },
+  "574" : {
+    "command" : "hosting.topology.load_transaction(BinaryFileUtil.tryReadByteStringFromFile(\"partyDelegation.bin\"))",
+    "output" : ""
+  },
+  "634" : {
+    "command" : "",
+    "output" : ""
+  },
+  "692" : {
+    "command" : "mydomain.service.set_max_rate_per_participant(10000)",
+    "output" : ""
+  },
+  "660" : {
+    "command" : "",
+    "output" : ""
+  },
+  "392" : {
+    "command" : "",
+    "output" : ""
+  },
+  "407" : {
+    "command" : "participant1.ledger_api.users.get(\"myuser\", identityProviderId=\"\")",
+    "output" : "res8: User = User(\n  id = \"myuser\",\n  primaryParty = None,\n  isActive = true,\n  annotations = Map(\"baz\" -> \"bar\", \"description\" -> \"This is a new description\"),\n  identityProviderId = \"\"\n)"
+  },
+  "693" : {
+    "command" : "",
+    "output" : ""
+  },
+  "566" : {
+    "command" : "val partyDelegation = client.topology.party_to_participant_mappings.authorize(TopologyChangeOp.Add, partyId, hostingNodeId, RequestSide.From)",
+    "output" : "partyDelegation : com.google.protobuf.ByteString = <ByteString@285810ae size=557 contents=\"\\n\\252\\004\\n\\330\\001\\n\\323\\001\\n\\320\\001\\022 gDs1SxrIJttWHwwlkxED9xgAAgWQUf9q2...\">"
+  },
+  "361" : {
+    "command" : "",
+    "output" : ""
+  },
+  "625" : {
+    "command" : "",
+    "output" : ""
+  },
+  "554" : {
+    "command" : "import com.digitalasset.canton.util.BinaryFileUtil",
+    "output" : ""
+  },
+  "537" : {
+    "command" : "",
+    "output" : ""
+  },
+  "686" : {
+    "command" : "repair.party_migration.step6_cleanup_source(sourceParticipant, \"alice.acs.gz\", Set(alice))",
+    "output" : ""
+  },
+  "637" : {
+    "command" : "repair.party_migration.step1_store_acs(sourceParticipant, Set(alice), partiesOffboarding = true, \"alice.acs.gz\")",
+    "output" : ""
+  },
+  "622" : {
+    "command" : "",
+    "output" : ""
+  },
+  "371" : {
+    "command" : "val user = participant1.ledger_api.users.create(id = \"myuser\", actAs = Set(alice), readAs = Set(bob), primaryParty = Some(alice), participantAdmin = false, isActive = true, annotations = Map(\"foo\" -> \"bar\", \"description\" -> \"This is a description\"))",
+    "output" : "user : User = User(\n  id = \"myuser\",\n  primaryParty = Some(value = alice::12204dfda9e9...),\n  isActive = true,\n  annotations = Map(\"foo\" -> \"bar\", \"description\" -> \"This is a description\"),\n  identityProviderId = \"\"\n)"
+  },
+  "573" : {
+    "command" : "hosting.topology.load_transaction(BinaryFileUtil.tryReadByteStringFromFile(\"rootCert.bin\"))",
+    "output" : ""
+  },
+  "444" : {
+    "command" : "participant1.ledger_api.users.create(id = \"myotheruser\")",
+    "output" : "res14: User = User(\n  id = \"myotheruser\",\n  primaryParty = None,\n  isActive = true,\n  annotations = Map(),\n  identityProviderId = \"\"\n)"
+  },
+  "694" : {
+    "command" : "",
+    "output" : ""
+  },
+  "579" : {
+    "command" : "hosting.topology.party_to_participant_mappings.authorize(TopologyChangeOp.Add, partyId, hosting.id, RequestSide.To)",
+    "output" : "res11: com.google.protobuf.ByteString = <ByteString@1fb46287 size=557 contents=\"\\n\\252\\004\\n\\330\\001\\n\\323\\001\\n\\320\\001\\022 cQO5m46HnOg3U4CZmPiyvFeng5JVRuGa2...\">"
+  },
+  "391" : {
+    "command" : "",
+    "output" : ""
+  },
+  "445" : {
+    "command" : "participant1.ledger_api.users.list(filterUser = \"my\")",
+    "output" : "res15: UsersPage = UsersPage(\n  users = Vector(\n    User(\n      id = \"myotheruser\",\n      primaryParty = None,\n      isActive = true,\n      annotations = Map(),\n      identityProviderId = \"\"\n    ),\n    User(\n      id = \"myuser\",\n      primaryParty = None,\n      isActive = true,\n      annotations = Map(\"baz\" -> \"bar\", \"description\" -> \"This is a new description\"),\n      identityProviderId = \"\"\n    )\n  ),\n  nextPageToken = \"\"\n)"
+  },
+  "406" : {
+    "command" : "participant1.ledger_api.users.update_idp(\"myuser\", sourceIdentityProviderId=\"idp-id1\", targetIdentityProviderId=\"\")",
+    "output" : ""
+  },
+  "681" : {
+    "command" : "sourceParticipant.domains.disconnect_all()",
+    "output" : ""
+  },
+  "649" : {
+    "command" : "repair.party_migration.step2_import_acs(targetParticipant, Set(alice), \"alice.acs.gz\")",
+    "output" : ""
+  },
+  "362" : {
+    "command" : "val Seq(alice, bob, eve) = Seq(\"alice\", \"bob\", \"eve\").map(p => participant1.parties.enable(name = p, waitForDomain = DomainChoice.All))",
+    "output" : "Seq(alice, bob, eve) : Seq[PartyId] = List(alice::12204dfda9e9..., bob::12204dfda9e9..., eve::12204dfda9e9...)"
+  },
+  "567" : {
+    "command" : "BinaryFileUtil.writeByteStringToFile(\"partyDelegation.bin\", partyDelegation)",
+    "output" : ""
+  },
+  "535" : {
+    "command" : "",
+    "output" : ""
+  },
+  "621" : {
+    "command" : "",
+    "output" : ""
+  },
+  "399" : {
+    "command" : "participant1.ledger_api.identity_provider_config.create(\"idp-id1\", isDeactivated = false, jwksUrl = \"http://someurl\", issuer = \"issuer1\", audience = None)",
+    "output" : "res4: com.digitalasset.canton.ledger.api.domain.IdentityProviderConfig = IdentityProviderConfig(\n  identityProviderId = Id(value = \"idp-id1\"),\n  isDeactivated = false,\n  jwksUrl = JwksUrl(value = \"http://someurl\"),\n  issuer = \"issuer1\",\n  audience = None\n)"
+  },
+  "636" : {
+    "command" : "",
+    "output" : ""
+  },
+  "438" : {
+    "command" : "participant1.ledger_api.users.rights.list(user.id)",
+    "output" : "res13: UserRights = UserRights(\n  actAs = Set(alice::12204dfda9e9...),\n  readAs = Set(bob::12204dfda9e9..., eve::12204dfda9e9...),\n  participantAdmin = false,\n  identityProviderAdmin = false\n)"
+  },
+  "658" : {
+    "command" : "",
+    "output" : ""
+  },
+  "722" : {
+    "command" : "",
+    "output" : ""
+  },
+  "749" : {
+    "command" : "participant1.topology.party_to_participant_mappings.authorize(TopologyChangeOp.Add, alice, participant2.id, RequestSide.From, ParticipantPermission.Submission)",
+    "output" : "res4: com.google.protobuf.ByteString = <ByteString@470aaacd size=556 contents=\"\\n\\251\\004\\n\\327\\001\\n\\322\\001\\n\\317\\001\\022 EOWg9kVo2JMkRNIidd7Wu1TRghQ5D9Cq2...\">"
+  },
+  "754" : {
+    "command" : "participant1.parties.list(\"Alice\")",
+    "output" : "res5: Seq[ListPartiesResult] = Vector(\n  ListPartiesResult(\n    party = Alice::122021a00a73...,\n    participants = Vector(\n      ParticipantDomains(\n        participant = PAR::participant2::12201828a72b...,\n        domains = Vector(\n          DomainPermission(domain = mydomain::1220982ca706..., permission = Submission)\n        )\n      ),\n      ParticipantDomains(\n        participant = PAR::participant1::122021a00a73...,\n        domains = Vector(\n          DomainPermission(domain = mydomain::1220982ca706..., permission = Submission)\n        )\n      )\n    )\n  )\n)"
+  },
+  "717" : {
+    "command" : "mydomain.service.set_max_rate_per_participant(0)",
+    "output" : ""
+  },
+  "544" : {
+    "command" : "val secret = client.keys.secret.generate_signing_key(\"my-party-key\")",
+    "output" : "secret : SigningPublicKey = SigningPublicKey(id = 1220ee50b8fe..., format = Tink, scheme = Ed25519)"
+  },
+  "390" : {
+    "command" : "val updatedUser = participant1.ledger_api.users.update(id = user.id, modifier = user => { user.copy(primaryParty = None, annotations = user.annotations.updated(\"description\", \"This is a new description\").removed(\"foo\").updated(\"baz\", \"bar\")) })",
+    "output" : "updatedUser : User = User(\n  id = \"myuser\",\n  primaryParty = None,\n  isActive = true,\n  annotations = Map(\"baz\" -> \"bar\", \"description\" -> \"This is a new description\"),\n  identityProviderId = \"\"\n)"
+  },
+  "401" : {
+    "command" : "participant1.ledger_api.users.get(\"myuser\", identityProviderId=\"idp-id1\")",
+    "output" : "res6: User = User(\n  id = \"myuser\",\n  primaryParty = None,\n  isActive = true,\n  annotations = Map(\"baz\" -> \"bar\", \"description\" -> \"This is a new description\"),\n  identityProviderId = \"idp-id1\"\n)"
+  },
+  "731" : {
+    "command" : "",
+    "output" : ""
+  },
+  "433" : {
+    "command" : "participant1.ledger_api.users.rights.revoke(id = user.id, actAs = Set(bob), readAs = Set(alice), participantAdmin = true)",
+    "output" : "res12: UserRights = UserRights(\n  actAs = Set(bob::12204dfda9e9...),\n  readAs = Set(),\n  participantAdmin = true,\n  identityProviderAdmin = false\n)"
+  },
+  "667" : {
+    "command" : "repair.party_migration.step4_enable_party_on_target(targetParticipant, Set(alice))",
+    "output" : ""
+  },
+  "763" : {
+    "command" : "",
+    "output" : ""
+  },
+  "549" : {
+    "command" : "val rootCert = client.topology.namespace_delegations.authorize(TopologyChangeOp.Add,secret.fingerprint,secret.fingerprint,isRootDelegation = true)",
+    "output" : "rootCert : com.google.protobuf.ByteString = <ByteString@683698fe size=652 contents=\"\\n\\211\\005\\n\\267\\002\\n\\262\\002\\n\\257\\002\\022 FZTZcHUciGGbKvIarfT865yQbTTVKjdv\\032...\">"
+  },
+  "536" : {
+    "command" : "",
+    "output" : ""
+  },
+  "400" : {
+    "command" : "participant1.ledger_api.users.update_idp(\"myuser\", sourceIdentityProviderId=\"\", targetIdentityProviderId=\"idp-id1\")",
+    "output" : ""
+  },
+  "635" : {
+    "command" : "val alice = sourceParticipant.parties.find(\"Alice\")",
+    "output" : "alice : PartyId = Alice::12204f921ff1..."
+  },
+  "415" : {
+    "command" : "participant1.ledger_api.users.get(user.id)",
+    "output" : "res9: User = User(\n  id = \"myuser\",\n  primaryParty = None,\n  isActive = true,\n  annotations = Map(\"baz\" -> \"bar\", \"description\" -> \"This is a new description\"),\n  identityProviderId = \"\"\n)"
+  },
+  "624" : {
+    "command" : "",
+    "output" : ""
+  },
+  "464" : {
+    "command" : "participant1.ledger_api.users.update(\"myuser\", user => user.copy(isActive = false))",
+    "output" : "res18: User = User(\n  id = \"myuser\",\n  primaryParty = None,\n  isActive = false,\n  annotations = Map(\"baz\" -> \"bar\", \"description\" -> \"This is a new description\"),\n  identityProviderId = \"\"\n)"
+  },
+  "427" : {
+    "command" : "participant1.ledger_api.users.rights.grant(id = user.id, actAs = Set(alice, bob), readAs = Set(eve), participantAdmin = true)",
+    "output" : "res11: UserRights = UserRights(\n  actAs = Set(bob::12204dfda9e9...),\n  readAs = Set(eve::12204dfda9e9...),\n  participantAdmin = true,\n  identityProviderAdmin = false\n)"
+  },
+  "644" : {
+    "command" : "targetParticipant.domains.disconnect_all()",
+    "output" : ""
+  },
+  "459" : {
+    "command" : "participant1.ledger_api.users.list(\"myotheruser\")",
+    "output" : "res17: UsersPage = UsersPage(users = Vector(), nextPageToken = \"\")"
+  },
+  "723" : {
+    "command" : "val alice = participant1.parties.enable(\"Alice\")",
+    "output" : "alice : PartyId = Alice::122021a00a73..."
+  },
+  "691" : {
+    "command" : "sourceParticipant.domains.reconnect_all()",
+    "output" : ""
+  },
+  "659" : {
+    "command" : "repair.party_migration.step3_delegate_party_to_target_node(controllingParticipant, Set(alice), targetParticipantId)",
+    "output" : ""
+  },
+  "560" : {
+    "command" : "val partyId = PartyId(\"Client\", secret.fingerprint)",
+    "output" : "partyId : PartyId = Client::1220ee50b8fe..."
+  },
+  "454" : {
+    "command" : "participant1.ledger_api.users.delete(\"myotheruser\")",
+    "output" : ""
+  },
+  "755" : {
+    "command" : "",
+    "output" : ""
+  },
+  "676" : {
+    "command" : "repair.party_migration.step5_remove_party_delegation_from_source(controllingParticipant, Set(alice), sourceParticipant)",
+    "output" : ""
+  }
+}
