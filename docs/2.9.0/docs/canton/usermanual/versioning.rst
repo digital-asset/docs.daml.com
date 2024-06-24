@@ -66,7 +66,7 @@ The list of supported protocol versions for each minor version is the following:
 
 .. _release-version-to-protocol-version-table:
 
-(*) The protocol versions marked with `*` is the preview protocol version. To use a preview protocol version, follow the  :ref:`documentation <how-do-i-enable-preview-features>`.
+(*) The protocol versions marked with `*` are the beta protocol version. To use a beta protocol version, follow the  :ref:`documentation <how-do-i-enable-beta-features>`.
 
 .. include:: /canton/includes/generated/versioning.rst.inc
 
