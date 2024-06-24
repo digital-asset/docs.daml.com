@@ -5,8 +5,8 @@
 
 .. _kms_driver_guide:
 
-KMS Driver Developer Guide
-==========================
+Canton KMS Driver Developer Guide
+=================================
 
 .. enterprise-only::
 
@@ -15,18 +15,18 @@ Introduction
 ------------
 
 The Canton protocol relies on a number of cryptographic operations such as
-asymmetric encryption and digital signatures. In order to improve the
+asymmetric encryption and digital signatures. To maximize the
 operational security of a Canton node the corresponding private keys should not
 be stored or processed in cleartext. A Key Management System (KMS) or Hardware
 Security Module (HSM) allows us to perform such cryptographic operations where
 the private key resides securely inside the KMS/HSM. All nodes in Canton can
 make use of a KMS.
 
-As of Canton v2.7 AWS KMS and Google Cloud KMS are supported. To broaden the
+AWS KMS and Google Cloud KMS are supported as of Canton v2.7. To broaden the
 support of other KMSs and HSMs, Canton v2.9 introduces a plugin approach, called
-KMS Drivers, that allows the implementation of custom integrations. This
-document explains the APIs that are required to be implemented for a KMS Driver,
-provides a guide on the implementation, as well as how to configure Canton to
+KMS Drivers, which allows the implementation of custom integrations. This
+document explains the APIs that must be implemented for a KMS Driver,
+provides a guide on the implementation, and describes how to configure Canton to
 run with a KMS driver. An implementation needs to be developed for the JVM,
 currently only Scala is supported.
 
@@ -58,7 +58,7 @@ The ``v1.DriverFactory`` defines the following aspects for a generic driver:
 -  A name that uniquely identifies the driver
 -  The version of the API the driver implements and optional build
    information (driver version number or commit hash)
--  Driver-specific configuration object with configuration parser and
+-  A driver-specific configuration object with configuration parser and
    writer
 -  A create method that instantiates a driver with that factory
 
@@ -123,15 +123,15 @@ Concretely the Scala interface is defined as the following:
 Error Handling and Health
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In case the driver experiences an error the Future of the operation should be
+In case the driver experiences an error the ``Future`` of the operation should be
 failed with a ``KmsDriverException``. When the exception's flag retryable is
-true the caller side, i.e., Canton, will perform a retry with exponential
+true the caller side, i.e., Canton, performs a retry with exponential
 backoff. This behavior is suitable for transient errors, such as network issues,
 resource exhaustion etc.
 
 In case of permanent errors, a non-retryable exception should be thrown, which
 either fails the current operation from where the cryptographic operation is
-called or it may cause a fatal error in the Canton node.
+called or causes a fatal error in the Canton node.
 
 The driver should report its health through the health method. A Canton node
 periodically queries the health of the driver and reports it as part of the
@@ -140,15 +140,15 @@ node's overall health.
 Develop and Test a KMS Driver
 -----------------------------
 
-Setup API Dependency
-~~~~~~~~~~~~~~~~~~~~
+Set Up API Dependency
+~~~~~~~~~~~~~~~~~~~~~
 
 The Canton KMS Driver API is published as an artifact on Digital Asset's JFrog
 Artifactory:
 
 https://digitalasset.jfrog.io/ui/repos/tree/General/canton-kms-driver-api
 
-One requires a Canton enterprise license and account to access that artifact.
+You must have a Canton enterprise license and account to access the artifact.
 You may need to configure your build system to authenticate with a personal
 access token towards JFrog Artifactory.
 
@@ -179,10 +179,9 @@ specifications can be defined statically depending on the capabilities of the
 underlying KMS/HSM. To ensure the best compatibility with other Canton nodes,
 all currently specified key and algorithm specifications should be supported.
 
-Any credentials that are required by the underlying KMS/HSM can either be passed
+Any credentials required by the underlying KMS/HSM can either be passed
 through the Canton configuration file as part of the driver-specific
-configuration, where secrets can be resolved from the environment, or the driver
-can retrieve credentials directly from the environment or any other
+configuration, where secrets can be resolved from the environment, or retrieved by the driver directly from the environment or any other
 driver-specific means.
 
 Bundle your driver into a self-contained jar, that is, with all required
@@ -214,10 +213,10 @@ In the simplest form the specific driver test class extends the
    :start-after: user-manual-entry-begin: AwsKmsDriverTest
    :end-before: user-manual-entry-end: AwsKmsDriverTest
 
-Given that generation of new keys can be expensive when running tests during
-development frequently, in particular when using Cloud-based KMSs, the test
+Generating new keys can be expensive when running tests during
+development, in particular when using cloud-based KMSs. To mitigate this, the test
 suite can also be configured to use predefined keys to test most parts (except
-key generation obviously) of the KMS Driver API:
+key generation) of the KMS Driver API:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/aws-kms-driver/src/test/scala/com/digitalasset/canton/nightly/AwsKmsDriverTest.scala
    :language: Scala
@@ -225,14 +224,14 @@ key generation obviously) of the KMS Driver API:
    :end-before: user-manual-entry-end: AwsKmsDriverWithPredefinedKeysTest
 
 
-For each supported signing/encryption key specification an existing key alias/id
+For each supported signing/encryption key specification an existing key alias/ID
 can be configured as part of the predefined keys maps. When running the test
 suite the generation of new keys is not allowed.
 
 KmsDriverFactoryTest
 ^^^^^^^^^^^^^^^^^^^^
 
-The test suite for the KMS driver factory is structured similarly:
+The test suite for the KMS driver factory is structured similarly to the above:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/aws-kms-driver/src/test/scala/com/digitalasset/canton/nightly/AwsKmsDriverTest.scala
    :language: Scala
@@ -242,15 +241,15 @@ The test suite for the KMS driver factory is structured similarly:
 
 The ``KmsDriverFactory`` can write the driver-specific configuration with a
 confidential flag being true, which means any sensitive information in the
-configuration such as credentials, should be omitted from the written
+configuration such as credentials should be omitted from the written
 configuration. A specific test case should be added if your driver-specific
-configuration contains any confidential information, which asserts that the
+configuration contains any confidential information, asserting that the
 sensitive information is omitted.
 
 Run Canton with a KMS Driver
 ----------------------------
 
-Configure Canton to run with a KMS driver, for example, with for a
+Configure Canton to run with a KMS driver, for example, for a
 participant participant1:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/aws-kms-driver.conf
@@ -262,7 +261,7 @@ Run Canton with your driver jar on its class path:
 
 ``java -cp driver.jar:canton.jar com.digitalasset.canton.CantonEnterpriseApp -c canton.conf # further canton arguments``
 
-Where canton.jar depends on the canton version, e.g.,
+Where canton.jar depends on the Canton version, e.g.,
 ``lib/canton-enterprise-2.9.0.jar``. The ``canton.conf`` is a configuration file
 that needs to configure at least one of the nodes to use the driver KMS as
 outlined above. Run a ping for example with
