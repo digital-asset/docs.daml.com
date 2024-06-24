@@ -1304,6 +1304,8 @@ subtrees:
                               title: "With a new Namespace"
                     - file: canton/usermanual/kms/external_key_storage/manual_kms_key_rotation
                       title: "Manual KMS key rotation"
+            - file: canton/usermanual/kms/kms_driver_guide
+              title: "Canton KMS Driver API Developer Guide"
 
   - file: canton/usermanual/performance
     title: "Scaling and Performance"
