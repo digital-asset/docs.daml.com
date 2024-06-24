@@ -123,7 +123,7 @@ Concretely the Scala interface is defined as the following:
 Error Handling and Health
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In case the driver experiences an error the Future of the operation should be
+In case the driver experiences an error the ``Future`` of the operation should be
 failed with a ``KmsDriverException``. When the exception's flag retryable is
 true the caller side, i.e., Canton, performs a retry with exponential
 backoff. This behavior is suitable for transient errors, such as network issues,
@@ -224,7 +224,7 @@ key generation) of the KMS Driver API:
    :end-before: user-manual-entry-end: AwsKmsDriverWithPredefinedKeysTest
 
 
-For each supported signing/encryption key specification an existing key alias/id
+For each supported signing/encryption key specification an existing key alias/ID
 can be configured as part of the predefined keys maps. When running the test
 suite the generation of new keys is not allowed.
 
@@ -249,7 +249,7 @@ sensitive information is omitted.
 Run Canton with a KMS Driver
 ----------------------------
 
-Configure Canton to run with a KMS driver, for example, with for a
+Configure Canton to run with a KMS driver, for example, for a
 participant participant1:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/resources/aws-kms-driver.conf
