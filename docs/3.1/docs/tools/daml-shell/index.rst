@@ -115,8 +115,8 @@ Filters
 You can pipe command output through one or more ``filters`` using the
 ``|`` (pipe) symbol. For example,
 ``active Foo:Bar | csv | export ~/my_foos.csv``. If the filter is not
-recognized as a built-in filter, Daml Shell will use the system binary
-of the same name as the filter if it exists.
+recognized as a built-in filter, Daml Shell uses the system binary of
+the same name as the filter if such a binary exists.
 
 .. _configuration:
 
