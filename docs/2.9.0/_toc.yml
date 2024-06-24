@@ -851,16 +851,10 @@ subtrees:
             title: "Daml.Finance.Instrument.Option.EuropeanPhysical.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-EuropeanPhysical-Instrument
             title: "Daml.Finance.Instrument.Option.EuropeanPhysical.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-StructuredProduct-AutoCallable-Factory
-            title: "Daml.Finance.Instrument.StructuredProduct.AutoCallable.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-StructuredProduct-AutoCallable-Instrument
-            title: "Daml.Finance.Instrument.StructuredProduct.AutoCallable.Instrument"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-StructuredProduct-BarrierReverseConvertible-Factory
             title: "Daml.Finance.Instrument.StructuredProduct.BarrierReverseConvertible.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-StructuredProduct-BarrierReverseConvertible-Instrument
             title: "Daml.Finance.Instrument.StructuredProduct.BarrierReverseConvertible.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-StructuredProduct-Util
-            title: "Daml.Finance.Instrument.StructuredProduct.Util"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Asset-Factory
             title: "Daml.Finance.Instrument.Swap.Asset.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Asset-Instrument
@@ -993,12 +987,6 @@ subtrees:
             title: "Daml.Finance.Interface.Instrument.Option.EuropeanPhysical.Types"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Types
             title: "Daml.Finance.Interface.Instrument.Option.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduct-AutoCallable-Factory
-            title: "Daml.Finance.Interface.Instrument.StructuredProduct.AutoCallable.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduct-AutoCallable-Instrument
-            title: "Daml.Finance.Interface.Instrument.StructuredProduct.AutoCallable.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduct-AutoCallable-Types
-            title: "Daml.Finance.Interface.Instrument.StructuredProduct.AutoCallable.Types"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduct-BarrierReverseConvertible-Factory
             title: "Daml.Finance.Interface.Instrument.StructuredProduct.BarrierReverseConvertible.Factory"
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduct-BarrierReverseConvertible-Instrument
@@ -1264,8 +1252,6 @@ subtrees:
         title: "Manage DARs and Packages"
       - file: canton/usermanual/upgrading
         title: "Upgrade To a New Release"
-      - file: tools/trigger-service/auth0_example
-        title: "Configure Auth0 Middleware (With Example Configuration)"
       - file: canton/usermanual/security
         title: "Security & Key Management"
       - file: canton/usermanual/kms/kms
@@ -1318,6 +1304,8 @@ subtrees:
                               title: "With a new Namespace"
                     - file: canton/usermanual/kms/external_key_storage/manual_kms_key_rotation
                       title: "Manual KMS key rotation"
+            - file: canton/usermanual/kms/kms_driver_guide
+              title: "Canton KMS Driver API Developer Guide"
 
   - file: canton/usermanual/performance
     title: "Scaling and Performance"
