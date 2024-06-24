@@ -260,21 +260,6 @@ The sync domain configuration requires the same configuration of the ``admin-api
 Next to the ``admin-api``, we need to configure the ``public-api``, which is the API where
 all participants connect.
 
-Authentication Token
-^^^^^^^^^^^^^^^^^^^^
-Authentication of the restricted services is built into the public sequencer API, leveraging the
-participant signing keys. You don't need to do anything in order to set this up; it is enforced
-automatically and can't be turned off. The same mechanism is used to check the authentication of
-the sync domain topology manager and the mediator.
-
-The token is generated during the handshake between the node and the sequencer. By default, it is valid for one hour.
-The nodes automatically renew the token in the background before it expires. The lifetime of the
-tokens and of the nonce can be reconfigured using
-
-.. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/auth-token-config.conf
-
-However, we suggest keeping the default values.
-
 TLS Encryption
 ^^^^^^^^^^^^^^
 As with the admin API, network traffic can (and should) be encrypted using TLS. This is particularly
@@ -295,6 +280,62 @@ certificates of the Java runtime will be used. An example would be:
    :end-before: architecture-handbook-entry-end: TlsConnect
    :dedent:
 
+Server Authentication
+^^^^^^^^^^^^^^^^^^^^^
+
+Canton has two ways to perform server authentication to protect from man-in-the-middle attacks: TLS and the sync domain ID.
+
+If TLS is used on the public API as described above, TLS also takes care of server authentication. This is one of the
+core functions of TLS.
+
+Server authentication can also be performed by the sync domain operator passing their sync domain identity to the
+participant node operator, and checking that the identity matches that reported by the sync domain to the participant
+node. Like all nodes, the sync domain has an identity that corresponds to the fingerprint of its namespace root key.
+It reports its identity to connecting participant nodes and signs all its messages with keys authorized by that
+namespace root key on the topology ledger. Assuming no key compromises, this gives participants a guarantee that the
+reported identity is authentic. The domain identity of the sole connected sync domain can be read out using console
+commands like:
+
+.. code-block:: none
+
+    participant1.domains.list_connected.last.domainId.filterString
+
+Client Authentication
+^^^^^^^^^^^^^^^^^^^^^
+
+Unlike the ledger or admin API, the public API uses Canton's cryptography and topology state for client authentication
+rather than mutual TLS (mTLS). Clients need to connect to the public API in several steps:
+
+#. The client calls the ``SequencerConnectService`` to align on Canton Protocol versions and obtain the domain ID.
+#. During the first connection, the client registers by sending its minimal topology state (identity, key delegations,
+   public keys) to the domain manager.
+#. The client calls the ``SequencerAuthenticationService`` to authenticate using a challenge-response protocol and get
+   an access token for the other sequencer services.
+#. The client connects to the main ``SequencerService`` using the access token from 3.
+
+The information the client provides in step 2 is verifiable since it is a certificate chain of keys. The domain rejects
+this if the namespace root key fingerprint included is not permissioned  (see :ref:`permissioned-domains`) or if the
+topology state provided is invalid.
+
+During step 3, the client claims an identity, which is the fingerprint of a namespace root key. If that identity is
+registered (as done in step 2), the domain responds with a challenge consisting of a nonce and all fingerprints of
+signing keys authorized for that member as per the topology ledger.
+If the challenge is met successfully by signing the nonce appropriately with a key matching one of the authorized
+keys, the ``SequencerAuthenticationService`` responds with a time-limited token which can be used to authenticate more
+cheaply on the other public API services.
+
+This authentication mechanism for the restricted services is built into the public sequencer API. You don't need to do
+anything to set this up; it is enforced automatically and can't be turned off.
+
+The expiration of the token generated in step 2 is valid for one hour by default.
+The nodes automatically renew the token in the background before it expires. The lifetime of the
+tokens and of the nonce can be reconfigured using
+
+.. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/auth-token-config.conf
+
+However, we suggest keeping the default values.
+
+
 Usage of native libraries by Netty
 ----------------------------------
 
@@ -304,5 +345,9 @@ The available native is picked up automatically and it falls back to the standar
 or architectures.
 
 Furthermore, the usage of the native library can also be switched off by setting the following:
-`-Dio.netty.transport.noNative=true`.
-Even when this is expected, falling back to NIO might lead to a warning being emitted at `DEBUG` level on your log.
+
+.. code-block:: text
+
+    -Dio.netty.transport.noNative=true
+
+Even when this is expected, falling back to NIO might lead to a warning being emitted at ``DEBUG`` level on your log.
