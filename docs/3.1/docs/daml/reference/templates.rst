@@ -265,6 +265,8 @@ Migration
 
 Users should remove any agreement declarations from their code, as this feature has been fully removed from the language.
 
+.. _daml-ref-preconditions:
+
 Preconditions
 *************
 
