@@ -23,7 +23,7 @@ Some of the actions that Daml Shell supports are:
    displayed as a series of ledger events (creates, archives, and
    exercises).
 -  Auto-completion for identifiers such as contract IDs, fully qualified
-   names, and package IDs.
+   names, and package names.
 -  List active, inactive, or all contracts for a template using a
    template FQN.
 -  Apply queries and filters to commands to manage the output.
@@ -67,7 +67,8 @@ You can recurse into commands by typing
 ``help <command> <sub-command> [...]``. Auto-completion at the bottom of
 the screen suggests possible command options.
 
-|001-help-output.gif|
+.. image:: images/001-help-output.gif
+   :alt: 001-help-output.gif
 
 ::
 
@@ -79,7 +80,7 @@ the screen suggests possible command options.
        help [<command>]
 
    DESCRIPTION
-       CLI to interact with a Scribe database.
+       CLI to interact with a PQS database.
        
        Available commands:
          * active - active contracts
@@ -97,17 +98,25 @@ the screen suggests possible command options.
          * quit - quit the shell
          * set - configure application settings
          * transaction - transaction details
-
+       
        Available filters:
          * csv - transform table data to csv format
          * export - write output to local file
+         * grep - filter output by pattern
+         * head - take first n lines
+         * tail - take last n lines
+       
+       In addition to above built-in filters, any of the available system binaries
+       can be used as filters and will receive the command output as stdin
 
 Filters
 =======
 
 You can pipe command output through one or more ``filters`` using the
 ``|`` (pipe) symbol. For example,
-``active Foo:Bar | csv | export ~/my_foos.csv``.
+``active Foo:Bar | csv | export ~/my_foos.csv``. If the filter is not
+recognized as a built-in filter, Daml Shell uses the system binary of
+the same name as the filter if such a binary exists.
 
 .. _configuration:
 
@@ -219,7 +228,8 @@ database. For example:
 The status bar shows the connected status, the session offset range, and
 the datastore offset range.
 
-|003-connect.gif|
+.. image:: images/003-connect.gif
+   :alt: 003-connect.gif
 
 Offsets
 =======
@@ -251,12 +261,13 @@ compare between (see ``help net-changes``).
 ::
 
    > net-changes 
-   +3 PingPong:Cash [89a08f0324025f1…]
-   -3 PingPong:CashTransferProposal [89a08f0324025f1…]
-   +3 PingPong:IAsset [89a08f0324025f1…]
-   -3 PingPong:IAssetTransferProposal [89a08f0324025f1…]
+   +6 myproject:PingPong:Cash
+   -6 myproject:PingPong:CashTransferProposal
+   +6 myproject:PingPong:IAsset
+   -6 myproject:PingPong:IAssetTransferProposal
 
-|003-offset-commands.gif|
+.. image:: images/003-offset-commands.gif
+   :alt: 003-offset-commands.gif
 
 Summary information
 ===================
@@ -268,19 +279,20 @@ fully qualified identifier names. For details, run ``help <command>``.
 ::
 
    > active
-   ┌─────────────────────────────────────────┬───────────┬───────┐
-   │ Identifier                              │ Type      │ Count │
-   ╞═════════════════════════════════════════╪═══════════╪═══════╡
-   │ PingPong:Cash [89a08f0324025f1…]        │ Template  │     6 │
-   ├─────────────────────────────────────────┼───────────┼───────┤
-   │ PingPong:IAsset [89a08f0324025f1…]      │ Interface │     6 │
-   ├─────────────────────────────────────────┼───────────┼───────┤
-   │ PingPong:IBounceable [89a08f0324025f1…] │ Interface │     2 │
-   ├─────────────────────────────────────────┼───────────┼───────┤
-   │ PingPong:Ping [89a08f0324025f1…]        │ Template  │     2 │
-   └─────────────────────────────────────────┴───────────┴───────┘
+   ┌────────────────────────────────┬───────────┬───────┐
+   │ Identifier                     │ Type      │ Count │
+   ╞════════════════════════════════╪═══════════╪═══════╡
+   │ myproject:PingPong:Cash        │ Template  │    12 │
+   ├────────────────────────────────┼───────────┼───────┤
+   │ myproject:PingPong:IAsset      │ Interface │    12 │
+   ├────────────────────────────────┼───────────┼───────┤
+   │ myproject:PingPong:IBounceable │ Interface │   102 │
+   ├────────────────────────────────┼───────────┼───────┤
+   │ myproject:PingPong:Ping        │ Template  │   102 │
+   └────────────────────────────────┴───────────┴───────┘
 
-|003-summary-commands.gif|
+.. image:: images/003-summary-commands.gif
+   :alt: 003-summary-commands.gif
 
 Payloads by fully qualified name
 ================================
@@ -290,14 +302,14 @@ Specify a fully qualified name (FQN) with the command ``active``,
 payloads for that FQN.
 
 To return payloads from a particular package only, include the package
-ID in the FQN:
+name in the FQN:
 
 ::
 
-   > active 89a08f0324025f1254f09edc0195ca24459c6302e88d2b9f636d2be5a615d1f1:PingPong:Ping
+   > active myproject:PingPong:Ping
 
-If you omit the package ID, payloads from all package IDs are returned,
-as long as they have the same name.
+If you omit the package name, payloads from all package names are
+returned, as long as they have the same name.
 
 ::
 
@@ -313,7 +325,7 @@ as long as they have the same name.
    └────────────┴──────────────────┴──────────────┴────────────────────────────────────────────────────────────────────────────────────┘
 
 The auto-completion provides both FQN variants (with and without package
-ID).
+name).
 
 Filtering with ``where`` clauses
 ================================
@@ -397,7 +409,8 @@ Here are some examples of how to use ``where`` clauses in commands:
    Lists contracts where the ``owner`` starts with ``Bob`` or the
    ``value`` is less than ``100``, and ``myfield`` is ``myvalue``.
 
-|003-where-clause.gif|
+.. image:: images/003-where-clause.gif
+   :alt: 003-where-clause.gif
 
 Contract lookup
 ===============
@@ -410,48 +423,49 @@ included. The wildcard character will be expanded to any matching ID.
 
 ::
 
-   > contract 0093dce322a08c8…
+   > contract 005188b40…
    ╓──────────────╥────────────────────────────────────────────────────────────────────────────────────╖
-   ║ Identifier   ║ PingPong:Ping [89a08f0324025f1…]                                                   ║
+   ║ Identifier   ║ myproject:PingPong:Ping                                                            ║
    ╟──────────────╫────────────────────────────────────────────────────────────────────────────────────╢
    ║ Type         ║ Template                                                                           ║
    ╟──────────────╫────────────────────────────────────────────────────────────────────────────────────╢
-   ║ Created at   ║ a                                                                                  ║
+   ║ Created at   ║ a (not yet active)                                                                 ║
    ╟──────────────╫────────────────────────────────────────────────────────────────────────────────────╢
    ║ Archived at  ║ <active>                                                                           ║
    ╟──────────────╫────────────────────────────────────────────────────────────────────────────────────╢
-   ║ Contract ID  ║ 0093dce322a08c8…                                                                   ║
+   ║ Contract ID  ║ 005188b40f981533f8f5…                                                              ║
    ╟──────────────╫────────────────────────────────────────────────────────────────────────────────────╢
-   ║ Event ID     ║ #122099ed6675f2e…:1                                                                ║
+   ║ Event ID     ║ #1220731030eb9c81d0d0…:1                                                           ║
    ╟──────────────╫────────────────────────────────────────────────────────────────────────────────────╢
    ║ Contract Key ║                                                                                    ║
    ╟──────────────╫────────────────────────────────────────────────────────────────────────────────────╢
-   ║ Payload      ║ label: one copy updated                                                            ║
-   ║              ║ owner: Alice::12209038d324bf70625c580267d5957cb4c4c03bb7bce294713b48151a4a088afd3b ║
+   ║ Payload      ║ label: Copy of: this contract supersedes the original contact                      ║
+   ║              ║ owner: Alice::1220b93eaba17d8da363ce7ef1b57d8494910ed4d7c99d2b33887f54832dbb77b5da ║
    ╙──────────────╨────────────────────────────────────────────────────────────────────────────────────╜
 
-   ╓──────────────╥─────────────────────────────────────────╖
-   ║ Identifier   ║ PingPong:IBounceable [89a08f0324025f1…] ║
-   ╟──────────────╫─────────────────────────────────────────╢
-   ║ Type         ║ Interface                               ║
-   ╟──────────────╫─────────────────────────────────────────╢
-   ║ Created at   ║ a                                       ║
-   ╟──────────────╫─────────────────────────────────────────╢
-   ║ Archived at  ║ <active>                                ║
-   ╟──────────────╫─────────────────────────────────────────╢
-   ║ Contract ID  ║ 0093dce322a08c8…                        ║
-   ╟──────────────╫─────────────────────────────────────────╢
-   ║ Event ID     ║ #122099ed6675f2e…:1                     ║
-   ╟──────────────╫─────────────────────────────────────────╢
-   ║ Contract Key ║                                         ║
-   ╟──────────────╫─────────────────────────────────────────╢
-   ║ Payload      ║ ilabel: view one copy updated           ║
-   ╙──────────────╨─────────────────────────────────────────╜
+   ╓──────────────╥─────────────────────────────────────────────────────────────────────────╖
+   ║ Identifier   ║ myproject:PingPong:IBounceable                                          ║
+   ╟──────────────╫─────────────────────────────────────────────────────────────────────────╢
+   ║ Type         ║ Interface                                                               ║
+   ╟──────────────╫─────────────────────────────────────────────────────────────────────────╢
+   ║ Created at   ║ a (not yet active)                                                      ║
+   ╟──────────────╫─────────────────────────────────────────────────────────────────────────╢
+   ║ Archived at  ║ <active>                                                                ║
+   ╟──────────────╫─────────────────────────────────────────────────────────────────────────╢
+   ║ Contract ID  ║ 005188b40f981533f8f5…                                                   ║
+   ╟──────────────╫─────────────────────────────────────────────────────────────────────────╢
+   ║ Event ID     ║ #1220731030eb9c81d0d0…:1                                                ║
+   ╟──────────────╫─────────────────────────────────────────────────────────────────────────╢
+   ║ Contract Key ║                                                                         ║
+   ╟──────────────╫─────────────────────────────────────────────────────────────────────────╢
+   ║ Payload      ║ ilabel: View of: Copy of: this contract supersedes the original contact ║
+   ╙──────────────╨─────────────────────────────────────────────────────────────────────────╜
 
 You can also compare two contracts in a ``diff``-style output format
 using the ``compare-contracts <id1> <id2>`` command.
 
-|003-compare-contracts.gif|
+.. image:: images/003-compare-contracts.gif
+   :alt: 003-compare-contracts.gif
 
 Transaction lookup
 ==================
@@ -466,9 +480,10 @@ range, run ``transaction``.
 The ``transaction`` command shows which contracts were created, which
 were archived, and what choices were exercised. It also displays the
 event ID for each of those events, as well as contract IDs and package
-IDs.
+names.
 
-|003-transactions.gif|
+.. image:: images/003-transactions.gif
+   :alt: 003-transactions.gif
 
 Exercise lookup
 ===============
@@ -483,15 +498,15 @@ For example, you can look up exercise counts by FQN:
 ::
 
    > exercises 
-   ┌───────────────────────────────────────────────────────────────┬───────────────┬───────┐
-   │ Identifier                                                    │ Type          │ Count │
-   ╞═══════════════════════════════════════════════════════════════╪═══════════════╪═══════╡
-   │ PingPong:AcceptIAssetTransferProposal [89a08f0324025f1254f0…] │ Consuming     │     6 │
-   ├───────────────────────────────────────────────────────────────┼───────────────┼───────┤
-   │ PingPong:ChangeLabel [89a08f0324025f1254f0…]                  │ Consuming     │     1 │
-   ├───────────────────────────────────────────────────────────────┼───────────────┼───────┤
-   │ PingPong:Copy [89a08f0324025f1254f0…]                         │ Non-consuming │     1 │
-   └───────────────────────────────────────────────────────────────┴───────────────┴───────┘
+   ┌─────────────────────────────────────────────────┬───────────────┬───────┐
+   │ Identifier                                      │ Type          │ Count │
+   ╞═════════════════════════════════════════════════╪═══════════════╪═══════╡
+   │ myproject:PingPong:AcceptIAssetTransferProposal │ Consuming     │    12 │
+   ├─────────────────────────────────────────────────┼───────────────┼───────┤
+   │ myproject:PingPong:ChangeLabel                  │ Consuming     │     1 │
+   ├─────────────────────────────────────────────────┼───────────────┼───────┤
+   │ myproject:PingPong:Copy                         │ Non-consuming │     1 │
+   └─────────────────────────────────────────────────┴───────────────┴───────┘
 
 You can look up exercises for a specific choice:
 
@@ -501,44 +516,54 @@ You can look up exercises for a specific choice:
    ┌────────┬───────────────────────┬──────────┬────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
    │ Offset │ Contract ID           │ Argument │ Result                                                                                                                                     │
    ╞════════╪═══════════════════════╪══════════╪════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╡
-   │ 11     │ 005b18f0298576b2bf7d… │          │ 004af1af7f4c64f57b5eb52c95dcc686174d8939c0d3870f5b5f648acf16ec1774ca02122000ddecd621a6c304a9354c1cd6b6726e9815aed0fb9391395cac33ae2c846955 │
+   │ 7b     │ 00604362bf43678ba849… │          │ 004ddbb65e00c8210d978fa13503d877e33d3d83dccc0addea759db1063c089412ca0212205b8a98e1b219436a3a6744eb314e20539b349d61dc09f5e23d880e95b2a1c199 │
    ├────────┼───────────────────────┼──────────┼────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-   │ 11     │ 003c2ae213b3149463f2… │          │ 002ad4f09e7b5e6d8f11fecb57f5da2be7ab8bce01adf86eabda86b79d3266e738ca0212201dd16c97b501db848761792e824cbd80a3e6767e4191b140287ba7ed32d2d807 │
+   │ 7b     │ 00549232a251254b6115… │          │ 00b433b6cb4742f0040f9bab57b809dd478d6a73deeaf08ecdd3c30e2be77d98d1ca021220123f4cad1ba5121fa22e43b83ab4c80c0649f51e8a7e776e01b78bc27544cd02 │
    ├────────┼───────────────────────┼──────────┼────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-   │ 11     │ 0022e9065ca19b435611… │          │ 0027d45f1732d8a044eb370eb5d19e27c913de4a6e5fd7026cef165dff71534481ca02122072decfd063e0508af764eb0e0e171125a2bb62abf9b877fc33f4bea39ce289e2 │
+   │ 7b     │ 0063bdaacd598bf2c02f… │          │ 005e908b45701072ed4d0dcf30b9b7b6b233278208078d803edf5fd4502872ce7bca0212201bfb6b375d7fa31a4019ade973a948db52c36ba2a5a239a2d909d12e2ef12968 │
    ├────────┼───────────────────────┼──────────┼────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-   │ 12     │ 00bc1500e6c781559ad1… │          │ 00a8753f0ccbc503ab393dae99d7ca982b15f1429b61739c03dad299d123f21e5aca02122090c1f0e10da810f4ee1a961a91701863dd22f9f360f676725540929069cee17e │
+   │ 7b     │ 00ed039a7747337ddb85… │          │ 005d921fd715007edbbb1b2dfffe56c7d37ba4b6698bdf1357b68749038b3817dcca021220dc08f48d759037f776289c06ae409955f4a2475b3cd0238c3fb5d74da5254e3e │
    ├────────┼───────────────────────┼──────────┼────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-   │ 12     │ 001495835b90270f9699… │          │ 00ea78410739637ad2460e65ddf9382d2eef8d9a33a2ce38f912eaba065a342ebbca021220f5ffe34193c016a242a41735bf9670cf585a61e7423766bedbb15e92c6ea83be │
+   │ 7b     │ 001207f682120f4798ce… │          │ 00dbe9c12a7ae28f8d12f334ddf9d09bea95a1d55d6a3816f5da5079c71ceb0450ca021220cee4ff410b0e4289301eedeecd82df9f1014796a68c1d4549b8bd72e18464220 │
    ├────────┼───────────────────────┼──────────┼────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-   │ 12     │ 00844b2f4a2fb8ff73fe… │          │ 00bc875c5ee7cc6adb11a48a2cb4272e4374affa94f23cb8a7b358946f3bd5c4b4ca0212209cb5521de33a5a2d931e0b97a312753d772e55529bc086e0fb75376123131b6f │
+   │ 7b     │ 00d5e4f15c3d07cb0785… │          │ 00df079f466b87b61e8b5a6702e6f5b05fecba05513a5559b1b400e4c89903f277ca02122000bcac7e924d0489d144b245c16ba1c95c20a9c293e59dd9290b94df77742a92 │
+   ├────────┼───────────────────────┼──────────┼────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+   │ 7c     │ 004dc3561fc426de4dad… │          │ 005e1f271e5f5d7a39e623f0774b11cc9295d59693fa53d9953aed726f40e03a81ca021220053c09a2f248902fc48c09492e7fd38c8cf25beacdb803f1ad51444af38bb51c │
+   ├────────┼───────────────────────┼──────────┼────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+   │ 7c     │ 00ae24d6c2286768a7b2… │          │ 0059352a66da47b5def7e0653f229dbbb797be70d0485792101fe9aad10f396e70ca021220343d49011f6038af41f3e99792fb318e17ce5ab3227660c932f8043aacfed2bf │
+   ├────────┼───────────────────────┼──────────┼────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+   │ 7c     │ 000f02cbb781f76c1877… │          │ 0089b90df5e7085ddb05110eccc9d684e86b96631ff74688ac3f6298cde5f92208ca021220e72fc065a90368000388e41dd8be0672a1078e3329346780e9afb353be100c31 │
+   ├────────┼───────────────────────┼──────────┼────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+   │ 7c     │ 00126b6f770fb951d666… │          │ 00e9e74240297251e4f9274519ec2cd421fb647af88c13d38bba5f67c67a0f90ffca021220ce3fb55a64f86094dc5fa32e509443ce903fc7f28b2a152a732471819eb56491 │
+   ├────────┼───────────────────────┼──────────┼────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+   │ 7c     │ 00ab4ff0b42c625d45c5… │          │ 001c00a896e1e66bdb1acbcdeda5f4e00d8a6131c6a86a672809d9831e857ea2e3ca02122001b6efc6e449a2116bc73e333575eaa4dfcaa69be0655ffd3f4eb5b2777960d2 │
+   ├────────┼───────────────────────┼──────────┼────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+   │ 7c     │ 0020ab2446d6cfc3f93f… │          │ 00a936fa54cc6fba294962b6fd6c639947f220ab4539c73b6c5c693522e5c5364aca021220104bc750d4800053c090d5b447a6c49d9a49911a4f654fa72c58650b3348e735 │
    └────────┴───────────────────────┴──────────┴────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 To look up individual exercises, use the event ID:
 
 ::
 
-   > exercise #12206159b8de32b97edb…:0
+   > exercise #12202cc79ccf1f116ebe…:10
    ╓──────────────╥────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╖
-   ║ Event ID     ║ #12206159b8de32b97edb…:0                                                                                                                   ║
+   ║ Event ID     ║ #12202cc79ccf1f116ebe…:10                                                                                                                  ║
    ╟──────────────╫────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╢
-   ║ Choice       ║ PingPong:AcceptIAssetTransferProposal [89a08f0324025f1254f0…]                                                                              ║
+   ║ Choice       ║ myproject:PingPong:AcceptIAssetTransferProposal                                                                                            ║
    ╟──────────────╫────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╢
-   ║ Template FQN ║ PingPong:CashTransferProposal [89a08f0324025f1254f0…]                                                                                      ║
+   ║ Template FQN ║ myproject:PingPong:IAssetTransferProposal                                                                                                  ║
    ╟──────────────╫────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╢
-   ║ Contract ID  ║ 00bc1500e6c781559ad1…                                                                                                                      ║
+   ║ Contract ID  ║ 00d5e4f15c3d07cb0785…                                                                                                                      ║
    ╟──────────────╫────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╢
-   ║ Offset       ║ 12                                                                                                                                         ║
+   ║ Offset       ║ 7b                                                                                                                                         ║
    ╟──────────────╫────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╢
    ║ Consuming    ║ true                                                                                                                                       ║
-   ╟──────────────╫────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╢
-   ║ Witnesses    ║ Bank::12204b77186b76c16e1c…, Bob::12204b77186b76c16e1c…                                                                                    ║
    ╟──────────────╫────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╢
    ║ Parent       ║                                                                                                                                            ║
    ╟──────────────╫────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╢
    ║ Argument     ║                                                                                                                                            ║
    ╟──────────────╫────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╢
-   ║ Result       ║ 00a8753f0ccbc503ab393dae99d7ca982b15f1429b61739c03dad299d123f21e5aca02122090c1f0e10da810f4ee1a961a91701863dd22f9f360f676725540929069cee17e ║
+   ║ Result       ║ 00df079f466b87b61e8b5a6702e6f5b05fecba05513a5559b1b400e4c89903f277ca02122000bcac7e924d0489d144b245c16ba1c95c20a9c293e59dd9290b94df77742a92 ║
    ╙──────────────╨────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╜
 
 Transforming and exporting command output
@@ -561,7 +586,8 @@ You can then write this output to a file by piping it through the
 The ``export`` filter writes any command output to the specified file.
 You can use it without the ``csv`` filter.
 
-|003-csv-export.gif|
+.. image:: images/003-csv-export.gif
+   :alt: 003-csv-export.gif
 
 Setting offset bounds
 =====================
@@ -570,7 +596,8 @@ The output of ``creates [<fqn>]`` and ``archives [<fqn>]`` can be
 bounded by ``set oldest`` (for the lower bound) and ``set latest`` (for
 the upper bound). ``go`` is an alias for ``set latest``.
 
-|003-bounded-lookup.gif|
+.. image:: images/003-bounded-lookup.gif
+   :alt: 003-bounded-lookup.gif
 
 Finding transactions that created or archived a contract
 ========================================================
@@ -579,7 +606,8 @@ Once you know the offsets that a contract was created at (for example,
 by using the ``archives`` command), you can look up the relevant
 transactions using the ``transaction at <offset>`` command.
 
-|003-from-contract-to-transactions.gif|
+.. image:: images/003-from-contract-to-transactions.gif
+   :alt: 003-from-contract-to-transactions.gif
 
 FAQ
 ***
@@ -627,14 +655,3 @@ Why do all contracts show the same ledger offset?
 =================================================
 
 See :ref:`no-archived-contracts`
-
-.. |001-help-output.gif| image:: images/001-help-output.gif
-.. |003-connect.gif| image:: images/003-connect.gif
-.. |003-offset-commands.gif| image:: images/003-offset-commands.gif
-.. |003-summary-commands.gif| image:: images/003-summary-commands.gif
-.. |003-where-clause.gif| image:: images/003-where-clause.gif
-.. |003-compare-contracts.gif| image:: images/003-compare-contracts.gif
-.. |003-transactions.gif| image:: images/003-transactions.gif
-.. |003-csv-export.gif| image:: images/003-csv-export.gif
-.. |003-bounded-lookup.gif| image:: images/003-bounded-lookup.gif
-.. |003-from-contract-to-transactions.gif| image:: images/003-from-contract-to-transactions.gif
