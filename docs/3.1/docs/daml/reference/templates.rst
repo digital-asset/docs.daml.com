@@ -260,68 +260,10 @@ The following types are *not serializable*, and thus may not be used in template
 - Defined data types with any type parameter of kind ``Nat``, or any kind other than ``*``.
   This means higher-kinded types, and types that take a parameter just to pass to ``Numeric``, are not serializable.
 
-.. _daml-ref-agreements:
-
-Agreements (Deprecated)
-***********************
-
-.. literalinclude:: ../code-snippets/Reference.daml
-   :language: daml
-   :start-after: -- start template agree snippet
-   :end-before: -- end template agree snippet
-
-- ``agreement`` keyword, followed by text.
-- Represents what the contract means in text. They're usually the boundary between on-ledger and off-ledger rights and obligations.
-- Usually, they look like ``agreement tx``, where ``tx`` is of type ``Text``.
-
-  You can use the built-in operator ``show`` to convert party names to a string, and concatenate with ``<>`` .
-
-.. warning::
-   Since Daml 2.9.0, agreement declarations are deprecated, and their
-   presence will result in the following warning:
-
-   .. code-block:: text
-
-      Found 'agreement' declaration in template definition.
-      This feature is deprecated, it will be removed in a future version of Daml.
-
 Migration
 =========
 
-Users are encouraged to remove any agreement declarations from their code, to
-ensure it will continue working once this feature is fully removed from the language.
-
-Turning off the warning
-=======================
-
-This warning is controlled by the warning flag ``template-agreement``, which means
-that it can be toggled independently of other warnings. This is especially useful
-for gradually migrating code that used this feature.
-
-To turn off the warning within a Daml file, add the following line at the top of
-the file:
-
-.. code-block:: daml
-
-  {-# OPTIONS_GHC -Wno-template-agreement #-}
-
-To turn it off for an entire Daml project, add the following entry to the
-``build-options`` field of the project's ``daml.yaml`` file:
-
-.. code-block:: yaml
-
-  build-options:
-  - --ghc-option=-Wno-template-agreement
-
-Within a project where the warning has been turned off via the ``daml.yaml``
-file, it can be turned back on for individual Daml files by adding the following
-line at the top of each file:
-
-.. code-block:: daml
-
-  {-# OPTIONS_GHC -Wtemplate-agreement #-}
-
-.. _daml-ref-preconditions:
+Users should remove any agreement declarations from their code, as this feature has been fully removed from the language.
 
 Preconditions
 *************

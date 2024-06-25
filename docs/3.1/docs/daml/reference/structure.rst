@@ -45,11 +45,6 @@ template body
 
     	Optional. Parties that aren't signatories but who you still want to be able to see this contract.
 
-    :ref:`an agreement (deprecated) <daml-ref-agreements>`
-        ``agreement`` keyword
-
-        Optional. Text that describes the agreement that this contract represents.
-
     :ref:`a precondition <daml-ref-preconditions>`
         ``ensure`` keyword
 

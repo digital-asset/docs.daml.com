@@ -198,7 +198,7 @@ acceptance, the image below shows all its proper non-empty subtransactions on th
 To illustrate :doc:`contract keys </daml/reference/contract-keys>`, suppose that the contract key for a `PaintOffer` consists of the reference number and the painter.
 So Alice can refer to the `PaintOffer` by its key `(P, P123)`.
 To make this explicit, we use the notation `PaintOffer @P A &P123` for contracts, where `@` and `&` mark the parts that belong to a key.
-(The difference between `@` and `&` will be explained in the :ref:`integrity section <da-signatories-agreements-maintainers>`.)
+(The difference between `@` and `&` is explained in the :ref:`integrity section <da-signatories-maintainers>`.)
 The ledger integrity constraints in the next section ensure that there is always at most one active `PaintOffer` for a given key.
 So if the painter retracts its `PaintOffer` and later Alice tries to accept it, she can then record the absence with a `NoSuchKey (P, P123)` key assertion.
 
