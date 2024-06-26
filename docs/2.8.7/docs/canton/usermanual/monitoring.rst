@@ -60,7 +60,7 @@ You can filter or aggregate each metric using its accompanying labels. The instr
 - ``service``: a string to identify what Daml service or Canton component is running in this process (for example: ``participant``, ``domain``, ``json_api``), as well as ``domain`` if several Canton components run in a single process
 - ``path``: the request made to the endpoint (for example: ``/v1/create``, ``/v1/exercise``)
 
-The gRPC protocol is layered on top of HTTP/2, so certain labels (such as the ``daml_version`` and ``service``) from the above section are included. The labels added by default to each `gRPC API metric <https://docs.daml.com/ops/common-metrics.html#grpc-metrics>`__ are as follows:
+The gRPC protocol is layered on top of HTTP/2, so certain labels (such as the ``daml_version`` and ``service``) from the above section are included. The labels added by default to each :ref:`gRPC API metric <grpc-metrics>` are as follows:
 
 - ``canton_version``: the `Canton protocol version <https://docs.daml.com/canton/usermanual/versioning.html#canton-protocol-version>`__
 - ``grpc_code``: the human readable status code for gRPC (for example: ``OK``, ``CANCELLED``, ``DEADLINE_EXCEEDED``)
@@ -69,13 +69,13 @@ The gRPC protocol is layered on top of HTTP/2, so certain labels (such as the ``
 
 The following other key metrics are monitored:
 
-- A binary gauge indicates whether the node is `healthy or not healthy <https://docs.daml.com/ops/common-metrics.html#health-metrics>`__. This can also be used to infer which node is passive in a highly available configuration because it will show as not being healthy, while the active node is always healthy.
+- A binary gauge indicates whether the node is :ref:`healthy or not healthy <health-metrics>`. This can also be used to infer which node is passive in a highly available configuration because it will show as not being healthy, while the active node is always healthy.
 - A binary gauge signals whether a node is active or passive, for identifying which node is the active node.
-- A binary gauge `detects when pruning is occurring <https://docs.daml.com/ops/common-metrics.html#pruning-metrics>`__.
+- A binary gauge :ref:`detects when pruning is occurring <pruning-metrics>`.
 - Each participant node measures the count of the inflight (dirty) requests so the user can see if ``maxDirtyRequests`` limit is close to being hit.  The metrics are:  ``canton_dirty_requests`` and ``canton_max_dirty_requests``.
 - Each participant node records the distribution of events (updates) received by the participant and allows drill-down by event type (package upload, party creation, or transaction), status (success or failure), participant ID, and application ID (if available). The counter is called ``daml_indexer_events_total``.
 - The ledger event requests are totaled in a counter called ``daml_indexer_metered_events_total``.
-- `JVM garbage collection metrics <https://docs.daml.com/ops/common-metrics.html#jvm-metrics>`__ are collected.
+- :ref:`JVM garbage collection metrics <jvm-metrics>` are collected.
 
 This list is not exhaustive. It highlights the most important metrics.
 
@@ -175,6 +175,7 @@ Domain Metrics
    This file is generated:
 .. include:: /canton/includes/generated/domain_metrics.rst.inc
 
+.. _health-metrics:
 
 Health Metrics
 ~~~~~~~~~~~~~~
@@ -196,6 +197,7 @@ daml_health_status
 
 - **Type**: Gauge
 
+.. _grpc-metrics:
 
 gRPC Metrics
 ~~~~~~~~~~~~
@@ -316,6 +318,8 @@ daml_http_websocket_messages_sent_bytes
 - **Description**: Distribution of payload sizes in WebSocket messages sent
 - **Type**: Histogram
 
+.. _pruning-metrics:
+
 Pruning Metrics
 ~~~~~~~~~~~~~~~
 
@@ -333,6 +337,8 @@ daml_services_pruning_prune_completed_total
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 - **Description**: Total number of completed pruning processes
 - **Type**: Counter
+
+.. _jvm-metrics:
 
 JVM Metrics
 ~~~~~~~~~~~
