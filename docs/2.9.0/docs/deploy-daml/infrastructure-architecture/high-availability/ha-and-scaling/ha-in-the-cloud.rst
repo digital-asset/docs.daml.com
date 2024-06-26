@@ -4,7 +4,7 @@
 HA in the Cloud
 ###############
 
-The HA deployment and horizontal scaling models already discussed are generic by design and focus on handling single component failures automatically and transparently. A cloud deployment, along with orchestration tools, adds additional HA capabilities and options for more complex failure modes. 
+The HA deployment and horizontal scaling models already discussed are generic by design and focus on handling single-component failures automatically and transparently. Cloud deployment, along with orchestration tools, adds additional HA capabilities and options for more complex failure modes. 
 
 The figure below shows a minimal, high-level, AWS-based HA solution. The active nodes are green and the passive nodes are gray. Different availability zones can house different instances of the components within a service to provide location resiliency. For example, if the active participant node in US-EAST-1 fails then the passive node in US-EAST-2 becomes the active node. 
 
@@ -18,7 +18,7 @@ The figure below shows a minimal, high-level, AWS-based HA solution. The active 
 
 Having redundant components in different regions creates additional location resiliency. For example, in the figure above, an active participant node is deployed in the USA EAST region and a passive participant node in the USA WEST region. The redundant, passive participant may not even be running depending on how the HA solution has been architected to satisfy the business requirements, such as:
 
-* The entire Daml solution stack may switch over to a different region all at once with a global load balancer         redirecting the requests to the newly activated region. This can address the situation where a normally active region becomes unavailable.
+* The entire Daml solution stack may switch over to a different region all at once with a global load balancer redirecting the requests to the newly activated region. This can address the situation where a normally active region becomes unavailable.
 * Single components may be started in different regions for a finer-grained HA approach. This introduces additional network latency for cross-region traffic. 
 * Directing a switchover from one region to another is atypical and adds complexity so this may be manually initiated, or require manual approval, to avoid flapping from one region to another when a problem is intermittent.
 * The sequencer backend is an HA database that can work across regions. The options are discussed below. Sequencers in an availability zone can be running since they act in an active-active mode.  
@@ -27,7 +27,7 @@ A redundant sequencer in a different region may be cold and need to be started i
 
 Per AWS:
 
-    When writes involve synchronous replication across multiple Regions to meet strong consistency requirements, write latency increases by an order of magnitude. A higher write latency is not something that can typically be retro-fitted into an application without significant changes. [#f1]_
+    When writes involve synchronous replication across multiple Regions to meet strong consistency requirements, write latency increases by an order of magnitude. A higher write latency is not something that can typically be retrofitted into an application without significant changes. [#f1]_
 
 Synchronous replication impacts latency and throughput so tuning and testing are needed. 
 
@@ -54,9 +54,9 @@ See the documentation on the metrics `RTO and RPO <../ha-and-scaling/understandi
 Database Options
 ****************
 
-Each cloud vendor chooses from several PostgreSQL options. Selection is ultimately driven by business requirements, which drive the HA requirements fulfilled by selecting the appropriate PostgreSQL option. A managed database selection allows for trade-offs in availability if choosing between an Aurora DB cluster or an Aurora global database. Amazon RDS for PostgreSQL is a self-managed option which is more flexible than the managed service. Each of these options is introduced below to explore what each can provide in an HA context.    Each option has a different cost profile so make sure that you are using the least costly option that matches your requirements.
+Each cloud vendor chooses from several PostgreSQL options. Selection is ultimately driven by business requirements, which drive the HA requirements fulfilled by selecting the appropriate PostgreSQL option. A managed database selection allows for trade-offs in availability if choosing between an Aurora DB cluster or an Aurora global database. Amazon RDS for PostgreSQL is a self-managed option that is more flexible than the managed service. Each of these options is introduced below to explore what each can provide in an HA context.    Each option has a different cost profile so make sure that you are using the least costly option that matches your requirements.
 
-Although the examples presented here are for AWS, other cloud vendors have similar technologies that are compatible with PostgreSQL. Please consult the relevant cloud vendors documentation.
+Although the examples presented here are for AWS, other cloud vendors have similar technologies that are compatible with PostgreSQL. Please consult the relevant cloud vendor's documentation.
 
 Amazon RDS for PostgreSQL, Multi-AZ with two readable standbys [#f2]_
 =====================================================================
