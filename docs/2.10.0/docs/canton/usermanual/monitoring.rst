@@ -176,6 +176,7 @@ Synchronization Domain Metrics
 .. include:: /canton/includes/generated/domain_metrics.rst.inc
 
 .. _health-metrics:
+
 Health Metrics
 ~~~~~~~~~~~~~~
 
@@ -197,6 +198,7 @@ daml_health_status
 - **Type**: Gauge
 
 .. _grpc-metrics:
+
 gRPC Metrics
 ~~~~~~~~~~~~
 
@@ -317,6 +319,7 @@ daml_http_websocket_messages_sent_bytes
 - **Type**: Histogram
 
 .. _pruning-metrics:
+
 Pruning Metrics
 ~~~~~~~~~~~~~~~
 
@@ -336,6 +339,7 @@ daml_services_pruning_prune_completed_total
 - **Type**: Counter
 
 .. _jvm-metrics:
+
 JVM Metrics
 ~~~~~~~~~~~
 The following metrics are exposed for the JVM, if enabled.
