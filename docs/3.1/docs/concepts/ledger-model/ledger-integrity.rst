@@ -358,9 +358,9 @@ obligation to paint Alice's house, but he never agreed to that obligation.
 On paper contracts, obligations are expressed in the body of the contract,
 and imposed on the contract's *signatories*.
 
-.. _da-signatories-agreements-maintainers:
+.. _da-signatories-maintainers:
 
-Signatories, Agreements, and Maintainers
+Signatories and Maintainers
 ========================================
 
 To capture these elements of real-world contracts, the **contract model**
@@ -368,10 +368,6 @@ additionally specifies, for each contract in the system:
 
 #. A non-empty set of **signatories**, the parties bound by the
    contract.
-
-#. An optional **agreement text** associated with the contract,
-   specifying the off-ledger, real-world obligations of the
-   signatories.
 
 #. If the contract is associated with a key, a non-empty set of **maintainers**,
    the parties that make sure that at most one unconsumed contract exists for the key.
@@ -381,21 +377,18 @@ additionally specifies, for each contract in the system:
 
 In the example, the contract model specifies that
 
-#. an `Iou obligor owner` contract has only the `obligor` as a signatory,
-   and no agreement text.
+#. An `Iou obligor owner` contract has only the `obligor` as a signatory.
 
-#. a `MustPay obligor owner` contract has both the `obligor`
-   and the `owner` as signatories, with an agreement text requiring
-   the obligor to pay the owner a certain amount, off the ledger.
+#. A `MustPay obligor owner` contract has both the `obligor`
+   and the `owner` as signatories.
 
-#. a `PaintOffer houseOwner painter obligor refNo` contract has only the
-   painter as the signatory, with no agreement text.
+#. A `PaintOffer houseOwner painter obligor refNo` contract has only the
+   painter as the signatory.
    Its associated key consists of the painter and the reference number.
    The painter is the maintainer.
 
-#. a `PaintAgree houseOwner painter refNo` contract has both the
-   house owner and the painter as signatories, with an agreement
-   text requiring the painter to paint the house.
+#. A `PaintAgree houseOwner painter refNo` contract has both the
+   house owner and the painter as signat
    The key consists of the painter and the reference number.
    The painter is the only maintainer.
 
@@ -539,30 +532,22 @@ on the ledgers, and the information contained in contract models have
 several subtle links to the concepts of the contract law that are
 worth pointing out.
 
-First, in addition to the explicit off-ledger obligations specified in
-the agreement text, contracts also specify implicit **on-ledger
+First, contracts specify implicit **on-ledger
 obligations**, which result from consequences of the exercises on
 contracts. For example, the `PaintOffer` contains an on-ledger
-obligation for `A` to transfer her IOU in case she accepts the offer. Agreement
-texts are therefore only necessary to specify obligations that are not
-already modeled as permissible actions on the ledger. For example,
-`P`'s obligation to paint the house cannot be sensibly modeled on the
-ledger, and must thus be specified by the agreement text.
+obligation for `A` to transfer her IOU in case she accepts the offer.
 
-Second, every contract on a Daml ledger can simultaneously model both:
-
-* a real-world offer, whose consequences (both on- and off-ledger)
-  are specified by the **Exercise** actions on the contract allowed
-  by the contract model, and
-
-* a real-world contract "proper", specified through the contract's
-  (optional) agreement text.
+Second, every contract on a Daml ledger can model a real-world offer, 
+whose consequences (both on- and off-ledger) are specified by the 
+**Exercise** actions on the contract allowed by the contract model.
 
 Third, in Daml ledgers, as in the real world, one person's rights are
 another person's obligations. For example, `A`'s right to accept the
 `PaintOffer` is `P`'s obligation to paint her house in case she
 accepts.
-In Daml ledgers, a party's rights according to a contract model are the exercise actions the party can perform according to the authorization and conformance rules.
+In Daml ledgers, a party's rights according to a contract model are 
+the exercise actions the party can perform, based on the authorization 
+and conformance rules.
 
 Finally, validity conditions ensure three important properties of the Daml
 ledger model, that mimic the contract law.

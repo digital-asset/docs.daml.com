@@ -132,8 +132,7 @@ to allocate those parties before you can log in as them.
 Viewing Templates or Contracts
 ******************************
 
-Daml *contract ​templates* are ​models ​that contain ​the ​agreement ​statement, ​all ​the ​applicable
-parameters, ​and ​the ​choices ​that ​can ​be ​made ​in ​acting ​on ​that ​data.
+Daml *contract ​templates* are ​models ​that contain ​all ​the ​applicable parameters ​and ​the ​choices ​that ​can ​be ​made ​in ​acting ​on ​that ​data.
 They ​specify ​acceptable input ​and ​the ​resulting ​output. ​A ​contract ​template ​contains ​placeholders ​rather ​than ​actual names, ​amounts, ​dates, ​and ​so ​on. In ​a *contract*, ​the ​placeholders ​have ​been ​replaced ​with ​actual ​data.
 
 The Navigator allows you to list templates or contracts, view contracts based on a template, and view template and contract details.

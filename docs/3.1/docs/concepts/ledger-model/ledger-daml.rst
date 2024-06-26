@@ -9,10 +9,9 @@ Daml: Define Contract Models Compactly
 As described in preceding sections, both the integrity and privacy notions depend on
 a contract model, and such a model must specify:
 
-#. a set of allowed actions on the contracts, and
-#. the signatories, contract observers, and
-#. an optional agreement text associated with each contract, and
-#. the optional key associated with each contract and its maintainers.
+#. A set of allowed actions on the contracts
+#. The signatories, contract observers
+#. The optional key associated with each contract and its maintainers
 
 The sets of allowed actions can in general be infinite. For instance,
 the actions in the IOU contract model considered earlier can be instantiated for an
