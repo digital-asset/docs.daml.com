@@ -11,7 +11,7 @@ a contract model, and such a model must specify:
 
 #. A set of allowed actions on the contracts
 #. The signatories, contract observers
-#. the optional key associated with each contract and its maintainers.
+#. The optional key associated with each contract and its maintainers
 
 The sets of allowed actions can in general be infinite. For instance,
 the actions in the IOU contract model considered earlier can be instantiated for an
