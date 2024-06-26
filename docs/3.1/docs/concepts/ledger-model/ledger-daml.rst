@@ -10,7 +10,7 @@ As described in preceding sections, both the integrity and privacy notions depen
 a contract model, and such a model must specify:
 
 #. A set of allowed actions on the contracts
-#. the signatories, contract observers, and
+#. The signatories, contract observers
 #. the optional key associated with each contract and its maintainers.
 
 The sets of allowed actions can in general be infinite. For instance,
