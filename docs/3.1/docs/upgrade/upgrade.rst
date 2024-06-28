@@ -9,6 +9,8 @@ Upgrading Daml Applications
 .. .. toctree::
    :hidden:
 
+An upgrade changes previously defined data structures and templates in your Daml model.
+
 In applications backed by a centralized database controlled by a
 single operator, it is possible to upgrade an application in a single
 step that migrates all existing data to a new data model.
