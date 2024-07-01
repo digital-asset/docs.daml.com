@@ -12,7 +12,7 @@ Canton KMS Driver Developer Guide
 
 .. note::
 
-   This is an Initial Availability feature so please contact your account manager or DA support for further guidance.
+   This is an Initial Availability feature. Please contact your account manager or `DA support <support@digitalasset.com>`_ for further guidance.
 
 Introduction
 ------------
