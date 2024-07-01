@@ -10,6 +10,9 @@ Canton KMS Driver Developer Guide
 
 .. enterprise-only::
 
+.. note::
+
+   This is an Initial Availability feature so please contact your account manager or DA support for further guidance.
 
 Introduction
 ------------
