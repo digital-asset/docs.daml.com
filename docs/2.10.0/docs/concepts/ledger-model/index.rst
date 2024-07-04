@@ -32,3 +32,4 @@ They also briefly describe the link between Daml and the model.
    ledger-privacy
    ledger-daml
    ledger-exceptions
+   upgrade-model-in-depth
