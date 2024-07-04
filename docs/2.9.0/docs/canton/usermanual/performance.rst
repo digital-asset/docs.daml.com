@@ -506,15 +506,27 @@ If you submit a ledger API command (which can have multiple Daml commands), then
 
 Just putting all Daml commands into a single batch command does not help, as you might still create lots of views.
 
+Starting from protocol version 6, Canton creates a view for every action node in the transaction tree if the participants
+that host their informees are not a subset of their parents' informee participants. Therefore, in order to
+minimize the number of views, you should try to minimize either the number of changes of informees or make sure
+most of your actions share the same pool of participants that must be informed. Another alternative is to
+make your higher level action nodes include as much participants as possible so that subsequent action nodes in the tree
+are aggregated in the initial view, since these children nodes will only target a subset of those participants.
+Informees are roughly the signatories, observers of the contract and of the choice, and the controllers of the choice.
+
 In the protocol up to version 5, Canton creates a view for every action node in the transaction tree if the informees change 
-between the node and its parent. Therefore, in order to minimize the number of views, you should try to minimize the number of 
-changes of informees. Informees are roughly the signatories, observers of the contract and of the choice, and the controllers of the choice. 
+between the node and its parent. Therefore, in this case, in order to minimize the number of views, your only alternative
+is to try to minimize the number of changes of informees.
 
-Instead of sending a batch with 20 exercise commands `Foo`, group your contracts by stakeholder and send one exercise 
-command on a generator contract with the list of contracts that in turn exercises the `Foo` choice per stakeholder group.
+Instead of sending a batch with 20 exercise commands `Foo`, group your contracts by a set of stakeholders
+that cover the exercise's informee participants, or a single stakeholder if your are using protocol version
+5 or older. You then send one exercise command on a generator contract with the list of contracts that in
+turn exercises the `Foo` choice per stakeholder group.
 
-If you write batch commands, group the operations on the ledger based on the informees and create a single choice and 
-batch operation per informee group. You can use choice observers to align informees if necessary. 
+If you write batch commands, group the operations on the ledger based on the informees and their hosting participants
+and create a single choice and batch operation per informee's participant group.
+For older protocol versions (v5<) that only take in consideration the informees and not their hosting participants, you can
+use choice observers to align informees if necessary.
 
 For example, if the below `doUpdate` is only visible to the `owner` party, then whether the `efficient` flag is set or not 
 will have a huge impact on the number of views created.
@@ -540,6 +552,8 @@ will have a huge impact on the number of views created.
       signatory owner 
       observer obs 
 
+      -- even though the participants to be informed are a subset of the contract's informee participants
+      -- they don't get merged into a single view if this choice is called independently each time (multiple root actions)
       choice Foo : ()
          controller owner 
          do 
@@ -557,15 +571,19 @@ will have a huge impact on the number of views created.
          obs : Party
          -- The observer here is a choice observer. Therefore, Canton will
          -- ship a single view with the top node of this choice if the observer of the 
-         -- choice aligns with the observer of the contract.       
+         -- choice aligns with the observer of the contract. In other words, either they are the same or the new observer
+         -- is hosted by any of the contract's informee participants.
          observer obs
          controller owner 
          do
          forA_ batch (`exercise` Foo)
 
 
-As a rule, the number of views should depend on the number of stakeholder groups you have in your batch choice, 
-not the number of "batches" you process in parallel within one command.
+As a rule, the number of views should depend on the number of participant stakeholder groups you have in your batch choice
+that is not a subset of the parent's contract informee participants, not the number of "batches" you process in
+parallel within one command. Be aware that for protocol version 5 and lower, view decomposition is more granular
+(usually less performant since there more views spawned) since we only consider the stakeholder groups
+and not their participants and they must be the same if we want to use a single view.
 
 The informees for the different type of transaction tree nodes are (also see :ref:`da-model-projections`):
    * create: signatories, observers 
