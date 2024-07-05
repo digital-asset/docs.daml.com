@@ -279,6 +279,10 @@ been implemented, but may be implemented in future releases.
    dependency (or when running ``daml build --all``, unless explicitly
    listed in ``multi-package.yaml``)
 
+-  Contract keys in upgradable packages can only include types defined
+   within the same package, or in ``daml-stdlib`` or ``daml-prim``, for hashing reasons.
+   This restriction is intended to be loosened in a later version.
+
 Local developer experience
 ==========================
 
@@ -993,7 +997,8 @@ Modifying Key Expressions
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Similarly, key expressions can be changed as long as they evaluate to
-the same value for existing contracts.
+the same value for existing contracts, this means that the type of the key
+cannot change.
 
 For example, v2 can add a new field “alternative key” to the v2 IOU
 template, and use it instead of the default key when present.
@@ -1009,6 +1014,9 @@ template, and use it instead of the default key when present.
 
 All old contracts will default to using the ``issuer``, and new contracts
 will use the ``alternativeKey`` field.
+Note also that key expressions in upgrabable packages cannot include types
+from other packages, with the exception of `daml-stdlib` and `daml-prim`.
+See `Limitations <#limitatiions>`__ for more information.
 
 Upgrading Enums
 ~~~~~~~~~~~~~~~

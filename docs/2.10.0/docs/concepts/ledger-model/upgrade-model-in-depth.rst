@@ -258,6 +258,8 @@ Removing a key leads to a validation error.
 
 Changing the type of a key leads to a validation error.
 
+For 2.9, key types may also not include definitions from outside the current package, or ``daml-stdlib``/``daml-prim``
+
 .. _examples-3:
 
 Examples
