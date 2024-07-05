@@ -592,7 +592,7 @@ Strategy for Protocol Version 5 (and lower)
 
 For protocol versions 5 and lower, Canton creates a view for every action node in the transaction tree if the informees
 or confirming parties change between the node and its parent. Therefore, in order to minimize the number of views,
-you should try to minimize the number of changes of informees.
+you should try to minimize the number of changes of informees and confirming parties.
 
 When compared with the previous decomposition strategy, this view decomposition is more granular,
 with more views created, and thus less performant, since the condition to merge an action node in a view
