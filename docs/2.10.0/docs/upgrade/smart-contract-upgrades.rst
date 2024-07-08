@@ -147,7 +147,7 @@ match these versions when used in a choice body.
 
 Similarly to fetches, the version of the choice implementation that is
 called from a choice body is determined by the package that the choice’s
-package depends on. SCU will automatically upgrade (or downgrade) the payload
+package depends on. SCU automatically upgrades (or downgrades) the payload
 stored in the ledger to match that of the choice it is calling.
 
 **Consuming clients (such as daml-script, ts/java codegen)**
@@ -164,7 +164,7 @@ Upgrading Across the Stack
 --------------------------
 
 These are all the components that interact with SCU,
-and how you as a user should be aware it interacts.
+and how you as a user should be aware that they interacts.
 
 Canton
 ~~~~~~
@@ -191,7 +191,7 @@ Code Generation
 ~~~~~~~~~~~~~~~
 
 The Java and TypeScript CodeGen have been updated to perform upgrades on
-retrieved contracts, and will now use package-names over package-ids for
+retrieved contracts, and now use package-names over package-ids for
 commands to the participant.
 
 JSON API Server
@@ -203,8 +203,9 @@ package-name queries and command submission.
 PQS & Daml Shell
 ~~~~~~~~~~~~~~~~
 
-PQS now only supports querying contracts via package-name, see
-`Limitations <#limitations>` for package-id queries.
+As of 2.9, PQS only supports querying contracts via package-name, 
+dropping support for direct pacakge-id queries. See
+`Limitations <#limitations>` for more information and a work-around.
 
 Daml Shell builds on top of PQS, so inherits this behavior.
 
@@ -501,7 +502,7 @@ script and place the resulting party for Alice into an output file
   Running CoordinatedShutdown with reason [ActorSystemTerminateReason]
 
 .. note::
-  All invocations of daml script using SCU requires the ``--enable-contract-upgrading`` flag.
+  All invocations of Daml script using SCU requires the ``--enable-contract-upgrading`` flag.
 
 From inside ``v2/my-pkg``, upload and run the ``getIOU`` script, passing in the
 ``alice-v1`` file as the script’s input:
@@ -1657,13 +1658,13 @@ rename them. Note that this scoping rule *only* applies to packages in
 LF1.16. Packages with the same name and version can exist in LF1.15, if
 you intend to use both LF versions at the same time on your participant.
 
-Once you have your new dars, you’ll need to upgrade your Canton and
+Once you have your new DARs, you need to upgrade your Canton and
 protocol version together, since 2.9 introduces a new protocol version.
 The steps to achieve this are given in the :ref:`Canton Upgrading
 manual <one_step_migration>`.
 
-Finally, you can migrate your live data from your previous dars to the
-new LF1.16 dars, using one of the existing downtime upgrade techniques
+Finally, you can migrate your live data from your previous DARs to the
+new LF1.16 DARs, using one of the existing downtime upgrade techniques
 listed :ref:`here <upgrades-index>`.
 
 The Upgrade Model in Depth - Reference
@@ -1918,7 +1919,7 @@ of your upgraded package, you can either:
 -  Run a Canton sandbox (running ``daml sandbox``) and upload your old and
    new packages (``daml ledger upload-dar``).
 
--  Run a dry-run upload of your package to a more permanent testing
+-  Perform a dry-run upload of your package to a more permanent testing
    environment, using the ``--dry-run`` flag of the
    ``daml ledger upload-dar`` command, which runs the upgrade
    type-checking, but does not persist your package to the ledger.
