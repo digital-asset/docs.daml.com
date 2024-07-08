@@ -32,7 +32,7 @@ helper functions and constants.
 
 In the following, packages whose LF version does not support upgrades
 (1.15 and earlier) and utility packages are ignored. Everything is as if
-they didn’t exist for the purposes of the package validity check.
+they didn't exist for the purposes of the package validity check.
 
 Upon upload to a participant, a DAR is checked against previously
 uploaded DARs for upgrade validity. More precisely, for every package
@@ -50,12 +50,12 @@ with name *p* and version *v* present in the uploaded dar:
 3. The participant checks that version *v_next* of *p* is a valid
    upgrade of version *v* of *p*.
 
-| This means that “being a valid upgrade” for a package is context
+| This means that "being a valid upgrade" for a package is context
   dependent: it depends on what packages are already installed on the
   participant.
 | It is also *modular*: checks are performed at the package level. That
   is, a new version of a package is rejected as soon as it contains some
-  element which doesn’t properly upgrade its counterpart in the old
+  element which doesn't properly upgrade its counterpart in the old
   package, even if some other elements do.
 
 Modules
@@ -85,7 +85,7 @@ package v1, assuming ``v2/A.daml`` is a valid upgrade of ``v1/A.daml``.
 
 
 In the file tree below, package v2 cannot possibly be a valid upgrade of
-v1 because it doesn’t define module ``B``.
+v1 because it doesn't define module ``B``.
 
 .. code::
 
@@ -839,7 +839,7 @@ variant on the left because it drops constructor ``B````.``
           A Int
 
 Below, the variant on the right is **not** a valid upgrade of the
-variant on the left because it changes the type of ``B``’s argument from
+variant on the left because it changes the type of ``B``'s argument from
 ``Text`` to ``Bool``. ``Bool`` is not a valid upgrade of ``Text``.
 
 .. list-table::
@@ -1067,9 +1067,9 @@ variable ``a`` into ``b`` which is currently not supported.
 Interfaces
 ~~~~~~~~~~
 
-Interfaces can’t be upgraded. As a result we strongly discourage
+Interfaces can't be upgraded. As a result we strongly discourage
 uploading a package that contains both interface and template
-definitions, as these templates won’t be able to benefit from ZDT
+definitions, as these templates won't be able to benefit from ZDT
 upgrades in the future. Instead, we recommend declaring interfaces in a
 package of their own that defines no template.
 
@@ -1128,27 +1128,27 @@ Also assume a ledger that contains a contract of type ``T`` written by
 | Contract   | Type          | Contract                                |
 | ID         |               |                                         |
 +============+===============+=========================================+
-| ``1234``   | ``p-1.0.0:T`` | ``T { p = ‘Alice’ }``                   |
+| ``1234``   | ``p-1.0.0:T`` | ``T { p = 'Alice' }``                   |
 +------------+---------------+-----------------------------------------+
-| ``5678``   | ``p-2.0.0:T`` | ``T { p = ‘Bob’, t = Some “Hello” }``   |
+| ``5678``   | ``p-2.0.0:T`` | ``T { p = 'Bob', t = Some "Hello" }``   |
 +------------+---------------+-----------------------------------------+
 
 Then
 
 -  Fetching contract ``1234`` with package preference ``p-1.0.0`` retrieves the
-      contract and leaves it unchanged, returning ``T { p = ‘Alice’ }``.
+      contract and leaves it unchanged, returning ``T { p = 'Alice' }``.
 
 -  Fetching contract ``1234`` with package preference ``p-2.0.0`` retrieves the
       contract and successfully transforms it to the target template
-      type, returning ``T { p = ‘Alice’, t = None }``.
+      type, returning ``T { p = 'Alice', t = None }``.
 
 -  Fetching contract ``5678`` with package preference ``p-1.0.0`` retrieves the
       contract and fails to downgrade it to the target template type,
       returning an error.
 
 -  Fetching contract ``5678`` with package preference ``p-2.0.0`` retrieves the
-      contract and leaves it unchanged, returning ``T { p = ‘Bob’, t =
-      Some “Hello” }``.
+      contract and leaves it unchanged, returning ``T { p = 'Bob', t =
+      Some "Hello" }``.
 
 Example 2
 ^^^^^^^^^
@@ -1218,16 +1218,16 @@ and a contract of type ``U`` written by ``dep-2.0.0``.
 +-------------+------------------+------------------------------------+
 | Contract ID | Type             | Contract                           |
 +=============+==================+====================================+
-| ``4321``    | ``q:T``          | ``T { p = ‘Alice’ }``              |
+| ``4321``    | ``q:T``          | ``T { p = 'Alice' }``              |
 +-------------+------------------+------------------------------------+
-| ``8765``    | ``dep-2.0.0:U``  | ``U { p = ‘Bob’, t = None }``      |
+| ``8765``    | ``dep-2.0.0:U``  | ``U { p = 'Bob', t = None }``      |
 +-------------+------------------+------------------------------------+
 
 When exercising choice ``GetU 8765`` on contract ``4321`` with package
 preference ``dep-2.0.0``, we trigger a fetch of contract ``5678``. Because
 package ``q`` depends on version ``1.0.0`` of ``dep``, the target type for ``U`` is the
 one defined in package ``dep-1.0.0``. Contract ``5678`` is thus downgraded to ``U
-{ p = ‘Bob’}`` upon retrieval. Note that the command preference for
+{ p = 'Bob'}`` upon retrieval. Note that the command preference for
 version ``2.0.0`` of package ``dep`` bears no incidence here.
 
 Transformation Rules
@@ -1270,15 +1270,15 @@ and ``T-v2`` in the following,
 
 -  A ``T-v1`` value ``T { x1 = v1, ..., xn = vn }`` is upgraded to a ``T-v2`` value by
       setting the additional fields to None and upgrading ``v1...vn``
-      recursively. The transformation results in a value ``T { x1 = v1’,
-      ..., xn = vn’, y1 = None, ..., ym = None }``, where ``v1’... vn’`` is the
-      result of upgrading ``v1...vn`` to ``T1’ ... Tn’``.
+      recursively. The transformation results in a value ``T { x1 = v1',
+      ..., xn = vn', y1 = None, ..., ym = None }``, where ``v1'... vn'`` is the
+      result of upgrading ``v1...vn`` to ``T1' ... Tn'``.
 
 -  A ``T-v2`` value of the shape
       ``T { x1 = v1, ..., xn = vn, y1 = None, ..., ym = None }`` is downgraded to a ``T-v1``
       value by dropping additional fields and downgrading ``v1...vn`` recursively. 
       The transformation results in a value
-      ``T { x1 = v1’, ..., xn = vn’ }`` where ``v1’... vn’`` is the result of
+      ``T { x1 = v1', ..., xn = vn' }`` where ``v1'... vn'`` is the result of
       downgrading ``v1 ... vn`` to ``T1 ... Tn``.
 
 -  Attempting to downgrade a ``T-v2`` value where at least one ``yi`` is a 
@@ -1317,12 +1317,12 @@ and ``V-v2`` in the following,
           | Dm Um
 
 -  A ``V-v1`` value ``Ci vi`` is upgraded to a ``V-v2`` value by upgrading ``vi``
-      recursively. The transformation results in a value ``Ci vi’`` where
-      ``vi’`` is the result of upgrading ``vi`` to ``Ti’``.
+      recursively. The transformation results in a value ``Ci vi'`` where
+      ``vi'`` is the result of upgrading ``vi`` to ``Ti'``.
 
 -  A ``V-v2`` value ``Ci vi`` is downgraded to a ``V-v1`` value by downgrading ``vi``
-      recursively. The transformation results in a value ``Ci vi’`` where
-      ``vi’`` is the result of downgrading ``vi`` to ``Ti``.
+      recursively. The transformation results in a value ``Ci vi'`` where
+      ``vi'`` is the result of downgrading ``vi`` to ``Ti``.
 
 -  Attempting to downgrade a ``V-v2`` value of the form ``Dj vj`` results in a
       runtime error.
@@ -1333,7 +1333,7 @@ aside.
 Other Types
 ^^^^^^^^^^^
 
-Types that aren’t records or variants are “pass-through” for the upgrade
+Types that aren't records or variants are "pass-through" for the upgrade
 and downgrade transformations:
 
 -  Values of scalar types are trivially transformed to themselves.
