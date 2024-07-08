@@ -8,7 +8,7 @@ The Upgrade Model in Depth - Reference
 
 This section describes in detail what rules govern package validation upon
 upload and how contracts, choice arguements and choice results are upgraded or
-downgraded at runtime.  These topics are for a large part covered in the
+downgraded at runtime. These topics are for a large part covered in the
 sections above. This section acts as a thorough reference.
 
 Static Checks
@@ -1019,6 +1019,11 @@ template type. Then, its metadata (signatories, observers, key, maintainers) is
 recomputed using the code of the target temmpate and compared against the
 existing metadata: it is not allowed to change.
 
+In addition, when a choice is exercised, its arguments are transformed into
+values that fit the type of the parameters of the choice in the target package.
+The result of the exercise is then possibly transformed back to some other
+target type by the client (e.g. the generated java client code).
+
 Below, we detail the rules governing target types, then explain how
 transformations are performed, and finally detail the rules of metadata
 re-computation.
@@ -1039,7 +1044,7 @@ Example 1
 ^^^^^^^^^
 
 Assume a package ``p`` with two versions. The upgrading versions adds an
-optional text field
+optional text field.
 
 .. list-table::
    :widths: 50 50
@@ -1166,6 +1171,85 @@ package ``q`` depends on version ``1.0.0`` of ``dep``, the target type for ``U``
 is the one defined in package ``dep-1.0.0``. Contract ``5678`` is thus
 downgraded to ``U { p = 'Bob'}`` upon retrieval. Note that the command
 preference for version ``2.0.0`` of package ``dep`` bears no incidence here.
+
+Example 3
+^^^^^^^^^
+Assume now a package ``r`` with two versions. They define a template with a
+choice, and version ``2.0.0`` adds an optional field to the parameters of the
+choice. The return type of the choice is also upgraded.
+
+.. list-table::
+   :widths: 50 50
+   :width: 100%
+
+   * -  In ``r-1.0.0``:
+         
+        module M where
+        
+        data Ret = Ret with
+        
+        template V
+          with
+            p : Party
+          where
+            signatory p
+        
+            choice C : Ret
+              with 
+                i : Int
+              controller p
+              do return Ret
+
+     -  In ``r-2.0.0``:
+        
+        module M where
+         
+        data Ret = Ret with
+          j : Optional Int
+        
+        template V
+          with
+             p : Party
+           where
+             signatory p
+        
+             choice C : Ret
+               with 
+                 i : Int
+                 j : Optional Int
+               controller p
+               do return Ret with j = j
+ 
+Also assume a ledger that contains a contract of type ``V`` written by
+``r-1.0.0``.
+
++------------+---------------+-----------------------------------------+
+| Contract   | Type          | Contract                                |
+| ID         |               |                                         |
++============+===============+=========================================+
+| ``9101``   | ``r-1.0.0:V`` | ``V { p = 'Alice' }``                   |
++------------+---------------+-----------------------------------------+
+
+Then:
+
+- Exercising ``C with i=1`` on contract ``9101`` with package preference ``r-2.0.0`` 
+  will execute the code of ``C`` as defined in ``r-2.0.0``. The parameter 
+  sequence ``i=1`` is thus transformed into the parameter sequence ``i=1, j=None`` to
+  match its parameter types. The exercise then returns the value ``Ret with j=None``.
+  It is up to the client code (e.g. the caller of the ledger API) to transform this
+  to a value that fits the return type it expects. For instance, a client which
+  only knows about version ``1.0.0`` of package ``r`` would expect a value of type
+  ``Ret`` and would thus transform the value ``Ret with j=None`` back to ``Ret``.
+- Exercising ``C with i=1`` on contract ``9101`` with package preference ``r-1.0.0``
+  will execute the code of ``C`` as defined in ``r-1.0.0``. The parameter sequence
+  requires therefore no transformation. The exercise returns the value ``Ret``.
+- Exercising ``C with i=1 j=Some 2`` on contract ``9101`` with package preference ``r-2.0.0``
+  will execute the code of ``C`` as defined in ``r-2.0.0``. Again, the parameter sequence
+  no transformation. The exercise returns the value ``Ret with j=Some 2``.
+- Exercising ``C with i=1 j=Some 2`` on contract ``9101`` with package preference ``r-1.0.0``
+  will fail with a runtime error as the parameter sequence ``i=1 j=Some 2`` cannot be
+  downgraded to the parameter sequence of ``C`` as defined in ``r-1.0.0``.
+
 
 Transformation Rules
 ~~~~~~~~~~~~~~~~~~~~
