@@ -991,10 +991,10 @@ variable ``a`` into ``b`` which is currently not supported.
 Interfaces
 ~~~~~~~~~~
 
-Interfaces can't be upgraded. As a result we strongly discourage
+Interfaces cannot be upgraded. We strongly discourage
 uploading a package that contains both interface and template
-definitions, as these templates won't be able to benefit from ZDT
-upgrades in the future. Instead, we recommend declaring interfaces in a
+definitions, as these templates cannot benefit from smart contract upgrades
+in the future. Instead, we recommend declaring interfaces in a
 package of their own that defines no template.
 
 Data Transformation: Runtime Semantics
@@ -1029,7 +1029,7 @@ choices is determined by their static type.
 
 **Example 1**
 
-Assume a package ``p`` with two versions. The upgrading versions adds an
+Assume a package ``p`` with two versions. The upgrading version adds an
 optional text field.
 
 .. list-table::
