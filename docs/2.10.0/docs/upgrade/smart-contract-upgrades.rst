@@ -13,12 +13,12 @@ Theory of Operation
 What are Zero Downtime Smart Contract Upgrades?
 -----------------------------------------------
 
-Zero-Downtime Smart Contract Upgrades (SCU) are a new feature for Daml
+Zero-Downtime Smart Contract Upgrades (SCU) are a feature for Daml
 packages which enable authors to publish new versions of their templates
 while maintaining compatibility with prior versions, without any
 downtime for package users and existing contracts.
 
-Previously, package authors could upgrade their packages using broadly
+Without this feature, package authors can upgrade their packages using broadly
 one of two approaches:
 
 -  | Provide a Daml workflow for upgrading contracts to the new version,
@@ -40,7 +40,7 @@ as the new version as soon as it is used in a new workflow that requires
 it.
 
 In this way, package authors can publish new package versions that
-automatically improve contracts’ functionality without requiring any
+improve contracts’ functionality without requiring any
 error prone migrations, without downtime, without requiring any
 additional network traffic, and without any extensive communication with
 downstream users.
@@ -48,7 +48,7 @@ downstream users.
 Requirements
 ------------
 
-Note that SCU is only available when the criteria below is met:
+Note that SCU is only available when the criteria below are met:
 
 -  Canton 2.9.x or above
 
