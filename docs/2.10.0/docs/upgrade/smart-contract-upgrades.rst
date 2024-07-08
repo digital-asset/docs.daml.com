@@ -1857,23 +1857,22 @@ can specify your preferred selection of package versions.
 PQS
 ---
 
-TODO: Update this depending on what happens with PQS.
+To match the package-name changes to the Ledger API, PQS has changed how packages
+are selected for queries. All queries that take a Daml identity in the form 
+``<package-id>:<module-name>:<template-name>`` now take a package-name in place 
+of package-id. Note that this differs from the Ledger API in that the `#` prefix
+is not required for PQS, as PQS has dropped direct package-id queries.
+Queries for package-names will return all versions of a given contract, alongside the
+package-version and package-id for each contract.
 
-To match the package-name changes to the Ledger API, PQS has added
-support for package-name queries of contracts. All queries that take a
-Daml identity in the form ``<package-id>:<module-name>:<template-name>`` now
-take a package-name in place of package-id. Note that this differs from
-the Ledger API in that the `#` prefix is not required for PQS. Queries for
-package-names will return all versions of a given contract, alongside
-the package-version and package-id for each contract.
+.. note::
+  If you still need to perform a query with an explicit package-id, you can either use
+  a previous version of PQS, or add the following filter predicate to your query:
+  ``SELECT \* FROM active('my_package:My.App:MyTemplate') WHERE package_id = 'my_package_id'``
 
 Given that PQS uses a document-oriented model for ledger content
 (JSONB), extensions to contract payloads are handled simply by returning
 the additional data in the blob.
-
--  Should you ever need to reconstruct the old experience querying one
-   specific version, simply use a filter predicate in the SQL. eg.
-   ``SELECT \* FROM active('my_package:My.App:MyTemplate') WHERE package_id = 'deadbeef…'``.
 
 Daml Shell
 ----------
@@ -1906,24 +1905,6 @@ use the exact version of the package that your script uses, this is most
 useful when you want to be absolutely certain of the choice code you are
 calling. Note that exact and non-exact commands can be mixed in the same
 submission.
-
-**Package Preference**
-
-TODO: Decide whether or not to include this
-
-The following functions can be used to set the package preference for a
-submission, as explained in `Ledger API <#ledger-api>`__ above. Note that this feature
-is experimental, and unsupported in the Daml Studio Ledger.
-
-.. code:: daml
-
-  import Daml.Script.Internal
-  
-  myScript : Script ()
-  myScript = do
-    ...
-    let myPackageId = PackageId "<the intended package id hex>"
-    submitWithOptions (actAs alice <> packagePreference [myPackageId]) $ createCmd ...
 
 Daml Studio support
 -------------------
