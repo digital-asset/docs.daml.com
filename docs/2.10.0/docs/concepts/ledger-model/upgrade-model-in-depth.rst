@@ -18,7 +18,7 @@ Upgrade static checks are performed once alongside other validity checks
 when a DAR is uploaded to a participant. DARs deemed invalid for
 upgrades are rejected.
 
-DARs upgrade checks are broken down into package-level checks, which are in turn
+DAR upgrade checks are broken down into package-level checks, which are in turn
 broken down into template and data type-level checks.
 
 Packages
@@ -27,16 +27,15 @@ Packages
 **Definition:** A *utility package* is a package with no template
 definition, no interface definition, and only
 non-`serializable <https://github.com/digital-asset/daml/blob/main-2.x/sdk/daml-lf/spec/daml-lf-1.rst#serializable-types>`__
-data type definitions. A utility package is typically only made of
+data type definitions. A utility package typically consists of
 helper functions and constants.
 
-In the following, packages whose LF version does not support upgrades
-(1.15 and earlier) and utility packages are ignored. Everything is as if
-they didn't exist for the purposes of the package validity check.
+In the following validity check, packages whose LF version does not support upgrades
+(1.15 and earlier) and utility packages are ignored. 
 
-Upon upload to a participant, a DAR is checked against previously
-uploaded DARs for upgrade validity. More precisely, for every package
-with name *p* and version *v* present in the uploaded dar:
+A DAR is checked against previously
+uploaded DARs for upgrade validity on upload to a participant. Specifically, for every package
+with name *p* and version *v* present in the uploaded DAR:
 
 1. The participant looks up versions *v_prev* and *v_next* of *p* in its package database, such that *v_prev* is the greatest version of
    *p* smaller than *v*, and *v_next* is the smallest version of *p*
@@ -64,8 +63,7 @@ The modules of the upgrading package must form a superset of the modules
 of the upgraded package. In other words, it is valid to add new modules
 but deleting a module leads to a validation error.
 
-Examples
-^^^^^^^^
+**Examples**
 
 In the file tree below, package v2 is a potentially valid upgrade of
 package v1, assuming ``v2/A.daml`` is a valid upgrade of ``v1/A.daml``.
@@ -107,8 +105,7 @@ new templates but deleting a template leads to a validation error.
 
 .. _examples-1:
 
-Examples
-^^^^^^^^
+**Examples**
 
 Below, the module on the right is a valid upgrade of the module on the
 left. But the module on the left is **not** a valid upgrade of the
@@ -155,8 +152,7 @@ validation error.
 
 .. _examples-2:
 
-Examples
-^^^^^^^^
+**Examples**
 
 Below, the template on the right is a valid upgrade of the template on
 the left. It adds an optional parameter ``x1`` at the end of the parameter
@@ -259,8 +255,7 @@ from ``daml-stdlib``/``daml-prim``.
 
 .. _examples-3:
 
-Examples
-^^^^^^^^
+**Examples**
 
 Below, the template on the right is **not** a valid upgrade of the
 template on the left because it adds a key.
@@ -342,8 +337,7 @@ but deleting a choice leads to a validation error.
 
 .. _examples-4:
 
-Examples
-^^^^^^^^
+**Examples**
 
 Below, the template on the right is a valid upgrade of the template on
 the left. It adds a choice ``C`` to the previous version of the template.
@@ -386,8 +380,7 @@ validation error.
 Adding a non-optional parameter at the end of the parameter leads to a
 validation error.
 
-Example
-^^^^^^^
+**Example**
 
 Below, the choice on the right is a valid upgrade of the choice on the
 left. It adds an optional parameter ``x2`` at the end of the parameter
@@ -499,7 +492,7 @@ not a valid upgrade of ``Int``.
           do 
             return ()
 
-Template Choices - Return type
+Template Choices - Return Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The return type of an upgrading choice must be a valid upgrade of the
@@ -510,8 +503,7 @@ validation error.
 
 .. _examples-5:
 
-Examples
-^^^^^^^^
+**Examples**
 
 Below, the choice on the right is **not** a valid upgrade of the choice
 on the left because it changes its return type from ``()`` to ``Int``. ``Int`` is
@@ -543,7 +535,7 @@ Changing the variety of a serializable data type leads to a validation
 error. For instance, one cannot change a record type into a variant
 type.
 
-Non-serializable data types are inexistent from the point-of-view of the
+Non-serializable data types are inexistent from the point of view of the
 upgrade validity check. Turning a non-serializable data type into a
 serializable one amounts to adding a new data type, which is valid.
 Turning a serializable data type into a non-serializable one amounts to
@@ -551,8 +543,7 @@ deleting this data type, which is invalid.
 
 .. _examples-6:
 
-Examples
-^^^^^^^^
+**Examples**
 
 Below, the module on the right is a valid upgrade of the module on the
 left. It defines an additional serializable data type ``B``.
@@ -656,8 +647,7 @@ validation error.
 
 .. _examples-7:
 
-Examples
-^^^^^^^^
+**Examples**
 
 Below, the record on the right is a valid upgrade of the module on the
 left. It adds an optional field ``x2`` at the end of the field sequence.
@@ -720,9 +710,9 @@ Data Types - Variants
 ~~~~~~~~~~~~~~~~~~~~~
 
 An upgrading variant may add new constructors at the end of the
-constructor sequence of the upgraded variant. The types of the arguments
-of the constructors that the upgrading variant has in common with the
-upgraded variant must be pairwise valid upgrades of the original types.
+constructor sequence of the upgraded variant. The argument types  
+of the constructors that the upgrading variant has in common with the  
+upgraded variant must be pairwise valid upgrades of the original types.  
 
 Adding a constructor in the middle of the constructor sequence leads to
 a validation error.
@@ -734,8 +724,7 @@ Removing a constructor leads to a validation error.
 
 .. _examples-8:
 
-Examples
-^^^^^^^^
+**Examples**
 
 Below, the variant on the right is a valid upgrade of the variant on the
 left. It adds a new constructor ``C`` at the end of the constructor
@@ -854,8 +843,7 @@ whole.
 
 .. _examples-9:
 
-Examples
-^^^^^^^^
+**Examples**
 
 In these examples we assume the existence of packages ``q-1.0.0`` and
 ``q-2.0.0`` with LF version 1.16, and that the latter is a valid upgrade of
@@ -951,7 +939,7 @@ Data Types - Parameterized Data Types
 
 Parameterized data types are considered serializable for the purpose of
 upgrade validation. That is, parameterized data types in an upgrading
-package will be compared against their previous version.
+package are compared against their previous version.
 
 The upgrade validation for parameterized data types follows the same
 rules as non-parameterized data types, but also compares type variables.
@@ -961,8 +949,7 @@ variable of the same name.
 
 .. _example-1:
 
-Example
-^^^^^^^
+**Example**
 
 Below, the parameterized data type on the right is a valid upgrade of
 the parameterized data type on the left. As is valid with any record
@@ -1031,7 +1018,7 @@ re-computation.
 Target Types
 ~~~~~~~~~~~~
 
-In a top level fetch or exercise triggered by a Ledger API command, the
+In a top-level fetch or exercise triggered by a Ledger API command, the
 target template type is determined by the rules of package preference
 detailed in the `Ledger API <#_swcg5hoxdia8>`__ section. Once a given
 version of a template has been selected, the target type of its
@@ -1040,8 +1027,7 @@ choices is determined by their static type.
 
 .. _example-1-1:
 
-Example 1
-^^^^^^^^^
+**Example 1**
 
 Assume a package ``p`` with two versions. The upgrading versions adds an
 optional text field.
@@ -1093,8 +1079,7 @@ Then
    contract and leaves it unchanged, returning ``T { p = 'Bob', t =
    Some "Hello" }``.
 
-Example 2
-^^^^^^^^^
+**Example 2**
 
 Now, assume two versions of a package called dep, defining a template U
 and its upgrade.
@@ -1172,8 +1157,8 @@ is the one defined in package ``dep-1.0.0``. Contract ``5678`` is thus
 downgraded to ``U { p = 'Bob'}`` upon retrieval. Note that the command
 preference for version ``2.0.0`` of package ``dep`` bears no incidence here.
 
-Example 3
-^^^^^^^^^
+**Example 3**
+
 Assume now a package ``r`` with two versions. They define a template with a
 choice, and version ``2.0.0`` adds an optional field to the parameters of the
 choice. The return type of the choice is also upgraded.
@@ -1255,7 +1240,7 @@ Transformation Rules
 ~~~~~~~~~~~~~~~~~~~~
 
 Once the target type has been determined, the data transformation rules
-themselves are pretty straightforward and follow the `upgrading rules of
+themselves follow the `upgrading rules of
 protocol
 buffers <https://protobuf.dev/programming-guides/proto3/#updating>`__.
 
@@ -1359,8 +1344,7 @@ Upon retrieval and after conversion, the metadata of a contract is recomputed
 using the code of the target template. It is a runtime error if the recomputed
 metadata does not match that of the original contract.
 
-Examples
-^^^^^^^^
+**Examples**
 
 Below the template on the right is a valid upgrade of the template on the left.
 
