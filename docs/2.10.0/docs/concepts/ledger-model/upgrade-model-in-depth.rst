@@ -46,17 +46,16 @@ with name *p* and version *v* present in the uploaded dar:
 
 2. The participant checks that version *v* of *p* is a valid upgrade of
    version *v_prev* of p.
-
 3. The participant checks that version *v_next* of *p* is a valid
    upgrade of version *v* of *p*.
 
-| This means that "being a valid upgrade" for a package is context
-  dependent: it depends on what packages are already installed on the
-  participant.
-| It is also *modular*: checks are performed at the package level. That
-  is, a new version of a package is rejected as soon as it contains some
-  element which doesn't properly upgrade its counterpart in the old
-  package, even if some other elements do.
+This means that "being a valid upgrade" for a package is context
+dependent: it depends on what packages are already installed on the
+participant.
+It is also *modular*: checks are performed at the package level. That
+is, a new version of a package is rejected as soon as it contains some
+element which doesn't properly upgrade its counterpart in the old
+package, even if some other elements do.
 
 Modules
 ~~~~~~~
@@ -843,11 +842,8 @@ A reference *r2* to a data type upgrades a reference *r1* to a data type
 if and only if:
 
 -  *r2* resolves to a type *t2* with qualified name *q2* in package *p2;*
-
 -  *r1* resolves to a type *t1* with qualified name *q1* in package *p1;*
-
 -  The qualified names *q2* and *q1* are the same;
-
 -  If the LF versions of both *p1* and *p2* support upgrades then
       package *p2* is a valid upgrade of package *p1*, else *p2* and
       *p1* are the exact same package.
@@ -1081,19 +1077,16 @@ Also assume a ledger that contains a contract of type ``T`` written by
 Then
 
 -  Fetching contract ``1234`` with package preference ``p-1.0.0`` retrieves the
-      contract and leaves it unchanged, returning ``T { p = 'Alice' }``.
-
+   contract and leaves it unchanged, returning ``T { p = 'Alice' }``.
 -  Fetching contract ``1234`` with package preference ``p-2.0.0`` retrieves the
-      contract and successfully transforms it to the target template
-      type, returning ``T { p = 'Alice', t = None }``.
-
+   contract and successfully transforms it to the target template
+   type, returning ``T { p = 'Alice', t = None }``.
 -  Fetching contract ``5678`` with package preference ``p-1.0.0`` retrieves the
-      contract and fails to downgrade it to the target template type,
-      returning an error.
-
+   contract and fails to downgrade it to the target template type,
+   returning an error.
 -  Fetching contract ``5678`` with package preference ``p-2.0.0`` retrieves the
-      contract and leaves it unchanged, returning ``T { p = 'Bob', t =
-      Some "Hello" }``.
+   contract and leaves it unchanged, returning ``T { p = 'Bob', t =
+   Some "Hello" }``.
 
 Example 2
 ^^^^^^^^^
@@ -1169,10 +1162,10 @@ and a contract of type ``U`` written by ``dep-2.0.0``.
 
 When exercising choice ``GetU 8765`` on contract ``4321`` with package
 preference ``dep-2.0.0``, we trigger a fetch of contract ``5678``. Because
-package ``q`` depends on version ``1.0.0`` of ``dep``, the target type for ``U`` is the
-one defined in package ``dep-1.0.0``. Contract ``5678`` is thus downgraded to ``U
-{ p = 'Bob'}`` upon retrieval. Note that the command preference for
-version ``2.0.0`` of package ``dep`` bears no incidence here.
+package ``q`` depends on version ``1.0.0`` of ``dep``, the target type for ``U``
+is the one defined in package ``dep-1.0.0``. Contract ``5678`` is thus
+downgraded to ``U { p = 'Bob'}`` upon retrieval. Note that the command
+preference for version ``2.0.0`` of package ``dep`` bears no incidence here.
 
 Transformation Rules
 ~~~~~~~~~~~~~~~~~~~~
@@ -1206,20 +1199,18 @@ and ``T-v2`` in the following,
           ym : Optional Um
 
 -  A ``T-v1`` value ``T { x1 = v1, ..., xn = vn }`` is upgraded to a ``T-v2`` value by
-      setting the additional fields to None and upgrading ``v1...vn``
-      recursively. The transformation results in a value ``T { x1 = v1',
-      ..., xn = vn', y1 = None, ..., ym = None }``, where ``v1'... vn'`` is the
-      result of upgrading ``v1...vn`` to ``T1' ... Tn'``.
-
+   setting the additional fields to None and upgrading ``v1...vn``
+   recursively. The transformation results in a value ``T { x1 = v1',
+   ..., xn = vn', y1 = None, ..., ym = None }``, where ``v1'... vn'`` is the
+   result of upgrading ``v1...vn`` to ``T1' ... Tn'``.
 -  A ``T-v2`` value of the shape
-      ``T { x1 = v1, ..., xn = vn, y1 = None, ..., ym = None }`` is downgraded to a ``T-v1``
-      value by dropping additional fields and downgrading ``v1...vn`` recursively. 
-      The transformation results in a value
-      ``T { x1 = v1', ..., xn = vn' }`` where ``v1'... vn'`` is the result of
-      downgrading ``v1 ... vn`` to ``T1 ... Tn``.
-
+   ``T { x1 = v1, ..., xn = vn, y1 = None, ..., ym = None }`` is downgraded to a ``T-v1``
+   value by dropping additional fields and downgrading ``v1...vn`` recursively. 
+   The transformation results in a value
+   ``T { x1 = v1', ..., xn = vn' }`` where ``v1'... vn'`` is the result of
+   downgrading ``v1 ... vn`` to ``T1 ... Tn``.
 -  Attempting to downgrade a ``T-v2`` value where at least one ``yi`` is a 
-      ``Some _`` results in a runtime error.
+   ``Some _`` results in a runtime error.
 
 The same transformation rules apply to template parameters and choice
 parameters.
@@ -1247,15 +1238,13 @@ and ``V-v2`` in the following,
           | Dm Um
 
 -  A ``V-v1`` value ``Ci vi`` is upgraded to a ``V-v2`` value by upgrading ``vi``
-      recursively. The transformation results in a value ``Ci vi'`` where
-      ``vi'`` is the result of upgrading ``vi`` to ``Ti'``.
-
+   recursively. The transformation results in a value ``Ci vi'`` where
+   ``vi'`` is the result of upgrading ``vi`` to ``Ti'``.
 -  A ``V-v2`` value ``Ci vi`` is downgraded to a ``V-v1`` value by downgrading ``vi``
-      recursively. The transformation results in a value ``Ci vi'`` where
-      ``vi'`` is the result of downgrading ``vi`` to ``Ti``.
-
+   recursively. The transformation results in a value ``Ci vi'`` where
+   ``vi'`` is the result of downgrading ``vi`` to ``Ti``.
 -  Attempting to downgrade a ``V-v2`` value of the form ``Dj vj`` results in a
-      runtime error.
+   runtime error.
 
 The same transformation rules apply to enum types, constructor arguments
 aside.
@@ -1267,9 +1256,7 @@ Types that aren't records or variants are "pass-through" for the upgrade
 and downgrade transformations:
 
 -  Values of scalar types are trivially transformed to themselves.
-
 -  The elements of Lists are recursively transformed.
-
 -  The keys and values of Maps are recursively transformed.
 
 Metadata
