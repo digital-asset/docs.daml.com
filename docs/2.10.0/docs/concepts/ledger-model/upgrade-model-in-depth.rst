@@ -6,10 +6,10 @@
 The Upgrade Model in Depth - Reference
 ======================================
 
-This section describes in detail what rules govern package validation
-upon upload and how contracts are upgraded or downgraded at runtime.
-These topics are for a large part covered in the sections above. This
-section acts as a thorough reference.
+This section describes in detail what rules govern package validation upon
+upload and how contracts, choice arguements and choice results are upgraded or
+downgraded at runtime.  These topics are for a large part covered in the
+sections above. This section acts as a thorough reference.
 
 Static Checks
 -------------
@@ -18,7 +18,7 @@ Upgrade static checks are performed once alongside other validity checks
 when a DAR is uploaded to a participant. DARs deemed invalid for
 upgrades are rejected.
 
-DARs upgrade checks are broken down into package-level checks, which in turn
+DARs upgrade checks are broken down into package-level checks, which are in turn
 broken down into template and data type-level checks.
 
 Packages
