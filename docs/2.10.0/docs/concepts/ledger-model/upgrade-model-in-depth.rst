@@ -115,27 +115,32 @@ module on the right because it lacks a definition for template ``T2``.
    :widths: 50 50
    :width: 100%
 
-   * -  module M where
+   * - .. code-block:: daml
 
-        template T1
-          with
-            p : Party
-          where
-            signatory p
-     -  module M where
+          module M where
+          
+          template T1      
+            with           
+              p : Party    
+            where          
+              signatory p  
+    
+     - .. code-block:: daml
 
-        template T1
-          with
-            p : Party
-          where
-            signatory p
-
-        template T2
-          with
-            p : Party
-          where
-            signatory p
-
+          module M where   
+          
+            template T1
+              with
+                p : Party
+              where
+                signatory p
+          
+            template T2
+              with
+                p : Party
+              where
+                signatory p
+    
 Template Parameters
 ~~~~~~~~~~~~~~~~~~~
 
@@ -162,18 +167,23 @@ sequence.
    :widths: 50 50
    :width: 100%
 
-   * -  template T
-          with
-            p : Party
-          where
-            signatory p
-     -  template T
-          with
-            p : Party
-            x1 : Optional Int
-          where
-            signatory p
+   * - .. code-block:: daml
+ 
+             template T
+                 with
+                   p : Party
+                 where
+                   signatory p
 
+     - .. code-block:: daml
+ 
+          template T
+              with
+                p : Party
+                x1 : Optional Int
+              where
+                signatory p
+ 
 Below, the template on the right is **not** a valid upgrade of the
 template on the left because it adds a new parameter ``x1`` before ``p`` instead
 of adding it at the end of the parameter sequence.
@@ -182,17 +192,22 @@ of adding it at the end of the parameter sequence.
    :widths: 50 50
    :width: 100%
 
-   * -  template T
-          with
-            p : Party
-          where
-            signatory p
-     -  template T
-          with
-            x1 : Optional Int
-            p : Party
-          where
-            signatory p
+   * - .. code-block:: daml
+
+            template T
+              with
+                p : Party
+              where
+                signatory p
+
+     - .. code-block:: daml
+
+            template T
+              with
+                x1 : Optional Int
+                p : Party
+              where
+                signatory p
 
 Below, the template on the right is **not** a valid upgrade of the
 template on the left because it drops parameter ``x1``.
@@ -201,18 +216,22 @@ template on the left because it drops parameter ``x1``.
    :widths: 50 50
    :width: 100%
 
-   * -  template T
-          with
-            p : Party
-            x1 : Int
-          where
-            signatory p
+   * - .. code-block:: daml
 
-     -  template T
-          with
-            p : Party
-          where
-            signatory p
+            template T
+              with
+                p : Party
+                x1 : Int
+              where
+                signatory p
+
+     - .. code-block:: daml
+
+            template T
+              with
+                p : Party
+              where
+                signatory p
 
 Below, the template on the right is **not** a valid upgrade of the
 template on the left because it changes the type of ``x1`` from ``Int`` to ``Text``.
@@ -222,21 +241,23 @@ template on the left because it changes the type of ``x1`` from ``Int`` to ``Tex
    :widths: 50 50
    :width: 100%
 
-   * -  template T
-          with
-            p : Party
+   * - .. code-block:: daml
 
-            x1 : Int
-          where
-            signatory p
-        
-     -  template T
-          with
-            p : Party
+            template T
+              with
+                p : Party
+                x1 : Int
+              where
+                signatory p
 
-            x1 : Text
-          where
-            signatory p
+     - .. code-block:: daml
+
+            template T
+              with
+                p : Party
+                x1 : Text
+              where
+                signatory p
         
 Template Keys
 ~~~~~~~~~~~~~
@@ -264,21 +285,25 @@ template on the left because it adds a key.
    :widths: 50 50
    :width: 100%
 
-   * -  template T
-          with
-            p : Party
-            k : Text
-          where
-            signatory p
-        
-     -  template T
-          with
-            p : Party
-            k : Text
-          where
-            signatory p
-            key (p, k): (Party, Text)
-            maintainer (fst key)
+   * - .. code-block:: daml
+
+            template T
+              with
+                p : Party
+                k : Text
+              where
+                signatory p
+
+     - .. code-block:: daml
+
+            template T
+              with
+                p : Party
+                k : Text
+              where
+                signatory p
+                key (p, k): (Party, Text)
+                maintainer (fst key)
         
 Below, the template on the right is **not** a valid upgrade of the
 template on the left because it deletes its key.
@@ -287,21 +312,25 @@ template on the left because it deletes its key.
    :widths: 50 50
    :width: 100%
 
-   * -  template T
-          with
-            p : Party
-            k : Text
-          where
-            signatory p
-            key (p, k): (Party, Text)
-            maintainer (fst key)
-        
-     -  template T
-          with
-            p : Party
-            k : Text
-          where
-            signatory p
+   * - .. code-block:: daml
+
+            template T
+              with
+                p : Party
+                k : Text
+              where
+                signatory p
+                key (p, k): (Party, Text)
+                maintainer (fst key)
+
+     - .. code-block:: daml
+
+            template T
+              with
+                p : Party
+                k : Text
+              where
+                signatory p
         
 Below, the template on the right is **not** a valid upgrade of the
 template on the left because it changes the type of its key.
@@ -310,23 +339,27 @@ template on the left because it changes the type of its key.
    :widths: 50 50
    :width: 100%
 
-   * -  template T
-          with
-            p : Party
-            k : Text
-          where
-            signatory p
-            key (p, k): (Party, Text)
-            maintainer (fst key)
-        
-     -  template T
-          with
-            p : Party
-            k : Text
-          where
-            signatory p
-            key (p, 2): (Party, Int)
-            maintainer (fst key)
+   * - .. code-block:: daml
+
+            template T
+              with
+                p : Party
+                k : Text
+              where
+                signatory p
+                key (p, k): (Party, Text)
+                maintainer (fst key)
+
+     - .. code-block:: daml
+
+            template T
+              with
+                p : Party
+                k : Text
+              where
+                signatory p
+                key (p, 2): (Party, Int)
+                maintainer (fst key)
 
 Template Choices
 ~~~~~~~~~~~~~~~~
@@ -348,22 +381,26 @@ on the right as it deletes a choice.
    :widths: 50 50
    :width: 100%
 
-   * -  template T
-          with
-            p : Party
-          where
-            signatory p
+   * - .. code-block:: daml
 
-     -  template T
-          with
-            p : Party
-          where
-            signatory p
+            template T
+              with
+                p : Party
+              where
+                signatory p
 
-            choice C : ()
-              controller p
-              do
-                return ()
+     - .. code-block:: daml
+
+            template T
+              with
+                p : Party
+              where
+                signatory p
+
+                choice C : ()
+                  controller p
+                  do
+                    return ()
 
 Template Choices - Parameters
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -390,20 +427,24 @@ sequence.
    :widths: 50 50
    :width: 100%
 
-   * -  choice C : ()
-          with
-            x1 : Int
-          controller p
-          do 
-            return ()
+   * - .. code-block:: daml
 
-     -  choice C : ()
-          with
-            x1 : Int
-            x2 : Optional Text
-          controller p
-          do 
-            return ()
+            choice C : ()
+              with
+                x1 : Int
+              controller p
+              do 
+                return ()
+
+     - .. code-block:: daml
+
+            choice C : ()
+              with
+                x1 : Int
+                x2 : Optional Text
+              controller p
+              do 
+                return ()
 
 Below, the choice on the right is **not** a valid upgrade of the choice
 on the left because it adds a new parameter ``x2`` before ``x1`` instead of
@@ -413,20 +454,24 @@ adding it at the end of the parameter sequence.
    :widths: 50 50
    :width: 100%
 
-   * -  choice C : ()
-          with
-            x1 : Int
-          controller p
-          do 
-            return ()
+   * - .. code-block:: daml
 
-     -  choice C : ()
-          with
-            x2 : Optional Text
-            x1 : Int
-          controller p
-          do 
-            return ()
+            choice C : ()
+              with
+                x1 : Int
+              controller p
+              do 
+                return ()
+
+     - .. code-block:: daml
+
+            choice C : ()
+              with
+                x2 : Optional Text
+                x1 : Int
+              controller p
+              do 
+                return ()
 
 Below, the choice on the right is **not** a valid upgrade of the choice
 on the left because it adds a new field ``x2`` before ``x1`` instead of adding
@@ -436,20 +481,24 @@ it at the end of the parameter sequence.
    :widths: 50 50
    :width: 100%
 
-   * -  choice C : ()
-          with
-            x1 : Int
-          controller p
-          do 
-            return ()
+   * - .. code-block:: daml
 
-     -  choice C : ()
-          with
-            x2 : Optional Text
-            x1 : Int
-          controller p
-          do 
-            return ()
+            choice C : ()
+              with
+                x1 : Int
+              controller p
+              do 
+                return ()
+
+     - .. code-block:: daml
+
+            choice C : ()
+              with
+                x2 : Optional Text
+                x1 : Int
+              controller p
+              do 
+                return ()
 
 Below, the choice on the right is **not** a valid upgrade of the choice
 on the left because it drops parameter ``x1``.
@@ -458,18 +507,22 @@ on the left because it drops parameter ``x1``.
    :widths: 50 50
    :width: 100%
 
-   * -  choice C : ()
-          with
-            x1 : Int
-          controller p
-          do 
-            return ()
+   * - .. code-block:: daml
 
-     -  choice C : ()
-          with
-          controller p
-          do 
-            return ()
+            choice C : ()
+              with
+                x1 : Int
+              controller p
+              do 
+                return ()
+
+     - .. code-block:: daml
+
+            choice C : ()
+              with
+              controller p
+              do 
+                return ()
 
 Below, the choice on the right is **not** a valid upgrade of the choice
 on the left because it changes the type of ``x1`` from ``Int`` to ``Text``. ``Text`` is
@@ -479,18 +532,22 @@ not a valid upgrade of ``Int``.
    :widths: 50 50
    :width: 100%
 
-   * -  choice C : ()
-          with
-            x1 : Int
-          controller p
-          do 
-            return ()
+   * - .. code-block:: daml
 
-     -  choice C : ()
-          with
-          controller p
-          do 
-            return ()
+            choice C : ()
+              with
+                x1 : Int
+              controller p
+              do 
+                return ()
+
+     - .. code-block:: daml
+
+            choice C : ()
+              with
+              controller p
+              do 
+                return ()
 
 Template Choices - Return Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -513,15 +570,19 @@ not a valid upgrade of ``()``.
    :widths: 50 50
    :width: 100%
 
-   * -  choice C : ()
-          controller p
-          do
-            return ()
+   * - .. code-block:: daml
 
-     -  choice C : Int
-          controller p
-          do
-            return 1
+            choice C : ()
+              controller p
+              do
+                return ()
+
+     - .. code-block:: daml
+
+            choice C : Int
+              controller p
+              do
+                return 1
 
 Data Types
 ~~~~~~~~~~
@@ -552,14 +613,18 @@ left. It defines an additional serializable data type ``B``.
    :widths: 50 50
    :width: 100%
 
-   * -  module M where
+   * - .. code-block:: daml
 
-        data A = A
+            module M where
 
-     -  module M where
+           data A = A
 
-        data A = A
-        data B = B
+     - .. code-block:: daml
+
+            module M where
+  
+            data A = A
+            data B = B
 
 Below, the module on the right is a valid upgrade of the module on the
 left. It turns the non-serializable type ``A`` into a serializable one. The
@@ -570,16 +635,20 @@ amounts to adding a new data type to the module on the right.
    :widths: 50 50
    :width: 100%
 
-   * -  module M where
+   * - .. code-block:: daml
 
-        data A = A
-          with 
-            x : Int -> Int
+            module M where
 
-     -  module M where
+            data A = A
+              with 
+                x : Int -> Int
 
-        data A = A
-          with
+     - .. code-block:: daml
+
+            module M where
+
+            data A = A
+              with
 
 Below, the module on the right is **not** a valid upgrade of the module
 on the left because it changes the variety of ``A`` from record type to
@@ -589,14 +658,18 @@ variant type.
    :widths: 50 50
    :width: 100%
 
-   * -  module M where
+   * - .. code-block:: daml
 
-        data A = A
-          with
+            module M where
 
-     -  module M where
+            data A = A
+              with
 
-        data A = A | B
+     - .. code-block:: daml
+
+            module M where
+
+            data A = A | B
 
 Below, the module on the right is **not** a valid upgrade of the module
 on the left because it drops the serializable data type ``A``.
@@ -605,12 +678,16 @@ on the left because it drops the serializable data type ``A``.
    :widths: 50 50
    :width: 100%
 
-   * -  module M where
+   * - .. code-block:: daml
 
-        data A = A
+            module M where
+     
+            data A = A
+     
+     - .. code-block:: daml
 
-     -  module M where
-
+            module M where
+     
 Below, the module on the right is **not** a valid upgrade of the module
 on the left because although it adds an optional field to the record
 type ``A``, it also turns ``A`` into a non-serializable type, which amounts to
@@ -620,16 +697,20 @@ deleting ``A`` from the point of view of the upgrade validity check.
    :widths: 50 50
    :width: 100%
 
-   * -  module M where
+   * - .. code-block:: daml
 
-        data A = A
-          with
+            module M where
 
-     -  module M where
+            data A = A
+              with
 
-        data A = A 
-          with 
-            x : Optional (Int -> Int)
+     - .. code-block:: daml
+
+            module M where
+
+            data A = A 
+              with 
+                x : Optional (Int -> Int)
 
 Data Types - Records
 ~~~~~~~~~~~~~~~~~~~~
@@ -656,12 +737,16 @@ left. It adds an optional field ``x2`` at the end of the field sequence.
    :widths: 50 50
    :width: 100%
 
-   * -  data T = T with
-          x1 : Int
+   * - .. code-block:: daml
 
-     -  data T = T with
-          x1 : Int
-          x2 : Optional Text
+          data T = T with
+            x1 : Int
+
+     - .. code-block:: daml
+
+          data T = T with
+           x1 : Int
+           x2 : Optional Text
 
 Below, the record on the right is **not** a valid upgrade of the record
 on the left because it adds a new field ``x2`` before ``x1`` instead of adding
@@ -671,13 +756,17 @@ it at the end of the field sequence.
    :widths: 50 50
    :width: 100%
 
-   * -  data T = T with
-          x1 : Int
+   * - .. code-block:: daml
 
-     -  data T = T with
-          x2 : Optional Text
-          x1 : Int
+          data T = T with
+            x1 : Int
 
+     - .. code-block:: daml
+
+          data T = T with
+            x2 : Optional Text
+            x1 : Int
+  
 Below, the record on the right is **not** a valid upgrade of the record
 on the left because it drops field ``x2``.
 
@@ -685,26 +774,34 @@ on the left because it drops field ``x2``.
    :widths: 50 50
    :width: 100%
 
-   * -  data T = T with
-          x1 : Int
-          x2 : Text
+   * - .. code-block:: daml
 
-     -  data T = T with
-          x1 : Int
+           data T = T with
+             x1 : Int
+             x2 : Text
+     
+     - .. code-block:: daml
+
+           data T = T with
+             x1 : Int
 
 Below, the record on the right is **not** a valid upgrade of the record
-on the left because it changes the type of ``x1`` from ``Int`` to ``Text``. ``Text`` is
-not a valid upgrade of ``Int``.
+on the left because it changes the type of ``x1`` from ``Int`` to ``Text``. 
+``Text`` is not a valid upgrade of ``Int``.
 
 .. list-table::
    :widths: 50 50
    :width: 100%
 
-   * -  data T = T with
-          x1 : Int
+   * - .. code-block:: daml
 
-     -  data T = T with
-          x1 : Text
+           data T = T with
+             x1 : Int
+
+     - .. code-block:: daml
+
+           data T = T with
+             x1 : Text
 
 Data Types - Variants
 ~~~~~~~~~~~~~~~~~~~~~
@@ -734,11 +831,15 @@ sequence.
    :widths: 50 50
    :width: 100%
 
-   * -  data T =
-          A Int | B Text
+   * - .. code-block:: haskell
 
-     -  data T = 
-          A Int | B Text | C Bool
+            data T =
+              A Int | B Text
+
+     - .. code-block:: haskell
+
+            data T = 
+              A Int | B Text | C Bool
 
 Below, the variant on the right is **not** a valid upgrade of the
 variant on the left because it adds a new constructor ``C`` before ``B`` instead
@@ -748,11 +849,15 @@ of adding it at the end of the constructor sequence.
    :widths: 50 50
    :width: 100%
 
-   * -  data T =
-          A Int | B Text
+   * - .. code-block:: haskell
 
-     -  data T = 
-          A Int | C Bool | B Text
+            data T =
+              A Int | B Text
+
+     - .. code-block:: haskell
+
+            data T = 
+              A Int | C Bool | B Text
 
 Below, the variant on the right is **not** a valid upgrade of the
 variant on the left because it changes the order of its constructors.
@@ -761,11 +866,15 @@ variant on the left because it changes the order of its constructors.
    :widths: 50 50
    :width: 100%
 
-   * -  data T =
-          A Int | B Text
+   * - .. code-block:: haskell
 
-     -  data T = 
-          B Text | A Int
+            data T =
+              A Int | B Text
+
+     - .. code-block:: haskell
+
+            data T = 
+              B Text | A Int
 
 Below, the variant on the right is **not** a valid upgrade of the
 variant on the left because it drops constructor ``B````.``
@@ -774,11 +883,15 @@ variant on the left because it drops constructor ``B````.``
    :widths: 50 50
    :width: 100%
 
-   * -  data T =
-          A Int | B Text
+   * - .. code-block:: haskell
 
-     -  data T = 
-          A Int
+            data T =
+              A Int | B Text
+
+     - .. code-block:: haskell
+
+            data T = 
+              A Int
 
 Below, the variant on the right is **not** a valid upgrade of the
 variant on the left because it changes the type of ``B``'s argument from
@@ -788,11 +901,15 @@ variant on the left because it changes the type of ``B``'s argument from
    :widths: 50 50
    :width: 100%
 
-   * -  data T =
-          A Int | B Text
+   * - .. code-block:: haskell
 
-     -  data T = 
-          A Int | B Bool
+            data T =
+              A Int | B Text
+
+     - .. code-block:: haskell
+
+            data T = 
+              A Int | B Bool
 
 Data Types - Enums
 ~~~~~~~~~~~~~~~~~~
@@ -853,20 +970,23 @@ the former.
    :widths: 50 50
    :width: 100%
 
-   * -  In ``q-1.0.0``:
+   * - In ``q-1.0.0``:
+     - In ``q-2.0.0``:
 
-        module Dep where
+   * - .. code-block:: daml
 
-        data U = C1
-        data V = V
-
-     -  In ``q-2.0.0``:
-
-        module Dep where
-
-        data U = C1 | C2
-        data V = V
-
+            module Dep where
+     
+            data U = C1
+            data V = V
+     
+     - :.. code-block:: daml
+     
+            module Dep where
+     
+            data U = C1 | C2
+            data V = V
+     
 Then below, the module on the right is a valid upgrade of the module on
 the left.
 
@@ -874,20 +994,24 @@ the left.
    :widths: 50 50
    :width: 100%
 
-   * -  module Main where
+   * - .. code-block:: daml
 
-        -- imported from q-1.0.0
-        import qualified Dep
+            module Main where
+     
+            -- imported from q-1.0.0
+            import qualified Dep
+     
+            data T = T Dep.U
+     
+     - .. code-block:: daml
 
-        data T = T Dep.U
-
-     -  module Main where
-
-        -- imported from q-2.0.0
-        import qualified Dep
-
-        data T = T Dep.U
-
+            module Main where
+     
+            -- imported from q-2.0.0
+            import qualified Dep
+     
+            data T = T Dep.U
+     
 However below, the module on the right is **not** a valid upgrade of the
 module on the left because ``Dep.V`` on the right belongs to package ``q-1.0.0``
 which is not a valid upgrade of package ``p-2.0.0``, even though the two
@@ -897,19 +1021,23 @@ definitions of ``V`` are the same.
    :widths: 50 50
    :width: 100%
 
-   * -  module Main where
+   * - .. code-block:: daml
 
-        -- imported from q-2.0.0
-        import qualified Dep
+            module Main where
+     
+            -- imported from q-2.0.0
+            import qualified Dep
+     
+            data T = T Dep.V
 
-        data T = T Dep.V
+     - .. code-block:: daml
 
-     -  module Main where
-
-        -- imported from q-1.0.0
-        import qualified Dep
-
-        data T = T Dep.V
+            module Main where
+     
+            -- imported from q-1.0.0
+            import qualified Dep
+     
+            data T = T Dep.V
 
 Suppose now that q-1.0.0 and q-2.0.0 are both compiled to LF version
 1.15 (which does not support upgrades). Then below, the module on the
@@ -920,19 +1048,23 @@ references to U on each side resolve to packages with different IDs.
    :widths: 50 50
    :width: 100%
 
-   * -  module Main where
+   * - .. code-block:: daml
 
-        -- imported from q-1.0.0
-        import qualified Dep
+            module Main where
+     
+            -- imported from q-1.0.0
+            import qualified Dep
+     
+            data T = T Dep.U
+     
+     - .. code-block:: daml
 
-        data T = T Dep.U
-
-     -  module Main where
-
-        -- imported from q-2.0.0
-        import qualified Dep
-
-data T = T Dep.U
+            module Main where
+     
+            -- imported from q-2.0.0
+            import qualified Dep
+     
+            data T = T Dep.U
 
 Data Types - Parameterized Data Types
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -959,16 +1091,20 @@ type, it adds an optional field.
    :widths: 50 50
    :width: 100%
 
-   * -  data Tree a = 
-          Tree with 
-            label : a
-            children : [Tree a]
+   * - .. code-block:: daml
 
-     -  data Tree a = 
-          Tree with 
-            label : a
-            children : [Tree a]
-            cachedSize : Optional Int
+            data Tree a = 
+              Tree with 
+                label : a
+                children : [Tree a]
+
+     - .. code-block:: daml
+
+            data Tree a = 
+              Tree with 
+                label : a
+                children : [Tree a]
+                cachedSize : Optional Int
 
 Below, the parameterized data type on the right is **not** a valid
 upgrade of the parameterized data type on the left. It renames the type
@@ -978,15 +1114,19 @@ variable ``a`` into ``b`` which is currently not supported.
    :widths: 50 50
    :width: 100%
 
-   * -  data Tree b = 
-          Tree with 
-            label : b
-            children : [Tree b]
+   * - .. code-block:: daml
 
-     -  data Tree b = 
-          Tree with 
-            label : b
-            children : [Tree b]
+            data Tree b = 
+              Tree with 
+                label : b
+                children : [Tree b]
+
+     - .. code-block:: daml
+
+            data Tree b = 
+              Tree with 
+                label : b
+                children : [Tree b]
 
 Interfaces
 ~~~~~~~~~~
@@ -1036,22 +1176,25 @@ optional text field.
    :widths: 50 50
    :width: 100%
 
-   * -  In ``p-1.0.0``:
+   * - In ``p-1.0.0``:
+     - In ``p-2.0.0``:
 
-        template T 
-          with
-            p : Party
-          where
-            signatory p
+   * - .. code-block:: daml
 
-     -  In ``p-2.0.0``:
+            template T 
+              with
+                p : Party
+              where
+                signatory p
 
-        template T 
-          with
-            p : Party
-            t : Optional Text
-          where
-            signatory p
+     - .. code-block:: daml
+
+            template T 
+              with
+                p : Party
+                t : Optional Text
+              where
+                signatory p
 
 Also assume a ledger that contains a contract of type ``T`` written by
 ``p-1.0.0``, and another contract of written by ``p-2.0.0``.
@@ -1088,26 +1231,29 @@ and its upgrade.
    :widths: 50 50
    :width: 100%
 
-   * -  In ``dep-1.0.0``:
-   
-        module Dep where
+   * - In ``dep-1.0.0``:
+     - In ``dep-2.0.0``:
 
-        template U
-          with
-            p : Party
-          where
-            signatory p
+   * - .. code-block:: daml
 
-     -  In ``dep-2.0.0``:
-     
-        module Dep where
+            module Dep where
 
-        template U
-          with
-            p : Party
-            t : Optional Text
-          where
-            signatory p
+            template U
+              with
+                p : Party
+              where
+                signatory p
+
+     - .. code-block:: daml
+
+            module Dep where
+
+            template U
+              with
+                p : Party
+                t : Optional Text
+              where
+                signatory p
 
 Assume then some package ``q`` which depends on version ``1.0.0`` of ``dep``.
 
@@ -1167,43 +1313,46 @@ choice. The return type of the choice is also upgraded.
    :widths: 50 50
    :width: 100%
 
-   * -  In ``r-1.0.0``:
-         
-        module M where
-        
-        data Ret = Ret with
-        
-        template V
-          with
-            p : Party
-          where
-            signatory p
-        
-            choice C : Ret
-              with 
-                i : Int
-              controller p
-              do return Ret
+   * - In ``r-1.0.0``:
+     - In ``r-2.0.0``:
 
-     -  In ``r-2.0.0``:
-        
-        module M where
-         
-        data Ret = Ret with
-          j : Optional Int
-        
-        template V
-          with
-             p : Party
-           where
-             signatory p
-        
-             choice C : Ret
-               with 
-                 i : Int
-                 j : Optional Int
-               controller p
-               do return Ret with j = j
+   * - .. code-block:: daml
+
+            module M where
+
+            data Ret = Ret with
+
+            template V
+              with
+                p : Party
+              where
+                signatory p
+
+                choice C : Ret
+                  with 
+                    i : Int
+                  controller p
+                  do return Ret
+
+     - .. code-block:: daml
+
+            module M where
+
+            data Ret = Ret with
+              j : Optional Int
+
+            template V
+              with
+                 p : Party
+               where
+                 signatory p
+
+                 choice C : Ret
+                   with 
+                     i : Int
+                     j : Optional Int
+                   controller p
+                   do return Ret with j = j
  
 Also assume a ledger that contains a contract of type ``V`` written by
 ``r-1.0.0``.
@@ -1254,18 +1403,22 @@ and ``T-v2`` in the following,
    :widths: 50 50
    :width: 100%
 
-   * -  data T = T with
-          x1 : T1
-          ...
-          xn : Tn
+   * - .. code-block:: daml
 
-     -  data T = T with
-          x1 : T1'
-          ...
-          xn : Tn'
-          y1 : Optional U1
-          ...
-          ym : Optional Um
+           data T = T with
+             x1 : T1
+             ...
+             xn : Tn
+     
+     - .. code-block:: daml
+
+           data T = T with
+             x1 : T1'
+             ...
+             xn : Tn'
+             y1 : Optional U1
+             ...
+             ym : Optional Um
 
 -  A ``T-v1`` value ``T { x1 = v1, ..., xn = vn }`` is upgraded to a ``T-v2`` value by
    setting the additional fields to None and upgrading ``v1...vn``
@@ -1294,17 +1447,22 @@ and ``V-v2`` in the following,
    :widths: 50 50
    :width: 100%
 
-   * -  data V =
-          = C1 T1
-          | ...
-          | Cn Tn
-     -  data V =
-          = C1 T1'
-          | ...
-          | Cn Tn'
-          | D1 U1
-          | ...
-          | Dm Um
+   * - .. code-block:: daml
+
+            data V =
+              = C1 T1
+              | ...
+              | Cn Tn
+
+     - .. code-block:: daml
+
+            data V =
+              = C1 T1'
+              | ...
+              | Cn Tn'
+              | D1 U1
+              | ...
+              | Dm Um
 
 -  A ``V-v1`` value ``Ci vi`` is upgraded to a ``V-v2`` value by upgrading ``vi``
    recursively. The transformation results in a value ``Ci vi'`` where
@@ -1353,22 +1511,25 @@ Below the template on the right is a valid upgrade of the template on the left.
    :width: 100%
 
    * -  In ``p-1.0.0``:
-
-        template T 
-          with
-            sig : Party
-          where
-            signatory sig
-
      -  In ``p-2.0.0``:
 
-        template T 
-          with
-            sig : Party
-            additionalSig : Optional Party
-          where
-            signatory sig, fromOptional [] additionalSig
+   * - .. code-block:: daml 
 
+           template T 
+             with
+               sig : Party
+             where
+               signatory sig
+
+     - .. code-block:: daml
+
+           template T 
+             with
+               sig : Party
+               additionalSig : Optional Party
+             where
+               signatory sig, fromOptional [] additionalSig
+     
 Assume a ledger that contains a contract of type ``T`` written by
 ``p-1.0.0``.
 
@@ -1395,21 +1556,24 @@ of the template on the left.
    :width: 100%
 
    * -  In ``p-1.0.0``:
-
-        template T 
-          with
-            sig : Party
-          where
-            signatory sig
-
      -  In ``p-2.0.0``:
 
-        template T 
-          with
-            sig : Party
-          where
-            signatory sig, sig
+   * - .. code-block:: daml
 
+          template T 
+            with
+              sig : Party
+            where
+              signatory sig
+  
+     -  .. code-block:: daml
+
+           template T 
+             with
+               sig : Party
+             where
+               signatory sig, sig
+    
 Assume the same leger as above. Fetching contract ``1234`` with package
 preference ``p-2.0.0`` retrieves the the contract and again successfully
 transforms it into the value ``T { sig = 'Alice', additionalSig = None }``. The
