@@ -175,7 +175,6 @@ sequence.
      -  template T
           with
             p : Party
-
             x1 : Optional Int
           where
             signatory p
@@ -196,7 +195,6 @@ of adding it at the end of the parameter sequence.
      -  template T
           with
             x1 : Optional Int
-
             p : Party
           where
             signatory p
@@ -211,7 +209,6 @@ template on the left because it drops parameter ``x1``.
    * -  template T
           with
             p : Party
-
             x1 : Int
           where
             signatory p
@@ -276,7 +273,6 @@ template on the left because it adds a key.
    * -  template T
           with
             p : Party
-
             k : Text
           where
             signatory p
@@ -284,13 +280,10 @@ template on the left because it adds a key.
      -  template T
           with
             p : Party
-
             k : Text
           where
             signatory p
-
             key (p, k): (Party, Text)
-
             maintainer (fst key)
         
 Below, the template on the right is **not** a valid upgrade of the
@@ -303,19 +296,15 @@ template on the left because it deletes its key.
    * -  template T
           with
             p : Party
-
             k : Text
           where
             signatory p
-
             key (p, k): (Party, Text)
-
             maintainer (fst key)
         
      -  template T
           with
             p : Party
-
             k : Text
           where
             signatory p
@@ -330,25 +319,19 @@ template on the left because it changes the type of its key.
    * -  template T
           with
             p : Party
-
             k : Text
           where
             signatory p
-
             key (p, k): (Party, Text)
-
             maintainer (fst key)
         
      -  template T
           with
             p : Party
-
             k : Text
           where
             signatory p
-
             key (p, 2): (Party, Int)
-
             maintainer (fst key)
 
 Template Choices
@@ -386,7 +369,6 @@ on the right as it deletes a choice.
 
             choice C : ()
               controller p
-
               do
                 return ()
 
@@ -419,20 +401,15 @@ sequence.
    * -  choice C : ()
           with
             x1 : Int
-
           controller p
-          
           do 
             return ()
 
      -  choice C : ()
           with
             x1 : Int
-
             x2 : Optional Text
-
           controller p
-
           do 
             return ()
 
@@ -447,20 +424,15 @@ adding it at the end of the parameter sequence.
    * -  choice C : ()
           with
             x1 : Int
-          
           controller p
-
           do 
             return ()
 
      -  choice C : ()
           with
             x2 : Optional Text
-
             x1 : Int
-
           controller p
-
           do 
             return ()
 
@@ -475,20 +447,15 @@ it at the end of the parameter sequence.
    * -  choice C : ()
           with
             x1 : Int
-          
           controller p
-
           do 
             return ()
 
      -  choice C : ()
           with
             x2 : Optional Text
-
             x1 : Int
-
           controller p
-
           do 
             return ()
 
@@ -502,17 +469,13 @@ on the left because it drops parameter ``x1``.
    * -  choice C : ()
           with
             x1 : Int
-
           controller p
-
           do 
             return ()
 
      -  choice C : ()
           with
-
           controller p
-
           do 
             return ()
 
@@ -527,17 +490,13 @@ not a valid upgrade of ``Int``.
    * -  choice C : ()
           with
             x1 : Int
-
           controller p
-
           do 
             return ()
 
      -  choice C : ()
           with
-
           controller p
-
           do 
             return ()
 
@@ -565,13 +524,11 @@ not a valid upgrade of ``()``.
 
    * -  choice C : ()
           controller p
-
           do
             return ()
 
      -  choice C : Int
           controller p
-
           do
             return 1
 
@@ -612,7 +569,6 @@ left. It defines an additional serializable data type ``B``.
      -  module M where
 
         data A = A
-
         data B = B
 
 Below, the module on the right is a valid upgrade of the module on the
@@ -716,7 +672,6 @@ left. It adds an optional field ``x2`` at the end of the field sequence.
 
      -  data T = T with
           x1 : Int
-
           x2 : Optional Text
 
 Below, the record on the right is **not** a valid upgrade of the record
@@ -732,7 +687,6 @@ it at the end of the field sequence.
 
      -  data T = T with
           x2 : Optional Text
-
           x1 : Int
 
 Below, the record on the right is **not** a valid upgrade of the record
@@ -744,7 +698,6 @@ on the left because it drops field ``x2``.
 
    * -  data T = T with
           x1 : Int
-
           x2 : Text
 
      -  data T = T with
@@ -921,7 +874,6 @@ the former.
         module Dep where
 
         data U = C1
-
         data V = V
 
      -  In ``q-2.0.0``:
@@ -929,7 +881,6 @@ the former.
         module Dep where
 
         data U = C1 | C2
-
         data V = V
 
 Then below, the module on the right is a valid upgrade of the module on
@@ -942,7 +893,6 @@ the left.
    * -  module Main where
 
         -- imported from q-1.0.0
-
         import qualified Dep
 
         data T = T Dep.U
@@ -950,7 +900,6 @@ the left.
      -  module Main where
 
         -- imported from q-2.0.0
-
         import qualified Dep
 
         data T = T Dep.U
@@ -967,7 +916,6 @@ definitions of ``V`` are the same.
    * -  module Main where
 
         -- imported from q-2.0.0
-
         import qualified Dep
 
         data T = T Dep.V
@@ -975,7 +923,6 @@ definitions of ``V`` are the same.
      -  module Main where
 
         -- imported from q-1.0.0
-
         import qualified Dep
 
         data T = T Dep.V
@@ -992,7 +939,6 @@ references to U on each side resolve to packages with different IDs.
    * -  module Main where
 
         -- imported from q-1.0.0
-
         import qualified Dep
 
         data T = T Dep.U
@@ -1000,7 +946,6 @@ references to U on each side resolve to packages with different IDs.
      -  module Main where
 
         -- imported from q-2.0.0
-
         import qualified Dep
 
 data T = T Dep.U
@@ -1034,15 +979,12 @@ type, it adds an optional field.
    * -  data Tree a = 
           Tree with 
             label : a
-
             children : [Tree a]
 
      -  data Tree a = 
           Tree with 
             label : a
-
             children : [Tree a]
-
             cachedSize : Optional Int
 
 Below, the parameterized data type on the right is **not** a valid
@@ -1056,13 +998,11 @@ variable ``a`` into ``b`` which is currently not supported.
    * -  data Tree b = 
           Tree with 
             label : b
-
             children : [Tree b]
 
      -  data Tree b = 
           Tree with 
             label : b
-
             children : [Tree b]
 
 Interfaces
@@ -1122,7 +1062,6 @@ optional text field
         template T 
           with
             p : Party
-
             t : Optional Text
           where
             signatory p
@@ -1183,7 +1122,6 @@ and its upgrade.
         template U
           with
             p : Party
-
             t : Optional Text
           where
             signatory p
@@ -1256,22 +1194,15 @@ and ``T-v2`` in the following,
 
    * -  data T = T with
           x1 : T1
-
           ...
-
           xn : Tn
 
      -  data T = T with
           x1 : T1'
-
           ...
-
           xn : Tn'
-
           y1 : Optional U1
-
           ...
-
           ym : Optional Um
 
 -  A ``T-v1`` value ``T { x1 = v1, ..., xn = vn }`` is upgraded to a ``T-v2`` value by
@@ -1305,21 +1236,14 @@ and ``V-v2`` in the following,
 
    * -  data V =
           = C1 T1
-
           | ...
-
           | Cn Tn
      -  data V =
           = C1 T1'
-
           | ...
-
           | Cn Tn'
-
           | D1 U1
-
           | ...
-          
           | Dm Um
 
 -  A ``V-v1`` value ``Ci vi`` is upgraded to a ``V-v2`` value by upgrading ``vi``
