@@ -1360,5 +1360,81 @@ parameters that is stored on the ledger for this contract. Namely:
 - The maintainers of the contract key.
 
 This information is not allowed to change between two versions of a contract.
+Upon retrieval and after conversion, the metadata of a contract is recomputed
+using the code of the target template. It is a runtime error if the recomputed
+metadata does not match that of the original contract.
 
-TODO: Go into details
+Examples
+^^^^^^^^
+
+Below the template on the right is a valid upgrade of the template on the left.
+
+.. list-table::
+   :widths: 50 50
+   :width: 100%
+
+   * -  In ``p-1.0.0``:
+
+        template T 
+          with
+            sig : Party
+          where
+            signatory sig
+
+     -  In ``p-2.0.0``:
+
+        template T 
+          with
+            sig : Party
+            additionalSig : Optional Party
+          where
+            signatory sig, fromOptional [] additionalSig
+
+Assume a ledger that contains a contract of type ``T`` written by
+``p-1.0.0``.
+
++------------+---------------+-----------------------------------------+
+| Contract   | Type          | Contract                                |
+| ID         |               |                                         |
++============+===============+=========================================+
+| ``1234``   | ``p-1.0.0:T`` | ``T { sig = ['Alice'] }``               |
++------------+---------------+-----------------------------------------+
+
+Fetching contract ``1234`` with package preference ``p-2.0.0`` retrieves the
+contract and successfully transforms it into a value of type ``p-2.0.0:T``: ``T
+{ sig = 'Alice', additionalSig = None }``. The signatories of this transformed
+contract are then computed using the expression ``sig, fromOptional []
+additionalSig``, which evaluate to the list ``['Alice']``. This list is then
+compared to signatories of the original contract stored on the ledger:
+``['Alice']``. They match and thus the upgrade is valid.
+
+On the other hand, below, the template on the right is **not** a valid upgrade
+of the template on the left.
+
+.. list-table::
+   :widths: 50 50
+   :width: 100%
+
+   * -  In ``p-1.0.0``:
+
+        template T 
+          with
+            sig : Party
+          where
+            signatory sig
+
+     -  In ``p-2.0.0``:
+
+        template T 
+          with
+            sig : Party
+          where
+            signatory sig, sig
+
+Assume the same leger as above. Fetching contract ``1234`` with package
+preference ``p-2.0.0`` retrieves the the contract and again successfully
+transforms it into the value ``T { sig = 'Alice', additionalSig = None }``. The
+signatories of this transformed contract are then computed using the expression
+``sig, sig``, which evaluate to the list ``['Alice', 'Alice']``. This list is
+then compared to signatories of the original contract stored on the ledger:
+``['Alice']``. They do not match and thus the upgrade is rejected at runtime.
