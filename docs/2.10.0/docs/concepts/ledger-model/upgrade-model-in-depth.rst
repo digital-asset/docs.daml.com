@@ -1078,9 +1078,14 @@ Data Transformation: Runtime Semantics
 --------------------------------------
 
 Whenever a contract is fetched or one of its choices is exercised, it is
-retrieved from the ledger and transformed into a value that fits the
-target template type. Below, we detail the rules governing target types
-and then explain how transformations are performed.
+retrieved from the ledger and transformed into a value that fits the target
+template type. Then, its metadata (signatories, observers, key, maintainers) is
+recomputed using the code of the target temmpate and compared against the
+existing metadata: it is not allowed to change.
+
+Below, we detail the rules governing target types, then explain how
+transformations are performed, and finally detail the rules of metadata
+re-computation.
 
 Target Types
 ~~~~~~~~~~~~
@@ -1342,3 +1347,18 @@ and downgrade transformations:
 -  The elements of Lists are recursively transformed.
 
 -  The keys and values of Maps are recursively transformed.
+
+Metadata
+~~~~~~~~
+For a given contract, metadata is every information outside of the contract
+parameters that is stored on the ledger for this contract. Namely:
+
+- The contract ID;
+- The contract signatories;
+- The contract observers;
+- The contract key;
+- The maintainers of the contract key.
+
+This information is not allowed to change between two versions of a contract.
+
+TODO: Go into details
