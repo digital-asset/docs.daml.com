@@ -66,7 +66,7 @@ How Does it Work
 When upgrading a package, the package author modifies their existing
 package to add new functionality, such as new fields and choices. When
 the new package is uploaded to a participant with the old version, 
-the participant ensures that the every modification to the model in the
+the participant ensures that every modification to the model in the
 new version is a valid upgrade of the previous version.
 
 In order to be able to automatically upgrade a contract or datatype, SCU
@@ -111,8 +111,8 @@ records in your package. Conversely, newer contracts with this field set
 to ``None`` can be automatically downgraded to previous versions of the
 template in workflows that have not yet been updated.
 
-Automatic Data Upgrades
-~~~~~~~~~~~~~~~~~~~~~~~
+Automatic Data Upgrades and Downgrades
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When extending data in a daml model, SCU requires the old model be
 representable in the new model. I.e., for extending a record, we can
@@ -131,7 +131,7 @@ Following is a list of places where automatic data upgrades occur:
 **Submissions to the Ledger API**
 
 When you submit a command, and do not explicitly specify a package-id to
-use, Canton will automatically upgrade the payloads you give to the most
+use, Canton will automatically upgrade (or downgrade) the payloads you give to the most
 recent version of the package that is uploaded on the participant. It
 will also use the most recent implementation of any choices you exercise
 directly through the Ledger API. This behavior can be influenced by
@@ -148,7 +148,7 @@ match these versions when used in a choice body.
 
 Similarly to fetches, the version of the choice implementation that is
 called from a choice body is determined by the package that the choice’s
-package depends on. SCU will automatically upgrade/downgrade the payload
+package depends on. SCU will automatically upgrade (or downgrade) the payload
 stored in the ledger to match that of the choice it is calling.
 
 **Consuming clients (such as daml-script, ts/java codegen)**
@@ -164,8 +164,8 @@ package versions they were run/built from.
 Upgrading Across the Stack
 --------------------------
 
-These are all the components that interact with upgrades as a feature,
-and this is how you as a user should be aware it interacts.
+These are all the components that interact with SCU,
+and how you as a user should be aware it interacts.
 
 Canton
 ~~~~~~
@@ -504,7 +504,7 @@ script and place the resulting party for Alice into an output file
   Running CoordinatedShutdown with reason [ActorSystemTerminateReason]
 
 .. note::
-  All invocations of daml script using ZDT require the ``--enable-contract-upgrading`` flag.
+  All invocations of daml script using SCU requires the ``--enable-contract-upgrading`` flag.
 
 From inside ``v2/my-pkg``, upload and run the ``getIOU`` script, passing in the
 ``alice-v1`` file as the script’s input:
@@ -793,8 +793,8 @@ Upgrading and package vetting
 Upgradable packages are also subject to :ref:`package vetting
 restrictions <package_vetting>`:
 in order to be able to use a package in Daml transactions with smart
-contract upgrading, it needs to be vetted by all participants involved
-in the transaction. This applies both for the packages used for creating
+contract upgrading, it needs to be vetted by all participants informed about
+the transaction. This applies both for the packages used for creating
 the contracts and for the target packages.
 
 **Note:** Package vetting is enabled by default on DAR upload
@@ -1025,7 +1025,7 @@ See `Limitations <#limitatiions>`__ for more information.
 Upgrading Enums
 ~~~~~~~~~~~~~~~
 
-Variants and enums can be extended under SCU, either by adding
+Variants and enums can be extended using SCU, either by adding
 fields to an existing constructor, or by adding a new constructor to the
 end of the list.
 
@@ -1398,7 +1398,7 @@ are instead performed at upload time to a participant.
 Upgrading Interface Instances
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-ZDT upgrades also support changing Interface instances. First, create a
+SCU also supports changing Interface instances. First, create a
 new package directory ``my-iface``, with ``my-iface/daml.yaml`` and
 module ``my-iface/daml/MyIface.daml``:
 
@@ -1575,12 +1575,12 @@ their own version using ``exerciseExactCmd``.
 Upgrading Interfaces
 ~~~~~~~~~~~~~~~~~~~~
 
-Interface instances may be upgraded, but interfaces themselves cannot be
-upgraded. If an interface is present in v1 of a package, it must be
+Interface instances may be upgraded, but interface definitions cannot be
+upgraded. If an interface definition is present in v1 of a package, it must be
 removed from all subsequent versions of that package.
 
-Because interfaces may not be defined in subsequent versions, any
-package depending on an interface from a dependency package can never
+Because interfaces definitions may not be defined in subsequent versions, any
+package that uses an interface definition from a dependency package can never
 upgrade that dependency to a new version.
 
 For this reason, we strongly recommend that interfaces always be defined
@@ -1673,7 +1673,7 @@ manual <one_step_migration>`.
 
 Finally, you can migrate your live data from your previous dars to the
 new LF1.16 dars, using one of the existing downtime upgrade techniques
-listed in `What are Zero Downtime Smart Contract Upgrades <#what-are-zero-downtime-smart-contract-upgrades>`__.
+listed :ref:`here <upgrades-index>`.
 
 The Upgrade Model in Depth - Reference
 --------------------------------------
@@ -1732,8 +1732,8 @@ package-name to a package-id:
    -  **Note:** The Command’s
       :ref:`package_id_selection_preference <com.daml.ledger.api.v1.Commands.package_id_selection_preference>`
       must not lead to ambiguous resolutions for package-names,
-      meaning that it must not contain two package-ids pertaining to
-      the same package-name otherwise the submission will fail with
+      meaning that it must not contain two package-ids pointing to
+      packages with the same package-name, as otherwise the submission will fail with
       an ``INVALID_ARGUMENT`` error
 
 Dynamic package resolution in Ledger API queries
@@ -1926,7 +1926,7 @@ package is uploaded. We recommend that as a final check for the validity
 of your upgraded package, you can either:
 
 -  Run a Canton sandbox (running ``daml sandbox``) and upload your old and
-   new package (``daml ledger upload-dar``).
+   new packages (``daml ledger upload-dar``).
 
 -  Run a dry-run upload of your package to a more permanent testing
    environment, using the ``--dry-run`` flag of the
