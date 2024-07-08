@@ -33,7 +33,7 @@ one of two approaches:
      workflows relating to the old version, and manually upgrade every
      old template on the participant to the new version by directly
      manipulating Canton’s databases.
-   | This is error prone and requires some downtime for the participant.
+   | This is error-prone and requires some downtime for the participant.
 
 With SCU, any contract from the old package is automatically interpreted
 as the new version as soon as it is used in a new workflow that requires
@@ -60,16 +60,16 @@ There are instructions below on how to configure this setup. The
 sections below, unless explicitly stated otherwise, assume that this is
 the case.
 
-How Does it Work
-----------------
+Smart Contract Upgrade Basics
+-----------------------------
 
-When upgrading a package, the package author modifies their existing
+To upgrade a package the package author modifies their existing
 package to add new functionality, such as new fields and choices. When
 the new package is uploaded to a participant with the old version, 
 the participant ensures that every modification to the model in the
 new version is a valid upgrade of the previous version.
 
-In order to be able to automatically upgrade a contract or datatype, SCU
+To be able to automatically upgrade a contract or datatype, SCU
 restricts the kinds of changes that a new package version can introduce
 over its prior version.
 
@@ -114,7 +114,7 @@ template in workflows that have not yet been updated.
 Automatic Data Upgrades and Downgrades
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When extending data in a daml model, SCU requires the old model be
+When extending data in a Daml model, SCU requires the old model to be
 representable in the new model. I.e., for extending a record, we can
 only add nullable (``Optional``) fields, so that old data can be represented
 by setting these fields to ``None``. This mentality is continued for
@@ -126,7 +126,7 @@ and Typescript's ability to ignore `excess
 fields <https://www.typescriptlang.org/docs/handbook/2/objects.html#excess-property-checks>`__
 via ``as``.
 
-Following is a list of places where automatic data upgrades occur:
+Automatic data upgrades occur in the following places:
 
 **Submissions to the Ledger API**
 
@@ -140,8 +140,7 @@ package preference, which will be covered later.
 **Fetches/Creates**
 
 Within choices, the package-ids of the payloads we expect for fetches
-and creates are given by the version of the package we depend on. SCU
-will upgrade (or downgrade) the payloads given/stored in the ledger to
+and creates are given by the version of the package we depend on. SCU upgrades (or downgrades) the payloads given/stored in the ledger to
 match these versions when used in a choice body.
 
 **Exercises**
@@ -158,7 +157,7 @@ payload format matches the template originally used for generating the
 event (creating a contract/exercising a choice). It is the
 responsibility of these clients to upgrade/downgrade the payloads they
 receive to match what is expected downstream. Daml-script, as well as
-ts/java codegen, will do this for you to match the payload to the
+ts/java codegen, does this for you to match the payload to the
 package versions they were run/built from.
 
 Upgrading Across the Stack
@@ -172,8 +171,7 @@ Canton
 
 When considering the Canton ledger nodes, only the Canton participant
 node is aware of smart contract upgrading. The Canton domain nodes are
-only concerned with the protocol version which must be minimally 6 for
-allowing connected participants to use upgradable Daml packages.
+only concerned with the protocol version which must be at least 6 to allow connected participants to use upgradable Daml packages.
 
 Below, we provide a brief overview of the interactions with the
 participant node that have been adapted for supporting the smart
@@ -226,8 +224,8 @@ upgrades, as well as to revert to previous submission behavior.
 Daml Compiler
 ~~~~~~~~~~~~~
 
-The Daml compiler supports the new ``upgrades:`` configuration field - every
-time ``daml build`` is invoked, it will validate the current package for
+The Daml compiler supports the ``upgrades:`` configuration field - every
+time ``daml build`` is invoked, it validates the current package for
 upgrade compatibility against the package specified in the ``upgrades:``
 field.
 
@@ -248,14 +246,14 @@ within VSCode. There are some limitations here which are listed in
 Limitations
 -----------
 
-In order to enable zero downtime upgrades, alongside multi-versioned
-packages running concurrently, we’ve limited the types of
+To enable zero downtime upgrades alongside multi-versioned
+packages running concurrently, we limit the types of
 transformations that can be performed on live data. Following are some
-data transformations that cannot be made using SCU upgrades.
+data transformations that cannot be made using SCU upgrades:
 
--  Renaming, removal or rearrangement of fields in a template
+-  Renaming, removal, or rearrangement of fields in a template
 
--  Conversion of records to variants, and vice versa
+-  Conversion of records to variants and vice versa
 
 -  Moving templates/datatypes to other modules
 
@@ -272,10 +270,10 @@ been implemented, but may be implemented in future releases.
 
 -  Retroactive interface instances are not compatible with SCU upgrades.
 
--  Daml Script does not support SCU, Daml Script Beta must be used.
+-  Daml Script does not support SCU, you must use Daml Script Beta.
 
 -  The ``upgrades:`` field in the ``daml.yaml`` is not yet integrated into
-   Multi-Package, and therefore will not be automatically built as a
+   Multi-Package, and therefore is not automatically built as a
    dependency (or when running ``daml build --all``, unless explicitly
    listed in ``multi-package.yaml``)
 
@@ -296,8 +294,7 @@ Writing your first upgrade
 Setup
 ~~~~~
 
-We continue with the example introduced in `How Does It
-Work <#how-does-it-work>`__. Begin by defining the first (old) version
+We continue with the example introduced in `Smart Contract Upgrade Basics <#smart-contract-upgrade-basics>`__. Begin by defining the first (old) version
 of our package:
 
 .. code:: bash
@@ -351,8 +348,8 @@ Running daml build should successfully produce a DAR in
   ...
   Created .daml/dist/my-pkg-1.0.0.dar
 
-Now we create the second (new) version of our package, which will
-upgrade the first version. Navigate back to the root directory and copy
+Now we create the second (new) version of our package, which
+upgrades the first version. Navigate back to the root directory and copy
 the v1 package into a v2 directory.
 
 .. code:: bash
@@ -376,7 +373,7 @@ field pointing to v1:
   build-options:
   - --target=1.16
 
-Now any changes we make to v2 will be validated as a correct upgrade
+Any changes we make to v2 are now validated as correct upgrades
 over v1.
 
 First Changes
@@ -396,7 +393,7 @@ Begin by adding a new ``currency`` field to ``v2/my-pkg/daml/Main.daml``:
     where
   ...
 
-Run ``daml build``, an error will be emitted:
+Run ``daml build``. An error is emitted:
 
 .. code:: bash
 
@@ -407,7 +404,7 @@ Run ``daml build``, an error will be emitted:
   ERROR: Creation of DAR file failed.
 
 Any new fields we add to a template must be optional - old contracts
-from the previous version will automatically be upgraded by setting new
+from the previous version are automatically upgraded by setting new
 fields to ``None``.
 
 Fix the ``currency`` field to be optional, and re-run ``daml build``:
@@ -424,7 +421,7 @@ Fix the ``currency`` field to be optional, and re-run ``daml build``:
   ...
   Created .daml/dist/my-pkg-1.0.0.dar
 
-The build may produce warnings about expression changes - this will be
+The build may produce warnings about expression changes - this is
 covered in the `Continuing to Write Your
 Upgrades <#continuing-to-write-your-upgrades>`__ section.
 
@@ -636,8 +633,8 @@ Adding a Choice
 ~~~~~~~~~~~~~~~
 
 SCU also allows package authors to add new choices - add the
-example choice ``Double`` to ``v2/my-pkg/daml/Main.daml``, which will archive
-the current contract and produce a new one with twice the value.
+example choice ``Double`` to ``v2/my-pkg/daml/Main.daml``, which archives
+the current contract and produces a new one with twice the value.
 
 .. code:: daml
 
@@ -648,7 +645,7 @@ the current contract and produce a new one with twice the value.
           do create this with value = value * 2
   ...
 
-Compiled changes will be checked against the previous version and pass:
+Compiled changes are checked against the previous version and pass:
 
 .. code:: bash
 
@@ -661,8 +658,7 @@ Compiled changes will be checked against the previous version and pass:
   Created .daml/dist/my-pkg-2.0.0.dar
   ...
 
-Restart the sandbox and reupload the both v1 and v2 using the Daml
-sandbox:
+Restart the sandbox and re-upload both v1 and v2:
 
 .. code:: bash
 
@@ -750,7 +746,7 @@ Using smart-contract-upgrading enabled packages
 Once you have finished development of your smart contract app, use the
 mentioned upgrade-enabled options in daml.yaml to compile and generate
 the related DAR. This can be uploaded using the existing gRPC endpoints
-without modifications and will be immediately available for use.
+without modifications and is immediately available for use.
 
 .. note::
 
@@ -769,16 +765,15 @@ without modifications and will be immediately available for use.
   reason, once a LF 1.16+ DAR has been uploaded with its main package
   having a specific package-name/package-version, this relationship cannot
   be overridden. Hence, uploading a DAR with different content for the
-  same name/version as an existing DAR on the participant will lead to a
+  same name/version as an existing DAR on the participant leads to a
   rejection with error code KNOWN_DAR_VERSION.
 
 Validate the DAR against a running participant node
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Starting with 2.9, you can validate your DAR against the current
-participant node state, without uploading it to the participant in case
-of success. This is possible via the
-``PackageManagementService.validateDar`` Ledger API endpoint and allows
+Starting with 2.9 you can validate your DAR against the current
+participant node state without uploading it to the participant via the
+``PackageManagementService.validateDar`` Ledger API endpoint. This allows
 participant node operators to first check the DAR before uploading it.
 
 This operation is also available via the Canton Admin API and Console:
@@ -815,8 +810,7 @@ Setup
 
 Continue the package defined in the `Writing Your First
 Upgrade <#writing-your-first-upgrade>`__ section above, but overwrite
-the v1 and v2 IOU modules. The v1 IOU module should be overwritten to
-look like the following:
+the v1 and v2 IOU modules. The v1 IOU module should be overwritten as follows:
 
 .. code:: daml
 
@@ -963,8 +957,8 @@ A similar script called ``duplicateIOU`` should be added in V2, supplying an
           Some newIOU -> pure (Some (newCid, newIOU))
           None -> pure None
 
-Running the v1 ``duplicateIOU`` script with ``exerciseExactCmd`` will always run
-the v1 implementation for the ``Duplicate`` choice, and similarly for v2.
+Running the v1 ``duplicateIOU`` script with ``exerciseExactCmd`` always runs
+the v1 implementation for the ``Duplicate`` choice, and likewise for v2.
 
 Modifying Signatory Definitions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -991,10 +985,10 @@ template, and add them to the observer definition.
       observer owner, fromOptional [] outsideObservers
   ...
 
-The new observer definition will allow v2 contracts and beyond to add
+The new observer definition allows v2 contracts and beyond to add
 new observers via the outsideObservers field. However, any existing
-contracts will default to ``None`` for the ``outsideObservers`` field, so all
-existing contracts will have the same observer list as before: the
+contracts default to ``None`` for the ``outsideObservers`` field, so all
+existing contracts have the same observer list as before: the
 single owner.
 
 Modifying Key Expressions
@@ -1094,8 +1088,7 @@ add new entries to the end of our ``Currency`` enum.
     deriving (Show, Eq, Ord)
   ...
 
-Upgrades of extended enums from an old version to new version will
-always succeed. In the case of IOUs, a v1 IOU can always be interpreted
+Upgrades of extended enums from an old version to a new version always succeed. In the case of IOUs, a v1 IOU can always be interpreted
 as a v2 IOU because the constructors for its ``currency`` field are a subset
 of those in a v2 contract.
 
@@ -1127,14 +1120,14 @@ via v2’s ``getIOU`` script:
       "currency": "USD"
   ...
 
-For downgrades from v2 to v1, only constructors that are defined in both
-v1 and v2 can be downgraded from v2 to v1. Any constructor that doesn’t
-exist in the v1 package will fail to downgrade with a runtime error. In
-the case of our ``IOU``, any ``CHF`` will fail to downgrade, so any v2 contracts
+Only constructors that are defined in both
+v1 and v2 can be downgraded from v2 to v1. Any constructor that does not
+exist in the v1 package fails to downgrade with a runtime error. In
+the case of our ``IOU``, any ``CHF`` fails to downgrade, so any v2 contracts
 with a ``CHF`` currency cannot be used in v1 workflows.
 
 For example, create a contract with ``CHF`` as its ``currency`` field via v2’s
-``mkIOU`` script. Attempting to query it via v1’s ``getIOU`` script will fail
+``mkIOU`` script. Attempting to query it via v1’s ``getIOU`` script fails
 with a lookup error for the CHF variant.
 
 .. code:: bash
@@ -1162,8 +1155,8 @@ with a lookup error for the CHF variant.
 Upgrading Variants
 ~~~~~~~~~~~~~~~~~~
 
-Variants, also known as algebraic data types, are very similar to enums,
-except that they also contain structured data within them.
+Variants, also known as algebraic data types, are very similar to enums
+except that they also contain structured data.
 
 For example, the following variant has two constructors, each with
 unique fields. Overwrite both v1 and v2 modules with the following
@@ -1301,8 +1294,8 @@ Nested Datatypes
 ~~~~~~~~~~~~~~~~
 
 If a data type, choice, or template has a field which refers to another
-data type, the larger data type will be upgradeable if the field’s data
-type is upgradeable as well.
+data type, the larger data type can be upgraded if the field’s data
+type is upgradeable.
 
 For example, given the data type ``A`` with a field referring to data type
 ``B``,
@@ -1312,7 +1305,7 @@ For example, given the data type ``A`` with a field referring to data type
   data A = A { b : B }
   data B = B { field : Text }
 
-If modifications made to ``B`` are valid for SCU, then ``A`` will also be valid.
+If modifications made to ``B`` are valid for SCU, then ``A`` is also valid.
 
 Dependencies
 ~~~~~~~~~~~~
@@ -1589,21 +1582,20 @@ in their own packages separately from templates.
 Best Practices
 --------------
 
-To ensure your future upgrades and dar lifecycling goes smoothly, we
+To ensure that future upgrades and DAR lifecycling go smoothly, we
 recommend the following practices:
 
-Separate Interfaces/Exceptions from templates
+Separate Interfaces/Exceptions from Templates
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Interface and exception definitions are not upgradable, they are fixed
-for the lifetime of a package. As such, if you attempt to redefine an
-interface or exception in version 2 of a package, even if unchanged, the
-package will not type check. Removing the interface from the second
-package will also cause issues, especially if the interface has choices.
-Instead, you should move these definitions out into a separate package
+Interface and exception definitions are not upgradable. As such, if you attempt to redefine an
+interface or exception in version 2 of a package, even if it is unchanged, the
+package does not type check. Removing the interface from the second
+package also causes issues, especially if the interface has choices.
+Instead, move these definitions out into a separate package
 from the start, such that subsequent versions of your package with
 templates all depend on the same version of the package with
-interfaces/exceptions. The SCU type checker will warn about this, but
+interfaces/exceptions. The SCU type checker warns about this, but
 you should see this warning as an error - it is very strongly
 recommended that you do not compile interfaces and templates for
 upgrades.
@@ -1611,7 +1603,7 @@ upgrades.
 Remove retroactive instances
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-SCU replaces the need for retroactive instances, and is also not
+SCU eliminates the need for retroactive instances and is not
 compatible with them. To ensure package selection for interface choices
 acts correctly, retroactive interface instances should be moved to newer
 versions of templates, such that changes to the instance warrants a new
@@ -1633,11 +1625,11 @@ Avoid contract metadata changes
 
 The signatories, observers, contract key and ensure clauses of a
 contract should be fixed at runtime for a given contract. Changing their
-definitions in your daml code will trigger a warning from the SCU
+definitions in your Daml code triggers a warning from the SCU
 typechecker, and is discouraged. Note that for contract keys, the type
 cannot change at all, only its value. Should you need to change these
 values, be aware that if their runtime value changes in any way, the
-upgrade will fail, and thus the full transaction. Contracts in this
+upgrade, and thus the full transaction, fails. Contracts in this
 state can then only be used by explicitly choosing the older version of
 the contract in your transaction.
 
@@ -1645,23 +1637,22 @@ Migration
 ---------
 
 SCU is only supported on LF1.16, which in turn is only supported on
-Canton Protocol Version 6. This means that existing deployed contracts
-will first require migration and redeployment to utilize this feature.
+Canton Protocol Version 6. This means that existing deployed contracts require migration and redeployment to utilize this feature.
 
-First, you’ll need to migrate your daml model to be compatible with
-upgrades, see the section above about `Best Practices <#best-practices>`__ for what to
-change here. Pay particular attention to the case on interfaces and
-exceptions, and failure to do so could lead to packages which are
-incompatible with SCU, and require the use of a separate tool (and
+First you must migrate your Daml model to be compatible with
+upgrades; see `Best Practices <#best-practices>`__ for what to
+change here. Pay particular attention to the case of interfaces and
+exceptions, as failure to do so could lead to packages which are
+incompatible with SCU and require the use of a separate tool (and
 downtime).
 
-Next, you’ll need to be aware of the new package-name scoping rules, and
+Next, you need to be aware of the new package-name scoping rules, and
 ensure that your package set does not violate this. In short, packages
 with the same package-name are considered to be “in the same scope”,
 each version string within this scope can only be held by one package,
-and contract key queries will yield contracts from all packages within
+and contract key queries yield contracts from all packages within
 the same scope. If you have packages with the same name that you do not
-want to be associated with each other via upgrades, you’ll need to
+want to be associated with each other via upgrades, you must
 rename them. Note that this scoping rule *only* applies to packages in
 LF1.16. Packages with the same name and version can exist in LF1.15, if
 you intend to use both LF versions at the same time on your participant.
@@ -1780,9 +1771,9 @@ template-ids: ``pkgId1:mod:T`` and ``pkgId2:mod:T``
 Codegen
 -------
 
-For packages that support SCU (i.e. LF1.16), generated code will use
-package-names in place of package-ids in template ids. Retrieved data
-from the ledger will be subject to the upgrade transformations described
+For packages that support SCU (i.e. LF1.16), generated code uses
+package-names in place of package-ids in template IDs. Retrieved data
+from the ledger is subject to the upgrade transformations described
 in previous sections.
 
 Concretely, this is implemented as follows:
@@ -1791,10 +1782,10 @@ Java
 ~~~~
 
 The classes that are generated for each template and interface contain a
-``TEMPLATE_ID`` field, which, for upgradable packages, will now use a
-package name, rather than a package id. In order to allow determining
-the package id of these packages, we add a new ``PACKAGE_ID`` field to all
-such classes. Upgradable packages will also cause ``PACKAGE_NAME`` and
+``TEMPLATE_ID`` field, which, for upgradable packages, now use a
+package name rather than a package ID. To help you determine
+the package ID of these packages, we have added a new ``PACKAGE_ID`` field to all
+such classes. Upgradable packages also cause ``PACKAGE_NAME`` and
 ``PACKAGE_VERSION`` fields to be present.
 
 TypeScript
@@ -1802,11 +1793,10 @@ TypeScript
 
 The ``templateId`` field on generated template classes has been updated to
 use the package-name as the package qualifier for upgrade compatible
-packages. This will be used for command submission and queries, however
-note that the package qualifier given back in queries will contain the
-package-id, rather than package-name. Generated modules will now also
-give the package “reference”, which will be the package-name for upgrade
-compatible packages, otherwise it’ll be the package-id.
+packages. This is used for command submission and queries. However,
+note that the package qualifier given back in queries contains the
+package-id, rather than the package-name. Generated modules now also
+give the package “reference”, which is the package-name for upgrade-compatible packages; for other packages it is the package-id.
 
 To perform package-id qualified commands/queries in an upgrade
 compatible package, a copy of the template object can be created using
@@ -1824,20 +1814,20 @@ the following:
 JSON API Server
 ----------------
 
-As before, template IDs may still be used with a package id, however,
+Template IDs may still be used with a package ID, however,
 for packages built as LF 1.16 or greater, the package may also be
-identified by name, i.e. for upgradable packages, a template ID can have
-the form ``#<package-name>:<module-name>:<template-name>``, and this will be
+identified by name. That is to say, for upgradable packages a template ID can have
+the form ``#<package-name>:<module-name>:<template-name>``, and this is
 resolved to corresponding templates from all packages which share this
 name, and are built at 1.16 or above. For packages built at LF 1.15 or
-lower, the templates will not be identifiable via a package name, and a
-package id must be used.
+lower, the templates are not identifiable via a package name, and a
+package ID must be used.
 
-Note: template ids in query results will always use a package id. This
+Note: template IDs in query results always use a package ID. This
 allows us to distinguish the source of a particular contract. This means
 that if you use a template with a package name in the request, you can
-no longer expect the template ids in the result to exactly match the
-input template id.
+no longer expect the template IDs in the result to exactly match the
+input template ID.
 
 Package ID selection preference: preferences apply to JSON API where you
 can specify your preferred selection of package versions.
@@ -1877,7 +1867,7 @@ depending on ``daml-script-beta`` in your ``daml.yaml``, as you will have seen
 in `Writing your first upgrade <#writing-your-first-upgrade>`__. Only this version of Daml Script
 supports upgrades over the Ledger API.
 
-All commands and queries in this version of daml script will now use
+All commands and queries in this version of Daml Script now use
 upgrades/downgrades automatically, to ensure that the correct versions
 of choices are exercises, and correct payloads are returned.
 
@@ -1886,9 +1876,9 @@ uses of SCU.
 
 **Exact commands**
 
-Each of the 4 submission commands now have an “exact” variant, of the
+Each of the four submission commands now has an “exact” variant, of the
 forms ``createExactCmd``, ``exerciseExactCmd``, ``exerciseByKeyExactCmd`` and
-``createAndExerciseExactCmd``. These commands will force the participant to
+``createAndExerciseExactCmd``. These commands force the participant to
 use the exact version of the package that your script uses, this is most
 useful when you want to be absolutely certain of the choice code you are
 calling. Note that exact and non-exact commands can be mixed in the same
@@ -1903,7 +1893,7 @@ in daml-script. The behavior that this ledger does not implement is the
 following:
 
 -  Upgrades type checking
-   The Upgrades type errors you’ll get when running daml build are not
+   The Upgrades type errors you get when running daml build are not
    currently shown as code intelligence in Daml Studio.
 
 -  Contract ID verification
@@ -1911,7 +1901,7 @@ following:
    Canton otherwise would not.
 
 -  Per-submission package preference
-   Any submission to the IDE Ledger will mimic a Canton participants
+   Any submission to the IDE Ledger mimics a Canton participants
    default package preference of the most recent package version.
 
 Testing
@@ -1930,13 +1920,13 @@ of your upgraded package, you can either:
 
 -  Run a dry-run upload of your package to a more permanent testing
    environment, using the ``--dry-run`` flag of the
-   ``daml ledger upload-dar`` command, which will run the upgrade
-   type-checking, but not persist your package to the ledger.
+   ``daml ledger upload-dar`` command, which runs the upgrade
+   type-checking, but does not persist your package to the ledger.
 
 Workflow testing
 ----------------
 
-While the testing of your workflows will be very application specific, we still
+While testing your workflows is application-specific, we still
 recommend at least one test for your core workflows that follows this pattern:
 
 1. Start your app using version 2.0 of your DAR, but only upload version 1.0.
