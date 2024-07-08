@@ -1641,22 +1641,6 @@ upgrade will fail, and thus the full transaction. Contracts in this
 state can then only be used by explicitly choosing the older version of
 the contract in your transaction.
 
-Upgrade validity checking
-~~~~~~~~~~~~~~~~~~~~~~~~~
-
-While the compile time upgrade checks are quite thorough, they are not
-yet a perfect mirror of the checks that a participant does when a
-package is uploaded. We recommend that as a final check for the validity
-of your upgraded package, you either:
-
--  Run a Canton sandbox (running ``daml sandbox``) and upload your old and
-   new package (``daml ledger upload-dar``).
-
--  Run a dry-run upload of your package to a more permanent testing
-   environment, using the ``--dry-run`` flag of the
-   ``daml ledger upload-dar`` command, which will run the upgrade
-   type-checking, but not persist your package to the ledger.
-
 Migration
 ---------
 
@@ -1929,3 +1913,34 @@ following:
 -  Per-submission package preference
    Any submission to the IDE Ledger will mimic a Canton participants
    default package preference of the most recent package version.
+
+Testing
+=======
+
+Upgrade validity checking
+-------------------------
+
+While the compile time upgrade checks are quite thorough, they are not
+yet a perfect mirror of the checks that a participant does when a
+package is uploaded. We recommend that as a final check for the validity
+of your upgraded package, you can either:
+
+-  Run a Canton sandbox (running ``daml sandbox``) and upload your old and
+   new package (``daml ledger upload-dar``).
+
+-  Run a dry-run upload of your package to a more permanent testing
+   environment, using the ``--dry-run`` flag of the
+   ``daml ledger upload-dar`` command, which will run the upgrade
+   type-checking, but not persist your package to the ledger.
+
+Workflow testing
+----------------
+
+While the testing of your workflows will be very application specific, we still
+recommend at least one test for your core workflows that follows this pattern:
+
+1. Start your app using version 2.0 of your DAR, but only upload version 1.0.
+2. Initialize the app and start one instance of every core workflow.
+3. Upload version 2.0 of your DAR.
+4. Switch your backends to start using version 2.0, ideally this should be a flag.
+5. Validate that the core workflows are in the same state and advance them to check that they are not stuck.
