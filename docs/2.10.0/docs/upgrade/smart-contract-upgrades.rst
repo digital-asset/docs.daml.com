@@ -32,7 +32,7 @@ one of two approaches:
 -  | Publish the new version to their participant, temporarily stop
      workflows relating to the old version, and manually upgrade every
      old template on the participant to the new version by directly
-     manipulating canton’s databases.
+     manipulating Canton’s databases.
    | This is error prone and requires some downtime for the participant.
 
 With SCU, any contract from the old package is automatically interpreted
@@ -65,9 +65,9 @@ How Does it Work
 
 When upgrading a package, the package author modifies their existing
 package to add new functionality, such as new fields and choices. When
-the new package is uploaded to a participant with the old version, the
-participant ensures that it can automatically upgrade every change
-between the old and new version before adding it to the package set.
+the new package is uploaded to a participant with the old version, 
+the participant ensures that the every modification to the model in the
+new version is a valid upgrade of the previous version.
 
 In order to be able to automatically upgrade a contract or datatype, SCU
 restricts the kinds of changes that a new package version can introduce
@@ -128,13 +128,13 @@ via ``as``.
 
 Following is a list of places where automatic data upgrades occur:
 
-**Submissions to the ledger-api**
+**Submissions to the Ledger API**
 
 When you submit a command, and do not explicitly specify a package-id to
-use, canton will automatically upgrade the payloads you give to the most
+use, Canton will automatically upgrade the payloads you give to the most
 recent version of the package that is uploaded on the participant. It
 will also use the most recent implementation of any choices you exercise
-directly through the ledger-api. This behavior can be influenced by
+directly through the Ledger API. This behavior can be influenced by
 package preference, which will be covered later.
 
 **Fetches/Creates**
@@ -153,7 +153,7 @@ stored in the ledger to match that of the choice it is calling.
 
 **Consuming clients (such as daml-script, ts/java codegen)**
 
-When clients query the ledger API for contracts, the returned event
+When clients query the Ledger API for contracts, the returned event
 payload format matches the template originally used for generating the
 event (creating a contract/exercising a choice). It is the
 responsibility of these clients to upgrade/downgrade the payloads they
@@ -199,7 +199,7 @@ commands to the participant.
 JSON API Server
 ~~~~~~~~~~~~~~~
 
-To match the changes to the Ledger-Api, the JSON API similarly supports
+To match the changes to the Ledger API, the JSON API similarly supports
 package-name queries and command submission.
 
 PQS & Daml Shell
@@ -282,6 +282,10 @@ been implemented, but may be implemented in future releases.
 -  Contract keys in upgradable packages can only include types defined
    within the same package, or in ``daml-stdlib`` or ``daml-prim``, for hashing reasons.
    This restriction is intended to be loosened in a later version.
+
+-  Upgrade compatibility checks currently run on all data types, even those which are
+   not `serializable <https://github.com/digital-asset/daml/blob/main-2.x/sdk/daml-lf/spec/daml-lf-1.rst#serializable-types>`__.
+   This check will be loosened in a future version.
 
 Local developer experience
 ==========================
@@ -1645,7 +1649,7 @@ yet a perfect mirror of the checks that a participant does when a
 package is uploaded. We recommend that as a final check for the validity
 of your upgraded package, you either:
 
--  Run a canton sandbox (running ``daml sandbox``) and upload your old and
+-  Run a Canton sandbox (running ``daml sandbox``) and upload your old and
    new package (``daml ledger upload-dar``).
 
 -  Run a dry-run upload of your package to a more permanent testing
@@ -1678,7 +1682,7 @@ rename them. Note that this scoping rule *only* applies to packages in
 LF1.16. Packages with the same name and version can exist in LF1.15, if
 you intend to use both LF versions at the same time on your participant.
 
-Once you have your new dars, you’ll need to upgrade your canton and
+Once you have your new dars, you’ll need to upgrade your Canton and
 protocol version together, since 2.9 introduces a new protocol version.
 The steps to achieve this are given in the :ref:`Canton Upgrading
 manual <one_step_migration>`.
@@ -1887,7 +1891,7 @@ Daml-Script-Beta
 Daml 2.9 introduces a new version of Daml Script, which can be used by
 depending on ``daml-script-beta`` in your ``daml.yaml``, as you will have seen
 in `Writing your first upgrade <#writing-your-first-upgrade>`__. Only this version of Daml Script
-supports upgrades over the ledger-api.
+supports upgrades over the Ledger API.
 
 All commands and queries in this version of daml script will now use
 upgrades/downgrades automatically, to ensure that the correct versions
@@ -1923,5 +1927,5 @@ following:
    Canton otherwise would not.
 
 -  Per-submission package preference
-   Any submission to the IDE Ledger will mimic a canton participants
+   Any submission to the IDE Ledger will mimic a Canton participants
    default package preference of the most recent package version.
