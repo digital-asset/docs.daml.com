@@ -18,7 +18,7 @@ Upgrade static checks are performed once alongside other validity checks
 when a DAR is uploaded to a participant. DARs deemed invalid for
 upgrades are rejected.
 
-DARs upgrade checks are broken down into package-level checks, in turn
+DARs upgrade checks are broken down into package-level checks, which in turn
 broken down into template and data type-level checks.
 
 Packages
