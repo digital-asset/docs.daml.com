@@ -1,8 +1,8 @@
 .. Copyright (c) 2024 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Zero Downtime Smart Contract Upgrades
-#####################################
+Zero Downtime Smart Contract Upgrades (Beta)
+############################################
 
 .. .. toctree::
    :hidden:
@@ -40,8 +40,8 @@ as the new version as soon as it is used in a new workflow that requires
 it.
 
 In this way, package authors can publish new package versions that
-improve contracts’ functionality without requiring any
-error prone migrations, without downtime, without requiring any
+improve contract functionality without requiring any
+error-prone migrations, without downtime, without requiring any
 additional network traffic, and without any extensive communication with
 downstream users.
 
@@ -115,9 +115,9 @@ Automatic Data Upgrades and Downgrades
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When extending data in a Daml model, SCU requires the old model to be
-representable in the new model. I.e., for extending a record, we can
+representable in the new model. For extending a record, we can
 only add nullable (``Optional``) fields, so that old data can be represented
-by setting these fields to ``None``. This mentality is continued for
+by setting these fields to ``None``. Similar constraints hold for
 Variants and Enums, which only allow adding constructors, with some
 other restrictions covered in `Continuing to Write Your Upgrades <#continuing-to-write-your-upgrades>`__. This
 approach is inspired by
@@ -135,7 +135,7 @@ use, Canton will automatically upgrade (or downgrade) the payloads you give to t
 recent version of the package that is uploaded on the participant. It
 will also use the most recent implementation of any choices you exercise
 directly through the Ledger API. This behavior can be influenced by
-package preference, which will be covered later.
+`package preference <#dynamic-package-resolution-in-ledger-api-queries>`__.
 
 **Fetches/Creates**
 
@@ -212,15 +212,14 @@ Daml Shell builds on top of PQS, so inherits this behavior.
 Daml Script
 ~~~~~~~~~~~
 
-We’ve added a new opt-in version of daml-script which, among other
-improvements, adds support for Upgrades.
+Support for SCU is available in the opt-in beta version of Daml Script.
 
-This new version acts as a drop in replacement for the previous
-daml-script, and will enable support for upgrades on all queries and
+This version acts as a drop-in replacement for the previous
+daml-script, and enables support for upgrades on all queries and
 command submissions.
 
-We also expose new functions for more advanced interactions with
-upgrades, as well as to revert to previous submission behavior.
+We also expose functions for more advanced interactions with
+upgrades, as well as to revert to the previous submission behavior.
 
 Daml Compiler
 ~~~~~~~~~~~~~
@@ -364,7 +363,7 @@ field pointing to v1:
 
 .. code:: yaml
 
-  version: 2.0.0
+  version: 1.1.0
   ...
   dependencies:
   - daml-prim
@@ -513,7 +512,7 @@ From inside ``v2/my-pkg``, upload and run the ``getIOU`` script, passing in the
   > daml ledger upload-dar --port 6865
   > daml script \
       --ledger-host localhost --ledger-port 6865 \
-      --dar .daml/dist/my-pkg-2.0.0.dar \
+      --dar .daml/dist/my-pkg-1.1.0.dar \
       --script-name Main:getIOU \
       --output-file /dev/stdout \
       --input-file ../../v1/my-pkg/alice-v1 \
@@ -567,7 +566,7 @@ directory, with ``USD`` as currency:
   > cd ../../v2/my-pkg
   > daml script \
       --ledger-host localhost --ledger-port 6865 \
-      --dar .daml/dist/my-pkg-2.0.0.dar \
+      --dar .daml/dist/my-pkg-1.1.0.dar \
       --script-name Main:mkIOU \
       --output-file alice-v2
   ...
@@ -603,7 +602,7 @@ with the currency field set to ``None`` using ``mkIOUWithoutCurrency``:
   > cd ../../v2/my-pkg
   > daml script \
       --ledger-host localhost --ledger-port 6865 \
-      --dar .daml/dist/my-pkg-2.0.0.dar \
+      --dar .daml/dist/my-pkg-1.1.0.dar \
       --script-name Main:mkIOUWithoutCurrency \
       --output-file alice-v2
   ...
@@ -656,7 +655,7 @@ Compiled changes are checked against the previous version and pass:
   Compiling my-pkg to a DAR.
   
   2024-06-27 15:32:49.54 [INFO]  [build]
-  Created .daml/dist/my-pkg-2.0.0.dar
+  Created .daml/dist/my-pkg-1.1.0.dar
   ...
 
 Restart the sandbox and re-upload both v1 and v2:
@@ -677,7 +676,7 @@ Restart the sandbox and re-upload both v1 and v2:
   ...
   > daml script \
       --ledger-host localhost --ledger-port 6865 \
-      --dar .daml/dist/my-pkg-2.0.0.dar \
+      --dar .daml/dist/my-pkg-1.1.0.dar \
       --script-name Main:doubleIOU \
       --output-file /dev/stdout \
       --input-file ../../v1/my-pkg/alice-v1 \
@@ -714,7 +713,7 @@ V2 via ``mkIOUWithoutCurrency``, then run ``doubleIOU`` on it from V1:
   > daml ledger upload-dar --port 6865
   > daml script \
       --ledger-host localhost --ledger-port 6865 \
-      --dar .daml/dist/my-pkg-2.0.0.dar \
+      --dar .daml/dist/my-pkg-1.1.0.dar \
       --script-name Main:mkIOUWithoutCurrency \
       --output-file alice-v2
   > cd ../../v1/my-pkg
@@ -788,10 +787,10 @@ Upgrading and package vetting
 
 Upgradable packages are also subject to :ref:`package vetting
 restrictions <package_vetting>`:
-in order to be able to use a package in Daml transactions with smart
-contract upgrading, it needs to be vetted by all participants informed about
-the transaction. This applies both for the packages used for creating
-the contracts and for the target packages.
+in to be able to use a package in Daml transactions with smart
+contract upgrading, it must be vetted by all participants informed about
+the transaction. This applies to both the packages used for creating
+the contracts and the target packages.
 
 **Note:** Package vetting is enabled by default on DAR upload
 operations.
@@ -900,7 +899,7 @@ Running ``daml build`` should succeed without errors.
   > cd ../../v2/my-pkg
   > daml build
   ...
-  Created .daml/dist/my-pkg-2.0.0.dar
+  Created .daml/dist/my-pkg-1.1.0.dar
 
 We can upgrade the ``Duplicate`` choice by adding an optional field ``amount``,
 and changing the behavior of the choice to default to a multiple of 3.
@@ -1074,7 +1073,7 @@ Running ``daml build`` should succeed with no errors:
   > cd ../../v2/my-pkg
   > daml build
   ...
-  Created .daml/dist/my-pkg-2.0.0.dar
+  Created .daml/dist/my-pkg-1.1.0.dar
 
 When we want to extend our contract to support new currencies, we can
 add new entries to the end of our ``Currency`` enum.
@@ -1109,7 +1108,7 @@ via v2’s ``getIOU`` script:
   > cd ../../v2/my-pkg
   > daml script
       --ledger-host localhost --ledger-port 6865 \
-      --dar .daml/dist/my-pkg-2.0.0.dar \
+      --dar .daml/dist/my-pkg-1.1.0.dar \
       --script-name Main:getIOU \
       --output-file /dev/stdout \
       --input-file ../../v1/my-pkg/alice-v1 \
@@ -1136,7 +1135,7 @@ with a lookup error for the CHF variant.
   > cd v2/my-pkg
   > daml script
       --ledger-host localhost --ledger-port 6865 \
-      --dar .daml/dist/my-pkg-2.0.0.dar \
+      --dar .daml/dist/my-pkg-1.1.0.dar \
       --script-name Main:mkIOU \
       --output-file alice-v2 \
       --enable-contract-upgrading
@@ -1195,7 +1194,7 @@ As before, building should succeed.
   > cd ../../v2/my-pkg
   > daml build
   ...
-  Created .daml/dist/my-pkg-2.0.0.dar
+  Created .daml/dist/my-pkg-1.1.0.dar
 
 We can also add a new field to a constructor, similarly to templates -
 for example, add a ``sideLen`` field to our ``Polygon`` constructor, to specify
@@ -1235,7 +1234,7 @@ Making the new ``sideLen`` field optional fixes the error:
   > cd v2/my-pkg
   > daml build
   ...
-  Created .daml/dist/my-pkg-2.0.0.dar
+  Created .daml/dist/my-pkg-1.1.0.dar
 
 Limitations in Upgrading Variants
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1313,8 +1312,9 @@ Dependencies
 
 Package authors may upgrade the dependencies of a package as well as the
 package itself. A new version of a package may add new dependencies, and
-must have all the dependencies of the old version. Dependencies of the
-old version may be upgraded, or must be identical.
+must have all the dependencies of the old version. Each existing dependency
+must either be unchanged from the old dar, or an upgrade of its previous
+version.
 
 For example, suppose we have a dependencies folder, containing v1 and v2
 of two dependency packages ``depA`` and ``depB``
@@ -1323,12 +1323,12 @@ of two dependency packages ``depA`` and ``depB``
 
   > ls ./dependencies
   depA-1.0.0.dar
-  depA-2.0.0.dar
+  depA-1.1.0.dar
   depB-1.0.0.dar
-  depB-2.0.0.dar
+  depB-1.1.0.dar
 
 Change v1 of the IOU package so that it depends on ``depA-1.0.0`` and
-``depB-2.0.0``. Its ``v1/my-pkg/daml.yaml`` would look something like this:
+``depB-1.1.0``. Its ``v1/my-pkg/daml.yaml`` would look something like this:
 
 .. code:: yaml
 
@@ -1338,13 +1338,13 @@ Change v1 of the IOU package so that it depends on ``depA-1.0.0`` and
   - daml-stdlib
   - daml3-script
   - ../../dependencies/depA-1.0.0.dar
-  - ../../dependencies/depB-2.0.0.dar
+  - ../../dependencies/depB-1.1.0.dar
   ...
 
 A package with a newer version may upgrade any dependency to a newer
 version (or keep the version the same). For example, v2 of our IOU
 package may keep its dependencies the same, or it may upgrade ``depA`` to
-``2.0.0``:
+``1.1.0``:
 
 .. code:: yaml
 
@@ -1353,8 +1353,8 @@ package may keep its dependencies the same, or it may upgrade ``depA`` to
   - daml-prim
   - daml-stdlib
   - daml3-script
-  - ../../dependencies/depA-2.0.0.dar
-  - ../../dependencies/depB-2.0.0.dar
+  - ../../dependencies/depA-1.1.0.dar
+  - ../../dependencies/depB-1.1.0.dar
   ...
 
 Downgrading a dependency is not permitted. For example, IOU may not
@@ -1385,7 +1385,7 @@ are instead performed at upload time to a participant.
   > cd ../../v2/my-pkg
   > daml ledger upload-dar --port 6865
   ...
-  Uploading .daml/dist/my-pkg-2.0.0.dar to localhost:6865
+  Uploading .daml/dist/my-pkg-1.1.0.dar to localhost:6865
   upload-dar did not succeed: DAR_NOT_VALID_UPGRADE(...): The DAR contains a package which claims to upgrade another package, but basic checks indicate the package is not a valid upgrade
   ...
 
@@ -1489,7 +1489,7 @@ DARs. They should both succeed:
   > daml build
   > daml sandbox upload-dar --port 6865
   ...
-  Uploading .daml/dist/my-pkg-2.0.0.dar to localhost:6865
+  Uploading .daml/dist/my-pkg-1.1.0.dar to localhost:6865
   DAR upload succeeded.
 
 Interface instances can be changed by an upgrade. For example, v2 can
@@ -1539,7 +1539,7 @@ DARs. They should both succeed again:
   > daml build
   > daml sandbox upload-dar --port 6865
   ...
-  Uploading .daml/dist/my-pkg-2.0.0.dar to localhost:6865
+  Uploading .daml/dist/my-pkg-1.1.0.dar to localhost:6865
   DAR upload succeeded.
 
 Packages with new versions cannot remove an instance that is already
@@ -1761,7 +1761,7 @@ node:
 
    -  package-name: ``app1``
 
-   -  package-version: ``2.0.0``
+   -  package-version: ``1.1.0``
 
    -  template-ids: ``pkgId2:mod:T``
 
