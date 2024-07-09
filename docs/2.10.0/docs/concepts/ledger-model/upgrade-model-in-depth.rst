@@ -998,9 +998,9 @@ if and only if:
 -  *r2* resolves to a type *t2* with qualified name *q2* in package *p2;*
 -  *r1* resolves to a type *t1* with qualified name *q1* in package *p1;*
 -  The qualified names *q2* and *q1* are the same;
--  If the LF versions of both *p1* and *p2* support upgrades then
-      package *p2* is a valid upgrade of package *p1*, else *p2* and
-      *p1* are the exact same package.
+-  Either the LF versions or *p1* and *p2* both support upgrades and 
+   package *p2* is a valid upgrade of package *p1*, or *p2* and *p1* are the
+   exact same package.
 
 It is worth noting that even when *t2* upgrades *t1*, *r2* only upgrades
 *r1* provided that package *p2* is a valid upgrade of package *p1* as a
