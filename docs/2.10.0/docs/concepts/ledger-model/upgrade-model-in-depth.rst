@@ -115,6 +115,7 @@ module on the right because it lacks a definition for template ``T2``.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -172,6 +173,7 @@ sequence.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
  
@@ -197,6 +199,7 @@ of adding it at the end of the parameter sequence.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -221,6 +224,7 @@ template on the left because it drops parameter ``x1``.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -246,6 +250,7 @@ template on the left because it changes the type of ``x1`` from ``Int`` to ``Tex
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -290,6 +295,7 @@ template on the left because it adds a key.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -317,6 +323,7 @@ template on the left because it deletes its key.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -344,6 +351,7 @@ template on the left because it changes the type of its key.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -386,6 +394,7 @@ on the right as it deletes a choice.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -437,6 +446,7 @@ sequence.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -464,6 +474,7 @@ adding it at the end of the parameter sequence.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -491,6 +502,7 @@ it at the end of the parameter sequence.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -517,6 +529,7 @@ on the left because it drops parameter ``x1``.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -542,6 +555,7 @@ not a valid upgrade of ``Int``.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -580,6 +594,7 @@ not a valid upgrade of ``()``.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -623,6 +638,7 @@ left. It defines an additional serializable data type ``B``.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -645,6 +661,7 @@ amounts to adding a new data type to the module on the right.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -668,6 +685,7 @@ variant type.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -688,6 +706,7 @@ on the left because it drops the serializable data type ``A``.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -707,6 +726,7 @@ deleting ``A`` from the point of view of the upgrade validity check.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -752,6 +772,7 @@ left. It adds an optional field ``x2`` at the end of the field sequence.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -771,6 +792,7 @@ it at the end of the field sequence.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -789,6 +811,7 @@ on the left because it drops field ``x2``.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -808,6 +831,7 @@ on the left because it changes the type of ``x1`` from ``Int`` to ``Text``.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -846,6 +870,7 @@ sequence.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: haskell
 
@@ -864,6 +889,7 @@ of adding it at the end of the constructor sequence.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: haskell
 
@@ -881,6 +907,7 @@ variant on the left because it changes the order of its constructors.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: haskell
 
@@ -898,6 +925,7 @@ variant on the left because it drops constructor ``B````.``
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: haskell
 
@@ -916,6 +944,7 @@ variant on the left because it changes the type of ``B``'s argument from
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: haskell
 
@@ -985,6 +1014,7 @@ the former.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - In ``q-1.0.0``:
      - In ``q-2.0.0``:
@@ -1009,6 +1039,7 @@ the left.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -1036,6 +1067,7 @@ definitions of ``V`` are the same.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -1063,6 +1095,7 @@ references to U on each side resolve to packages with different IDs.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -1105,6 +1138,7 @@ type, it adds an optional field.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -1128,6 +1162,7 @@ variable ``a`` into ``b`` which is currently not supported.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -1191,6 +1226,7 @@ optional text field.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - In ``p-1.0.0``:
      - In ``p-2.0.0``:
@@ -1246,6 +1282,7 @@ and its upgrade.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - In ``dep-1.0.0``:
      - In ``dep-2.0.0``:
@@ -1328,6 +1365,7 @@ choice. The return type of the choice is also upgraded.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - In ``r-1.0.0``:
      - In ``r-2.0.0``:
@@ -1418,6 +1456,7 @@ and ``T-v2`` in the following,
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -1462,6 +1501,7 @@ and ``V-v2`` in the following,
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 
@@ -1526,6 +1566,7 @@ Below the template on the right is a valid upgrade of the template on the left.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * -  In ``p-1.0.0``:
      -  In ``p-2.0.0``:
@@ -1571,6 +1612,7 @@ of the template on the left.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * -  In ``p-1.0.0``:
      -  In ``p-2.0.0``:
@@ -1615,6 +1657,7 @@ have been written using the template on the left with ``n = 0``.
 .. list-table::
    :widths: 50 50
    :width: 100%
+   :class: diff-block
 
    * - .. code-block:: daml
 

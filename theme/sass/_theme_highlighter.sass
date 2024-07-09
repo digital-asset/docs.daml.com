@@ -1,4 +1,19 @@
 .rst-content
+  // This is meant to style code blocks inside horizontal talbes tagged with the
+  // diff-block class. This is used to show side-by-side snippets of code.
+  // See upgrade-model-in-depth.rst for an example usage.
+  table.diff-block 
+    height: fit-content
+
+    div
+      height: 100%
+    
+    div[class^="highlight"]  
+      margin: 0px -8px 0px -8px
+
+      pre
+        padding: 0.8em
+      
   pre.literal-block, div[class^="highlight"]
     background-color: $da-dark-blue
     overflow-x: auto
