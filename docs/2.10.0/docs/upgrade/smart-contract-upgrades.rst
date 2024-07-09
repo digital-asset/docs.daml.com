@@ -1314,7 +1314,8 @@ Dependencies
 
 Package authors may upgrade the dependencies of a package as well as the
 package itself. A new version of a package may add new dependencies, and
-must have all the dependencies of the old version. Each existing dependency
+must have all the (non-:ref:`utility-package <upgrades-utility-package>`)
+dependencies of the old version. Each of these existing dependency
 must either be unchanged from the old dar, or an upgrade of its previous
 version.
 
@@ -1650,15 +1651,14 @@ incompatible with SCU and require the use of a separate tool (and
 downtime).
 
 Next, you need to be aware of the new package-name scoping rules, and
-ensure that your package set does not violate this. In short, packages
-with the same package-name are considered to be “in the same scope”,
-each version string within this scope can only be held by one package,
-and contract key queries yield contracts from all packages within
-the same scope. If you have packages with the same name that you do not
-want to be associated with each other via upgrades, you must
-rename them. Note that this scoping rule *only* applies to packages in
-LF1.16. Packages with the same name and version can exist in LF1.15, if
-you intend to use both LF versions at the same time on your participant.
+ensure that your package set does not violate this. In short, LF1.16 packages
+with the same package-name are unified under SCU, so you should ensure that
+all of your packages that aren't intended to be direct upgrades of each-other
+have unique package-names.
+Note also that within a given package-name, only one package for each version
+can exist.
+LF1.15 packages are not subject to this restriction, and can exist alongside LF1.16
+packages.
 
 Once you have your new DARs, you need to upgrade your Canton and
 protocol version together, since 2.9 introduces a new protocol version.
