@@ -852,7 +852,7 @@ Data Types - Variants
 The new version of a variant may add new constructors at the end of the
 constructor sequence of the old version of that variant. The argument types  
 of the constructors that the new variant has in common with the  
-prior variant must be pairwise valid upgrades of the original types.  
+prior variant must be pairwise valid upgrades of the original types.
 
 Adding a constructor in the middle of the constructor sequence leads to
 a validation error.
@@ -923,7 +923,7 @@ variant on the left because it changes the order of its constructors.
               B Text | A Int
 
 Below, the variant on the right is **not** a valid upgrade of the
-variant on the left because it drops constructor ``B````.``
+variant on the left because it drops constructor ``B``.
 
 .. list-table::
    :widths: 50 50
