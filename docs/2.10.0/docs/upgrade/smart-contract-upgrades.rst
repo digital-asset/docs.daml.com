@@ -1,8 +1,8 @@
 .. Copyright (c) 2024 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Zero Downtime Smart Contract Upgrades (Beta)
-############################################
+Zero Downtime Smart Contract Upgrades (Initial Access)
+######################################################
 
 .. .. toctree::
    :hidden:
@@ -502,8 +502,7 @@ script and place the resulting party for Alice into an output file
       --script-name Main:mkIOU \
       --output-file alice-v1 \
       --enable-contract-upgrading
-  Slf4jLogger started
-  Running CoordinatedShutdown with reason [ActorSystemTerminateReason]
+  ...
 
 .. note::
   All invocations of Daml script using SCU requires the ``--enable-contract-upgrading`` flag.
@@ -522,7 +521,7 @@ From inside ``v2/my-pkg``, upload and run the ``getIOU`` script, passing in the
       --output-file /dev/stdout \
       --input-file ../../v1/my-pkg/alice-v1 \
       --enable-contract-upgrading
-  Slf4jLogger started
+  ...
   {
     "_1": "...",
     "_2": {
@@ -532,7 +531,7 @@ From inside ``v2/my-pkg``, upload and run the ``getIOU`` script, passing in the
     "currency": null
     }
   }
-  Running CoordinatedShutdown with reason [ActorSystemTerminateReason]
+  ...
 
 The returned contract has a field ``currency`` which is set to ``null``. When
 running the ``getIOU`` script from v1, this field does not appear.
@@ -547,7 +546,7 @@ running the ``getIOU`` script from v1, this field does not appear.
       --output-file /dev/stdout \
       --input-file alice-v1 \
       --enable-contract-upgrading
-  Slf4jLogger started
+  ...
   {
     "_1": "...",
     "_2": {
@@ -556,7 +555,7 @@ running the ``getIOU`` script from v1, this field does not appear.
     "value": 1
     }
   }
-  Running CoordinatedShutdown with reason [ActorSystemTerminateReason]
+  ...
 
 Downgrading Contracts
 ~~~~~~~~~~~~~~~~~~~~~
@@ -626,7 +625,7 @@ And then query it from v1:
   	--input-file ../../v2/my-pkg/alice-v2 \
   	--enable-contract-upgrading
   ...
-         "issuer": "party-...",
+    "issuer": "party-...",
   	"owner": "party-...",
   	"value": 1
   ...
@@ -656,10 +655,8 @@ Compiled changes are checked against the previous version and pass:
 
   > daml build
   ...
-  2024-06-27 15:32:49.17 [INFO]  [build]
   Compiling my-pkg to a DAR.
-  
-  2024-06-27 15:32:49.54 [INFO]  [build]
+  ...
   Created .daml/dist/my-pkg-1.1.0.dar
   ...
 
@@ -995,6 +992,9 @@ new observers via the outsideObservers field. However, any existing
 contracts default to ``None`` for the ``outsideObservers`` field, so all
 existing contracts have the same observer list as before: the
 single owner.
+
+In the case where a contract's signatories or observers change during an upgrade/downgrade,
+the upgrade, and thus full transaction, fails at runtime.
 
 Modifying Key Expressions
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1928,6 +1928,15 @@ of your upgraded package, you can either:
    environment, using the ``--dry-run`` flag of the
    ``daml ledger upload-dar`` command, which runs the upgrade
    type-checking, but does not persist your package to the ledger.
+
+Daml Script testing
+-------------------
+
+Daml Script has been used for demonstrative purposes in this document, however
+usually the complexities of live upgrades comes with your workflows, not the data
+transformations themselves. You can use Daml Script (with Canton) to test some
+isolated simple cases, but for thorough tests of you system using SCU, you should
+prefer full workflow testing, as below.
 
 Workflow testing
 ----------------
