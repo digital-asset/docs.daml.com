@@ -130,8 +130,8 @@ Automatic data upgrades occur in the following places:
 
 **Submissions to the Ledger API**
 
-When you submit a command, and do not explicitly specify a package-id to
-use, Canton will automatically upgrade (or downgrade) the payloads you give to the most
+When you submit a command, and proviate only a package-name over a package-id,
+Canton will automatically upgrade (or downgrade) the payloads you give to the most
 recent version of the package that is uploaded on the participant. It
 will also use the most recent implementation of any choices you exercise
 directly through the Ledger API. This behavior can be influenced by
@@ -246,8 +246,8 @@ within VSCode. There are some limitations here which are listed in
 Limitations
 -----------
 
-To enable zero downtime upgrades alongside multi-versioned
-packages running concurrently, we limit the types of
+To allow SCU to be zero downtime, and multiple versions
+of a package to be active at once, we limit the types of
 transformations that can be performed on live data. Following are some
 data transformations that cannot be made using SCU upgrades:
 
@@ -269,6 +269,8 @@ In this beta version of SCU, the following functionality has not yet
 been implemented, but may be implemented in future releases.
 
 -  Retroactive interface instances are not compatible with SCU upgrades.
+   We do not expect to ever add this compatibility, as SCU supersedes retroactive
+   interface instances
 
 -  Daml Script does not support SCU, you must use Daml Script Beta.
 
@@ -278,8 +280,7 @@ been implemented, but may be implemented in future releases.
    listed in ``multi-package.yaml``)
 
 -  Contract keys in upgradable packages can only include types defined
-   within the same package, or in ``daml-stdlib`` or ``daml-prim``, for hashing reasons.
-   This restriction is intended to be loosened in a later version.
+   within the same package, or types from the Daml Standard Library.
 
 -  Upgrade compatibility checks currently run on all data types, even those which are
    not `serializable <https://github.com/digital-asset/daml/blob/main-2.x/sdk/daml-lf/spec/daml-lf-1.rst#serializable-types>`__.
@@ -690,7 +691,7 @@ Restart the sandbox and re-upload both v1 and v2:
   	"currency": null
   ...
 
-Contracts made in v1 can still be exercised with choices introduced in
+Contracts made in v1 can now be exercised with choices introduced in
 v2.
 
 Exercising a v1 choice on a v2 contract is also possible if upgraded
@@ -970,8 +971,9 @@ developer that the changes can be unsafe and need to be made with care
 to preserve necessary invariants.
 
 Signatories and observers are one expression that can be changed.
-Importantly, the new definition must not change the resulting list of
-signatories and observers for existing contracts.
+Importantly, SCU assumes that the new definition does not alter the
+computed values of the signatories, observers, and key for existing contracts.
+Otherwise, dynamic contract upgrades will fail at runtime.
 
 For example, add a new field of “outside observers” to the v2 IOU
 template, and add them to the observer definition.
@@ -1000,7 +1002,7 @@ Modifying Key Expressions
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Similarly, key expressions can be changed as long as they evaluate to
-the same value for existing contracts, this means that the type of the key
+the same value for existing contracts. This means that the type of the key
 cannot change.
 
 For example, v2 can add a new field “alternative key” to the v2 IOU
@@ -1018,7 +1020,7 @@ template, and use it instead of the default key when present.
 All old contracts will default to using the ``issuer``, and new contracts
 will use the ``alternativeKey`` field.
 Note also that key expressions in upgrabable packages cannot include types
-from other packages, with the exception of `daml-stdlib` and `daml-prim`.
+from other packages, with the exception of the Daml Standard Library.
 See `Limitations <#limitatiions>`__ for more information.
 
 Upgrading Enums
