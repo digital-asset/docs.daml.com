@@ -302,6 +302,11 @@ of our package:
   > mkdir -p v1/my-pkg
   > cd v1/my-pkg
   > daml init
+  > daml version
+  SDK versions:
+    2.9.0  (project SDK version from daml.yaml)
+
+Running ``daml version`` should print a line showing that 2.9.0 or higher is the "project SDK version from daml.yaml".
 
 Add ``daml-script-beta`` to the list of dependencies in ``v1/my-pkg/daml.yaml``,
 as well as ``--target=1.16`` to the ``build-options``:
