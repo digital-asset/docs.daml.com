@@ -1121,15 +1121,9 @@ references to U on each side resolve to packages with different IDs.
 Data Types - Parameterized Data Types
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Parameterized data types are considered serializable. That is, parameterized
-data types in the new version of a package are compared against their previous
-version.
-
 The upgrade validation for parameterized data types follows the same
-rules as non-parameterized data types, but also compares type variables.
-The type variable comparison is currently limited to a pure syntactic
-equality check, meaning that a type variable only upgrades a type
-variable of the same name.
+rules as non-parameterized data types, but also compares type variables. Type
+variables may be renamed.
 
 .. _example-1:
 
@@ -1153,34 +1147,11 @@ type, it adds an optional field.
 
      - .. code-block:: daml
 
-            data Tree a = 
+            data Tree b = 
               Tree with 
-                label : a
-                children : [Tree a]
+                label : b
+                children : [Tree b]
                 cachedSize : Optional Int
-
-Below, the parameterized data type on the right is **not** a valid
-upgrade of the parameterized data type on the left. It renames the type
-variable ``a`` into ``b`` which is currently not supported.
-
-.. list-table::
-   :widths: 50 50
-   :width: 100%
-   :class: diff-block
-
-   * - .. code-block:: daml
-
-            data Tree b = 
-              Tree with 
-                label : b
-                children : [Tree b]
-
-     - .. code-block:: daml
-
-            data Tree b = 
-              Tree with 
-                label : b
-                children : [Tree b]
 
 Interfaces
 ~~~~~~~~~~
