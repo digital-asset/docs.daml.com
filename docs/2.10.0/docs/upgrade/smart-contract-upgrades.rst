@@ -182,7 +182,7 @@ contract upgrading feature starting with Canton 2.9:
    other packages previously uploaded on the participant.
 
 -  Ledger API command submissions can be automatically or explicitly
-   up/downgraded if multiple upgrade-compatible packages exist.
+   up/downgraded if multiple upgrade-supported (language version >= 1.16) packages exist for the same package-name.
 
 -  Ledger API streaming queries are adapted to support fetching events
    more generically, by package-name.
@@ -759,10 +759,10 @@ without modifications and is immediately available for use.
 
 .. note::
 
-  Upgrade-compatible packages stored on the participant must
-  lead to unique (in both directions) package-id <-> (package-name,
-  package-version) relationships since runtime package-name -> package-id
-  resolution must be deterministic (see Ledger API section). For this
+  Upgrade-supported packages stored on the participant must
+  lead to unique package-id -> (package-name, package-version) relationships
+  since runtime package-name -> package-id
+  resolution must be deterministic (see `Ledger API <#ledger-api>`__). For this
   reason, once a LF 1.16+ DAR has been uploaded with its main package
   having a specific package-name/package-version, this relationship cannot
   be overridden. Hence, uploading a DAR with different content for the
