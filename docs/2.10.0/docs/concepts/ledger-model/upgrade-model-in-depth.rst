@@ -1652,7 +1652,7 @@ Upon retrieval and after conversion, the ensure clause of a contract is
 recomputed using the code of the target template. It is a runtime error if the
 recomputed ensure clause evaluates to ``False``.
 
-** Example ***
+**Example**
 
 Below, the template on the right is **not** a valid upgrade of the template on
 the left because its ensure clause will evaluate to ``False`` for contracts that
