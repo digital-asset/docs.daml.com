@@ -7,7 +7,7 @@ The Upgrade Model in Depth - Reference
 ======================================
 
 This section describes in detail what rules govern package validation upon
-upload and how contracts, choice arguements and choice results are upgraded or
+upload and how contracts, choice arguments and choice results are upgraded or
 downgraded at runtime. These topics are for a large part covered in the
 sections above. This section acts as a thorough reference.
 
@@ -19,7 +19,7 @@ when a DAR is uploaded to a participant. DARs deemed invalid for
 upgrades are rejected.
 
 DAR upgrade checks are broken down into package-level checks, which are in turn
-broken down into template and data type-level checks.
+broken down into module, template and data type-level checks.
 
 Packages
 ~~~~~~~~
@@ -28,7 +28,7 @@ Packages
 definition, no interface definition, and only
 non-`serializable <https://github.com/digital-asset/daml/blob/main-2.x/sdk/daml-lf/spec/daml-lf-1.rst#serializable-types>`__
 data type definitions. A utility package typically consists of
-helper functions and constants.
+helper functions and constants, but no type definitions.
 
 In the following validity check, packages whose LF version does not support upgrades
 (1.15 and earlier) and utility packages are ignored. 
@@ -49,7 +49,7 @@ with name *p* and version *v* present in the uploaded DAR:
    upgrade of version *v* of *p*.
 
 This means that "being a valid upgrade" for a package is context
-dependent: it depends on what packages are already installed on the
+dependent: it depends on what packages are already uploaded on the
 participant.
 It is also *modular*: checks are performed at the package level. That
 is, a new version of a package is rejected as soon as it contains some
@@ -272,7 +272,7 @@ Removing a key leads to a validation error.
 Changing the type of a key leads to a validation error.
 
 For 2.9, key types can only use definitions from the current package or 
-from ``daml-stdlib``/``daml-prim``.
+from the Daml standard library. 
 
 .. _examples-3:
 
@@ -814,7 +814,7 @@ upgraded variant must be pairwise valid upgrades of the original types.
 Adding a constructor in the middle of the constructor sequence leads to
 a validation error.
 
-Changing the order of the constructor sequence leads to a validation
+Changing the order or the name of the constructor sequence leads to a validation
 error.
 
 Removing a constructor leads to a validation error.
