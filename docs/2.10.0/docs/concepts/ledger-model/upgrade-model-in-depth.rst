@@ -1220,14 +1220,24 @@ type, it adds an optional field.
                 children : [Tree b]
                 cachedSize : Optional Int
 
-Interfaces
-~~~~~~~~~~
+Interface Definitions
+~~~~~~~~~~~~~~~~~~~~~
 
-Interfaces definitions cannot be upgraded. We strongly discourage
+Interface definitions cannot be upgraded. We strongly discourage
 uploading a package that contains both interface and template
 definitions, as these templates cannot benefit from smart contract upgrades
 in the future. Instead, we recommend declaring interfaces in a
 package of their own that defines no template.
+
+Interface Instances
+~~~~~~~~~~~~~~~~~~~
+
+The instances of an interface in the new version of a package must form a
+superset of the instances of that interface in the prior version of that 
+package. In other words, it is valid to add new interface instances but
+deleting an interface instance leads to a validation error.
+
+TODO(paul)
 
 Data Transformation: Runtime Semantics
 --------------------------------------
