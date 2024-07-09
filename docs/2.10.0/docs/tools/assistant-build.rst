@@ -6,6 +6,8 @@
 Build Daml Projects
 ###################
 
+.. _assistant-manual-build-a-project:
+
 Build a project
 *******************
 

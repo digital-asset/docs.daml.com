@@ -33,9 +33,11 @@ helper functions and constants, but no type definitions.
 In the following validity check, packages whose LF version does not support upgrades
 (1.15 and earlier) and utility packages are ignored. 
 
-A DAR is checked against previously
-uploaded DARs for upgrade validity on upload to a participant. Specifically, for every package
-with name *p* and version *v* present in the uploaded DAR:
+A DAR is checked against previously uploaded DARs for upgrade validity on upload
+to a participant. Specifically, for every package with
+:ref:`name<assistant-manual-build-a-project>` *p* and
+:ref:`version<assistant-manual-build-a-project>` *v* present in the uploaded
+DAR:
 
 1. The participant looks up versions *v_prev* and *v_next* of *p* in its package
    database, such that *v_prev* is the greatest version of
@@ -49,13 +51,15 @@ with name *p* and version *v* present in the uploaded DAR:
 3. The participant checks that version *v_next* of *p* is a valid
    upgrade of version *v* of *p*, if it exists.
 
-This means that "being a valid upgrade" for a package is context
+Therefore "being a valid upgrade" for a DAR is context
 dependent: it depends on what packages are already uploaded on the
-participant.
-It is also *modular*: checks are performed at the package level. That
+participant. It also *modular*: checks are performed at the package level. That
 is, a new version of a package is rejected as soon as it contains some
 element which doesn't properly upgrade its counterpart in the old
-package, even if some other elements do.
+package, even if some other elements do. Similarly, 
+all packages in a DAR must be pass the check for the DAR to be accepted. If one
+of the packages fails the check, the entire DAR is rejected.  
+
 
 Modules
 ~~~~~~~
@@ -1026,7 +1030,7 @@ the former.
             data U = C1
             data V = V
      
-     - :.. code-block:: daml
+     - .. code-block:: daml
      
             module Dep where
      
