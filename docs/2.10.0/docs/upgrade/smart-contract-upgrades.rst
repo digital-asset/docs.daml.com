@@ -1687,7 +1687,7 @@ With SCU, we introduce a more generic template reference of the format
 ``#<package-name>:<module-name>:<template-name>``. This format is only a
 Ledger API concept and is meant to suggest to the Ledger API to perform
 a dynamic runtime resolution of packages in the Daml engine when
-generating the Daml transaction after command interpretation. This
+generating the Daml transaction before command interpretation. This
 dynamic resolution is based on the existing upgradable (LF >= 1.16)
 package-ids pertaining to a specific ``package-name`` and is possible on the
 write path (command submission) and read path (Ledger API queries) as
