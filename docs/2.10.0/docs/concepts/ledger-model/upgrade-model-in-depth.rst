@@ -1218,7 +1218,8 @@ target template type is determined by the rules of package preference
 detailed in the `Ledger API <#_swcg5hoxdia8>`__ section. Once a given
 version of a template has been selected, the target type of its
 parameters as well as the target type of the contracts retrieved in its
-choices is determined by their static type.
+choices is determined by the dependencies of the package that defines the
+template.
 
 .. _example-1-1:
 
