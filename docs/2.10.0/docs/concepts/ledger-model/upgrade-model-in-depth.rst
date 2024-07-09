@@ -850,9 +850,15 @@ Data Types - Variants
 ~~~~~~~~~~~~~~~~~~~~~
 
 The new version of a variant may add new constructors at the end of the
-constructor sequence of the old version of that variant. The argument types  
-of the constructors that the new variant has in common with the  
-prior variant must be pairwise valid upgrades of the original types.
+constructor sequence of the old version of that variant. The argument types  of
+the constructors that the new variant has in common with the  prior variant must
+be pairwise valid upgrades of the original types. This last rule also applies to
+constructors whose arguments are unnamed records, in which case the rules about
+record upgrade apply.
+
+Adding an argument to a constructor without arguments leads to a validation
+error. In particular, adding an optional field to a constructor that previously
+had no arguments is not allowed.
 
 Adding a constructor in the middle of the constructor sequence leads to
 a validation error.
@@ -861,6 +867,9 @@ Changing the order or the name of the constructor sequence leads to a validation
 error.
 
 Removing a constructor leads to a validation error.
+
+Enums cannot get upgraded to variants: adding a constructor with an argument at
+the end of the constructor sequence of an enum leads to a validation error.
 
 .. _examples-8:
 
@@ -884,6 +893,25 @@ sequence.
 
             data T = 
               A Int | B Text | C Bool
+
+Below, the variant on the right is a valid upgrade of the variant on the
+left. It adds a new optional field to constructor ``B``.
+
+.. list-table::
+   :widths: 50 50
+   :width: 100%
+   :class: diff-block
+
+   * - .. code-block:: haskell
+
+            data T =
+              A | B { x : Int }
+
+     - .. code-block:: haskell
+
+            data T = 
+              A | B { x : Int, y : Optional Text }
+
 
 Below, the variant on the right is **not** a valid upgrade of the
 variant on the left because it adds a new constructor ``C`` before ``B`` instead
@@ -958,6 +986,45 @@ variant on the left because it changes the type of ``B``'s argument from
 
             data T = 
               A Int | B Bool
+
+Below, the variant on the right is **not** a valid upgrade of the
+variant on the left because it adds an argument to constructor ``B`` which
+didn't have one before.
+
+.. list-table::
+   :widths: 50 50
+   :width: 100%
+   :class: diff-block
+
+   * - .. code-block:: haskell
+
+            data T =
+              A Int | B
+
+     - .. code-block:: haskell
+
+            data T = 
+              A Int | B { x : Optional Text }
+
+Below, the variant on the right is **not** a valid upgrade of the
+enum on the left. Enums cannot get upgraded to variants and ``T`` as defined
+on the left is an enum because none of its constructors have arguments.
+
+.. list-table::
+   :widths: 50 50
+   :width: 100%
+   :class: diff-block
+
+   * - .. code-block:: haskell
+
+            data T =
+              A | B
+
+     - .. code-block:: haskell
+
+            data T = 
+              A | B | C Int
+
 
 Data Types - Enums
 ~~~~~~~~~~~~~~~~~~
