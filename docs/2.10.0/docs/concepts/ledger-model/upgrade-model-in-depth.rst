@@ -64,9 +64,9 @@ of the packages fails the check, the entire DAR is rejected.
 Modules
 ~~~~~~~
 
-The modules of the upgrading package must form a superset of the modules
-of the upgraded package. In other words, it is valid to add new modules
-but deleting a module leads to a validation error.
+The modules of the new version of a package must form a superset of the modules
+of the prior version of that package. In other words, it is valid to add new
+modules but deleting a module leads to a validation error.
 
 **Examples**
 
@@ -104,9 +104,9 @@ v1 because it doesn't define module ``B``.
 Templates
 ~~~~~~~~~~
 
-The templates of the upgrading package must form a superset of the
-templates of the upgraded package. In other words, it is valid to add
-new templates but deleting a template leads to a validation error.
+The templates of the new version of a package must form a superset of the
+templates of the prior version of that package. In other words, it is valid to
+add new templates but deleting a template leads to a validation error.
 
 .. _examples-1:
 
@@ -150,10 +150,10 @@ module on the right because it lacks a definition for template ``T2``.
 Template Parameters
 ~~~~~~~~~~~~~~~~~~~
 
-An upgrading template may add new optional parameters at the end of the
-parameter sequence of the upgraded template. The types of the parameters
-that the upgrading template has in common with the upgraded template
-must be pairwise valid upgrades of the original types.
+The new version of a template may add new optional parameters at the end of the
+parameter sequence of the prior version of the template. The types of the
+parameters that the new template has in common with the prior template must be
+pairwise valid upgrades of the original types.
 
 Deleting a parameter leads to a validation error.
 
@@ -277,8 +277,8 @@ template on the left because it changes the type of ``x1`` from ``Int`` to ``Tex
 Template Keys
 ~~~~~~~~~~~~~
 
-An upgrading template cannot modify the key of the upgraded template in
-any way.
+The new version of a template cannot modify the key of the prior version of a
+template in any way.
 
 Adding a key leads to a validation error.
 
@@ -382,9 +382,9 @@ template on the left because it changes the type of its key.
 Template Choices
 ~~~~~~~~~~~~~~~~
 
-The choices of an upgrading template must form a superset of the choices
-of the upgraded template. In other words, it is valid to add new choices
-but deleting a choice leads to a validation error.
+The choices of the new version of a template must form a superset of the choices
+of the prior version of the template template. In other words, it is valid to
+add new choices but deleting a choice leads to a validation error.
 
 .. _examples-4:
 
@@ -424,11 +424,10 @@ on the right as it deletes a choice.
 Template Choices - Parameters
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-As with template parameters, an upgrading choice may add new optional
-parameters at the end of the parameter sequence of the upgraded choice.
-The types of the parameters that the upgrading choice has in common with
-the upgraded choice must be pairwise valid upgrades of the original
-types.
+As with template parameters, the new version of a choice may add new optional
+parameters at the end of the parameter sequence of the prior version of that
+choice.  The types of the parameters that the new choice has in common with the
+prior choice must be pairwise valid upgrades of the original types.
 
 Deleting a parameter leads to a validation error.
 
@@ -581,8 +580,8 @@ not a valid upgrade of ``Int``.
 Template Choices - Return Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The return type of an upgrading choice must be a valid upgrade of the
-return type of the upgraded choice.
+The return type of the new version of a must be a valid upgrade of the
+return type of the prior version of that choice.
 
 Changing the return type of a choice for a non-valid upgrade leads to a
 validation error.
@@ -617,9 +616,9 @@ not a valid upgrade of ``()``.
 Data Types
 ~~~~~~~~~~
 
-The serializable data types of the upgrading module must form a superset
-of the serializable data types of the upgraded package. In other words,
-it is valid to add new data types but deleting a data type leads to a
+The serializable data types of the new version of a module must form a superset
+of the serializable data types of the prior version of that package. In other
+words, it is valid to add new data types but deleting a data type leads to a
 validation error.
 
 Changing the variety of a serializable data type leads to a validation
@@ -750,10 +749,10 @@ deleting ``A`` from the point of view of the upgrade validity check.
 Data Types - Records
 ~~~~~~~~~~~~~~~~~~~~
 
-An upgrading record may add new optional fields at the end of the field
-sequence of the upgraded record. The types of the fields that the
-upgrading record has in common with the upgraded record must be pairwise
-valid upgrades of the original types.
+The new version of a record may add new optional fields at the end of the field
+sequence of the prior version of that record. The types of the fields that the
+new record has in common with the prior record must be pairwise valid upgrades
+of the original types.
 
 Deleting a field leads to a validation error.
 
@@ -850,10 +849,10 @@ on the left because it changes the type of ``x1`` from ``Int`` to ``Text``.
 Data Types - Variants
 ~~~~~~~~~~~~~~~~~~~~~
 
-An upgrading variant may add new constructors at the end of the
-constructor sequence of the upgraded variant. The argument types  
-of the constructors that the upgrading variant has in common with the  
-upgraded variant must be pairwise valid upgrades of the original types.  
+The new version of a variant may add new constructors at the end of the
+constructor sequence of the old version of that variant. The argument types  
+of the constructors that the new variant has in common with the  
+prior variant must be pairwise valid upgrades of the original types.  
 
 Adding a constructor in the middle of the constructor sequence leads to
 a validation error.
@@ -1123,7 +1122,8 @@ Data Types - Parameterized Data Types
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Parameterized data types are considered serializable. That is, parameterized
-data types in an upgrading package are compared against their previous version.
+data types in the new version of a package are compared against their previous
+version.
 
 The upgrade validation for parameterized data types follows the same
 rules as non-parameterized data types, but also compares type variables.
@@ -1225,8 +1225,8 @@ template.
 
 **Example 1**
 
-Assume a package ``p`` with two versions. The upgrading version adds an
-optional text field.
+Assume a package ``p`` with two versions. The new version adds an optional text
+field.
 
 .. list-table::
    :widths: 50 50
