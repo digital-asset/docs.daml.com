@@ -286,7 +286,7 @@ Removing a key leads to a validation error.
 
 Changing the type of a key leads to a validation error.
 
-For 2.9, key types can only use definitions from the current package or 
+For Daml 2.9, key types can only use definitions from the current package or 
 from the Daml standard library. 
 
 .. _examples-3:
@@ -1185,7 +1185,7 @@ variable ``a`` into ``b`` which is currently not supported.
 Interfaces
 ~~~~~~~~~~
 
-Interfaces cannot be upgraded. We strongly discourage
+Interfaces definitions cannot be upgraded. We strongly discourage
 uploading a package that contains both interface and template
 definitions, as these templates cannot benefit from smart contract upgrades
 in the future. Instead, we recommend declaring interfaces in a
@@ -1199,7 +1199,7 @@ retrieved from the ledger and transformed into a value that fits the target
 template type. Then, its metadata (signatories, observers, key, maintainers) is
 recomputed using the code of the target temmpate and compared against the
 existing metadata: it is not allowed to change. The ensure clause of the 
-contract is also re-evaluated.
+contract is also re-evaluated: it must evaluate to ``True``.
 
 In addition, when a choice is exercised, its arguments are transformed into
 values that fit the type of the parameters of the choice in the target package.
