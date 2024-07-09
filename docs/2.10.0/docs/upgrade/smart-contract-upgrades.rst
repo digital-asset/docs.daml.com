@@ -130,25 +130,20 @@ Automatic data upgrades occur in the following places:
 
 **Submissions to the Ledger API**
 
-When you submit a command, and proviate only a package-name over a package-id,
+When you submit a command, and provide only a package-name instead of a package-id,
 Canton will automatically upgrade (or downgrade) the payloads you give to the most
 recent version of the package that is uploaded on the participant. It
 will also use the most recent implementation of any choices you exercise
-directly through the Ledger API. This behavior can be influenced by
-`package preference <#dynamic-package-resolution-in-ledger-api-queries>`__.
+directly through the Ledger API, by automatically upgrading/downgrading the choice argument.
+This behavior can be influenced by `package preference <#dynamic-package-resolution-in-ledger-api-queries>`__.
 
-**Fetches/Creates**
+**Updates in a choice body**
 
-Within choices, the package-ids of the payloads we expect for fetches
-and creates are given by the version of the package we depend on. SCU upgrades (or downgrades) the payloads given/stored in the ledger to
-match these versions when used in a choice body.
-
-**Exercises**
-
-Similarly to fetches, the version of the choice implementation that is
-called from a choice body is determined by the package that the choice’s
-package depends on. SCU automatically upgrades (or downgrades) the payload
-stored in the ledger to match that of the choice it is calling.
+When Fetching a contract, the contract payload will be automatically upgraded/downgraded to match
+the version expected by the calling choice body, as compiled into the DAR.
+When Exercising a choice on a contract, the contract payload will be upgraded/downgraded
+to match the version of the choice expected by the calling choice body. This means
+that in a choice body, an exercised choice argument or return type is never upgraded/downgraded.
 
 **Consuming clients (such as daml-script, ts/java codegen)**
 
