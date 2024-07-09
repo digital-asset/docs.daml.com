@@ -37,16 +37,17 @@ A DAR is checked against previously
 uploaded DARs for upgrade validity on upload to a participant. Specifically, for every package
 with name *p* and version *v* present in the uploaded DAR:
 
-1. The participant looks up versions *v_prev* and *v_next* of *p* in its package database, such that *v_prev* is the greatest version of
+1. The participant looks up versions *v_prev* and *v_next* of *p* in its package
+   database, such that *v_prev* is the greatest version of
    *p* smaller than *v*, and *v_next* is the smallest version of *p*
-   greater than *v.*
+   greater than *v*. Note that they may not always exist.
 
    .. image:: ./images/upgrade-static-checks-order.svg
 
 2. The participant checks that version *v* of *p* is a valid upgrade of
-   version *v_prev* of p.
+   version *v_prev* of p, if it exists.
 3. The participant checks that version *v_next* of *p* is a valid
-   upgrade of version *v* of *p*.
+   upgrade of version *v* of *p*, if it exists.
 
 This means that "being a valid upgrade" for a package is context
 dependent: it depends on what packages are already uploaded on the
@@ -149,8 +150,13 @@ parameter sequence of the upgraded template. The types of the parameters
 that the upgrading template has in common with the upgraded template
 must be pairwise valid upgrades of the original types.
 
+Deleting a parameter leads to a validation error.
+
 Adding a parameter in the middle of the parameter sequence leads to a
 validation error.
+
+As a special case of the two points above, renaming a parameter leads to
+a validation error.
 
 Adding a non-optional parameter at the end of the parameter leads to a
 validation error.
@@ -411,10 +417,15 @@ The types of the parameters that the upgrading choice has in common with
 the upgraded choice must be pairwise valid upgrades of the original
 types.
 
+Deleting a parameter leads to a validation error.
+
 Adding a parameter in the middle of the parameter sequence leads to a
 validation error.
 
-Adding a non-optional parameter at the end of the parameter leads to a
+As a special case of the two points above, renaming a parameter leads to
+a validation error.
+
+Adding a non-optional parameter at the end of the parameter sequence leads to a
 validation error.
 
 **Example**
@@ -720,10 +731,15 @@ sequence of the upgraded record. The types of the fields that the
 upgrading record has in common with the upgraded record must be pairwise
 valid upgrades of the original types.
 
+Deleting a field leads to a validation error.
+
 Adding a field in the middle of the field sequence leads to a validation
 error.
 
-Adding a non-optional field at the end of the field leads to a
+As a special case of the two points above, renaming a field leads to a
+validation error.
+
+Adding a non-optional field at the end of the field sequence leads to a
 validation error.
 
 .. _examples-7:
@@ -1069,9 +1085,8 @@ references to U on each side resolve to packages with different IDs.
 Data Types - Parameterized Data Types
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Parameterized data types are considered serializable for the purpose of
-upgrade validation. That is, parameterized data types in an upgrading
-package are compared against their previous version.
+Parameterized data types are considered serializable. That is, parameterized
+data types in an upgrading package are compared against their previous version.
 
 The upgrade validation for parameterized data types follows the same
 rules as non-parameterized data types, but also compares type variables.
@@ -1144,7 +1159,8 @@ Whenever a contract is fetched or one of its choices is exercised, it is
 retrieved from the ledger and transformed into a value that fits the target
 template type. Then, its metadata (signatories, observers, key, maintainers) is
 recomputed using the code of the target temmpate and compared against the
-existing metadata: it is not allowed to change.
+existing metadata: it is not allowed to change. The ensure clause of the 
+contract is also re-evaluated.
 
 In addition, when a choice is exercised, its arguments are transformed into
 values that fit the type of the parameters of the choice in the target package.
@@ -1483,6 +1499,7 @@ Types that aren't records or variants are "pass-through" for the upgrade
 and downgrade transformations:
 
 -  Values of scalar types are trivially transformed to themselves.
+-  The payload of an Optional is recursively transformed.
 -  The elements of Lists are recursively transformed.
 -  The keys and values of Maps are recursively transformed.
 
@@ -1581,3 +1598,40 @@ signatories of this transformed contract are then computed using the expression
 ``sig, sig``, which evaluate to the list ``['Alice', 'Alice']``. This list is
 then compared to signatories of the original contract stored on the ledger:
 ``['Alice']``. They do not match and thus the upgrade is rejected at runtime.
+
+Ensure Clause
+~~~~~~~~~~~~~
+
+Upon retrieval and after conversion, the ensure clause of a contract is
+recomputed using the code of the target template. It is a runtime error if the
+recomputed ensure clause evaluates to ``False``.
+
+** Example ***
+
+Below, the template on the right is **not** a valid upgrade of the template on
+the left because its ensure clause will evaluate to ``False`` for contracts that
+have been written using the template on the left with ``n = 0``.
+
+.. list-table::
+   :widths: 50 50
+   :width: 100%
+
+   * - .. code-block:: daml
+
+          template T 
+            with
+              sig : Party
+              n : Int
+            where
+              signatory sig
+              ensure n >= 0
+  
+     -  .. code-block:: daml
+
+           template T 
+             with
+               sig : Party
+               n : Int
+             where
+               signatory sig
+               ensure n > 0
