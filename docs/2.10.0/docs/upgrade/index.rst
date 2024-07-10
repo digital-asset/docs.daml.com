@@ -1,6 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
+.. _upgrades-index:
+
 Upgrading and Extending Daml Applications
 #########################################
 
@@ -9,6 +11,7 @@ Upgrading and Extending Daml Applications
 
    extend
    upgrade
+   smart-contract-upgrades
    automation
 
 Database schemas tend to evolve over time. A new feature in your application
@@ -25,6 +28,6 @@ leaving all previously written definitions unchanged.
 An *upgrade* changes previously defined data structures and templates.
 
 Whether extension or upgrade, your new code needs to be compatible with data
-that is already live in a production system. The next two sections show how to
-extend and upgrade Daml models. The last section shows how to automate the data
-migration process.
+that is already live in a production system. In the following sections, we'll
+show you how to extend your Daml model, and two ways to upgrade your Daml models,
+depending on your data transformation and downtime requirements.

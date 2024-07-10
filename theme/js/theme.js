@@ -305,7 +305,9 @@ function scrollContentMenu($sections) {
 
 function setHighlighterWidth() {
     var contentWidth = $('.wy-nav-content').outerWidth();
-    $('div[class*="highlight"]:has(div[class*="highlight"])').css('width', contentWidth + 'px');
+    $('div[class*="highlight"]:has(div[class*="highlight"])')
+        .filter(function (_, el) { return $(el).parents('table.diff-block').length === 0; })
+        .css('width', contentWidth + 'px');
 }
 
 function performSearch(fullSearchState, search, results, inline) {

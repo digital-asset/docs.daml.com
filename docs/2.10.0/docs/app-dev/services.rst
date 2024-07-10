@@ -141,6 +141,8 @@ Subscribe to the transaction service to read events from an arbitrary point on t
 
 For full details, see :ref:`the proto documentation for the service <com.daml.ledger.api.v1.TransactionService>`.
 
+.. _transaction-trees:
+
 Transaction and transaction Trees
 ---------------------------------
 

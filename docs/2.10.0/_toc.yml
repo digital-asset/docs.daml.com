@@ -242,6 +242,8 @@ subtrees:
       title: "Extending Daml Applications"
     - file: upgrade/upgrade
       title: "Upgrading Daml Applications"
+    - file: upgrade/smart-contract-upgrades
+      title: "Zero Downtime Smart Contract Upgrading"
     - file: upgrade/automation
       title: "Automating the Upgrade Process"
   - file: create-daml-apps/developer-tools/index
@@ -1536,6 +1538,8 @@ subtrees:
             title: "Identity and Package Management"
           - file: concepts/time
             title: "Time on Daml Ledgers"
+          - file: concepts/ledger-model/upgrade-model-in-depth
+            title: "Zero Downtime Smart Contract Upgrades In Depth"
       - file: reference/canton-advanced-architecture
         title: "Canton Advanced Architecture"
         entries:
