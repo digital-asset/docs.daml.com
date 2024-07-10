@@ -506,7 +506,7 @@ HTTP Request
 
 Where:
 
-- ``templateId`` is the contract template identifier which has the following
+- ``templateId`` is the contract template identifier, which has the following
   two formats: ``#<package name>:<module>:<entity>`` or ``<package
   ID>:<module>:<entity>``. 
   
