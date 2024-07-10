@@ -1239,7 +1239,108 @@ superset of the instances of that interface in the prior version of that
 package. In other words, it is valid to add new interface instances but
 deleting an interface instance leads to a validation error.
 
-TODO(paul)
+Interface instances may be upgraded. Note however that the type signature of 
+their methods and view cannot change between two versions of an instance since
+they are fixed by the interface definition, which is non-upgradable. Hence,
+the only thing that can change between two versions of an instance is the
+bodies of its methods and view.
+
+**Examples**
+
+Assume an interface ``I`` with view type ``IView`` and a method ``m``.
+
+.. code:: daml
+
+    data IView = IView { i : Int }
+  
+    interface I where
+      viewtype IView
+      m : Int
+  
+Then, below, the instance of ``I`` for template ``T`` on the right is a valid 
+upgrade of the instance on the left. It changes the ``view`` expression and the
+body of method ``m``.
+
+.. list-table::
+   :widths: 50 50
+   :width: 100%
+   :class: diff-block
+
+   * - .. code-block:: daml
+
+            template T 
+              with
+                p : Party
+                i : Int
+              where
+                signatory p
+
+                interface instance I for T where
+                  view = IView i
+                  m = i
+
+     - .. code-block:: daml
+
+            template T 
+              with
+                p : Party
+                i : Int
+                j : Optional Int
+              where
+                signatory p
+
+                interface instance I for T where
+                  view = IView (fromOptional i j)
+                  m = fromOptional i j
+
+Assume now an interface ``I2`` with view type ``IView2`` and a method ``m2``.
+
+.. code:: daml
+
+    data IView2 = IView2 { i : Int }
+  
+    interface I2 where
+      viewtype IView2
+      m2 : Int
+
+Then, below, the template on the right is a valid upgrade of the template on the
+left. It adds a new instance of ``I2`` for template ``T``.
+
+.. list-table::
+   :widths: 50 50
+   :width: 100%
+   :class: diff-block
+
+   * - .. code-block:: daml
+
+            template T 
+              with
+                p : Party
+                i : Int
+              where
+                signatory p
+
+                interface instance I for T where
+                  view = IView i
+                  m = i
+
+     - .. code-block:: daml
+
+            template T 
+              with
+                p : Party
+                i : Int
+                j : Optional Int
+              where
+                signatory p
+
+                interface instance I for T where
+                  view = IView i
+                  m = i
+
+                interface instance I2 for T where
+                  view = IView2 i
+                  m2 = i
 
 Data Transformation: Runtime Semantics
 --------------------------------------
