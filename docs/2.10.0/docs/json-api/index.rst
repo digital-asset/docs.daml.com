@@ -516,7 +516,7 @@ Where:
   
   Using the package ID format refers to a single package. 
   
-  Previously JSON API had supported partially qualified template IDs, (i.e.
+  Previously JSON API had supported partially qualified template IDs, such as
   simply ``<module>:<entity>``) as an interactive convenience which fails if
   there is more than one package with matching template names. **Since this
   format was not supported for production use and will not work with smart
