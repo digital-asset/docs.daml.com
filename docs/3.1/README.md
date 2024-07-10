@@ -8,6 +8,15 @@ bin/live-preview
 
 Note that the `live-preview` script takes a few shortcuts. This is fine most of the time, but sometimes the final result can be a bit different.
 
+### Theme
+
+Live preview doesn't reflect changes to the theme. That's because it would
+require a full recompilation of the site, which is long and defeats the purpose
+of live preview. This makes it impossible to quickly iterate on the theme.
+
+As an alternative, one can run live-preview with theme reload on a small subset
+of the site, as described in [the theme's README](../../theme/README.md).
+
 ### Full build
 
 To build the PDF docs or the exact HTML files that we publish to [docs.daml.com](https://docs.daml.com), run the full build locally:
