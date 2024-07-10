@@ -889,10 +889,14 @@ Add the following choice, ``Duplicate``, to both v1 and v2 versions of IOU:
 
 .. code:: daml
 
-      choice Duplicate : ContractId IOU
+      data DuplicateResult = DuplicateResult with
+        newCid : ContractId IOU
+
+      choice Duplicate : DuplicateResult
         controller issuer
         do
-          create this with value = value * 2
+          cid <- create this with value = value * 2
+          return DuplicateResult with newCid = cid
 
 Running ``daml build`` should succeed without errors.
 
@@ -908,9 +912,10 @@ Running ``daml build`` should succeed without errors.
   Created .daml/dist/my-pkg-1.1.0.dar
 
 Next, upgrade the ``Duplicate`` choice by adding an optional field ``amount``,
-and changing the behavior of the choice to default to a multiple of 3.
-Replace the definition of the ``Duplicate`` choice in the v2 implementation
-of ``IOU`` only:
+and changing the behavior of the choice to default to a multiple of 3. Also
+upgrade the ``DuplicateResult`` data type to include the old value.
+Replace the definitions of the ``DuplicateResult`` data type and of the
+``Duplicate`` choice in v2 only:
 
 .. code:: daml
 
@@ -918,14 +923,22 @@ of ``IOU`` only:
   -- Add import to top of module
   import DA.Optional (fromOptional)
   ...
+  -- Replace DuplicateResult definition
+  data DuplicateResult = DuplicateResult with
+    newCid : ContractId IOU
+    oldValue : Optional Int -- New optional oldValue field
+  ...
      -- Replace Duplicate choice implementation
-     choice Duplicate : ContractId IOU
+     choice Duplicate : DuplicateResult
        with
          amount : Optional Int -- New optional amount
        controller issuer
        do
          let amt = fromOptional 3 amount
-         create this with value = value * amt
+         cid <- create this with value = value * amt
+         return DuplicateResult with
+           newCid = cid
+           oldValue = Some value
   ...
 
 Add a script called ``duplicateIOU`` in V1:
@@ -939,8 +952,8 @@ Add a script called ``duplicateIOU`` in V1:
     case mbIOU of
       None -> pure None
       Some (iouCid, _) -> do
-        newCid <- key `submit` exerciseExactCmd iouCid Duplicate
-        mbNewIOU <- queryContractId key newCid
+        res <- key `submit` exerciseExactCmd iouCid Duplicate
+        mbNewIOU <- queryContractId key res.newCid
         case mbNewIOU of
           Some newIOU -> pure (Some (newCid, newIOU))
           None -> pure None
@@ -951,17 +964,20 @@ A similar script called ``duplicateIOU`` should be added in V2, supplying an
 .. code:: daml
 
   ...
-  duplicateIOU : Party -> Script (Optional (ContractId IOU, IOU))
+  duplicateIOU : Party -> Script (Optional (ContractId IOU, Int, IOU))
   duplicateIOU key = do
     mbIOU <- getIOU key
     case mbIOU of
       None -> pure None
       Some (iouCid, _) -> do
-        newCid <- key `submit` exerciseExactCmd iouCid Duplicate { amount = Some 4 }
-        mbNewIOU <- queryContractId key newCid
-        case mbNewIOU of
-          Some newIOU -> pure (Some (newCid, newIOU))
-          None -> pure None
+        res <- key `submit` exerciseExactCmd iouCid Duplicate { amount = Some 4 }
+        case res.oldValue of
+          None -> pure None -- This should never happen
+          Some oldValue -> 
+            mbNewIOU <- queryContractId key res.newCid
+            case mbNewIOU of
+              Some newIOU -> pure (Some (newCid, oldValue, newIOU))
+              None -> pure None
 
 Running the v1 ``duplicateIOU`` script with ``exerciseExactCmd`` always runs
 the v1 implementation for the ``Duplicate`` choice, and likewise for v2.
