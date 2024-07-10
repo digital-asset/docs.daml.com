@@ -506,7 +506,21 @@ HTTP Request
 
 Where:
 
-- ``templateId`` is the contract template identifier, which is formatted as ``"<package ID>:<module>:<entity>"``. As a convenience for interactive API exploration (such as with curl and similar tools), you can also omit the package ID (i.e. specifying the ``templateId`` as ``"<module>:<entity>"``) **if there is only one template with that name across all loaded packages**. Code should always specify the package ID, since it's common to have more versions of a template sharing the same module and entity name but with different package IDs. If the package identifier is not specified and the template cannot be uniquely identified without it, the HTTP JSON API service will report that the specified template cannot be found. **Omitting the package ID is not supported for production use.**
+- ``templateId`` is the contract template identifier which has the following
+  two formats: ``#<package name>:<module>:<entity>`` or ``<package
+  ID>:<module>:<entity>``. 
+  
+  The package name format works with the smart contract upgrading feature so
+  that contracts with different package IDs but the same package name can be
+  used in a uniform manner. 
+  
+  Using the package ID format refers to a single package. 
+  
+  Previously JSON API had supported partially qualified template IDs, (i.e.
+  simply ``<module>:<entity>``) as an interactive convenience which fails if
+  there is more than one package with matching template names. **Since this
+  format was not supported for production use and will not work with smart
+  contract upgrades, it is now unavailable.**  
 
 - ``payload`` field contains contract fields as defined in the Daml template and formatted according to :doc:`lf-value-specification`.
 
@@ -1056,7 +1070,11 @@ HTTP Request
 
 Where:
 
-- ``templateIds`` -- either an array of contract template identifiers or an array containing a single interface identifier to search through. Mixing of template ID's and interface ID's, or specifying more than one interface ID is not allowed.
+- ``templateIds`` -- either an array of contract template identifiers in the
+  same format as in the :ref:`create request <create-request>`.  It can also
+  be an array containing a single interface identifier to search through.
+  Mixing of template ID's and interface ID's, or specifying more than one
+  interface ID is not allowed.
 - ``query`` -- search criteria to apply to the specified ``templateIds``, formatted according to the :doc:`search-query-language`.
 - ``readers`` -- *optional* non-empty list of parties to query as; must be a subset of the actAs/readAs parties in the JWT
 
