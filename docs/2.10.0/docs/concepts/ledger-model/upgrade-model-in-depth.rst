@@ -27,7 +27,7 @@ Packages
 .. _upgrades-utility-package:
 
 **Definition:** A *utility package* is a package with no template
-definition, no interface definition, and only
+definition, no interface definition, no exception definition, and only
 non-`serializable <https://github.com/digital-asset/daml/blob/main-2.x/sdk/daml-lf/spec/daml-lf-1.rst#serializable-types>`__
 data type definitions. A utility package typically consists of
 helper functions and constants, but no type definitions.
