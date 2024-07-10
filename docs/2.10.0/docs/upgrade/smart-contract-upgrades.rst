@@ -235,8 +235,8 @@ participant’s DAR upload checks have the final say on upgrade validity.
 Daml Studio
 ~~~~~~~~~~~
 
-Basic Upgrades support has also been added to Daml Studio’s “Script
-Results” tab, allowing you to test your upgrades quickly and easily
+Basic Upgrades support has also been added to Daml Studio’s "Script
+Results" tab, allowing you to test your upgrades quickly and easily
 within VSCode. There are some limitations here which are listed in 
 `Daml Studio support <#daml-studio-support>` below.
 
@@ -972,7 +972,7 @@ Importantly, SCU assumes that the new definition does not alter the
 computed values of the signatories, observers, and key for existing contracts.
 Otherwise, dynamic contract upgrades will fail at runtime.
 
-For example, add a new field of “outside observers” to the v2 IOU
+For example, add a new field of "outside observers" to the v2 IOU
 template, and add them to the observer definition.
 
 .. code:: daml
@@ -1002,7 +1002,7 @@ Similarly, key expressions can be changed as long as they evaluate to
 the same value for existing contracts. This means that the type of the key
 cannot change.
 
-For example, v2 can add a new field “alternative key” to the v2 IOU
+For example, v2 can add a new field "alternative key" to the v2 IOU
 template, and use it instead of the default key when present.
 
 .. code:: daml
@@ -1618,13 +1618,13 @@ version of the template.
 Explicit template versions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-While in many cases, the absence of new fields can be used to infer the
-version of a package, it is recommended that you tag your contracts in
-their payload with an explicit version field, and rely on that to know a
-payload’s version. This will allow for less fragile behavior in the
-event of “partial upgrades” (where a user may only upgrade part of the
-payload of a package, intentionally), and allow you to model rollbacks
-as upgrades in a principled manner.
+If you need package version specific behavior that cannot just depend on
+the presence or absence of new fields, then one workaround would be to
+tag your contracts in their payload with an explicit version field.
+This allows for less fragile behavior in the event of
+"partial upgrades" (where a user may only upgrade part of the payload of
+a package, intentionally), and allows you to model rollbacks as upgrades
+in a principled manner.
 
 Avoid contract metadata changes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1803,7 +1803,7 @@ use the package-name as the package qualifier for upgrade compatible
 packages. This is used for command submission and queries. However,
 note that the package qualifier given back in queries contains the
 package-id, rather than the package-name. Generated modules now also
-give the package “reference”, which is the package-name for upgrade-compatible packages; for other packages it is the package-id.
+give the package "reference", which is the package-name for upgrade-compatible packages; for other packages it is the package-id.
 
 To perform package-id qualified commands/queries in an upgrade
 compatible package, a copy of the template object can be created using
@@ -1883,7 +1883,7 @@ uses of SCU.
 
 **Exact commands**
 
-Each of the four submission commands now has an “exact” variant, of the
+Each of the four submission commands now has an "exact" variant, of the
 forms ``createExactCmd``, ``exerciseExactCmd``, ``exerciseByKeyExactCmd`` and
 ``createAndExerciseExactCmd``. These commands force the participant to
 use the exact version of the package that your script uses, this is most
