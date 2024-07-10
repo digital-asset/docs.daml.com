@@ -512,7 +512,7 @@ Where:
   
   The package name format supports the smart contract upgrading feature,
   allowing contracts with different package IDs but the same package name to be
-  used in a uniform manner. 
+  used uniformly. 
   
   Using the package ID format refers to a single package. 
   
