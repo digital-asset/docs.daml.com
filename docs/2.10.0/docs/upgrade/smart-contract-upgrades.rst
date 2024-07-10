@@ -1915,18 +1915,15 @@ Testing
 Upgrade validity checking
 -------------------------
 
-While the compile time upgrade checks are quite thorough, they are not
-yet a perfect mirror of the checks that a participant does when a
-package is uploaded. We recommend that as a final check for the validity
-of your upgraded package, you can either:
+We recommend that as a further check for the validity of your upgraded
+package, you perform a dry-run upload of your package to a testing environment,
+using the ``--dry-run`` flag of the ``daml ledger upload-dar`` command.
+This runs the upgrade type-checking, but does not persist your package to the ledger.
 
--  Run a Canton sandbox (running ``daml sandbox``) and upload your old and
-   new packages (``daml ledger upload-dar``).
-
--  Perform a dry-run upload of your package to a more permanent testing
-   environment, using the ``--dry-run`` flag of the
-   ``daml ledger upload-dar`` command, which runs the upgrade
-   type-checking, but does not persist your package to the ledger.
+For workflows involving multiple DARs, we recommend more robust testing by
+running a Canton sandbox with the same version and environment as your
+in-production participant and uploading all the old and new packages that
+constitute your Daml app.
 
 Daml Script testing
 -------------------
