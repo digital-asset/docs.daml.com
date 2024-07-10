@@ -1697,6 +1697,8 @@ package-ids pertaining to a specific ``package-name`` and is possible on the
 write path (command submission) and read path (Ledger API queries) as
 presented below.
 
+.. _dynamic-package-resolution-in-command-submission:
+
 Dynamic package resolution in command submission
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

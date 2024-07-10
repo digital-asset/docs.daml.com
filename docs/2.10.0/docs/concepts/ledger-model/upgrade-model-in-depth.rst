@@ -1345,32 +1345,43 @@ left. It adds a new instance of ``I2`` for template ``T``.
 Data Transformation: Runtime Semantics
 --------------------------------------
 
-Whenever a contract is fetched or one of its choices is exercised, it is
-retrieved from the ledger and transformed into a value that fits the target
-template type. Then, its metadata (signatories, observers, key, maintainers) is
-recomputed using the code of the target temmpate and compared against the
-existing metadata: it is not allowed to change. The ensure clause of the 
-contract is also re-evaluated: it must evaluate to ``True``.
+Whenever a contract is fetched or exercised, a template version is selected
+using rules detailed in the next section. We call this template the target
+template. The contract is then transformed into a value that fits the type of
+the target template. Then, its metadata (signatories, observers, key,
+maintainers) is recomputed using the code of the target template and compared
+against the existing metadata stored on the ledger: it is not allowed to change.
+The ensure clause of the contract is also re-evaluated: it must evaluate to
+``True``.
 
 In addition, when a choice is exercised, its arguments are transformed into
-values that fit the type of the parameters of the choice in the target package.
-The result of the exercise is then possibly transformed back to some other
-target type by the client (e.g. the generated java client code).
+values that fit the type signature of the choice in the target template.  The
+result of the exercise is then possibly transformed back to some other target
+type by the client (e.g. the generated java client code).
 
-Below, we detail the rules governing target types, then explain how
+Below, we detail the rules governing target template, then explain how
 transformations are performed, and finally detail the rules of metadata
 re-computation.
 
-Target Types
-~~~~~~~~~~~~
+Target Templates
+~~~~~~~~~~~~~~~~
 
-In a top-level fetch or exercise triggered by a Ledger API command, the
-target template type is determined by the rules of package preference
-detailed in the `Ledger API <#_swcg5hoxdia8>`__ section. Once a given
-version of a template has been selected, the target type of its
-parameters as well as the target type of the contracts retrieved in its
-choices is determined by the dependencies of the package that defines the
-template.
+In a top-level fetch or exercise triggered by a Ledger API command, the target
+template is determined by the rules of package preference detailed in the
+:ref:`dynamic package
+resolution<dynamic-package-resolution-in-command-submission>` section of the
+smart contract upgrades documentation.
+
+In a non-interface fetch or exercise triggered by the body of a choice, the
+target template is determined by the dependencies of the package that defines
+the choice. In other words, it is statically known.
+
+In an interface fetch or exercise triggered by the body of a choice, the target
+template is determined by the rules of package preference detailed in the
+:ref:`dynamic package
+resolution<dynamic-package-resolution-in-command-submission>` section of the
+smart contract upgrades documentation. In other words, it is dynamically
+selected.
 
 .. _example-1-1:
 
