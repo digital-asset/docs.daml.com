@@ -137,7 +137,7 @@ Canton will automatically upgrade (or downgrade) the payloads you give to the mo
 recent version of the package that is uploaded on the participant. It
 will also use the most recent implementation of any choices you exercise
 directly through the Ledger API, by automatically upgrading/downgrading the choice argument.
-Choice result upgrading/downgrading is handled by :ref:`consuming clients <upgrades-consuming-clients>`.
+Choice result upgrading/downgrading is handled by Consuming Clients, as discussed later in this section.
 This behavior can be influenced by `package preference <#dynamic-package-resolution-in-ledger-api-queries>`__.
 
 **Updates in a choice body**
@@ -148,16 +148,14 @@ When Exercising a choice on a contract, the contract payload will be upgraded/do
 to match the version of the choice expected by the calling choice body. This means
 that in a choice body, an exercised choice argument or return type is never upgraded/downgraded.
 
-.. _upgrades-consuming-clients:
-
-**Consuming clients (such as daml-script, ts/java codegen)**
+**Consuming Clients (such as Daml Script, ts/java codegen)**
 
 When clients query the Ledger API for contracts, the returned event
 payload format matches the template originally used for generating the
 event (creating a contract/exercising a choice). It is the
 responsibility of these clients to upgrade/downgrade the payloads they
 receive to match what is expected downstream. The same applies to choice
-results. Daml-script, as well as ts/java codegen, does this for you to 
+results. Daml Script, as well as ts/java codegen, does this for you to 
 match the Ledger API response to the package versions they were run/built from.
 
 Upgrading Across the Stack
@@ -215,7 +213,7 @@ Daml Script
 Support for SCU is available in the opt-in beta version of Daml Script.
 
 This version acts as a drop-in replacement for the previous
-daml-script, and enables support for upgrades on all queries and
+Daml Script, and enables support for upgrades on all queries and
 command submissions.
 
 We also expose functions for more advanced interactions with
@@ -506,7 +504,7 @@ script and place the resulting party for Alice into an output file
   ...
 
 .. note::
-  All invocations of Daml script using SCU requires the ``--enable-contract-upgrading`` flag.
+  All invocations of Daml Script using SCU requires the ``--enable-contract-upgrading`` flag.
 
 From inside ``v2/my-pkg``, upload and run the ``getIOU`` script, passing in the
 ``alice-v1`` file as the script’s input:
@@ -1918,7 +1916,7 @@ Daml Studio support
 
 Daml Studio runs a reference model of Canton called the IDE Ledger, this
 ledger has been updated to support most of the functionality of upgrades
-in daml-script. The behavior that this ledger does not implement is the
+in Daml Script. The behavior that this ledger does not implement is the
 following:
 
 -  Upgrades type checking
