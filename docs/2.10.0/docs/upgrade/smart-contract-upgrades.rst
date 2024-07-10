@@ -91,7 +91,7 @@ Given the following first version of a template:
       signatory issuer
       observer owner
 
-We can add a new field for currency:
+You can add a new field for currency:
 
 .. code:: daml
 
@@ -351,7 +351,7 @@ Running daml build should successfully produce a DAR in
   ...
   Created .daml/dist/my-pkg-1.0.0.dar
 
-Now we create the second (new) version of our package, which
+Now you can create the second (new) version of this package, which
 upgrades the first version. Navigate back to the root directory and copy
 the v1 package into a v2 directory.
 
@@ -376,7 +376,7 @@ field pointing to v1:
   build-options:
   - --target=1.16
 
-Any changes we make to v2 are now validated as correct upgrades
+Any changes you make to v2 are now validated as correct upgrades
 over v1.
 
 First Changes
@@ -406,7 +406,7 @@ Run ``daml build``. An error is emitted:
     The upgraded template IOU has added new fields, but those fields are not Optional.
   ERROR: Creation of DAR file failed.
 
-Any new fields we add to a template must be optional - old contracts
+Any new fields added to a template must be optional - old contracts
 from the previous version are automatically upgraded by setting new
 fields to ``None``.
 
@@ -901,7 +901,7 @@ Running ``daml build`` should succeed without errors.
   ...
   Created .daml/dist/my-pkg-1.1.0.dar
 
-We can upgrade the ``Duplicate`` choice by adding an optional field ``amount``,
+Next, upgrade the ``Duplicate`` choice by adding an optional field ``amount``,
 and changing the behavior of the choice to default to a multiple of 3.
 Replace the definition of the ``Duplicate`` choice in the v2 implementation
 of ``IOU`` only:
@@ -1079,7 +1079,7 @@ Running ``daml build`` should succeed with no errors:
   ...
   Created .daml/dist/my-pkg-1.1.0.dar
 
-When we want to extend our contract to support new currencies, we can
+When you want to extend our contract to support new currencies, you can
 add new entries to the end of our ``Currency`` enum.
 
 .. code:: daml
@@ -1174,7 +1174,7 @@ source:
     = Circle
     | Polygon { sides : Int }
 
-We can extend this variant in two ways. We can add a new constructor,
+You can extend this variant in two ways. You can add a new constructor,
 similarly to enums. Modify the v2 module to add a new ``Line`` constructor
 with a ``len`` field:
 
@@ -1200,8 +1200,8 @@ As before, building should succeed.
   ...
   Created .daml/dist/my-pkg-1.1.0.dar
 
-We can also add a new field to a constructor, similarly to templates -
-for example, add a ``sideLen`` field to our ``Polygon`` constructor, to specify
+You can also add a new field to a constructor, similarly to templates -
+for example, add a ``sideLen`` field to the ``Polygon`` constructor, to specify
 the lengths of the sides of the polygon.
 
 .. code:: daml
@@ -1243,8 +1243,8 @@ Making the new ``sideLen`` field optional fixes the error:
 Limitations in Upgrading Variants
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Upgrading variants has some limitations - because we have defined the
-``Circle`` constructor without a field in curly braces, it cannot be
+Upgrading variants has some limitations - because the ``Circle``
+constructor has been defined without a field in curly braces, it cannot be
 upgraded with new fields.
 
 .. code:: daml
@@ -1321,7 +1321,7 @@ dependencies of the old version. Each of these existing dependency
 must either be unchanged from the old dar, or an upgrade of its previous
 version.
 
-For example, suppose we have a dependencies folder, containing v1 and v2
+For example, given a dependencies folder, containing v1 and v2
 of two dependency packages ``depA`` and ``depB``
 
 .. code:: bash
@@ -1347,7 +1347,7 @@ Change v1 of the IOU package so that it depends on ``depA-1.0.0`` and
   ...
 
 A package with a newer version may upgrade any dependency to a newer
-version (or keep the version the same). For example, v2 of our IOU
+version (or keep the version the same). For example, v2 of the IOU
 package may keep its dependencies the same, or it may upgrade ``depA`` to
 ``1.1.0``:
 
@@ -1469,7 +1469,7 @@ with the following:
       key issuer : Party
       maintainer key
 
-Upgrades allow us to add an interface definition. For example, add an
+Upgrades allow you to add an interface definition. For example, add an
 interface instance of ``HasValue`` for ``IOU`` to package v2:
 
 .. code:: daml
@@ -1582,7 +1582,7 @@ Because interfaces definitions may not be defined in subsequent versions, any
 package that uses an interface definition from a dependency package can never
 upgrade that dependency to a new version.
 
-For this reason, we strongly recommend that interfaces always be defined
+For this reason, it is strongly recommend that interfaces always be defined
 in their own packages separately from templates.
 
 Best Practices
