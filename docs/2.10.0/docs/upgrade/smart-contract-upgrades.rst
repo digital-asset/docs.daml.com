@@ -283,6 +283,12 @@ been implemented, but may be implemented in future releases.
    not `serializable <https://github.com/digital-asset/daml/blob/main-2.x/sdk/daml-lf/spec/daml-lf-1.rst#serializable-types>`__.
    This check will be loosened in a future version.
 
+-  Unvetted packages are currently still considered in `package selection <#dynamic-package-resolution-in-ledger-api-queries>`__.
+   This means that if your most recent version of a package is unvetted, then the
+   default package preference will choose the unvetted package and fail.
+   If you need to unvet your most recent version, you can either fully delete the package,
+   or use explicit package preference on your submissions to avoid selecting it.
+
 Local developer experience
 ==========================
 
