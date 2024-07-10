@@ -1072,7 +1072,7 @@ Where:
 
 - ``templateIds`` -- either an array of contract template identifiers in the
   same format as in the :ref:`create request <create-request>`.  It can also
-  be an array containing a single interface identifier to search through.
+  an array containing a single interface identifier to search through.
   Mixing of template ID's and interface ID's, or specifying more than one
   interface ID is not allowed.
 - ``query`` -- search criteria to apply to the specified ``templateIds``, formatted according to the :doc:`search-query-language`.
