@@ -137,6 +137,7 @@ Canton will automatically upgrade (or downgrade) the payloads you give to the mo
 recent version of the package that is uploaded on the participant. It
 will also use the most recent implementation of any choices you exercise
 directly through the Ledger API, by automatically upgrading/downgrading the choice argument.
+Choice result upgrading/downgrading is handled by :ref:`consuming clients <upgrades-consuming-clients>`.
 This behavior can be influenced by `package preference <#dynamic-package-resolution-in-ledger-api-queries>`__.
 
 **Updates in a choice body**
@@ -147,15 +148,17 @@ When Exercising a choice on a contract, the contract payload will be upgraded/do
 to match the version of the choice expected by the calling choice body. This means
 that in a choice body, an exercised choice argument or return type is never upgraded/downgraded.
 
+.. _upgrades-consuming-clients:
+
 **Consuming clients (such as daml-script, ts/java codegen)**
 
 When clients query the Ledger API for contracts, the returned event
 payload format matches the template originally used for generating the
 event (creating a contract/exercising a choice). It is the
 responsibility of these clients to upgrade/downgrade the payloads they
-receive to match what is expected downstream. Daml-script, as well as
-ts/java codegen, does this for you to match the payload to the
-package versions they were run/built from.
+receive to match what is expected downstream. The same applies to choice
+results. Daml-script, as well as ts/java codegen, does this for you to 
+match the Ledger API response to the package versions they were run/built from.
 
 Upgrading Across the Stack
 --------------------------
@@ -730,6 +733,9 @@ V2 via ``mkIOUWithoutCurrency``, then run ``doubleIOU`` on it from V1:
   	"owner": "party-...",
   	"value": 2
   ...
+
+Existing choices can also be upgraded, as covered in
+`Continuing to Write Your Upgrades <#continuing-to-write-your-upgrades>`__.
 
 Deploying your first upgrade
 ----------------------------
