@@ -6,10 +6,10 @@
 The Upgrade Model in Depth - Reference
 ======================================
 
-This section describes in detail what rules govern package validation upon
+This document describes in detail what rules govern package validation upon
 upload and how contracts, choice arguments and choice results are upgraded or
-downgraded at runtime. These topics are for a large part covered in the
-sections above. This section acts as a thorough reference.
+downgraded at runtime. These topics are for a large part covered in
+:ref:`Smart Contract Upgrades <smart-contract-upgrades>`. This document acts as a thorough reference.
 
 Static Checks
 -------------
