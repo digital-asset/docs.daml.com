@@ -1187,6 +1187,13 @@ references to U on each side resolve to packages with different IDs.
      
             data T = T Dep.U
 
+Data Types - Builtin Types
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Builtin scalar types like ``Int``, ``Text``, ``Party``, etc. only upgrade
+themselves. In other words, it is never valid to replace them with another
+type.
+
 Data Types - Parameterized Data Types
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -1221,6 +1228,76 @@ type, it adds an optional field.
                 label : b
                 children : [Tree b]
                 cachedSize : Optional Int
+
+Data Types - Applied Parameterized Data Types
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A type constructor application ``T' U1' .. Un'`` upgrades 
+``T U1 .. Un`` if and only if ``T'`` upgrades ``T`` and
+each ``Ui'`` upgrades the corresponding ``Ui``.
+
+**Examples**
+
+Below, the module on the right is a valid upgrade of the module on the left.
+The record type ``T`` on the right upgrades the record type ``T`` on the left.
+As a result, the type constructor application ``List T`` on the right upgrades
+the type constructor application ``List T`` on the left. Same goes for ``List``
+and ``Optional``.
+
+.. list-table::
+   :widths: 50 50
+   :width: 100%
+   :class: diff-block
+
+   * - .. code-block:: daml
+
+            module M where
+     
+            data T = T {}
+     
+            data Demo = Demo with
+              field1 : List T
+              field2 : Map T T
+              field3 : Optional T 
+     
+     - .. code-block:: daml
+
+            module M where
+     
+            data T = T { i : Optional Int }
+     
+            data Demo = Demo with
+              field1 : List T
+              field2 : Map T T
+              field3 : Optional T 
+
+Below, the module on the right is a valid upgrade of the module on the left.
+The parameterized type ``C`` on the right upgrades the parameterized type ``C`` on the left.
+As a result, the type constructor application ``C Int`` on the right upgrades
+the type constructor application ``C Int`` on the left. 
+
+.. list-table::
+   :widths: 50 50
+   :width: 100%
+   :class: diff-block
+
+   * - .. code-block:: daml
+
+            module M where
+     
+            data C a = C { x : a }
+     
+            data Demo = Demo with
+              field1 : C T
+     
+     - .. code-block:: daml
+
+            module M where
+     
+            data C a = C { x : a, y : Optional Int }
+     
+            data Demo = Demo with
+              field1 : C T
 
 Interface Definitions
 ~~~~~~~~~~~~~~~~~~~~~
