@@ -1076,7 +1076,7 @@ Where:
   Mixing of template ID's and interface ID's, or specifying more than one
   interface ID is not allowed.
 - ``query``: search criteria to apply to the specified ``templateIds``, formatted according to the :doc:`search-query-language`.
-- ``readers`` -- *optional* non-empty list of parties to query as; must be a subset of the actAs/readAs parties in the JWT
+- ``readers``: *optional* non-empty list of parties to query as; must be a subset of the actAs and readAs parties in the JWT.
 
 Empty HTTP Response
 ===================
