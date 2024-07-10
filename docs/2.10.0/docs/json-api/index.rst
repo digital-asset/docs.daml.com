@@ -511,7 +511,7 @@ Where:
   ID>:<module>:<entity>``. 
   
   The package name format supports the smart contract upgrading feature,
-  that contracts with different package IDs but the same package name can be
+  allowing contracts with different package IDs but the same package name to be
   used in a uniform manner. 
   
   Using the package ID format refers to a single package. 
