@@ -1346,8 +1346,10 @@ Data Transformation: Runtime Semantics
 --------------------------------------
 
 Whenever a contract is fetched or exercised, a template version is selected
-using rules detailed in the next section. We call this template the target
-template. The contract is then transformed into a value that fits the type of
+according to a set of rules detailed below . We call this template the target
+template.
+
+The contract is then transformed into a value that fits the type of
 the target template. Then, its metadata (signatories, observers, key,
 maintainers) is recomputed using the code of the target template and compared
 against the existing metadata stored on the ledger: it is not allowed to change.
@@ -1359,14 +1361,14 @@ values that fit the type signature of the choice in the target template.  The
 result of the exercise is then possibly transformed back to some other target
 type by the client (e.g. the generated java client code).
 
-Below, we detail the rules governing target template, then explain how
+Below, we detail the rules governing target template selection, then explain how
 transformations are performed, and finally detail the rules of metadata
 re-computation.
 
 Target Templates
 ~~~~~~~~~~~~~~~~
 
-In a top-level fetch or exercise triggered by a Ledger API command, the target
+In a top-level exercise triggered by a Ledger API command, the target
 template is determined by the rules of package preference detailed in the
 :ref:`dynamic package
 resolution<dynamic-package-resolution-in-command-submission>` section of the
@@ -1524,6 +1526,105 @@ downgraded to ``U { p = 'Bob'}`` upon retrieval. Note that the command
 preference for version ``2.0.0`` of package ``dep`` bears no incidence here.
 
 **Example 3**
+
+Let's consider a similar example, but this time with an exercise by interface.
+
+Assume an interface ``I`` with a choice ``GetInt``
+
+.. code:: daml
+
+     data IView = IView {}
+     
+     interface I where
+       viewtype IView
+       getInt : Int
+     
+       choice GetInt : Int
+         with
+           p : Party
+         controller p
+         do
+           pure (getInt this)
+     
+Now, assume two versions of a package called ``inst``, defining a template
+``Inst`` and its upgrade. The two versions of the template instantiate
+interface ``I``, but their ``getInt`` method return different values.
+
+.. list-table::
+   :widths: 50 50
+   :width: 100%
+   :class: diff-block
+
+   * - In ``inst-1.0.0``:
+     - In ``inst-2.0.0``:
+
+   * - .. code-block:: daml
+
+            template Inst
+              with
+                p : Party
+              where
+                signatory p
+            
+                interface instance I for T where
+                  view = IView
+                  getInt = 1
+            
+     - .. code-block:: daml
+
+            template Inst
+              with
+                p : Party
+              where
+                signatory p
+            
+                interface instance I for T where
+                  view = IView
+                  getInt = 2
+            
+Assume then some package ``client`` which defines a template whose choice ``Go``
+exercises choice ``GetInt`` by interface.
+
+.. code:: daml
+
+     template Client
+       with 
+         p : Party
+         icid : ContractId I
+       where
+         signatory p
+     
+         choice Go : Int
+           controller p
+           do
+             exercise icid (GetInt p)
+          
+Finally assume a ledger that contains a contract of type ``Inst`` written by 
+``inst-1.0.0``, and a contract of type ``Client`` written by ``client``.
+
++-------------+----------------------+------------------------------------+
+| Contract ID | Type                 | Contract                           |
++=============+======================+====================================+
+| ``0123``    | ``inst-1.0.0:Inst``  | ``Inst { p = 'Alice' }``           |
++-------------+----------------------+------------------------------------+
+| ``0456``    | ``client:Client``    | ``Client { p = 'Alice' }``         |
++-------------+----------------------+------------------------------------+
+
+Then:
+
+- When exercising choice ``Go`` on contract ``0456`` with package
+  preference ``inst-1.0.0``, we trigger an exercise by interface of contract 
+  ``0123``. Because ``inst-1.0.0`` is prefered, contract ``0123`` is upgraded
+  to a value of type ``inst-1.0.0::Inst`` and its ``getInt`` method is executed.
+  The result of the exercise is thus the value ``1``.
+- When exercising choice ``Go`` on contract ``0456`` but with package
+  preference ``inst-2.0.0`` this time, ``inst-2.0.0:Inst`` is picked as the
+  target template for ``0123`` and thus the exercise returns the
+  value ``2``. Note that the fact that the exercise stored on the ledger is of
+  type ``inst-1.0.0:Inst`` bears no incidence on the ``getInt`` method that is
+  eventually executed.
+
+**Example 4**
 
 Assume now a package ``r`` with two versions. They define a template with a
 choice, and version ``2.0.0`` adds an optional field to the parameters of the
