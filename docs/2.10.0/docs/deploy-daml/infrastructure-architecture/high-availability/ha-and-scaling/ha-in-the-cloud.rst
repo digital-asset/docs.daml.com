@@ -59,7 +59,7 @@ Each cloud vendor chooses from several PostgreSQL options. Selection is ultimate
 .. note::
 
     Multiple versions of PostgreSQL are tested for compatibility with Canton and
-    PQS in traditional deployment configurations.  PostgreSQL comes in many
+    PQS in traditional deployment configurations. PostgreSQL comes in many
     varieties that allow NFR trade-offs to be made (e.g., latency Vs. read
     operation scaling Vs. HA Vs. cost). Not all of these variants are
     tested for compatibility but but all are expected to work with Canton and PQS.
