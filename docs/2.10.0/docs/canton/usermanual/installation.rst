@@ -109,9 +109,9 @@ or you can persist data using ``Postgres`` or ``Oracle`` databases.
 
     Multiple versions of Postgres are tested for compatibility with Canton and
     PQS in traditional deployment configurations. Postgres comes in many
-    varieties which allow NFR trade offs to be made (e.g., latency Vs. read
-    operation scaling Vs. HA Vs. cost) and not all of these variants are
-    tested for compatibility but are expected to work with Canton and PQS.
+    varieties that allow NFR trade-offs to be made (e.g., latency Vs. read
+    operation scaling Vs. HA Vs. cost). Not all of these variants are
+    tested for compatibility but all are expected to work with Canton and PQS.
     However, sufficient application testing is required to ensure that the
     SLAs of the ledger API and PQS clients are met.  In particular, serverless
     Postgres has transient behaviors which require a robust application
