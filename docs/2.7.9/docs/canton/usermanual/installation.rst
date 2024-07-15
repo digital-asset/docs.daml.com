@@ -94,6 +94,19 @@ In order to run any kind of node, you need to decide how and if you want to pers
 data. You currently have three choices: don't persist and just use in-memory stores which will be deleted if you restart
 your node or persist using ``Postgres`` or ``Oracle`` databases.
 
+.. note::
+
+    Multiple versions of Postgres are tested for compatibility with Canton and
+    PQS in traditional deployment configurations. Postgres comes in many
+    varieties which allow NFR trade offs to be made (e.g., latency Vs. read
+    operation scaling Vs. HA Vs. cost) and not all of these variants are
+    tested for compatibility but are expected to work with Canton and PQS.
+    However, sufficient application testing is required to ensure that the
+    SLAs of the ledger API and PQS clients are met.  In particular, serverless
+    Postgres has transient behaviors which require a robust application
+    testing process to verify that application SLAs are met (e.g., transaction
+    latency is not greatly impacted by auto-scaling).
+
 For this purpose, there are some storage :ref:`mixin configurations <configuration-mixin>` (``storage/``) defined. These storage mixins
 can be used with any of the node configurations. The in-memory configurations just work out of the
 box without further configuration. The database based persistence will be explained in a subsequent section,
@@ -118,7 +131,7 @@ Persistence using Postgres
 
 While in-memory is great for testing and demos, for more serious tasks, you need to use a database as a persistence layer.
 Both the community version and the enterprise version support Postgres as a persistence layer. Make sure that you have
-a running Postgres server and you need to create one database per node. The recommended Postgres version to use is 11,
+a running Postgres server and you need to create one database per node. The recommended Postgres version to use is 12,
 as this is tested the most thoroughly.
 
 The Postgres storage mixin is provided by the file ``storage/postgres.conf``.
