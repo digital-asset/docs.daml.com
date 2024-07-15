@@ -30,15 +30,6 @@ The html files are in `workdir/build/gen`. Rerun the script to view any edits to
 
 :warning: If you do make a change to the TOCs in this repo, you then have to duplicate the change in the relevant satellite repo (except for the daml repo, which does not have a local ToC).
 
-### Theme
-
-Live preview doesn't reflect changes to the theme. That's because it would
-require a full recompilation of the site, which is long and defeats the purpose
-of live preview. This makes it impossible to quickly iterate on the theme.
-
-As an alternative, you can run live-preview with theme reload on a small subset
-of the site, as described in [the theme's README](../../theme/README.md).
-
 ### Full build
 
 To build the PDF docs or the exact HTML files that we publish to [docs.daml.com](https://docs.daml.com), run the full build locally:
@@ -86,6 +77,3 @@ bump
 :information_desk_person: DEPRECATED: For interested parties, the `deps` function renders a list of recent snapshot updates with the latest at the end of the list. Run `deps list daml` or `deps list canton` to see them.
 
 5. Changes to `main` are reflected immediately on the live (versioned) website. When a new or updated version is built it pulls all of the docs changes submitted for each prefix (version). For example, the url resulting from building the documentation in the `docs/2.6.0` folder is https://docs.daml.com/2.6.0.
-
-
-

@@ -45,16 +45,6 @@ module.exports = function(grunt) {
           }
         ]
       },
-      sass: {
-        files: [
-          {
-            expand: true,
-            cwd: 'sass',
-            src: ['**'],
-            dest: 'docs/build/sass'
-          }
-        ]
-      },
       fonts: {
         files: [
           {
@@ -72,7 +62,19 @@ module.exports = function(grunt) {
                 expand: true,
                 cwd: 'docs/build',
                 src: ['**'],
-                dest: 'docs/build/2.10.0/'
+                dest: 'docs/build/0.11.0/'
+              },
+              {
+                expand: true,
+                cwd: 'docs/build/',
+                src: ['**'],
+                dest: 'docs/build/0.10.9/'
+              },
+              {
+                expand: true,
+                cwd: 'docs/build/',
+                src: ['**'],
+                dest: 'docs/build/0.7.13/'
               },
               {
                 expand: true,
@@ -155,13 +157,12 @@ module.exports = function(grunt) {
     },
     exec: {
       build_sphinx: {
-        cmd: 'sphinx-build -c docs docs docs/build'
+        cmd: 'sphinx-build -c docs/ ../source docs/build'
       }
     },
     clean: {
       build: ["docs/build"],
       fonts: ["da_theme/static/fonts"],
-      sass: ["da_theme/static/css"],
       js: ["da_theme/static/js/*", "!da_theme/static/js/modernizr.min.js"]
     },
 
@@ -204,6 +205,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-open');
   grunt.loadNpmTasks('grunt-browserify');
 
-  grunt.registerTask('default', ['clean','sass:dev','browserify:dev','copy:skeleton','copy:fonts','usebanner','exec:build_sphinx', 'copy:versions','copy:sass','connect','open','watch']);
+  grunt.registerTask('default', ['clean','copy:skeleton','copy:fonts','sass:dev','browserify:dev','usebanner','exec:build_sphinx', 'copy:versions','connect','open','watch']);
   grunt.registerTask('build', ['clean','copy:skeleton','copy:fonts','browserify:build','uglify','usebanner']);
 }
