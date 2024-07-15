@@ -108,7 +108,7 @@ or you can persist data using ``Postgres`` or ``Oracle`` databases.
 .. note::
 
     Multiple versions of Postgres are tested for compatibility with Canton and
-    PQS in traditional deployment configurations.  Postgres comes in many
+    PQS in traditional deployment configurations. Postgres comes in many
     varieties which allow NFR trade offs to be made (e.g., latency Vs. read
     operation scaling Vs. HA Vs. cost) and not all of these variants are
     tested for compatibility but are expected to work with Canton and PQS.
