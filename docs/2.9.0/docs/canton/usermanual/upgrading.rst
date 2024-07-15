@@ -218,11 +218,11 @@ If your sync domain is running one of these protocol versions, you need to perfo
 
 Protocol version should be set explicitly
 """""""""""""""""""""""""""""""""""""""""
-Until now, the configuration of a domain was picking the latest protocol version by default.
-Since the protocol version is an important parameter of the domain, having this value set behind
+Until now, the sync domains were configures to pick the latest protocol version by default.
+Since the protocol version is an important parameter of the sync domain, having this value set behind
 the scenes caused unwanted behavior.
 
-You now must specify the protocol version for your domain:
+You now must specify the protocol version for your sync domain:
 
 .. code:: text
 
