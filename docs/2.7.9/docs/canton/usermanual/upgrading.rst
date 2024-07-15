@@ -8,8 +8,8 @@
 Upgrading
 =========
 
-This section covers the processes to upgrade Canton participant and domain nodes. Upgrading Daml
-applications is `covered elsewhere <https://docs.daml.com/upgrade/upgrade.html>`_.
+This section covers the processes to upgrade Canton participant and domain nodes.
+Upgrading Daml applications is covered `elsewhere <https://docs.daml.com/upgrade/upgrade.html>`_.
 
 As elaborated in the :ref:`versioning guide <canton_versioning>`, new features, improvements
 and fixes are released regularly. To benefit from these changes, the Canton-based system
