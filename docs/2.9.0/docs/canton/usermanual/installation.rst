@@ -105,6 +105,19 @@ In order to run any kind of node, you need to decide how and if you want to pers
 data. You can choose not to persist data and instead use in-memory stores that are deleted on node restart,
 or you can persist data using ``Postgres`` or ``Oracle`` databases.
 
+.. note::
+
+    Multiple versions of Postgres are tested for compatibility with Canton and
+    PQS in traditional deployment configurations.  Postgres comes in many
+    varieties which allow NFR trade offs to be made (e.g., latency Vs. read
+    operation scaling Vs. HA Vs. cost) and not all of these variants are
+    tested for compatibility but are expected to work with Canton and PQS.
+    However, sufficient application testing is required to ensure that the
+    SLAs of the ledger API and PQS clients are met.  In particular, serverless
+    Postgres has transient behaviors which require a robust application
+    testing process to verify that application SLAs are met (e.g., transaction
+    latency is not greatly impacted by auto-scaling).
+    
 For this purpose, there are some storage :ref:`mixin configurations <configuration-mixin>` (``config/storage/``) defined.
 
 These storage mixins can be used with any of the node configurations. All the reference examples include the ``config/shared.conf``,

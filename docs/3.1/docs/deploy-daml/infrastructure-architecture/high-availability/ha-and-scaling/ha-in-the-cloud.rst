@@ -56,6 +56,19 @@ Database Options
 
 Each cloud vendor chooses from several PostgreSQL options. Selection is ultimately driven by business requirements, which drive the HA requirements fulfilled by selecting the appropriate PostgreSQL option. A managed database selection allows for trade-offs in availability if choosing between an Aurora DB cluster or an Aurora global database. Amazon RDS for PostgreSQL is a self-managed option which is more flexible than the managed service. Each of these options is introduced below to explore what each can provide in an HA context.    Each option has a different cost profile so make sure that you are using the least costly option that matches your requirements.
 
+.. note::
+
+    Multiple versions of PostgreSQL are tested for compatibility with Canton and
+    PQS in traditional deployment configurations.  PostgreSQL comes in many
+    varieties which allow NFR trade offs to be made (e.g., latency Vs. read
+    operation scaling Vs. HA Vs. cost) and not all of these variants are
+    tested for compatibility but are expected to work with Canton and PQS.
+    However, sufficient application testing is required to ensure that the
+    SLAs of the ledger API and PQS clients are met.  In particular, serverless
+    Postgres has transient behaviors which require a robust application
+    PostgreSQL process to verify that application SLAs are met (e.g., transaction
+    latency is not greatly impacted by auto-scaling).
+    
 Although the examples presented here are for AWS, other cloud vendors have similar technologies that are compatible with PostgreSQL. Please consult the relevant cloud vendors documentation.
 
 Amazon RDS for PostgreSQL, Multi-AZ with two readable standbys [#f2]_
