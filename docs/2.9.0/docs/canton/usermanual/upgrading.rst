@@ -259,28 +259,6 @@ to avoid memory issues in participants that knows more than 10'000 parties.
 The `next_page_token` can be used to request the next page (see `request <https://docs.daml.com/2.9.0/app-dev/grpc/proto-docs.html#com-daml-ledger-api-v1-admin-listknownpartiesrequest>`_
 and `response <https://docs.daml.com/2.9.0/app-dev/grpc/proto-docs.html#com-daml-ledger-api-v1-admin-listknownpartiesresponse>`_).
 
-Executor Service Metrics removed
-""""""""""""""""""""""""""""""""
-The metrics for the execution services have been removed:
-
-- daml.executor.runtime.completed*
-- daml.executor.runtime.duration*
-- daml.executor.runtime.idle*
-- daml.executor.runtime.running*
-- daml.executor.runtime.submitted*
-- daml_executor_pool_size
-- daml_executor_pool_core
-- daml_executor_pool_max
-- daml_executor_pool_largest
-- daml_executor_threads_active
-- daml_executor_threads_running
-- daml_executor_tasks_queued
-- daml_executor_tasks_executing_queued
-- daml_executor_tasks_stolen
-- daml_executor_tasks_submitted
-- daml_executor_tasks_completed
-- daml_executor_tasks_queue_remaining
-
 .. _upgrade_to_2.8:
 
 Upgrade to Release 2.8
