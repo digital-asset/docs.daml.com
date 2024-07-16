@@ -203,7 +203,7 @@ PQS & Daml Shell
 
 As of 2.9, PQS only supports querying contracts via package-name, 
 dropping support for direct pacakge-id queries. See
-`Limitations <#limitations>` for more information and a work-around.
+`Limitations <#limitations>`__ for more information and a work-around.
 
 Daml Shell builds on top of PQS, so inherits this behavior.
 
@@ -239,7 +239,7 @@ Daml Studio
 Basic Upgrades support has also been added to Daml Studio’s "Script
 Results" tab, allowing you to test your upgrades quickly and easily
 within VSCode. There are some limitations here which are listed in 
-`Daml Studio support <#daml-studio-support>` below.
+`Daml Studio support <#daml-studio-support>`__ below.
 
 Limitations
 -----------
