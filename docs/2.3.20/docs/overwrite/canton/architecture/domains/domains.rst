@@ -264,7 +264,7 @@ Based on the set of domain internal components, a driver implements
 one or more components based on a particular technology. The prime component is
 the sequencer service and its ordering functionality, with implementations
 ranging from a relational database to a distributed blockchain. Components can
-be shared among integrations, for example, a mediator implemented on a
+be shared among integrations. For example, a mediator implemented on a
 relational database can be used together with a blockchain-based sequencer.
 
 .. toctree::
