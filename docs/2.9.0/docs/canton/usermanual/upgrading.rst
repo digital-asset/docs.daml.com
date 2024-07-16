@@ -209,7 +209,35 @@ Version Specific Notes
 Upgrade to Release 2.9
 ^^^^^^^^^^^^^^^^^^^^^^
 
-TODO
+Protocol versions
+"""""""""""""""""
+The recommended protocol versions is 5 (see :ref:`here <protocol_version>` for more information about protocol versions).
+
+Version 2.9 does not offer support for protocol versions 3 and 4.
+If your sync domain is running one of these protocol versions, you need to perform the upgrade described :ref:`below <one_step_migration>`.
+
+Protocol version should be set explicitly
+"""""""""""""""""""""""""""""""""""""""""
+Until now, the sync domains were configures to pick the latest protocol version by default.
+Since the protocol version is an important parameter of the sync domain, having this value set behind
+the scenes caused unwanted behavior.
+
+You now must specify the protocol version for your sync domain:
+
+.. code:: text
+
+    myDomain {
+        init.domain-parameters.protocol-version = 5
+    }
+
+For a domain manager:
+
+.. code:: text
+
+    domainManager {
+        init.domain-parameters.protocol-version = 5
+    }
+
 
 Deactivated sync domain data cleanup
 """"""""""""""""""""""""""""""""""""
@@ -222,6 +250,14 @@ command.
 
 Note that the ``migrate_domain`` command in 2.9 now automatically removes such data,
 but only for the sync domain on which it has been invoked.
+
+Paging in party Management
+""""""""""""""""""""""""""
+By default, the `ListKnownParties` method on the `PartyManagementService` will now only return at most 10'000
+to avoid memory issues in participants that knows more than 10'000 parties.
+
+The `next_page_token` can be used to request the next page (see `request <https://docs.daml.com/2.9.0/app-dev/grpc/proto-docs.html#com-daml-ledger-api-v1-admin-listknownpartiesrequest>`_
+and `response <https://docs.daml.com/2.9.0/app-dev/grpc/proto-docs.html#com-daml-ledger-api-v1-admin-listknownpartiesresponse>`_).
 
 .. _upgrade_to_2.8:
 
