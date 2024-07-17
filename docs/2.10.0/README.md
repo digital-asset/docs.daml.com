@@ -10,9 +10,9 @@ This folder manages the full build of technical documentation from the following
 
 The process for updating the docs TOCs has some potential pitfalls. Follow the instructions in the main README *carefully* and in order.
 
-- [Setting up this repo locally](https://github.com/digital-asset/docs.daml.com#setting-up-this-repo-locally)
-- [Build and view the docs locally](#live-preview)
-- [How to commit changes to the docs](#how-to-commit-changes-to-the-docs)
+* [Set up this repo locally](https://github.com/digital-asset/docs.daml.com#setting-up-this-repo-locally)
+* [Build and view the docs locally](#live-preview)
+* [Commit changes to the docs](#how-to-commit-changes-to-the-docs)
 
 :arrow_right: If you encounter any issues, reach out to #product-docs on Slack.
 
@@ -44,7 +44,7 @@ of the site, as described in [the theme's README](../../theme/README.md).
 To build the PDF docs or the exact HTML files that we publish to [docs.daml.com](https://docs.daml.com), run the full build locally:
 
 ```zsh
-build
+./bin/build
 ```
 
 The HTML files are in `workdir/build/sphinx-target/html`; you can view them
@@ -61,31 +61,40 @@ It also produces a PDF, and a tarball containing all of the HTML, under `workdir
 
 ## How to commit changes to this version of the docs
 
-1. Make the changes to docs in the Daml, Daml Finance, or Canton repo, create a PR, and merge into main.
-
-:warning: You must set up and build the repo you are working on before making changes and viewing locally. Make sure you follow the build instructions carefully as they may differ to here.
-
+1. Make the changes to docs in the Daml, Daml Finance, or Canton repo, create a PR, and merge into
+   main.
+   :warning: You must set up and build the repo you are working on before making changes and viewing
+   locally. Make sure you follow the build instructions carefully as they may differ to here.
 2. For Daml and Canton, a snapshot is generated every 24 hours that includes the PR.
-3. The `versions.json` file in this folder defines the dependencies used by this version of the docs:
+3. The `versions.json` file in this folder defines the dependencies used by this version of the
+   docs:
 
-```json
-{
-  "daml": "2.6.0-snapshot.20230123.11292.0.b3f84bfc",
-  "canton": "20230124",
-  "daml_finance": "1.0.4",
-  "canton_drivers": "0.1.9"
-}
-```
+   ```json
+   {
+     "daml": "2.6.0-snapshot.20230123.11292.0.b3f84bfc",
+     "canton": "20230124",
+     "daml_finance": "1.0.4",
+     "canton_drivers": "0.1.9"
+   }
+   ```
 
 4. To update the `versions.json` file to the latest snapshots, run the following (in this folder):
 
-```sh
-bump
-```
+   ```sh
+   ./bin/bump
+   ```
 
-:information_desk_person: DEPRECATED: For interested parties, the `deps` function renders a list of recent snapshot updates with the latest at the end of the list. Run `deps list daml` or `deps list canton` to see them.
+   The `daml_finance` version is independent of the actual SDK version and is set/updated by the
+   financial engineering team. This version is used to source an assembly artifact from
+   [jfrog](https://digitalasset.jfrog.io/ui/repos/tree/General/assembly/daml-finance). The purpose
+   of having an independent version number is to allow the release of new assembly versions without
+   waiting for a new SDK release.
 
-5. Changes to `main` are reflected immediately on the live (versioned) website. When a new or updated version is built it pulls all of the docs changes submitted for each prefix (version). For example, the url resulting from building the documentation in the `docs/2.6.0` folder is https://docs.daml.com/2.6.0.
+   :information_desk_person: DEPRECATED: For interested parties, the `deps` function renders a list
+   of recent snapshot updates with the latest at the end of the list. Run `deps list daml` or
+   `deps list canton` to see them.
 
-
-
+5. Changes to `main` are reflected immediately on the live (versioned) website. When a new or
+   updated version is built it pulls all of the docs changes submitted for each prefix (version).
+   For example, the url resulting from building the documentation in the `docs/2.6.0` folder is
+   https://docs.daml.com/2.6.0.
