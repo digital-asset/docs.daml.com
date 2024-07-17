@@ -10,9 +10,9 @@ This folder manages the full build of technical documentation from the following
 
 The process for updating the docs TOCs has some potential pitfalls. Follow the instructions in the main README *carefully* and in order.
 
-* [Setting up this repo locally](https://github.com/digital-asset/docs.daml.com#setting-up-this-repo-locally)
+* [Set up this repo locally](https://github.com/digital-asset/docs.daml.com#setting-up-this-repo-locally)
 * [Build and view the docs locally](#live-preview)
-* [How to commit changes to the docs](#how-to-commit-changes-to-the-docs)
+* [Commit changes to the docs](#how-to-commit-changes-to-the-docs)
 
 :arrow_right: If you encounter any issues, reach out to #product-docs on Slack.
 
