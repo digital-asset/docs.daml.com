@@ -86,7 +86,7 @@ Summary of Ledger API Changes
        | The `CreatedEvent` and `ExercisedEvent` messages used in the `TransactionService` and `EventQueryService` have been extended with a `package_name` field.
        | The `GetTransactionsRequest` has been extended with a new `send_pruned_offsets` field and the `GetTransactionsResponse` with and optional `pruned_offset` filed.
        | The support for the pruning offset subscriptions is announced through the `features.experimental.pruned_offsets.supported` field inside of the `GetLedgerApiVersion` response.
-       | A mew `CommandInspectionService` has been added to `v1/admin` portion of the ledger api grpc interface.
+       | A new `CommandInspectionService` has been added to `v1/admin` portion of the ledger api grpc interface.
        | The support for the command inspection service is announced through the `features.experimental.command_inspection_service.supported` field inside of the `GetLedgerApiVersion` response.
    * - 2.5
      - | A `TraceContext` is returned in messages in response to `TransactionService.GetTransactions`, `TransactionService.GetTransactionTrees`, `TransactionService.GetTransactionByEventId`, `TransactionService.GetTransactionById`, `TransactionService.GetFlatTransactionByEventId`, `TransactionService.GetFlatTransactionById`, `CompletionService.CompletionStream` calls.
