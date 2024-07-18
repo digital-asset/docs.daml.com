@@ -43,6 +43,10 @@ The below lists with which Daml version a new Ledger API version was introduced.
 
    * - Ledger API Version
      - Daml Version
+   * - 2.9
+     - 2.9
+   * - 2.5
+     - 2.8
    * - 2.4
      - 2.7
    * - 2.3
@@ -74,6 +78,23 @@ Summary of Ledger API Changes
 
    * - Ledger API Version
      - Changes
+   * - 2.9
+     - | `ListKnownParties` in the `PartyManagementService` has been extended with paging support. The request contains an optional `page_token` and `page_size` fields and the response a `next_page_token` that allow chaining of the result pages.
+       | The support for paging and the default max page size is announced through the `features.party_management.max_parties_page_size` field inside of the `GetLedgerApiVersion` response.
+       | The `PackageManagementService` has been extended with a new `ValidateDarFile` call.
+       | The `Commands` message used in the `CommandService` and `CommandSubmissionService` has been extended with a `package_id_selection_preference` field.
+       | The `CreatedEvent` and `ExercisedEvent` messages used in the `TransactionService` and `EventQueryService` have been extended with a `package_name` field.
+       | The `GetTransactionsRequest` has been extended with a new `send_pruned_offsets` field and the `GetTransactionsResponse` with and optional `pruned_offset` filed.
+       | The support for the pruning offset subscriptions is announced through the `features.experimental.pruned_offsets.supported` field inside of the `GetLedgerApiVersion` response.
+       | A new `CommandInspectionService` has been added to `v1/admin` portion of the ledger api grpc interface.
+       | The support for the command inspection service is announced through the `features.experimental.command_inspection_service.supported` field inside of the `GetLedgerApiVersion` response.
+   * - 2.5
+     - | A `TraceContext` is returned in messages in response to `TransactionService.GetTransactions`, `TransactionService.GetTransactionTrees`, `TransactionService.GetTransactionByEventId`, `TransactionService.GetTransactionById`, `TransactionService.GetFlatTransactionByEventId`, `TransactionService.GetFlatTransactionById`, `CompletionService.CompletionStream` calls.
+       | The `CreatedEvent` message has been extended with `created_event_blob` and `created_at` fields.
+       | The `DisclosedContract` message has been redefined to contain `template_id`, `contract_id` and `created_event_blob`.
+       | The `InclusiveFilters` has been changed: `template_ids` field has been deprecated and `template_filters` has been added.
+       | A new `TemplateFilter` message has been defined.
+       | The support for the template filter extensions is announced through the `features.experimental.template_filters.supported` field inside of the `GetLedgerApiVersion` response.
    * - 2.4
      - | The IdentityProviderConfig record that contains the Identity Provider Config has been extended with an audience field. When set, the callers using JWT tokens issued by this identity provider are allowed to get an access only if the aud claim includes the string matching this specification.
        | The identity_provider_id field on GRPC requests can be left empty if the JWT token submitted with the request already specifies an identity provider via an iss field.

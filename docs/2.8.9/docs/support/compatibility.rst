@@ -43,6 +43,8 @@ The below lists with which Daml version a new Ledger API version was introduced.
 
    * - Ledger API Version
      - Daml Version
+   * - 2.5
+     - 2.8
    * - 2.4
      - 2.7
    * - 2.3
@@ -74,6 +76,13 @@ Summary of Ledger API Changes
 
    * - Ledger API Version
      - Changes
+   * - 2.5
+     - | A `TraceContext` is returned in messages in response to `TransactionService.GetTransactions`, `TransactionService.GetTransactionTrees`, `TransactionService.GetTransactionByEventId`, `TransactionService.GetTransactionById`, `TransactionService.GetFlatTransactionByEventId`, `TransactionService.GetFlatTransactionById`, `CompletionService.CompletionStream` calls.
+       | The `CreatedEvent` message has been extended with `created_event_blob` and `created_at` fields.
+       | The `DisclosedContract` message has been redefined to contain `template_id`, `contract_id` and `created_event_blob`.
+       | The `InclusiveFilters` has been changed: `template_ids` field has been deprecated and `template_filters` has been added.
+       | A new `TemplateFilter` message has been defined.
+       | The support for the template filter extensions is announced through the `features.experimental.template_filters.supported` field inside of the `GetLedgerApiVersion` response.
    * - 2.4
      - | The IdentityProviderConfig record that contains the Identity Provider Config has been extended with an audience field. When set, the callers using JWT tokens issued by this identity provider are allowed to get an access only if the aud claim includes the string matching this specification.
        | The identity_provider_id field on GRPC requests can be left empty if the JWT token submitted with the request already specifies an identity provider via an iss field.
