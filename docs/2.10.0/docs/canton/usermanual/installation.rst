@@ -22,6 +22,30 @@ This guide uses the reference configurations you can find in the release bundle 
 and explains how to leverage these examples for your purposes. Therefore, any file named in this guide
 refers to subdirectories of the reference configuration example.
 
+.. _hardware-resources:
+
+Hardware Resources
+------------------
+
+Adequate hardware resources need to be available for each Canton node in a
+test, staging, or production environment.  It is recommended to begin with a
+potentially over-provisioned system. Once a long running, performance
+benchmark has proven that the application's NFRs can be met (e.g., application
+request latency, PQS query response time, etc.) then decreasing the available
+resources can be tried, with a follow up rerun of the benchmark to confirm the
+NFRs can still be met.  Alternatively, if the NFRs are not met then the
+available resources should be increased.
+
+As a starting point, the minimum recommended resources are: 
+
+- The physical host, virtual machine, or container has 6 GB of RAM and at least 4 CPU cores.
+- The JVM has at least 4 GB RAM. 
+
+Also, you may want to add ``-XX:+UseG1GC`` to force the JVM to to use the
+``G1`` garbage collector. Experience has shown that the JVM may use a
+different garbage collector in a low resource situation which can result in
+long latencies.
+
 Downloading Canton
 ------------------
 
