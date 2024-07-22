@@ -5,6 +5,7 @@
 
 .. _installation:
 
+
 Installing Canton
 =================
 
@@ -24,14 +25,29 @@ This guide uses the example configurations you can find in the release bundle un
 and explains you how to leverage these examples for your purposes. Therefore, any file named in this guide
 will refer to subdirectories of the advanced configuration example.
 
-If you are using Oracle JVM and testing security provider signatures, note
-that the Canton JAR file embeds the Bouncy Castle provider as a dependency. To
-enable the JVM to verify the signature, put the ``bcprov`` JAR on the
-classpath before the Canton standalone JAR. For example: 
+.. _hardware-resources:
 
-.. code-block:: java
+Hardware Resources
+------------------
 
-    java -cp bcprov-jdk15on-1.70.jar:canton-with-drivers-2.7.4-all.jar com.digitalasset.canton.CantonEnterpriseApp
+Adequate hardware resources need to be available for each Canton node in a
+test, staging, or production environment.  It is recommended to begin with a
+potentially over-provisioned system. Once a long running, performance
+benchmark has proven that the application's NFRs can be met (e.g., application
+request latency, PQS query response time, etc.) then decreasing the available
+resources can be tried, with a follow up rerun of the benchmark to confirm the
+NFRs can still be met.  Alternatively, if the NFRs are not met then the
+available resources should be increased.
+
+As a starting point, the minimum recommended resources are: 
+
+- The physical host, virtual machine, or container has 6 GB of RAM and at least 4 CPU cores.
+- The JVM has at least 4 GB RAM. 
+
+Also, you may want to add ``-XX:+UseG1GC`` to force the JVM to to use the
+``G1`` garbage collector. Experience has shown that the JVM may use a
+different garbage collector in a low resource situation which can result in
+long latencies.
 
 
 Downloading Canton
@@ -45,6 +61,14 @@ you can download the enterprise version of Canton by following the `Installing D
 <https://docs.daml.com/getting-started/installation.html#installing-the-enterprise-edition>`__ and downloading the
 appropriate Canton artifact.
 
+If you are using Oracle JVM and testing security provider signatures, note
+that the Canton JAR file embeds the Bouncy Castle provider as a dependency. To
+enable the JVM to verify the signature, put the ``bcprov`` JAR on the
+classpath before the Canton standalone JAR. For example: 
+
+.. code-block:: java
+
+    java -cp bcprov-jdk15on-1.70.jar:canton-with-drivers-2.7.4-all.jar com.digitalasset.canton.CantonEnterpriseApp
 
 Your Topology
 -------------
