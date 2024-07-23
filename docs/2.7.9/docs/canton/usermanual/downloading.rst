@@ -36,6 +36,9 @@ terms of enterprise and non-functional capabilities:
     * - High Availability
       - :ref:`Yes <ha_user_manual>`
       - No
+    * - `Participant Query Store <https://docs.daml.com/query/pqs-user-guide.html>`__
+      - Yes
+      - No
     * - High Throughput via Microservices
       - :ref:`Yes <ha_user_manual>`
       - No
@@ -45,21 +48,12 @@ terms of enterprise and non-functional capabilities:
     * - Ledger Pruning
       - Yes
       - No
-    * - AWS KMS support
+    * - `AWS KMS, GCP KMS <https://docs.daml.com/canton/usermanual/kms/kms.html>`__ 
       - Yes
       - No
     * - Postgres Backend
       - Yes
       - Yes
-    * - Oracle Backend
-      - Yes
-      - No
-    * - Besu driver
-      - Yes
-      - No
-    * - Fabric driver
-      - Yes
-      - No
 
 Please follow below instructions in order to obtain your copy of Canton.
 
