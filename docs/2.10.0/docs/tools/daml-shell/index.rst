@@ -50,8 +50,7 @@ Running Daml Shell
 ==================
 
 You can run Daml Shell from a ``jar`` artifact or from a ``Docker``
-image (`tag
-list <https://hub.docker.com/repository/docker/digitalasset/daml-shell/tags?ordering=last_updated>`__).
+image.  See the Release Notes for download instructions.
 
 .. code-block:: sh
 
