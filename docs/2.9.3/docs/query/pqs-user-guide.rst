@@ -1,5 +1,5 @@
-PQS Technical User Documentation
-================================
+PQS
+===
 
 Introduction
 ------------
@@ -98,8 +98,8 @@ PQS enables the following key capabilities:
 
 -  Crash-tolerance so it can be restarted safely.
 
-Table of Contents
------------------
+Sections
+~~~~~~~~
 
 -  `Getting Started <#getting-started>`__
 -  `Database <#database>`__
@@ -117,10 +117,10 @@ Table of Contents
 -  `Redaction <#redaction>`__
 
 Getting Started
-===============
+---------------
 
 Pre-requisites
---------------
+~~~~~~~~~~~~~~
 
 To run PQS you need the following:
 
@@ -130,7 +130,7 @@ To run PQS you need the following:
 -  PQS ``.jar`` or Docker image
 
 Running PQS
------------
+~~~~~~~~~~~
 
 Exploring commands and parameters is easiest via the ``--help`` (and
 ``--help-verbose``) arguments: For example, if you are running a
@@ -171,7 +171,7 @@ Or similarly, using Docker:
    Run 'scribe COMMAND --help[-verbose]' for more information on a command.
 
 Preparing the Database
-~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^
 
 Start by investigating the database schema that PQS creates, using the
 ``datastore`` command that is used for administrative operations:
@@ -191,7 +191,7 @@ the produced DDL, or leave it to the ``pipeline`` command to do this on
 an ongoing idempotent basis.
 
 Running the Pipeline
-~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^
 
 The following command connects to a non-auth ledger and replicates the
 latest state of the ledger (excluding prior-history) from the
@@ -228,7 +228,7 @@ defaults:
    terminate it with ``Ctrl-C`` at any time.
 
 Auth
-~~~~
+^^^^
 
 If you are running PQS against a participant that has auth, you must
 provide some credentials. For example:
@@ -245,14 +245,14 @@ provide some credentials. For example:
 For more information see the `Authentication <#auth>`__ section.
 
 Database
-========
+--------
 
 PQS supports a single datastore format known as ``postgres-document``.
 This uses PostgreSQL to store the data in a document-oriented
 (schemaless) way, making extensive use of JSONB.
 
 Ledger Source
--------------
+~~~~~~~~~~~~~
 
 To understand how PQS stores data, you need to understand the ledger
 data model. In simple terms, the Daml ledger is composed of a sequence
@@ -279,7 +279,7 @@ of transactions, which contain events. Events can be:
    state where this was true.
 
 Transaction Data Source
------------------------
+~~~~~~~~~~~~~~~~~~~~~~~
 
 PQS can run in two modes as specified by the ``--pipeline-datasource``
 configuration. The following table shows the differences between the two
@@ -321,7 +321,7 @@ API <#read-api>`__ functions :
 +-----------------------+-------------------+-----------------------+
 
 PostgreSQL Schema
------------------
+~~~~~~~~~~~~~~~~~
 
 The PostgreSQL schema is designed to be generic and not tied to any
 specific Daml model. This is achieved by a fixed schema that relates to
@@ -347,7 +347,7 @@ characteristics, can easily inspect the schema using the command:
    [...]
 
 Objectives
-~~~~~~~~~~
+^^^^^^^^^^
 
 Overall, the objectives of the schema design are to facilitate:
 
@@ -376,7 +376,7 @@ Overall, the objectives of the schema design are to facilitate:
    created.
 
 Design
-~~~~~~
+^^^^^^
 
 To facilitate these objectives, the following design approaches have
 been used:
@@ -414,14 +414,14 @@ been used:
    schema, other than custom JSONB indexes.
 
 Configuration
-=============
+-------------
 
 Several items need to be configured to suit your environment and
 requirements. This section provides an overview of common configuration
 options that you should consider for your deployment:
 
 PQS Configuration
------------------
+~~~~~~~~~~~~~~~~~
 
 PQS ascertains its configuration from:
 
@@ -491,7 +491,7 @@ file, for example:
    dedicated `Logging <#logging>`__ section.
 
 Applying Configuration Changes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 PQS sets is configuration at startup. It does not perform dynamic
 configuration updates, so making a configuration change (such as adding
@@ -506,7 +506,7 @@ a new party, new template, or new interface) requires a restart.
    a empty datastore, will be required.
 
 Contract Filters
-----------------
+~~~~~~~~~~~~~~~~
 
 ``--pipeline-filter-contracts`` specifies an inclusion filter expression
 to determine the Daml templates, interface views and choices include. A
@@ -538,7 +538,7 @@ ignored. For example:
    -  All Templates of included Interface Views
 
 Party Filtering
----------------
+~~~~~~~~~~~~~~~
 
 Similarly, the ``--pipeline-filter-parties`` option specifies an
 inclusion filter expression to determine which parties to supply data
@@ -553,7 +553,7 @@ for. For example:
    ``Bob`` parties, as well as ``Charlie`` except ``Charlie3``
 
 Java Virtual Machine (JVM) Configuration
-----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 JVM configuration is important to ensure that PQS has enough resources
 to run efficiently. At minimum the following should be considered for
@@ -564,11 +564,11 @@ any realistic deployment:
    -XX:+AlwaysPreTouch
    -XX:-UseAdaptiveSizePolicy
 
-   # containers:
+   ## containers:
    -XX:InitialRAMPercentage=75.0
    -XX:MaxRAMPercentage=75.0
 
-   # host/vm:
+   ## host/vm:
    -Xms4g
    -Xmx4g
 
@@ -605,14 +605,14 @@ transactions in the rolling window of the buffer size:
    --source-ledger-buffersize=1024
 
 PostgreSQL Configuration
-------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 Users should at least consider the following PostgreSQL config items
 which are relevant to the workloads it will be expected to satisfy:
 
 .. code:: text
 
-   # postgresql.conf:
+   ## postgresql.conf:
    [autovacuum_*](https://www.postgresql.org/docs/16/runtime-config-autovacuum.html#RUNTIME-CONFIG-AUTOVACUUM)
    [maintenance_work_mem](https://www.postgresql.org/docs/16/runtime-config-resource.html#GUC-MAINTENANCE-WORK-MEM)
    [checkpoint_*](https://www.postgresql.org/docs/16/runtime-config-wal.html#RUNTIME-CONFIG-WAL-CHECKPOINTS)
@@ -623,7 +623,7 @@ In cases where high performance is required, a DBA will need to tune
 PostgreSQL for the intended workload and infrastructure.
 
 PostgreSQL Users
-----------------
+~~~~~~~~~~~~~~~~
 
 To secure the PostgreSQL database, you should consider the rights
 granted to various users that connect to the database. At minimum the
@@ -644,7 +644,7 @@ privileges <https://www.postgresql.org/docs/16/ddl-priv.html>`__:
 -  **Indexing**: Users that maintain JSONB indexes - CREATE
 
 Host Infrastructure
--------------------
+~~~~~~~~~~~~~~~~~~~
 
 The following are the minimum requirements for the host operating system
 running any kind of production workload, and should be seen as a
@@ -662,7 +662,7 @@ PostgreSQL:
 -  CPU: 8 cores
 
 Host Environment
-----------------
+~~~~~~~~~~~~~~~~
 
 PQS requires write access to the ``/tmp`` directory in order temporarily
 cache Daml packages. The size of this cache is proportional to the size
@@ -672,7 +672,7 @@ Containerized environments should configure a disk-based mount, as it is
 not important for overall performance.
 
 Testing
--------
+~~~~~~~
 
 Of course all of these settings need to be independently assessed and
 tuned. Users should establish performance testing and benchmarking
@@ -696,7 +696,7 @@ sense of the performance characteristics, and allow you to adapt it into
 something that matches your workloads.
 
 Resilience
-==========
+----------
 
 PQS is designed to operate as a long-running process which uses these
 principles to enhance availability:
@@ -711,7 +711,7 @@ principles to enhance availability:
    continuing from the latest checkpoint.
 
 High Availability
------------------
+~~~~~~~~~~~~~~~~~
 
 Multiple isolated instances of PQS can be instantiated without any
 cross-dependency. This allows for an active-active high availability
@@ -725,7 +725,7 @@ non-determinism. PQS's Read API provides capabilities to deal with this
 |image3|
 
 Retries
--------
+~~~~~~~
 
 PQS's ``pipeline`` command is a unidirectional streaming process that
 heavily relies on the availability of its ``source`` and ``target``
@@ -770,7 +770,7 @@ recoverable:
 .. _configuration-1:
 
 Configuration
-~~~~~~~~~~~~~
+^^^^^^^^^^^^^
 
 The following configuration options are available to control the retry
 behavior of PQS:
@@ -798,11 +798,11 @@ Configuring ``--retry-counter-reset`` controls the period of *stability*
 after which the retry counters are reset across the board.
 
 Logging
-~~~~~~~
+^^^^^^^
 
 .. code:: text
 
-   # Irrelevant log lines omitted
+   ## Irrelevant log lines omitted
    $ scribe.jar pipeline ledger postgres-document \
        --pipeline-ledger-start Oldest --pipeline-ledger-stop Never \
        --retry-backoff-base=PT10S --retry-counter-duration=PT10M --retry-counter-attempts=42
@@ -829,7 +829,7 @@ Logging
            Suppressed: java.net.ConnectException: Connection refused application=scribe
 
 Metrics
-~~~~~~~
+^^^^^^^
 
 The following metrics are available to monitor stability of PQS's
 dependencies. See the `observability <#observability>`__ section for
@@ -837,20 +837,20 @@ more details on general observability:
 
 .. code:: text
 
-   # TYPE app_restarts_total counter
-   # HELP app_restarts_total Number of total app restarts due to recoverable errors
+   ## TYPE app_restarts_total counter
+   ## HELP app_restarts_total Number of total app restarts due to recoverable errors
    app_restarts_total{,exception="Recoverable GRPC exception."} 5.0
 
-   # TYPE grpc_up gauge
-   # HELP grpc_up Grpc channel is up
+   ## TYPE grpc_up gauge
+   ## HELP grpc_up Grpc channel is up
    grpc_up{} 1.0
 
-   # TYPE jdbc_conn_pool_up gauge
-   # HELP jdbc_conn_pool_up JDBC connection pool is up
+   ## TYPE jdbc_conn_pool_up gauge
+   ## HELP jdbc_conn_pool_up JDBC connection pool is up
    jdbc_conn_pool_up{} 1.0
 
 Retry Counters Reset
-~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^
 
 If PQS encounters network unavailability it starts incrementing retry
 counters with each attempt. These counters are reset only after a period
@@ -862,7 +862,7 @@ be illustrated with an example below:
 
 .. code:: text
 
-   # --retry-counter-reset=PT5M
+   ## --retry-counter-reset=PT5M
 
    time -->       1:00            5:00               10:00
                    v               v                   v
@@ -882,7 +882,7 @@ last failure (point B), such as after operating without any failures for
 5 minutes (point C).
 
 Exit codes
-~~~~~~~~~~
+^^^^^^^^^^
 
 PQS terminates with the following exit codes:
 
@@ -893,7 +893,7 @@ PQS terminates with the following exit codes:
 .. _ledger-streaming--recovery:
 
 Ledger Streaming & Recovery
----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 On (re-)start, PQS determines last saved checkpoint and continues
 incremental processing from that point onward. PQS is able to start and
@@ -946,7 +946,7 @@ available history, and also catering for resumption/recovery processing.
    see `History Slicing <#history-slicing>`__.
 
 Read API
-========
+--------
 
 While data consumers do not communicate with the PQS process directly,
 they do use an API that PQS has provisioned in the database itself. This
@@ -955,17 +955,17 @@ users to access the ledger. It consists of a set of functions that
 should be the only database artifacts readers interact with.
 
 How The Ledger Models Time
---------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A key aspect to consider when querying the ledger is the fact that it
 makes the history over time available. Additionally, understanding time
 in a distributed environment can be challenging because there are many
 different clocks available. If you are familiar with Daml and its time
-model, skip this section and move to the section `PQS Time
-Model <#scribe-time-model>`__.
+model, skip this section and move to the section `Time
+Model <#time-model>`__.
 
 Offset
-~~~~~~
+^^^^^^
 
 A participant models time using an index called an *offset*. An offset
 is a unique index of the participant's local ledger. You can think of
@@ -985,7 +985,7 @@ Offsets are represented as strings, encoded in zero-padded hexadecimal
 form. eg. ``0000000000000000A8``
 
 Ledger Time
-~~~~~~~~~~~
+^^^^^^^^^^^
 
 Ledger time is an approximate wall-clock time (within a bounded skew)
 that preserves causal ordering. That is, if a contract is created at a
@@ -993,7 +993,7 @@ certain time, it cannot be used until after that time. The ledger time
 is represented by the ``created_at`` field in the PQS Read API.
 
 Tranasction ID
-~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^
 
 A transaction ID corresponds to an offset in the following ways:
 
@@ -1010,7 +1010,7 @@ A transaction ID corresponds to an offset in the following ways:
    information, other than identification.
 
 Which should I use?
-~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^
 
 Different types of data analysis require different tools. For example in
 these types of analysis the following identifiers can be useful:
@@ -1025,8 +1025,8 @@ these types of analysis the following identifiers can be useful:
    wall-clock time, with bounded skew. This can be useful depending on
    your need for precision.
 
-PQS Time Model
---------------
+Time Model
+~~~~~~~~~~
 
 PQS provides all three identifiers, but offset is defines the order.
 With this PQS is able to provide a consistent view of ledger
@@ -1046,7 +1046,7 @@ You can also see that the offsets (prefix) are common to the participant
 and PQS, but the Transaction IDs (suffix) are shared throughout.
 
 Offset Management
------------------
+~~~~~~~~~~~~~~~~~
 
 The following functions control the temporal perspective of the ledger,
 aand allow you to control how you consider time in your queries. Since
@@ -1135,7 +1135,7 @@ are equivalent:
    ...
 
 JSONB Encoding
---------------
+~~~~~~~~~~~~~~
 
 PQS stores the ledger using a `Daml-LF JSON-based
 encoding <https://docs.daml.com/json-api/lf-value-specification.html#daml-lf-json-encoding>`__
@@ -1154,7 +1154,7 @@ types <https://json-schema.org/understanding-json-schema/reference/index.html>`_
 as follows:
 
 Primitive Types
-~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^
 
 -  ``ContractID``: represented as
    `string <https://json-schema.org/understanding-json-schema/reference/string.html>`__.
@@ -1179,7 +1179,7 @@ Primitive Types
    ``None`` and ``Some``.
 
 User-Defined Types
-~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^
 
 -  ``Record``: represented as
    `object <https://json-schema.org/understanding-json-schema/reference/object.html>`__,
@@ -1193,7 +1193,7 @@ User-Defined Types
    where the value is the constructor name.
 
 Querying Patterns
------------------
+~~~~~~~~~~~~~~~~~
 
    Scenario: A user wants to query the most recent available state of
    the ledger. This user treats the ledger's Active Contract Set as a
@@ -1329,7 +1329,7 @@ be used, and in the process returns what these offsets are:
           set_oldest(NULL) AS oldest_offset;
 
 Summary functions
------------------
+~~~~~~~~~~~~~~~~~
 
 Summary functions are available to provide an overview of the ledger
 data available within the nominated offset range:
@@ -1367,7 +1367,7 @@ Valid values for ``fqn_type`` are:
    ...
 
 Lookup functions
-----------------
+~~~~~~~~~~~~~~~~
 
 -  ``lookup_contract(contract_id)`` is a mechanism to retrieve contract
    data without needing to know its Daml qualified name. The function
@@ -1400,7 +1400,7 @@ Lookup functions
       (1 row)
 
 Optimization
-------------
+~~~~~~~~~~~~
 
 This section briefly discusses optimizing the PQS database to make the
 most of the capabilities of PostgreSQL. The topic is broad, and there
@@ -1413,7 +1413,7 @@ Familiarity with JSONB is essential to optimize queries. The following
 sections provide some tips to help you get started.
 
 Indexing
-~~~~~~~~
+^^^^^^^^
 
 Indexes are an important tool for improving the performance of queries
 with JSONB content. Users are expected to create JSONB-based indexes to
@@ -1459,7 +1459,7 @@ PostgreSQL manual.
 +---------------+-----------------------------------------------------+
 
 Pagination
-~~~~~~~~~~
+^^^^^^^^^^
 
 Pagination refers to splitting up large result sets into pages of up to
 ``n`` results. It can allow user navigation, such as moving to the next
@@ -1525,7 +1525,7 @@ index for the key column:
      LIMIT page_size
 
 psql Tips
-~~~~~~~~~
+^^^^^^^^^
 
 Type ``psql <dbname>`` on the command line to enter the PostgreSQL REPL
 (if in doubt, use ``postgres`` as the database name). Some useful
@@ -1562,7 +1562,7 @@ To manage users:
 The script continues to execute if a command fails.
 
 Query Analysis
-~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^
 
 In ``psql`` you can prefix a query with ``EXPLAIN ANALYZE`` to get an
 explanation of how the query would be executed. This helps verify that a
@@ -1574,7 +1574,7 @@ query executes as expected, using the indexes that you expect it to.
    SELECT COUNT(*) FROM ...;
 
 Pruning
-=======
+-------
 
 Pruning ledger data from the database can help reduce storage size and
 improve query performance by removing old and irrelevant data. PQS
@@ -1587,7 +1587,7 @@ the ``prune_to_offset`` PostgreSQL function.
    ``prune_to_offset`` deletes data irrevocably.
 
 Data Deletion and Changes
--------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Both pruning approaches (CLI and PostgreSQL function) share the same
 behavior in terms of data deletion and changes.
@@ -1632,7 +1632,7 @@ Pruning is a destructive operation and cannot be undone. If necessary,
 make sure to back up your data before performing any pruning operations.
 
 Constraints
------------
+~~~~~~~~~~~
 
 Some constraints apply to pruning operations:
 
@@ -1643,7 +1643,7 @@ Some constraints apply to pruning operations:
    checkpoint of the contiguous history. If so, it raises an error.
 
 Pruning from the command line
------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The PQS CLI provides a ``prune`` command that allows you to prune the
 ledger data up to a specified offset, timestamp, or duration.
@@ -1671,7 +1671,7 @@ any data. To execute the pruning operation, add the
    ...
 
 Example with Timestamp and Duration
------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In addition to providing an offset as ``--prune-target``, a timestamp or
 duration can also be used as a pruning cut-off. For example, to prune
@@ -1692,7 +1692,7 @@ command:
    ...
 
 Pruning from SQL
-----------------
+~~~~~~~~~~~~~~~~
 
 The ``prune_to_offset()`` function is a PostgreSQL function that allows
 you to prune the ledger data up to a specified offset. It has the same
@@ -1718,7 +1718,7 @@ following query:
    SELECT * FROM prune_to_offset(nearest_offset(interval '30 days'));
 
 Authentication
-==============
+--------------
 
 To run PQS with authentication you need to turn on via
 ``--source-ledger-auth OAuth``. PQS uses `OAuth 2.0 Client Credentials
@@ -1761,7 +1761,7 @@ Full example:
    [...]
 
 Audience-Based Token
---------------------
+~~~~~~~~~~~~~~~~~~~~
 
 For `Audience-Based
 Tokens <https://docs.daml.com/app-dev/authorization.html#audience-based-tokens>`__
@@ -1780,7 +1780,7 @@ use the ``--pipeline-oauth-parameters-audience`` parameter:
    ...
 
 Scope-Based Token
------------------
+~~~~~~~~~~~~~~~~~
 
 For `Scope-Based
 Tokens <https://docs.daml.com/app-dev/authorization.html#scope-based-tokens>`__
@@ -1808,7 +1808,7 @@ use the ``--pipeline-oauth-scope`` parameter:
    is configured.
 
 Static Access Token
--------------------
+~~~~~~~~~~~~~~~~~~~
 
 Alternatively, you can configure PQS to use a static access token
 (meaning it is not refreshed) using the ``--pipeline-oauth-accesstoken``
@@ -1822,7 +1822,7 @@ parameter:
    ...
 
 Ledger API Users and Daml Parties
----------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 PQS connects to a participant (via Ledger API) as a user, defined in the
 OAuth server. After authenticating, the participant has the
@@ -1832,7 +1832,7 @@ can be further restricted via the ``--pipeline-filter-parties`` filter
 parameter.
 
 Token expiry
-------------
+~~~~~~~~~~~~
 
 JWT tokens have an expiration time. PQS has a mechanism to automatically
 request a new access token from the Auth Server, before the old access
@@ -1850,7 +1850,7 @@ code ``ABORTED`` and description ``ACCESS_TOKEN_EXPIRED`` and PQS
 streams from the offset of the last successfully processed transaction.
 
 History Slicing
-===============
+---------------
 
 As described in `Ledger Streaming &
 Recovery <003-resilience.md#ledger-streaming--recovery>`__ you can use
@@ -1892,10 +1892,10 @@ You cannot use:
    -  **Datastore** represents data in the PQS database.
 
 Reset Procedure
-===============
+---------------
 
 Reset
------
+~~~~~
 
 Reset-to-offset is a manual procedure that deletes all transactions from
 the PQS database after a given offset. This allows you to restart
@@ -1966,7 +1966,7 @@ The procedure:
 .. _constraints-1:
 
 Constraints
------------
+~~~~~~~~~~~
 
 The provided target offset must be within the bounds of the contiguous
 history. If the target offset is outside the bounds, it raises an error.
@@ -1974,10 +1974,10 @@ history. If the target offset is outside the bounds, it raises an error.
 .. _logging-1:
 
 Logging
-=======
+-------
 
 Log Level
----------
+~~~~~~~~~
 
 Set log level with ``--logger-level``. Possible value are ``All``,
 ``Fatal``, ``Error``, ``Warning``, ``Info`` (default), ``Debug``,
@@ -1988,7 +1988,7 @@ Set log level with ``--logger-level``. Possible value are ``All``,
    --logger-level=Debug
 
 Per-Logger Log Level
---------------------
+~~~~~~~~~~~~~~~~~~~~
 
 Use ``--logger-mappings`` to adjust the log level for individual
 loggers. For example, to remove Netty network traffic from a more
@@ -2000,7 +2000,7 @@ detailed overall log:
    --logger-mappings-io.grpc.netty=Trace
 
 Log Pattern
------------
+~~~~~~~~~~~
 
 With ``--logger-pattern``, use one of the predefined patterns, such as
 ``Plain`` (default), ``Standard`` (standard format used in DA
@@ -2012,14 +2012,14 @@ To use your custom format, provide its string representation, such as:
 ``--logger-pattern="%highlight{%fixed{1}{%level}} [%fiberId] %name:%line %highlight{%message} %highlight{%cause} %kvs"``
 
 Log Format for Console Output
------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Use ``--logger-format`` to set the log format. Possible values are
 ``Plain`` (default) or ``Json``. These formats can be used for the
 ``pipeline`` command.
 
 Log Format for File Output
---------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Use ``--logger-format`` to set the log format. Possible values are
 ``Plain`` (default), ``Json``, ``PlainAsync`` and ``JsonAsync``. They
@@ -2028,13 +2028,13 @@ can be used for the interactive commands, such as ``prune``. For
 destination file asynchronously.
 
 Destination File for File Output
---------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Use ``--logger-destination`` to set the path to the destination file
 (default: output.log) for interactive commands, such as ``prune``.
 
 Log Format and Log Pattern Combinations
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -  Plain/Plain
 
@@ -2098,7 +2098,7 @@ Log Format and Log Pattern Combinations
    Json attribute-value pair.
 
 Database Schema Evolution
-=========================
+-------------------------
 
 This section describe how PQS manages the evolution of its database
 schema between releases. This is important for operators who need to
@@ -2112,7 +2112,7 @@ to troubleshoot any issues that may arise.
    and performance characteristics.
 
 Baselining
-----------
+~~~~~~~~~~
 
 Prior to version ``v0.2.1`` PQS did not have a schema versioning
 mechanism. At this version, PQS gained a schema management capability
@@ -2167,14 +2167,14 @@ application of any subsequent patches:
    success        | t
 
 Schema Upgrades
----------------
+~~~~~~~~~~~~~~~
 
 When running a new version, PQS automatically applies any missing
 patches to the schema. This means that new PQS releases seamlessly
 evolve the schema to the latest required version.
 
 Schema Dump
------------
+~~~~~~~~~~~
 
 Some deployment environments require far stricter access control than
 letting operational processes perform such intrusive database schema
@@ -2241,7 +2241,7 @@ off automatic schema application when launching the pipeline:
        ...
 
 Monitoring Progress
--------------------
+~~~~~~~~~~~~~~~~~~~
 
 The logging output can be observed to monitor the progress of schema
 migration:
@@ -2271,10 +2271,10 @@ More detailed logs can be obtained by setting the log level to
 refer to the `Logging <#logging>`__ section.
 
 Troubleshooting
----------------
+~~~~~~~~~~~~~~~
 
 Problem 1: An application's Flyway conflicts with PQS's Flyway
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 An application built around data that PQS exports from the ledger may
 also manage its own database migrations via Flyway (embedded,
@@ -2384,7 +2384,7 @@ without issues.
 
 .. code:: text
 
-   # the application applies missing migrations
+   ## the application applies missing migrations
    $ flyway -configFiles=conf/flyway.toml migrate -table=myapp_version
    Flyway Community Edition 10.12.0 by Redgate
 
@@ -2463,7 +2463,7 @@ different versioning schemes.
 .. raw:: html
 
    </details>
-   # Relational View
+   ## Relational View
 
 Daml contracts are the fundamental unit of runtime data stored on the
 ledger. In addition to storing data, contracts allow attaching certain
@@ -2490,7 +2490,7 @@ general terms. This document introduces techniques and patterns that can
 be used to help express Daml's world through relational means.
 
 Mapping Daml Models to Relational World
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The following code represents a data cluster related to issuer approval
 of a set of token changes for an issue. Irrelevant details are omitted.
@@ -2724,7 +2724,7 @@ more traditional ("rectangular") relational manner. To achieve this:
    multiple sources.
 
 Considerations
---------------
+~~~~~~~~~~~~~~
 
 Daml's data model is more sophisticated than SQL, and cannot be mapped
 directly to a relational model.
@@ -2758,7 +2758,7 @@ neat way to enrich your choice exercises, exposing more essential data
 rather than technical details.
 
 Definitions
------------
+~~~~~~~~~~~
 
 .. important::
    ``Although the examples below`` have a 1-to-1 match in
@@ -2818,7 +2818,7 @@ Definitions
 .. _queries--results:
 
 Queries & Results
------------------
+~~~~~~~~~~~~~~~~~
 
 The two contrived examples provided here demonstrate how PQS's data can
 be turned almost indistinguishable to what one would expect to see in a
@@ -2949,7 +2949,7 @@ database size - more details can be found
    Time: 29250.764 ms (00:29.251)
 
 Performance Optimizations
--------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Assuming you could arrive to a set of composable SQL abstractions that
 allow you to express ledger data in relational terms, the next step is
@@ -2968,7 +2968,7 @@ your abstractions through either:
 -  Custom triggers
 
 Materialized Views
-~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^
 
 One way to speed up your queries, depending on your use case, is to opt
 for materialized views. Note that materialized views are not
@@ -3132,7 +3132,7 @@ data is now essentially in flattened tables with indexes, which allows
 Postgres to use its full capabilities, as reflected in the query plans.
 
 Custom Triggers
-~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^
 
 Another option is to take a less declarative approach and use custom
 triggers to maintain the desired tables. While this approach offers
@@ -3350,7 +3350,7 @@ maintenance cost upfront during ingestion, while views defer this cost
 over time, albeit at the expense of data availability/recency.
 
 Trade-Offs Summary
-------------------
+~~~~~~~~~~~~~~~~~~
 
 The table below summarizes the trade-offs against various dimensions
 across the approaches discussed in this document.
@@ -3396,13 +3396,13 @@ across the approaches discussed in this document.
      ...
 
 Observability
-=============
+-------------
 
 This describes observability features of PQS, which are designed to help
 you monitor health and performance of the application.
 
 Underlying Mechanism
---------------------
+~~~~~~~~~~~~~~~~~~~~
 
 PQS opted to incorporate OpenTelemetry APIs to provide its observability
 features. All three sources of signals (traces, metrics, and logs) can
@@ -3448,7 +3448,7 @@ get started. For more details, refer to the official documentation:
        # ...
 
 Provided Metrics
-----------------
+~~~~~~~~~~~~~~~~
 
 Assuming PQS exposes metrics as described above, you can access the
 following metrics at ``http://localhost:9464/metrics``. Each metric is
@@ -3616,140 +3616,140 @@ Prometheus output):
 
 .. code:: text
 
-   # TYPE pipeline_wp_prepared_statements_size_max gauge
-   # HELP pipeline_wp_prepared_statements_size_max Number of in-flight units of work in pipeline_wp_prepared_statements wait point
+   ## TYPE pipeline_wp_prepared_statements_size_max gauge
+   ## HELP pipeline_wp_prepared_statements_size_max Number of in-flight units of work in pipeline_wp_prepared_statements wait point
    pipeline_wp_prepared_statements_size_max{} 1.0 1713928633985
 
-   # TYPE pipeline_wp_prepared_statements_size histogram
-   # HELP pipeline_wp_prepared_statements_size Number of in-flight units of work in pipeline_wp_prepared_statements wait point
+   ## TYPE pipeline_wp_prepared_statements_size histogram
+   ## HELP pipeline_wp_prepared_statements_size Number of in-flight units of work in pipeline_wp_prepared_statements wait point
    pipeline_wp_prepared_statements_size_count{} 554.0 1713928633985
    pipeline_wp_prepared_statements_size_sum{} 277.0 1713928633985
    pipeline_wp_prepared_statements_size_bucket{,le="1.0"} 554.0 1713928633985
    ...
 
-   # TYPE pipeline_wp_prepared_statements_total counter
-   # HELP pipeline_wp_prepared_statements_total Number of units of work processed in pipeline_wp_prepared_statements wait point
+   ## TYPE pipeline_wp_prepared_statements_total counter
+   ## HELP pipeline_wp_prepared_statements_total Number of units of work processed in pipeline_wp_prepared_statements wait point
    pipeline_wp_prepared_statements_total{} 277.0 1713928633985
 
-   # TYPE pipeline_events_total counter
-   # HELP pipeline_events_total Processed ledger events
+   ## TYPE pipeline_events_total counter
+   ## HELP pipeline_events_total Processed ledger events
    pipeline_events_total{,template="d0f09fe42c762a6132537874d4255a7be044a94d554c48a548e3f88dc8f2a5f5:DA.Register:IssuerProposal",type="create"} 289.0 1713928633985
    ...
 
-   # TYPE pipeline_prepare_batch_latency_max gauge
-   # HELP pipeline_prepare_batch_latency_max Latency of preparing batches of statements
+   ## TYPE pipeline_prepare_batch_latency_max gauge
+   ## HELP pipeline_prepare_batch_latency_max Latency of preparing batches of statements
    pipeline_prepare_batch_latency_max{,status="success"} 0.005862959 1713928633985
 
-   # TYPE pipeline_prepare_batch_latency histogram
-   # HELP pipeline_prepare_batch_latency Latency of preparing batches of statements
+   ## TYPE pipeline_prepare_batch_latency histogram
+   ## HELP pipeline_prepare_batch_latency Latency of preparing batches of statements
    pipeline_prepare_batch_latency_count{,status="success"} 277.0 1713928633985
    pipeline_prepare_batch_latency_sum{,status="success"} 0.05226997100000001 1713928633985
    pipeline_prepare_batch_latency_bucket{,status="success",le="0.001"} 271.0 1713928633985
    ...
 
-   # TYPE pipeline_wp_batched_statements_size_max gauge
-   # HELP pipeline_wp_batched_statements_size_max Number of in-flight units of work in pipeline_wp_batched_statements wait point
+   ## TYPE pipeline_wp_batched_statements_size_max gauge
+   ## HELP pipeline_wp_batched_statements_size_max Number of in-flight units of work in pipeline_wp_batched_statements wait point
    pipeline_wp_batched_statements_size_max{} 1.0 1713928633985
 
-   # TYPE pipeline_convert_transaction_max gauge
-   # HELP pipeline_convert_transaction_max Latency of converting transactions
+   ## TYPE pipeline_convert_transaction_max gauge
+   ## HELP pipeline_convert_transaction_max Latency of converting transactions
    pipeline_convert_transaction_max{,status="success"} 0.076553251 1713928633985
 
-   # TYPE pipeline_wp_events_size_max gauge
-   # HELP pipeline_wp_events_size_max Number of in-flight units of work in pipeline_wp_events wait point
+   ## TYPE pipeline_wp_events_size_max gauge
+   ## HELP pipeline_wp_events_size_max Number of in-flight units of work in pipeline_wp_events wait point
    pipeline_wp_events_size_max{} 30.0 1713928633985
 
-   # TYPE pipeline_wp_statements_size histogram
-   # HELP pipeline_wp_statements_size Number of in-flight units of work in pipeline_wp_statements wait point
+   ## TYPE pipeline_wp_statements_size histogram
+   ## HELP pipeline_wp_statements_size Number of in-flight units of work in pipeline_wp_statements wait point
    pipeline_wp_statements_size_count{} 3322.0 1713928633985
    pipeline_wp_statements_size_sum{} 2295.0 1713928633985
    pipeline_wp_statements_size_bucket{,le="506.0"} 3322.0 1713928633985
    ...
 
-   # TYPE pipeline_wp_batched_statements_total counter
-   # HELP pipeline_wp_batched_statements_total Number of units of work processed in pipeline_wp_batched_statements wait point
+   ## TYPE pipeline_wp_batched_statements_total counter
+   ## HELP pipeline_wp_batched_statements_total Number of units of work processed in pipeline_wp_batched_statements wait point
    pipeline_wp_batched_statements_total{} 277.0 1713928633985
 
-   # TYPE watermark_ix gauge
-   # HELP watermark_ix Current watermark index (transaction ordinal number for consistent reads)
+   ## TYPE watermark_ix gauge
+   ## HELP watermark_ix Current watermark index (transaction ordinal number for consistent reads)
    watermark_ix{} 1923.0 1713928633985
 
-   # TYPE pipeline_execute_batch_latency histogram
-   # HELP pipeline_execute_batch_latency Latency of executing batches of statements
+   ## TYPE pipeline_execute_batch_latency histogram
+   ## HELP pipeline_execute_batch_latency Latency of executing batches of statements
    pipeline_execute_batch_latency_count{,status="success"} 277.0 1713928633985
    pipeline_execute_batch_latency_sum{,status="success"} 1.2716064169999988 1713928633985
    pipeline_execute_batch_latency_bucket{,status="success",le="0.001"} 0.0 1713928633985
    ...
 
-   # TYPE jdbc_conn_use histogram
-   # HELP jdbc_conn_use Latency of database connections usage
+   ## TYPE jdbc_conn_use histogram
+   ## HELP jdbc_conn_use Latency of database connections usage
    jdbc_conn_use_count{,result="success"} 563.0 1713928633985
    jdbc_conn_use_sum{,result="success"} 3.2197140040000014 1713928633985
    jdbc_conn_use_bucket{,result="success",le="0.001"} 0.0 1713928633985
    ...
 
-   # TYPE pipeline_wp_batched_statements_size histogram
-   # HELP pipeline_wp_batched_statements_size Number of in-flight units of work in pipeline_wp_batched_statements wait point
+   ## TYPE pipeline_wp_batched_statements_size histogram
+   ## HELP pipeline_wp_batched_statements_size Number of in-flight units of work in pipeline_wp_batched_statements wait point
    pipeline_wp_batched_statements_size_count{} 554.0 1713928633985
    pipeline_wp_batched_statements_size_sum{} 277.0 1713928633985
    pipeline_wp_batched_statements_size_bucket{,le="1.0"} 554.0 1713928633985
    ...
 
-   # TYPE pipeline_wp_events_size histogram
-   # HELP pipeline_wp_events_size Number of in-flight units of work in pipeline_wp_events wait point
+   ## TYPE pipeline_wp_events_size histogram
+   ## HELP pipeline_wp_events_size Number of in-flight units of work in pipeline_wp_events wait point
    pipeline_wp_events_size_count{} 3548.0 1713928633985
    pipeline_wp_events_size_sum{} 2997.0 1713928633985
    pipeline_wp_events_size_bucket{,le="506.0"} 3548.0 1713928633985
    ...
 
-   # TYPE pipeline_convert_transaction histogram
-   # HELP pipeline_convert_transaction Latency of converting transactions
+   ## TYPE pipeline_convert_transaction histogram
+   ## HELP pipeline_convert_transaction Latency of converting transactions
    pipeline_convert_transaction_count{,status="success"} 1621.0 1713928633985
    pipeline_convert_transaction_sum{,status="success"} 0.6464576010000019 1713928633985
    pipeline_convert_transaction_bucket{,status="success",le="0.001"} 1565.0 1713928633985
    ...
 
-   # TYPE jdbc_conn_use_max gauge
-   # HELP jdbc_conn_use_max Latency of database connections usage
+   ## TYPE jdbc_conn_use_max gauge
+   ## HELP jdbc_conn_use_max Latency of database connections usage
    jdbc_conn_use_max{,result="success"} 0.312662167 1713928633985
 
-   # TYPE pipeline_wp_watermarks_size histogram
-   # HELP pipeline_wp_watermarks_size Number of in-flight units of work in pipeline_wp_watermarks wait point
+   ## TYPE pipeline_wp_watermarks_size histogram
+   ## HELP pipeline_wp_watermarks_size Number of in-flight units of work in pipeline_wp_watermarks wait point
    pipeline_wp_watermarks_size_count{} 554.0 1713928633985
    pipeline_wp_watermarks_size_sum{} 277.0 1713928633985
    pipeline_wp_watermarks_size_bucket{,le="1.0"} 554.0 1713928633985
    ...
 
-   # TYPE pipeline_wp_statements_size_max gauge
-   # HELP pipeline_wp_statements_size_max Number of in-flight units of work in pipeline_wp_statements wait point
+   ## TYPE pipeline_wp_statements_size_max gauge
+   ## HELP pipeline_wp_statements_size_max Number of in-flight units of work in pipeline_wp_statements wait point
    pipeline_wp_statements_size_max{} 30.0 1713928633985
 
-   # TYPE pipeline_wp_statements_total counter
-   # HELP pipeline_wp_statements_total Number of units of work processed in pipeline_wp_statements wait point
+   ## TYPE pipeline_wp_statements_total counter
+   ## HELP pipeline_wp_statements_total Number of units of work processed in pipeline_wp_statements wait point
    pipeline_wp_statements_total{} 1927.0 1713928633985
 
-   # TYPE pipeline_wp_watermarks_total counter
-   # HELP pipeline_wp_watermarks_total Number of units of work processed in pipeline_wp_watermarks wait point
+   ## TYPE pipeline_wp_watermarks_total counter
+   ## HELP pipeline_wp_watermarks_total Number of units of work processed in pipeline_wp_watermarks wait point
    pipeline_wp_watermarks_total{} 277.0 1713928633985
 
-   # TYPE pipeline_wp_watermarks_size_max gauge
-   # HELP pipeline_wp_watermarks_size_max Number of in-flight units of work in pipeline_wp_watermarks wait point
+   ## TYPE pipeline_wp_watermarks_size_max gauge
+   ## HELP pipeline_wp_watermarks_size_max Number of in-flight units of work in pipeline_wp_watermarks wait point
    pipeline_wp_watermarks_size_max{} 1.0 1713928633985
 
-   # TYPE pipeline_execute_batch_latency_max gauge
-   # HELP pipeline_execute_batch_latency_max Latency of executing batches of statements
+   ## TYPE pipeline_execute_batch_latency_max gauge
+   ## HELP pipeline_execute_batch_latency_max Latency of executing batches of statements
    pipeline_execute_batch_latency_max{,status="success"} 0.029142417 1713928633985
 
-   # TYPE app_restarts_total counter
-   # HELP app_restarts_total Number of total app restarts due to recoverable errors
+   ## TYPE app_restarts_total counter
+   ## HELP app_restarts_total Number of total app restarts due to recoverable errors
    app_restarts_total{,exception="Recoverable GRPC exception."} 5.0
 
-   # TYPE grpc_up gauge
-   # HELP grpc_up Grpc channel is up
+   ## TYPE grpc_up gauge
+   ## HELP grpc_up Grpc channel is up
    grpc_up{} 1.0
 
-   # TYPE jdbc_conn_pool_up gauge
-   # HELP jdbc_conn_pool_up JDBC connection pool is up
+   ## TYPE jdbc_conn_pool_up gauge
+   ## HELP jdbc_conn_pool_up JDBC connection pool is up
    jdbc_conn_pool_up{} 1.0
 
 .. raw:: html
@@ -3757,7 +3757,7 @@ Prometheus output):
    </details>
 
 Example Dashboard
------------------
+~~~~~~~~~~~~~~~~~
 
 Based on the metrics described above, it is possible to build a
 comprehensive dashboard to monitor PQS. You may want to refer to the
@@ -3777,7 +3777,7 @@ as a starting point for your own.
    </details>
 
 Health Check
-------------
+~~~~~~~~~~~~
 
 The health of the PQS process can be monitored using the health check
 endpoint ``/livez``. The health check endpoint is available at the
@@ -3789,7 +3789,7 @@ endpoint ``/livez``. The health check endpoint is available at the
    {"status":"ok"}
 
 Redaction
-=========
+---------
 
 The redaction feature enables removal of sensitive or personally
 identifiable information from contracts and exercises within the PQS
@@ -3806,7 +3806,7 @@ while for exercises, the ``argument`` and ``result`` fields are
 redacted.
 
 Conditions for Redaction
-------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 The following conditions apply to contracts and interface views:
 
@@ -3820,10 +3820,10 @@ label to identify the redaction and provide information about its
 reason, and correlate with other systems that coordinate such activity.
 
 Examples
---------
+~~~~~~~~
 
 Redacting an Archived Contract
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To redact an archived contract, use the ``redact_contract`` function by
 providing the ``contract_id`` and a ``redaction_id``. The intent of the
@@ -3840,7 +3840,7 @@ Redaction is applied to the contract and its interface views, if any,
 and it returns the number of affected entries.
 
 Redacting a Choice Exercise
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To redact an exercise, use the ``redact_exercise`` function by providing
 the ``event_id`` of the exercise and a ``redaction_id``. This NULLs the
@@ -3852,7 +3852,7 @@ the ``event_id`` of the exercise and a ``redaction_id``. This NULLs the
    SELECT redact_exercise('<event_id>', '<redaction_id>');
 
 Accessing Redaction Information
--------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The ``redaction_id`` of a contract is exposed as a column in the
 following functions of the read API. The columns ``payload`` and
