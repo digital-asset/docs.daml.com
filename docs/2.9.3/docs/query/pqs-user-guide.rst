@@ -4,66 +4,35 @@ PQS
 Introduction
 ------------
 
-PQS (Participant Query Store) is a feature that makes the ledger
-available to be queried by SQL. This enables users to query the state
-and history of the ledger, while minimizing the demand on the
-participant node.
+PQS (Participant Query Store) is a feature that makes the ledger available to be queried by SQL. This enables users to query the state and history of the ledger, while minimizing the demand on the participant node.
 
 .. note::
-   The term Operational Data Store (ODS) refers to a database
-   that mirrors the Daml ledger and allows for efficient querying. The
-   PQS feature is an ODS for the participant.node.
+   The term Operational Data Store (ODS) refers to a database that mirrors the Daml ledger and allows for efficient querying. The PQS feature is an ODS for the participant.node.
 
 Audience
 ~~~~~~~~
 
-This documention provides guidance on what PQS achieves, how to use it,
-and its operation and limitations. The following types of users are
-likely to find PQS useful:
+This documention provides guidance on what PQS achieves, how to use it, and its operation and limitations. The following types of users are likely to find PQS useful:
 
--  Application developers: to query the ledger to display information to
-   users, integrate or carry out automated business processes, and
-   debugging.
--  Business analysts: to access and analyze ledger data with ad-hoc
-   investigations to understand operational usage.
--  Support analysts: to diagnose any problems on a live system, when
-   sophisticated inspection of the ledger is required.
--  Application operators: to take a snapshot of the ledger, either with
-   or without history in order to analyse and investigate.
--  Report analysts: to provide access to ledger data information for
-   analysis and aggregation with standard reporting tools, on a
-   historical or real-time basis.
+-  Application developers: to query the ledger to display information to users, integrate or carry out automated business processes, and debugging.
+-  Business analysts: to access and analyze ledger data with ad-hoc investigations to understand operational usage.
+-  Support analysts: to diagnose any problems on a live system, when sophisticated inspection of the ledger is required.
+-  Application operators: to take a snapshot of the ledger, either with or without history in order to analyse and investigate.
+-  Report analysts: to provide access to ledger data information for analysis and aggregation with standard reporting tools, on a historical or real-time basis.
 
 Purpose
 ~~~~~~~
 
-PQS provides powerful and scaleable read access for a participant by
-exposing all data via SQL - leveraging existing tools and knowledge.
+PQS provides powerful and scaleable read access for a participant by exposing all data via SQL - leveraging existing tools and knowledge.
 
-The participant's primary role is to submit and propogate transactions
-in the network, which requires interaction to submit commands. PQS works
-in this domain to monitor transactions on a streaming basis, maintain
-history and state based on these events, and makes the resultant data
-available for users to query. It allows independent scaling of the read
-loads, depending on the capacity required.
+The participant's primary role is to submit and propogate transactions in the network, which requires interaction to submit commands. PQS works in this domain to monitor transactions on a streaming basis, maintain history and state based on these events, and makes the resultant data available for users to query. It allows independent scaling of the read loads, depending on the capacity required.
 
 Operational Architecture
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-PQS is a service that operates within the trusted core infrastructure of
-a participant. It can be configured via command line arguments,
-environment variables and configuration files. It is intended as a
-long-running process and is resilient to network outages. It is also
-designed to be idempotent (or "crash tolerant") so that it can be
-restarted safely at any time. It does not write to the ledger; it is a
-passive consumer of data from a Canton participant. PQS focuses on
-providing a powerful and scaleable "read" pipeline - as per the
-`CQRS <https://learn.microsoft.com/en-us/azure/architecture/patterns/cqrs>`__
-design pattern.
+PQS is a service that operates within the trusted core infrastructure of a participant. It can be configured via command line arguments, environment variables and configuration files. It is intended as a long-running process and is resilient to network outages. It is also designed to be idempotent (or "crash tolerant") so that it can be restarted safely at any time. It does not write to the ledger; it is a passive consumer of data from a Canton participant. PQS focuses on providing a powerful and scaleable "read" pipeline - as per the `CQRS <https://learn.microsoft.com/en-us/azure/architecture/patterns/cqrs>`__ design pattern.
 
-The following diagram shows that PQS initiates connections to both the
-participant and the datastore: (arrows indicate the direction of
-connection)
+The following diagram shows that PQS initiates connections to both the participant and the datastore: (arrows indicate the direction of connection)
 
 |diagram|
 
@@ -71,8 +40,7 @@ Similarly, from the perspective of data-flow:
 
 |image1|
 
-Expanding the application node from the above, you can imagine many
-potential architectures, including:
+Expanding the application node from the above, you can imagine many potential architectures, including:
 
 |image2|
 
@@ -84,17 +52,12 @@ PQS enables the following key capabilities:
 -  To make the Daml ledger queryable via SQL.
 -  Allow querying on a point-in-time or latest-available basis.
 -  Filter the scope by Daml party and contract template.
--  Embed an API within the database to allow consumers to easily access
-   the ledger data by:
+-  Embed an API within the database to allow consumers to easily access the ledger data by:
 
-   -  Using familiar Daml identifiers (eg.
-      ``mypackage:My.Module:MyTemplate``) instead of PostgreSQL
-      approximations.
-   -  Using SQL to perform familiar aggregations, transformations and
-      joins.
+   -  Using familiar Daml identifiers (eg. ``mypackage:My.Module:MyTemplate``) instead of PostgreSQL approximations.
+   -  Using SQL to perform familiar aggregations, transformations and joins.
    -  Creating custom indexes to optimize queries.
-   -  Facilitating access to both state (contracts) and audit trail
-      (events) perspectives.
+   -  Facilitating access to both state (contracts) and audit trail (events) perspectives.
 
 -  Crash-tolerance so it can be restarted safely.
 
@@ -132,9 +95,7 @@ To run PQS you need the following:
 Running PQS
 ~~~~~~~~~~~
 
-Exploring commands and parameters is easiest via the ``--help`` (and
-``--help-verbose``) arguments: For example, if you are running a
-downloaded ``.jar`` file:
+Exploring commands and parameters is easiest via the ``--help`` (and ``--help-verbose``) arguments: For example, if you are running a downloaded ``.jar`` file:
 
 .. code:: text
 
@@ -173,8 +134,7 @@ Or similarly, using Docker:
 Preparing the Database
 ^^^^^^^^^^^^^^^^^^^^^^
 
-Start by investigating the database schema that PQS creates, using the
-``datastore`` command that is used for administrative operations:
+Start by investigating the database schema that PQS creates, using the ``datastore`` command that is used for administrative operations:
 
 .. code:: text
 
@@ -186,18 +146,12 @@ Start by investigating the database schema that PQS creates, using the
    -- tables
    create table [...]
 
-A database administrator can now choose to create the database and apply
-the produced DDL, or leave it to the ``pipeline`` command to do this on
-an ongoing idempotent basis.
+A database administrator can now choose to create the database and apply the produced DDL, or leave it to the ``pipeline`` command to do this on an ongoing idempotent basis.
 
 Running the Pipeline
 ^^^^^^^^^^^^^^^^^^^^
 
-The following command connects to a non-auth ledger and replicates the
-latest state of the ledger (excluding prior-history) from the
-perspective of the supplied Daml party. It uses the ledger source and
-supplied database, though these values can be omitted as they are all
-defaults:
+The following command connects to a non-auth ledger and replicates the latest state of the ledger (excluding prior-history) from the perspective of the supplied Daml party. It uses the ledger source and supplied database, though these values can be omitted as they are all defaults:
 
 .. code:: text
 
@@ -224,14 +178,12 @@ defaults:
 ..
 
 .. note::
-   The above command continues to run until terminated. You can
-   terminate it with ``Ctrl-C`` at any time.
+   The above command continues to run until terminated. You can terminate it with ``Ctrl-C`` at any time.
 
 Auth
 ^^^^
 
-If you are running PQS against a participant that has auth, you must
-provide some credentials. For example:
+If you are running PQS against a participant that has auth, you must provide some credentials. For example:
 
 .. code:: text
 
@@ -247,16 +199,12 @@ For more information see the `Authentication <#auth>`__ section.
 Database
 --------
 
-PQS supports a single datastore format known as ``postgres-document``.
-This uses PostgreSQL to store the data in a document-oriented
-(schemaless) way, making extensive use of JSONB.
+PQS supports a single datastore format known as ``postgres-document``. This uses PostgreSQL to store the data in a document-oriented (schemaless) way, making extensive use of JSONB.
 
 Ledger Source
 ~~~~~~~~~~~~~
 
-To understand how PQS stores data, you need to understand the ledger
-data model. In simple terms, the Daml ledger is composed of a sequence
-of transactions, which contain events. Events can be:
+To understand how PQS stores data, you need to understand the ledger data model. In simple terms, the Daml ledger is composed of a sequence of transactions, which contain events. Events can be:
 
 -  Creates: creation of contracts / interface views.
 -  Exercise: of a choice of contracts / interface views.
@@ -265,81 +213,48 @@ of transactions, which contain events. Events can be:
 ..
 
 .. warning::
-   When defining the scope of ledger data being stored, it is
-   important to understand the implications of the data source and the
-   filters applied. The data source and filters determine the data that
-   is available to the `Read API <005-read-api.md>`__ functions, and
-   this cannot be changed. Since a change in scope will result in a
-   change to the breadth of data being stored, a re-seed is required to
-   widen or narrow the scope of the data. The only exception to this is
-   where you widen the scope into a an area (eg. new templates new
-   parties) that you know has no historical data, in which case a
-   re-seed is not required. Or, operators may also the
-   `reset <#reset>`__ function to roll-back the datastore to a prior
-   state where this was true.
+   When defining the scope of ledger data being stored, it is important to understand the implications of the data source and the filters applied. The data source and filters determine the data that is available to the `Read API <005-read-api.md>`__ functions, and this cannot be changed. Since a change in scope will result in a change to the breadth of data being stored, a re-seed is required to widen or narrow the scope of the data. The only exception to this is where you widen the scope into a an area (eg. new templates new parties) that you know has no historical data, in which case a re-seed is not required. Or, operators may also the `reset <#reset>`__ function to roll-back the datastore to a prior state where this was true.
 
 Transaction Data Source
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-PQS can run in two modes as specified by the ``--pipeline-datasource``
-configuration. The following table shows the differences between the two
-modes, in terms of data availability via the respective `Read
-API <#read-api>`__ functions :
+PQS can run in two modes as specified by the ``--pipeline-datasource`` configuration. The following table shows the differences between the two modes, in terms of data availability via the respective `Read API <#read-api>`__ functions :
 
-+-----------------------+-------------------+-----------------------+
-| Data / Mode           | TransactionStream | TransactionTreeStream |
-+=======================+===================+=======================+
-| ``creates()``         | ✓                 | ✓                     |
-| contracts             |                   |                       |
-+-----------------------+-------------------+-----------------------+
-| ``exercises()``       | ✗                 | ✓                     |
-| contracts             |                   |                       |
-+-----------------------+-------------------+-----------------------+
-| ``archives()``        | ✓                 | ✓                     |
-| contracts             |                   |                       |
-+-----------------------+-------------------+-----------------------+
-| ``creates()``         | ✓                 | ✗                     |
-| interfaces            |                   |                       |
-+-----------------------+-------------------+-----------------------+
-| ``exercises()``       | ✗                 | ✓                     |
-| interfaces            |                   |                       |
-+-----------------------+-------------------+-----------------------+
-| ``archives()``        | ✓                 | ✗                     |
-| interfaces            |                   |                       |
-+-----------------------+-------------------+-----------------------+
-| Transient             | ✗                 | ✓                     |
-| (create-archive in a  |                   |                       |
-| transaction)          |                   |                       |
-+-----------------------+-------------------+-----------------------+
-| Stakeholders          | ✓                 | ✓                     |
-+-----------------------+-------------------+-----------------------+
-| Note:                 |                   |                       |
-+-----------------------+-------------------+-----------------------+
-| Default               | ✓                 | ✗                     |
-+-----------------------+-------------------+-----------------------+
-| Data size             | Smaller           | Larger                |
-+-----------------------+-------------------+-----------------------+
++---------------------------------------------+-------------------+-----------------------+
+| Data / Mode                                 | TransactionStream | TransactionTreeStream |
++=============================================+===================+=======================+
+| ``creates()`` contracts                     | ✓                 | ✓                     |
++---------------------------------------------+-------------------+-----------------------+
+| ``exercises()`` contracts                   | ✗                 | ✓                     |
++---------------------------------------------+-------------------+-----------------------+
+| ``archives()`` contracts                    | ✓                 | ✓                     |
++---------------------------------------------+-------------------+-----------------------+
+| ``creates()`` interfaces                    | ✓                 | ✗                     |
++---------------------------------------------+-------------------+-----------------------+
+| ``exercises()`` interfaces                  | ✗                 | ✓                     |
++---------------------------------------------+-------------------+-----------------------+
+| ``archives()`` interfaces                   | ✓                 | ✗                     |
++---------------------------------------------+-------------------+-----------------------+
+| Transient (create-archive in a transaction) | ✗                 | ✓                     |
++---------------------------------------------+-------------------+-----------------------+
+| Stakeholders                                | ✓                 | ✓                     |
++---------------------------------------------+-------------------+-----------------------+
+| Note:                                       |                   |                       |
++---------------------------------------------+-------------------+-----------------------+
+| Default                                     | ✓                 | ✗                     |
++---------------------------------------------+-------------------+-----------------------+
+| Data size                                   | Smaller           | Larger                |
++---------------------------------------------+-------------------+-----------------------+
 
 PostgreSQL Schema
 ~~~~~~~~~~~~~~~~~
 
-The PostgreSQL schema is designed to be generic and not tied to any
-specific Daml model. This is achieved by a fixed schema that relates to
-the general ledger model but uses a documented-oriented approach (JSONB)
-to store the data whose schema lies in the Daml models.
+The PostgreSQL schema is designed to be generic and not tied to any specific Daml model. This is achieved by a fixed schema that relates to the general ledger model but uses a documented-oriented approach (JSONB) to store the data whose schema lies in the Daml models.
 
 .. warning::
-   Any database artifact starting with an underscore
-   character (``_``) is explicitly denoted an internal implementation,
-   subject to change, and should not be relied upon. Since every table
-   is prefixed this way, they change in the future - for example as a
-   result of future functional and performance enhancements.
+   Any database artifact starting with an underscore character (``_``) is explicitly denoted an internal implementation, subject to change, and should not be relied upon. Since every table is prefixed this way, they change in the future - for example as a result of future functional and performance enhancements.
 
-Ledger data consumers should interact with the database via the `Read
-API <#read-api>`__, which provides a stable supported interface.
-Database Administrators who wish to have a deeper understanding of the
-schema specifics, in order to understand it's operational
-characteristics, can easily inspect the schema using the command:
+Ledger data consumers should interact with the database via the `Read API <#read-api>`__, which provides a stable supported interface. Database Administrators who wish to have a deeper understanding of the schema specifics, in order to understand it's operational characteristics, can easily inspect the schema using the command:
 
 .. code:: text
 
@@ -351,74 +266,30 @@ Objectives
 
 Overall, the objectives of the schema design are to facilitate:
 
--  **Scaleable writes**: high-throughput and efficient to free up as
-   much capacity for useful work (reads) as possible.
--  **Scaleable reads**: queries can able to be parallelized, and do not
-   become blocked behind writes. They produce sensible query plans that
-   do not result in unnecessary table scans.
--  **Ease of use**: readers can use familiar tools and techniques to
-   query the database, without needing to understand the specifics of
-   the schema design. Instead, they can use simple entry points that
-   provide access to data in familiar ledger terms: active contracts,
-   creates, exercises, archives, offsets, etc. Readers do not need to
-   worry about an offset-based model for point-in-time snapshot
-   isolation.
--  **Read consistency**: readers can achieve the level of consistency
-   that they require, including consistency with other queries they are
-   conducting.
--  **Crash tollerance**: the schema is designed to be simple and ensure
-   recovery from any kind of crash, taking a pessimistic view of what
-   races may occur, however unlikely.
--  **Static schema**: the schema is designed to be static and not
-   require any changes to the schema as the ledger evolves, to the
-   extent possible. Note: discovering adding new templates during normal
-   operation does currently require additional table partitions to be
-   created.
+-  **Scaleable writes**: high-throughput and efficient to free up as much capacity for useful work (reads) as possible.
+-  **Scaleable reads**: queries can able to be parallelized, and do not become blocked behind writes. They produce sensible query plans that do not result in unnecessary table scans.
+-  **Ease of use**: readers can use familiar tools and techniques to query the database, without needing to understand the specifics of the schema design. Instead, they can use simple entry points that provide access to data in familiar ledger terms: active contracts, creates, exercises, archives, offsets, etc. Readers do not need to worry about an offset-based model for point-in-time snapshot isolation.
+-  **Read consistency**: readers can achieve the level of consistency that they require, including consistency with other queries they are conducting.
+-  **Crash tollerance**: the schema is designed to be simple and ensure recovery from any kind of crash, taking a pessimistic view of what races may occur, however unlikely.
+-  **Static schema**: the schema is designed to be static and not require any changes to the schema as the ledger evolves, to the extent possible. Note: discovering adding new templates during normal operation does currently require additional table partitions to be created.
 
 Design
 ^^^^^^
 
-To facilitate these objectives, the following design approaches have
-been used:
+To facilitate these objectives, the following design approaches have been used:
 
--  **Concurrent append-only writes**: ledger transactions are written
-   with significant parallelism without contention, ensuring that writes
-   can be high-throughput and unconstrained by latency.
--  **Bulk batching**: using
-   `COPY <https://www.postgresql.org/docs/current/sql-copy.html>`__ (not
-   `INSERT <https://www.postgresql.org/docs/current/sql-insert.html>`__)
-   to deliver large batches of data efficiently.
--  **Offset indexed**: all data is appropriately indexed by offset to
-   provide efficient access to slice the result by offset.
-   `BRIN <https://www.postgresql.org/docs/current/brin-intro.html>`__
-   indexes are used to ensure contiguity of data that is often accessed
-   together.
--  **Implicit offset**: readers can opt for queries with implicit
-   offset, meaning they can ignore the role of offset in their queries
-   but still receive a stable view of the ledger data. We seek to
-   provide a similar experience to PostgreSQL's MVCC, where users
-   receive consistency benefits without needing to understand the
-   underlying implementation.
--  **Idempotent**: PQS is designed to be restarted safely at any time.
-   All state is maintained in the datastore.
--  **Watermarks**: a single thread maintains a watermark denoting the
-   most recent contiguous transaction - representing the offset of the
-   most recent consistent ledger transaction. In addition, the watermark
-   processes the "archive" mutation on any archived contracts or
-   interface views, in a batch. This reintroduces data consistency
-   without needing readers to perform complex query paths. This
-   efficiently resolves the uncertainty created by the parallel writes.
--  **Schemaless content**: content defined in Daml templates uses the
-   JSONB datatype to store the data. This allows for a schemaless
-   approach and can store any Daml model without needing to change the
-   schema, other than custom JSONB indexes.
+-  **Concurrent append-only writes**: ledger transactions are written with significant parallelism without contention, ensuring that writes can be high-throughput and unconstrained by latency.
+-  **Bulk batching**: using `COPY <https://www.postgresql.org/docs/current/sql-copy.html>`__ (not `INSERT <https://www.postgresql.org/docs/current/sql-insert.html>`__) to deliver large batches of data efficiently.
+-  **Offset indexed**: all data is appropriately indexed by offset to provide efficient access to slice the result by offset. `BRIN <https://www.postgresql.org/docs/current/brin-intro.html>`__ indexes are used to ensure contiguity of data that is often accessed together.
+-  **Implicit offset**: readers can opt for queries with implicit offset, meaning they can ignore the role of offset in their queries but still receive a stable view of the ledger data. We seek to provide a similar experience to PostgreSQL's MVCC, where users receive consistency benefits without needing to understand the underlying implementation.
+-  **Idempotent**: PQS is designed to be restarted safely at any time. All state is maintained in the datastore.
+-  **Watermarks**: a single thread maintains a watermark denoting the most recent contiguous transaction - representing the offset of the most recent consistent ledger transaction. In addition, the watermark processes the "archive" mutation on any archived contracts or interface views, in a batch. This reintroduces data consistency without needing readers to perform complex query paths. This efficiently resolves the uncertainty created by the parallel writes.
+-  **Schemaless content**: content defined in Daml templates uses the JSONB datatype to store the data. This allows for a schemaless approach and can store any Daml model without needing to change the schema, other than custom JSONB indexes.
 
 Configuration
 -------------
 
-Several items need to be configured to suit your environment and
-requirements. This section provides an overview of common configuration
-options that you should consider for your deployment:
+Several items need to be configured to suit your environment and requirements. This section provides an overview of common configuration options that you should consider for your deployment:
 
 PQS Configuration
 ~~~~~~~~~~~~~~~~~
@@ -432,12 +303,9 @@ PQS ascertains its configuration from:
 ..
 
 .. note::
-   Consult the command ``./scribe.jar pipeline --help-verbose``
-   for further information on individual configuration items, and the
-   conventions used to specify them in the above forms.
+   Consult the command ``./scribe.jar pipeline --help-verbose`` for further information on individual configuration items, and the conventions used to specify them in the above forms.
 
-Complex configurations may benefit from using a HOCON configuration
-file, for example:
+Complex configurations may benefit from using a HOCON configuration file, for example:
 
 .. code:: text
 
@@ -487,52 +355,34 @@ file, for example:
 ..
 
 .. note::
-   For more information on logging configuration, see the
-   dedicated `Logging <#logging>`__ section.
+   For more information on logging configuration, see the dedicated `Logging <#logging>`__ section.
 
 Applying Configuration Changes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-PQS sets is configuration at startup. It does not perform dynamic
-configuration updates, so making a configuration change (such as adding
-a new party, new template, or new interface) requires a restart.
+PQS sets is configuration at startup. It does not perform dynamic configuration updates, so making a configuration change (such as adding a new party, new template, or new interface) requires a restart.
 
 .. warning::
-   PQS will not go back in time and recover history - but
-   only move forward by consuming new transactions it has not previously
-   seen. It is important that scope only be expanded when it is known to
-   have no prior history, at the point in time that PQS was stopped.
-   Otherwise, a re-seed operation will be required to reinitialize from
-   a empty datastore, will be required.
+   PQS will not go back in time and recover history - but only move forward by consuming new transactions it has not previously seen. It is important that scope only be expanded when it is known to have no prior history, at the point in time that PQS was stopped. Otherwise, a re-seed operation will be required to reinitialize from a empty datastore, will be required.
 
 Contract Filters
 ~~~~~~~~~~~~~~~~
 
-``--pipeline-filter-contracts`` specifies an inclusion filter expression
-to determine the Daml templates, interface views and choices include. A
-filter expression is a simple wildcard inclusion (``*``) with basic
-boolean logic (``&`` ``!`` ``|`` ``(`` ``)``), where whitespace is
-ignored. For example:
+``--pipeline-filter-contracts`` specifies an inclusion filter expression to determine the Daml templates, interface views and choices include. A filter expression is a simple wildcard inclusion (``*``) with basic boolean logic (``&`` ``!`` ``|`` ``(`` ``)``), where whitespace is ignored. For example:
 
 -  ``*``: everything (default)
 -  ``pkg:*``: everything in this package
--  ``pkg:a.b.c.Bar``: just this one fully qualified name for template
-   ``Bar``
+-  ``pkg:a.b.c.Bar``: just this one fully qualified name for template ``Bar``
 -  ``a.b.c.*``: all members of the ``a.b.c`` namespace
--  ``* & !pkg:a.b.c.Bar``: everything except this one fully qualified
-   name
+-  ``* & !pkg:a.b.c.Bar``: everything except this one fully qualified name
 -  ``(a.b.c.Foo | a.b.c.Bar)``: these two fully qualified names
--  ``(a.b.c.* & !(a.b.c.Foo | a.b.c.Bar) | g.e.f.Baz)``: everything in
-   ``a.b.c`` except for ``Foo`` and ``Bar``, and also include
-   ``g.e.f.Baz``
+-  ``(a.b.c.* & !(a.b.c.Foo | a.b.c.Bar) | g.e.f.Baz)``: everything in ``a.b.c`` except for ``Foo`` and ``Bar``, and also include ``g.e.f.Baz``
 -  ``a.b.c.Foo & a.b.c.Bar``: error (the identifier can't be both)
 
 ..
 
 .. note::
-   There are further conditions placed upon the filtering of
-   templates and interfaces to avoid potential ambiguity. It is required
-   to include any filter for:
+   There are further conditions placed upon the filtering of templates and interfaces to avoid potential ambiguity. It is required to include any filter for:
 
    -  All Interface Views of included Templates
    -  All Templates of included Interface Views
@@ -540,24 +390,18 @@ ignored. For example:
 Party Filtering
 ~~~~~~~~~~~~~~~
 
-Similarly, the ``--pipeline-filter-parties`` option specifies an
-inclusion filter expression to determine which parties to supply data
-for. For example:
+Similarly, the ``--pipeline-filter-parties`` option specifies an inclusion filter expression to determine which parties to supply data for. For example:
 
 -  ``*``: everything (default)
 -  ``Alice::* | Bob::*``: any party with an ``Alice`` or ``Bob`` hint
--  ``Alice::122055fc4b190e3ff438587b699495a4b6388e911e2305f7e013af160f49a76080ab``:
-   just this one party
+-  ``Alice::122055fc4b190e3ff438587b699495a4b6388e911e2305f7e013af160f49a76080ab``: just this one party
 -  ``* & !Alice::*``: all parties except those with an ``Alice`` hint
--  ``Alice* | Bob* | (Charlie* & !(Participant3::*))``: ``Alice`` and
-   ``Bob`` parties, as well as ``Charlie`` except ``Charlie3``
+-  ``Alice* | Bob* | (Charlie* & !(Participant3::*))``: ``Alice`` and ``Bob`` parties, as well as ``Charlie`` except ``Charlie3``
 
 Java Virtual Machine (JVM) Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-JVM configuration is important to ensure that PQS has enough resources
-to run efficiently. At minimum the following should be considered for
-any realistic deployment:
+JVM configuration is important to ensure that PQS has enough resources to run efficiently. At minimum the following should be considered for any realistic deployment:
 
 .. code:: text
 
@@ -572,21 +416,14 @@ any realistic deployment:
    -Xms4g
    -Xmx4g
 
-In scenarios of resource-constraint, an out-of-memory error may occur.
-To diagnose this, a heap-dump will need to be collected for analysis, by
-adding the following JVM parameters:
+In scenarios of resource-constraint, an out-of-memory error may occur. To diagnose this, a heap-dump will need to be collected for analysis, by adding the following JVM parameters:
 
 .. code:: text
 
    -XX:+HeapDumpOnOutOfMemoryError
    -XX:HeapDumpPath=/path/to/heap.dump
 
-If you wish to have more detailed logging for diagnosis, you can adjust
-the ``--logger-level`` parameter to ``Debug`` or ``Trace``. However, be
-aware that this will generate a lot of log output and may negatively
-impact performance. Therefore it is recommended you de-scope
-particularly verbose components (such as Netty) to ``Info`` level. This
-can be done by adding the following arguments:
+If you wish to have more detailed logging for diagnosis, you can adjust the ``--logger-level`` parameter to ``Debug`` or ``Trace``. However, be aware that this will generate a lot of log output and may negatively impact performance. Therefore it is recommended you de-scope particularly verbose components (such as Netty) to ``Info`` level. This can be done by adding the following arguments:
 
 .. code:: text
 
@@ -594,11 +431,7 @@ can be done by adding the following arguments:
    --logger-mappings-io.netty=Info
    --logger-mappings-io.grpc.netty=Info
 
-Setting the Ledger API queue length is a trade-off between memory usage
-and performance. The default value is 128, and can be increased to
-deliver more stable performance, at the cost of requiring additional
-memory. Note that the buffer will consume memory equal to the size of
-transactions in the rolling window of the buffer size:
+Setting the Ledger API queue length is a trade-off between memory usage and performance. The default value is 128, and can be increased to deliver more stable performance, at the cost of requiring additional memory. Note that the buffer will consume memory equal to the size of transactions in the rolling window of the buffer size:
 
 .. code:: text
 
@@ -607,8 +440,7 @@ transactions in the rolling window of the buffer size:
 PostgreSQL Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Users should at least consider the following PostgreSQL config items
-which are relevant to the workloads it will be expected to satisfy:
+Users should at least consider the following PostgreSQL config items which are relevant to the workloads it will be expected to satisfy:
 
 .. code:: text
 
@@ -619,37 +451,24 @@ which are relevant to the workloads it will be expected to satisfy:
    [*_wal_size](https://www.postgresql.org/docs/16/runtime-config-wal.html#GUC-MAX-WAL-SIZE)
    [bgwriter_*](https://www.postgresql.org/docs/16/runtime-config-resource.html#RUNTIME-CONFIG-RESOURCE-BACKGROUND-WRITER)
 
-In cases where high performance is required, a DBA will need to tune
-PostgreSQL for the intended workload and infrastructure.
+In cases where high performance is required, a DBA will need to tune PostgreSQL for the intended workload and infrastructure.
 
 PostgreSQL Users
 ~~~~~~~~~~~~~~~~
 
-To secure the PostgreSQL database, you should consider the rights
-granted to various users that connect to the database. At minimum the
-following user categories should be considered with their respective
-`DDL/ACL
-privileges <https://www.postgresql.org/docs/16/ddl-priv.html>`__:
+To secure the PostgreSQL database, you should consider the rights granted to various users that connect to the database. At minimum the following user categories should be considered with their respective `DDL/ACL privileges <https://www.postgresql.org/docs/16/ddl-priv.html>`__:
 
--  **Administraton**: Provides a way for Database Administrators to
-   perform any action on the database - SUPERUSER
--  **Processing**: The user that PQS process connects to the database as
-   - SELECT, INSERT, UPDATE, DELETE
--  **Querying**: Data consumers that connect to the database to read the
-   ledger data - SELECT
--  **Redaction**: Any users that needs to perform redaction operations -
-   SELECT, UPDATE
--  **Pruning**: Users perform pruning operations - SELECT, UPDATE,
-   DELETE
+-  **Administraton**: Provides a way for Database Administrators to perform any action on the database - SUPERUSER
+-  **Processing**: The user that PQS process connects to the database as - SELECT, INSERT, UPDATE, DELETE
+-  **Querying**: Data consumers that connect to the database to read the ledger data - SELECT
+-  **Redaction**: Any users that needs to perform redaction operations - SELECT, UPDATE
+-  **Pruning**: Users perform pruning operations - SELECT, UPDATE, DELETE
 -  **Indexing**: Users that maintain JSONB indexes - CREATE
 
 Host Infrastructure
 ~~~~~~~~~~~~~~~~~~~
 
-The following are the minimum requirements for the host operating system
-running any kind of production workload, and should be seen as a
-starting point for determining the appropriate resources required by a
-particular workload:
+The following are the minimum requirements for the host operating system running any kind of production workload, and should be seen as a starting point for determining the appropriate resources required by a particular workload:
 
 PQS host:
 
@@ -664,77 +483,44 @@ PostgreSQL:
 Host Environment
 ~~~~~~~~~~~~~~~~
 
-PQS requires write access to the ``/tmp`` directory in order temporarily
-cache Daml packages. The size of this cache is proportional to the size
-of all Daml packages observable on the ledger. It is an ephemeral cache
-- so it does not need to persist beyond a single execution.
-Containerized environments should configure a disk-based mount, as it is
-not important for overall performance.
+PQS requires write access to the ``/tmp`` directory in order temporarily cache Daml packages. The size of this cache is proportional to the size of all Daml packages observable on the ledger. It is an ephemeral cache - so it does not need to persist beyond a single execution. Containerized environments should configure a disk-based mount, as it is not important for overall performance.
 
 Testing
 ~~~~~~~
 
-Of course all of these settings need to be independently assessed and
-tuned. Users should establish performance testing and benchmarking
-environment in order to validate the performance of PQS on a given
-workload. It should be noted that the following variables are extremely
-relevant to overall PQS performance characteristics:
+Of course all of these settings need to be independently assessed and tuned. Users should establish performance testing and benchmarking environment in order to validate the performance of PQS on a given workload. It should be noted that the following variables are extremely relevant to overall PQS performance characteristics:
 
 -  Network latency
 -  Ledger transaction throughput
 -  Ledger transaction sizes
 -  Contract data sizes
 
-Changing any of these variables requires re-testing to ensure that the
-impact on system performance is understood, and within acceptable
-tollerances.
+Changing any of these variables requires re-testing to ensure that the impact on system performance is understood, and within acceptable tollerances.
 
-As a reference you may want to consult the `Performance
-Benchmarking <#performance-benchmark>`__ section of the documentation,
-for an example of one such performance benchmark. This may give you a
-sense of the performance characteristics, and allow you to adapt it into
-something that matches your workloads.
+As a reference you may want to consult the `Performance Benchmarking <#performance-benchmark>`__ section of the documentation, for an example of one such performance benchmark. This may give you a sense of the performance characteristics, and allow you to adapt it into something that matches your workloads.
 
 Resilience
 ----------
 
-PQS is designed to operate as a long-running process which uses these
-principles to enhance availability:
+PQS is designed to operate as a long-running process which uses these principles to enhance availability:
 
--  **Redundancy** involves running multiple instances of PQS in parallel
-   to ensure that the system remains available even if one instance
-   fails.
--  **Retry** involves healing from transient and recoverable failures
-   without shutting down the process or requiring operator intervention.
--  **Recovery** entails reconciling the current state of the ledger with
-   already exported data in the datastore after a cold start, and
-   continuing from the latest checkpoint.
+-  **Redundancy** involves running multiple instances of PQS in parallel to ensure that the system remains available even if one instance fails.
+-  **Retry** involves healing from transient and recoverable failures without shutting down the process or requiring operator intervention.
+-  **Recovery** entails reconciling the current state of the ledger with already exported data in the datastore after a cold start, and continuing from the latest checkpoint.
 
 High Availability
 ~~~~~~~~~~~~~~~~~
 
-Multiple isolated instances of PQS can be instantiated without any
-cross-dependency. This allows for an active-active high availability
-clustering model. Please note that different instances might not be at
-the same offset due to different processing rates and general network
-non-determinism. PQS's Read API provides capabilities to deal with this
-'eventual consistency' model, to ensure that readers have at least
-'repeatable read' consistency. See ``validate_offset_exists()`` in the
-`Read API <005-read-api.md#offset-management>`__ for more details.
+Multiple isolated instances of PQS can be instantiated without any cross-dependency. This allows for an active-active high availability clustering model. Please note that different instances might not be at the same offset due to different processing rates and general network non-determinism. PQS's Read API provides capabilities to deal with this 'eventual consistency' model, to ensure that readers have at least 'repeatable read' consistency. See ``validate_offset_exists()`` in the `Read API <005-read-api.md#offset-management>`__ for more details.
 
 |image3|
 
 Retries
 ~~~~~~~
 
-PQS's ``pipeline`` command is a unidirectional streaming process that
-heavily relies on the availability of its ``source`` and ``target``
-dependencies. When PQS encounters an error, it attempts to recover by
-restarting its internal engine, if the error is designated as
-recoverable:
+PQS's ``pipeline`` command is a unidirectional streaming process that heavily relies on the availability of its ``source`` and ``target`` dependencies. When PQS encounters an error, it attempts to recover by restarting its internal engine, if the error is designated as recoverable:
 
--  `gRPC <https://grpc.io/docs/guides/status-codes/>`__ (white-listed;
-   retries if):
+-  `gRPC <https://grpc.io/docs/guides/status-codes/>`__ (white-listed; retries if):
 
    -  ``CANCELLED``
    -  ``DEADLINE_EXCEEDED``
@@ -748,8 +534,7 @@ recoverable:
    -  ``DATA_LOSS``
    -  ``UNAUTHENTICATED``
 
--  `JDBC <https://github.com/pgjdbc/pgjdbc/blob/master/pgjdbc/src/main/java/org/postgresql/util/PSQLState.java>`__
-   (black-listed; retries unless):
+-  `JDBC <https://github.com/pgjdbc/pgjdbc/blob/master/pgjdbc/src/main/java/org/postgresql/util/PSQLState.java>`__ (black-listed; retries unless):
 
    -  ``INVALID_PARAMETER_TYPE``
    -  ``PROTOCOL_VIOLATION``
@@ -772,8 +557,7 @@ recoverable:
 Configuration
 ^^^^^^^^^^^^^
 
-The following configuration options are available to control the retry
-behavior of PQS:
+The following configuration options are available to control the retry behavior of PQS:
 
 .. code:: text
 
@@ -787,15 +571,11 @@ behavior of PQS:
      --retry-counter-duration string             Time limit (ISO 8601) before giving up (optional)
    [...]
 
-Configuring ``--retry-backoff-*`` settings control periodicity of
-retries and the maximum duration between attempts.
+Configuring ``--retry-backoff-*`` settings control periodicity of retries and the maximum duration between attempts.
 
-Configuring ``--retry-counter-attempts`` and
-``--retry-counter-duration`` controls the maximum *instability*
-tolerance before shutting down.
+Configuring ``--retry-counter-attempts`` and ``--retry-counter-duration`` controls the maximum *instability* tolerance before shutting down.
 
-Configuring ``--retry-counter-reset`` controls the period of *stability*
-after which the retry counters are reset across the board.
+Configuring ``--retry-counter-reset`` controls the period of *stability* after which the retry counters are reset across the board.
 
 Logging
 ^^^^^^^
@@ -831,9 +611,7 @@ Logging
 Metrics
 ^^^^^^^
 
-The following metrics are available to monitor stability of PQS's
-dependencies. See the `observability <#observability>`__ section for
-more details on general observability:
+The following metrics are available to monitor stability of PQS's dependencies. See the `observability <#observability>`__ section for more details on general observability:
 
 .. code:: text
 
@@ -852,13 +630,7 @@ more details on general observability:
 Retry Counters Reset
 ^^^^^^^^^^^^^^^^^^^^
 
-If PQS encounters network unavailability it starts incrementing retry
-counters with each attempt. These counters are reset only after a period
-of stability, as defined by ``--retry-counter-reset``. As such, during
-the prolonged periods of intermittent failures that alternate with brief
-periods of operating normally, PQS keeps maintaining a cautious stance
-on assumptions regarding the stability of the overall system. This can
-be illustrated with an example below:
+If PQS encounters network unavailability it starts incrementing retry counters with each attempt. These counters are reset only after a period of stability, as defined by ``--retry-counter-reset``. As such, during the prolonged periods of intermittent failures that alternate with brief periods of operating normally, PQS keeps maintaining a cautious stance on assumptions regarding the stability of the overall system. This can be illustrated with an example below:
 
 .. code:: text
 
@@ -873,13 +645,7 @@ be illustrated with an example below:
    x - a failure causing retry happens
    = - operating normally
 
-In the timeline above, intermittent failures start at point A, and each
-retry attempt contributes to the increase of the overall backoff
-schedule. Consequently, each subsequent retry allows more time for the
-system to recover. This schedule does not reset to its initial values
-until after the configured period of stability is reached following the
-last failure (point B), such as after operating without any failures for
-5 minutes (point C).
+In the timeline above, intermittent failures start at point A, and each retry attempt contributes to the increase of the overall backoff schedule. Consequently, each subsequent retry allows more time for the system to recover. This schedule does not reset to its initial values until after the configured period of stability is reached following the last failure (point B), such as after operating without any failures for 5 minutes (point C).
 
 Exit codes
 ^^^^^^^^^^
@@ -887,17 +653,14 @@ Exit codes
 PQS terminates with the following exit codes:
 
 -  ``0``: Normal termination
--  ``1``: Termination due to unrecoverable error or all retry attempts
-   for recoverable errors have been exhausted
+-  ``1``: Termination due to unrecoverable error or all retry attempts for recoverable errors have been exhausted
 
 .. _ledger-streaming--recovery:
 
 Ledger Streaming & Recovery
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-On (re-)start, PQS determines last saved checkpoint and continues
-incremental processing from that point onward. PQS is able to start and
-finish at prescribed ledger offsets, specified via args:
+On (re-)start, PQS determines last saved checkpoint and continues incremental processing from that point onward. PQS is able to start and finish at prescribed ledger offsets, specified via args:
 
 .. code:: text
 
@@ -919,194 +682,111 @@ finish at prescribed ledger offsets, specified via args:
 
 Start offset meanings:
 
--  ``Genesis``: Commence from the first offset of the ledger, failing if
-   not available.
--  ``Oldest``: Resume processing, or start from the oldest available
-   offset of the ledger (if the datastore is empty).
--  ``Latest``: Resume processing, or start from the latest available
-   offset of the ledger (if the datastore is empty).
--  ``<offset>``: Offset from which to start processing, terminating if
-   it does not match the state of the datastore.
+-  ``Genesis``: Commence from the first offset of the ledger, failing if not available.
+-  ``Oldest``: Resume processing, or start from the oldest available offset of the ledger (if the datastore is empty).
+-  ``Latest``: Resume processing, or start from the latest available offset of the ledger (if the datastore is empty).
+-  ``<offset>``: Offset from which to start processing, terminating if it does not match the state of the datastore.
 
 Stop offset meanings:
 
--  ``Latest``: Process until reaching the latest available offset of the
-   ledger, then terminate.
+-  ``Latest``: Process until reaching the latest available offset of the ledger, then terminate.
 -  ``Never``: Keep processing and never terminate.
 -  ``<offset>``: Process until reaching this offset, then terminate.
 
-In many scenarios
-``--pipeline-ledger-start=Oldest --pipeline-ledger-stop=Never`` is the
-most appropriate configuration, for both initial population of all
-available history, and also catering for resumption/recovery processing.
+In many scenarios ``--pipeline-ledger-start=Oldest --pipeline-ledger-stop=Never`` is the most appropriate configuration, for both initial population of all available history, and also catering for resumption/recovery processing.
 
 .. caution::
-   If the ledger has been pruned beyond the offset specified
-   in ``--pipeline-ledger-start``, PQS fails to start. For more details
-   see `History Slicing <#history-slicing>`__.
+   If the ledger has been pruned beyond the offset specified in ``--pipeline-ledger-start``, PQS fails to start. For more details see `History Slicing <#history-slicing>`__.
 
 Read API
 --------
 
-While data consumers do not communicate with the PQS process directly,
-they do use an API that PQS has provisioned in the database itself. This
-Read API is designed to provide a consistent and stable interface for
-users to access the ledger. It consists of a set of functions that
-should be the only database artifacts readers interact with.
+While data consumers do not communicate with the PQS process directly, they do use an API that PQS has provisioned in the database itself. This Read API is designed to provide a consistent and stable interface for users to access the ledger. It consists of a set of functions that should be the only database artifacts readers interact with.
 
 How The Ledger Models Time
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A key aspect to consider when querying the ledger is the fact that it
-makes the history over time available. Additionally, understanding time
-in a distributed environment can be challenging because there are many
-different clocks available. If you are familiar with Daml and its time
-model, skip this section and move to the section `Time
-Model <#time-model>`__.
+A key aspect to consider when querying the ledger is the fact that it makes the history over time available. Additionally, understanding time in a distributed environment can be challenging because there are many different clocks available. If you are familiar with Daml and its time model, skip this section and move to the section `Time Model <#time-model>`__.
 
 Offset
 ^^^^^^
 
-A participant models time using an index called an *offset*. An offset
-is a unique index of the participant's local ledger. You can think of
-this as selecting an item in the ledger using a specific offset (or
-index) into the ledger.
+A participant models time using an index called an *offset*. An offset is a unique index of the participant's local ledger. You can think of this as selecting an item in the ledger using a specific offset (or index) into the ledger.
 
-Offsets are ordered, representing the order of transactions on the
-ledger of a participant. Due to privacy and filtering, the sequence of
-offsets of a participant usually appears to contain gaps.
+Offsets are ordered, representing the order of transactions on the ledger of a participant. Due to privacy and filtering, the sequence of offsets of a participant usually appears to contain gaps.
 
-Offsets are specific to a participant and are not consistent between
-peer participants - even when processing common transactions. This is
-because each participant has its own ledger and allocates its own
-offsets based on it's permissioned view of transactions.
+Offsets are specific to a participant and are not consistent between peer participants - even when processing common transactions. This is because each participant has its own ledger and allocates its own offsets based on it's permissioned view of transactions.
 
-Offsets are represented as strings, encoded in zero-padded hexadecimal
-form. eg. ``0000000000000000A8``
+Offsets are represented as strings, encoded in zero-padded hexadecimal form. eg. ``0000000000000000A8``
 
 Ledger Time
 ^^^^^^^^^^^
 
-Ledger time is an approximate wall-clock time (within a bounded skew)
-that preserves causal ordering. That is, if a contract is created at a
-certain time, it cannot be used until after that time. The ledger time
-is represented by the ``created_at`` field in the PQS Read API.
+Ledger time is an approximate wall-clock time (within a bounded skew) that preserves causal ordering. That is, if a contract is created at a certain time, it cannot be used until after that time. The ledger time is represented by the ``created_at`` field in the PQS Read API.
 
 Tranasction ID
 ^^^^^^^^^^^^^^
 
 A transaction ID corresponds to an offset in the following ways:
 
--  Not every offset has a transaction ID. For example, the completion
-   event of a rejected transaction does not have a transaction ID
-   because it was unsuccessful.
+-  Not every offset has a transaction ID. For example, the completion event of a rejected transaction does not have a transaction ID because it was unsuccessful.
 -  There is, at most, one transaction ID at a given offset.
 -  Each transaction ID is unique and always has a single offset.
--  While offsets are allocated by, and are specific to, a participant;
-   transaction ID values are common to all participants.
--  Transaction ordering (as represented by associated offset) can vary
-   between participants.
--  A transaction ID is entirely opaque and does not communicate any
-   information, other than identification.
+-  While offsets are allocated by, and are specific to, a participant; transaction ID values are common to all participants.
+-  Transaction ordering (as represented by associated offset) can vary between participants.
+-  A transaction ID is entirely opaque and does not communicate any information, other than identification.
 
 Which should I use?
 ^^^^^^^^^^^^^^^^^^^
 
-Different types of data analysis require different tools. For example in
-these types of analysis the following identifiers can be useful:
+Different types of data analysis require different tools. For example in these types of analysis the following identifiers can be useful:
 
--  Causal: **Offset** provides an understanding of events in causal
-   order, consistent with the Participant-determined ledger commit
-   ordering.
--  Systematic: **Transaction ID** is required for correlating over
-   multiple participants, serving as a common identifier for individual
-   transactions.
--  Temporal: **Ledger Time** provides an ordering of events in
-   wall-clock time, with bounded skew. This can be useful depending on
-   your need for precision.
+-  Causal: **Offset** provides an understanding of events in causal order, consistent with the Participant-determined ledger commit ordering.
+-  Systematic: **Transaction ID** is required for correlating over multiple participants, serving as a common identifier for individual transactions.
+-  Temporal: **Ledger Time** provides an ordering of events in wall-clock time, with bounded skew. This can be useful depending on your need for precision.
 
 Time Model
 ~~~~~~~~~~
 
-PQS provides all three identifiers, but offset is defines the order.
-With this PQS is able to provide a consistent view of ledger
-transactions.
+PQS provides all three identifiers, but offset is defines the order. With this PQS is able to provide a consistent view of ledger transactions.
 
-Offsets are deeply embedded in the Read API, allowing users to query the
-ledger in a manner that provides consistency. Users can nominate the
-offsets they wish to query, or simply query the latest available offset.
+Offsets are deeply embedded in the Read API, allowing users to query the ledger in a manner that provides consistency. Users can nominate the offsets they wish to query, or simply query the latest available offset.
 
-The following figure shows a pair of participants and their respective
-ledgers. Each participant has its own PQS instance, and you can see that
-it always has the portion of the ledger it is authorized to see:
+The following figure shows a pair of participants and their respective ledgers. Each participant has its own PQS instance, and you can see that it always has the portion of the ledger it is authorized to see:
 
 |image4|
 
-You can also see that the offsets (prefix) are common to the participant
-and PQS, but the Transaction IDs (suffix) are shared throughout.
+You can also see that the offsets (prefix) are common to the participant and PQS, but the Transaction IDs (suffix) are shared throughout.
 
 Offset Management
 ~~~~~~~~~~~~~~~~~
 
-The following functions control the temporal perspective of the ledger,
-aand allow you to control how you consider time in your queries. Since
-PQS exposes an eventually-consistent perspective of the ledger, you may
-wish to query:
+The following functions control the temporal perspective of the ledger, aand allow you to control how you consider time in your queries. Since PQS exposes an eventually-consistent perspective of the ledger, you may wish to query:
 
 -  **Ignore**; The *latest available* state.
 -  **Pin**; The state of the ledger at a specific time.
--  **Span**; The ledger events across a time range, such as for an audit
-   trail.
--  **Consistency**; The ledger in a way that maintains consistency with
-   other interactions you have had with the ledger (read or write).
+-  **Span**; The ledger events across a time range, such as for an audit trail.
+-  **Consistency**; The ledger in a way that maintains consistency with other interactions you have had with the ledger (read or write).
 
-The following functions allow you to control the temporal scope of the
-ledger. This establishes the context in which subsequent queries
-execute:
+The following functions allow you to control the temporal scope of the ledger. This establishes the context in which subsequent queries execute:
 
--  ``set_latest(offset)``: nominates the offset of the latest data to
-   include in observing the ledger. If NULL it uses the latest
-   available. The actual offset to be used is returned. If the supplied
-   offset is beyond what is available, an error occurs.
--  ``validate_offset_exists(offset)``: validates that the datastore has
-   a complete history up to and including the offset provided. Returns
-   an error if the nominated offset is not available (too old, or too
-   new).
--  ``set_oldest(offset)``: nominates the offset of the oldest events to
-   include in query scope. If NULL then it uses the oldest available.
-   Function returns the actual offset used. If the supplied offset is
-   beyond what is available, an error occurs.
--  ``nearest_offset(time)``: a helper function to determine the offset
-   of a given time (or interval prior to now).
+-  ``set_latest(offset)``: nominates the offset of the latest data to include in observing the ledger. If NULL it uses the latest available. The actual offset to be used is returned. If the supplied offset is beyond what is available, an error occurs.
+-  ``validate_offset_exists(offset)``: validates that the datastore has a complete history up to and including the offset provided. Returns an error if the nominated offset is not available (too old, or too new).
+-  ``set_oldest(offset)``: nominates the offset of the oldest events to include in query scope. If NULL then it uses the oldest available. Function returns the actual offset used. If the supplied offset is beyond what is available, an error occurs.
+-  ``nearest_offset(time)``: a helper function to determine the offset of a given time (or interval prior to now).
 
-Under this scope, the following `table
-functions <https://www.postgresql.org/docs/current/sql-createfunction.html>`__
-allow access to the ledger and are used directly in queries. They are
-designed to be used in a similar manner to tables or views, and allow
-users to focus on the data they wish to query, with the impact of
-offsets removed.
+Under this scope, the following `table functions <https://www.postgresql.org/docs/current/sql-createfunction.html>`__ allow access to the ledger and are used directly in queries. They are designed to be used in a similar manner to tables or views, and allow users to focus on the data they wish to query, with the impact of offsets removed.
 
--  ``active(name)``: active instances of the target template/interface
-   views that existed at the time of the latest offset
--  ``creates(name)``: create events of the target template/interface
-   views that occurred between the oldest and latest offset
--  ``archives(name)``: archive events of the target template/interface
-   views that occurred between the oldest and latest offset
--  ``exercises(name)``: exercise events of the target choice that
-   occurred between the oldest and latest offset
+-  ``active(name)``: active instances of the target template/interface views that existed at the time of the latest offset
+-  ``creates(name)``: create events of the target template/interface views that occurred between the oldest and latest offset
+-  ``archives(name)``: archive events of the target template/interface views that occurred between the oldest and latest offset
+-  ``exercises(name)``: exercise events of the target choice that occurred between the oldest and latest offset
 
 ..
 
-   The above functions allow the user to focus on the templates,
-   interfaces, and choices they wish to query without concern for
-   `PostgreSQL name
-   limits <https://www.postgresql.org/docs/16/sql-syntax-lexical.html#:~:text=maximum%20identifier%20length%20is%2063%20bytes>`__
-   that are more constraining than Daml identifiers. If you wish to
-   allocate a "SQL name", you can create a SQL VIEW in which you
-   reference the above functions.
+   The above functions allow the user to focus on the templates, interfaces, and choices they wish to query without concern for `PostgreSQL name limits <https://www.postgresql.org/docs/16/sql-syntax-lexical.html#:~:text=maximum%20identifier%20length%20is%2063%20bytes>`__ that are more constraining than Daml identifiers. If you wish to allocate a "SQL name", you can create a SQL VIEW in which you reference the above functions.
 
-The ``name`` identifier can be used with or without the package
-specified:
+The ``name`` identifier can be used with or without the package specified:
 
 -  Fully qualified: ``<package>:<module>:<template|interface|choice>``
 -  Partially qualified: ``<module>:<template|interface|choice>``\ 
@@ -1114,13 +794,9 @@ specified:
 ..
 
 .. note::
-   Partially qualified identifiers fail if there is an ambiguous
-   result.
+   Partially qualified identifiers fail if there is an ambiguous result.
 
-These functions have optional parameters to allow the user to specify
-the offset range to be used. Providing these arguments is alternative to
-using ``set_*`` functions prior in the session. The following queries
-are equivalent:
+These functions have optional parameters to allow the user to specify the offset range to be used. Providing these arguments is alternative to using ``set_*`` functions prior in the session. The following queries are equivalent:
 
 .. code:: text
 
@@ -1137,88 +813,64 @@ are equivalent:
 JSONB Encoding
 ~~~~~~~~~~~~~~
 
-PQS stores the ledger using a `Daml-LF JSON-based
-encoding <https://docs.daml.com/json-api/lf-value-specification.html#daml-lf-json-encoding>`__
-of Daml-LF values. An overview of the encoding is provided below. For
-more details, refer to `the Daml-LF
-page <https://docs.daml.com/json-api/lf-value-specification.html#daml-lf-json-encoding>`__.
+PQS stores the ledger using a `Daml-LF JSON-based encoding <https://docs.daml.com/json-api/lf-value-specification.html#daml-lf-json-encoding>`__ of Daml-LF values. An overview of the encoding is provided below. For more details, refer to `the Daml-LF page <https://docs.daml.com/json-api/lf-value-specification.html#daml-lf-json-encoding>`__.
 
-Users should consult the `PostgreSQL
-documentation <https://www.postgresql.org/docs/16/datatype-json.html#JSON-CONTAINMENT>`__
-to understand how to work with JSONB data natively in SQL.
+Users should consult the `PostgreSQL documentation <https://www.postgresql.org/docs/16/datatype-json.html#JSON-CONTAINMENT>`__ to understand how to work with JSONB data natively in SQL.
 
-Values on the ledger (contract payloads and keys, interface views,
-exercise arguments, and return values) can be primitive types,
-user-defined records, variants, or enums. These types translate to `JSON
-types <https://json-schema.org/understanding-json-schema/reference/index.html>`__
-as follows:
+Values on the ledger (contract payloads and keys, interface views, exercise arguments, and return values) can be primitive types, user-defined records, variants, or enums. These types translate to `JSON types <https://json-schema.org/understanding-json-schema/reference/index.html>`__ as follows:
 
 Primitive Types
 ^^^^^^^^^^^^^^^
 
--  ``ContractID``: represented as
-   `string <https://json-schema.org/understanding-json-schema/reference/string.html>`__.
--  ``Int64``: represented as
-   `string <https://json-schema.org/understanding-json-schema/reference/string.html>`__.
--  ``Decimal``: represented as
-   `string <https://json-schema.org/understanding-json-schema/reference/string.html>`__.
--  ``List``: represented as
-   `array <https://json-schema.org/understanding-json-schema/reference/array.html>`__.
--  ``Text``: represented as
-   `string <https://json-schema.org/understanding-json-schema/reference/string.html>`__.
--  ``Date``: days since the Unix epoch, represented as
-   `integer <https://json-schema.org/understanding-json-schema/reference/numeric.html#integer>`__.
--  ``Time``: microseconds since the UNIX epoch, represented as
-   `number <https://json-schema.org/understanding-json-schema/reference/numeric.html#number>`__.
--  ``Bool``: represented as
-   `boolean <https://json-schema.org/understanding-json-schema/reference/boolean.html>`__.
--  ``Party``: represented as
-   `string <https://json-schema.org/understanding-json-schema/reference/string.html>`__.
+-  ``ContractID``: represented as `string <https://json-schema.org/understanding-json-schema/reference/string.html>`__.
+-  ``Int64``: represented as `string <https://json-schema.org/understanding-json-schema/reference/string.html>`__.
+-  ``Decimal``: represented as `string <https://json-schema.org/understanding-json-schema/reference/string.html>`__.
+-  ``List``: represented as `array <https://json-schema.org/understanding-json-schema/reference/array.html>`__.
+-  ``Text``: represented as `string <https://json-schema.org/understanding-json-schema/reference/string.html>`__.
+-  ``Date``: days since the Unix epoch, represented as `integer <https://json-schema.org/understanding-json-schema/reference/numeric.html#integer>`__.
+-  ``Time``: microseconds since the UNIX epoch, represented as `number <https://json-schema.org/understanding-json-schema/reference/numeric.html#number>`__.
+-  ``Bool``: represented as `boolean <https://json-schema.org/understanding-json-schema/reference/boolean.html>`__.
+-  ``Party``: represented as `string <https://json-schema.org/understanding-json-schema/reference/string.html>`__.
 -  ``Unit`` & ``Empty``: Represented as empty object ``{}``.
--  ``Optional``: represented as a variant with two constructors:
-   ``None`` and ``Some``.
+-  ``Optional``: represented as a variant with two constructors: ``None`` and ``Some``.
 
 User-Defined Types
 ^^^^^^^^^^^^^^^^^^
 
--  ``Record``: represented as
-   `object <https://json-schema.org/understanding-json-schema/reference/object.html>`__,
-   where each create parameter's name is a key, and the parameter's
-   value is the JSON-encoded value.
--  ``Variant``: represented as
-   `object <https://json-schema.org/understanding-json-schema/reference/object.html>`__,
-   using the ``{constructor: body}`` format, such as ``{"Left": true}``.
--  ``Enum``: represented as
-   `string <https://json-schema.org/understanding-json-schema/reference/string.html>`__,
-   where the value is the constructor name.
+-  ``Record``: represented as `object <https://json-schema.org/understanding-json-schema/reference/object.html>`__, where each create parameter's name is a key, and the parameter's value is the JSON-encoded value.
+-  ``Variant``: represented as `object <https://json-schema.org/understanding-json-schema/reference/object.html>`__, using the ``{constructor: body}`` format, such as ``{"Left": true}``.
+-  ``Enum``: represented as `string <https://json-schema.org/understanding-json-schema/reference/string.html>`__, where the value is the constructor name.
 
 Querying Patterns
 ~~~~~~~~~~~~~~~~~
 
-   Scenario: A user wants to query the most recent available state of
-   the ledger. This user treats the ledger's Active Contract Set as a
-   database table and is not concerned with history or offsets.
+   Scenario: A website user wants to query the state of the ledger after having completed a command (write), which has successfully committed at offset ``000000000000001350``. The user does not want to see a version of the ledger prior to this, in order to appear consistent.
 
-This user simply wants to query the (latest) state of the ledger,
-without consideration for offsets. Querying is inherently limited to one
-datasource, as the user has no control over the actual offset being
-used.
-
-In this scenario, the user wishes to query all Daml templates of
-``User`` within the ``Test.User`` templates, where the user is not an
-administrator:
+[!NOTE] This is a common pattern for web interfaces built on eventually-consistent data sources. It can be useful to track the latest offset within the web session, and update it on each interaction (read or write). Such offset is then used to protect any further reads from seeing prior versions.
 
 .. code:: text
 
-   SELECT set_offset_latest(NULL);
+   -- fails if the offset is not yet available
+   SELECT validate_offset_exists("000000000000001350");
+
+   -- this query only runs if the offset is available, and therefore the user can be assured that the query does not return a prior version.
+   SELECT * FROM active('test:Test.User:User');
+
+..
+
+   Scenario: A user wants to query the most recent available state of the ledger. This user treats the ledger's Active Contract Set as a database table and is not concerned with history or offsets. This user simply wants to query the (latest) state of the ledger, without consideration for offsets. Querying is inherently limited to one datasource, as the user has no control over the actual offset being used.
+
+In this case the user wishes to query all Daml templates of ``User`` within the ``Test.User`` templates, where the user is not an administrator:
+
+.. code:: text
+
+   SELECT set_latest(NULL);
 
    SELECT *
      FROM active('test:Test.User:User') AS "user"
-     WHERE NOT "user".payload->>'admin';
+     WHERE "user".payload->>'admin' = 'false';
 
-By using PostgreSQL's JSONB querying capabilities, you can join with the
-related ``Alias`` template to provide an overview of all users and their
-aliases:
+By using PostgreSQL's JSONB querying capabilities, you can join with the related ``Alias`` template to provide an overview of all users and their aliases:
 
 .. code:: text
 
@@ -1229,10 +881,7 @@ aliases:
        LEFT JOIN active('test:Test.User:Alias') AS "alias"
          ON "user".payload->>'user_id' = "alias".payload->>'user_id';
 
-Historical events can also be accessed; by default all the history in
-the datastore is available for querying. The following query returns the
-data associated with all ``User`` contracts that were archived in the
-available history:
+Historical events can also be accessed; by default all the history in the datastore is available for querying. The following query returns the data associated with all ``User`` contracts that were archived in the available history:
 
 .. code:: text
 
@@ -1245,12 +894,9 @@ available history:
 
 ..
 
-   Scenario: A report writer wants to query the ledger as of a known
-   historical point in time, to ensure that consistent data is provided
-   regardless of where the ledger subsequently evolved.
+   Scenario: A report writer wants to query the ledger as of a known historical point in time, to ensure that consistent data is provided regardless of where the ledger subsequently evolved.
 
-This user can obtain a point-in-time view of the ledger, to see all
-non-admin ``User`` templates that were active at that point in time:
+This user can obtain a point-in-time view of the ledger, to see all non-admin ``User`` templates that were active at that point in time:
 
 .. code:: text
 
@@ -1258,12 +904,11 @@ non-admin ``User`` templates that were active at that point in time:
 
    SELECT "user".*
      FROM active('test:Test.User:User') AS "user"
-     WHERE NOT "user".payload->>'admin';
+     WHERE "user".payload->>'admin' = 'false';
 
 ..
 
-   Scenario: Query the history of the ledger to determine how many
-   aliases have existed for each user who was active at ``2020-01-01``:
+   Scenario: Query the history of the ledger to determine how many aliases have existed for each user who was active at ``2020-01-01``:
 
 .. code:: text
 
@@ -1273,13 +918,11 @@ non-admin ``User`` templates that were active at that point in time:
      FROM active('test:Test.User:User') AS "user"
        JOIN creates('test:Test.User:Alias') AS alias
          ON "user".payload->>'user_id' = alias.payload->>'user_id'
-     WHERE NOT "user".payload->>'admin';
+     WHERE "user".payload->>'admin' = 'false';
 
 ..
 
-   Scenario: An automation user wants to query from a fixed offset
-   ("repeatable read" consistency) and write their query in familiar
-   SQL.
+   Scenario: An automation user wants to query from a fixed offset ("repeatable read" consistency) and write their query in familiar SQL.
 
 .. code:: text
 
@@ -1289,39 +932,23 @@ non-admin ``User`` templates that were active at that point in time:
    -- this query run at the nominated offset
    SELECT ...
 
-The above queries now observe active contracts as of the given offset.
-Therefore, the example queries presented above are unchanged.
+The above queries now observe active contracts as of the given offset. Therefore, the example queries presented above are unchanged.
 
-   Scenario: A user wants to present a limited amount of history to
-   their users. They only want to see the last 90 days of history.
+   Scenario: A user wants to present a limited amount of history to their users. They only want to see the last 90 days of history.
 
 .. code:: text
 
    -- fails if this offset has already been pruned from the datastore
    SELECT set_oldest(nearest_offset(INTERVAL '90 days'));
 
-..
-
-   A website user wants to query active contracts, after having
-   completed a command (write), which has successfully completed in a
-   known offset ``000000000000001350``. The user does not want to see a
-   version of the ledger prior to the command being executed to preserve
-   consistency.
-
-.. code:: text
-
-   -- fails if the offset is not yet available
-   SELECT validate_offset_exists("000000000000001350");
-   -- this query only runs if the offset is available, and therefore the user can be assured that the query does not return a prior version.
-   SELECT * FROM active('test:Test.User:User');
+   -- audit trail of all created users
+   SELECT * FROM creates('test:Test.User:User');
 
 ..
 
-   A user wants to enquire where the datastore is up to, in terms of
-   offset availability.
+   Scenario: A user wants to enquire where the datastore is up to, in terms of offset availability.
 
-Here, the user requests the most recent and oldest available offsets to
-be used, and in the process returns what these offsets are:
+Here, the user requests the most recent and oldest available offsets to be used, and in the process returns what these offsets are:
 
 .. code:: text
 
@@ -1331,22 +958,19 @@ be used, and in the process returns what these offsets are:
 Summary functions
 ~~~~~~~~~~~~~~~~~
 
-Summary functions are available to provide an overview of the ledger
-data available within the nominated offset range:
+Summary functions are available to provide an overview of the ledger data available within the nominated offset range:
 
--  ``summary_transients(from_offset, to_offset)``: the number of
-   transients per Daml fully qualified name within the offset range.
--  ``summary_updates(from_offset, to_offset)``: summary of create and
-   archive counts per Daml fully qualified name within the offset range.
+-  ``summary_transients(from_offset, to_offset)``: the number of transients per Daml fully qualified name within the offset range.
+-  ``summary_updates(from_offset, to_offset)``: summary of create and archive counts per Daml fully qualified name within the offset range.
 
-The following functions retrieve event counts per ``daml_fqn``:
+The following functions retrieve event counts per ``template_fqn``:
 
 -  ``summary_active(at_offset)``
 -  ``summary_creates(from_offset, to_offset)``
 -  ``summary_archives(from_offset, to_offset)``
 -  ``summary_exercises(from_offset, to_offset)``
 
-Valid values for ``fqn_type`` are:
+Valid values for ``payload_type`` are:
 
 -  ``template``
 -  ``interface_view``
@@ -1356,38 +980,32 @@ Valid values for ``fqn_type`` are:
 .. code:: text
 
    postgres=# select * from summary_active();
-              daml_fqn              |    fqn_type    | count
-   ---------------------------------+----------------+-------
-    mypkg:PingPong:BirthCertificate | template       |     4
-    mypkg:PingPong:INameDocument    | interface_view |     4
-   (2 rows)
-
-   -- or:
+     OR
    postgres=# select * from summary_active('00000000000000000a');
-   ...
+
+   template_fqn                                 |payload_type|count|
+   ---------------------------------------------+------------+-----+
+   QueryingPackage:NameRegistry:BirthCertificate|template    |    2|
+   QueryingPackage:NameRegistry:INameDocument   |interface   |    2|
+   (2 rows)
 
 Lookup functions
 ~~~~~~~~~~~~~~~~
 
--  ``lookup_contract(contract_id)`` is a mechanism to retrieve contract
-   data without needing to know its Daml qualified name. The function
-   returns both contract and all associated interface view projections,
-   distinguishable by the ``fqn_type`` column.
+-  ``lookup_contract(contract_id)`` is a mechanism to retrieve contract data without needing to know its Daml qualified name. The function returns both contract and all associated interface view projections, distinguishable by the ``payload_type`` column.
 
    .. code:: text
 
-      postgres=# select right(daml_fqn, 64) daml_fqn, fqn_type, "offset", left(contract_id, 8) contract_id, left(event_id, 8) event_id, payload
+      postgres=# select right(template_fqn, 64) template_fqn, fqn_type, "offset", left(contract_id, 8) contract_id, left(event_id, 8) event_id, payload
       from lookup_contract('0065497c49743b751946e7686fd853adc68b3081fc0e83bd418deb0d3fc4a5a610ca01122039fd9bf65a40a3f374403ea20fd82fd86c5f6c1bb5094c82a901ca162c79be4c');
-                  daml_fqn            |    fqn_type    |       offset       | contract_id | event_id |                                                                         payload
+                  template_fqn        |    fqn_type    |       offset       | contract_id | event_id |                                                                         payload
       --------------------------------+----------------+--------------------+-------------+----------+----------------------------------------------------------------------------------------------------------------------------------------------------------
       mypkg:PingPong:BirthCertificate | template       | 000000000000000009 | 0065497c    | #1220f9a | {"owner": "Alice::122053a2c7fb4d821b2d09ee4da44f4f575b24312045a62eb65fbba050bf03ae4cc1", "user_id": "id-joe", "lastName": "Bloggs", "firstName": "Fred"}
       mypkg:PingPong:INameDocument    | interface_view | 000000000000000009 | 0065497c    | #1220f9a | {"name": "Fred Bloggs", "owner": "Alice::122053a2c7fb4d821b2d09ee4da44f4f575b24312045a62eb65fbba050bf03ae4cc1"}
 
       (2 rows)
 
--  ``lookup_exercises(contract_id)`` - a mechanism to retrieve choice
-   exercise data without needing to know the Daml qualified name;
-   knowing the contract ID is sufficient.
+-  ``lookup_exercises(contract_id)`` - a mechanism to retrieve choice exercise data without needing to know the Daml qualified name; knowing the contract ID is sufficient.
 
    .. code:: text
 
@@ -1402,96 +1020,57 @@ Lookup functions
 Optimization
 ~~~~~~~~~~~~
 
-This section briefly discusses optimizing the PQS database to make the
-most of the capabilities of PostgreSQL. The topic is broad, and there
-are many resources available. Refer to the `PostgreSQL
-documentation <https://www.postgresql.org/docs/>`__ for more
-information.
+This section briefly discusses optimizing the PQS database to make the most of the capabilities of PostgreSQL. The topic is broad, and there are many resources available. Refer to the `PostgreSQL documentation <https://www.postgresql.org/docs/>`__ for more information.
 
-PQS makes extensive use of JSONB columns to store ledger data.
-Familiarity with JSONB is essential to optimize queries. The following
-sections provide some tips to help you get started.
+PQS makes extensive use of JSONB columns to store ledger data. Familiarity with JSONB is essential to optimize queries. The following sections provide some tips to help you get started.
 
 Indexing
 ^^^^^^^^
 
-Indexes are an important tool for improving the performance of queries
-with JSONB content. Users are expected to create JSONB-based indexes to
-optimize their model-specific queries, where additional read efficiency
-justifies the inevitable write-amplification. Simple indexes can be
-created using the following helper function. More sophisticated indexes
-can be created using the standard PostgreSQL syntax.
+Indexes are an important tool for improving the performance of queries with JSONB content. Users are expected to create JSONB-based indexes to optimize their model-specific queries, where additional read efficiency justifies the inevitable write-amplification. Simple indexes can be created using the following helper function. More sophisticated indexes can be created using the standard PostgreSQL syntax.
 
 .. code:: text
 
    call create_index_for_contract('token_wallet_holder_idx', 'register:DA.Register:Token', '(payload->''wallet''->>''holder'')', 'hash');
 
-In this example, the index allows comparisons on the wallet holder. It
-has the additional advantage that the results of the JSON inspection are
-cached/materialized and do not have to be recomputed for every access.
+In this example, the index allows comparisons on the wallet holder. It has the additional advantage that the results of the JSON inspection are cached/materialized and do not have to be recomputed for every access.
 
-PostgreSQL provides several index types, including B-tree, Hash, GiST,
-SP-GiST, GIN, and BRIN. Each index type uses a different algorithm that
-is best suited to different types of queries. The table below provides a
-basic explanation of where they can be used. For a more thorough
-understanding, consult the `chapter on
-indexes <https://www.postgresql.org/docs/current/indexes.html>`__ in the
-PostgreSQL manual.
+PostgreSQL provides several index types, including B-tree, Hash, GiST, SP-GiST, GIN, and BRIN. Each index type uses a different algorithm that is best suited to different types of queries. The table below provides a basic explanation of where they can be used. For a more thorough understanding, consult the `chapter on indexes <https://www.postgresql.org/docs/current/indexes.html>`__ in the PostgreSQL manual.
 
-+---------------+-----------------------------------------------------+
-| Index Type    | Comment                                             |
-+===============+=====================================================+
-| Hash          | Compact. Useful only for filters that use =.        |
-+---------------+-----------------------------------------------------+
-| B-tree        | Can be used in filters that use <, <=, =, >=, > as  |
-|               | well as postfix string comparisons (e.g. LIKE       |
-|               | 'foo%'). B-trees can also speed up ORDER BY clauses |
-|               | and can be used to retrieve subexpressions values   |
-|               | from the index rather than evaluating the           |
-|               | subexpressions (i.e. when used in a SELECT clause). |
-+---------------+-----------------------------------------------------+
-| GIN           | Useful for subset operators.                        |
-+---------------+-----------------------------------------------------+
-| GiST, SP-GiST | See PostgreSQL manual.                              |
-+---------------+-----------------------------------------------------+
-| BRIN          | Efficient for tables where rows are already         |
-|               | physically sorted for a particular column.          |
-+---------------+-----------------------------------------------------+
++---------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Index Type    | Comment                                                                                                                                                                                                                                                                                              |
++===============+======================================================================================================================================================================================================================================================================================================+
+| Hash          | Compact. Useful only for filters that use =.                                                                                                                                                                                                                                                         |
++---------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| B-tree        | Can be used in filters that use <, <=, =, >=, > as well as postfix string comparisons (e.g. LIKE 'foo%'). B-trees can also speed up ORDER BY clauses and can be used to retrieve subexpressions values from the index rather than evaluating the subexpressions (i.e. when used in a SELECT clause). |
++---------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| GIN           | Useful for subset operators.                                                                                                                                                                                                                                                                         |
++---------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| GiST, SP-GiST | See PostgreSQL manual.                                                                                                                                                                                                                                                                               |
++---------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| BRIN          | Efficient for tables where rows are already physically sorted for a particular column.                                                                                                                                                                                                               |
++---------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 Pagination
 ^^^^^^^^^^
 
-Pagination refers to splitting up large result sets into pages of up to
-``n`` results. It can allow user navigation, such as moving to the next
-page to display, going to the end of the result set, or jumping around
-in the middle. It can be a very effective user experience when there is
-a large ordered data set. The following pagination use cases are
-important:
+Pagination refers to splitting up large result sets into pages of up to ``n`` results. It can allow user navigation, such as moving to the next page to display, going to the end of the result set, or jumping around in the middle. It can be a very effective user experience when there is a large ordered data set. The following pagination use cases are important:
 
-+----------------------+----------------------+----------------------+
-| Pagination Use Case  |                      | Example              |
-+======================+======================+======================+
-| Random access        | Accessing arbitrary  | Client-side binary   |
-|                      | pages                | search of results; A |
-|                      |                      | user opens random    |
-|                      |                      | pages in a search    |
-|                      |                      | result.              |
-+----------------------+----------------------+----------------------+
-| Iteration or         | Accessing page 1,    | Programmatic         |
-| enumeration          | then page 2, ...     | processing of all    |
-|                      |                      | results in           |
-|                      |                      | batchesiter.         |
-+----------------------+----------------------+----------------------+
++--------------------------+------------------------------------+-------------------------------------------------------------------------------------+
+| Pagination Use Case      |                                    | Example                                                                             |
++==========================+====================================+=====================================================================================+
+| Random access            | Accessing arbitrary pages          | Client-side binary search of results; A user opens random pages in a search result. |
++--------------------------+------------------------------------+-------------------------------------------------------------------------------------+
+| Iteration or enumeration | Accessing page 1, then page 2, ... | Programmatic processing of all results in batchesiter.                              |
++--------------------------+------------------------------------+-------------------------------------------------------------------------------------+
 
-For efficient pagination iteration, you need a stable column to sort on.
-The requirements are:
+For efficient pagination iteration, you need a stable column to sort on. The requirements are:
 
 -  It should be acceptable to the user to sort results on the column.
 -  It must have unique values.
 -  A unique B-tree index should exist.
 
-You can then retrieve a page using queries with the specified
-``page_num`` and of size ``page_size``:
+You can then retrieve a page using queries with the specified ``page_num`` and of size ``page_size``:
 
 .. code:: text
 
@@ -1504,17 +1083,9 @@ You can then retrieve a page using queries with the specified
 ..
 
 .. caution::
-   Large ``OFFSET`` values become progressively slower, as
-   increasing number of rows need to be read and discarded. See the
-   chapter on `LIMIT and
-   OFFSET <https://www.postgresql.org/docs/current/queries-limit.html>`__
-   in the PostgreSQL manual.
+   Large ``OFFSET`` values become progressively slower, as increasing number of rows need to be read and discarded. See the chapter on `LIMIT and OFFSET <https://www.postgresql.org/docs/current/queries-limit.html>`__ in the PostgreSQL manual.
 
-Keyset pagination is a scaleable and efficient method to use. This is a
-technique where you use the last value of the previous page to fetch the
-next page. The following query fetches the next page of results after
-the last value of the previous page. You should consider an appropriate
-index for the key column:
+Keyset pagination is a scaleable and efficient method to use. This is a technique where you use the last value of the previous page to fetch the next page. The following query fetches the next page of results after the last value of the previous page. You should consider an appropriate index for the key column:
 
 .. code:: text
 
@@ -1527,9 +1098,7 @@ index for the key column:
 psql Tips
 ^^^^^^^^^
 
-Type ``psql <dbname>`` on the command line to enter the PostgreSQL REPL
-(if in doubt, use ``postgres`` as the database name). Some useful
-commands are shown in the following table:
+Type ``psql <dbname>`` on the command line to enter the PostgreSQL REPL (if in doubt, use ``postgres`` as the database name). Some useful commands are shown in the following table:
 
 =============== =================================================
 Command         Description
@@ -1564,9 +1133,7 @@ The script continues to execute if a command fails.
 Query Analysis
 ^^^^^^^^^^^^^^
 
-In ``psql`` you can prefix a query with ``EXPLAIN ANALYZE`` to get an
-explanation of how the query would be executed. This helps verify that a
-query executes as expected, using the indexes that you expect it to.
+In ``psql`` you can prefix a query with ``EXPLAIN ANALYZE`` to get an explanation of how the query would be executed. This helps verify that a query executes as expected, using the indexes that you expect it to.
 
 .. code:: text
 
@@ -1576,94 +1143,61 @@ query executes as expected, using the indexes that you expect it to.
 Pruning
 -------
 
-Pruning ledger data from the database can help reduce storage size and
-improve query performance by removing old and irrelevant data. PQS
-provides two approaches to prune ledger data: using the PQS CLI or using
-the ``prune_to_offset`` PostgreSQL function.
+Pruning ledger data from the database can help reduce storage size and improve query performance by removing old and irrelevant data. PQS provides two approaches to prune ledger data: using the PQS CLI or using the ``prune_to_offset`` PostgreSQL function.
 
 .. warning::
-   Calling either the ``prune`` CLI command with
-   ``--prune-mode Force`` or calling the PostgreSQL function
-   ``prune_to_offset`` deletes data irrevocably.
+   Calling either the ``prune`` CLI command with ``--prune-mode Force`` or calling the PostgreSQL function ``prune_to_offset`` deletes data irrevocably.
 
 Data Deletion and Changes
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Both pruning approaches (CLI and PostgreSQL function) share the same
-behavior in terms of data deletion and changes.
+Both pruning approaches (CLI and PostgreSQL function) share the same behavior in terms of data deletion and changes.
 
-Active contracts are preserved under a new offset, while all other
-transaction-related data up to, and including the target offset is
-deleted. This approach is in line with ledger pruning
-`recommendation <https://docs.daml.com/ops/pruning.html#how-the-daml-ledger-api-is-affected>`__:
+Active contracts are preserved under a new offset, while all other transaction-related data up to, and including the target offset is deleted. This approach is in line with ledger pruning `recommendation <https://docs.daml.com/ops/pruning.html#how-the-daml-ledger-api-is-affected>`__:
 
-   As a consequence, after pruning, a Daml application must bootstrap
-   from the Active Contract Service and a recent offset.
+   As a consequence, after pruning, a Daml application must bootstrap from the Active Contract Service and a recent offset.
 
-PQS helps users avoid an unnecessary bootstrapping process, but achieves
-the same outcome as if it had obtained a fresh snapshot (of the Active
-Contract Set) from the ledger.
+PQS helps users avoid an unnecessary bootstrapping process, but achieves the same outcome as if it had obtained a fresh snapshot (of the Active Contract Set) from the ledger.
 
-The target offset, that is, the offset provided via ``--prune-target``
-or as argument to ``prune_to_offset`` is the transaction with the
-highest offset to be deleted by the pruning operation.
+The target offset, that is, the offset provided via ``--prune-target`` or as argument to ``prune_to_offset`` is the transaction with the highest offset to be deleted by the pruning operation.
 
 .. note::
-   If the provided offset does not have a transaction associated
-   with it, the effective target offset becomes the oldest offset that
-   succeeds (is greater than) the provided offset.
+   If the provided offset does not have a transaction associated with it, the effective target offset becomes the oldest offset that succeeds (is greater than) the provided offset.
 
 When using either pruning method, the following data will be changed:
 
--  The offset of active contracts is moved to the oldest known offset
-   which succeeds the pruning target offset. For example, this could be
-   the offset of the oldest transaction that is unaffected by the
-   pruning operation.
--  Transactions with offsets up to and including the target offset,
-   including associated archived contracts and exercise events, are
-   deleted.
+-  The offset of active contracts is moved to the oldest known offset which succeeds the pruning target offset. For example, this could be the offset of the oldest transaction that is unaffected by the pruning operation.
+-  Transactions with offsets up to and including the target offset, including associated archived contracts and exercise events, are deleted.
 
 The following data is unaffected:
 
--  Transaction-related data (event/choices/contracts) for transaction
-   with an offset greater than the pruning target.
+-  Transaction-related data (event/choices/contracts) for transaction with an offset greater than the pruning target.
 
-Pruning is a destructive operation and cannot be undone. If necessary,
-make sure to back up your data before performing any pruning operations.
+Pruning is a destructive operation and cannot be undone. If necessary, make sure to back up your data before performing any pruning operations.
 
 Constraints
 ~~~~~~~~~~~
 
 Some constraints apply to pruning operations:
 
-1. The provided target offset must be within the bounds of the
-   contiguous history. If the target offset is outside the bounds, an
-   error is raised.
-2. The pruning operation cannot coincide with the latest consistent
-   checkpoint of the contiguous history. If so, it raises an error.
+1. The provided target offset must be within the bounds of the contiguous history. If the target offset is outside the bounds, an error is raised.
+2. The pruning operation cannot coincide with the latest consistent checkpoint of the contiguous history. If so, it raises an error.
 
 Pruning from the command line
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The PQS CLI provides a ``prune`` command that allows you to prune the
-ledger data up to a specified offset, timestamp, or duration.
+The PQS CLI provides a ``prune`` command that allows you to prune the ledger data up to a specified offset, timestamp, or duration.
 
-For detailed information on all available options, please run
-``./scribe.jar datastore postgres-document prune --help-verbose``.
+For detailed information on all available options, please run ``./scribe.jar datastore postgres-document prune --help-verbose``.
 
-To use the ``prune`` command, you need to provide a pruning target as an
-argument. The pruning target can be an offset, a timestamp (ISO 8601),
-or a duration (ISO 8601):
+To use the ``prune`` command, you need to provide a pruning target as an argument. The pruning target can be an offset, a timestamp (ISO 8601), or a duration (ISO 8601):
 
 .. code:: text
 
    $ ./scribe.jar datastore postgres-document prune --prune-target '<offset>'
    ...
 
-By default, the ``prune`` command performs a dry run, meaning it
-displays the effects of the pruning operation without actually deleting
-any data. To execute the pruning operation, add the
-``--prune-mode Force`` option:
+By default, the ``prune`` command performs a dry run, meaning it displays the effects of the pruning operation without actually deleting any data. To execute the pruning operation, add the ``--prune-mode Force`` option:
 
 .. code:: text
 
@@ -1673,18 +1207,14 @@ any data. To execute the pruning operation, add the
 Example with Timestamp and Duration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In addition to providing an offset as ``--prune-target``, a timestamp or
-duration can also be used as a pruning cut-off. For example, to prune
-data older than 30 days (relative to now), you can use the following
-command:
+In addition to providing an offset as ``--prune-target``, a timestamp or duration can also be used as a pruning cut-off. For example, to prune data older than 30 days (relative to now), you can use the following command:
 
 .. code:: text
 
    $ ./scribe.jar datastore postgres-document prune --prune-target P30D
    ...
 
-To prune data up to a specific timestamp, you can use the following
-command:
+To prune data up to a specific timestamp, you can use the following command:
 
 .. code:: text
 
@@ -1694,10 +1224,7 @@ command:
 Pruning from SQL
 ~~~~~~~~~~~~~~~~
 
-The ``prune_to_offset()`` function is a PostgreSQL function that allows
-you to prune the ledger data up to a specified offset. It has the same
-behavior as the ``datastore postgres-document prune`` command, but does
-not feature a dry-run option.
+The ``prune_to_offset()`` function is a PostgreSQL function that allows you to prune the ledger data up to a specified offset. It has the same behavior as the ``datastore postgres-document prune`` command, but does not feature a dry-run option.
 
 To use ``prune_to_offset``, you need to provide an offset:
 
@@ -1705,13 +1232,9 @@ To use ``prune_to_offset``, you need to provide an offset:
 
    SELECT * FROM prune_to_offset('<offset>');
 
-The function deletes transactions and updates active contracts as
-described above.
+The function deletes transactions and updates active contracts as described above.
 
-You can use ``prune_to_offset`` in combination with the
-``nearest_offset`` function to prune data up to a specific timestamp or
-interval. For example, to prune data older than 30 days, you can use the
-following query:
+You can use ``prune_to_offset`` in combination with the ``nearest_offset`` function to prune data up to a specific timestamp or interval. For example, to prune data older than 30 days, you can use the following query:
 
 .. code:: text
 
@@ -1720,10 +1243,7 @@ following query:
 Authentication
 --------------
 
-To run PQS with authentication you need to turn on via
-``--source-ledger-auth OAuth``. PQS uses `OAuth 2.0 Client Credentials
-flow <https://datatracker.ietf.org/doc/html/rfc6749#section-4.4>`__ that
-requires additional ``--pipeline-oauth`` parameters:
+To run PQS with authentication you need to turn on via ``--source-ledger-auth OAuth``. PQS uses `OAuth 2.0 Client Credentials flow <https://datatracker.ietf.org/doc/html/rfc6749#section-4.4>`__ that requires additional ``--pipeline-oauth`` parameters:
 
 .. code:: text
 
@@ -1732,16 +1252,9 @@ requires additional ``--pipeline-oauth`` parameters:
        --pipeline-oauth-cafile ca.crt \
        --pipeline-oauth-endpoint https://my-auth-server/token
 
-PQS uses the supplied client credentials (``clientid`` and
-``clientsecret``) to access the token endpoint (``endpoint``) of the
-OAuth service of your choice. Optional ``cafile`` parameter is a path to
-the Certification Authority certificate used to access the token
-endpoint. If ``cafile`` is not set, the Java TrustStore is used.
+PQS uses the supplied client credentials (``clientid`` and ``clientsecret``) to access the token endpoint (``endpoint``) of the OAuth service of your choice. Optional ``cafile`` parameter is a path to the Certification Authority certificate used to access the token endpoint. If ``cafile`` is not set, the Java TrustStore is used.
 
-Please make sure you have `configured your Daml participant to use
-authorization <https://docs.daml.com/tools/sandbox.html#run-with-authorization>`__
-and an authorization server to accept your client credentials for
-``grant_type=client_credentials`` and ``scope=daml_ledger_api``.
+Please make sure you have `configured your Daml participant to use authorization <https://docs.daml.com/tools/sandbox.html#run-with-authorization>`__ and an authorization server to accept your client credentials for ``grant_type=client_credentials`` and ``scope=daml_ledger_api``.
 
 Full example:
 
@@ -1763,9 +1276,7 @@ Full example:
 Audience-Based Token
 ~~~~~~~~~~~~~~~~~~~~
 
-For `Audience-Based
-Tokens <https://docs.daml.com/app-dev/authorization.html#audience-based-tokens>`__
-use the ``--pipeline-oauth-parameters-audience`` parameter:
+For `Audience-Based Tokens <https://docs.daml.com/app-dev/authorization.html#audience-based-tokens>`__ use the ``--pipeline-oauth-parameters-audience`` parameter:
 
 .. code:: text
 
@@ -1782,9 +1293,7 @@ use the ``--pipeline-oauth-parameters-audience`` parameter:
 Scope-Based Token
 ~~~~~~~~~~~~~~~~~
 
-For `Scope-Based
-Tokens <https://docs.daml.com/app-dev/authorization.html#scope-based-tokens>`__
-use the ``--pipeline-oauth-scope`` parameter:
+For `Scope-Based Tokens <https://docs.daml.com/app-dev/authorization.html#scope-based-tokens>`__ use the ``--pipeline-oauth-scope`` parameter:
 
 .. code:: text
 
@@ -1801,18 +1310,12 @@ use the ``--pipeline-oauth-scope`` parameter:
 ..
 
 .. note::
-   The default value of the ``--pipeline-oauth-scope`` parameter
-   is ``daml_ledger_api``. Ledger API requires ``daml_ledger_api`` in
-   the list of scopes unless `custom target
-   scope <https://docs.daml.com/canton/usermanual/apis.html#configuring-the-target-scope-for-jwt-authorization>`__
-   is configured.
+   The default value of the ``--pipeline-oauth-scope`` parameter is ``daml_ledger_api``. Ledger API requires ``daml_ledger_api`` in the list of scopes unless `custom target scope <https://docs.daml.com/canton/usermanual/apis.html#configuring-the-target-scope-for-jwt-authorization>`__ is configured.
 
 Static Access Token
 ~~~~~~~~~~~~~~~~~~~
 
-Alternatively, you can configure PQS to use a static access token
-(meaning it is not refreshed) using the ``--pipeline-oauth-accesstoken``
-parameter:
+Alternatively, you can configure PQS to use a static access token (meaning it is not refreshed) using the ``--pipeline-oauth-accesstoken`` parameter:
 
 .. code:: text
 
@@ -1824,40 +1327,17 @@ parameter:
 Ledger API Users and Daml Parties
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-PQS connects to a participant (via Ledger API) as a user, defined in the
-OAuth server. After authenticating, the participant has the
-authorization information to know what Daml Party data the user is
-allowed to access. By default, all parties are enabled, but this scope
-can be further restricted via the ``--pipeline-filter-parties`` filter
-parameter.
+PQS connects to a participant (via Ledger API) as a user, defined in the OAuth server. After authenticating, the participant has the authorization information to know what Daml Party data the user is allowed to access. By default, all parties are enabled, but this scope can be further restricted via the ``--pipeline-filter-parties`` filter parameter.
 
 Token expiry
 ~~~~~~~~~~~~
 
-JWT tokens have an expiration time. PQS has a mechanism to automatically
-request a new access token from the Auth Server, before the old access
-token expires. To set when PQS should try to request a new access token,
-use ``--pipeline-oauth-preemptexpiry`` (default "PT1M" - one minute),
-meaning: request a new access token one minute before the current access
-token expires. This new access token is used for any future Ledger API
-calls. However, for streaming calls such as
-`getTransactions <https://docs.daml.com/app-dev/grpc/proto-docs.html#gettransactionsrequest>`__
-the access token is part of the request that initiates the streaming.
-Canton versions prior to 2.9 terminate the stream with error
-``PERMISSION_DENIED`` as soon as the old access token expires to prevent
-streaming forever based on the old access token. Versions 2.9+ fail with
-code ``ABORTED`` and description ``ACCESS_TOKEN_EXPIRED`` and PQS
-streams from the offset of the last successfully processed transaction.
+JWT tokens have an expiration time. PQS has a mechanism to automatically request a new access token from the Auth Server, before the old access token expires. To set when PQS should try to request a new access token, use ``--pipeline-oauth-preemptexpiry`` (default "PT1M" - one minute), meaning: request a new access token one minute before the current access token expires. This new access token is used for any future Ledger API calls. However, for streaming calls such as `getTransactions <https://docs.daml.com/app-dev/grpc/proto-docs.html#gettransactionsrequest>`__ the access token is part of the request that initiates the streaming. Canton versions prior to 2.9 terminate the stream with error ``PERMISSION_DENIED`` as soon as the old access token expires to prevent streaming forever based on the old access token. Versions 2.9+ fail with code ``ABORTED`` and description ``ACCESS_TOKEN_EXPIRED`` and PQS streams from the offset of the last successfully processed transaction.
 
 History Slicing
 ---------------
 
-As described in `Ledger Streaming &
-Recovery <003-resilience.md#ledger-streaming--recovery>`__ you can use
-PQS with ``--pipeline-ledger-start`` and ``--pipeline-ledger-stop`` to
-ask for the slice of the history you want. There are some constraints on
-start and stop offsets which cause PQS to fail-fast if they are
-violated.
+As described in `Ledger Streaming & Recovery <003-resilience.md#ledger-streaming--recovery>`__ you can use PQS with ``--pipeline-ledger-start`` and ``--pipeline-ledger-stop`` to ask for the slice of the history you want. There are some constraints on start and stop offsets which cause PQS to fail-fast if they are violated.
 
 You cannot use:
 
@@ -1884,11 +1364,8 @@ You cannot use:
 .. note::
    In the above examples:
 
-   -  **Request** represents offsets requested via
-      ``--pipeline-ledger-start`` and ``--pipeline-ledger-stop``
-      arguments.
-   -  **Participant** represents the availability of unpruned ledger
-      history in the participant.
+   -  **Request** represents offsets requested via ``--pipeline-ledger-start`` and ``--pipeline-ledger-stop`` arguments.
+   -  **Participant** represents the availability of unpruned ledger history in the participant.
    -  **Datastore** represents data in the PQS database.
 
 Reset Procedure
@@ -1897,27 +1374,15 @@ Reset Procedure
 Reset
 ~~~~~
 
-Reset-to-offset is a manual procedure that deletes all transactions from
-the PQS database after a given offset. This allows you to restart
-processing from the offset as if subsequent transactions have never been
-processed.
+Reset-to-offset is a manual procedure that deletes all transactions from the PQS database after a given offset. This allows you to restart processing from the offset as if subsequent transactions have never been processed.
 
 .. warning::
-   Reset is a dangerous, destructive, and permanent procedure
-   that needs to be coordinated within the entire ecosystem and not
-   performed in isolation.
+   Reset is a dangerous, destructive, and permanent procedure that needs to be coordinated within the entire ecosystem and not performed in isolation.
 
-Reset can be useful to perform a point-in-time rollback of the ledger in
-a range of circumstances. For example, in the event of:
+Reset can be useful to perform a point-in-time rollback of the ledger in a range of circumstances. For example, in the event of:
 
-1. **Unexepected new entities** - A new scope, such as a Party or
-   template, appears in ledger transactions without coordination. That
-   is, new transactions arrive without ensuring PQS is restarted - to
-   ensure it knows about these new enitities prior.
-2. **Ledger roll-back** - If a ledger is rolled-back due to the disaster
-   recovery process, you will need to perform a similar roll back with
-   PQS. This is a manual process that requires coordination with the
-   participant.
+1. **Unexepected new entities** - A new scope, such as a Party or template, appears in ledger transactions without coordination. That is, new transactions arrive without ensuring PQS is restarted - to ensure it knows about these new enitities prior.
+2. **Ledger roll-back** - If a ledger is rolled-back due to the disaster recovery process, you will need to perform a similar roll back with PQS. This is a manual process that requires coordination with the participant.
 
 The procedure:
 
@@ -1935,17 +1400,13 @@ The procedure:
 
       SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE pid <> pg_backend_pid( ) AND datname = current_database( )..
 
--  Obtain a summary of the scope of the proposed reset and validate that
-   the intended outcome matches your expectations by performing a dry
-   run:
+-  Obtain a summary of the scope of the proposed reset and validate that the intended outcome matches your expectations by performing a dry run:
 
    .. code:: text
 
       SELECT * FROM validate_reset_offset("0000000000000A8000")
 
--  Implement the destructive changes of removing all transactions after
-   the given offset and adjust internal metadata to allow PQS to resume
-   processing from the supplied offset:
+-  Implement the destructive changes of removing all transactions after the given offset and adjust internal metadata to allow PQS to resume processing from the supplied offset:
 
    .. code:: text
 
@@ -1957,9 +1418,7 @@ The procedure:
 
 -  Start PQS.
 
--  Conduct any remedial action required in PQS database consumers, to
-   account for the fact that the ledger appears to be rolled back to the
-   specified offset.
+-  Conduct any remedial action required in PQS database consumers, to account for the fact that the ledger appears to be rolled back to the specified offset.
 
 -  Start applications that use the PQS database and resume operation.
 
@@ -1968,8 +1427,7 @@ The procedure:
 Constraints
 ~~~~~~~~~~~
 
-The provided target offset must be within the bounds of the contiguous
-history. If the target offset is outside the bounds, it raises an error.
+The provided target offset must be within the bounds of the contiguous history. If the target offset is outside the bounds, it raises an error.
 
 .. _logging-1:
 
@@ -1979,9 +1437,7 @@ Logging
 Log Level
 ~~~~~~~~~
 
-Set log level with ``--logger-level``. Possible value are ``All``,
-``Fatal``, ``Error``, ``Warning``, ``Info`` (default), ``Debug``,
-``Trace``:
+Set log level with ``--logger-level``. Possible value are ``All``, ``Fatal``, ``Error``, ``Warning``, ``Info`` (default), ``Debug``, ``Trace``:
 
 .. code:: text
 
@@ -1990,9 +1446,7 @@ Set log level with ``--logger-level``. Possible value are ``All``,
 Per-Logger Log Level
 ~~~~~~~~~~~~~~~~~~~~
 
-Use ``--logger-mappings`` to adjust the log level for individual
-loggers. For example, to remove Netty network traffic from a more
-detailed overall log:
+Use ``--logger-mappings`` to adjust the log level for individual loggers. For example, to remove Netty network traffic from a more detailed overall log:
 
 .. code:: text
 
@@ -2002,36 +1456,24 @@ detailed overall log:
 Log Pattern
 ~~~~~~~~~~~
 
-With ``--logger-pattern``, use one of the predefined patterns, such as
-``Plain`` (default), ``Standard`` (standard format used in DA
-applications), ``Structured``, or set your own. Check `Log Format
-Configuration <https://zio.dev/zio-logging/formatting-log-records/#log-format-configuration>`__
-for more details.
+With ``--logger-pattern``, use one of the predefined patterns, such as ``Plain`` (default), ``Standard`` (standard format used in DA applications), ``Structured``, or set your own. Check `Log Format Configuration <https://zio.dev/zio-logging/formatting-log-records/#log-format-configuration>`__ for more details.
 
-To use your custom format, provide its string representation, such as:
-``--logger-pattern="%highlight{%fixed{1}{%level}} [%fiberId] %name:%line %highlight{%message} %highlight{%cause} %kvs"``
+To use your custom format, provide its string representation, such as: ``--logger-pattern="%highlight{%fixed{1}{%level}} [%fiberId] %name:%line %highlight{%message} %highlight{%cause} %kvs"``
 
 Log Format for Console Output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Use ``--logger-format`` to set the log format. Possible values are
-``Plain`` (default) or ``Json``. These formats can be used for the
-``pipeline`` command.
+Use ``--logger-format`` to set the log format. Possible values are ``Plain`` (default) or ``Json``. These formats can be used for the ``pipeline`` command.
 
 Log Format for File Output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Use ``--logger-format`` to set the log format. Possible values are
-``Plain`` (default), ``Json``, ``PlainAsync`` and ``JsonAsync``. They
-can be used for the interactive commands, such as ``prune``. For
-``PlainAsync`` and ``JsonAsync``, log entries are written to the
-destination file asynchronously.
+Use ``--logger-format`` to set the log format. Possible values are ``Plain`` (default), ``Json``, ``PlainAsync`` and ``JsonAsync``. They can be used for the interactive commands, such as ``prune``. For ``PlainAsync`` and ``JsonAsync``, log entries are written to the destination file asynchronously.
 
 Destination File for File Output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Use ``--logger-destination`` to set the path to the destination file
-(default: output.log) for interactive commands, such as ``prune``.
+Use ``--logger-destination`` to set the path to the destination file (default: output.log) for interactive commands, such as ``prune``.
 
 Log Format and Log Pattern Combinations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2094,31 +1536,20 @@ Log Format and Log Pattern Combinations
       {"timestamp":"2024-01-17T00:16:34","level":"INFO","location":"com.digitalasset.zio.daml.ledgerapi.package:201","description":"Contract filter inclusive of 1 templates and 0 interfaces","scribe":{"application":"scribe"}}
       {"timestamp":"2024-01-17T00:16:35","level":"INFO","location":"com.digitalasset.scribe.pipeline.pipeline.Impl:85","description":"Continuing from offset '00000000000000000b' and index '0' until offset '00000000000000000b'","scribe":{"application":"scribe"}}
 
-   Notice you need to use ``%label{your_label}{format}`` to describe a
-   Json attribute-value pair.
+   Notice you need to use ``%label{your_label}{format}`` to describe a Json attribute-value pair.
 
 Database Schema Evolution
 -------------------------
 
-This section describe how PQS manages the evolution of its database
-schema between releases. This is important for operators who need to
-understand what is involved in upgrading PQS to a new version, and how
-to troubleshoot any issues that may arise.
+This section describe how PQS manages the evolution of its database schema between releases. This is important for operators who need to understand what is involved in upgrading PQS to a new version, and how to troubleshoot any issues that may arise.
 
 .. note::
-   The `Read API <#read-api>`__ (not the database schema) is the
-   interface for downstream consumers of PQS. The schema is an
-   implementation detail that will evolve in order to enhance functional
-   and performance characteristics.
+   The `Read API <#read-api>`__ (not the database schema) is the interface for downstream consumers of PQS. The schema is an implementation detail that will evolve in order to enhance functional and performance characteristics.
 
 Baselining
 ~~~~~~~~~~
 
-Prior to version ``v0.2.1`` PQS did not have a schema versioning
-mechanism. At this version, PQS gained a schema management capability
-based on `Flyway <https://flywaydb.org/postgresql>`__. If upgrading from
-an older version, you will need to baseline your database schema as a
-one-off procedure. You can either:
+Prior to version ``v0.2.1`` PQS did not have a schema versioning mechanism. At this version, PQS gained a schema management capability based on `Flyway <https://flywaydb.org/postgresql>`__. If upgrading from an older version, you will need to baseline your database schema as a one-off procedure. You can either:
 
 -  Let PQS do it for you as part of the pipeline launch:
 
@@ -2137,8 +1568,7 @@ one-off procedure. You can either:
           --schema-baseline true \
           --postgres-database ...
 
-The result is the addition of the version table along with the
-application of any subsequent patches:
+The result is the addition of the version table along with the application of any subsequent patches:
 
 .. code:: text
 
@@ -2169,17 +1599,12 @@ application of any subsequent patches:
 Schema Upgrades
 ~~~~~~~~~~~~~~~
 
-When running a new version, PQS automatically applies any missing
-patches to the schema. This means that new PQS releases seamlessly
-evolve the schema to the latest required version.
+When running a new version, PQS automatically applies any missing patches to the schema. This means that new PQS releases seamlessly evolve the schema to the latest required version.
 
 Schema Dump
 ~~~~~~~~~~~
 
-Some deployment environments require far stricter access control than
-letting operational processes perform such intrusive database schema
-operations. PQS allows you to export the required schema to standard
-output, which can later be reviewed and applied by authorized operators.
+Some deployment environments require far stricter access control than letting operational processes perform such intrusive database schema operations. PQS allows you to export the required schema to standard output, which can later be reviewed and applied by authorized operators.
 
 The following command displays the latest required schema:
 
@@ -2188,9 +1613,7 @@ The following command displays the latest required schema:
    $ ./scribe.jar datastore postgres-document schema show \
        --ledger-host ...
 
-The output contains all SQL statements that are required to bring the
-schema up to the latest version and clearly demarcates each patch's
-contents:
+The output contains all SQL statements that are required to bring the schema up to the latest version and clearly demarcates each patch's contents:
 
 .. code:: text
 
@@ -2221,18 +1644,12 @@ contents:
    -- ... contracts/exercises partitions initialisation goes here ...
    end; $$
 
-The Database Administrator can then review the output and apply the ones
-that are higher than the current latest entry in the
-``flyway_schema_history`` table.
+The Database Administrator can then review the output and apply the ones that are higher than the current latest entry in the ``flyway_schema_history`` table.
 
 .. note::
-   The ``DAML<=>PG mappings`` section of the above script
-   changes based on the ledger Daml packages in use when invoking the
-   ``show`` command, but its contents are idempotent and can be safely
-   re-applied repeatedly.
+   The ``DAML<=>PG mappings`` section of the above script changes based on the ledger Daml packages in use when invoking the ``show`` command, but its contents are idempotent and can be safely re-applied repeatedly.
 
-When PQS's schema is being managed out-of-band, it is adviseable to turn
-off automatic schema application when launching the pipeline:
+When PQS's schema is being managed out-of-band, it is adviseable to turn off automatic schema application when launching the pipeline:
 
 .. code:: text
 
@@ -2243,8 +1660,7 @@ off automatic schema application when launching the pipeline:
 Monitoring Progress
 ~~~~~~~~~~~~~~~~~~~
 
-The logging output can be observed to monitor the progress of schema
-migration:
+The logging output can be observed to monitor the progress of schema migration:
 
 .. code:: text
 
@@ -2266,9 +1682,7 @@ migration:
    09:25:52.404 I [zio-fiber-0] com.digitalasset.scribe.postgres.document.DocumentPostgres:57 Schema and mappings applied  application=scribe
    09:25:52.405 I [zio-fiber-0] com.digitalasset.scribe.postgres.document.Main:57 Applied required datastore schema  application=scribe
 
-More detailed logs can be obtained by setting the log level to
-``debug``. Launch a PQS command with ``--help`` for more information, or
-refer to the `Logging <#logging>`__ section.
+More detailed logs can be obtained by setting the log level to ``debug``. Launch a PQS command with ``--help`` for more information, or refer to the `Logging <#logging>`__ section.
 
 Troubleshooting
 ~~~~~~~~~~~~~~~
@@ -2276,15 +1690,9 @@ Troubleshooting
 Problem 1: An application's Flyway conflicts with PQS's Flyway
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-An application built around data that PQS exports from the ledger may
-also manage its own database migrations via Flyway (embedded,
-command-line, or other supported means). An example of such a scenario
-is the creation of application specific indexes over the ``payload``
-column of the ``__contracts_*`` tables.
+An application built around data that PQS exports from the ledger may also manage its own database migrations via Flyway (embedded, command-line, or other supported means). An example of such a scenario is the creation of application specific indexes over the ``payload`` column of the ``__contracts_*`` tables.
 
-With default settings, the application's Flyway produces an error
-similar to the one seen below because its view of available/valid
-migrations is different from PQS's:
+With default settings, the application's Flyway produces an error similar to the one seen below because its view of available/valid migrations is different from PQS's:
 
 .. code:: text
 
@@ -2303,12 +1711,9 @@ migrations is different from PQS's:
 ..
 
 .. note::
-   Here, the command-line Flyway was used for demonstration
-   purposes. The same applies to other methods of running Flyway.
+   Here, the command-line Flyway was used for demonstration purposes. The same applies to other methods of running Flyway.
 
-However, it is trivial to instruct the application's Flyway to use a
-different, non-default table name to store its versioning information,
-which allows both Flyways to coexist in the same database.
+However, it is trivial to instruct the application's Flyway to use a different, non-default table name to store its versioning information, which allows both Flyways to coexist in the same database.
 
 .. raw:: html
 
@@ -2357,10 +1762,7 @@ which allows both Flyways to coexist in the same database.
 
    </details>
 
-Now both PQS and the application can manage their own schema versions
-independently. Assuming the application limits itself to only adding
-indexes and other non-conflicting changes, the two Flyways can coexist
-without issues.
+Now both PQS and the application can manage their own schema versions independently. Assuming the application limits itself to only adding indexes and other non-conflicting changes, the two Flyways can coexist without issues.
 
 .. raw:: html
 
@@ -2399,8 +1801,7 @@ without issues.
 
    </details>
 
-As can be observed below, PQS and the application can even opt for
-different versioning schemes.
+As can be observed below, PQS and the application can even opt for different versioning schemes.
 
 .. raw:: html
 
@@ -2465,35 +1866,16 @@ different versioning schemes.
    </details>
    ## Relational View
 
-Daml contracts are the fundamental unit of runtime data stored on the
-ledger. In addition to storing data, contracts allow attaching certain
-behaviors (expressed as template choices) to this data. Both a
-contract's data (its create event arguments) and a choice's exercise
-events (their input and output arguments) rely on strongly typed data
-structures.
+Daml contracts are the fundamental unit of runtime data stored on the ledger. In addition to storing data, contracts allow attaching certain behaviors (expressed as template choices) to this data. Both a contract's data (its create event arguments) and a choice's exercise events (their input and output arguments) rely on strongly typed data structures.
 
-These data structures can be likened to tables in a relational database,
-as described in the documentation introducing `Data
-Types <https://docs.daml.com/daml/intro/3_Data.html>`__. However, Daml
-enriches these structures to such an extent that direct
-Daml-to-relational mapping becomes impractical, leading you to consider
-Daml contracts and events as self-contained documents rather than
-relational rows. For this reason, PQS stores these contracts and events
-in PostgreSQL as `JSON
-documents <https://www.postgresql.org/docs/current/datatype-json.html>`__,
-since a document form is a natural fit for Daml's more expressive data
-model.
+These data structures can be likened to tables in a relational database, as described in the documentation introducing `Data Types <https://docs.daml.com/daml/intro/3_Data.html>`__. However, Daml enriches these structures to such an extent that direct Daml-to-relational mapping becomes impractical, leading you to consider Daml contracts and events as self-contained documents rather than relational rows. For this reason, PQS stores these contracts and events in PostgreSQL as `JSON documents <https://www.postgresql.org/docs/current/datatype-json.html>`__, since a document form is a natural fit for Daml's more expressive data model.
 
-To organize data access in a more relational-friendly manner, you need
-to build project-specific abstractions on top of what PQS provides in
-general terms. This document introduces techniques and patterns that can
-be used to help express Daml's world through relational means.
+To organize data access in a more relational-friendly manner, you need to build project-specific abstractions on top of what PQS provides in general terms. This document introduces techniques and patterns that can be used to help express Daml's world through relational means.
 
 Mapping Daml Models to Relational World
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The following code represents a data cluster related to issuer approval
-of a set of token changes for an issue. Irrelevant details are omitted.
+The following code represents a data cluster related to issuer approval of a set of token changes for an issue. Irrelevant details are omitted.
 
 .. code:: daml
 
@@ -2550,18 +1932,12 @@ of a set of token changes for an issue. Irrelevant details are omitted.
            do
              ...
 
-In this example, you can see that the data model is rich and
-interconnected:
+In this example, you can see that the data model is rich and interconnected:
 
--  Rich value types are used, such as ``Quantity``, ``Lock``, ``Wallet``
-   and ``Issue``, which are simply defined by reference.
--  An ``IssuerApproval`` contract references multiple ``TokenOpen`` and
-   ``TokenClose`` contracts via their contract IDs.
--  A ``TokenClose`` contract references a single ``Token`` contract via
-   its contract ID.
--  Navigable relationships with different cardinalities, but all
-   unidirectional. For instance, ``TokenClose`` knows of ``Token`` and
-   ``IssuerApproval`` knows of ``TokenOpen``, but not vice-versa.
+-  Rich value types are used, such as ``Quantity``, ``Lock``, ``Wallet`` and ``Issue``, which are simply defined by reference.
+-  An ``IssuerApproval`` contract references multiple ``TokenOpen`` and ``TokenClose`` contracts via their contract IDs.
+-  A ``TokenClose`` contract references a single ``Token`` contract via its contract ID.
+-  Navigable relationships with different cardinalities, but all unidirectional. For instance, ``TokenClose`` knows of ``Token`` and ``IssuerApproval`` knows of ``TokenOpen``, but not vice-versa.
 
 .. raw:: html
 
@@ -2711,61 +2087,30 @@ interconnected:
 
    </details>
 
-Postgres offers `robust
-tools <https://www.postgresql.org/docs/current/functions-json.html>`__
-for working with JSON data, but they can be cumbersome for users who are
-not familiar with them. You could make this data more accessible in a
-more traditional ("rectangular") relational manner. To achieve this:
+Postgres offers `robust tools <https://www.postgresql.org/docs/current/functions-json.html>`__ for working with JSON data, but they can be cumbersome for users who are not familiar with them. You could make this data more accessible in a more traditional ("rectangular") relational manner. To achieve this:
 
 -  Map out templates' attributes to tables' columns.
--  Establish Postgres's natural primary and foreign key relationships
-   between tables.
--  Compose queries that would allow you to further combine data from
-   multiple sources.
+-  Establish Postgres's natural primary and foreign key relationships between tables.
+-  Compose queries that would allow you to further combine data from multiple sources.
 
 Considerations
 ~~~~~~~~~~~~~~
 
-Daml's data model is more sophisticated than SQL, and cannot be mapped
-directly to a relational model.
+Daml's data model is more sophisticated than SQL, and cannot be mapped directly to a relational model.
 
-Consider representing nested structures with multiple cardinalities,
-recursive structures, maps of values, and value objects without proper
-identities. While such task is problematic in general terms, it is
-feasible to do so for a specific models by introducing selectively
-flattened contents, and dropping irrelevant (or infrequently used) data
-elements from the view.
+Consider representing nested structures with multiple cardinalities, recursive structures, maps of values, and value objects without proper identities. While such task is problematic in general terms, it is feasible to do so for a specific models by introducing selectively flattened contents, and dropping irrelevant (or infrequently used) data elements from the view.
 
-The payload of a contract is a JSON document that only references ledger
-terms (contract ID strings) in the body, not Postgres' efficient
-``bigint`` key references. However, it is feasible to keep referencing
-contract IDs when navigating relationships, since all ``__contracts_*``
-tables already have a matching index provided.
+The payload of a contract is a JSON document that only references ledger terms (contract ID strings) in the body, not Postgres' efficient ``bigint`` key references. However, it is feasible to keep referencing contract IDs when navigating relationships, since all ``__contracts_*`` tables already have a matching index provided.
 
-Finally, arguments and results of choices are defined using the same
-strongly typed data structures as the templates. This means that the
-same techniques could be applied to enrich the data of choice exercises
-for relational querying. However, most choice exercises are recommended
-to pass contract IDs instead of the full contract data, thus enabling
-direct linkage of input-output effects but requiring extra steps to
-expose the actual data pieces involved.
+Finally, arguments and results of choices are defined using the same strongly typed data structures as the templates. This means that the same techniques could be applied to enrich the data of choice exercises for relational querying. However, most choice exercises are recommended to pass contract IDs instead of the full contract data, thus enabling direct linkage of input-output effects but requiring extra steps to expose the actual data pieces involved.
 
-A major caveat to consider before choosing this as the go-to solution
-instead of focusing on state querying is that it may incur a significant
-performance penalty (as all queries involving containment scanning would
-experience). If the arguments/results are flat, then this may provide a
-neat way to enrich your choice exercises, exposing more essential data
-rather than technical details.
+A major caveat to consider before choosing this as the go-to solution instead of focusing on state querying is that it may incur a significant performance penalty (as all queries involving containment scanning would experience). If the arguments/results are flat, then this may provide a neat way to enrich your choice exercises, exposing more essential data rather than technical details.
 
 Definitions
 ~~~~~~~~~~~
 
 .. important::
-   ``Although the examples below`` have a 1-to-1 match in
-   terms of model-to-table mapping, this should not necessarily be the
-   only approach. It is often better to pull multiple sources into a
-   single view from the outset if it makes future data access easier.
-   All the ideas mentioned above are still very relevant in this case.
+   ``Although the examples below`` have a 1-to-1 match in terms of model-to-table mapping, this should not necessarily be the only approach. It is often better to pull multiple sources into a single view from the outset if it makes future data access easier. All the ideas mentioned above are still very relevant in this case.
 
 .. code:: text
 
@@ -2820,12 +2165,7 @@ Definitions
 Queries & Results
 ~~~~~~~~~~~~~~~~~
 
-The two contrived examples provided here demonstrate how PQS's data can
-be turned almost indistinguishable to what one would expect to see in a
-typical relational database without too much maintenance overhead.
-Timings are provided as the result of execution over a non-trivial
-database size - more details can be found
-`here <100-performance-benchmark.md#latest-results>`__.
+The two contrived examples provided here demonstrate how PQS's data can be turned almost indistinguishable to what one would expect to see in a typical relational database without too much maintenance overhead. Timings are provided as the result of execution over a non-trivial database size - more details can be found `here <100-performance-benchmark.md#latest-results>`__.
 
 .. raw:: html
 
@@ -2951,18 +2291,9 @@ database size - more details can be found
 Performance Optimizations
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Assuming you could arrive to a set of composable SQL abstractions that
-allow you to express ledger data in relational terms, the next step is
-to ensure that the performance of your queries is acceptable for your
-needs. When examining the query plan for one of the queries mentioned
-above, you can observe that PostgreSQL's cost estimates are extremely
-high. The core problem is that JSON documents do not have granular
-statistics which would allow it to choose the best way of running the
-query. A secondary problem is that the exercises query runs predicates
-over data inside arrays, which complicates the plan even further.
+Assuming you could arrive to a set of composable SQL abstractions that allow you to express ledger data in relational terms, the next step is to ensure that the performance of your queries is acceptable for your needs. When examining the query plan for one of the queries mentioned above, you can observe that PostgreSQL's cost estimates are extremely high. The core problem is that JSON documents do not have granular statistics which would allow it to choose the best way of running the query. A secondary problem is that the exercises query runs predicates over data inside arrays, which complicates the plan even further.
 
-Scenarios such as this can be overcome by materializing the results of
-your abstractions through either:
+Scenarios such as this can be overcome by materializing the results of your abstractions through either:
 
 -  Materialized views; or
 -  Custom triggers
@@ -2970,12 +2301,7 @@ your abstractions through either:
 Materialized Views
 ^^^^^^^^^^^^^^^^^^
 
-One way to speed up your queries, depending on your use case, is to opt
-for materialized views. Note that materialized views are not
-automatically updated when the underlying data changes (see some ideas
-how to deal with it `here <https://stackoverflow.com/a/29447328>`__).
-The following code demonstrates how materialized views could benefit the
-queries under consideration:
+One way to speed up your queries, depending on your use case, is to opt for materialized views. Note that materialized views are not automatically updated when the underlying data changes (see some ideas how to deal with it `here <https://stackoverflow.com/a/29447328>`__). The following code demonstrates how materialized views could benefit the queries under consideration:
 
 .. raw:: html
 
@@ -3127,17 +2453,12 @@ queries under consideration:
 
    Time: 2.736 ms
 
-Observe that both query timings are extremely fast. This is because the
-data is now essentially in flattened tables with indexes, which allows
-Postgres to use its full capabilities, as reflected in the query plans.
+Observe that both query timings are extremely fast. This is because the data is now essentially in flattened tables with indexes, which allows Postgres to use its full capabilities, as reflected in the query plans.
 
 Custom Triggers
 ^^^^^^^^^^^^^^^
 
-Another option is to take a less declarative approach and use custom
-triggers to maintain the desired tables. While this approach offers
-greater flexibility and enables the implementation of more complex
-logic, it also demands more effort to maintain.
+Another option is to take a less declarative approach and use custom triggers to maintain the desired tables. While this approach offers greater flexibility and enables the implementation of more complex logic, it also demands more effort to maintain.
 
 .. raw:: html
 
@@ -3325,11 +2646,7 @@ logic, it also demands more effort to maintain.
 
    Time: 1.915 ms
 
-Query timings are in line with those of the materialized views. Note
-that triggers are executed as part of the transaction during underlying
-inserts, so care should be taken not to introduce performance
-bottlenecks with additional processing. In the example, the triggers are
-simple enough to avoid significant overhead:
+Query timings are in line with those of the materialized views. Note that triggers are executed as part of the transaction during underlying inserts, so care should be taken not to introduce performance bottlenecks with additional processing. In the example, the triggers are simple enough to avoid significant overhead:
 
 .. code:: text
 
@@ -3345,47 +2662,31 @@ simple enough to avoid significant overhead:
    Last reading: 40565095 @ 1713835912812
    PQS throughput: 20,468 tx/s (97,610 ledger events/sec)
 
-Compared to the materialized views approach, custom triggers incur the
-maintenance cost upfront during ingestion, while views defer this cost
-over time, albeit at the expense of data availability/recency.
+Compared to the materialized views approach, custom triggers incur the maintenance cost upfront during ingestion, while views defer this cost over time, albeit at the expense of data availability/recency.
 
 Trade-Offs Summary
 ~~~~~~~~~~~~~~~~~~
 
-The table below summarizes the trade-offs against various dimensions
-across the approaches discussed in this document.
+The table below summarizes the trade-offs against various dimensions across the approaches discussed in this document.
 
-+----------------+----------------+----------------+----------------+
-| Characteristic | Views          | Materialized   | Triggers       |
-|                |                | Views          |                |
-+================+================+================+================+
-| **Definition** | declarative    | declarative    | procedural     |
-+----------------+----------------+----------------+----------------+
-| **Data         | immediate      | lagging (on    | immediate      |
-| Availability** |                | refresh        |                |
-|                |                | schedule)      |                |
-+----------------+----------------+----------------+----------------+
-| **Indexable**  | over JSONB     | over actual    | over actual    |
-|                | column         | columns        | columns        |
-+----------------+----------------+----------------+----------------+
-| **Statistics** | crude          | detailed       | detailed       |
-+----------------+----------------+----------------+----------------+
-| **Write Path   | none           | none           | slows down     |
-| Impact**       |                |                | ingestion      |
-|                |                |                | transaction    |
-+----------------+----------------+----------------+----------------+
++-----------------------+-------------------+-------------------------------+----------------------------------+
+| Characteristic        | Views             | Materialized Views            | Triggers                         |
++=======================+===================+===============================+==================================+
+| **Definition**        | declarative       | declarative                   | procedural                       |
++-----------------------+-------------------+-------------------------------+----------------------------------+
+| **Data Availability** | immediate         | lagging (on refresh schedule) | immediate                        |
++-----------------------+-------------------+-------------------------------+----------------------------------+
+| **Indexable**         | over JSONB column | over actual columns           | over actual columns              |
++-----------------------+-------------------+-------------------------------+----------------------------------+
+| **Statistics**        | crude             | detailed                      | detailed                         |
++-----------------------+-------------------+-------------------------------+----------------------------------+
+| **Write Path Impact** | none              | none                          | slows down ingestion transaction |
++-----------------------+-------------------+-------------------------------+----------------------------------+
 
 ..
 
 .. caution::
-   PQS's Read API functions not only expose ledger's events
-   as first-class citizens through the use of ``creates()``,
-   ``archives()``, ``active()``, and ``exercises()``, but also enable
-   advanced querying capabilities, such as running a query as of a fixed
-   point in time (as of a particular offset). This powerful feature is
-   not provided by the relational approach described above. However, it
-   is possible to combine the two approaches by supplying additional
-   joins to "enrich" the resulting outcomes.
+   PQS's Read API functions not only expose ledger's events as first-class citizens through the use of ``creates()``, ``archives()``, ``active()``, and ``exercises()``, but also enable advanced querying capabilities, such as running a query as of a fixed point in time (as of a particular offset). This powerful feature is not provided by the relational approach described above. However, it is possible to combine the two approaches by supplying additional joins to "enrich" the resulting outcomes.
 
 .. code:: text
 
@@ -3398,29 +2699,16 @@ across the approaches discussed in this document.
 Observability
 -------------
 
-This describes observability features of PQS, which are designed to help
-you monitor health and performance of the application.
+This describes observability features of PQS, which are designed to help you monitor health and performance of the application.
 
 Underlying Mechanism
 ~~~~~~~~~~~~~~~~~~~~
 
-PQS opted to incorporate OpenTelemetry APIs to provide its observability
-features. All three sources of signals (traces, metrics, and logs) can
-be exported to various backends by providing appropriate configuration
-defined by OpenTelemetry protocols and guidelines. This makes PQS
-flexible in terms of observability backends, allowing users to choose
-what fits their needs and established infrastructure without being
-overly prescriptive.
+PQS opted to incorporate OpenTelemetry APIs to provide its observability features. All three sources of signals (traces, metrics, and logs) can be exported to various backends by providing appropriate configuration defined by OpenTelemetry protocols and guidelines. This makes PQS flexible in terms of observability backends, allowing users to choose what fits their needs and established infrastructure without being overly prescriptive.
 
-To have PQS emit observability data, an OpenTelemetry Java Agent must be
-attached to the JVM running PQS. OpenTelemetry's documentation page on
-`Automatic
-Instrumentation <https://opentelemetry.io/docs/languages/java/automatic/>`__
-has all the necessary information to get started.
+To have PQS emit observability data, an OpenTelemetry Java Agent must be attached to the JVM running PQS. OpenTelemetry's documentation page on `Automatic Instrumentation <https://opentelemetry.io/docs/languages/java/automatic/>`__ has all the necessary information to get started.
 
-As a frequently requested shortcut (only metrics over Prometheus
-exposition endpoint embedded by PQS), the following snippet can help you
-get started. For more details, refer to the official documentation:
+As a frequently requested shortcut (only metrics over Prometheus exposition endpoint embedded by PQS), the following snippet can help you get started. For more details, refer to the official documentation:
 
 .. code:: text
 
@@ -3428,7 +2716,7 @@ get started. For more details, refer to the official documentation:
    export OTEL_TRACES_EXPORTER=none
    export OTEL_LOGS_EXPORTER=none
    export OTEL_METRICS_EXPORTER=prometheus
-   export OTEL_EXPORTER_PROMETHEUS_PORT=9464
+   export OTEL_EXPORTER_PROMETHEUS_PORT=9090
    export JDK_JAVA_OPTIONS="-javaagent:path/to/opentelemetry-javaagent.jar"
    ./scribe.jar pipeline ledger postgres-document ...
 
@@ -3444,170 +2732,83 @@ get started. For more details, refer to the official documentation:
          OTEL_TRACES_EXPORTER: none
          OTEL_LOGS_EXPORTER: none
          OTEL_METRICS_EXPORTER: prometheus
-         OTEL_EXPORTER_PROMETHEUS_PORT: 9464
+         OTEL_EXPORTER_PROMETHEUS_PORT: 9090
        # ...
 
 Provided Metrics
 ~~~~~~~~~~~~~~~~
 
-Assuming PQS exposes metrics as described above, you can access the
-following metrics at ``http://localhost:9464/metrics``. Each metric is
-accompanied by ``# HELP`` and ``# TYPE`` comments, which describe the
-meaning of the metric and its type, respectively.
+Assuming PQS exposes metrics as described above, you can access the following metrics at ``http://localhost:9090/metrics``. Each metric is accompanied by ``# HELP`` and ``# TYPE`` comments, which describe the meaning of the metric and its type, respectively.
 
-Some metric types have additional constituent parts exposed as separate
-metrics. For example, a ``histogram`` metric type tracks ``max``,
-``count``, ``sum``, and actual ranged ``bucket``\ s as separate time
-series. Metrics are labeled where it makes sense, providing additional
-context such as the type of operation or the template/choice involved.
+Some metric types have additional constituent parts exposed as separate metrics. For example, a ``histogram`` metric type tracks ``max``, ``count``, ``sum``, and actual ranged ``bucket``\ s as separate time series. Metrics are labeled where it makes sense, providing additional context such as the type of operation or the template/choice involved.
 
-Conceptual list of metrics (refer to actual metric names in the
-Prometheus output):
+Conceptual list of metrics (refer to actual metric names in the Prometheus output):
 
-+-----------+---------------------------+---------------------------+
-| Type      | Name                      | Description               |
-+===========+===========================+===========================+
-| gauge     | ``watermark_ix``          | Current watermark index   |
-|           |                           | (transaction ordinal      |
-|           |                           | number for consistent     |
-|           |                           | reads)                    |
-+-----------+---------------------------+---------------------------+
-| counter   | ``pipeline_events``       | Processed ledger events   |
-+-----------+---------------------------+---------------------------+
-| histogram | ``jdbc_conn_use``         | Latency of database       |
-|           |                           | connections usage         |
-+-----------+---------------------------+---------------------------+
-| histogram | ``pip                     | Latency of converting ACS |
-|           | eline_convert_acs_event`` | events                    |
-+-----------+---------------------------+---------------------------+
-| histogram | ``pipel                   | Latency of converting     |
-|           | ine_convert_transaction`` | transactions              |
-+-----------+---------------------------+---------------------------+
-| histogram | ``pipelin                 | Latency of preparing      |
-|           | e_prepare_batch_latency`` | batches of statements     |
-+-----------+---------------------------+---------------------------+
-| histogram | ``pipelin                 | Latency of executing      |
-|           | e_execute_batch_latency`` | batches of statements     |
-+-----------+---------------------------+---------------------------+
-| histogram | ``pipe                    | Number of in-flight units |
-|           | line_wp_acs_events_size`` | of work in                |
-|           |                           | `                         |
-|           |                           | `pipeline_wp_acs_events`` |
-|           |                           | wait point                |
-+-----------+---------------------------+---------------------------+
-| histogram | ``pipeline                | Number of in-flight units |
-|           | _wp_acs_statements_size`` | of work in                |
-|           |                           | ``pip                     |
-|           |                           | eline_wp_acs_statements`` |
-|           |                           | wait point                |
-+-----------+---------------------------+---------------------------+
-| histogram | ``pipeline_wp_acs_        | Number of in-flight units |
-|           | batched_statements_size`` | of work in                |
-|           |                           | ``pipeline_wp             |
-|           |                           | _acs_batched_statements`` |
-|           |                           | wait point                |
-+-----------+---------------------------+---------------------------+
-| histogram | ``pipeline_wp_acs_p       | Number of in-flight units |
-|           | repared_statements_size`` | of work in                |
-|           |                           | ``pipeline_wp_            |
-|           |                           | acs_prepared_statements`` |
-|           |                           | wait point                |
-+-----------+---------------------------+---------------------------+
-| histogram | ``                        | Number of in-flight units |
-|           | pipeline_wp_events_size`` | of work in                |
-|           |                           | ``pipeline_wp_events``    |
-|           |                           | wait point                |
-+-----------+---------------------------+---------------------------+
-| histogram | ``pipe                    | Number of in-flight units |
-|           | line_wp_statements_size`` | of work in                |
-|           |                           | `                         |
-|           |                           | `pipeline_wp_statements`` |
-|           |                           | wait point                |
-+-----------+---------------------------+---------------------------+
-| histogram | ``pipeline_wp_            | Number of in-flight units |
-|           | batched_statements_size`` | of work in                |
-|           |                           | ``pipelin                 |
-|           |                           | e_wp_batched_statements`` |
-|           |                           | wait point                |
-+-----------+---------------------------+---------------------------+
-| histogram | ``pipeline_wp_p           | Number of in-flight units |
-|           | repared_statements_size`` | of work in                |
-|           |                           | ``pipeline                |
-|           |                           | _wp_prepared_statements`` |
-|           |                           | wait point                |
-+-----------+---------------------------+---------------------------+
-| histogram | ``pipe                    | Number of in-flight units |
-|           | line_wp_watermarks_size`` | of work in                |
-|           |                           | `                         |
-|           |                           | `pipeline_wp_watermarks`` |
-|           |                           | wait point                |
-+-----------+---------------------------+---------------------------+
-| counter   | ``pipel                   | Number of units of work   |
-|           | ine_wp_acs_events_total`` | processed in              |
-|           |                           | `                         |
-|           |                           | `pipeline_wp_acs_events`` |
-|           |                           | wait point                |
-+-----------+---------------------------+---------------------------+
-| counter   | ``pipeline_               | Number of units of work   |
-|           | wp_acs_statements_total`` | processed in              |
-|           |                           | ``pip                     |
-|           |                           | eline_wp_acs_statements`` |
-|           |                           | wait point                |
-+-----------+---------------------------+---------------------------+
-| counter   | ``pipeline_wp_acs_b       | Number of units of work   |
-|           | atched_statements_total`` | processed in              |
-|           |                           | ``pipeline_wp             |
-|           |                           | _acs_batched_statements`` |
-|           |                           | wait point                |
-+-----------+---------------------------+---------------------------+
-| counter   | ``pipeline_wp_acs_pr      | Number of units of work   |
-|           | epared_statements_total`` | processed in              |
-|           |                           | ``pipeline_wp_            |
-|           |                           | acs_prepared_statements`` |
-|           |                           | wait point                |
-+-----------+---------------------------+---------------------------+
-| counter   | ``p                       | Number of units of work   |
-|           | ipeline_wp_events_total`` | processed in              |
-|           |                           | ``pipeline_wp_events``    |
-|           |                           | wait point                |
-+-----------+---------------------------+---------------------------+
-| counter   | ``pipel                   | Number of units of work   |
-|           | ine_wp_statements_total`` | processed in              |
-|           |                           | `                         |
-|           |                           | `pipeline_wp_statements`` |
-|           |                           | wait point                |
-+-----------+---------------------------+---------------------------+
-| counter   | ``pipeline_wp_b           | Number of units of work   |
-|           | atched_statements_total`` | processed in              |
-|           |                           | ``pipelin                 |
-|           |                           | e_wp_batched_statements`` |
-|           |                           | wait point                |
-+-----------+---------------------------+---------------------------+
-| counter   | ``pipeline_wp_pr          | Number of units of work   |
-|           | epared_statements_total`` | processed in              |
-|           |                           | ``pipeline                |
-|           |                           | _wp_prepared_statements`` |
-|           |                           | wait point                |
-+-----------+---------------------------+---------------------------+
-| counter   | ``pipel                   | Number of units of work   |
-|           | ine_wp_watermarks_total`` | processed in              |
-|           |                           | `                         |
-|           |                           | `pipeline_wp_watermarks`` |
-|           |                           | wait point                |
-+-----------+---------------------------+---------------------------+
-| counter   | ``app_restarts``          | Tracks number of times    |
-|           |                           | recoverable failures      |
-|           |                           | forced the pipeline to    |
-|           |                           | restart                   |
-+-----------+---------------------------+---------------------------+
-| gauge     | ``grpc_up``               | Indicator whether gRPC    |
-|           |                           | channel is up and         |
-|           |                           | operational               |
-+-----------+---------------------------+---------------------------+
-| gauge     | ``jdbc_conn_pool_up``     | Indicator whether JDBC    |
-|           |                           | connection pool is up and |
-|           |                           | operational               |
-+-----------+---------------------------+---------------------------+
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| Type      | Name                                          | Description                                                                             |
++===========+===============================================+=========================================================================================+
+| gauge     | ``watermark_ix``                              | Current watermark index (transaction ordinal number for consistent reads)               |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| counter   | ``pipeline_events``                           | Processed ledger events                                                                 |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| histogram | ``jdbc_conn_use``                             | Latency of database connections usage                                                   |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| histogram | ``jdbc_conn_isvalid``                         | Latency of database connection validation                                               |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| histogram | ``jdbc_conn_commit``                          | Latency of database connection commit                                                   |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| histogram | ``pipeline_convert_acs_event``                | Latency of converting ACS events                                                        |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| histogram | ``pipeline_convert_transaction``              | Latency of converting transactions                                                      |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| histogram | ``pipeline_prepare_batch_latency``            | Latency of preparing batches of statements                                              |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| histogram | ``pipeline_execute_batch_latency``            | Latency of executing batches of statements                                              |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| histogram | ``pipeline_progress_watermark_latency``       | Latency of watermark progression                                                        |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| histogram | ``pipeline_wp_acs_events_size``               | Number of in-flight units of work in ``pipeline_wp_acs_events`` wait point              |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| histogram | ``pipeline_wp_acs_statements_size``           | Number of in-flight units of work in ``pipeline_wp_acs_statements`` wait point          |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| histogram | ``pipeline_wp_acs_batched_statements_size``   | Number of in-flight units of work in ``pipeline_wp_acs_batched_statements`` wait point  |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| histogram | ``pipeline_wp_acs_prepared_statements_size``  | Number of in-flight units of work in ``pipeline_wp_acs_prepared_statements`` wait point |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| histogram | ``pipeline_wp_events_size``                   | Number of in-flight units of work in ``pipeline_wp_events`` wait point                  |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| histogram | ``pipeline_wp_statements_size``               | Number of in-flight units of work in ``pipeline_wp_statements`` wait point              |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| histogram | ``pipeline_wp_batched_statements_size``       | Number of in-flight units of work in ``pipeline_wp_batched_statements`` wait point      |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| histogram | ``pipeline_wp_prepared_statements_size``      | Number of in-flight units of work in ``pipeline_wp_prepared_statements`` wait point     |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| histogram | ``pipeline_wp_watermarks_size``               | Number of in-flight units of work in ``pipeline_wp_watermarks`` wait point              |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| counter   | ``pipeline_wp_acs_events_total``              | Number of units of work processed in ``pipeline_wp_acs_events`` wait point              |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| counter   | ``pipeline_wp_acs_statements_total``          | Number of units of work processed in ``pipeline_wp_acs_statements`` wait point          |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| counter   | ``pipeline_wp_acs_batched_statements_total``  | Number of units of work processed in ``pipeline_wp_acs_batched_statements`` wait point  |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| counter   | ``pipeline_wp_acs_prepared_statements_total`` | Number of units of work processed in ``pipeline_wp_acs_prepared_statements`` wait point |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| counter   | ``pipeline_wp_events_total``                  | Number of units of work processed in ``pipeline_wp_events`` wait point                  |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| counter   | ``pipeline_wp_statements_total``              | Number of units of work processed in ``pipeline_wp_statements`` wait point              |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| counter   | ``pipeline_wp_batched_statements_total``      | Number of units of work processed in ``pipeline_wp_batched_statements`` wait point      |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| counter   | ``pipeline_wp_prepared_statements_total``     | Number of units of work processed in ``pipeline_wp_prepared_statements`` wait point     |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| counter   | ``pipeline_wp_watermarks_total``              | Number of units of work processed in ``pipeline_wp_watermarks`` wait point              |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| counter   | ``app_restarts``                              | Tracks number of times recoverable failures forced the pipeline to restart              |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| gauge     | ``grpc_up``                                   | Indicator whether gRPC channel is up and operational                                    |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
+| gauge     | ``jdbc_conn_pool_up``                         | Indicator whether JDBC connection pool is up and operational                            |
++-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
 
 .. raw:: html
 
@@ -3759,11 +2960,14 @@ Prometheus output):
 Example Dashboard
 ~~~~~~~~~~~~~~~~~
 
-Based on the metrics described above, it is possible to build a
-comprehensive dashboard to monitor PQS. You may want to refer to the
-example `Grafana
-dashboard <https://github.com/DACH-NY/scribe/blob/main/apps/perf/perftest/grafana/dashboards/scribe.json>`__
-as a starting point for your own.
+Based on the metrics described above, it is possible to build a comprehensive dashboard to monitor PQS. Included in the PQS artifact, are a set of example dashboards for Grafana versions 9, 10 and 11. You may want to refer to these as a starting point for your own:
+
+.. code:: text
+
+   scribe.jar
+   grafana/v9.4.0/dashboard.json
+   grafana/v10.4.0/dashboard.json
+   grafana/v11.0.0/dashboard.json
 
 .. raw:: html
 
@@ -3779,9 +2983,7 @@ as a starting point for your own.
 Health Check
 ~~~~~~~~~~~~
 
-The health of the PQS process can be monitored using the health check
-endpoint ``/livez``. The health check endpoint is available at the
-``--health-port`` specified when launching PQS, which defaults to 8080.
+The health of the PQS process can be monitored using the health check endpoint ``/livez``. The health check endpoint is available at the ``--health-port`` specified when launching PQS, which defaults to 8080.
 
 .. code:: text
 
@@ -3791,19 +2993,9 @@ endpoint ``/livez``. The health check endpoint is available at the
 Redaction
 ---------
 
-The redaction feature enables removal of sensitive or personally
-identifiable information from contracts and exercises within the PQS
-database. This operation is particularly useful for complying with
-privacy regulations and data protection laws, as it enables the
-permanent removal of contract payloads, contract keys, choice arguments,
-and choice results. Note that redaction is a destructive operation and
-once redacted, information cannot be restored.
+The redaction feature enables removal of sensitive or personally identifiable information from contracts and exercises within the PQS database. This operation is particularly useful for complying with privacy regulations and data protection laws, as it enables the permanent removal of contract payloads, contract keys, choice arguments, and choice results. Note that redaction is a destructive operation and once redacted, information cannot be restored.
 
-The redaction process involves assigning a ``redaction_id`` to a
-contract or an exercise and nullifying its sensitive data fields. For
-contracts, the ``payload`` and ``contract_key`` fields are redacted,
-while for exercises, the ``argument`` and ``result`` fields are
-redacted.
+The redaction process involves assigning a ``redaction_id`` to a contract or an exercise and nullifying its sensitive data fields. For contracts, the ``payload`` and ``contract_key`` fields are redacted, while for exercises, the ``argument`` and ``result`` fields are redacted.
 
 Conditions for Redaction
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3815,9 +3007,7 @@ The following conditions apply to contracts and interface views:
 
 There are no restrictions on the redaction of choice exercise events.
 
-A redaction operation requires a redaction ID, which is an arbitrary
-label to identify the redaction and provide information about its
-reason, and correlate with other systems that coordinate such activity.
+A redaction operation requires a redaction ID, which is an arbitrary label to identify the redaction and provide information about its reason, and correlate with other systems that coordinate such activity.
 
 Examples
 ~~~~~~~~
@@ -3825,27 +3015,18 @@ Examples
 Redacting an Archived Contract
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To redact an archived contract, use the ``redact_contract`` function by
-providing the ``contract_id`` and a ``redaction_id``. The intent of the
-``redaction_id`` is to provide a case reference to identify the reason
-why the redaction has taken place, and it should be set according to
-organizational policies. This operation NULLs the ``payload`` and
-``contract_key`` of the contract and assigns the ``redaction_id``.
+To redact an archived contract, use the ``redact_contract`` function by providing the ``contract_id`` and a ``redaction_id``. The intent of the ``redaction_id`` is to provide a case reference to identify the reason why the redaction has taken place, and it should be set according to organizational policies. This operation NULLs the ``payload`` and ``contract_key`` of the contract and assigns the ``redaction_id``.
 
 .. code:: text
 
    SELECT redact_contract('<contract_id>', '<redaction_id>');
 
-Redaction is applied to the contract and its interface views, if any,
-and it returns the number of affected entries.
+Redaction is applied to the contract and its interface views, if any, and it returns the number of affected entries.
 
 Redacting a Choice Exercise
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To redact an exercise, use the ``redact_exercise`` function by providing
-the ``event_id`` of the exercise and a ``redaction_id``. This NULLs the
-``argument`` and ``result`` of the exercise and assigns the
-``redaction_id``.
+To redact an exercise, use the ``redact_exercise`` function by providing the ``event_id`` of the exercise and a ``redaction_id``. This NULLs the ``argument`` and ``result`` of the exercise and assigns the ``redaction_id``.
 
 .. code:: text
 
@@ -3854,18 +3035,14 @@ the ``event_id`` of the exercise and a ``redaction_id``. This NULLs the
 Accessing Redaction Information
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The ``redaction_id`` of a contract is exposed as a column in the
-following functions of the read API. The columns ``payload`` and
-``contract_key`` for a redacted contract are ``NULL``.
+The ``redaction_id`` of a contract is exposed as a column in the following functions of the read API. The columns ``payload`` and ``contract_key`` for a redacted contract are ``NULL``.
 
 -  ``creates(...)``
 -  ``archives(...)``
 -  ``active(...)``
 -  ``lookup_contract(...)``
 
-The ``redaction_id`` of an exercise event is exposed as a column in the
-following functions of the read API. The columns ``argument`` and
-``result`` for a redacted exercise are ``NULL``:
+The ``redaction_id`` of an exercise event is exposed as a column in the following functions of the read API. The columns ``argument`` and ``result`` for a redacted exercise are ``NULL``:
 
 -  ``exercises(...)``
 -  ``lookup_exercises(...)``
@@ -3881,4 +3058,4 @@ following functions of the read API. The columns ``argument`` and
 .. |image8| image:: assets/diagrams/pqs-user-guide-9.svg
 .. |image9| image:: assets/diagrams/pqs-user-guide-10.svg
 .. |image10| image:: assets/diagrams/pqs-user-guide-11.svg
-.. |Dashboard| image:: assets/images/20240424-scribe-dashboard-grafana.png
+.. |Dashboard| image:: assets/images/20240826-scribe-dashboard-grafana.png
