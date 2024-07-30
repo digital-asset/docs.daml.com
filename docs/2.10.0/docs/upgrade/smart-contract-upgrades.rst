@@ -19,8 +19,8 @@ Smart Contract Upgrade (SCU) allows Daml models (packages in DAR files) to be
 updated on Canton transparently, provided some guidelines in making the
 changes are followed. For example, you can fix an application bug by uploading
 the DAR of the fixed package. This feature requires the minimum versions of LF
-1.16 and Canton Protocol versions 6.   This section provides an overview of
-the SCU feature.  The section :ref:`The Smart Contract Upgrade Model in Depth
+1.16 and Canton Protocol versions 6. This section provides an overview of
+the SCU feature, while :ref:`The Smart Contract Upgrade Model in Depth
 <upgrade-model-reference>` is a concise, technical description of the feature.
 
  
