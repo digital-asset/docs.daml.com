@@ -42,7 +42,7 @@ Package authors previously upgraded their packages by either:
 -  | Uploading the new version of their application code to their participant,
      temporarily stopping workflows relating to the old version, and manually
      upgrading every old template on the participant to the new version by
-     directly manipulating Canton’s databases. | This is error-prone and
+     directly manipulating Canton’s databases. This method is error-prone and
      requires some downtime for the participant.
 
 Now, with SCU, any contract from the old package is automatically interpreted
