@@ -153,8 +153,8 @@ There are instructions below on how to configure this setup. The
 sections below, unless explicitly stated otherwise, assume that this is
 the case.
 
-To prevent unexpected behavior, this feature enforces that a DAR being
-uploaded to a participant node has a unique package name and version.
+To prevent unexpected behavior, this feature enforces a unique package name and version for each DAR being
+uploaded to a participant node.
 This closes a loophole where the PN allowed uploading multiple DARs with
 the same package name and version. For backward compatibility, this
 restriction only applies for packages compiled with LF >= 1.16. If LF <
