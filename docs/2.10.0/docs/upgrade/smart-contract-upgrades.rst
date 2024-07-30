@@ -159,8 +159,7 @@ This closes a loophole where the participant node allowed multiple DARs with
 the same package name and version. For backward compatibility, this
 restriction only applies for packages compiled with LF >= 1.16. If LF <
 1.15 is used, there can be several packages with the same name and
-version but this should be corrected as it will not be supported
-further.
+version but this should be corrected; duplicate package names and versions are no longer supported.
 
 Smart Contract Upgrade Basics
 -----------------------------
