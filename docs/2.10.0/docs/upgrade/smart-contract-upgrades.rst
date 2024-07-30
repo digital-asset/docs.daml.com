@@ -100,7 +100,7 @@ feature by:
    specify a preferred package ID to use;
 
 -  Requiring either a package id or package name to be present to disambiguate
-   the partially-qualified form of template/interface ids.
+   the partially-qualified form of template/interface IDs.
 
 Previously JSON API had supported partially qualified template IDs,
 (i.e. simply ``<module>:<entity>``) as an interactive convenience which
