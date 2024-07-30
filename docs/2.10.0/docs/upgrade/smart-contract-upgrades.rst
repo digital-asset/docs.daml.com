@@ -105,8 +105,8 @@ feature by:
 Previously JSON API had supported partially qualified template IDs,
 (i.e. simply ``<module>:<entity>``) as an interactive convenience which
 fails if there is more than one package with matching template names.
-Since this format was not supported for production use and will not work
-with smart contract upgrades, it is now unavailable.
+Since this format was not supported for production use and does not work
+with SCU, it is now unavailable.
 
 The Java and TypeScript codegen allow the use of package name and
 package ID (if needed).
