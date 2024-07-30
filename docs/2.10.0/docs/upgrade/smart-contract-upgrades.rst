@@ -47,7 +47,7 @@ Package authors previously upgraded their packages by either:
 
 Now, with SCU, any contract from the old package is automatically interpreted
 as the new version as soon as it is used in a new workflow that requires
-it.  This feature is well-suited for developing and rolling out of incremental
+it. This feature is well-suited for developing and rolling out incremental
 template changes. There are guidelines to ensure upgrade compatibility
 between DAR files. The compatibility is checked at compile time, DAR
 upload time, and runtime. This is to ensure data backwards upgrade
