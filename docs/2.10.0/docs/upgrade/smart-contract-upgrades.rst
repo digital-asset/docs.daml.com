@@ -481,7 +481,7 @@ Any changes you make to v2 are now validated as correct upgrades
 over v1.
 
 
-Adding a new Field
+Adding a New Field
 ~~~~~~~~~~~~~~~~~~
 
 Begin by adding a new ``currency`` field to ``v2/my-pkg/daml/Main.daml``:
