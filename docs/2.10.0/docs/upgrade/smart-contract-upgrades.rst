@@ -155,7 +155,7 @@ the case.
 
 To prevent unexpected behavior, this feature enforces a unique package name and version for each DAR being
 uploaded to a participant node.
-This closes a loophole where the PN allowed uploading multiple DARs with
+This closes a loophole where the participant node allowed multiple DARs with
 the same package name and version. For backward compatibility, this
 restriction only applies for packages compiled with LF >= 1.16. If LF <
 1.15 is used, there can be several packages with the same name and
