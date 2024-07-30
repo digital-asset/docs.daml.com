@@ -128,7 +128,7 @@ Qualified names cannot be ambiguous.
 The PQS Read API now returns the package-name, package-id, and package-version
 for each contract instance, making it easy for users to determine and inspect
 different versions over time. To reconstruct the old experience (should you
-need to) of querying one specific version, simply use a filter predicate in
+need to) of querying one specific version, use a filter predicate in
 the SQL.
 
 .. code-block:: sql
