@@ -537,7 +537,7 @@ since they produce multiple root actions each belonging to their own view. Final
 to its template contract means that either they are the same or the new observer is hosted by any of the contract's informee
 participants.
 
-.. literalinclude:: code-snippets/troubleshooting/Batching.daml
+.. literalinclude:: code-snippets/Batching.daml
   :language: daml
 
 As a rule, the number of views should depend on the number of groups of informee participants
