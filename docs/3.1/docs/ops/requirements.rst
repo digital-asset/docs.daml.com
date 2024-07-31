@@ -23,8 +23,10 @@ Unless otherwise stated, all Daml runtime components require the following:
 
 5. JDBC drivers compatible with your RDBMS
 
-In terms of hardware requirements, minimal deployments running simple Daml applications
-are regularly tested with as little as 2 GB of memory and access to a single, shared vCPU.
+In terms of hardware requirements for development, a simple Daml application
+can run with a laptop using 2 GB of memory and a couple of CPU cores.
+However, :ref:`a much larger environment <hardware-resources>`  is recommended for testing or production
+use.
 
 Feature/Component System Requirements
 -------------------------------------
