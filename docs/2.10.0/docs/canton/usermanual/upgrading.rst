@@ -717,7 +717,12 @@ version 3 or 4 to a new sync domain running on the 2.9 release and protocol vers
 #. All nodes: :ref:`Apply the DB migrations <migrating_the_database>`
 #. Participants: Connect to the new sync domain, then disconnect from all domains
 #. Participants: Invoke :ref:`command<repair.migrate_domain>` ``repair.migrate_domain``
+
 #. Participants: Reconnect to the new sync domain
+
+.. snippet:: migrating_protocol
+    .. success:: participant.domains.reconnect_all()
+
 #. Decommission the old domain
 
 .. _halt-activity-current-domain:
