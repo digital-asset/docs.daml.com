@@ -523,8 +523,7 @@ contract's informee participants they don't get merged into a single view if thi
 since they produce multiple root actions each belonging to their own view. Finally, aligning the choice observer of `Run`
 to its template contract means that they must be the same.
 
-.. literalinclude:: code-snippets/Batching.daml
-  :language: daml
+
 
 As a rule, the number of views should depend on the number of stakeholder groups you have in your batch choice, 
 not the number of "batches" you process in parallel within one command.

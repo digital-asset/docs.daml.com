@@ -537,8 +537,7 @@ since they produce multiple root actions each belonging to their own view. Final
 to its template contract means that either they are the same or the new observer is hosted by any of the contract's informee
 participants.
 
-.. literalinclude:: code-snippets/Batching.daml
-  :language: daml
+
 
 As a rule, the number of views should depend on the number of groups of informee participants
 you have in your batch choice, not the number of "batches" you process in parallel within one command.
