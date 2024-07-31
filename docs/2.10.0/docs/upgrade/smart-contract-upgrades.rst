@@ -3,8 +3,8 @@
 
 .. _smart-contract-upgrades:
 
-Zero Downtime Smart Contract Upgrades (Initial Access)
-######################################################
+Smart Contract Upgrade
+######################
 
 .. .. toctree::
    :hidden:
@@ -12,40 +12,131 @@ Zero Downtime Smart Contract Upgrades (Initial Access)
 Theory of Operation
 ===================
 
-What are Zero Downtime Smart Contract Upgrades?
------------------------------------------------
+What is Smart Contract Upgrade (SCU)?
+-------------------------------------
 
-Zero-Downtime Smart Contract Upgrades (SCU) are a feature for Daml
+Smart Contract Upgrade (SCU) allows Daml models (packages in DAR files) to be
+updated on Canton transparently, provided some guidelines in making the
+changes are followed. For example, you can fix an application bug by uploading
+the DAR of the fixed package. This feature requires the minimum versions of LF
+1.16 and Canton Protocol versions 6. This section provides an overview of
+the SCU feature, while :ref:`The Smart Contract Upgrade Model in Depth
+<upgrade-model-reference>` is a concise, technical description of the feature.
+
+ 
+Smart Contract Upgrade (SCU) is a feature for Daml
 packages which enable authors to publish new versions of their templates
 while maintaining compatibility with prior versions, without any
 downtime for package users and existing contracts.
 
-Without this feature, package authors can upgrade their packages using broadly
-one of two approaches:
+Package authors previously upgraded their packages by either:
 
--  | Provide a Daml workflow for upgrading contracts to the new version,
+-  | Providing a Daml workflow for upgrading contracts to the new version,
      and tell users of the old version to use the workflow to upgrade
      their old templates to the new versions.
-   | This requires communication with all package users, splits package
-     users across the two versions during the migration, and may incur
+   | This requires communication with all package users, splits package users
+     across the two versions during the migration, and may incur
      significant network cost. This approach is described
      :ref:`here <upgrade-overview>`.
 
--  | Publish the new version to their participant, temporarily stop
-     workflows relating to the old version, and manually upgrade every
-     old template on the participant to the new version by directly
-     manipulating Canton’s databases.
-   | This is error-prone and requires some downtime for the participant.
+-  | Uploading the new version of their application code to their participant,
+     temporarily stopping workflows relating to the old version, and manually
+     upgrading every old template on the participant to the new version by
+     directly manipulating Canton’s databases. This method is error-prone and
+     requires some downtime for the participant.
 
-With SCU, any contract from the old package is automatically interpreted
+Now, with SCU, any contract from the old package is automatically interpreted
 as the new version as soon as it is used in a new workflow that requires
-it.
+it. This feature is well-suited for developing and rolling out incremental
+template changes. There are guidelines to ensure upgrade compatibility
+between DAR files. The compatibility is checked at compile time, DAR
+upload time, and runtime. This is to ensure data backwards upgrade
+compatibility and forwards compatibility (subject to the guidelines
+being followed) so that DARs can be safely upgraded to new versions. It
+also prevents unexpected data loss at clients if a runtime downgrade
+occurs (e.g., a client is using template version 1.0.0 while the
+participant node has the newer version 1.1.0).
+
+A general guideline for SCU is that additive application changes are allowed
+but items cannot be removed. A summary of the allowed changes in templates
+are:
+
+-  A template can add new ``Optional`` fields at the end of the list of fields;
+
+-  A ``record`` datatype can add new optional fields at the end of the list of
+   fields, and a ``variant`` or ``enum`` datatype can add new constructors at
+   the end;
+
+-  The ``ensure`` predicate can be changed and it is reevaluated at interpretation;
+
+-  A choice signature can be changed by adding ``Optional`` parameters at the end;
+
+-  The controller of a choice can be changed;
+
+-  The observer of a choice can be changed
+
+-  The body of a choice can be changed;
+
+-  A new choice can be added to a template;
+
+-  The implementation of an interface instance can be changed;
+
+-  A new interface instance can be added to a template.
+
+Please consult the detailed documentation below for more information.
 
 In this way, package authors can publish new package versions that
 improve contract functionality without requiring any
 error-prone migrations, without downtime, without requiring any
 additional network traffic, and without any extensive communication with
 downstream users.
+
+The JSON API server is compatible with the smart contract upgrade
+feature by:
+
+-  Supporting package names for commands and queries;
+
+-  Allowing use of an optional ``packageIdSelectionPreference`` field to
+   specify a preferred package ID to use;
+
+-  Requiring either a package id or package name to be present to disambiguate
+   the partially-qualified form of template/interface IDs.
+
+Previously JSON API had supported partially qualified template IDs,
+(i.e. simply ``<module>:<entity>``) as an interactive convenience which
+fails if there is more than one package with matching template names.
+Since this format was not supported for production use and does not work
+with SCU, it is now unavailable.
+
+The Java and TypeScript codegen allow the use of package name and
+package ID (if needed).
+
+PQS supports for this feature.  PQS now supports the highly sought after feature of using package-name
+(specified in ``daml.yaml``) instead of the more cumbersome package-id. When specifying a
+template/interface/choice name, simply substitute any package-id with the
+package-name (eg. now ``register:DA.Register:Token``) instead of the old
+``deadbeefpackageidhex:DA.Register:Token`` format. This applies to template
+filters and SQL queries (eg. via the ``active()`` function). These functions will
+always return all versions of a given identifier. Qualified name can be:
+
+- fully qualified, e.g. ``<package-name>:<module-path>:<template-name>``
+
+- partially qualified, e.g. ``<module-path>:<template-name>``
+
+Qualified names cannot be ambiguous.
+
+The PQS Read API now returns the package-name, package-id, and package-version
+for each contract instance, making it easy for users to determine and inspect
+different versions over time. To reconstruct the old experience (should you
+need to) of querying one specific version, use a filter predicate in
+the SQL.
+
+.. code-block:: sql
+
+    SELECT * 
+      FROM active('mypackage:My.App:MyTemplate') 
+      WHERE package_id = 'deadbeefpackageidhex'
+
 
 Requirements
 ------------
@@ -61,6 +152,14 @@ Note that SCU is only available when the criteria below are met:
 There are instructions below on how to configure this setup. The
 sections below, unless explicitly stated otherwise, assume that this is
 the case.
+
+To prevent unexpected behavior, this feature enforces a unique package name and version for each DAR being
+uploaded to a participant node.
+This closes a loophole where the participant node allowed multiple DARs with
+the same package name and version. For backward compatibility, this
+restriction only applies for packages compiled with LF >= 1.16. If LF <
+1.15 is used, there can be several packages with the same name and
+version but this should be corrected; duplicate package names and versions are no longer supported.
 
 Smart Contract Upgrade Basics
 -----------------------------
@@ -244,7 +343,7 @@ within VSCode. There are some limitations here which are listed in
 Limitations
 -----------
 
-To allow SCU to be zero downtime, and multiple versions
+To allow SCU to minimize downtime, and multiple versions
 of a package to be active at once, we limit the types of
 transformations that can be performed on live data. Following are some
 data transformations that cannot be made using SCU upgrades:
@@ -261,9 +360,9 @@ These restrictions are required to give a simple model of runtime
 upgrades, avoiding ambiguity and non-obvious side effects. If you
 require any of these types of changes, you may need to consider a
 redeployment with downtime, using any of the tools listed in 
-`What are Zero Downtime Smart Contract Upgrades <#what-are-zero-downtime-smart-contract-upgrades>`__.
+`What is Smart Contract Upgrade <#what-are-zero-downtime-smart-contract-upgrades>`__.
 
-In this beta version of SCU, the following functionality has not yet
+In this version of SCU, the following functionality has not yet
 been implemented, but may be implemented in future releases.
 
 -  Retroactive interface instances are not compatible with SCU upgrades.
@@ -284,11 +383,11 @@ been implemented, but may be implemented in future releases.
    not `serializable <https://github.com/digital-asset/daml/blob/main-2.x/sdk/daml-lf/spec/daml-lf-1.rst#serializable-types>`__.
    This check will be loosened in a future version.
 
-Local developer experience
-==========================
+The Programming Model by Example
+================================
 
-Writing your first upgrade
---------------------------
+Writing Your First Smart Contract Upgrade
+-----------------------------------------
 
 Setup
 ~~~~~
@@ -380,8 +479,9 @@ field pointing to v1:
 Any changes you make to v2 are now validated as correct upgrades
 over v1.
 
-First Changes
-~~~~~~~~~~~~~
+
+Adding a New Field
+~~~~~~~~~~~~~~~~~~
 
 Begin by adding a new ``currency`` field to ``v2/my-pkg/daml/Main.daml``:
 
@@ -430,7 +530,7 @@ covered in the `Continuing to Write Your
 Upgrades <#continuing-to-write-your-upgrades>`__ section.
 
 Seeing Upgraded Fields in Contracts
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Using the Daml Sandbox, we can see our old contracts automatically
 upgrade.
@@ -735,16 +835,16 @@ V2 via ``mkIOUWithoutCurrency``, then run ``doubleIOU`` on it from V1:
 Existing choices can also be upgraded, as covered in
 `Continuing to Write Your Upgrades <#continuing-to-write-your-upgrades>`__.
 
-Deploying your first upgrade
+Deploying Your First Upgrade
 ----------------------------
 
-Configuring Canton to support smart upgrading
+Configuring Canton to Support Smart Upgrading
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-SCU is a beta feature in Canton 2.9. When using the feature one must
-configure Canton nodes to :ref:`enable beta version support <how-do-i-enable-beta-features>`.
+When using the feature one must
+temporarily configure Canton nodes to :ref:`enable beta version support <how-do-i-enable-beta-features>`.
 
-Using smart-contract-upgrading enabled packages
+Using Smart Contract Upgrading Enabled Packages
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Once you have finished development of your smart contract app, use the
@@ -772,7 +872,7 @@ without modifications and is immediately available for use.
   same name/version as an existing DAR on the participant leads to a
   rejection with error code KNOWN_DAR_VERSION.
 
-Validate the DAR against a running participant node
+Validate the DAR Against a Running Participant Node
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Starting with 2.9 you can validate your DAR against the current
@@ -786,7 +886,7 @@ This operation is also available via the Canton Admin API and Console:
 
   participant.dars.validate("dars/CantonExamples.dar")
 
-Upgrading and package vetting
+Upgrading and Package Vetting
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Upgradable packages are also subject to :ref:`package vetting
@@ -1626,7 +1726,7 @@ you should see this warning as an error - it is very strongly
 recommended that you do not compile interfaces and templates for
 upgrades.
 
-Remove retroactive instances
+Remove Retroactive Instances
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 SCU eliminates the need for retroactive instances and is not
@@ -1635,7 +1735,7 @@ acts correctly, retroactive interface instances should be moved to newer
 versions of templates, such that changes to the instance warrants a new
 version of the template.
 
-Explicit template versions
+Explicit Template Versions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you need package version specific behavior that cannot just depend on
@@ -1646,7 +1746,7 @@ This allows for less fragile behavior in the event of
 a package, intentionally), and allows you to model rollbacks as upgrades
 in a principled manner.
 
-Avoid contract metadata changes
+Avoid Contract Metadata Changes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The signatories, observers, contract key and ensure clauses of a
@@ -1695,7 +1795,7 @@ The Upgrade Model in Depth - Reference
 --------------------------------------
 
 You can find the in-depth upgrading model, which can be used as a reference
-for valid upgrades, :ref:`here <upgrade_model_reference>`.
+for valid upgrades, :ref:`here <upgrade-model-reference>`.
 
 Components
 ==========
@@ -1719,7 +1819,7 @@ presented below.
 
 .. _dynamic-package-resolution-in-command-submission:
 
-Dynamic package resolution in command submission
+Dynamic Package Resolution in Command Submission
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Dynamic package resolution can happen in two cases during command
@@ -1754,7 +1854,7 @@ package-name to a package-id:
       packages with the same package-name, as otherwise the submission will fail with
       an ``INVALID_ARGUMENT`` error
 
-Dynamic package resolution in Ledger API queries
+Dynamic Package Resolution in Ledger API Queries
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When subscribing for
@@ -1934,7 +2034,7 @@ following:
 Testing
 =======
 
-Upgrade validity checking
+Upgrade Validity Checking
 -------------------------
 
 We recommend that as a further check for the validity of your upgraded
@@ -1947,7 +2047,7 @@ running a Canton sandbox with the same version and environment as your
 in-production participant and uploading all the old and new packages that
 constitute your Daml app.
 
-Daml Script testing
+Daml Script Testing
 -------------------
 
 Daml Script has been used for demonstrative purposes in this document, however
@@ -1956,7 +2056,7 @@ transformations themselves. You can use Daml Script (with Canton) to test some
 isolated simple cases, but for thorough tests of you system using SCU, you should
 prefer full workflow testing, as below.
 
-Workflow testing
+Workflow Testing
 ----------------
 
 While testing your workflows is application-specific, we still
