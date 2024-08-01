@@ -1253,7 +1253,7 @@ subtrees:
     - file: canton/usermanual/monitoring_glossary
       title: "Glossary"
   - file: query/pqs-user-guide
-    title: "Participant Query Store User Guide"
+    title: "Participant Query Store"
   - file: canton/usermanual/identity_management
     title: "Identity Management"
   - file: operate-a-daml-ledger/common-tasks/index
