@@ -267,7 +267,7 @@ These last two steps are executed using the new Daml Script functions supporting
 
 Safeguards
 ------------------------------------------
-Explicit Contract Disclosure usage should always be accompanied by on-ledger contracts to ensure workflows executed based on the disclosed contract's contents conform to on-ledger agreements between the stakeholders (or trusted parties) involved.
+Explicit Contract Disclosure usage should always be accompanied by on-ledger contracts. This ensures that workflows executed based on the disclosed contract's contents conform to on-ledger agreements between the stakeholders (or trusted parties) involved.
 
 In the above example, ``IOU`` contracts between **Buyer** and **Issuer** (a trusted party on the ledger) ensure that the exercising of the ``Offer_Accept`` choice using disclosed contract results in a contractually agreed-upon outcome.
 
