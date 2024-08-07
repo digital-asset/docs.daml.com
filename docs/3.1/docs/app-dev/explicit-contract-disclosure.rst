@@ -281,6 +281,6 @@ The ``IOU`` contract provides several safeguards in the ``Offer_Accept`` workflo
 
 By ensuring the **Buyer** party expected to execute the ``Offer_Accept`` choice, a trusted **Issuer** party and required terms of execution are clearly defined on an on-ledger multi-signatory ``IOU`` contract, the **Seller** can disclose the ``Offer`` contract and the **Buyer** can execute the ``Offer_Accept`` choice on the disclosed ``Offer`` contract knowing workflow safety is ensured.
 
-If disclosed contracts contain malicious data or are maliciously executed on, the safeguards will prevent unexpected outcomes outside the bounds of the agreement stated on the ``IOU`` contract from resolving.
+If disclosed contracts contain malicious data or are maliciously executed on, the safeguards prevent unexpected outcomes.
 
 Generic variants of the discussed safeguards should be implemented when utilizing explicitly disclosed contracts to ensure workflow safety.
