@@ -269,17 +269,17 @@ Safeguards
 ------------------------------------------
 Explicit Contract Disclosure usage should always be accompanied by on-ledger contracts. This ensures that workflows executed based on the disclosed contract's contents conform to on-ledger agreements between the stakeholders (or trusted parties) involved.
 
-In the above example, ``IOU`` contracts between **Buyer** and **Issuer** (a trusted party on the ledger) ensure that the exercising of the ``Offer_Accept`` choice using disclosed contract results in a contractually agreed-upon outcome.
+In the above example, ``IOU`` contracts between *Buyer* and *Issuer* (a trusted party on the ledger) ensure that the exercising of the ``Offer_Accept`` choice using disclosed contract results in a contractually agreed-upon outcome.
 
 This works by performing several safety checks in the ``IOU_Transfer`` choice within the ``IOU`` contract, which is called from the ``Offer_Accept`` choice.
 
 The ``IOU`` contract provides several safeguards in the ``Offer_Accept`` workflow:
 
-- **Buyer** exercising the ``Offer_Accept`` choice is defined on the ``IOU`` agreement.
-- Creation of an IOU with an same amount for the **Seller** happens atomically with a deduction of the same amount from the **Buyer'** IOU.
-- **Buyer** cannot be deducted and **Seller** cannot receive more than the stipulated value on the ``IOU`` contract.
+- *Buyer* exercising the ``Offer_Accept`` choice is defined on the ``IOU`` agreement.
+- Creation of an IOU with the same amount for the *Seller* happens atomically with a deduction of the same amount from the *Buyer'* IOU.
+- *Buyer* cannot be deducted and *Seller* cannot receive more than the stipulated value on the ``IOU`` contract.
 
-By ensuring the **Buyer** party expected to execute the ``Offer_Accept`` choice, a trusted **Issuer** party and required terms of execution are clearly defined on an on-ledger multi-signatory ``IOU`` contract, the **Seller** can disclose the ``Offer`` contract and the **Buyer** can execute the ``Offer_Accept`` choice on the disclosed ``Offer`` contract knowing workflow safety is ensured.
+By ensuring the *Buyer* party expected to execute the ``Offer_Accept`` choice, a trusted **Issuer** party and required terms of execution are clearly defined on an on-ledger ``IOU`` contract with a trusted *Issuer* party as a signatory, the *Seller* can disclose the ``Offer`` contract and the *Buyer* can execute the ``Offer_Accept`` choice on the disclosed ``Offer`` contract knowing workflow safety is ensured.
 
 If disclosed contracts contain malicious data or are maliciously executed on, the safeguards prevent unexpected outcomes.
 
