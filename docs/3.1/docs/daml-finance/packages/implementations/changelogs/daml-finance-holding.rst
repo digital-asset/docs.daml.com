@@ -4,6 +4,13 @@
 Daml.Finance.Holding - Changelog
 ################################
 
+Version 3.0.1
+*************
+
+- Resolved an issue in the `Daml.Finance.Holding` package affecting the `Disclosure.I`
+  implementation of the `Factory` template within the `Daml.Finance.Holding.Factory` module. This
+  patch ensures that observers are now correctly updated for the associated `Reference` template.
+
 Version 3.0.0
 *************
 
