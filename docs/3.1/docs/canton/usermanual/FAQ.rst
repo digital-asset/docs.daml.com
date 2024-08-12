@@ -157,11 +157,23 @@ Note that this will disable all "standard config" checks, not just those for the
 How do I enable unsupported features?
 -------------------------------------
 
-Some alpha / beta features require you to explicitly enable them. However, please note that none of them
+Some alpha features require you to explicitly enable them. However, please note that none of them
 are supported by us in our commercial product and that turning them on will very much likely break your
 system:
 
-.. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/dev-version-support.conf
+.. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/alpha-version-support.conf
+
+.. _how-do-i-enable-beta-features:
+
+How do I enable beta features?
+---------------------------------
+For early access to new features, you need to enable beta version support. A beta protocol version allows the use of features with initial availability.
+Note that IA features are not generally supported. Customers using Daml Enterprise may be able to get commercial support for IA features
+by explicit agreement with Digital Asset. Please contact your relationship manager to discuss any such arrangement.
+
+If you have enabled `dev version support`, you can use the beta protocol versions without any additional configuration.
+
+.. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/beta-version-support.conf
 
 How to troubleshoot included configuration files?
 ----------------------------------------------------
