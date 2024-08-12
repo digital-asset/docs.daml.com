@@ -148,6 +148,8 @@ Here is what each field means:
   say ``daml start --start-navigator=true``, the CLI argument takes precedence over
   the value in ``daml.yaml``.
 
+The ``daml.yaml`` file supports `Environment Variable Interpolation <#environment-variable-interpolation>`__.
+
 Recommended ``build-options``
 =============================
 
@@ -178,3 +180,51 @@ warning.  See
 `the Daml forum <https://discuss.daml.com/t/making-the-most-out-of-daml-compiler-warnings/739>`__
 for a discussion of the meaning of these warnings and pointers to other
 available warnings.
+
+Multi-Package Config File (``multi-package.yaml``)
+==================================================
+See :ref:`Multi-Package Build<multi-package-build>` for more information on this file.
+The ``multi-package.yaml`` file is used to inform Daml Build and the IDE of projects containing multiple
+connected daml packages.
+
+An example is given below:
+
+.. code-block:: yaml
+
+  packages:
+    - ./path/to/package/a
+    - ./path/to/package/b
+  projects:
+    - ./path/to/project/a
+    - ./path/to/project/b
+
+Here is what each field means:
+
+- ``packages``: an optional list of directories containing daml package, and by extension, ``daml.yaml`` config files. These allow daml multi-build to
+  find the source code to dependency dars and build them in the correct order.
+- ``projects``: an optional list of directories containing ``multi-package.yaml`` config files, which will extend the above package set for resolving
+  build order. These exist to allow separation of your project into sub-projects, which can still be built when removed from the surrounding environment.
+
+The ``multi-package.yaml`` file supports `Environment Variable Interpolation <#environment-variable-interpolation>`__.
+
+Environment Variable Interpolation
+==================================
+Both the ``daml.yaml`` and ``multi-package.yaml`` config files support environment variable interpolation on all string fields.
+Interpolation takes the form of ``${MY_ENVIRONMENT_VARIABLE}``, which will be replaced with the content of ``MY_ENVIRONMENT_VARIABLE`` from the
+calling shell.
+A simple example is given below:
+
+.. code-block:: yaml
+
+  sdk-version: ${SDK_VERSION}
+  name: ${PROJECT_NAME}_test
+  source: daml
+  version: 1.0.0
+
+Interpolation strings can be escaped with a preceeding ``\``, and interpolation can be disabled for a full config file
+by setting the ``environment-variable-interpolation`` field to ``false``
+
+.. code-block:: yaml
+
+  name: ${NOT_INTERPOLATED}
+  environment-variable-interpolation: false
