@@ -86,6 +86,8 @@ Download and run the installer_, which will install Daml and set up the PATH var
 Mac and Linux
 =============
 
+If running on `Mac computers with Apple silicon <https://support.apple.com/en-gb/116943>`_ please `install Rosetta <https://discussions.apple.com/thread/255439516>`_ (using ``softwareupdate --install-rosetta`` method) before starting the daml install.
+
 Open a terminal and run:
 
 .. code-block:: shell
