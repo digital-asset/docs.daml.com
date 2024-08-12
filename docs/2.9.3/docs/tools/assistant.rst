@@ -200,10 +200,10 @@ An example is given below:
 
 Here is what each field means:
 
-- ``packages``: an optional list of directories containing daml package, and by extension, ``daml.yaml`` config files. These allow daml multi-build to
-  find the source code to dependency dars and build them in the correct order.
+- ``packages``: an optional list of directories containing Daml packages, and by extension, ``daml.yaml`` config files. These allow Daml Multi-Build to
+  find the source code for dependency dars and build them in topological order.
 - ``projects``: an optional list of directories containing ``multi-package.yaml`` config files, which will extend the above package set for resolving
-  build order. These exist to allow separation of your project into sub-projects, which can still be built when removed from the surrounding environment.
+  the build order. These exist to allow separation of your project into sub-projects, which can still be built when removed from the surrounding environment.
 
 The ``multi-package.yaml`` file supports `Environment Variable Interpolation <#environment-variable-interpolation>`__.
 
@@ -221,8 +221,8 @@ A simple example is given below:
   source: daml
   version: 1.0.0
 
-Interpolation strings can be escaped with a preceeding ``\``, and interpolation can be disabled for a full config file
-by setting the ``environment-variable-interpolation`` field to ``false``
+Interpolation strings can be escaped with a preceding ``\``, and interpolation can be disabled for a config file
+by setting the ``environment-variable-interpolation`` field to ``false``.
 
 .. code-block:: yaml
 
