@@ -83,7 +83,7 @@ are:
 
 -  A new interface instance can be added to a template.
 
-The following table summarizes the changes that SCU supports.  Please consult
+The following table summarizes the changes supported by that SCU. Consult
 the detailed documentation below for additional information.
 
 +-----------------+---------------+------------+-----------------------------------+
