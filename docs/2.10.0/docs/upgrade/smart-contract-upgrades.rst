@@ -134,7 +134,7 @@ the detailed documentation below for additional information.
 | Observers       | Definition    |            |                                   |
 +-----------------+---------------+------------+-----------------------------------+
 | Change of Key   | Template      | No         | Same as template signatories      |
-| maintainers     | Definition    |            |                                   |
+| Maintainers     | Definition    |            |                                   |
 |                 |               |            |                                   |
 +-----------------+---------------+------------+-----------------------------------+
 | Change of       | Template      | Yes        | Note that the Ensure is           |
