@@ -192,8 +192,8 @@ the detailed documentation below for additional information.
 | Choice Body     |               |            |                                   |
 +-----------------+---------------+------------+-----------------------------------+
 | Change of       | Choice        | Yes,       | You can change a user data type   |
-| Choice return   |               | except for | (record, variant, enum) contained |
-| type            |               | tuple or   | in the return type. In this case  |
+| Choice Return   |               | except for | (record, variant, enum) contained |
+| Type            |               | tuple or   | in the return type. In this case  |
 |                 |               | scalar     | you can add a field to the record |
 |                 |               | types      | or a new case to the              |
 |                 |               |            | variant/enum.                     |
