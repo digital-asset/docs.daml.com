@@ -150,8 +150,8 @@ the detailed documentation below for additional information.
 | Constructors    |               |            |                                   |
 +-----------------+---------------+------------+-----------------------------------+
 | Deletion of     | Template      | No         |                                   |
-| fields from     | Definition    |            |                                   |
-| template        |               |            |                                   |
+| Fields from     | Definition    |            |                                   |
+| Template        |               |            |                                   |
 +-----------------+---------------+------------+-----------------------------------+
 | Change of       | Template      | Yes        |                                   |
 | Choice          | Definition    |            |                                   |
