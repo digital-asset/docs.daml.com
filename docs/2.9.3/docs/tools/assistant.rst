@@ -185,7 +185,7 @@ Multi-Package Config File (``multi-package.yaml``)
 ==================================================
 See :ref:`Multi-Package Build<multi-package-build>` for more information on this file.
 The ``multi-package.yaml`` file is used to inform Daml Build and the IDE of projects containing multiple
-connected daml packages.
+connected Daml packages.
 
 An example is given below:
 
@@ -201,16 +201,16 @@ An example is given below:
 Here is what each field means:
 
 - ``packages``: an optional list of directories containing Daml packages, and by extension, ``daml.yaml`` config files. These allow Daml Multi-Build to
-  find the source code for dependency dars and build them in topological order.
+  find the source code for dependency DARs and build them in topological order.
 - ``projects``: an optional list of directories containing ``multi-package.yaml`` config files, which will extend the above package set for resolving
-  the build order. These exist to allow separation of your project into sub-projects, which can still be built when removed from the surrounding environment.
+  the build order. These exist to allow separation of your project into sub-projects which can still be built when removed from the surrounding environment.
 
 The ``multi-package.yaml`` file supports `Environment Variable Interpolation <#environment-variable-interpolation>`__.
 
 Environment Variable Interpolation
 ==================================
 Both the ``daml.yaml`` and ``multi-package.yaml`` config files support environment variable interpolation on all string fields.
-Interpolation takes the form of ``${MY_ENVIRONMENT_VARIABLE}``, which will be replaced with the content of ``MY_ENVIRONMENT_VARIABLE`` from the
+Interpolation takes the form of ``${MY_ENVIRONMENT_VARIABLE}`` which are replaced with the content of ``MY_ENVIRONMENT_VARIABLE`` from the
 calling shell.
 A simple example is given below:
 
@@ -221,7 +221,7 @@ A simple example is given below:
   source: daml
   version: 1.0.0
 
-Interpolation strings can be escaped with a preceding ``\``, and interpolation can be disabled for a config file
+Interpolation strings can be escaped with a preceding ``\``, and interpolation can be disallowed for a config file
 by setting the ``environment-variable-interpolation`` field to ``false``.
 
 .. code-block:: yaml
