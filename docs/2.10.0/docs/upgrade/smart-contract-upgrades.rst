@@ -183,10 +183,10 @@ the detailed documentation below for additional information.
 +-----------------+---------------+------------+-----------------------------------+
 | Change of       | Choice        | No         |                                   |
 | Consuming       |               |            |                                   |
-| choice to       |               |            |                                   |
+| Choice to       |               |            |                                   |
 | Non-Consuming   |               |            |                                   |
 | Choice, or      |               |            |                                   |
-| vice-versa      |               |            |                                   |
+| Vice-versa      |               |            |                                   |
 +-----------------+---------------+------------+-----------------------------------+
 | Change of       | Choice        | Yes        |                                   |
 | Choice Body     |               |            |                                   |
