@@ -118,8 +118,8 @@ the detailed documentation below for additional information.
 |                 |               |            | example to take into account new  |
 |                 |               |            | fields) when creating contracts.  |
 +-----------------+---------------+------------+-----------------------------------+
-| Change of       | Template      | No         | The type of a key cannot be       |
-| Keys            | Definition    |            | changed, like adding a new field  |
+| Change of       | Template      | No         | The key's type cannot be changed, |
+|                 |               |            | like adding a new field           |
 |                 |               |            | in the record it contains.        |
 |                 |               |            |                                   |
 |                 |               |            | One can change the function that  |
@@ -192,11 +192,11 @@ the detailed documentation below for additional information.
 | Choice Body     |               |            |                                   |
 +-----------------+---------------+------------+-----------------------------------+
 | Change of       | Choice        | Yes,       | You can change a user data type   |
-| Choice Return   |               | except for | (record, variant, enum) contained |
-| Type            |               | tuple or   | in the return type. In this case  |
+| Choice Return   |               | except for | (Record, Variant, Enum) contained |
+| Type            |               | Tuple or   | in the return type. In this case  |
 |                 |               | scalar     | you can add a field to the record |
 |                 |               | types      | or a new case to the              |
-|                 |               |            | variant/enum.                     |
+|                 |               |            | Variant/Enum.                     |
 |                 |               |            |                                   |
 |                 |               |            | In particular: you cannot change  |
 |                 |               |            | a collection, Optional, List, or  |
