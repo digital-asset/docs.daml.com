@@ -133,7 +133,7 @@ the detailed documentation below for additional information.
 | Change of       | Template      | No         | Same as template signatories      |
 | Observers       | Definition    |            |                                   |
 +-----------------+---------------+------------+-----------------------------------+
-| Change of key   | Template      | No         | Same as template signatories      |
+| Change of Key   | Template      | No         | Same as template signatories      |
 | maintainers     | Definition    |            |                                   |
 |                 |               |            |                                   |
 +-----------------+---------------+------------+-----------------------------------+
