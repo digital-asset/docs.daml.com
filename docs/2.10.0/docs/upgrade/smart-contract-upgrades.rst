@@ -144,10 +144,10 @@ the detailed documentation below for additional information.
 |                 |               |            | V2 contract.                      |
 +-----------------+---------------+------------+-----------------------------------+
 | Addition of     | Template      | Yes, but   |                                   |
-| new Definition  | Definition    | they they  |                                   |
-| fields, enum,   |               | must be    |                                   |
-| and variant     |               | optional   |                                   |
-| constructors    |               |            |                                   |
+| New Definition  | Definition    | they they  |                                   |
+| Fields, Enum,   |               | must be    |                                   |
+| and Variant     |               | optional   |                                   |
+| Constructors    |               |            |                                   |
 +-----------------+---------------+------------+-----------------------------------+
 | Deletion of     | Template      | No         |                                   |
 | fields from     | Definition    |            |                                   |
