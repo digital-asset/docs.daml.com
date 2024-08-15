@@ -210,8 +210,13 @@ The ``multi-package.yaml`` file supports `Environment Variable Interpolation <#e
 Environment Variable Interpolation
 ==================================
 Both the ``daml.yaml`` and ``multi-package.yaml`` config files support environment variable interpolation on all string fields.
-Interpolation takes the form of ``${MY_ENVIRONMENT_VARIABLE}`` which are replaced with the content of ``MY_ENVIRONMENT_VARIABLE`` from the
-calling shell.
+Interpolation takes the familiar form of ``${MY_ENVIRONMENT_VARIABLE}`` which are replaced with the content of ``MY_ENVIRONMENT_VARIABLE`` from the
+calling shell. These can be escaped and placed within strings as per usual environment variable interpolation semantics.
+
+This allows you to extract common data, such as the sdk-verion, package name or package version to outside of a packages `daml.yaml`, for example
+in an `.envrc` file, or provided by a build system. This feature can also be used for specifying dependency directories, which would allow you to either store
+your DARs in a common folder and pass this as a variable, shortening the paths in your `daml.yaml`, or for each dependency to be passed as a separate variable
+by an external build system, which may keep them in a temporary cache.
 A simple example is given below:
 
 .. code-block:: yaml
@@ -219,12 +224,14 @@ A simple example is given below:
   sdk-version: ${SDK_VERSION}
   name: ${PROJECT_NAME}_test
   source: daml
-  version: 1.0.0
+  version: ${PROJECT_VERSION}
 
-Interpolation strings can be escaped with a preceding ``\``, and interpolation can be disallowed for a config file
+Escape syntax uses the familiar `\` prefix: `\${NOT_INTERPOLATED}`, and interpolation can be disallowed for a config file
 by setting the ``environment-variable-interpolation`` field to ``false``.
 
 .. code-block:: yaml
 
   name: ${NOT_INTERPOLATED}
   environment-variable-interpolation: false
+
+Note that environment variables are case sensitive, meaning `${MY_VAR}` and `${My_Var}` will not reference the same variable.
