@@ -210,21 +210,36 @@ The ``multi-package.yaml`` file supports `Environment Variable Interpolation <#e
 Environment Variable Interpolation
 ==================================
 Both the ``daml.yaml`` and ``multi-package.yaml`` config files support environment variable interpolation on all string fields.
-Interpolation takes the form of ``${MY_ENVIRONMENT_VARIABLE}`` which are replaced with the content of ``MY_ENVIRONMENT_VARIABLE`` from the
-calling shell.
-A simple example is given below:
+Interpolation takes the form of ``${MY_ENVIRONMENT_VARIABLE}``, which is replaced with the content of ``MY_ENVIRONMENT_VARIABLE`` from the
+calling shell. These can be escaped and placed within strings according to the environment variable interpolation semantics.
+
+This allows you to extract common data, such as the sdk-version, package-name, or package-version outside of a package's ``daml.yaml``. For example,
+you can use an ``.envrc`` file or have these values provided by a build system. This feature can also be used for specifying dependency DARs, enabling you to either store
+your DARs in a common folder and pass its directory as a variable, shortening the paths in your ``daml.yaml``, or pass each dependency as a
+separate variable through an external build system, which may store them in a temporary cache.
+
+The following example showcases this:
 
 .. code-block:: yaml
 
   sdk-version: ${SDK_VERSION}
   name: ${PROJECT_NAME}_test
   source: daml
-  version: 1.0.0
+  version: ${PROJECT_VERSION}
+  dependencies:
+    // Using a common directory
+    ${DEPENDENCY_DIRECTORY}/my-dependency-1.0.0.dar
+    ${DEPENDENCY_DIRECTORY}/my-other-dependency-1.0.0.dar
+    // Passed directly by a build system
+    ${DAML_FINANCE_DAR}
+    ${MY_DEPENDENCY_DAR}
 
-Interpolation strings can be escaped with a preceding ``\``, and interpolation can be disallowed for a config file
+Escape syntax uses the ``\`` prefix: ``\${NOT_INTERPOLATED}``, and interpolation can be disallowed for a config file
 by setting the ``environment-variable-interpolation`` field to ``false``.
 
 .. code-block:: yaml
 
   name: ${NOT_INTERPOLATED}
   environment-variable-interpolation: false
+
+Note that environment variables are case sensitive, meaning ``${MY_VAR}`` and ``${My_Var}`` do not reference the same variable.
