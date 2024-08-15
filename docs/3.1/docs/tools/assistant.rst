@@ -210,15 +210,15 @@ The ``multi-package.yaml`` file supports `Environment Variable Interpolation <#e
 Environment Variable Interpolation
 ==================================
 Both the ``daml.yaml`` and ``multi-package.yaml`` config files support environment variable interpolation on all string fields.
-Interpolation takes the familiar form of ``${MY_ENVIRONMENT_VARIABLE}`` which are replaced with the content of ``MY_ENVIRONMENT_VARIABLE`` from the
-calling shell. These can be escaped and placed within strings as per usual environment variable interpolation semantics.
+Interpolation takes the form of ``${MY_ENVIRONMENT_VARIABLE}``, which is replaced with the content of ``MY_ENVIRONMENT_VARIABLE`` from the
+calling shell. These can be escaped and placed within strings according to the environment variable interpolation semantics.
 
-This allows you to extract common data, such as the sdk-version, package-name or package-version to outside of said packages ``daml.yaml``, for example
-in an ``.envrc`` file, or provided by a build system. This feature can also be used for specifying dependency DARs, which would allow you to either store
-your DARs in a common folder and pass its directory as a variable, shortening the paths in your ``daml.yaml``, or for each dependency to be passed as a
-separate variable by an external build system, which may keep them in a temporary cache.
+This allows you to extract common data, such as the sdk-version, package-name, or package-version outside of a package's ``daml.yaml``. For example,
+you can use an ``.envrc`` file or have these values provided by a build system. This feature can also be used for specifying dependency DARs, enabling you to either store
+your DARs in a common folder and pass its directory as a variable, shortening the paths in your ``daml.yaml``, or pass each dependency as a
+separate variable through an external build system, which may store them in a temporary cache.
 
-An example showcasing this is given below:
+The following example showcases this:
 
 .. code-block:: yaml
 
@@ -234,7 +234,7 @@ An example showcasing this is given below:
     ${DAML_FINANCE_DAR}
     ${MY_DEPENDENCY_DAR}
 
-Escape syntax uses the familiar ``\`` prefix: ``\${NOT_INTERPOLATED}``, and interpolation can be disallowed for a config file
+Escape syntax uses the ``\`` prefix: ``\${NOT_INTERPOLATED}``, and interpolation can be disallowed for a config file
 by setting the ``environment-variable-interpolation`` field to ``false``.
 
 .. code-block:: yaml
@@ -242,4 +242,4 @@ by setting the ``environment-variable-interpolation`` field to ``false``.
   name: ${NOT_INTERPOLATED}
   environment-variable-interpolation: false
 
-Note that environment variables are case sensitive, meaning ``${MY_VAR}`` and ``${My_Var}`` will not reference the same variable.
+Note that environment variables are case sensitive, meaning ``${MY_VAR}`` and ``${My_Var}`` do not reference the same variable.
