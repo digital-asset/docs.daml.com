@@ -28,6 +28,7 @@ By default, the generated ``.dar`` file is created in ``.daml/dist/${name}-${ver
 
   daml build -o path/to/darfile.dar
 
+.. _multi-package-build:
 
 Build multiple packages
 ***********************
