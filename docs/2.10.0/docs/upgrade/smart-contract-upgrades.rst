@@ -504,11 +504,6 @@ been implemented, but may be implemented in future releases.
 
 -  Daml Script does not support SCU, you must use Daml Script Beta.
 
--  The ``upgrades:`` field in the ``daml.yaml`` is not yet integrated into
-   Multi-Package, and therefore is not automatically built as a
-   dependency (or when running ``daml build --all``, unless explicitly
-   listed in ``multi-package.yaml``)
-
 -  Contract keys in upgradable packages can only include types defined
    within the same package, or types from the Daml Standard Library.
 
