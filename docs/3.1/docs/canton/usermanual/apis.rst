@@ -335,7 +335,7 @@ tokens and of the nonce can be reconfigured using
 
 However, we suggest keeping the default values.
 
-As mentioned above, a generated token allows the member that provides it during a call to authenticate on public API
+As mentioned above, an issued token allows the member that provides it during a call to authenticate on public sequencer API
 services. Therefore, these tokens are sensitive information that must not be disclosed. If an operator suspects that
 the authentication token for a member has been leaked or somehow compromised, thereby allowing an illegitimate client
 to impersonate that member, they should use the ``logout`` console command to immediately revoke all valid tokens of
