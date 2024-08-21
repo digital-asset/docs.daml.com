@@ -341,7 +341,7 @@ the authentication token for a member has been leaked or somehow compromised, th
 that member and close the sequencer connections. The legitimate member automatically reconnects and obtains
 new tokens through the challenge-response protocol described above.
 
-The command to use is slightly different whether the member is a participant or a mediator, e.g.:
+The command is slightly different depending on whether the member is a participant or a mediator, for example:
 
 .. todo::
    Replace with references to the commands.
