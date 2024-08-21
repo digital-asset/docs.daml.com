@@ -337,9 +337,8 @@ However, we suggest keeping the default values.
 
 As mentioned above, an issued token allows the member that provides it during a call to authenticate on public sequencer API
 services. Therefore, these tokens are sensitive information that must not be disclosed. If an operator suspects that
-the authentication token for a member has been leaked or somehow compromised, thereby allowing an illegitimate client
-to impersonate that member, they should use the ``logout`` console command to immediately revoke all valid tokens of
-that member and close the sequencer connections. The legitimate member will then automatically reconnect and obtain
+the authentication token for a member has been leaked or somehow compromised, they should use the ``logout`` console command to immediately revoke all valid tokens of
+that member and close the sequencer connections. The legitimate member automatically reconnects and obtains
 new tokens through the challenge-response protocol described above.
 
 The command to use is slightly different whether the member is a participant or a mediator, e.g.:
