@@ -345,7 +345,7 @@ new tokens through the challenge-response protocol described above.
 The command to use is slightly different whether the member is a participant or a mediator, e.g.:
 
 .. todo::
-   Replace with references to the commands, e.g. :ref:`participant <domains.logout>` and :ref:`mediator <sequencer_connection.logout>`
+   Replace with references to the commands.
    `#784 <https://github.com/digital-asset/docs.daml.com/issues/784>`_
 
 .. code-block:: text
