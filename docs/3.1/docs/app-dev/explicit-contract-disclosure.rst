@@ -266,21 +266,48 @@ These last two steps are executed using the new Daml Script functions supporting
   `Java Bindings StockExchange example project <https://github.com/digital-asset/ex-java-bindings/blob/f474ae83976b0ad197e2fabfce9842fb9b3de907/StockExchange/README.rst>`_.
 
 Safeguards
-------------------------------------------
-Explicit Contract Disclosure usage should always be accompanied by on-ledger contracts. This ensures that workflows executed based on the disclosed contract's contents conform to on-ledger agreements between the stakeholders (or trusted parties) involved.
+----------
 
-In the above example, ``IOU`` contracts between *Buyer* and *Issuer* (a trusted party on the ledger) ensure that the exercising of the ``Offer_Accept`` choice using disclosed contract results in a contractually agreed-upon outcome.
+In the example above, what if the **Buyer** is malicious and wants to pay less than the official price quotation for **Seller**'s stock?
+**Buyer** might try to do so by modifying the received ``disclosedPriceQuotation`` payload received from the **StockExchange** by setting a lower value in the contract's arguments
+and then using the forged payload as a disclosed contract in the command submission exercising ``Offer_Accept`` on **Seller**'s offer.
 
-This works by performing several safety checks in the ``IOU_Transfer`` choice within the ``IOU`` contract, which is called from the ``Offer_Accept`` choice.
+Contract authentication
+```````````````````````
 
-The ``IOU`` contract provides several safeguards in the ``Offer_Accept`` workflow:
+Scenarios like the one exemplified above are not possible due to a new technical feature introduced with explicit contract disclosure: Daml contract authentication.
 
-- *Buyer* exercising the ``Offer_Accept`` choice is defined on the ``IOU`` agreement.
-- Creation of an IOU with the same amount for the *Seller* happens atomically with a deduction of the same amount from the *Buyer'* IOU.
-- *Buyer* cannot be deducted and *Seller* cannot receive more than the stipulated value on the ``IOU`` contract.
+More specifically, each contract's information, such as its arguments, template-id, signatories, etc. are authenticated by
+incorporating in the contract's contract-id a hash over the relevant contract information, ensuring
+that any tampering leads to a different contract-id than the one submitted.
+Such a mis-alignment is then caught by all the *honest* participants involved in the transaction.
 
-By ensuring the *Buyer* party expected to execute the ``Offer_Accept`` choice, a trusted *Issuer* party and required terms of execution are clearly defined on an trusted on-ledger ``IOU`` contract with a trusted *Issuer* party as a signatory, the *Seller* can disclose the ``Offer`` contract and the **Buyer** can execute the ``Offer_Accept`` choice on the disclosed ``Offer`` contract knowing workflow safety is ensured.
+In the example above, **Buyer**'s participant can't be tricked if it's honest and would reject the submission
+with an ``DISCLOSED_CONTRACT_AUTHENTICATION_FAILED``. On the other hand, if **Buyer**'s participant is malicious as well
+and they somehow submit a confirmation request with the malformed payload to other participants involved in the transaction,
+the other participants will detect the mis-alignment as well and reject the request.
 
-If disclosed contracts contain malicious data or are maliciously executed on, the safeguards prevent unexpected outcomes.
+Business logic safeguards
+`````````````````````````
 
-Generic variants of the discussed safeguards should be implemented when utilizing explicitly disclosed contracts to ensure workflow safety.
+Generally, as good practice, each Daml application workflow should have business logic preconditions
+that safeguard against mis-use.
+
+In our example, the ``Offer_Accept`` choice has a *flexible* controller (``buyer``) that is provided as an argument.
+Since any party can exercise the choice by providing the ``disclosedOffer`` disclosed contract at command submission time,
+the choice body must contain safeguards that disallow malicious use, modelled in our example as Daml asserts.
+
+::
+
+            -- Assert the quotation issuer and asset name
+            priceQuotation.issuer === quotationProducer
+            priceQuotation.stockName === asset.stockName
+
+When modelling Daml workflows using disclosed contracts, such safeguards assure:
+
+- a disclosed contract's user that its contents are validated against expected conditions.
+- a disclosed contract's owner that it is used within the expected agreement.
+
+In our case, the Daml assertion in ``Offer_Accept`` ensure that the price quotation
+is coming from a party that the **Seller** is trusting (**Issuer**) and that it
+actually matches stock that the **Seller** intends to sell.
