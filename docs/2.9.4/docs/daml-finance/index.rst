@@ -62,7 +62,7 @@ Finance:
 Current Release
 ===============
 
-Daml SDK 2.8.0
+Daml SDK 2.9.4
 
 This section details the list of released and deprecated packages, with status information provided
 for each package according to the
@@ -183,7 +183,7 @@ Stable Packages
 +-------------------------------------------+---------+--------+
 | Daml.Finance.Data                         | 3.0.0   | Stable |
 +-------------------------------------------+---------+--------+
-| Daml.Finance.Holding                      | 3.0.0   | Stable |
+| Daml.Finance.Holding                      | 3.0.1   | Stable |
 +-------------------------------------------+---------+--------+
 | Daml.Finance.Instrument.Bond              | 2.0.0   | Stable |
 +-------------------------------------------+---------+--------+
