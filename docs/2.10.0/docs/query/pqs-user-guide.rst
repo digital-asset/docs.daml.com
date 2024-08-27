@@ -2744,71 +2744,73 @@ Some metric types have additional constituent parts exposed as separate metrics.
 
 Conceptual list of metrics (refer to actual metric names in the Prometheus output):
 
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| Type      | Name                                          | Description                                                                             |
-+===========+===============================================+=========================================================================================+
-| gauge     | ``watermark_ix``                              | Current watermark index (transaction ordinal number for consistent reads)               |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| counter   | ``pipeline_events``                           | Processed ledger events                                                                 |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| histogram | ``jdbc_conn_use``                             | Latency of database connections usage                                                   |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| histogram | ``jdbc_conn_isvalid``                         | Latency of database connection validation                                               |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| histogram | ``jdbc_conn_commit``                          | Latency of database connection commit                                                   |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| histogram | ``pipeline_convert_acs_event``                | Latency of converting ACS events                                                        |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| histogram | ``pipeline_convert_transaction``              | Latency of converting transactions                                                      |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| histogram | ``pipeline_prepare_batch_latency``            | Latency of preparing batches of statements                                              |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| histogram | ``pipeline_execute_batch_latency``            | Latency of executing batches of statements                                              |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| histogram | ``pipeline_progress_watermark_latency``       | Latency of watermark progression                                                        |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| histogram | ``pipeline_wp_acs_events_size``               | Number of in-flight units of work in ``pipeline_wp_acs_events`` wait point              |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| histogram | ``pipeline_wp_acs_statements_size``           | Number of in-flight units of work in ``pipeline_wp_acs_statements`` wait point          |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| histogram | ``pipeline_wp_acs_batched_statements_size``   | Number of in-flight units of work in ``pipeline_wp_acs_batched_statements`` wait point  |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| histogram | ``pipeline_wp_acs_prepared_statements_size``  | Number of in-flight units of work in ``pipeline_wp_acs_prepared_statements`` wait point |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| histogram | ``pipeline_wp_events_size``                   | Number of in-flight units of work in ``pipeline_wp_events`` wait point                  |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| histogram | ``pipeline_wp_statements_size``               | Number of in-flight units of work in ``pipeline_wp_statements`` wait point              |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| histogram | ``pipeline_wp_batched_statements_size``       | Number of in-flight units of work in ``pipeline_wp_batched_statements`` wait point      |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| histogram | ``pipeline_wp_prepared_statements_size``      | Number of in-flight units of work in ``pipeline_wp_prepared_statements`` wait point     |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| histogram | ``pipeline_wp_watermarks_size``               | Number of in-flight units of work in ``pipeline_wp_watermarks`` wait point              |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| counter   | ``pipeline_wp_acs_events_total``              | Number of units of work processed in ``pipeline_wp_acs_events`` wait point              |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| counter   | ``pipeline_wp_acs_statements_total``          | Number of units of work processed in ``pipeline_wp_acs_statements`` wait point          |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| counter   | ``pipeline_wp_acs_batched_statements_total``  | Number of units of work processed in ``pipeline_wp_acs_batched_statements`` wait point  |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| counter   | ``pipeline_wp_acs_prepared_statements_total`` | Number of units of work processed in ``pipeline_wp_acs_prepared_statements`` wait point |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| counter   | ``pipeline_wp_events_total``                  | Number of units of work processed in ``pipeline_wp_events`` wait point                  |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| counter   | ``pipeline_wp_statements_total``              | Number of units of work processed in ``pipeline_wp_statements`` wait point              |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| counter   | ``pipeline_wp_batched_statements_total``      | Number of units of work processed in ``pipeline_wp_batched_statements`` wait point      |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| counter   | ``pipeline_wp_prepared_statements_total``     | Number of units of work processed in ``pipeline_wp_prepared_statements`` wait point     |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| counter   | ``pipeline_wp_watermarks_total``              | Number of units of work processed in ``pipeline_wp_watermarks`` wait point              |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| counter   | ``app_restarts``                              | Tracks number of times recoverable failures forced the pipeline to restart              |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| gauge     | ``grpc_up``                                   | Indicator whether gRPC channel is up and operational                                    |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
-| gauge     | ``jdbc_conn_pool_up``                         | Indicator whether JDBC connection pool is up and operational                            |
-+-----------+-----------------------------------------------+-----------------------------------------------------------------------------------------+
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| Type      | Name                                          | Description                                                                               |
++===========+===============================================+===========================================================================================+
+| gauge     | ``watermark_ix``                              | Current watermark index (transaction ordinal number for consistent reads)                 |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| counter   | ``pipeline_events``                           | Processed ledger events                                                                   |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| histogram | ``jdbc_conn_use``                             | Latency of database connections usage                                                     |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| histogram | ``jdbc_conn_isvalid``                         | Latency of database connection validation                                                 |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| histogram | ``jdbc_conn_commit``                          | Latency of database connection commit                                                     |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| gauge     | ``tx_lag_from_ledger_wallclock``              | Lag from ledger (wall-clock delta (in ms) from command completion to receipt by pipeline) |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| histogram | ``pipeline_convert_acs_event``                | Latency of converting ACS events                                                          |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| histogram | ``pipeline_convert_transaction``              | Latency of converting transactions                                                        |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| histogram | ``pipeline_prepare_batch_latency``            | Latency of preparing batches of statements                                                |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| histogram | ``pipeline_execute_batch_latency``            | Latency of executing batches of statements                                                |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| histogram | ``pipeline_progress_watermark_latency``       | Latency of watermark progression                                                          |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| histogram | ``pipeline_wp_acs_events_size``               | Number of in-flight units of work in ``pipeline_wp_acs_events`` wait point                |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| histogram | ``pipeline_wp_acs_statements_size``           | Number of in-flight units of work in ``pipeline_wp_acs_statements`` wait point            |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| histogram | ``pipeline_wp_acs_batched_statements_size``   | Number of in-flight units of work in ``pipeline_wp_acs_batched_statements`` wait point    |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| histogram | ``pipeline_wp_acs_prepared_statements_size``  | Number of in-flight units of work in ``pipeline_wp_acs_prepared_statements`` wait point   |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| histogram | ``pipeline_wp_events_size``                   | Number of in-flight units of work in ``pipeline_wp_events`` wait point                    |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| histogram | ``pipeline_wp_statements_size``               | Number of in-flight units of work in ``pipeline_wp_statements`` wait point                |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| histogram | ``pipeline_wp_batched_statements_size``       | Number of in-flight units of work in ``pipeline_wp_batched_statements`` wait point        |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| histogram | ``pipeline_wp_prepared_statements_size``      | Number of in-flight units of work in ``pipeline_wp_prepared_statements`` wait point       |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| histogram | ``pipeline_wp_watermarks_size``               | Number of in-flight units of work in ``pipeline_wp_watermarks`` wait point                |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| counter   | ``pipeline_wp_acs_events_total``              | Number of units of work processed in ``pipeline_wp_acs_events`` wait point                |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| counter   | ``pipeline_wp_acs_statements_total``          | Number of units of work processed in ``pipeline_wp_acs_statements`` wait point            |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| counter   | ``pipeline_wp_acs_batched_statements_total``  | Number of units of work processed in ``pipeline_wp_acs_batched_statements`` wait point    |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| counter   | ``pipeline_wp_acs_prepared_statements_total`` | Number of units of work processed in ``pipeline_wp_acs_prepared_statements`` wait point   |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| counter   | ``pipeline_wp_events_total``                  | Number of units of work processed in ``pipeline_wp_events`` wait point                    |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| counter   | ``pipeline_wp_statements_total``              | Number of units of work processed in ``pipeline_wp_statements`` wait point                |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| counter   | ``pipeline_wp_batched_statements_total``      | Number of units of work processed in ``pipeline_wp_batched_statements`` wait point        |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| counter   | ``pipeline_wp_prepared_statements_total``     | Number of units of work processed in ``pipeline_wp_prepared_statements`` wait point       |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| counter   | ``pipeline_wp_watermarks_total``              | Number of units of work processed in ``pipeline_wp_watermarks`` wait point                |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| counter   | ``app_restarts``                              | Tracks number of times recoverable failures forced the pipeline to restart                |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| gauge     | ``grpc_up``                                   | Indicator whether gRPC channel is up and operational                                      |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
+| gauge     | ``jdbc_conn_pool_up``                         | Indicator whether JDBC connection pool is up and operational                              |
++-----------+-----------------------------------------------+-------------------------------------------------------------------------------------------+
 
 .. raw:: html
 
