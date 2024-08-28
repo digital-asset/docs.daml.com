@@ -214,7 +214,7 @@ See :ref:`transaction-filter` above.
 
 .. event-query-service:
 
-Event Query Service (BETA)
+Event Query Service
 ==================================
 
 Use the **event query service** to obtain a party-specific view of contract events.
