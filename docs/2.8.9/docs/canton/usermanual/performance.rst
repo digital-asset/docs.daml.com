@@ -516,14 +516,15 @@ command on a generator contract with the list of contracts that in turn exercise
 If you write batch commands, group the operations on the ledger based on the informees and create a single choice and 
 batch operation per informee group. You can use choice observers to align informees if necessary. 
 
-For example, if the `doUpdate` bellow is called from a choice visible to the `owner` party alone, then whether the `efficient`
-flag is set or not will have a huge impact on the number of views created.
-In the choice `Foo` of the `Example` contract even though the participants to be informed are a subset of the
-contract's informee participants they don't get merged into a single view if this choice is called independently each time,
-since they produce multiple root actions each belonging to their own view. Finally, aligning the choice observer of `Run`
+For example, if the `doUpdate` below is called from a choice visible to the `owner` party alone, then whether the `efficient`
+flag is set or not has a huge impact on the number of views created.
+In the choice `Foo` of the `Example` contract, even though the participants to be informed are a subset of the
+contract's informee participants they are not merged into a single view if this choice is called independently each time.
+On the contrary, you will produce multiple root actions each belonging to their own view. Finally, aligning the choice observer of `Run`
 to its template contract means that they must be the same.
 
-
+.. literalinclude:: code-snippets/Batching.daml
+  :language: daml
 
 As a rule, the number of views should depend on the number of stakeholder groups you have in your batch choice, 
 not the number of "batches" you process in parallel within one command.
