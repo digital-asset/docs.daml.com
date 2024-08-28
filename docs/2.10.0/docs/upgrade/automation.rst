@@ -13,23 +13,21 @@ specific to an individual application, just like the upgrade models.
 Nevertheless, we have found that the pattern shown here
 occurs frequently.
 
-.. note::
+This section describes manual upgrading steps when deploying
+updated Daml application code, by migrating contracts from one version to
+another.  A production grade, migration tool that automates this application upgrade process
+is available but it does require a Daml Enterprise license.  Its PDF manual
+explains how a Daml developer implements a smart
+contract upgrade migration. The manual also  advises an operations team on how to
+perform the contract migration.  
 
-   This section describes manual upgrading steps when deploying
-   updated Daml application code, by migrating contracts from one version to
-   another.  A production grade, migration tool that automates this application upgrade process
-   is available but it does require a Daml Enterprise license.  Its PDF manual
-   explains how a Daml developer implements a smart
-   contract upgrade migration. The manual also  advises an operations team on how to
-   perform the contract migration.  
-   
-   The tool is designed to accommodate: working with a stale view of the
-   ledger’s state (e.g., a partial migration was recently performed), it has
-   idempotent operations where possible, and robustly handles rejected ledger
-   commands (e.g., archiving a contract in the same Daml transaction that
-   creates an upgraded replacement helps to ensure that duplicate replacement
-   contracts are not created.)  Please contact your account manager or `DA
-   support <support@digitalasset.com>`_ for access to the upgrade tool.
+The tool is designed to accommodate: working with a stale view of the
+ledger’s state (e.g., a partial migration was recently performed), it has
+idempotent operations where possible, and robustly handles rejected ledger
+commands (e.g., archiving a contract in the same Daml transaction that
+creates an upgraded replacement helps to ensure that duplicate replacement
+contracts are not created.)  Please contact your account manager or `DA
+support <support@digitalasset.com>`_ for access to the upgrade tool.
 
 Structure the Upgrade
 =====================
