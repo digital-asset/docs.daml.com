@@ -539,6 +539,7 @@ participants.
 
 .. TODO: currently the reference .. literalinclude:: code-snippets/Batching.daml is not working. Re-add it before release 2.10.0
 .. code:: daml
+
    doUpdate : Bool -> Party -> Party -> [ContractId Example] -> Update ()
 
    doUpdate efficient owner obs batch = do
