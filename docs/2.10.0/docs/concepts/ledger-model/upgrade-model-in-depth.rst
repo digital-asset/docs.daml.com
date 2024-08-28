@@ -1,15 +1,15 @@
 .. Copyright (c) 2024 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-.. _upgrade_model_reference:
+.. _upgrade-model-reference:
 
-The Upgrade Model in Depth - Reference
-======================================
+The Smart Contract Upgrade Model in Depth
+=========================================
 
 This document describes in detail what rules govern package validation upon
 upload and how contracts, choice arguments and choice results are upgraded or
 downgraded at runtime. These topics are for a large part covered in
-:ref:`Smart Contract Upgrades <smart-contract-upgrades>`. This document acts as a thorough reference.
+:ref:`Smart Contract Upgrade <smart-contract-upgrades>`. This document acts as a thorough reference.
 
 Static Checks
 -------------
@@ -1304,7 +1304,7 @@ Interface Definitions
 
 Interface definitions cannot be upgraded. We strongly discourage
 uploading a package that contains both interface and template
-definitions, as these templates cannot benefit from smart contract upgrades
+definitions, as these templates cannot benefit from smart contract upgrade
 in the future. Instead, we recommend declaring interfaces in a
 package of their own that defines no template.
 
@@ -1449,7 +1449,7 @@ In a top-level exercise triggered by a Ledger API command, the target
 template is determined by the rules of package preference detailed in the
 :ref:`dynamic package
 resolution<dynamic-package-resolution-in-command-submission>` section of the
-smart contract upgrades documentation.
+smart contract upgrade documentation.
 
 In a non-interface fetch or exercise triggered by the body of a choice, the
 target template is determined by the dependencies of the package that defines
@@ -1459,7 +1459,7 @@ In an interface fetch or exercise triggered by the body of a choice, the target
 template is determined by the rules of package preference detailed in the
 :ref:`dynamic package
 resolution<dynamic-package-resolution-in-command-submission>` section of the
-smart contract upgrades documentation. In other words, it is dynamically
+smart contract upgrade documentation. In other words, it is dynamically
 selected.
 
 .. _example-1-1:

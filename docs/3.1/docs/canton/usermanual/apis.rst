@@ -335,6 +335,22 @@ tokens and of the nonce can be reconfigured using
 
 However, we suggest keeping the default values.
 
+As mentioned above, an issued token allows the member that provides it during a call to authenticate on public sequencer API
+services. Therefore, these tokens are sensitive information that must not be disclosed. If an operator suspects that
+the authentication token for a member has been leaked or somehow compromised, they should use the ``logout`` console command to immediately revoke all valid tokens of
+that member and close the sequencer connections. The legitimate member automatically reconnects and obtains
+new tokens through the challenge-response protocol described above.
+
+The command is slightly different depending on whether the member is a participant or a mediator, for example:
+
+.. todo::
+   Replace with references to the commands.
+   `#784 <https://github.com/digital-asset/docs.daml.com/issues/784>`_
+
+.. code-block:: text
+
+   participant1.domains.logout(myDomainAlias)
+   mediator1.sequencer_connections.logout()
 
 Usage of native libraries by Netty
 ----------------------------------
