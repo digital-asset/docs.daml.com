@@ -28,7 +28,7 @@ operations where possible, very large ACS sizes, and robustly handles rejected
 ledger commands (e.g., archiving a contract in the same Daml transaction that
 creates an upgraded replacement helps to ensure that duplicate replacement
 contracts are not created.)  Please contact your account manager or `DA
-support <support@digitalasset.com>`_ for access to the upgrade tool.
+support <support@digitalasset.com>`_ to access the upgrade tool.
 
 Structure the Upgrade
 =====================
