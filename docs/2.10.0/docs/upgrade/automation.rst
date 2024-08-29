@@ -15,7 +15,7 @@ occurs frequently.
 
 This section describes manual upgrading steps when deploying updated Daml
 application code, by migrating contracts from one version to another.  A
-production grade, optimized migration tool that automates this application
+production-grade, optimized migration tool that automates this application
 upgrade process is available but it does require a Daml Enterprise license.
 Its PDF manual explains how a Daml developer implements a smart contract
 upgrade migration. The manual also  advises an operations team on how to
