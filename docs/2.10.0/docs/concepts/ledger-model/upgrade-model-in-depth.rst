@@ -1080,7 +1080,7 @@ whole.
 **Examples**
 
 In these examples we assume the existence of packages ``q-1.0.0`` and
-``q-2.0.0`` with LF version 1.16, and that the latter is a valid upgrade of
+``q-2.0.0`` with LF version 1.17, and that the latter is a valid upgrade of
 the former.
 
 .. list-table::

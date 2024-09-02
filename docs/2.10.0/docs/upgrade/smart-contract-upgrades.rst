@@ -19,7 +19,7 @@ Smart Contract Upgrade (SCU) allows Daml models (packages in DAR files) to be
 updated on Canton transparently, provided some guidelines in making the
 changes are followed. For example, you can fix an application bug by uploading
 the DAR of the fixed package. This feature requires the minimum versions of LF
-1.16 and Canton Protocol versions 6. This section provides an overview of
+1.17 and Canton Protocol versions 6. This section provides an overview of
 the SCU feature, while :ref:`The Smart Contract Upgrade Model in Depth
 <upgrade-model-reference>` is a concise, technical description of the feature.
 
@@ -152,7 +152,7 @@ Note that SCU is only available when the criteria below are met:
 
 -  Canton 2.9.x or above
 
--  Daml LF Version 1.16 or above
+-  Daml LF Version 1.17 or above
 
 -  Canton Protocol Version 6 or above
 
@@ -164,7 +164,7 @@ To prevent unexpected behavior, this feature enforces a unique package name and 
 uploaded to a participant node.
 This closes a loophole where the participant node allowed multiple DARs with
 the same package name and version. For backward compatibility, this
-restriction only applies for packages compiled with LF >= 1.16. If LF <
+restriction only applies for packages compiled with LF >= 1.17. If LF <
 1.15 is used, there can be several packages with the same name and
 version but this should be corrected; duplicate package names and versions are no longer supported.
 
@@ -286,7 +286,7 @@ contract upgrading feature starting with Canton 2.9:
    other packages previously uploaded on the participant.
 
 -  Ledger API command submissions can be automatically or explicitly
-   up/downgraded if multiple upgrade-supported (language version >= 1.16) packages exist for the same package-name.
+   up/downgraded if multiple upgrade-supported (language version >= 1.17) packages exist for the same package-name.
 
 -  Ledger API streaming queries are adapted to support fetching events
    more generically, by package-name.
@@ -409,7 +409,7 @@ of our package:
 Running ``daml version`` should print a line showing that 2.9.0 or higher is the "project SDK version from daml.yaml".
 
 Add ``daml-script-beta`` to the list of dependencies in ``v1/my-pkg/daml.yaml``,
-as well as ``--target=1.16`` to the ``build-options``:
+as well as ``--target=1.17`` to the ``build-options``:
 
 .. code:: yaml
   
@@ -419,7 +419,7 @@ as well as ``--target=1.16`` to the ``build-options``:
   - daml-stdlib
   - daml-script-beta
   build-options:
-  - --target=1.16
+  - --target=1.17
 
 Then create ``v1/my-pkg/daml/Main.daml``:
 
@@ -476,7 +476,7 @@ field pointing to v1:
   - daml-script-beta
   upgrades: ../../v1/my-pkg/.daml/dist/my-pkg-1.0.0.dar
   build-options:
-  - --target=1.16
+  - --target=1.17
 
 Any changes you make to v2 are now validated as correct upgrades
 over v1.
@@ -868,7 +868,7 @@ without modifications and is immediately available for use.
   lead to unique package-id -> (package-name, package-version) relationships
   since runtime package-name -> package-id
   resolution must be deterministic (see `Ledger API <#ledger-api>`__). For this
-  reason, once a LF 1.16+ DAR has been uploaded with its main package
+  reason, once a LF 1.17+ DAR has been uploaded with its main package
   having a specific package-name/package-version, this relationship cannot
   be overridden. Hence, uploading a DAR with different content for the
   same name/version as an existing DAR on the participant leads to a
@@ -1536,7 +1536,7 @@ module ``my-iface/daml/MyIface.daml``:
   - daml-prim
   - daml-stdlib
   build-options:
-  - --target=1.16
+  - --target=1.17
 
 .. code:: daml
 
@@ -1752,7 +1752,7 @@ the contract in your transaction.
 Migration
 ---------
 
-SCU is only supported on LF1.16, which in turn is only supported on
+SCU is only supported on LF1.17, which in turn is only supported on
 Canton Protocol Version 6. This means that existing deployed contracts require migration and redeployment to utilize this feature.
 
 First you must migrate your Daml model to be compatible with
@@ -1763,13 +1763,13 @@ incompatible with SCU and require the use of a separate tool (and
 downtime).
 
 Next, you need to be aware of the new package-name scoping rules, and
-ensure that your package set does not violate this. In short, LF1.16 packages
+ensure that your package set does not violate this. In short, LF1.17 packages
 with the same package-name are unified under SCU, so you should ensure that
 all of your packages that aren't intended to be direct upgrades of each-other
 have unique package-names.
 Note also that within a given package-name, only one package for each version
 can exist.
-LF1.15 packages are not subject to this restriction, and can exist alongside LF1.16
+LF1.15 packages are not subject to this restriction, and can exist alongside LF1.17
 packages.
 
 Once you have your new DARs, you need to upgrade your Canton and
@@ -1778,7 +1778,7 @@ The steps to achieve this are given in the :ref:`Canton Upgrading
 manual <one_step_migration>`.
 
 Finally, you can migrate your live data from your previous DARs to the
-new LF1.16 DARs, using one of the existing downtime upgrade techniques
+new LF1.17 DARs, using one of the existing downtime upgrade techniques
 listed :ref:`here <upgrades-index>`.
 
 The Upgrade Model in Depth - Reference
@@ -1802,7 +1802,7 @@ With SCU, we introduce a more generic template reference of the format
 Ledger API concept and is meant to suggest to the Ledger API to perform
 a dynamic runtime resolution of packages in the Daml engine when
 generating the Daml transaction before command interpretation. This
-dynamic resolution is based on the existing upgradable (LF >= 1.16)
+dynamic resolution is based on the existing upgradable (LF >= 1.17)
 package-ids pertaining to a specific ``package-name`` and is possible on the
 write path (command submission) and read path (Ledger API queries) as
 presented below.
@@ -1857,12 +1857,12 @@ dynamic and it widens with each uploaded template/package.
 
 **Note:** The by-package-name query mechanism described here does not
 apply to events sourced from non-upgradable templates (coming from
-packages with LF < 1.16)
+packages with LF < 1.17)
 
 Example
 ^^^^^^^
 
-Given the following packages with LF 1.16 existing on the participant
+Given the following packages with LF 1.17 existing on the participant
 node:
 
 -  Package AppV1
@@ -1888,7 +1888,7 @@ template-ids: ``pkgId1:mod:T`` and ``pkgId2:mod:T``
 Codegen
 -------
 
-For packages that support SCU (i.e. LF1.16), generated code uses
+For packages that support SCU (i.e. LF1.17), generated code uses
 package-names in place of package-ids in template IDs. Retrieved data
 from the ledger is subject to the upgrade transformations described
 in previous sections.
@@ -1932,11 +1932,11 @@ JSON API Server
 ----------------
 
 Template IDs may still be used with a package ID, however,
-for packages built as LF 1.16 or greater, the package may also be
+for packages built as LF 1.17 or greater, the package may also be
 identified by name. That is to say, for upgradable packages a template ID can have
 the form ``#<package-name>:<module-name>:<template-name>``, and this is
 resolved to corresponding templates from all packages which share this
-name, and are built at 1.16 or above. For packages built at LF 1.15 or
+name, and are built at 1.17 or above. For packages built at LF 1.15 or
 lower, the templates are not identifiable via a package name, and a
 package ID must be used.
 
