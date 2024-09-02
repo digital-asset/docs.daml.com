@@ -1591,16 +1591,12 @@ with the following:
       key issuer : Party
       maintainer key
 
-Interface instances can be changed by an upgrade. For example, v2 can
-change the definition of ``getValue`` in the ``HasValue`` instance. Add the
-interface instance to ``v1/my-pkg/daml/Main.daml``:
-
-.. code:: daml
-
-  ...
       interface instance HasValue for IOU where
         view = HasValueView value
         getValue = value
+
+Interface instances can be changed by an upgrade. For example, v2 can
+change the definition of ``getValue`` in the ``HasValue`` instance.
 
 Add a ``quantity`` field to the v2 IOU package, and amend the definition of
 ``getValue`` to use it:
@@ -1619,7 +1615,7 @@ Add a ``quantity`` field to the v2 IOU package, and amend the definition of
     where
   ...
       interface instance HasValue for IOU where
-        view = HasValueView value
+        view = HasValueView (value * fromOptional 1 quantity)
         -- Use quantity field to calculate value
         getValue = value * fromOptional 1 quantity
 
@@ -1630,20 +1626,20 @@ DARs. They should both succeed again:
 
   > cd v1/my-pkg
   > daml build
-  > daml sandbox upload-dar --port 6865
+  > daml ledger upload-dar --port 6865
   ...
   Uploading .daml/dist/my-pkg-1.0.0.dar to localhost:6865
   DAR upload succeeded.
   > cd ../../v2/my-pkg
   > daml build
-  > daml sandbox upload-dar --port 6865
+  > daml ledger upload-dar --port 6865
   ...
   Uploading .daml/dist/my-pkg-1.1.0.dar to localhost:6865
   DAR upload succeeded.
 
 Packages with new versions cannot remove an instance that is already
 there. For example, the v2 IOU template cannot remove its instance of
-``HasValue``. Remove the interface instance for ``HasValue`` from
+``HasValue``. Comment out the interface instance for ``HasValue`` from
 ``v2/my-pkg/daml/Main.daml`` completely, then restart the sandbox and try to
 reupload the two versions:
 
@@ -1651,16 +1647,36 @@ reupload the two versions:
 
   > cd v1/my-pkg
   > daml build
-  > daml sandbox upload-dar --port 6865
+  > daml ledger upload-dar --port 6865
   ...
   Uploading .daml/dist/my-pkg-1.0.0.dar to localhost:6865
   DAR upload succeeded.
   > cd ../../v2/my-pkg
   > daml build
-  > daml sandbox upload-dar --port 6865
+  > daml ledger upload-dar --port 6865
+  ...
+  Uploading .daml/dist/my-pkg-2.0.0.dar to localhost:6865
+  upload-dar did not succeed: ... Implementation of interface ...:MyIface:HasValue by template IOU appears in package that is being upgraded, but does not appear in this package.
+
+Packages with new versions cannot add an interface instance to an existing
+template either. For example, restore the instance deleted in the previous step
+and remove the ``HasValue`` interface from ``v2/my-pkg/daml/Main.daml`` instead.
+Then restart the sandbox and try to reupload the two versions.
+
+.. code:: bash
+
+  > cd v1/my-pkg
+  > daml build
+  > daml ledger upload-dar --port 6865
   ...
   Uploading .daml/dist/my-pkg-1.0.0.dar to localhost:6865
-  upload-dar did not succeed: KNOWN_DAR_VERSION(8,c63f3811): A DAR with the same version number has previously been uploaded.
+  DAR upload succeeded.
+  > cd ../../v2/my-pkg
+  > daml build
+  > daml ledger upload-dar --port 6865
+  ...
+  Uploading .daml/dist/my-pkg-2.0.0.dar to localhost:6865
+  upload-dar did not succeed: ... Implementation of ...:MyIface:HasValue by template IOU appears in this package, but does not appear in package that is being upgraded.
 
 Similarly to choices, scripts may invoke interface implementations from
 their own version using ``exerciseExactCmd``.
