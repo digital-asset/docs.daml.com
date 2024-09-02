@@ -4,7 +4,7 @@
 .. _explicit-contract-disclosure:
 
 Explicit Contract Disclosure
-####################################
+############################
 
 In Daml, you must specify up front who can view data using `stakeholder <https://docs.daml.com/concepts/glossary.html#stakeholder>`_ annotations in template definitions.
 To change who can see the data, you would typically need to recreate a contract with a template that computes different stakeholder parties.
@@ -17,7 +17,7 @@ This supports efficient, scalable data sharing on the ledger.
 
 Here are some use cases that illustrate how you might benefit from explicit contract disclosure:
 
-- You want to provide proof of the price data for a stock transaction. Instead of subscribing to price updates and potentially being inundated with thousands of price updates every minute, you could serve the price data through a traditional Web 2.0 API. You can then use that API to feed only the current price back into the ledger at the time of use. You still get the same validation and security, but reduce the amount of data being transferred manyfold.
+- You want to provide proof of the price data for a stock transaction. Instead of subscribing to price updates and potentially being inundated with thousands of price updates every minute, you could serve the price data though a traditional Web 2.0 API. You can then use that API to feed only the current price back into the ledger at the time of use. You still get the same validation and security, but reduce the amount of data being transferred manyfold.
 - You want to run an open market on ledger. Rather than making all bids and asks explicitly visible to all marketplace users, you serve market data though standard Web 2.0 APIs. At the point of use, the available bids and asks are fed back into the transactions to get the same activeness and correctness guarantees that would be provided had they been shared though the observer mechanism.
 
 Contract Read Delegation
@@ -280,22 +280,22 @@ Scenarios like the one exemplified above are not possible due to a new technical
 More specifically, each contract's information, such as its arguments, template-id, signatories, etc. are authenticated by
 incorporating in the contract's contract-id a hash over the relevant contract information, ensuring
 that any tampering leads to a different contract-id than the one submitted.
-Such a mis-alignment is then caught by all the *honest* participants involved in the transaction.
+All the honest participants involved in the transaction then catch the misalignment.
 
-In the example above, **Buyer**'s participant can't be tricked if it's honest and would reject the submission
-with an ``DISCLOSED_CONTRACT_AUTHENTICATION_FAILED``. On the other hand, if **Buyer**'s participant is malicious as well
-and they somehow submit a confirmation request with the malformed payload to other participants involved in the transaction,
-the other participants will detect the mis-alignment as well and reject the request.
+In the example above, if the **Buyer**'s participant is honest it cannot be tricked and would reject the submission
+with a ``DISCLOSED_CONTRACT_AUTHENTICATION_FAILED``. If **Buyer**'s participant is also malicious
+and submits a confirmation request with the malformed payload,
+the other participants involved in the transaction detect the misalignment and reject the request.
 
 Business logic safeguards
 `````````````````````````
 
-Generally, as good practice, each Daml application workflow should have business logic preconditions
-that safeguard against mis-use.
+As good practice, each Daml application workflow should have business logic preconditions
+that safeguard against misuse.
 
 In our example, the ``Offer_Accept`` choice has a *flexible* controller (``buyer``) that is provided as an argument.
 Since any party can exercise the choice by providing the ``disclosedOffer`` disclosed contract at command submission time,
-the choice body must contain safeguards that disallow malicious use, modelled in our example as Daml asserts.
+the choice body should contain safeguards that disallow malicious use, modeled in our example as Daml asserts.
 
 ::
 
@@ -303,11 +303,11 @@ the choice body must contain safeguards that disallow malicious use, modelled in
             priceQuotation.issuer === quotationProducer
             priceQuotation.stockName === asset.stockName
 
-When modelling Daml workflows using disclosed contracts, such safeguards assure:
+When modeling Daml workflows using disclosed contracts, such safeguards assure:
 
 - a disclosed contract's user that its contents are validated against expected conditions.
 - a disclosed contract's owner that it is used within the expected agreement.
 
-In our case, the Daml assertion in ``Offer_Accept`` ensure that the price quotation
+In our case, the Daml assertions in ``Offer_Accept`` ensure that the price quotation
 is coming from a party that the **Seller** is trusting (**Issuer**) and that it
 actually matches stock that the **Seller** intends to sell.

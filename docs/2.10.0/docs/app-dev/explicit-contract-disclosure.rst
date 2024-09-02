@@ -264,3 +264,50 @@ These last two steps are executed using the new Daml Script functions supporting
 
 .. note:: For an example using Java bindings for client applications, see the
   `Java Bindings StockExchange example project <https://github.com/digital-asset/ex-java-bindings/blob/f474ae83976b0ad197e2fabfce9842fb9b3de907/StockExchange/README.rst>`_.
+
+Safeguards
+----------
+
+In the example above, what if the **Buyer** is malicious and wants to pay less than the official price quotation for **Seller**'s stock?
+**Buyer** might try to do so by modifying the received ``disclosedPriceQuotation`` payload received from the **StockExchange** by setting a lower value in the contract's arguments
+and then using the forged payload as a disclosed contract in the command submission exercising ``Offer_Accept`` on **Seller**'s offer.
+
+Contract authentication
+```````````````````````
+
+Scenarios like the one exemplified above are not possible due to a new technical feature introduced with explicit contract disclosure: Daml contract authentication.
+
+More specifically, each contract's information, such as its arguments, template-id, signatories, etc. are authenticated by
+incorporating in the contract's contract-id a hash over the relevant contract information, ensuring
+that any tampering leads to a different contract-id than the one submitted.
+All the honest participants involved in the transaction then catch the misalignment.
+
+In the example above, if the **Buyer**'s participant is honest it cannot be tricked and would reject the submission
+with a ``DISCLOSED_CONTRACT_AUTHENTICATION_FAILED``. If **Buyer**'s participant is also malicious
+and submits a confirmation request with the malformed payload,
+the other participants involved in the transaction detect the misalignment and reject the request.
+
+Business logic safeguards
+`````````````````````````
+
+As good practice, each Daml application workflow should have business logic preconditions
+that safeguard against misuse.
+
+In our example, the ``Offer_Accept`` choice has a *flexible* controller (``buyer``) that is provided as an argument.
+Since any party can exercise the choice by providing the ``disclosedOffer`` disclosed contract at command submission time,
+the choice body should contain safeguards that disallow malicious use, modeled in our example as Daml asserts.
+
+::
+
+            -- Assert the quotation issuer and asset name
+            priceQuotation.issuer === quotationProducer
+            priceQuotation.stockName === asset.stockName
+
+When modeling Daml workflows using disclosed contracts, such safeguards assure:
+
+- a disclosed contract's user that its contents are validated against expected conditions.
+- a disclosed contract's owner that it is used within the expected agreement.
+
+In our case, the Daml assertions in ``Offer_Accept`` ensure that the price quotation
+is coming from a party that the **Seller** is trusting (**Issuer**) and that it
+actually matches stock that the **Seller** intends to sell.
