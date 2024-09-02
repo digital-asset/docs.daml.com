@@ -4,7 +4,7 @@
 .. _explicit-contract-disclosure:
 
 Explicit Contract Disclosure
-############################
+####################################
 
 In Daml, you must specify up front who can view data using `stakeholder <https://docs.daml.com/concepts/glossary.html#stakeholder>`_ annotations in template definitions.
 To change who can see the data, you would typically need to recreate a contract with a template that computes different stakeholder parties.
@@ -17,7 +17,7 @@ This supports efficient, scalable data sharing on the ledger.
 
 Here are some use cases that illustrate how you might benefit from explicit contract disclosure:
 
-- You want to provide proof of the price data for a stock transaction. Instead of subscribing to price updates and potentially being inundated with thousands of price updates every minute, you could serve the price data though a traditional Web 2.0 API. You can then use that API to feed only the current price back into the ledger at the time of use. You still get the same validation and security, but reduce the amount of data being transferred manyfold.
+- You want to provide proof of the price data for a stock transaction. Instead of subscribing to price updates and potentially being inundated with thousands of price updates every minute, you could serve the price data through a traditional Web 2.0 API. You can then use that API to feed only the current price back into the ledger at the time of use. You still get the same validation and security, but reduce the amount of data being transferred manyfold.
 - You want to run an open market on ledger. Rather than making all bids and asks explicitly visible to all marketplace users, you serve market data though standard Web 2.0 APIs. At the point of use, the available bids and asks are fed back into the transactions to get the same activeness and correctness guarantees that would be provided had they been shared though the observer mechanism.
 
 Contract Read Delegation
@@ -275,10 +275,10 @@ and then using the forged payload as a disclosed contract in the command submiss
 Contract authentication
 ```````````````````````
 
-Scenarios like the one exemplified above are not possible due to a new technical feature introduced with explicit contract disclosure: Daml contract authentication.
+Scenarios like the one exemplified above are not possible due to a new technical feature introduced with the explicit contract disclosure feature: Daml contract authentication.
 
-More specifically, each contract's information, such as its arguments, template-id, signatories, etc. are authenticated by
-incorporating in the contract's contract-id a hash over the relevant contract information, ensuring
+More specifically, each contract's arguments, template-id, signatories, keys, etc. are incorporated into
+the contract's contract-id as a hash over all the relevant information, ensuring
 that any tampering leads to a different contract-id than the one submitted.
 All the honest participants involved in the transaction then catch the misalignment.
 

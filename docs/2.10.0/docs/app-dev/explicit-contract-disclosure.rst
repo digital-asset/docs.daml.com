@@ -275,10 +275,10 @@ and then using the forged payload as a disclosed contract in the command submiss
 Contract authentication
 ```````````````````````
 
-Scenarios like the one exemplified above are not possible due to a new technical feature introduced with explicit contract disclosure: Daml contract authentication.
+Scenarios like the one exemplified above are not possible due to a new technical feature introduced with the explicit contract disclosure feature: Daml contract authentication.
 
-More specifically, each contract's information, such as its arguments, template-id, signatories, etc. are authenticated by
-incorporating in the contract's contract-id a hash over the relevant contract information, ensuring
+More specifically, each contract's arguments, template-id, signatories, keys, etc. are incorporated into
+the contract's contract-id as a hash over all the relevant information, ensuring
 that any tampering leads to a different contract-id than the one submitted.
 All the honest participants involved in the transaction then catch the misalignment.
 
