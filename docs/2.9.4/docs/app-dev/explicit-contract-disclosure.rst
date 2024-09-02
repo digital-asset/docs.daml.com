@@ -280,22 +280,22 @@ Scenarios like the one exemplified above are not possible due to a new technical
 More specifically, each contract's information, such as its arguments, template-id, signatories, etc. are authenticated by
 incorporating in the contract's contract-id a hash over the relevant contract information, ensuring
 that any tampering leads to a different contract-id than the one submitted.
-Such a mis-alignment is then caught by all the *honest* participants involved in the transaction.
+All the honest participants involved in the transaction then catch the misalignment.
 
-In the example above, **Buyer**'s participant can't be tricked if it's honest and would reject the submission
-with an ``DISCLOSED_CONTRACT_AUTHENTICATION_FAILED``. On the other hand, if **Buyer**'s participant is malicious as well
-and they somehow submit a confirmation request with the malformed payload to other participants involved in the transaction,
-the other participants will detect the mis-alignment as well and reject the request.
+In the example above, if the **Buyer**'s participant is honest it cannot be tricked and would reject the submission
+with a ``DISCLOSED_CONTRACT_AUTHENTICATION_FAILED``. If **Buyer**'s participant is also malicious
+and submits a confirmation request with the malformed payload,
+the other participants involved in the transaction detect the misalignment and reject the request.
 
 Business logic safeguards
 `````````````````````````
 
-Generally, as good practice, each Daml application workflow should have business logic preconditions
-that safeguard against mis-use.
+As good practice, each Daml application workflow should have business logic preconditions
+that safeguard against misuse.
 
 In our example, the ``Offer_Accept`` choice has a *flexible* controller (``buyer``) that is provided as an argument.
 Since any party can exercise the choice by providing the ``disclosedOffer`` disclosed contract at command submission time,
-the choice body must contain safeguards that disallow malicious use, modelled in our example as Daml asserts.
+the choice body should contain safeguards that disallow malicious use, modeled in our example as Daml asserts.
 
 ::
 
@@ -303,11 +303,11 @@ the choice body must contain safeguards that disallow malicious use, modelled in
             priceQuotation.issuer === quotationProducer
             priceQuotation.stockName === asset.stockName
 
-When modelling Daml workflows using disclosed contracts, such safeguards assure:
+When modeling Daml workflows using disclosed contracts, such safeguards assure:
 
 - a disclosed contract's user that its contents are validated against expected conditions.
 - a disclosed contract's owner that it is used within the expected agreement.
 
-In our case, the Daml assertion in ``Offer_Accept`` ensure that the price quotation
+In our case, the Daml assertions in ``Offer_Accept`` ensure that the price quotation
 is coming from a party that the **Seller** is trusting (**Issuer**) and that it
 actually matches stock that the **Seller** intends to sell.
