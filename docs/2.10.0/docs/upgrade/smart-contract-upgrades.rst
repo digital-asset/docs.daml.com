@@ -81,10 +81,11 @@ are:
 
 -  The implementation of an interface instance can be changed;
 
--  A new interface instance can be added to a template.
-
-The following table summarizes the changes supported by that SCU. Consult
-the detailed documentation below for additional information.
+The following table summarizes the changes supported by SCU. Consult the
+sections below for additional information. For application updates
+that are not covered by SCU, consult the :ref:`Automating the Upgrade Process
+<upgrade-automation>` section, which describes an upgrade tool for
+migrating contracts from an old version to a new version.
 
 .. csv-table::
   :file: upgrade-scopes.csv
@@ -1589,34 +1590,6 @@ with the following:
       observer owner
       key issuer : Party
       maintainer key
-
-Upgrades allow you to add an interface definition. For example, add an
-interface instance of ``HasValue`` for ``IOU`` to package v2:
-
-.. code:: daml
-
-  ...
-      interface instance HasValue for IOU where
-        view = HasValueView value
-        getValue = value
-
-Shut down and relaunch the Daml sandbox, then build and upload the two
-DARs. They should both succeed:
-
-.. code:: bash
-
-  > cd v1/my-pkg
-  > daml build
-  > daml sandbox upload-dar --port 6865
-  ...
-  Uploading .daml/dist/my-pkg-1.0.0.dar to localhost:6865
-  DAR upload succeeded.
-  > cd ../../v2/my-pkg
-  > daml build
-  > daml sandbox upload-dar --port 6865
-  ...
-  Uploading .daml/dist/my-pkg-1.1.0.dar to localhost:6865
-  DAR upload succeeded.
 
 Interface instances can be changed by an upgrade. For example, v2 can
 change the definition of ``getValue`` in the ``HasValue`` instance. Add the

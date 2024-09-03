@@ -29,5 +29,5 @@ Change of Choice Return Type,Choice,"Yes, except for Tuple or scalar types","You
 ,,,
 ,,,"In particular: you cannot change a collection, Optional, List, or Map; you can change Tuple, (to a triple) if you define your own type."
 Deletion of Interface Implementation,Interface,No,Workaround is to make the view fail.
-Addition of Interface Implementation,Interface,Yes,
+Addition of Interface Implementation,Interface,No,
 Change of Interface Implementation,Interface,Yes,

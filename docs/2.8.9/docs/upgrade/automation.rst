@@ -13,6 +13,32 @@ specific to an individual application, just like the upgrade models.
 Nevertheless, we have found that the pattern shown here
 occurs frequently.
 
+This section describes manual upgrading steps when deploying updated Daml
+application code, by migrating contracts from one version to another. A
+production-grade, optimized migration tool that automates this application
+upgrade process is available, but it requires a Daml Enterprise license.
+Its PDF manual explains how a Daml developer implements a smart contract
+upgrade migration. The manual also advises an operations team on how to
+perform the contract migration.  
+
+The tool is designed to accommodate: 
+
+- Working with a stale view of the ledger’s state (e.g., a partial migration
+  was recently performed);
+
+- Reduce effort by boilerplate code generation for unchanged templates; 
+
+- It has idempotent operations where possible;
+
+- Very large ACS sizes; and 
+
+- Robustly handles rejected ledger commands (e.g., archiving a contract in the
+  same Daml transaction thatcreates an upgraded replacement helps to ensure
+  that duplicate replacement contracts are not created).  
+
+Please contact your account manager or `DA support
+<support@digitalasset.com>`_ for access to the upgrade tool.
+
 Structure the Upgrade
 =====================
 
