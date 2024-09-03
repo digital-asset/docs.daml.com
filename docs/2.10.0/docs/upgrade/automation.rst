@@ -14,7 +14,7 @@ Nevertheless, we have found that the pattern shown here
 occurs frequently.
 
 This section describes manual upgrading steps when deploying updated Daml
-application code, by migrating contracts from one version to another.  A
+application code, by migrating contracts from one version to another. A
 production-grade, optimized migration tool that automates this application
 upgrade process is available, but it requires a Daml Enterprise license.
 Its PDF manual explains how a Daml developer implements a smart contract
