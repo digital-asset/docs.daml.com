@@ -82,7 +82,7 @@ are:
 -  The implementation of an interface instance can be changed;
 
 The following table summarizes the changes supported by SCU. Consult the
-subsequent sections below for additional information.  For application updates
+sections below for additional information. For application updates
 that are not covered by SCU, consult the :ref:`Automating the Upgrade Process
 <upgrade-automation>` section which describes an upgrade tool that can be used
 to migrate contracts from an old version to a new version.
