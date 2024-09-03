@@ -85,7 +85,7 @@ The following table summarizes the changes supported by SCU. Consult the
 sections below for additional information. For application updates
 that are not covered by SCU, consult the :ref:`Automating the Upgrade Process
 <upgrade-automation>` section, which describes an upgrade tool for
-to migrate contracts from an old version to a new version.
+migrating contracts from an old version to a new version.
 
 .. csv-table::
   :file: upgrade-scopes.csv
