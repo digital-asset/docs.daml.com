@@ -21,14 +21,23 @@ Its PDF manual explains how a Daml developer implements a smart contract
 upgrade migration. The manual also advises an operations team on how to
 perform the contract migration.  
 
-The tool is designed to accommodate: working with a stale view of the ledger’s
-state (e.g., a partial migration was recently performed), reduce effort by
-boilerplate code generation for unchanged templates, it has idempotent
-operations where possible, very large ACS sizes, and robustly handles rejected
-ledger commands (e.g., archiving a contract in the same Daml transaction that
-creates an upgraded replacement helps to ensure that duplicate replacement
-contracts are not created.)  Please contact your account manager or `DA
-support <support@digitalasset.com>`_ to access the upgrade tool.
+The tool is designed to accommodate: 
+
+- Working with a stale view of the ledger’s state (e.g., a partial migration
+  was recently performed);
+
+- Reduce effort by boilerplate code generation for unchanged templates; 
+
+- It has idempotent operations where possible;
+
+- Very large ACS sizes; and 
+
+- Robustly handles rejected ledger commands (e.g., archiving a contract in the
+  same Daml transaction thatcreates an upgraded replacement helps to ensure
+  that duplicate replacement contracts are not created).  
+
+Please contact your account manager or `DA support
+<support@digitalasset.com>`_ for access to the upgrade tool.
 
 Structure the Upgrade
 =====================
