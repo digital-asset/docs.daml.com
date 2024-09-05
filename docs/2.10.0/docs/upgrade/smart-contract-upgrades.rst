@@ -1936,8 +1936,8 @@ for packages built as LF 1.17 or greater, the package may also be
 identified by name. That is to say, for upgradable packages a template ID can have
 the form ``#<package-name>:<module-name>:<template-name>``, and this is
 resolved to corresponding templates from all packages which share this
-name, and are built at 1.17 or above. For packages built at LF 1.15 or
-lower, the templates are not identifiable via a package name, and a
+name, and are built at 1.17 or above. For packages built at LF 1.15,
+the templates are not identifiable via a package name, and a
 package ID must be used.
 
 Note: template IDs in query results always use a package ID. This
