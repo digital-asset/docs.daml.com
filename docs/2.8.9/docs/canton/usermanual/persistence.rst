@@ -102,7 +102,7 @@ operations.
 Configuring the ``shared_buffers`` setting to hold 60-70% of the host memory is recommended, rather than the default
 suggestion of 25%, as the Postgres caching appears to be more effective than the host-based file access caching.
 
-Also increase the following variables ``N`` times beyond their default: Increase the ``checkpoint_timeout`` so that
+Also increase the following variables beyond their default: Increase the ``checkpoint_timeout`` so that
 the flushing to disk includes several writes and not just one per page, accumulated over time, together with
 a higher ``max_wal_size`` to ensure that the system does not prematurely flush before reaching the ``checkpoint_timeout``.
 Monitor your system during load testing and tune the parameters accordingly to your use case.
