@@ -2055,7 +2055,7 @@ Assume an interface ``I`` with view type ``IView`` and a method ``m``.
       viewtype IView
       m : Int
  
-Then below the template on the right is a valid upgrade of the template on the
+In that case, the template on the right below is a valid upgrade of the template on the
 left.
 
 .. list-table::
