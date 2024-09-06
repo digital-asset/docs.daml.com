@@ -1080,7 +1080,7 @@ whole.
 **Examples**
 
 In these examples we assume the existence of packages ``q-1.0.0`` and
-``q-2.0.0`` with LF version 1.16, and that the latter is a valid upgrade of
+``q-2.0.0`` with LF version 1.17, and that the latter is a valid upgrade of
 the former.
 
 .. list-table::
@@ -1311,16 +1311,13 @@ package of their own that defines no template.
 Interface Instances
 ~~~~~~~~~~~~~~~~~~~
 
-The instances of an interface in the new version of a package must form a
-superset of the instances of that interface in the prior version of that 
-package. In other words, it is valid to add new interface instances but
-deleting an interface instance leads to a validation error.
-
 Interface instances may be upgraded. Note however that the type signature of 
 their methods and view cannot change between two versions of an instance since
 they are fixed by the interface definition, which is non-upgradable. Hence,
 the only thing that can change between two versions of an instance is the
 bodies of its methods and view.
+
+Adding or deleting an interface leads to a validation error.
 
 **Examples**
 
@@ -1370,18 +1367,9 @@ body of method ``m``.
                   view = IView (fromOptional i j)
                   m = fromOptional i j
 
-Assume now an interface ``I2`` with view type ``IView2`` and a method ``m2``.
-
-.. code:: daml
-
-    data IView2 = IView2 { i : Int }
-  
-    interface I2 where
-      viewtype IView2
-      m2 : Int
-
-Then, below, the template on the right is a valid upgrade of the template on the
-left. It adds a new instance of ``I2`` for template ``T``.
+Below, the template on the right is **not** a valid upgrade of the
+template on the left because it removes the instance of ``I`` for template
+``T2``.
 
 .. list-table::
    :widths: 50 50
@@ -1390,34 +1378,57 @@ left. It adds a new instance of ``I2`` for template ``T``.
 
    * - .. code-block:: daml
 
-            template T 
+            template T2 
               with
                 p : Party
                 i : Int
               where
                 signatory p
 
-                interface instance I for T where
+                interface instance I for T2 where
                   view = IView i
                   m = i
 
      - .. code-block:: daml
 
-            template T 
+            template T2 
               with
                 p : Party
                 i : Int
-                j : Optional Int
               where
                 signatory p
 
-                interface instance I for T where
+Below, the template on the right is **not** a valid upgrade of the
+template on the left because it adds a new instance of ``I`` for template
+``T3``.
+
+.. list-table::
+   :widths: 50 50
+   :width: 100%
+   :class: diff-block
+
+   * - .. code-block:: daml
+
+            template T3 
+              with
+                p : Party
+                i : Int
+              where
+                signatory p
+
+     - .. code-block:: daml
+
+            template T3 
+              with
+                p : Party
+                i : Int
+              where
+                signatory p
+
+                interface instance I for T3 where
                   view = IView i
                   m = i
 
-                interface instance I2 for T where
-                  view = IView2 i
-                  m2 = i
 
 Data Transformation: Runtime Semantics
 --------------------------------------
@@ -1455,9 +1466,8 @@ In a non-interface fetch or exercise triggered by the body of a choice, the
 target template is determined by the dependencies of the package that defines
 the choice. In other words, it is statically known.
 
-In an interface fetch or exercise triggered by the body of a choice, the target
-template is determined by the rules of package preference detailed in the
-:ref:`dynamic package
+In an interface fetch or exercise, the target template is determined by the
+rules of package preference detailed in the :ref:`dynamic package
 resolution<dynamic-package-resolution-in-command-submission>` section of the
 smart contract upgrade documentation. In other words, it is dynamically
 selected.
@@ -1993,7 +2003,7 @@ Upon retrieval and after conversion, the ensure clause of a contract is
 recomputed using the code of the target template. It is a runtime error if the
 recomputed ensure clause evaluates to ``False``.
 
-**Example**
+**Examples**
 
 Below, the template on the right is **not** a valid upgrade of the template on
 the left because its ensure clause will evaluate to ``False`` for contracts that
@@ -2023,3 +2033,123 @@ have been written using the template on the left with ``n = 0``.
              where
                signatory sig
                ensure n > 0
+
+Interface Views
+~~~~~~~~~~~~~~~
+
+The view for a given interface instance is not allowed to change between two
+versions of a contract. When a contract is fetched or exercised by interface,
+its view according to the code of the target template is compared to its view
+according to the code of the template that was used when the contract was
+created. It is a runtime error if the two views differ.
+
+**Example**
+
+Assume an interface ``I`` with view type ``IView`` and a method ``m``.
+
+.. code:: daml
+
+    data IView = IView { i : Int }
+  
+    interface I where
+      viewtype IView
+      m : Int
+ 
+In that case, the template on the right below is a valid upgrade of the template on the
+left.
+
+.. list-table::
+   :widths: 50 50
+   :width: 100%
+   :class: diff-block
+
+   * -  In ``p-1.0.0``:
+     -  In ``p-2.0.0``:
+
+   * - .. code-block:: daml
+
+            template T 
+              with
+                p : Party
+                i : Int
+              where
+                signatory p
+
+                interface instance I for T where
+                  view = IView i
+                  m = i
+
+     - .. code-block:: daml
+
+            template T 
+              with
+                p : Party
+                i : Int
+                j : Optional Int
+              where
+                signatory p
+
+                interface instance I for T where
+                  view = IView (fromOptional i j)
+                  m = fromOptional i j
+
+Assume a ledger that contains a contract of type ``T`` written by
+``p-1.0.0``.
+
++------------+---------------+-----------------------------------------+
+| Contract   | Type          | Contract                                |
+| ID         |               |                                         |
++============+===============+=========================================+
+| ``1234``   | ``p-1.0.0:T`` | ``T { p = 'Alice', i = 42 }``           |
++------------+---------------+-----------------------------------------+
+
+Fetching contract ``1234`` by interface with package preference ``p-2.0.0``
+retrieves the contract and computes its view according to ``p-1.0.0``: ``IView
+42``. The contract is then transformed into a value of type ``p-2.0.0:T``:
+``T { sig = 'Alice', i = 42, j = None }`` and its view is computed again, this
+time according to ``p-2.0.0``: ``IView 42``. Because the two views agree, the
+fetch is successful.
+
+On the other hand, below, the template on the right is **not** a valid upgrade
+of the template on the left.
+
+.. list-table::
+   :widths: 50 50
+   :width: 100%
+   :class: diff-block
+
+   * -  In ``p-1.0.0``:
+     -  In ``p-2.0.0``:
+
+   * - .. code-block:: daml
+
+            template T 
+              with
+                p : Party
+                i : Int
+              where
+                signatory p
+
+                interface instance I for T where
+                  view = IView i
+                  m = i
+
+     - .. code-block:: daml
+
+            template T 
+              with
+                p : Party
+                i : Int
+              where
+                signatory p
+
+                interface instance I for T where
+                  view = IView (i+1)
+                  m = i
+
+Assume the same ledger as above. Fetching contract ``1234`` by interface with
+package preference ``p-2.0.0`` again retrieves the contract and computes its
+view according to ``p-1.0.0``: ``IView 42``. The contract is then transformed
+into a value of type ``p-2.0.0:T``: ``T { sig = 'Alice', i = 42 }`` and its view
+is computed again, this time according to ``p-2.0.0``: ``IView 43``. Because the
+two views differ, the fetch is rejected at runtime.
