@@ -1476,6 +1476,7 @@ template values or interface values.
 
     * a record: the contract;
     * a template type: the runtime type of that record.
+  
   For instance, if ``c`` is a contract of type ``T`` and ``T`` implements the 
   interface ``I``, then ``toInterface c`` evaluates to the pair ``(c, T)``.
 
@@ -1486,12 +1487,14 @@ template values or interface values.
 
 Let us assume an interface value ``iv`` = ``(c, T)``. Then 
 ``fromInterface @U iv`` evaluates as follow.
+
   * If ``U`` upgrades ``T``, then it evaluates to ``Some c'`` where ``c'`` is the
     result of transforming ``c`` into a value of type ``U``.
   * Otherwise, it evaluates to ``None``.
 
 Let us assume an interface value ``iv`` = ``(c, T)`` and an interface type 
 ``I``. Then ``create @I iv`` evaluates as follow.
+
   * If ``T`` does not implement ``I`` then an error is thrown.
   * Otherwise ``create @T c`` is evaluated.
 
@@ -1622,6 +1625,7 @@ Finally, assume that the module defining the first version of ``T`` is imported
 as ``V1``, and the module defining the second version of ``T`` is imported as
 ``V2``. The expression ``fromInterface @V2.T (toInterface @I (V1.T 'Alice'))``
 evaluates as follows:
+
   * ``toInterface @I (@V1.T alice)`` evaluates to the interface value 
     ``(V1.T { p = 'Alice' }, V1.T)``.
   * The type ``V2.T`` upgrades ``V1.T`` so ``fromInterface`` proceeds to 
