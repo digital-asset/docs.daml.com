@@ -1430,9 +1430,9 @@ template on the left because it adds a new instance of ``I`` for template
 Data Transformation: Runtime Semantics
 --------------------------------------
 
-Whenever a contract is fetched, a choice is exercised, or an interface value is
-converted to a template value, a template version is selected according to a set
-of rules detailed below . We call this template the target template.
+A template version is selected whenever a contract is fetched, a choice is exercised, or an interface value is
+converted to a template value, according to a set
+of rules detailed below. We call this template the target template.
 
 The contract is then transformed into a value that fits the type of
 the target template. Then, its metadata (signatories, observers, key,
@@ -1457,7 +1457,7 @@ In a non-interface fetch or exercise triggered by the body of a choice, the
 target template is determined by the dependencies of the package that defines
 the choice. In other words, it is statically known.
 
-Interface fetches and exercises on the other hand are subject to dynamic target
+Interface fetches and exercises, on the other hand, are subject to dynamic target
 template selection, as detailed in :ref:`the next
 section<dynamic-target-template-selection>`. However, operations acting on
 interface *values* — as opposed to IDs — are static. Their mode of operation is
@@ -1614,7 +1614,7 @@ Assume then two versions of a template ``T`` that implements ``I``.
 
 Finally, assume that the module defining the first version of ``T`` is imported
 as ``V1``, and the module defining the second version of ``T`` is imported as
-``V2``. Then the expression ``fromInterface @V2.T (toInterface @I (V1.T 'Alice'))``
+``V2``. The expression ``fromInterface @V2.T (toInterface @I (V1.T 'Alice'))``
 evaluates as follows:
   * ``toInterface @I (@V1.T alice)`` evaluates to the interface value 
     ``(V1.T { p = 'Alice' }, V1.T)``.
@@ -1628,11 +1628,9 @@ Dynamic Target Template Selection
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In a top-level exercise triggered by a Ledger API command, or in an interface
-fetch or exercise triggered from the body of a choice, the target template is
-determined at runtime by the rules of package preference detailed in the
+fetch or exercise triggered from the body of a choice, the rules of package preference detailed in
 :ref:`dynamic package
-resolution<dynamic-package-resolution-in-command-submission>` section of the
-smart contract upgrade documentation.
+resolution<dynamic-package-resolution-in-command-submission>`  determine the target template at runtime.
 
 **Example 1**
 
