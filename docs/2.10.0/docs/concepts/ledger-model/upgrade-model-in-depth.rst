@@ -1478,6 +1478,11 @@ template values or interface values.
   For instance, if ``c`` is a contract of type ``T`` and ``T`` implements the 
   interface ``I``, then ``toInterface c`` evaluates to the pair ``(c, T)``.
 
+  Note that the type of interface values is opaque: while it is useful to
+  conceptualize interface values as pairs for defining the runtime semantics of
+  the language, their actual implementation may vary and is not exposed to the
+  user.
+
 Let us assume an interface value ``iv`` = ``(c, T)``. Then 
 ``fromInterface @U iv`` evaluates as follow.
   * If ``U`` upgrades ``T``, then it evaluates to ``Some c'`` where ``c'`` is the
