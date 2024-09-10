@@ -1473,6 +1473,7 @@ template values or interface values.
   statically known, aside from the fact that it implements a given interface.
   They are obtained by applying ``toInterface`` to a template value.
   At runtime, they are represented by a pair consisting of:
+
     * a record: the contract;
     * a template type: the runtime type of that record.
   For instance, if ``c`` is a contract of type ``T`` and ``T`` implements the 
