@@ -64,7 +64,7 @@ The first question we need to address is what the topology is that you are going
 is made up of parties, participants and sync domains, as depicted in the following figure.
 
 .. https://app.lucidchart.com/documents/edit/da3c4533-a787-4669-b1e9-2446996072dc/0_0
-.. figure:: ../images/topology.svg
+.. figure:: ../images/topology.png
    :align: center
    :width: 80%
 

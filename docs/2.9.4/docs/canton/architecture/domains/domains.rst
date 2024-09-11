@@ -13,7 +13,7 @@ technologies, such as a relational database as well as block-chains like
 Hyperledger Fabric or Ethereum.
 
 .. https://app.lucidchart.com/documents/edit/da3c4533-a787-4669-b1e9-2446996072dc/0_0
-.. figure:: ../../images/topology.svg
+.. figure:: ../../images/topology.png
    :align: center
    :width: 80%
 

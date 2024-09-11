@@ -17,7 +17,7 @@ applications. Extensions require neither a central managing entity nor consensus
 Canton faithfully implements the authorization and privacy requirements set out by Daml for its transactions.
 
 .. https://app.lucidchart.com/documents/edit/da3c4533-a787-4669-b1e9-2446996072dc/0_0
-.. figure:: ./images/topology.svg
+.. figure:: ./images/topology.png
    :align: center
    :width: 80%
 
