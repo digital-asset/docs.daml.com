@@ -209,16 +209,16 @@ Version Specific Notes
 Upgrade to Release 2.9
 ^^^^^^^^^^^^^^^^^^^^^^
 
-Protocol versions
+Protocol Versions
 """""""""""""""""
-The recommended protocol versions is 5 (see :ref:`here <protocol_version>` for more information about protocol versions).
+The recommended protocol version is 5 (see :ref:`here <protocol_version>` for more information about protocol versions).
 
 Version 2.9 does not offer support for protocol versions 3 and 4.
-If your sync domain is running one of these protocol versions, you need to perform the upgrade described :ref:`below <one_step_migration>`.
+If your sync domain is running one of these protocol versions, upgrade as described :ref:`below <one_step_migration>`.
 
 Protocol version should be set explicitly
 """""""""""""""""""""""""""""""""""""""""
-Until now, the sync domains were configures to pick the latest protocol version by default.
+Until now, sync domains were configured to pick the latest protocol version by default.
 Since the protocol version is an important parameter of the sync domain, having this value set behind
 the scenes caused unwanted behavior.
 
@@ -251,10 +251,10 @@ command.
 Note that the ``migrate_domain`` command in 2.9 now automatically removes such data,
 but only for the sync domain on which it has been invoked.
 
-Paging in party Management
+Paging in Party Management
 """"""""""""""""""""""""""
-By default, the `ListKnownParties` method on the `PartyManagementService` will now only return at most 10'000
-to avoid memory issues in participants that knows more than 10'000 parties.
+The `ListKnownParties` method on the `PartyManagementService` now returns at most 10,000 results by default
+to avoid memory issues in participants that know more than 10,000 parties.
 
 The `next_page_token` can be used to request the next page (see `request <https://docs.daml.com/2.9.0/app-dev/grpc/proto-docs.html#com-daml-ledger-api-v1-admin-listknownpartiesrequest>`_
 and `response <https://docs.daml.com/2.9.0/app-dev/grpc/proto-docs.html#com-daml-ledger-api-v1-admin-listknownpartiesresponse>`_).
