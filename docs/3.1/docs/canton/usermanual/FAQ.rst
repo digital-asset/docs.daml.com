@@ -131,8 +131,10 @@ Why is Canton complaining about my database version?
 Postgres
 ~~~~~~~~
 
-Canton is tested with Postgres 10, 11, 12, 13, and 14 -- so these are the recommended versions. Canton is also likely to work with any higher versions,
-but will WARN when a higher version is encountered. By default, Canton will not start when the Postgres version is below 10.
+Canton is tested with the following PostgreSQL releases:  12, 13, 14, and 15.
+Newer PostgreSQL releases may not have been tested.  THe recommended version
+is 12. Canton will WARN when a higher version is encountered. By default,
+Canton will not start when the PostgreSQL version is below 10.
 
 Oracle
 ~~~~~~
