@@ -133,8 +133,8 @@ Postgres
 
 Canton is tested with the following PostgreSQL releases:  12, 13, 14, and 15.
 Newer PostgreSQL releases may not have been tested. The recommended version
-is 12. Canton will WARN when a higher version is encountered. By default,
-Canton will not start when the PostgreSQL version is below 10.
+is 12. Canton WARNs when a higher version is encountered. By default,
+Canton does not start when the PostgreSQL version is below 10.
 
 Oracle
 ~~~~~~
