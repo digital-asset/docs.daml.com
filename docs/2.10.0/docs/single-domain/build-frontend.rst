@@ -43,11 +43,13 @@ Build and Test the Frontend
    This command creates a session on ``localhost:5173`` which connects the frontend to the user's `party <https://docs.daml.com/daml/stdlib/Prelude.html#type-da-internal-lf-party-57932>`_. You can now log in locally as ``alice``.
 
    .. image:: images/localhost-alice-terminal.png
+      :alt: Alice localhost connection ready
 
 7. Navigate to ``localhost:5173`` in an incognito browser window and log in as ``alice``. The username must be all lowercase.
 
    .. image:: images/localhost-5173-ui.png
       :width: 250px
+      :alt: Alice localhost frontend UI
 
 8. Create a fourth terminal instance. Run the following command from the ``frontend`` directory to connect to the ``provider``'s party:
 
@@ -56,6 +58,7 @@ Build and Test the Frontend
       JSON_API_PORT=4003 npm run dev
 
    .. image:: images/localhost-provider-terminal.png
+      :alt: Provider localhost connection ready
 
    .. note::
       The ``provider``'s session is most likely hosted on ``localhost:5174``
@@ -64,8 +67,10 @@ Build and Test the Frontend
 
    .. image:: images/localhost-5174-ui.png
       :width: 250px
+      :alt: Provider localhost frontend UI
 
 .. important::
    You now have a total of four terminals. You can organize them in four windows or use the terminal's tab feature and cycle through each tab as needed.
 
    .. image:: images/four-terminals-template.png
+      :alt: Example of four terminal organization

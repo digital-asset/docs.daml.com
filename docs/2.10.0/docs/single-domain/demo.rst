@@ -8,7 +8,7 @@ The following business operation features account creation, a transfer offer, an
 
 The ``provider`` initiates the process by creating and fulfilling a deposit request, which represents the availability of assets for transfer. Subsequently, the provider creates a transfer offer for ``alice``, demonstrating the ``provider``'s role in managing and facilitating asset availability within a system. After Alice creates an account, she views and accepts the transfer offer made by the ``provider``. This results in both users updating the balances.
 
-The complete business operation showcases how Daml can facilitate financial transactions and ensure secure and transparent operations between parties. It demonstrates the management of digital assets while maintaining data integrity within a permissioned `ledger <https://docs.daml.com/concepts/ledger-model/index.html>`_ environment.
+The complete business operation showcases how Daml can facilitate financial transactions and ensure secure and transparent operations between parties. It demonstrates the management of digital assets while maintaining data integrity within a permissioned :doc:`ledger </concepts/ledger-model/index>` environment.
 
 **Request an account**
 
@@ -36,6 +36,7 @@ The complete business operation showcases how Daml can facilitate financial tran
    - Click "Request Account" to create the account for ``alice``.
 
    .. image:: images/accounts-alice.png
+      :alt: Alice accounts view
 
 3. Select the ``provider`` browser:
 
@@ -44,10 +45,11 @@ The complete business operation showcases how Daml can facilitate financial tran
    - Click on "Request Account".
 
    .. image:: images/accounts-provider.png
+      :alt: Provider accounts view
 
 **The Provider Role**
 
-*Providers represent an entity that offers financial services or assets to users. They build and operate Daml applications that automate cross-organizational workflows among application users. The provider operates the synchronizer, which is critical to sequence, route, and confirm transactions across `participant nodes <https://docs.daml.com/deploy-daml/infrastructure-architecture/high-availability/basic-ha/participant.html>`_. In practice, the provider is the reason for the existence of the Daml application and corresponding services.*
+*Providers represent an entity that offers financial services or assets to users. They build and operate Daml applications that automate cross-organizational workflows among application users. The provider operates the synchronizer, which is critical to sequence, route, and confirm transactions across* :doc:`participant nodes </deploy-daml/infrastructure-architecture/high-availability/basic-ha/participant>`. *In practice, the provider is the reason for the existence of the Daml application and corresponding services.*
 
 **Create a deposit request**
 
@@ -59,6 +61,7 @@ The complete business operation showcases how Daml can facilitate financial tran
 6. Click on "Request Deposit".
 
 .. image:: images/accounts-provider-request-deposit.png
+   :alt: Provider accounts with holdings
 
 **Accept the deposit request**
 
@@ -68,6 +71,7 @@ The complete business operation showcases how Daml can facilitate financial tran
 4. Return to the Accounts menu. The holdings are updated and added to the ``provider``'s account.
 
 .. image:: images/deposit-requests-provider-accept.png
+   :alt: Provider deposit requests
 
 **Create a transfer offer**
 
@@ -83,6 +87,7 @@ The ``provider`` can now create a transfer offer to send a portion of the funds 
 8. The transfer offer is updated under the Outgoing offers.
 
 .. image:: images/create-transfer-offers-provider.png
+   :alt: Provider create transfer offer view
 
 **Accept a transfer offer request**
 
@@ -91,15 +96,18 @@ The ``provider`` can now create a transfer offer to send a portion of the funds 
 3. The incoming request from the ``provider`` party is shown under the "Incoming" transfer offer table.
 
 .. image:: images/transfer-offers-alice-accept.png
+   :alt: Alice transfer offer view
 
 4. Click the "Receiver Account" field and select ``alice``'s primary account.
 5. Click "Accept".
 
 .. image:: images/alice-accept-transfer-offer.png
+   :alt: Alice accepts the transfer offer
 
 The account holdings are updated to reflect the outgoing 1000 credits from the ``provider`` to ``alice``. The updated balances are reflected under the Amount field in account holdings.
 
 .. image:: images/alice-account-holdings.png
+   :alt: Alice's updated account holdings
 
 **Review**
 

@@ -26,23 +26,29 @@ Visualize a Use Case
 Imagine that the provider creates a transfer offer of 1,000 credits. 
 
 .. image:: images/create-transfer-offers-provider.png
+   :alt: Provider transfer offers view
 
 Alice sees the offer, but is disappointed. The offer was expected to be 10,000 credits. Instead of accepting the faulty offer, Alice decides to reject the offer.
 
 .. image:: images/alice-rejects-transfer-offer.png
+   :alt: Alice transfer offers view
 
 Alice explains the reason for her rejection so the provider understands the denial.
 
 .. image:: images/demo-extension-reject-offer-07.png
+   :alt: Rejection reason modal 
 
 The provider sees the rejected offer in the "Rejected Offers" table and creates an accurate transfer offer.
 
 .. image:: images/transfer-offers-rejected-offer-table.png
+   :alt: Rejected transfers table with rejected offer
 
 Alice, now satisfied, accepts the offer. 
 
 .. image:: images/use-case-alice-accept-offer-05.png
+   :alt: Alice transfer offer view with new transaction
 
 The transfer of 10,000 credits is completed successfully. Alice's balance is updated.
 
 .. image:: images/use-case-alice-new-balance-06.png
+   :alt: Alice Accounts view with updated balance

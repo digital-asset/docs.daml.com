@@ -31,6 +31,7 @@ Build and Test the App/Backend
       Received status code 403 from server.
 
    .. image:: images/daml-scribe-assemble-gradlew-error.png
+      :alt: Gradle could not get resource example
 
    You can verify your Artifactory username and password have been correctly integrated into the app with a credential request command:
 
@@ -48,7 +49,7 @@ Build and Test the App/Backend
       ./gradlew :app:backend:assemble --debug
       ./gradlew :app:backend:assemble --stacktrace
 
-2. Begin the `synchronizer <https://docs.daml.com/deploy-daml/infrastructure-architecture/high-availability/basic-ha/domain.html>`_ in the backend from the same terminal:
+2. Begin the :doc:`synchronizer </deploy-daml/infrastructure-architecture/high-availability/basic-ha/domain>` in the backend from the same terminal:
 
    .. code-block:: bash
 
@@ -118,6 +119,7 @@ Build and Test the App/Backend
       bootRun operates continuously in the background.
 
       .. image:: images/bootrun-screenshot.png
+         :alt: Bootrun loading output
 
    .. important::
       While bootRun operates, you might notice occasional messages stating, 
@@ -127,5 +129,6 @@ Build and Test the App/Backend
       These failures are benign and can be safely ignored.
 
       .. image:: images/failed-to-connect-messages.png
+         :alt: Bootrun running output
 
 The backend is now operational! You're ready to build the frontend!

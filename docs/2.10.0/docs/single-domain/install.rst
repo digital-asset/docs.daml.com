@@ -90,18 +90,22 @@ Install the Application
    b. Select the user profile icon in the top right corner, then select "**Edit Profile**".
 
       .. image:: images/jfrog-dashboard.png
+         :alt: JFrog Platform dashboard
 
    c. The user profile is displayed in the top left corner. This is most likely the email address you used to register an account. On the same screen, under "**Authentication Settings**" click the "**Generate an Identity Token**" button.
 
       .. image:: images/jfrog-artifactory-profile.png
+         :alt: JFrog Profile dashboard
 
    d. Enter a description to identify the token in the future, then select "**Next**."
 
       .. image:: images/jfrog-generate-token.png
+         :alt: JFRog generate token
 
    e. A token is generated and displayed. Copy the Reference Token. Store it in a safe place. The token cannot be retrieved after the window is closed.
 
       .. image:: images/jfrog-artifactory-new-token.png
+         :alt: JFrog identity token
 
 2. Add the username and identity token credentials to a new file named ``.envrc.private``:
 
@@ -167,7 +171,7 @@ Install the Application
 
 **Install the Daml SDK**
 
-1. From the root directory, run the following command to install the `Daml SDK <https://docs.daml.com/getting-started/installation.html>`_:
+1. From the root directory, run the following command to install the :doc:`Daml SDK </getting-started/installation>`:
 
    .. code-block:: bash
 
@@ -182,6 +186,7 @@ Install the Application
    Find the version stored in ``export DAML_SDK_RELEASE_VERSION=``
 
    .. image:: images/DAML_SDK_RELEASE_VERSION.png
+      :alt: Daml SDK version example
 
 2. After installation, add Daml to your PATH in your shell configuration file (``.zshrc`` or ``.bashrc`` depending on your system) if it wasn't added automatically:
 

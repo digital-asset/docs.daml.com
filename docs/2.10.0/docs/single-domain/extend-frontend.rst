@@ -8,7 +8,7 @@ The backend is complete. However, the user needs a convenient way to interact wi
 
 **Step 1: Create the Hooks**
 
-Add two hooks. The first is a query hook, ``useRejectedTransferOffers``, that reads the RejectedTransferOffers through a backend API endpoint. The second is a mutation hook, ``useRejectWithReason``, which exercises the RejectWithReason choice through a frontend JSON API endpoint. 
+Add two hooks. The first is a query hook, ``useRejectedTransferOffers``, that reads the ``RejectedTransferOffers`` through a backend API endpoint. The second is a mutation hook, ``useRejectWithReason``, which exercises the ``RejectWithReason`` choice through a frontend JSON API endpoint. 
 
 Begin with the query hook in the ``/app/frontend/src/hooks/queries`` subdirectory.
 
@@ -80,7 +80,7 @@ This block handles error cases when fetching rejected transfer offers. It logs e
 
 Next, write the mutation hook in ``/app/frontend/src/hooks/mutations``.
 
-Mutation hooks differ from query hooks in that they connect directly to frontend JSON API endpoints. This mutation updates the Daml ledger via interaction with the RejectWithReason choice created in Model.daml.
+Mutation hooks differ from query hooks in that they connect directly to frontend JSON API endpoints. This mutation updates the Daml ledger via interaction with the ``RejectWithReason`` choice created in ``Model.daml``.
 
 *useRejectWithReason.ts*
 
@@ -93,7 +93,7 @@ Mutation hooks differ from query hooks in that they connect directly to frontend
     import { ContractId } from '@daml/types';
     import useLedgerApiClient from '../queries/useLedgerApiClient';
 
-The ``useLedgerApiClient`` import calls the query hook by the same name to access the Daml ledger API client. The client enables the React hook to update the Daml ledger state. In this event, to exercise the RejectWithReason choice in the Daml model.
+The ``useLedgerApiClient`` import calls the query hook by the same name to access the Daml ledger API client. The client enables the React hook to update the Daml :doc:`ledger state </getting-started/app-architecture>`. In this event, to exercise the ``RejectWithReason`` choice in the Daml model.
 
 .. code-block:: typescript
    :linenos:
@@ -109,7 +109,7 @@ The ``useLedgerApiClient`` import calls the query hook by the same name to acces
       reason: string;
     };
 
-Two TypeScript types, ``RejectWithReasonInput`` and ``RejectWithReasonResult``, are created in this block. The input and result mirror one another in that they both include a ``ContractId`` of a ``TransferOffer`` and a reason. This structure ensures type safety in the ``useRejectWithReason`` hook.
+Two TypeScript types, ``RejectWithReasonInput`` and ``RejectWithReasonResult``, are created in this block. The input and result mirror one another in that they both include a ``ContractId`` of a ``TransferOffer`` and a ``reason``. This structure ensures type safety in the ``useRejectWithReason`` hook.
 
 .. code-block:: typescript
    :linenos:
@@ -199,7 +199,7 @@ The next step is to wire up the frontend components in ``TransferOffers.tsx``. T
 
 **Add the import statements**
 
-Add ``useEffect`` and ``useCallback`` aliases to the React module import.
+Add ``useEffect`` and ``useCallback`` aliases to the ``react`` module import.
 Next, include the ``Dialog``-related aliases to the ``mui/material`` module import.
 Add the new import statements under the ``useAcceptTransferOffer`` import statement in ``/components/TransferOffers.tsx``.
 
@@ -307,7 +307,7 @@ Next, the state of ``isRejectedClicked`` and the hook mutation state are logged 
 
 **Refactor the IncomingTransferOffer UI**
 
-Next, refactor the IncomingTransferOffer UI rendering to introduce the new rejection functionality.
+Next, refactor the ``IncomingTransferOffer`` UI rendering to introduce the new rejection functionality.
 
 .. note::
    The JSX is extensive. Updates to the existing code are highlighted. Revisions to the JSX format have been made for enhanced readability, but are not otherwise marked.
@@ -471,7 +471,7 @@ The transfer offer dialog modal is followed by the rejected offers table. This t
       );
     };
 
-``RejectedTransferOffersTable`` calls the ``useRejectedTransferOffers`` query hook to fetch data from rejected transfer offers and displays its sender, receiver, and reason for the rejection. ``rejectedOffers.isError`` gracefully handles error states, and the ``rejectedOffers.map`` returns requested information to the table.
+``RejectedTransferOffersTable`` calls the ``useRejectedTransferOffers`` query hook to fetch data from rejected transfer offers and displays its sender, receiver, and reason for the rejection. ``rejectedOffers.isError`` gracefully handles error states, and the ``rejectedOffers`` map returns requested information to the table.
 
 **Refactor the TransferOffers Functional Component**
 
@@ -495,10 +495,12 @@ The new line, ``const [activeOffers, setActiveOffers]``, calls ``useState`` to m
 ✅ Refactored ``TransferOffers`` functional component.
 
 .. image:: images/transferoffers-new.png
+   :alt: New TransferOffers functional component 
 
 ⛔ Refactor replaces existing ``TransferOffers`` component.
 
 .. image:: images/transferoffers-old.png
+   :alt: Old TransferOfers component 
 
 **Create a custom hook, useEffect, to synchronize the local state of active offers**
 
@@ -556,10 +558,12 @@ The return statement begins the JSX to display properly loaded transfer offers.
 ✅ ``const renderOfferList`` replaces the existing structure under ``let offerList``.
 
 .. image:: images/renderOfferList-new.png
+   :alt: New renderOfferList function
 
-⛔ deprecated ``let offerList`` and ``offers if/else logic``.
+⛔ deprecated ``let offerList`` and ``offers if/else`` logic.
 
 .. image:: images/replaced-offer-list.png
+   :alt: Deprecated offerList if/else logic
 
 In the following JSX, replace ``offers.data`` with ``activeOffers``. Both instances are located within ``TableBody`` elements nested inside the “Outgoing” and “Incoming” Tables.
 
@@ -630,10 +634,10 @@ You have successfully extended the application to reject a transfer offer. Ensur
 
 This command assembles the TypeScript frontend. If successful, it outputs `BUILD SUCCESSFUL.`
 
+.. image:: images/terminal-frontend-assemble.png
+   :alt: Gradle frontend assemble success
 
 **Observe the new functionality by starting the Canton server**
-
-The process of spinning up new localhosts follows the previous steps.
 
 In the first terminal, begin the Canton server:
 
@@ -668,7 +672,7 @@ In a third terminal, begin the frontend server:
     cd app/frontend
     npm run dev
 
-In a fourth terminal, from the frontend subdirectory, begin the provider’s frontend server:
+In a fourth terminal, from the ``frontend`` subdirectory, begin the provider’s frontend server:
 
 .. code-block:: bash
 

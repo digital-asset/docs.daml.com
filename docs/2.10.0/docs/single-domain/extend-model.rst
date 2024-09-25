@@ -13,12 +13,13 @@ Begin with an open terminal in the project's root directory. If you use `Visual 
    daml-app-template ~ % daml studio
 
 .. note::
-   ``daml studio`` should automatically install the `Daml Studio <https://docs.daml.com/daml/daml-studio.html>`_ extension in Visual Studio. The extension assists Daml app development. You can double-check that the extension is installed by opening the extension menu and searching for 'Daml studio'.
+   ``daml studio`` should automatically install the :doc:`Daml Studio </daml/daml-studio>` extension in Visual Studio. The extension assists Daml app development. You can double-check that the extension is installed by opening the extension menu and searching for "Daml studio."
 
    .. image:: images/daml-studio-extension.png
+      :alt: Visual Studio Daml Studio extension
 
 .. note::
-   Intellij also supports Daml development.
+   `Intellij <https://www.jetbrains.com/idea/>`_ also supports Daml development.
 
 The Daml Template
 -----------------
@@ -29,18 +30,19 @@ Templates specify:
 
 - fields and data types that define the contract payload information upon creation
 - `signatory <https://docs.daml.com/concepts/ledger-model/ledger-integrity.html#signatories-agreements-and-maintainers>`_, whose authorization is required for the creation of the contract
-- choices, which are actions that a `controller <https://docs.daml.com/daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Account-Account.html#module-daml-finance-account-account-19369#v:controllers>`_ can take on a contract
+- choices, which are actions that a :doc:`controller </daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Account-Account>` can take on a contract
 
 **Create a RejectedTransferOffer Template**
 
-1. Find 'Model.daml' in /app/daml/src/main/daml/Com/Daml/App/Template/. 
+1. Find 'Model.daml' in ``/app/daml/src/main/daml/Com/Daml/App/Template/``. 
 
    .. image:: images/daml-model-file-tree.png
       :width: 250px
+      :alt: Daml model file tree
 
-2. Find the template 'TransferOffer' in Model.daml.
+2. Find the ``template TransferOffer`` in Model.daml.
 
-3. Write a new RejectedTransferOffer template directly above the currently existing template TransferOffer. The new template is a composite of the TransferOffer template that extends the ability for providers, senders, and receivers to reject a transfer offer with a reason. 
+3. Write a new ``RejectedTransferOffer`` template directly above the currently existing ``template TransferOffer``. The new template is a composite of the ``TransferOffer`` template that extends the ability for providers, senders, and receivers to reject a transfer offer with a reason. 
 
    .. code-block:: daml
       :linenos:
@@ -58,13 +60,13 @@ Templates specify:
             key (transferOffer.provider, transferOffer.sender, transferOffer.receiver, transferOffer.trackingId) : (Party, Party, Party, Text)
             maintainer key._1
 
-   The template takes a transfer offer and a rejection reason, a non-empty string, requires a transfer offer with a provider, sender, and receiver, and creates an identifier key for each rejection. 
+   The template takes a transfer offer and a rejection reason, a non-empty string, requires a transfer offer with a ``provider``, ``sender``, and ``receiver``, and creates an identifier key for each rejection. 
 
    ``signatory transferOffer.provider…`` uses dot notation to maintain a direct link to the original offer. This format ensures that the Parties are identified consistently across related contracts.
 
    ``maintainer key._1`` indicates that the provider is responsible for maintaining the contract. 
 
-4. Create a new RejectWithReason choice within the TransferOffer template:
+4. Create a new ``RejectWithReason`` choice within the ``TransferOffer`` template:
 
    .. code-block:: daml
       :linenos:
@@ -89,12 +91,12 @@ Templates specify:
    - ``now <- getTime`` fetches the current time on the ledger. 
 
      .. note::
-        In a dev environment without an active ledger, the `getTime <https://docs.daml.com/concepts/time.html>`_ function returns the epoch time, January 1, 1970. This happens because the ledger is not active and cannot fetch the system time. In a Daml application deployed to an active ledger, getTime fetches the current ledger time, which reflects the time that the ledger itself is using.
+        In a dev environment without an active ledger, the :doc:`getTime </concepts/time>` function returns the epoch time, January 1, 1970. This happens because the ledger is not active and cannot fetch the system time. In a Daml application deployed to an active ledger, ``getTime`` fetches the current ledger time, which reflects the time that the ledger itself is using.
 
-   - ``assertMsg`` `asserts <https://docs.daml.com/daml/stdlib/Prelude.html#function-da-internal-assert-assertmsg-31545>`_ the current time is less than the time of the expiresAt value. The assertion fails and the transaction is aborted if the value of now is later than or equal to the time value of expiresAt.
+   - ``assertMsg`` `asserts <https://docs.daml.com/daml/stdlib/Prelude.html#function-da-internal-assert-assertmsg-31545>`_ the current time is less than the time of the ``expiresAt`` value. The assertion fails and the transaction is aborted if the value of ``now`` is later than or equal to the time value of ``expiresAt``.
    - ``unlockAndRemoveObservers`` removes the receiver. When the receiver rejects the offer they are no longer a stakeholder in the transaction and have no need to observe the contract. The function call also unlocks the credits reserved for the transaction.
 
-At this point, the extension features a new template, RejectedTransferOffer, that allows for a rejection reason. It also implements a new choice, RejectWithReason within the TransferOffer template, which takes a reason and creates the RejectedTransferOffer contract. 
+At this point, the extension features a new template, ``RejectedTransferOffer``, that allows for a rejection reason. It also implements a new choice, ``RejectWithReason`` within the ``TransferOffer`` template, which takes a reason and creates the ``RejectedTransferOffer`` contract. 
 
 Canton needs to be stopped and the caches cleared to ensure the model rebuilds properly. 
 
@@ -107,6 +109,7 @@ Canton needs to be stopped and the caches cleared to ensure the model rebuilds p
       ./scripts/stop-canton.sh
 
    .. image:: images/terminal-stop-daml-script.png
+      :alt: Stop canton script terminal output
 
 3. Clear Gradle's cache:
 
@@ -115,6 +118,7 @@ Canton needs to be stopped and the caches cleared to ensure the model rebuilds p
       ./gradlew clean
 
    .. image:: images/terminal-gradlew-clean.png
+      :alt: Gradle clean build success
 
 4. Clear the frontend servers:
 
@@ -123,6 +127,7 @@ Canton needs to be stopped and the caches cleared to ensure the model rebuilds p
       ./gradlew :app:frontend:clean
 
    .. image:: images/terminal-gradlew-frontend-clean.png
+      :alt: Gradle frontend clean success
 
 5. Rebuild the DAR files:
 
@@ -133,5 +138,6 @@ Canton needs to be stopped and the caches cleared to ensure the model rebuilds p
    If the choices have been added correctly, the DARs should update with the new choices in the TransferOffer template.
 
    .. image:: images/terminal-gradlew-daml-assemble.png
+      :alt: Daml model assemble success
 
-You have implemented the new RejectedTransferOffer template and RejectWithReason choice in Model.daml. This extension allows users greater control over their transfer offers. The next step integrates the new choices into the backend API to interact with the Daml ledger.
+You have implemented the new ``RejectedTransferOffer`` template and ``RejectWithReason`` choice in ``Model.daml``. This extension allows users greater control over their transfer offers. The next step integrates the new choices into the backend API to interact with the Daml ledger.

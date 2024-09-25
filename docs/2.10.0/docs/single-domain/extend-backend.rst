@@ -6,7 +6,7 @@ Update the Backend API
 
 Update the backend Java code to handle the new choice based on the user's actions in the frontend.
 
-The backend update includes modifications to three existing files within the app/backend subdirectories, ``api.yaml``, ``Store.java``, and ``UserApiDelegateImpl.java``.
+The backend update includes modifications to three existing files within the ``app/backend`` subdirectories, ``api.yaml``, ``Store.java``, and ``UserApiDelegateImpl.java``.
 
 **Step 1: Modify api.yaml**
 
@@ -70,7 +70,7 @@ Import the ``RejectedTransferOffer`` template with the existing model imports.
 
     import com.daml.app.template.codegen.com.daml.app.template.model.RejectedTransferOffer;
 
-Add a method, ``listRejectedTransferOffers``, near the end of the file, above the ``listTransientFailureRequests`` method. ``listRejectedTransferOffers`` retrieves transfer offer rejections using the `Participant Query Store <https://docs.daml.com/query/pqs-user-guide.html>`_ (PQS). 
+Add a method, ``listRejectedTransferOffers``, near the end of the file, above the ``listTransientFailureRequests`` method. ``listRejectedTransferOffers`` retrieves transfer offer rejections using the :doc:`Participant Query Store </query/pqs-user-guide>` (PQS). 
 
 .. code-block:: java
    :linenos:
@@ -94,7 +94,7 @@ Add a method, ``listRejectedTransferOffers``, near the end of the file, above th
 
 The ``listRejectedTransferOffers`` method queries PQS for rejected transfer offers. It takes the user's ID as input and returns a list of ``TemplateContract`` objects containing the rejected transfer offer data.
 
-`Participant Query Store <https://docs.daml.com/query/pqs-user-guide.html>`_
+:doc:`Participant Query Store </query/pqs-user-guide>`
 
 *PQS operates as a separate service within the participant's infrastructure. It maintains a mirrored copy of the ledger data in a queryable format. PQS is intended as a long-running process that may be safely restarted at any time. It provides a scalable "read" pipeline that follows the Command Query Responsibility Segregation (CQRS) design pattern, which separates read operations from write operations to improve performance and scalability.*
 
@@ -167,3 +167,4 @@ Verify that all changes have been saved, then rebuild the backend.
 Gradle generates the backend files with the new API endpoints.
 
 .. image:: images/terminal-backend-assemble-build-successful.png
+   :alt: Gradle backend assemble success
