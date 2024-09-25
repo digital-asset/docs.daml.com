@@ -225,9 +225,17 @@ Add the new import statements under the ``useAcceptTransferOffer`` import statem
       TextField,
       Typography,
     } from '@mui/material';
-    ...
+
+.. code-block:: typescript
+   :linenos:
+   :lineno-start: 28
+
     import useRejectWithReason from '../hooks/mutations/useRejectWithReason';
-    ...
+
+.. code-block:: typescript
+   :linenos:
+   :lineno-start: 33
+   
     import useRejectedTransferOffers from '../hooks/queries/useRejectedTransferOffers';
 
 **Implement the rejectWithReason hook as a constant and create a rejection handler**
@@ -481,7 +489,7 @@ Refactor the existing ``TransferOffers`` component as a functional component to 
 
 .. code-block:: typescript
    :linenos:
-   :lineno-start: 1
+   :lineno-start: 377
 
     const TransferOffers: React.FC = () => {
       const party = usePrimaryParty();
@@ -506,7 +514,7 @@ The new line, ``const [activeOffers, setActiveOffers]``, calls ``useState`` to m
 
 .. code-block:: typescript
    :linenos:
-   :lineno-start: 1
+   :lineno-start: 382
 
     useEffect(() => {
       if (offers.data) {
@@ -521,7 +529,7 @@ The new line, ``const [activeOffers, setActiveOffers]``, calls ``useState`` to m
 
 .. code-block:: typescript
    :linenos:
-   :lineno-start: 1
+   :lineno-start: 388
 
     const handleRejectedOffer = useCallback((rejectedOfferId: ContractId<TransferOffer>) => {
       console.log('Handling rejected offer:', rejectedOfferId);
@@ -541,7 +549,7 @@ Follow the rejected offer handler callback with a function to render a list of t
 
 .. code-block:: typescript
    :linenos:
-   :lineno-start: 1
+   :lineno-start: 397
 
     const renderOfferList = () => {
       if (offers.isLoading) return <Loading />;
