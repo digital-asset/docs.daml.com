@@ -1704,17 +1704,18 @@ recommend the following practices:
 Separate Interfaces/Exceptions from Templates
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Interface and exception definitions are not upgradable. As such, if you attempt to redefine an
-interface or exception in version 2 of a package, even if it is unchanged, the
-package does not type check. Removing the interface from the second
-package also causes issues, especially if the interface has choices.
-Instead, move these definitions out into a separate package
-from the start, such that subsequent versions of your package with
-templates all depend on the same version of the package with
-interfaces/exceptions. The SCU type checker warns about this, but
-you should see this warning as an error - it is very strongly
-recommended that you do not compile interfaces and templates for
-upgrades.
+Interface and exception definitions are not upgradable. As such, if you attempt
+to redefine an interface or exception in version 2 of a package, even if it is
+unchanged, the package will not type check. Removing an interface from the
+version 2 package will also causes issues, especially if the interface has
+choices.
+
+Instead, move interface and exception definitions out into a separate package
+from the start, such that subsequent versions of your package with templates all
+depend on the same version of the package with interfaces/exceptions. The SCU
+type checker warns about this, but you should see this warning as an error - it
+is very strongly recommended that you do not compile interfaces or exceptions in
+a package alongside templates.
 
 Remove Retroactive Instances
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
