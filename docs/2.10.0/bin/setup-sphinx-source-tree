@@ -25,6 +25,9 @@ fi
   ./build.sh
   cp -r . $SPHINX_DIR/theme
 )
+# hack
+cp -f $DIR/../docs/app-dev/grpc/proto-docs.rst $SPHINX_DIR/source/app-dev/grpc
+
 tar xf $DOWNLOAD_DIR/canton-doc-sources-$CANTON_RELEASE_TAG.tar.gz -C $SPHINX_DIR/source/canton ./includes # only extract the includes folder
 tar xf $DOWNLOAD_DIR/daml-finance-doc-sources-$DAML_FINANCE_RELEASE_TAG.tar.gz -C $SPHINX_DIR/source/daml-finance
 tar xf $DOWNLOAD_DIR/canton-drivers-$CANTON_DRIVERS_RELEASE_TAG.tar.gz -C $SPHINX_DIR/source/canton-drivers --wildcards 'examples/*'
