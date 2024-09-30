@@ -3524,6 +3524,99 @@ A value of 0 means that the server enforces no page size limit.
 
 ----
 
+.. _com/daml/ledger/api/v1/testing/time_service.proto:
+
+``com/daml/ledger/api/v1/testing/time_service.proto``
+
+.. _com.daml.ledger.api.v1.testing.TimeService:
+
+--------------------------------------------------------------------------------------------
+TimeService
+--------------------------------------------------------------------------------------------
+
+Service, |version com.daml.ledger.api.v1.testing|: Optional service, exposed for testing static time scenarios.
+
+.. _com.daml.ledger.api.v1.testing.TimeService.GetTime:
+
+GetTime
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.testing|: Returns a stream of time updates.
+Always returns at least one response, where the first one is the current time.
+Subsequent responses are emitted whenever the ledger server's time is updated.
+
+* Request: :ref:`GetTimeRequest <com.daml.ledger.api.v1.testing.GetTimeRequest>`
+* Response: :ref:`GetTimeResponse <com.daml.ledger.api.v1.testing.GetTimeResponse>`
+
+.. _com.daml.ledger.api.v1.testing.TimeService.SetTime:
+
+SetTime
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.testing|: Allows clients to change the ledger's clock in an atomic get-and-set operation.
+
+* Request: :ref:`SetTimeRequest <com.daml.ledger.api.v1.testing.SetTimeRequest>`
+* Response:  `.google.protobuf.Empty <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#empty>`__
+
+.. _com.daml.ledger.api.v1.testing.GetTimeRequest:
+
+GetTimeRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.testing|: 
+
+.. _com.daml.ledger.api.v1.testing.GetTimeRequest.ledger_id:
+
+``ledger_id`` : :ref:`string <string>`
+
+Must correspond to the ledger ID reported by the Ledger Identification Service.
+Must be a valid LedgerString (as describe in ``value.proto``).
+Optional 
+
+.. _com.daml.ledger.api.v1.testing.GetTimeResponse:
+
+GetTimeResponse
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.testing|: 
+
+.. _com.daml.ledger.api.v1.testing.GetTimeResponse.current_time:
+
+``current_time`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
+
+The current time according to the ledger server. 
+
+.. _com.daml.ledger.api.v1.testing.SetTimeRequest:
+
+SetTimeRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.testing|: 
+
+.. _com.daml.ledger.api.v1.testing.SetTimeRequest.ledger_id:
+
+``ledger_id`` : :ref:`string <string>`
+
+Must correspond to the ledger ID reported by the Ledger Identification Service.
+Must be a valid LedgerString (as describe in ``value.proto``).
+Optional 
+
+.. _com.daml.ledger.api.v1.testing.SetTimeRequest.current_time:
+
+``current_time`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
+
+MUST precisely match the current time as it's known to the ledger server. 
+
+.. _com.daml.ledger.api.v1.testing.SetTimeRequest.new_time:
+
+``new_time`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
+
+The time the client wants to set on the ledger.
+MUST be a point int time after ``current_time``. 
+
+
+----
+
 .. _com/daml/ledger/api/v1/admin/command_inspection_service.proto:
 
 ``com/daml/ledger/api/v1/admin/command_inspection_service.proto``
@@ -8140,7 +8233,7 @@ Scalar Value Types
 
 
 .. |version com.daml.ledger.api.v1| replace:: v1
+.. |version com.daml.ledger.api.v1.testing| replace:: v1/testing
 .. |version com.daml.ledger.api.v1.admin| replace:: v1/admin
 .. |version com.daml.ledger.api.v2| replace:: v2
 .. |version com.daml.ledger.api.v2.admin| replace:: v2/admin
-
