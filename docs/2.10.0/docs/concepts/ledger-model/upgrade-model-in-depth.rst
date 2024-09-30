@@ -1300,7 +1300,7 @@ the type constructor application ``C Int`` on the left.
 Interface and Exception Definitions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Both interface definitions and exception definitions cannot be upgraded. We
+Neither interface definitions nor exception definitions can be upgraded. We
 strongly discourage uploading a package that defines interfaces or exceptions
 alongside templates, as these templates cannot benefit from smart contract
 upgrade in the future. Instead, we recommend declaring interfaces and exceptions

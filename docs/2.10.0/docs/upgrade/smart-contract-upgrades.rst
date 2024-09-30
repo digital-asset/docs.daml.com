@@ -1706,8 +1706,8 @@ Separate Interfaces/Exceptions from Templates
 
 Interface and exception definitions are not upgradable. As such, if you attempt
 to redefine an interface or exception in version 2 of a package, even if it is
-unchanged, the package will not type check. Removing an interface from the
-version 2 package will also causes issues, especially if the interface has
+unchanged, the package does not type check. Removing an interface from the
+version 2 package also causes issues, especially if the interface has
 choices.
 
 Instead, move interface and exception definitions out into a separate package
