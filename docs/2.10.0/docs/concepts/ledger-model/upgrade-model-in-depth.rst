@@ -1297,14 +1297,14 @@ the type constructor application ``C Int`` on the left.
             data Demo = Demo with
               field1 : C T
 
-Interface Definitions
-~~~~~~~~~~~~~~~~~~~~~
+Interface and Exception Definitions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Interface definitions cannot be upgraded. We strongly discourage
-uploading a package that contains both interface and template
-definitions, as these templates cannot benefit from smart contract upgrade
-in the future. Instead, we recommend declaring interfaces in a
-package of their own that defines no template.
+Neither interface definitions nor exception definitions can be upgraded. We
+strongly discourage uploading a package that defines interfaces or exceptions
+alongside templates, as these templates cannot benefit from smart contract
+upgrade in the future. Instead, we recommend declaring interfaces and exceptions
+in a package of their own that defines no template.
 
 Interface Instances
 ~~~~~~~~~~~~~~~~~~~
