@@ -89,1861 +89,6 @@ Must be a valid LedgerString (as described in ``value.proto``).
 
 ----
 
-``com/daml/ledger/api/v1/admin/command_inspection_service.proto``
-
-.. _com.daml.ledger.api.v1.admin.CommandInspectionService:
-
---------------------------------------------------------------------------------------------
-CommandInspectionService
---------------------------------------------------------------------------------------------
-
-Service, |version com.daml.ledger.api.v1.admin|: Status: experimental interface, will change before it is deemed production
-ready
-
-The inspection service provides methods for the ledger administrator
-to look under the hood of a running system.
-In V2 Ledger API this service is not available.
-
-.. _com.daml.ledger.api.v1.admin.CommandInspectionService.GetCommandStatus:
-
-GetCommandStatus
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.admin|: Inquire about the status of a command.
-This service is used for debugging only. The command status is only tracked in memory and is not persisted.
-The service can be used to understand the failure status and the structure of a command.
-Requires admin privileges
-The service is alpha without backward compatibility guarantees.
-
-* Request: :ref:`GetCommandStatusRequest <com.daml.ledger.api.v1.admin.GetCommandStatusRequest>`
-* Response: :ref:`GetCommandStatusResponse <com.daml.ledger.api.v1.admin.GetCommandStatusResponse>`
-
-.. _com.daml.ledger.api.v1.admin.GetCommandStatusRequest:
-
-GetCommandStatusRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``command_id_prefix`` : :ref:`string <string>`
-
-optional filter by command id 
-
-``state`` : :ref:`CommandState <com.daml.ledger.api.v1.admin.CommandState>`
-
-optional filter by state 
-
-``limit`` : :ref:`uint32 <uint32>`
-
-optional limit of returned statuses, defaults to 100 
-
-.. _com.daml.ledger.api.v1.admin.GetCommandStatusResponse:
-
-GetCommandStatusResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``command_status`` : :ref:`CommandStatus <com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus>` (repeated)
-
- 
-
-.. _com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus:
-
-GetCommandStatusResponse.CommandStatus
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``started`` : :ref:`Timestamp <google.protobuf.Timestamp>`
-
- 
-
-``completed`` : :ref:`Timestamp <google.protobuf.Timestamp>`
-
- 
-
-``completion`` : :ref:`Completion <com.daml.ledger.api.v1.Completion>`
-
- 
-
-``state`` : :ref:`CommandState <com.daml.ledger.api.v1.admin.CommandState>`
-
- 
-
-``commands`` : :ref:`Command <com.daml.ledger.api.v1.Command>` (repeated)
-
- 
-
-``request_statistics`` : :ref:`RequestStatistics <com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.RequestStatistics>`
-
- 
-
-``updates`` : :ref:`CommandUpdates <com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.CommandUpdates>`
-
- 
-
-.. _com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.CommandUpdates:
-
-GetCommandStatusResponse.CommandStatus.CommandUpdates
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``created`` : :ref:`Contract <com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.CommandUpdates.Contract>` (repeated)
-
- 
-
-``archived`` : :ref:`Contract <com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.CommandUpdates.Contract>` (repeated)
-
- 
-
-``exercised`` : :ref:`uint32 <uint32>`
-
- 
-
-``fetched`` : :ref:`uint32 <uint32>`
-
- 
-
-``looked_up_by_key`` : :ref:`uint32 <uint32>`
-
- 
-
-.. _com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.CommandUpdates.Contract:
-
-GetCommandStatusResponse.CommandStatus.CommandUpdates.Contract
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``template_id`` : :ref:`Identifier <com.daml.ledger.api.v1.Identifier>`
-
- 
-
-``contract_id`` : :ref:`string <string>`
-
- 
-
-``contract_key`` : :ref:`Value <com.daml.ledger.api.v1.Value>`
-
- 
-
-.. _com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.RequestStatistics:
-
-GetCommandStatusResponse.CommandStatus.RequestStatistics
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``envelopes`` : :ref:`uint32 <uint32>`
-
- 
-
-``request_size`` : :ref:`uint32 <uint32>`
-
- 
-
-``recipients`` : :ref:`uint32 <uint32>`
-
- 
-
-
-
-
-.. _com.daml.ledger.api.v1.admin.CommandState:
-
-CommandState
-============================================================================================
-
-Enum, |version com.daml.ledger.api.v1.admin|: 
-
-
-
-.. list-table::
-   :header-rows: 0
-   :width: 100%
-
-   * - .. _com.daml.ledger.api.v1.admin.CommandState.STATE_UNSPECIFIED:
-
-       STATE_UNSPECIFIED
-     - 0
-     - This value acts as wildcard in the queries
-
-   * - .. _com.daml.ledger.api.v1.admin.CommandState.STATE_PENDING:
-
-       STATE_PENDING
-     - 1
-     - 
-
-   * - .. _com.daml.ledger.api.v1.admin.CommandState.STATE_SUCCEEDED:
-
-       STATE_SUCCEEDED
-     - 2
-     - 
-
-   * - .. _com.daml.ledger.api.v1.admin.CommandState.STATE_FAILED:
-
-       STATE_FAILED
-     - 3
-     - 
-
-   
-
-----
-
-``com/daml/ledger/api/v1/admin/config_management_service.proto``
-
-.. _com.daml.ledger.api.v1.admin.ConfigManagementService:
-
---------------------------------------------------------------------------------------------
-ConfigManagementService
---------------------------------------------------------------------------------------------
-
-Service, |version com.daml.ledger.api.v1.admin|: Status: experimental interface, will change before it is deemed production
-ready
-
-The ledger configuration management service provides methods for the ledger administrator
-to change the current ledger configuration. The services provides methods to modify
-different aspects of the configuration.
-In V2 Ledger API this service is not available anymore.
-
-.. _com.daml.ledger.api.v1.admin.ConfigManagementService.GetTimeModel:
-
-GetTimeModel
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.admin|: Return the currently active time model and the current configuration generation.
-
-* Request: :ref:`GetTimeModelRequest <com.daml.ledger.api.v1.admin.GetTimeModelRequest>`
-* Response: :ref:`GetTimeModelResponse <com.daml.ledger.api.v1.admin.GetTimeModelResponse>`
-
-.. _com.daml.ledger.api.v1.admin.ConfigManagementService.SetTimeModel:
-
-SetTimeModel
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.admin|: Set the ledger time model.
-
-* Request: :ref:`SetTimeModelRequest <com.daml.ledger.api.v1.admin.SetTimeModelRequest>`
-* Response: :ref:`SetTimeModelResponse <com.daml.ledger.api.v1.admin.SetTimeModelResponse>`
-
-.. _com.daml.ledger.api.v1.admin.GetTimeModelRequest:
-
-GetTimeModelRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-Message has no fields.
-
-.. _com.daml.ledger.api.v1.admin.GetTimeModelResponse:
-
-GetTimeModelResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``configuration_generation`` : :ref:`int64 <int64>`
-
-The current configuration generation. The generation is a monotonically increasing
-integer that is incremented on each change. Used when setting the time model. 
-
-``time_model`` : :ref:`TimeModel <com.daml.ledger.api.v1.admin.TimeModel>`
-
-The current ledger time model. 
-
-.. _com.daml.ledger.api.v1.admin.SetTimeModelRequest:
-
-SetTimeModelRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``submission_id`` : :ref:`string <string>`
-
-Submission identifier used for tracking the request and to reject
-duplicate submissions.
-Required. 
-
-``maximum_record_time`` : :ref:`Timestamp <google.protobuf.Timestamp>`
-
-Deadline for the configuration change after which the change is rejected. 
-
-``configuration_generation`` : :ref:`int64 <int64>`
-
-The current configuration generation which we're submitting the change against.
-This is used to perform a compare-and-swap of the configuration to
-safeguard against concurrent modifications.
-Required. 
-
-``new_time_model`` : :ref:`TimeModel <com.daml.ledger.api.v1.admin.TimeModel>`
-
-The new time model that replaces the current one.
-Required. 
-
-.. _com.daml.ledger.api.v1.admin.SetTimeModelResponse:
-
-SetTimeModelResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``configuration_generation`` : :ref:`int64 <int64>`
-
-The configuration generation of the committed time model. 
-
-.. _com.daml.ledger.api.v1.admin.TimeModel:
-
-TimeModel
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``avg_transaction_latency`` : :ref:`Duration <google.protobuf.Duration>`
-
-The expected average latency of a transaction, i.e., the average time
-from submitting the transaction to a [[WriteService]] and the transaction
-being assigned a record time.
-Required. 
-
-``min_skew`` : :ref:`Duration <google.protobuf.Duration>`
-
-The minimimum skew between ledger time and record time: lt_TX >= rt_TX - minSkew
-Required. 
-
-``max_skew`` : :ref:`Duration <google.protobuf.Duration>`
-
-The maximum skew between ledger time and record time: lt_TX <= rt_TX + maxSkew
-Required. 
-
-
-----
-
-``com/daml/ledger/api/v1/admin/identity_provider_config_service.proto``
-
-.. _com.daml.ledger.api.v1.admin.IdentityProviderConfigService:
-
---------------------------------------------------------------------------------------------
-IdentityProviderConfigService
---------------------------------------------------------------------------------------------
-
-Service, |version com.daml.ledger.api.v1.admin|: Identity Provider Config Service makes it possible for participant node administrators
-to setup and manage additional identity providers at runtime.
-
-This allows using access tokens from identity providers unknown at deployment time. When an identity
-provider is configured, independent IDP administrators can manage their own set of parties and users.
-Such parties and users have a matching `identity_provider_id` defined and are inaccessible to
-administrators from other identity providers. A user will only be authenticated if the corresponding JWT
-token is issued by the appropriate identity provider.
-Users and parties without `identity_provider_id` defined are assumed to be using the default identity provider,
-which is configured statically at the participant node's deployment time.
-
-The Ledger API uses the "iss" claim of a JWT token to match the token to a specific IDP. If there is no match,
-the default IDP is assumed.
-
-The fields of request messages (and sub-messages) are marked either as ``Optional`` or ``Required``:
-(1) ``Optional`` denoting the client may leave the field unset when sending a request.
-(2) ``Required`` denoting the client must set the field to a non-default value when sending a request.
-
-An identity provider config resource is described by the ``IdentityProviderConfig`` message,
-An identity provider config resource, once it has been created, can be modified.
-In order to update the properties represented by the ``IdentityProviderConfig`` message use the ``UpdateIdentityProviderConfig`` RPC.
-The only fields that can be modified are those marked as ``Modifiable``.
-
-.. _com.daml.ledger.api.v1.admin.IdentityProviderConfigService.CreateIdentityProviderConfig:
-
-CreateIdentityProviderConfig
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.admin|: Create a new identity provider configuration.
-The request will fail if the maximum allowed number of separate configurations is reached.
-
-* Request: :ref:`CreateIdentityProviderConfigRequest <com.daml.ledger.api.v1.admin.CreateIdentityProviderConfigRequest>`
-* Response: :ref:`CreateIdentityProviderConfigResponse <com.daml.ledger.api.v1.admin.CreateIdentityProviderConfigResponse>`
-
-.. _com.daml.ledger.api.v1.admin.IdentityProviderConfigService.GetIdentityProviderConfig:
-
-GetIdentityProviderConfig
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.admin|: Get the identity provider configuration data by id.
-
-* Request: :ref:`GetIdentityProviderConfigRequest <com.daml.ledger.api.v1.admin.GetIdentityProviderConfigRequest>`
-* Response: :ref:`GetIdentityProviderConfigResponse <com.daml.ledger.api.v1.admin.GetIdentityProviderConfigResponse>`
-
-.. _com.daml.ledger.api.v1.admin.IdentityProviderConfigService.UpdateIdentityProviderConfig:
-
-UpdateIdentityProviderConfig
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.admin|: Update selected modifiable attribute of an identity provider config resource described
-by the ``IdentityProviderConfig`` message.
-
-* Request: :ref:`UpdateIdentityProviderConfigRequest <com.daml.ledger.api.v1.admin.UpdateIdentityProviderConfigRequest>`
-* Response: :ref:`UpdateIdentityProviderConfigResponse <com.daml.ledger.api.v1.admin.UpdateIdentityProviderConfigResponse>`
-
-.. _com.daml.ledger.api.v1.admin.IdentityProviderConfigService.ListIdentityProviderConfigs:
-
-ListIdentityProviderConfigs
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.admin|: List all existing identity provider configurations.
-
-* Request: :ref:`ListIdentityProviderConfigsRequest <com.daml.ledger.api.v1.admin.ListIdentityProviderConfigsRequest>`
-* Response: :ref:`ListIdentityProviderConfigsResponse <com.daml.ledger.api.v1.admin.ListIdentityProviderConfigsResponse>`
-
-.. _com.daml.ledger.api.v1.admin.IdentityProviderConfigService.DeleteIdentityProviderConfig:
-
-DeleteIdentityProviderConfig
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.admin|: Delete an existing identity provider configuration.
-
-* Request: :ref:`DeleteIdentityProviderConfigRequest <com.daml.ledger.api.v1.admin.DeleteIdentityProviderConfigRequest>`
-* Response: :ref:`DeleteIdentityProviderConfigResponse <com.daml.ledger.api.v1.admin.DeleteIdentityProviderConfigResponse>`
-
-.. _com.daml.ledger.api.v1.admin.CreateIdentityProviderConfigRequest:
-
-CreateIdentityProviderConfigRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``identity_provider_config`` : :ref:`IdentityProviderConfig <com.daml.ledger.api.v1.admin.IdentityProviderConfig>`
-
-Required 
-
-.. _com.daml.ledger.api.v1.admin.CreateIdentityProviderConfigResponse:
-
-CreateIdentityProviderConfigResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``identity_provider_config`` : :ref:`IdentityProviderConfig <com.daml.ledger.api.v1.admin.IdentityProviderConfig>`
-
- 
-
-.. _com.daml.ledger.api.v1.admin.DeleteIdentityProviderConfigRequest:
-
-DeleteIdentityProviderConfigRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``identity_provider_id`` : :ref:`string <string>`
-
-The identity provider config to delete.
-Required 
-
-.. _com.daml.ledger.api.v1.admin.DeleteIdentityProviderConfigResponse:
-
-DeleteIdentityProviderConfigResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: Does not (yet) contain any data.
-
-Message has no fields.
-
-.. _com.daml.ledger.api.v1.admin.GetIdentityProviderConfigRequest:
-
-GetIdentityProviderConfigRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``identity_provider_id`` : :ref:`string <string>`
-
-Required 
-
-.. _com.daml.ledger.api.v1.admin.GetIdentityProviderConfigResponse:
-
-GetIdentityProviderConfigResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``identity_provider_config`` : :ref:`IdentityProviderConfig <com.daml.ledger.api.v1.admin.IdentityProviderConfig>`
-
- 
-
-.. _com.daml.ledger.api.v1.admin.IdentityProviderConfig:
-
-IdentityProviderConfig
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``identity_provider_id`` : :ref:`string <string>`
-
-The identity provider identifier
-Must be a valid LedgerString (as describe in ``value.proto``).
-Required 
-
-``is_deactivated`` : :ref:`bool <bool>`
-
-When set, the callers using JWT tokens issued by this identity provider are denied all access
-to the Ledger API.
-Optional,
-Modifiable 
-
-``issuer`` : :ref:`string <string>`
-
-Specifies the issuer of the JWT token.
-The issuer value is a case sensitive URL using the https scheme that contains scheme, host,
-and optionally, port number and path components and no query or fragment components.
-Required
-Modifiable 
-
-``jwks_url`` : :ref:`string <string>`
-
-The JWKS (JSON Web Key Set) URL.
-The Ledger API uses JWKs (JSON Web Keys) from the provided URL to verify that the JWT has been
-signed with the loaded JWK. Only RS256 (RSA Signature with SHA-256) signing algorithm is supported.
-Required
-Modifiable 
-
-``audience`` : :ref:`string <string>`
-
-Specifies the audience of the JWT token.
-When set, the callers using JWT tokens issued by this identity provider are allowed to get an access
-only if the "aud" claim includes the string specified here
-Optional,
-Modifiable 
-
-.. _com.daml.ledger.api.v1.admin.ListIdentityProviderConfigsRequest:
-
-ListIdentityProviderConfigsRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: Pagination is not required as the resulting data set is small enough to be returned in a single call
-
-Message has no fields.
-
-.. _com.daml.ledger.api.v1.admin.ListIdentityProviderConfigsResponse:
-
-ListIdentityProviderConfigsResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``identity_provider_configs`` : :ref:`IdentityProviderConfig <com.daml.ledger.api.v1.admin.IdentityProviderConfig>` (repeated)
-
- 
-
-.. _com.daml.ledger.api.v1.admin.UpdateIdentityProviderConfigRequest:
-
-UpdateIdentityProviderConfigRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``identity_provider_config`` : :ref:`IdentityProviderConfig <com.daml.ledger.api.v1.admin.IdentityProviderConfig>`
-
-The identity provider config to update.
-Required,
-Modifiable 
-
-``update_mask`` : :ref:`FieldMask <google.protobuf.FieldMask>`
-
-An update mask specifies how and which properties of the ``IdentityProviderConfig`` message are to be updated.
-An update mask consists of a set of update paths.
-A valid update path points to a field or a subfield relative to the ``IdentityProviderConfig`` message.
-A valid update mask must:
-(1) contain at least one update path,
-(2) contain only valid update paths.
-Fields that can be updated are marked as ``Modifiable``.
-For additional information see the documentation for standard protobuf3's ``google.protobuf.FieldMask``.
-Required 
-
-.. _com.daml.ledger.api.v1.admin.UpdateIdentityProviderConfigResponse:
-
-UpdateIdentityProviderConfigResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``identity_provider_config`` : :ref:`IdentityProviderConfig <com.daml.ledger.api.v1.admin.IdentityProviderConfig>`
-
-Updated identity provider config 
-
-
-----
-
-``com/daml/ledger/api/v1/admin/metering_report_service.proto``
-
-.. _com.daml.ledger.api.v1.admin.MeteringReportService:
-
---------------------------------------------------------------------------------------------
-MeteringReportService
---------------------------------------------------------------------------------------------
-
-Service, |version com.daml.ledger.api.v1.admin|: Experimental API to retrieve metering reports.
-
-Metering reports aim to provide the information necessary for billing participant
-and application operators.
-
-.. _com.daml.ledger.api.v1.admin.MeteringReportService.GetMeteringReport:
-
-GetMeteringReport
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.admin|: Retrieve a metering report.
-
-* Request: :ref:`GetMeteringReportRequest <com.daml.ledger.api.v1.admin.GetMeteringReportRequest>`
-* Response: :ref:`GetMeteringReportResponse <com.daml.ledger.api.v1.admin.GetMeteringReportResponse>`
-
-.. _com.daml.ledger.api.v1.admin.GetMeteringReportRequest:
-
-GetMeteringReportRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: Authorized if and only if the authenticated user is a participant admin.
-
-``from`` : :ref:`Timestamp <google.protobuf.Timestamp>`
-
-The from timestamp (inclusive).
-Required. 
-
-``to`` : :ref:`Timestamp <google.protobuf.Timestamp>`
-
-The to timestamp (exclusive).
-If not provided, the server will default to its current time. 
-
-``application_id`` : :ref:`string <string>`
-
-If set to a non-empty value, then the report will only be generated for that application.
-Optional. 
-
-.. _com.daml.ledger.api.v1.admin.GetMeteringReportResponse:
-
-GetMeteringReportResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``request`` : :ref:`GetMeteringReportRequest <com.daml.ledger.api.v1.admin.GetMeteringReportRequest>`
-
-The actual request that was executed. 
-
-``report_generation_time`` : :ref:`Timestamp <google.protobuf.Timestamp>`
-
-The time at which the report was computed. 
-
-``metering_report_json`` : :ref:`Struct <google.protobuf.Struct>`
-
-The metering report json.  For a JSON Schema definition of the JSon see:
-https://github.com/digital-asset/daml/blob/main/ledger-api/grpc-definitions/metering-report-schema.json 
-
-
-----
-
-``com/daml/ledger/api/v1/admin/object_meta.proto``
-
-.. _com.daml.ledger.api.v1.admin.ObjectMeta:
-
-ObjectMeta
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: Represents metadata corresponding to a participant resource (e.g. a participant user or participant local information about a party).
-
-Based on ``ObjectMeta`` meta used in Kubernetes API.
-See https://github.com/kubernetes/apimachinery/blob/master/pkg/apis/meta/v1/generated.proto#L640
-
-``resource_version`` : :ref:`string <string>`
-
-An opaque, non-empty value, populated by a participant server which represents the internal version of the resource
-this ``ObjectMeta`` message is attached to. The participant server will change it to a unique value each time the corresponding resource is updated.
-You must not rely on the format of resource version. The participant server might change it without notice.
-You can obtain the newest resource version value by issuing a read request.
-You may use it for concurrent change detection by passing it back unmodified in an update request.
-The participant server will then compare the passed value with the value maintained by the system to determine
-if any other updates took place since you had read the resource version.
-Upon a successful update you are guaranteed that no other update took place during your read-modify-write sequence.
-However, if another update took place during your read-modify-write sequence then your update will fail with an appropriate error.
-Concurrent change control is optional. It will be applied only if you include a resource version in an update request.
-When creating a new instance of a resource you must leave the resource version empty.
-Its value will be populated by the participant server upon successful resource creation.
-Optional 
-
-``annotations`` : :ref:`AnnotationsEntry <com.daml.ledger.api.v1.admin.ObjectMeta.AnnotationsEntry>` (repeated)
-
-A set of modifiable key-value pairs that can be used to represent arbitrary, client-specific metadata.
-Constraints:
-1. The total size over all keys and values cannot exceed 256kb in UTF-8 encoding.
-2. Keys are composed of an optional prefix segment and a required name segment such that:
-
-   - key prefix, when present, must be a valid DNS subdomain with at most 253 characters, followed by a '/' (forward slash) character,
-   - name segment must have at most 63 characters that are either alphanumeric ([a-z0-9A-Z]), or a '.' (dot), '-' (dash) or '_' (underscore);
-     and it must start and end with an alphanumeric character.
-
-2. Values can be any non-empty strings.
-Keys with empty prefix are reserved for end-users.
-Properties set by external tools or internally by the participant server must use non-empty key prefixes.
-Duplicate keys are disallowed by the semantics of the protobuf3 maps.
-See: https://developers.google.com/protocol-buffers/docs/proto3#maps
-Annotations may be a part of a modifiable resource.
-Use the resource's update RPC to update its annotations.
-In order to add a new annotation or update an existing one using an update RPC, provide the desired annotation in the update request.
-In order to remove an annotation using an update RPC, provide the target annotation's key but set its value to the empty string in the update request.
-Optional
-Modifiable 
-
-.. _com.daml.ledger.api.v1.admin.ObjectMeta.AnnotationsEntry:
-
-ObjectMeta.AnnotationsEntry
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``key`` : :ref:`string <string>`
-
- 
-
-``value`` : :ref:`string <string>`
-
- 
-
-
-----
-
-``com/daml/ledger/api/v1/admin/package_management_service.proto``
-
-.. _com.daml.ledger.api.v1.admin.PackageManagementService:
-
---------------------------------------------------------------------------------------------
-PackageManagementService
---------------------------------------------------------------------------------------------
-
-Service, |version com.daml.ledger.api.v1.admin|: Status: experimental interface, will change before it is deemed production
-ready
-
-Query the Daml-LF packages supported by the ledger participant and upload
-DAR files. We use 'backing participant' to refer to this specific participant
-in the methods of this API.
-
-.. _com.daml.ledger.api.v1.admin.PackageManagementService.ListKnownPackages:
-
-ListKnownPackages
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.admin|: Returns the details of all Daml-LF packages known to the backing participant.
-
-* Request: :ref:`ListKnownPackagesRequest <com.daml.ledger.api.v1.admin.ListKnownPackagesRequest>`
-* Response: :ref:`ListKnownPackagesResponse <com.daml.ledger.api.v1.admin.ListKnownPackagesResponse>`
-
-.. _com.daml.ledger.api.v1.admin.PackageManagementService.UploadDarFile:
-
-UploadDarFile
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.admin|: Upload a DAR file to the backing participant.
-Depending on the ledger implementation this might also make the package
-available on the whole ledger. This call might not be supported by some
-ledger implementations. Canton could be an example, where uploading a DAR
-is not sufficient to render it usable, it must be activated first.
-This call may:
-- Succeed, if the package was successfully uploaded, or if the same package
-  was already uploaded before.
-- Respond with a gRPC error
-
-* Request: :ref:`UploadDarFileRequest <com.daml.ledger.api.v1.admin.UploadDarFileRequest>`
-* Response: :ref:`UploadDarFileResponse <com.daml.ledger.api.v1.admin.UploadDarFileResponse>`
-
-.. _com.daml.ledger.api.v1.admin.PackageManagementService.ValidateDarFile:
-
-ValidateDarFile
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.admin|: Performs the same checks that UploadDarFile call performs, but doesn't
-persist the DAR and does not make it available for command execution.
-This call:
-- Succeeds if the packages contained in the DAR are valid
-- Respond with a gRPC error if the provided packages are not valid
-
-* Request: :ref:`ValidateDarFileRequest <com.daml.ledger.api.v1.admin.ValidateDarFileRequest>`
-* Response: :ref:`ValidateDarFileResponse <com.daml.ledger.api.v1.admin.ValidateDarFileResponse>`
-
-.. _com.daml.ledger.api.v1.admin.ListKnownPackagesRequest:
-
-ListKnownPackagesRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-Message has no fields.
-
-.. _com.daml.ledger.api.v1.admin.ListKnownPackagesResponse:
-
-ListKnownPackagesResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``package_details`` : :ref:`PackageDetails <com.daml.ledger.api.v1.admin.PackageDetails>` (repeated)
-
-The details of all Daml-LF packages known to backing participant.
-Required 
-
-.. _com.daml.ledger.api.v1.admin.PackageDetails:
-
-PackageDetails
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``package_id`` : :ref:`string <string>`
-
-The identity of the Daml-LF package.
-Must be a valid PackageIdString (as describe in ``value.proto``).
-Required 
-
-``package_size`` : :ref:`uint64 <uint64>`
-
-Size of the package in bytes.
-The size of the package is given by the size of the ``daml_lf``
-ArchivePayload. See further details in ``daml_lf.proto``.
-Required 
-
-``known_since`` : :ref:`Timestamp <google.protobuf.Timestamp>`
-
-Indicates since when the package is known to the backing participant.
-Required 
-
-``source_description`` : :ref:`string <string>`
-
-Description provided by the backing participant describing where
-it got the package from.
-Optional 
-
-.. _com.daml.ledger.api.v1.admin.UploadDarFileRequest:
-
-UploadDarFileRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``dar_file`` : :ref:`bytes <bytes>`
-
-Contains a Daml archive DAR file, which in turn is a jar like zipped
-container for ``daml_lf`` archives. See further details in
-``daml_lf.proto``.
-Required 
-
-``submission_id`` : :ref:`string <string>`
-
-Unique submission identifier.
-Optional, defaults to a random identifier. 
-
-.. _com.daml.ledger.api.v1.admin.UploadDarFileResponse:
-
-UploadDarFileResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: An empty message that is received when the upload operation succeeded.
-
-Message has no fields.
-
-.. _com.daml.ledger.api.v1.admin.ValidateDarFileRequest:
-
-ValidateDarFileRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``dar_file`` : :ref:`bytes <bytes>`
-
-Contains a Daml archive DAR file, which in turn is a jar like zipped
-container for ``daml_lf`` archives. See further details in
-``daml_lf.proto``.
-Required 
-
-``submission_id`` : :ref:`string <string>`
-
-Unique submission identifier.
-Optional, defaults to a random identifier. 
-
-.. _com.daml.ledger.api.v1.admin.ValidateDarFileResponse:
-
-ValidateDarFileResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-Message has no fields.
-
-
-----
-
-``com/daml/ledger/api/v1/admin/participant_pruning_service.proto``
-
-.. _com.daml.ledger.api.v1.admin.ParticipantPruningService:
-
---------------------------------------------------------------------------------------------
-ParticipantPruningService
---------------------------------------------------------------------------------------------
-
-Service, |version com.daml.ledger.api.v1.admin|: Prunes/truncates the "oldest" transactions from the participant (the participant Ledger Api Server plus any other
-participant-local state) by removing a portion of the ledger in such a way that the set of future, allowed
-commands are not affected.
-
-This enables:
-1. keeping the "inactive" portion of the ledger to a manageable size and
-2. removing inactive state to honor the right to be forgotten.
-
-.. _com.daml.ledger.api.v1.admin.ParticipantPruningService.Prune:
-
-Prune
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.admin|: Prune the ledger specifying the offset before and at which ledger transactions should be removed. Only returns when
-the potentially long-running prune request ends successfully or with an error.
-
-* Request: :ref:`PruneRequest <com.daml.ledger.api.v1.admin.PruneRequest>`
-* Response: :ref:`PruneResponse <com.daml.ledger.api.v1.admin.PruneResponse>`
-
-.. _com.daml.ledger.api.v1.admin.PruneRequest:
-
-PruneRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``prune_up_to`` : :ref:`string <string>`
-
-Inclusive offset up to which the ledger is to be pruned.
-By default the following data is pruned:
-  1. All normal and divulged contracts that have been archived before
-  `prune_up_to`.
-  2. All transaction events and completions before `prune_up_to` 
-
-``submission_id`` : :ref:`string <string>`
-
-Unique submission identifier.
-Optional, defaults to a random identifier, used for logging. 
-
-``prune_all_divulged_contracts`` : :ref:`bool <bool>`
-
-Prune all immediately and retroactively divulged contracts created before `prune_up_to`
-independent of whether they were archived before `prune_up_to`. Useful to avoid leaking
-storage on participant nodes that can see a divulged contract but not its archival.
-
-Application developers SHOULD write their Daml applications
-such that they do not rely on divulged contracts; i.e., no warnings from
-using divulged contracts as inputs to transactions are emitted.
-
-Participant node operators SHOULD set the `prune_all_divulged_contracts` flag to avoid leaking
-storage due to accumulating unarchived divulged contracts PROVIDED that:
-  1. no application using this participant node relies on divulgence OR
-  2. divulged contracts on which applications rely have been re-divulged after the `prune_up_to` offset. 
-
-.. _com.daml.ledger.api.v1.admin.PruneResponse:
-
-PruneResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: Empty for now, but may contain fields in the future
-
-Message has no fields.
-
-
-----
-
-``com/daml/ledger/api/v1/admin/party_management_service.proto``
-
-.. _com.daml.ledger.api.v1.admin.PartyManagementService:
-
---------------------------------------------------------------------------------------------
-PartyManagementService
---------------------------------------------------------------------------------------------
-
-Service, |version com.daml.ledger.api.v1.admin|: This service allows inspecting the party management state of the ledger known to the participant
-and managing the participant-local party metadata.
-
-The authorization rules for its RPCs are specified on the ``<RpcName>Request``
-messages as boolean expressions over these facts:
-(1) ``HasRight(r)`` denoting whether the authenticated user has right ``r`` and
-(2) ``IsAuthenticatedIdentityProviderAdmin(idp)`` denoting whether ``idp`` is equal to the ``identity_provider_id``
-of the authenticated user and the user has an IdentityProviderAdmin right.
-If `identity_provider_id` is set to an empty string, then it's effectively set to the value of access token's 'iss' field if that is provided.
-If `identity_provider_id` remains an empty string, the default identity provider will be assumed.
-
-The fields of request messages (and sub-messages) are marked either as ``Optional`` or ``Required``:
-(1) ``Optional`` denoting the client may leave the field unset when sending a request.
-(2) ``Required`` denoting the client must set the field to a non-default value when sending a request.
-
-A party details resource is described by the ``PartyDetails`` message,
-A party details resource, once it has been created, can be modified using the ``UpdatePartyDetails`` RPC.
-The only fields that can be modified are those marked as ``Modifiable``.
-
-.. _com.daml.ledger.api.v1.admin.PartyManagementService.GetParticipantId:
-
-GetParticipantId
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.admin|: Return the identifier of the participant.
-All horizontally scaled replicas should return the same id.
-daml-on-kv-ledger: returns an identifier supplied on command line at launch time
-canton: returns globally unique identifier of the participant
-
-* Request: :ref:`GetParticipantIdRequest <com.daml.ledger.api.v1.admin.GetParticipantIdRequest>`
-* Response: :ref:`GetParticipantIdResponse <com.daml.ledger.api.v1.admin.GetParticipantIdResponse>`
-
-.. _com.daml.ledger.api.v1.admin.PartyManagementService.GetParties:
-
-GetParties
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.admin|: Get the party details of the given parties. Only known parties will be
-returned in the list.
-
-* Request: :ref:`GetPartiesRequest <com.daml.ledger.api.v1.admin.GetPartiesRequest>`
-* Response: :ref:`GetPartiesResponse <com.daml.ledger.api.v1.admin.GetPartiesResponse>`
-
-.. _com.daml.ledger.api.v1.admin.PartyManagementService.ListKnownParties:
-
-ListKnownParties
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.admin|: List the parties known by the participant.
-The list returned contains parties whose ledger access is facilitated by
-the participant and the ones maintained elsewhere.
-
-* Request: :ref:`ListKnownPartiesRequest <com.daml.ledger.api.v1.admin.ListKnownPartiesRequest>`
-* Response: :ref:`ListKnownPartiesResponse <com.daml.ledger.api.v1.admin.ListKnownPartiesResponse>`
-
-.. _com.daml.ledger.api.v1.admin.PartyManagementService.AllocateParty:
-
-AllocateParty
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.admin|: Allocates a new party on a ledger and adds it to the set managed by the participant.
-Caller specifies a party identifier suggestion, the actual identifier
-allocated might be different and is implementation specific.
-Caller can specify party metadata that is stored locally on the participant.
-This call may:
-- Succeed, in which case the actual allocated identifier is visible in
-  the response.
-- Respond with a gRPC error
-daml-on-kv-ledger: suggestion's uniqueness is checked by the validators in
-the consensus layer and call rejected if the identifier is already present.
-canton: completely different globally unique identifier is allocated.
-Behind the scenes calls to an internal protocol are made. As that protocol
-is richer than the surface protocol, the arguments take implicit values
-The party identifier suggestion must be a valid party name. Party names are required to be non-empty US-ASCII strings built from letters, digits, space,
-colon, minus and underscore limited to 255 chars
-
-* Request: :ref:`AllocatePartyRequest <com.daml.ledger.api.v1.admin.AllocatePartyRequest>`
-* Response: :ref:`AllocatePartyResponse <com.daml.ledger.api.v1.admin.AllocatePartyResponse>`
-
-.. _com.daml.ledger.api.v1.admin.PartyManagementService.UpdatePartyDetails:
-
-UpdatePartyDetails
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.admin|: Update selected modifiable participant-local attributes of a party details resource.
-Can update the participant's local information for local parties.
-
-* Request: :ref:`UpdatePartyDetailsRequest <com.daml.ledger.api.v1.admin.UpdatePartyDetailsRequest>`
-* Response: :ref:`UpdatePartyDetailsResponse <com.daml.ledger.api.v1.admin.UpdatePartyDetailsResponse>`
-
-.. _com.daml.ledger.api.v1.admin.PartyManagementService.UpdatePartyIdentityProviderId:
-
-UpdatePartyIdentityProviderId
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.admin|: Update the assignment of a party from one IDP to another.
-
-* Request: :ref:`UpdatePartyIdentityProviderRequest <com.daml.ledger.api.v1.admin.UpdatePartyIdentityProviderRequest>`
-* Response: :ref:`UpdatePartyIdentityProviderResponse <com.daml.ledger.api.v1.admin.UpdatePartyIdentityProviderResponse>`
-
-.. _com.daml.ledger.api.v1.admin.AllocatePartyRequest:
-
-AllocatePartyRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(identity_provider_id)``
-
-``party_id_hint`` : :ref:`string <string>`
-
-A hint to the participant which party ID to allocate. It can be
-ignored.
-Must be a valid PartyIdString (as described in ``value.proto``).
-Optional 
-
-``display_name`` : :ref:`string <string>`
-
-Human-readable name of the party to be added to the participant. It doesn't
-have to be unique.
-Use of this field is discouraged. Use ``local_metadata`` instead.
-Optional 
-
-``local_metadata`` : :ref:`ObjectMeta <com.daml.ledger.api.v1.admin.ObjectMeta>`
-
-Participant-local metadata to be stored in the ``PartyDetails`` of this newly allocated party.
-Optional 
-
-``identity_provider_id`` : :ref:`string <string>`
-
-The id of the ``Identity Provider``
-Optional, if not set, assume the party is managed by the default identity provider or party is not hosted by the participant. 
-
-.. _com.daml.ledger.api.v1.admin.AllocatePartyResponse:
-
-AllocatePartyResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``party_details`` : :ref:`PartyDetails <com.daml.ledger.api.v1.admin.PartyDetails>`
-
- 
-
-.. _com.daml.ledger.api.v1.admin.GetParticipantIdRequest:
-
-GetParticipantIdRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin)``
-
-Message has no fields.
-
-.. _com.daml.ledger.api.v1.admin.GetParticipantIdResponse:
-
-GetParticipantIdResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``participant_id`` : :ref:`string <string>`
-
-Identifier of the participant, which SHOULD be globally unique.
-Must be a valid LedgerString (as describe in ``value.proto``). 
-
-.. _com.daml.ledger.api.v1.admin.GetPartiesRequest:
-
-GetPartiesRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(identity_provider_id)``
-
-``parties`` : :ref:`string <string>` (repeated)
-
-The stable, unique identifier of the Daml parties.
-Must be valid PartyIdStrings (as described in ``value.proto``).
-Required 
-
-``identity_provider_id`` : :ref:`string <string>`
-
-The id of the ``Identity Provider`` whose parties should be retrieved.
-Optional, if not set, assume the party is managed by the default identity provider or party is not hosted by the participant. 
-
-.. _com.daml.ledger.api.v1.admin.GetPartiesResponse:
-
-GetPartiesResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``party_details`` : :ref:`PartyDetails <com.daml.ledger.api.v1.admin.PartyDetails>` (repeated)
-
-The details of the requested Daml parties by the participant, if known.
-The party details may not be in the same order as requested.
-Required 
-
-.. _com.daml.ledger.api.v1.admin.ListKnownPartiesRequest:
-
-ListKnownPartiesRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(identity_provider_id)``
-
-``page_token`` : :ref:`string <string>`
-
-Pagination token to determine the specific page to fetch. Using the token guarantees that parties on a subsequent
-page are all lexically greater than the last party on a previous page. Server does not store intermediate results
-between calls chained by a series of page tokens. As a consequence, if new parties are being added and a page is
-requested twice using the same token, more parties can be returned on the second call.
-Leave empty to fetch the first page.
-Optional 
-
-``page_size`` : :ref:`int32 <int32>`
-
-Maximum number of results to be returned by the server. The server will return no more than that many results,
-but it might return fewer. If the page_size is 0, the server will decide the number of results to be returned.
-If the page_size exceeds the maximum supported by the server, an error will be returned. To obtain the server's
-maximum consult the PartyManagementFeature descriptor available in the VersionService.
-Optional 
-
-``identity_provider_id`` : :ref:`string <string>`
-
-The id of the ``Identity Provider`` whose parties should be retrieved.
-Optional, if not set, assume the party is managed by the default identity provider or party is not hosted by the participant. 
-
-.. _com.daml.ledger.api.v1.admin.ListKnownPartiesResponse:
-
-ListKnownPartiesResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``party_details`` : :ref:`PartyDetails <com.daml.ledger.api.v1.admin.PartyDetails>` (repeated)
-
-The details of all Daml parties known by the participant.
-Required 
-
-``next_page_token`` : :ref:`string <string>`
-
-Pagination token to retrieve the next page.
-Empty, if there are no further results. 
-
-.. _com.daml.ledger.api.v1.admin.PartyDetails:
-
-PartyDetails
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``party`` : :ref:`string <string>`
-
-The stable unique identifier of a Daml party.
-Must be a valid PartyIdString (as described in ``value.proto``).
-Required 
-
-``display_name`` : :ref:`string <string>`
-
-Human readable name associated with the party at allocation time.
-Caution, it might not be unique.
-Use of this field is discouraged. Use the `local_metadata` field instead.
-Optional 
-
-``is_local`` : :ref:`bool <bool>`
-
-true if party is hosted by the participant and the party shares the same identity provider as the user issuing the request.
-Optional 
-
-``local_metadata`` : :ref:`ObjectMeta <com.daml.ledger.api.v1.admin.ObjectMeta>`
-
-Participant-local metadata of this party.
-Optional,
-Modifiable 
-
-``identity_provider_id`` : :ref:`string <string>`
-
-The id of the ``Identity Provider``
-Optional, if not set, there could be 3 options:
-1) the party is managed by the default identity provider.
-2) party is not hosted by the participant.
-3) party is hosted by the participant, but is outside of the user's identity provider. 
-
-.. _com.daml.ledger.api.v1.admin.UpdatePartyDetailsRequest:
-
-UpdatePartyDetailsRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(party_details.identity_provider_id)``
-
-``party_details`` : :ref:`PartyDetails <com.daml.ledger.api.v1.admin.PartyDetails>`
-
-Party to be updated
-Required,
-Modifiable 
-
-``update_mask`` : :ref:`FieldMask <google.protobuf.FieldMask>`
-
-An update mask specifies how and which properties of the ``PartyDetails`` message are to be updated.
-An update mask consists of a set of update paths.
-A valid update path points to a field or a subfield relative to the ``PartyDetails`` message.
-A valid update mask must:
-(1) contain at least one update path,
-(2) contain only valid update paths.
-Fields that can be updated are marked as ``Modifiable``.
-An update path can also point to non-``Modifiable`` fields such as 'party' and 'local_metadata.resource_version'
-because they are used:
-(1) to identify the party details resource subject to the update,
-(2) for concurrent change control.
-An update path can also point to non-``Modifiable`` fields such as 'is_local' and 'display_name'
-as long as the values provided in the update request match the server values.
-Examples of update paths: 'local_metadata.annotations', 'local_metadata'.
-For additional information see the documentation for standard protobuf3's ``google.protobuf.FieldMask``.
-For similar Ledger API see ``com.daml.ledger.api.v1.admin.UpdateUserRequest``.
-Required 
-
-.. _com.daml.ledger.api.v1.admin.UpdatePartyDetailsResponse:
-
-UpdatePartyDetailsResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``party_details`` : :ref:`PartyDetails <com.daml.ledger.api.v1.admin.PartyDetails>`
-
-Updated party details 
-
-.. _com.daml.ledger.api.v1.admin.UpdatePartyIdentityProviderRequest:
-
-UpdatePartyIdentityProviderRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin)``
-
-``party`` : :ref:`string <string>`
-
-Party to update 
-
-``source_identity_provider_id`` : :ref:`string <string>`
-
-Current identity provider id of the party 
-
-``target_identity_provider_id`` : :ref:`string <string>`
-
-Target identity provider id of the party 
-
-.. _com.daml.ledger.api.v1.admin.UpdatePartyIdentityProviderResponse:
-
-UpdatePartyIdentityProviderResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-Message has no fields.
-
-
-----
-
-``com/daml/ledger/api/v1/admin/user_management_service.proto``
-
-.. _com.daml.ledger.api.v1.admin.UserManagementService:
-
---------------------------------------------------------------------------------------------
-UserManagementService
---------------------------------------------------------------------------------------------
-
-Service, |version com.daml.ledger.api.v1.admin|: Service to manage users and their rights for interacting with the Ledger API
-served by a participant node.
-
-The authorization rules for its RPCs are specified on the ``<RpcName>Request``
-messages as boolean expressions over these facts:
-(1) ``HasRight(r)`` denoting whether the authenticated user has right ``r`` and
-(2) ``IsAuthenticatedUser(uid)`` denoting whether ``uid`` is the empty string or equal to the id of the authenticated user.
-(3) ``IsAuthenticatedIdentityProviderAdmin(idp)`` denoting whether ``idp`` is equal to the ``identity_provider_id``
-of the authenticated user and the user has an IdentityProviderAdmin right.
-If `user_id` is set to the empty string (the default), then the data for the authenticated user will be retrieved.
-If `identity_provider_id` is set to an empty string, then it's effectively set to the value of access token's 'iss' field if that is provided.
-If `identity_provider_id` remains an empty string, the default identity provider will be assumed.
-
-The fields of request messages (and sub-messages) are marked either as ``Optional`` or ``Required``:
-(1) ``Optional`` denoting the client may leave the field unset when sending a request.
-(2) ``Required`` denoting the client must set the field to a non-default value when sending a request.
-
-A user resource consists of:
-(1) a set of properties represented by the ``User`` message,
-(2) a set of user rights, where each right is represented by the ``Right`` message.
-
-A user resource, once it has been created, can be modified.
-In order to update the properties represented by the ``User`` message use the ``UpdateUser`` RPC. The only fields that can be modified are those marked as ``Modifiable``.
-In order to grant or revoke user rights use ``GrantRights' and ``RevokeRights`` RPCs.
-
-.. _com.daml.ledger.api.v1.admin.UserManagementService.CreateUser:
-
-CreateUser
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.admin|: Create a new user.
-
-* Request: :ref:`CreateUserRequest <com.daml.ledger.api.v1.admin.CreateUserRequest>`
-* Response: :ref:`CreateUserResponse <com.daml.ledger.api.v1.admin.CreateUserResponse>`
-
-.. _com.daml.ledger.api.v1.admin.UserManagementService.GetUser:
-
-GetUser
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.admin|: Get the user data of a specific user or the authenticated user.
-
-* Request: :ref:`GetUserRequest <com.daml.ledger.api.v1.admin.GetUserRequest>`
-* Response: :ref:`GetUserResponse <com.daml.ledger.api.v1.admin.GetUserResponse>`
-
-.. _com.daml.ledger.api.v1.admin.UserManagementService.UpdateUser:
-
-UpdateUser
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.admin|: Update selected modifiable attribute of a user resource described by the ``User`` message.
-
-* Request: :ref:`UpdateUserRequest <com.daml.ledger.api.v1.admin.UpdateUserRequest>`
-* Response: :ref:`UpdateUserResponse <com.daml.ledger.api.v1.admin.UpdateUserResponse>`
-
-.. _com.daml.ledger.api.v1.admin.UserManagementService.DeleteUser:
-
-DeleteUser
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.admin|: Delete an existing user and all its rights.
-
-* Request: :ref:`DeleteUserRequest <com.daml.ledger.api.v1.admin.DeleteUserRequest>`
-* Response: :ref:`DeleteUserResponse <com.daml.ledger.api.v1.admin.DeleteUserResponse>`
-
-.. _com.daml.ledger.api.v1.admin.UserManagementService.ListUsers:
-
-ListUsers
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.admin|: List all existing users.
-
-* Request: :ref:`ListUsersRequest <com.daml.ledger.api.v1.admin.ListUsersRequest>`
-* Response: :ref:`ListUsersResponse <com.daml.ledger.api.v1.admin.ListUsersResponse>`
-
-.. _com.daml.ledger.api.v1.admin.UserManagementService.GrantUserRights:
-
-GrantUserRights
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.admin|: Grant rights to a user.
-Granting rights does not affect the resource version of the corresponding user.
-
-* Request: :ref:`GrantUserRightsRequest <com.daml.ledger.api.v1.admin.GrantUserRightsRequest>`
-* Response: :ref:`GrantUserRightsResponse <com.daml.ledger.api.v1.admin.GrantUserRightsResponse>`
-
-.. _com.daml.ledger.api.v1.admin.UserManagementService.RevokeUserRights:
-
-RevokeUserRights
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.admin|: Revoke rights from a user.
-Revoking rights does not affect the resource version of the corresponding user.
-
-* Request: :ref:`RevokeUserRightsRequest <com.daml.ledger.api.v1.admin.RevokeUserRightsRequest>`
-* Response: :ref:`RevokeUserRightsResponse <com.daml.ledger.api.v1.admin.RevokeUserRightsResponse>`
-
-.. _com.daml.ledger.api.v1.admin.UserManagementService.ListUserRights:
-
-ListUserRights
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.admin|: List the set of all rights granted to a user.
-
-* Request: :ref:`ListUserRightsRequest <com.daml.ledger.api.v1.admin.ListUserRightsRequest>`
-* Response: :ref:`ListUserRightsResponse <com.daml.ledger.api.v1.admin.ListUserRightsResponse>`
-
-.. _com.daml.ledger.api.v1.admin.UserManagementService.UpdateUserIdentityProviderId:
-
-UpdateUserIdentityProviderId
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.admin|: Update the assignment of a user from one IDP to another.
-
-* Request: :ref:`UpdateUserIdentityProviderRequest <com.daml.ledger.api.v1.admin.UpdateUserIdentityProviderRequest>`
-* Response: :ref:`UpdateUserIdentityProviderResponse <com.daml.ledger.api.v1.admin.UpdateUserIdentityProviderResponse>`
-
-.. _com.daml.ledger.api.v1.admin.CreateUserRequest:
-
-CreateUserRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(user.identity_provider_id)``
-
-``user`` : :ref:`User <com.daml.ledger.api.v1.admin.User>`
-
-The user to create.
-Required 
-
-``rights`` : :ref:`Right <com.daml.ledger.api.v1.admin.Right>` (repeated)
-
-The rights to be assigned to the user upon creation,
-which SHOULD include appropriate rights for the ``user.primary_party``.
-Optional 
-
-.. _com.daml.ledger.api.v1.admin.CreateUserResponse:
-
-CreateUserResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``user`` : :ref:`User <com.daml.ledger.api.v1.admin.User>`
-
-Created user. 
-
-.. _com.daml.ledger.api.v1.admin.DeleteUserRequest:
-
-DeleteUserRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(identity_provider_id)``
-
-``user_id`` : :ref:`string <string>`
-
-The user to delete.
-Required 
-
-``identity_provider_id`` : :ref:`string <string>`
-
-The id of the ``Identity Provider``
-Optional, if not set, assume the user is managed by the default identity provider. 
-
-.. _com.daml.ledger.api.v1.admin.DeleteUserResponse:
-
-DeleteUserResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: Does not (yet) contain any data.
-
-Message has no fields.
-
-.. _com.daml.ledger.api.v1.admin.GetUserRequest:
-
-GetUserRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(identity_provider_id) OR IsAuthenticatedUser(user_id)``
-
-``user_id`` : :ref:`string <string>`
-
-The user whose data to retrieve.
-If set to empty string (the default), then the data for the authenticated user will be retrieved.
-Optional 
-
-``identity_provider_id`` : :ref:`string <string>`
-
-The id of the ``Identity Provider``
-Optional, if not set, assume the user is managed by the default identity provider. 
-
-.. _com.daml.ledger.api.v1.admin.GetUserResponse:
-
-GetUserResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``user`` : :ref:`User <com.daml.ledger.api.v1.admin.User>`
-
-Retrieved user. 
-
-.. _com.daml.ledger.api.v1.admin.GrantUserRightsRequest:
-
-GrantUserRightsRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: Add the rights to the set of rights granted to the user.
-
-Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(identity_provider_id)``
-
-``user_id`` : :ref:`string <string>`
-
-The user to whom to grant rights.
-Required 
-
-``rights`` : :ref:`Right <com.daml.ledger.api.v1.admin.Right>` (repeated)
-
-The rights to grant.
-Optional 
-
-``identity_provider_id`` : :ref:`string <string>`
-
-The id of the ``Identity Provider``
-Optional, if not set, assume the user is managed by the default identity provider. 
-
-.. _com.daml.ledger.api.v1.admin.GrantUserRightsResponse:
-
-GrantUserRightsResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``newly_granted_rights`` : :ref:`Right <com.daml.ledger.api.v1.admin.Right>` (repeated)
-
-The rights that were newly granted by the request. 
-
-.. _com.daml.ledger.api.v1.admin.ListUserRightsRequest:
-
-ListUserRightsRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(identity_provider_id) OR IsAuthenticatedUser(user_id)``
-
-``user_id`` : :ref:`string <string>`
-
-The user for which to list the rights.
-If set to empty string (the default), then the rights for the authenticated user will be listed.
-Required 
-
-``identity_provider_id`` : :ref:`string <string>`
-
-The id of the ``Identity Provider``
-Optional, if not set, assume the user is managed by the default identity provider. 
-
-.. _com.daml.ledger.api.v1.admin.ListUserRightsResponse:
-
-ListUserRightsResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``rights`` : :ref:`Right <com.daml.ledger.api.v1.admin.Right>` (repeated)
-
-All rights of the user. 
-
-.. _com.daml.ledger.api.v1.admin.ListUsersRequest:
-
-ListUsersRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(identity_provider_id)``
-
-``page_token`` : :ref:`string <string>`
-
-Pagination token to determine the specific page to fetch.
-Leave empty to fetch the first page.
-Optional 
-
-``page_size`` : :ref:`int32 <int32>`
-
-Maximum number of results to be returned by the server. The server will return no more than that many results, but it might return fewer.
-If 0, the server will decide the number of results to be returned.
-Optional 
-
-``identity_provider_id`` : :ref:`string <string>`
-
-The id of the ``Identity Provider``
-Optional, if not set, assume the user is managed by the default identity provider. 
-
-.. _com.daml.ledger.api.v1.admin.ListUsersResponse:
-
-ListUsersResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``users`` : :ref:`User <com.daml.ledger.api.v1.admin.User>` (repeated)
-
-A subset of users of the participant node that fit into this page. 
-
-``next_page_token`` : :ref:`string <string>`
-
-Pagination token to retrieve the next page.
-Empty, if there are no further results. 
-
-.. _com.daml.ledger.api.v1.admin.RevokeUserRightsRequest:
-
-RevokeUserRightsRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: Remove the rights from the set of rights granted to the user.
-
-Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(identity_provider_id)``
-
-``user_id`` : :ref:`string <string>`
-
-The user from whom to revoke rights.
-Required 
-
-``rights`` : :ref:`Right <com.daml.ledger.api.v1.admin.Right>` (repeated)
-
-The rights to revoke.
-Optional 
-
-``identity_provider_id`` : :ref:`string <string>`
-
-The id of the ``Identity Provider``
-Optional, if not set, assume the user is managed by the default identity provider. 
-
-.. _com.daml.ledger.api.v1.admin.RevokeUserRightsResponse:
-
-RevokeUserRightsResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``newly_revoked_rights`` : :ref:`Right <com.daml.ledger.api.v1.admin.Right>` (repeated)
-
-The rights that were actually revoked by the request. 
-
-.. _com.daml.ledger.api.v1.admin.Right:
-
-Right
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: A right granted to a user.
-
-``oneof kind.participant_admin`` : :ref:`ParticipantAdmin <com.daml.ledger.api.v1.admin.Right.ParticipantAdmin>`
-
-The user can administer the participant node. 
-
-``oneof kind.can_act_as`` : :ref:`CanActAs <com.daml.ledger.api.v1.admin.Right.CanActAs>`
-
-The user can act as a specific party. 
-
-``oneof kind.can_read_as`` : :ref:`CanReadAs <com.daml.ledger.api.v1.admin.Right.CanReadAs>`
-
-The user can read ledger data visible to a specific party. 
-
-``oneof kind.identity_provider_admin`` : :ref:`IdentityProviderAdmin <com.daml.ledger.api.v1.admin.Right.IdentityProviderAdmin>`
-
-The user can administer users and parties assigned to the same identity provider as the one of the user. 
-
-.. _com.daml.ledger.api.v1.admin.Right.CanActAs:
-
-Right.CanActAs
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``party`` : :ref:`string <string>`
-
-The right to authorize commands for this party. 
-
-.. _com.daml.ledger.api.v1.admin.Right.CanReadAs:
-
-Right.CanReadAs
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``party`` : :ref:`string <string>`
-
-The right to read ledger data visible to this party. 
-
-.. _com.daml.ledger.api.v1.admin.Right.IdentityProviderAdmin:
-
-Right.IdentityProviderAdmin
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: The right to administer the identity provider that the user is assigned to.
-It means, being able to manage users and parties that are also assigned
-to the same identity provider.
-
-Message has no fields.
-
-.. _com.daml.ledger.api.v1.admin.Right.ParticipantAdmin:
-
-Right.ParticipantAdmin
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: The right to administer the participant node.
-
-Message has no fields.
-
-.. _com.daml.ledger.api.v1.admin.UpdateUserIdentityProviderRequest:
-
-UpdateUserIdentityProviderRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin)``
-
-``user_id`` : :ref:`string <string>`
-
-User to update 
-
-``source_identity_provider_id`` : :ref:`string <string>`
-
-Current identity provider id of the user 
-
-``target_identity_provider_id`` : :ref:`string <string>`
-
-Target identity provider id of the user 
-
-.. _com.daml.ledger.api.v1.admin.UpdateUserIdentityProviderResponse:
-
-UpdateUserIdentityProviderResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-Message has no fields.
-
-.. _com.daml.ledger.api.v1.admin.UpdateUserRequest:
-
-UpdateUserRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(user.identity_provider_id)``
-
-``user`` : :ref:`User <com.daml.ledger.api.v1.admin.User>`
-
-The user to update.
-Required,
-Modifiable 
-
-``update_mask`` : :ref:`FieldMask <google.protobuf.FieldMask>`
-
-An update mask specifies how and which properties of the ``User`` message are to be updated.
-An update mask consists of a set of update paths.
-A valid update path points to a field or a subfield relative to the ``User`` message.
-A valid update mask must:
-(1) contain at least one update path,
-(2) contain only valid update paths.
-Fields that can be updated are marked as ``Modifiable``.
-An update path can also point to a non-``Modifiable`` fields such as 'id' and 'metadata.resource_version'
-because they are used:
-(1) to identify the user resource subject to the update,
-(2) for concurrent change control.
-Examples of valid update paths: 'primary_party', 'metadata', 'metadata.annotations'.
-For additional information see the documentation for standard protobuf3's ``google.protobuf.FieldMask``.
-For similar Ledger API see ``com.daml.ledger.api.v1.admin.UpdatePartyDetailsRequest``.
-Required 
-
-.. _com.daml.ledger.api.v1.admin.UpdateUserResponse:
-
-UpdateUserResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: 
-
-``user`` : :ref:`User <com.daml.ledger.api.v1.admin.User>`
-
-Updated user 
-
-.. _com.daml.ledger.api.v1.admin.User:
-
-User
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.admin|: Users are used to dynamically manage the rights given to Daml applications.
-They are stored and managed per participant node.
-
-Read the :doc:`Authorization documentation </app-dev/authorization>` to learn more.
-
-``id`` : :ref:`string <string>`
-
-The user identifier, which must be a non-empty string of at most 128
-characters that are either alphanumeric ASCII characters or one of the symbols "@^$.!`-#+'~_|:".
-Required 
-
-``primary_party`` : :ref:`string <string>`
-
-The primary party as which this user reads and acts by default on the ledger
-*provided* it has the corresponding ``CanReadAs(primary_party)`` or
-``CanActAs(primary_party)`` rights.
-Ledger API clients SHOULD set this field to a non-empty value for all users to
-enable the users to act on the ledger using their own Daml party.
-Users for participant administrators MAY have an associated primary party.
-Optional,
-Modifiable 
-
-``is_deactivated`` : :ref:`bool <bool>`
-
-When set, then the user is denied all access to the Ledger API.
-Otherwise, the user has access to the Ledger API as per the user's rights.
-Optional,
-Modifiable 
-
-``metadata`` : :ref:`ObjectMeta <com.daml.ledger.api.v1.admin.ObjectMeta>`
-
-The metadata of this user.
-Note that the ``metadata.resource_version`` tracks changes to the properties described by the ``User`` message and not the user's rights.
-Optional,
-Modifiable 
-
-``identity_provider_id`` : :ref:`string <string>`
-
-The id of the identity provider configured by ``Identity Provider Config``
-Optional, if not set, assume the user is managed by the default identity provider. 
-
-
-----
-
 ``com/daml/ledger/api/v1/command_completion_service.proto``
 
 .. _com.daml.ledger.api.v1.CommandCompletionService:
@@ -1997,7 +142,7 @@ Message, |version com.daml.ledger.api.v1|: Checkpoints may be used to:
 * detect time out of commands.
 * provide an offset which can be used to restart consumption.
 
-``record_time`` : :ref:`Timestamp <google.protobuf.Timestamp>`
+``record_time`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
 
 All commands with a maximum record time below this value MUST be considered lost if their completion has not arrived before this checkpoint.
 Required 
@@ -2109,7 +254,7 @@ Method, |version com.daml.ledger.api.v1|: Submits a single composite command and
 Propagates the gRPC error of failed submissions including Daml interpretation errors.
 
 * Request: :ref:`SubmitAndWaitRequest <com.daml.ledger.api.v1.SubmitAndWaitRequest>`
-* Response: :ref:`Empty <google.protobuf.Empty>`
+* Response:  `.google.protobuf.Empty <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#empty>`__
 
 .. _com.daml.ledger.api.v1.CommandService.SubmitAndWaitForTransactionId:
 
@@ -2242,7 +387,7 @@ Submit
 Method, |version com.daml.ledger.api.v1|: Submit a single composite command.
 
 * Request: :ref:`SubmitRequest <com.daml.ledger.api.v1.SubmitRequest>`
-* Response: :ref:`Empty <google.protobuf.Empty>`
+* Response:  `.google.protobuf.Empty <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#empty>`__
 
 .. _com.daml.ledger.api.v1.SubmitRequest:
 
@@ -2334,14 +479,14 @@ Optional
 Individual elements of this atomic command. Must be non-empty.
 Required 
 
-``oneof deduplication_period.deduplication_time`` : :ref:`Duration <google.protobuf.Duration>`
+``oneof deduplication_period.deduplication_time`` :  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration>`__
 
 Specifies the length of the deduplication period.
 Same semantics apply as for `deduplication_duration`.
 Must be non-negative. Must not exceed the maximum deduplication time (see
 ``ledger_configuration_service.proto``). 
 
-``oneof deduplication_period.deduplication_duration`` : :ref:`Duration <google.protobuf.Duration>`
+``oneof deduplication_period.deduplication_duration`` :  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration>`__
 
 Specifies the length of the deduplication period.
 It is interpreted relative to the local clock at some point during the submission's processing.
@@ -2353,7 +498,7 @@ Must be non-negative. Must not exceed the maximum deduplication time (see
 Specifies the start of the deduplication period by a completion stream offset (exclusive).
 Must be a valid LedgerString (as described in ``ledger_offset.proto``). 
 
-``min_ledger_time_abs`` : :ref:`Timestamp <google.protobuf.Timestamp>`
+``min_ledger_time_abs`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
 
 Lower bound for the ledger time assigned to the resulting transaction.
 Note: The ledger time of a transaction is assigned as part of command interpretation.
@@ -2362,7 +507,7 @@ the time the resulting transaction is sequenced, its assigned ledger time is not
 Must not be set at the same time as min_ledger_time_rel.
 Optional 
 
-``min_ledger_time_rel`` : :ref:`Duration <google.protobuf.Duration>`
+``min_ledger_time_rel`` :  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration>`__
 
 Same as min_ledger_time_abs, but specified as a duration, starting from the time the command is received by the server.
 Must not be set at the same time as min_ledger_time_abs.
@@ -2554,7 +699,7 @@ The ID of the succeeded or failed command.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
 
-``status`` : :ref:`Status <google.rpc.Status>`
+``status`` :  `google.rpc.Status <https://cloud.google.com/tasks/docs/reference/rpc/google.rpc#status>`__
 
 Identifies the exact type of the error.
 It uses the same format of conveying error details as it is used for the RPC responses of the APIs.
@@ -2593,7 +738,7 @@ Specifies the start of the deduplication period by a completion stream offset (e
 
 Must be a valid LedgerString (as described in ``value.proto``). 
 
-``oneof deduplication_period.deduplication_duration`` : :ref:`Duration <google.protobuf.Duration>`
+``oneof deduplication_period.deduplication_duration`` :  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration>`__
 
 Specifies the length of the deduplication period.
 It is measured in record time of completions.
@@ -2625,7 +770,7 @@ ContractMetadata
 Message, |version com.daml.ledger.api.v1|: Contract-related metadata used in DisclosedContract (that can be included in command submission)
 or forwarded as part of the CreatedEvent in Active Contract Set or Transaction streams.
 
-``created_at`` : :ref:`Timestamp <google.protobuf.Timestamp>`
+``created_at`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
 
 Ledger effective time of the transaction that created the contract.
 Required 
@@ -2704,7 +849,7 @@ Required
 The template of the created contract.
 Required 
 
-``package_name`` : :ref:`StringValue <google.protobuf.StringValue>`
+``package_name`` :  `google.protobuf.StringValue <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#stringvalue>`__
 
 The package name of the created contract.
 Optional 
@@ -2719,12 +864,14 @@ Optional
 
 The arguments that have been used to create the contract.
 Set either:
+
   - if there was a party, which is in the ``witness_parties`` of this event,
     and for which an ``InclusiveFilters`` exists with the ``template_id`` of this event
     among the ``template_ids``,
   - or if there was a party, which is in the ``witness_parties`` of this event,
     and for which a wildcard filter exists (``Filters`` without ``InclusiveFilters``,
     or with an ``InclusiveFilters`` with empty ``template_ids`` and empty ``interface_filters``).
+
 Optional 
 
 ``created_event_blob`` : :ref:`bytes <bytes>`
@@ -2738,9 +885,11 @@ Optional
 
 Interface views specified in the transaction filter.
 Includes an ``InterfaceView`` for each interface for which there is a ``InterfaceFilter`` with
+
   - its party in the ``witness_parties`` of this event,
   - and which is implemented by the template of this event,
   - and which has ``include_interface_view`` set.
+
 Optional 
 
 ``witness_parties`` : :ref:`string <string>` (repeated)
@@ -2751,11 +900,13 @@ the parties specified in the ``TransactionFilter`` that are informees
 of the event. If served as part of a flat transaction those will
 be limited to all parties specified in the ``TransactionFilter`` that
 are stakeholders of the contract (i.e. either signatories or observers).
-In case of v2 API:
-  If the ``CreatedEvent`` is returned as part of an AssignedEvent,
-  ActiveContract or IncompleteUnassigned (so the event is related to
-  an assignment or unassignment): this will include all parties of the
-  ``TransactionFilter`` that are stakeholders of the contract.
+
+In case of v2 API,
+if the ``CreatedEvent`` is returned as part of an AssignedEvent,
+ActiveContract or IncompleteUnassigned (so the event is related to
+an assignment or unassignment): this will include all parties of the
+``TransactionFilter`` that are stakeholders of the contract.
+
 Required 
 
 ``signatories`` : :ref:`string <string>` (repeated)
@@ -2769,7 +920,7 @@ The observers for this contract as specified explicitly by the template or impli
 This field never contains parties that are signatories.
 Required 
 
-``agreement_text`` : :ref:`StringValue <google.protobuf.StringValue>`
+``agreement_text`` :  `google.protobuf.StringValue <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#stringvalue>`__
 
 The agreement text of the contract.
 We use StringValue to properly reflect optionality on the wire for backwards compatibility.
@@ -2778,7 +929,7 @@ text, but also the default string in protobuf.
 This means a newer client works with an older sandbox seamlessly.
 Optional 
 
-``created_at`` : :ref:`Timestamp <google.protobuf.Timestamp>`
+``created_at`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
 
 Ledger effective time of the transaction that created the contract.
 Required 
@@ -2830,7 +981,7 @@ Required
 The template of the target contract.
 Required 
 
-``package_name`` : :ref:`StringValue <google.protobuf.StringValue>`
+``package_name`` :  `google.protobuf.StringValue <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#stringvalue>`__
 
 The package name of the created contract.
 Optional 
@@ -2902,7 +1053,7 @@ Message, |version com.daml.ledger.api.v1|: View of a create event matched by an 
 The interface implemented by the matched event.
 Required 
 
-``view_status`` : :ref:`Status <google.rpc.Status>`
+``view_status`` :  `google.rpc.Status <https://cloud.google.com/tasks/docs/reference/rpc/google.rpc#status>`__
 
 Whether the view was successfully computed, and if not,
 the reason for the error. The error is reported using the same rules
@@ -3095,11 +1246,11 @@ CommandDeduplicationPeriodSupport
 Message, |version com.daml.ledger.api.v1|: Feature descriptor specifying how deduplication periods can be specified and how they are handled by the participant
 node.
 
-``offset_support`` : :ref:`OffsetSupport <com.daml.ledger.api.v1.CommandDeduplicationPeriodSupport.OffsetSupport>`
+``offset_support`` : :ref:`CommandDeduplicationPeriodSupport.OffsetSupport <com.daml.ledger.api.v1.CommandDeduplicationPeriodSupport.OffsetSupport>`
 
  
 
-``duration_support`` : :ref:`DurationSupport <com.daml.ledger.api.v1.CommandDeduplicationPeriodSupport.DurationSupport>`
+``duration_support`` : :ref:`CommandDeduplicationPeriodSupport.DurationSupport <com.daml.ledger.api.v1.CommandDeduplicationPeriodSupport.DurationSupport>`
 
  
 
@@ -3121,7 +1272,7 @@ ExperimentalCommitterEventLog
 
 Message, |version com.daml.ledger.api.v1|: How the committer stores events.
 
-``event_log_type`` : :ref:`CommitterEventLogType <com.daml.ledger.api.v1.ExperimentalCommitterEventLog.CommitterEventLogType>`
+``event_log_type`` : :ref:`ExperimentalCommitterEventLog.CommitterEventLogType <com.daml.ledger.api.v1.ExperimentalCommitterEventLog.CommitterEventLogType>`
 
  
 
@@ -3132,7 +1283,7 @@ ExperimentalContractIds
 
 Message, |version com.daml.ledger.api.v1|: See `daml-lf/spec/contract-id.rst` for more information on contract ID formats.
 
-``v1`` : :ref:`ContractIdV1Support <com.daml.ledger.api.v1.ExperimentalContractIds.ContractIdV1Support>`
+``v1`` : :ref:`ExperimentalContractIds.ContractIdV1Support <com.daml.ledger.api.v1.ExperimentalContractIds.ContractIdV1Support>`
 
  
 
@@ -3473,7 +1624,7 @@ LedgerConfiguration
 
 Message, |version com.daml.ledger.api.v1|: LedgerConfiguration contains parameters of the ledger instance that may be useful to clients.
 
-``max_deduplication_duration`` : :ref:`Duration <google.protobuf.Duration>`
+``max_deduplication_duration`` :  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration>`__
 
 If a command submission specifies a deduplication period of length up to ``max_deduplication_duration``,
 the submission SHOULD not be rejected with ``FAILED_PRECONDITION`` because the deduplication period starts too early.
@@ -3559,7 +1710,7 @@ are lexicographically comparable.
 
 The format of this string is specific to the ledger and opaque to the client. 
 
-``oneof value.boundary`` : :ref:`LedgerBoundary <com.daml.ledger.api.v1.LedgerOffset.LedgerBoundary>`
+``oneof value.boundary`` : :ref:`LedgerOffset.LedgerBoundary <com.daml.ledger.api.v1.LedgerOffset.LedgerBoundary>`
 
  
 
@@ -3788,87 +1939,6 @@ Enum, |version com.daml.ledger.api.v1|:
 
 ----
 
-``com/daml/ledger/api/v1/testing/time_service.proto``
-
-.. _com.daml.ledger.api.v1.testing.TimeService:
-
---------------------------------------------------------------------------------------------
-TimeService
---------------------------------------------------------------------------------------------
-
-Service, |version com.daml.ledger.api.v1.testing|: Optional service, exposed for testing static time scenarios.
-
-.. _com.daml.ledger.api.v1.testing.TimeService.GetTime:
-
-GetTime
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.testing|: Returns a stream of time updates.
-Always returns at least one response, where the first one is the current time.
-Subsequent responses are emitted whenever the ledger server's time is updated.
-
-* Request: :ref:`GetTimeRequest <com.daml.ledger.api.v1.testing.GetTimeRequest>`
-* Response: :ref:`GetTimeResponse <com.daml.ledger.api.v1.testing.GetTimeResponse>`
-
-.. _com.daml.ledger.api.v1.testing.TimeService.SetTime:
-
-SetTime
-============================================================================================
-
-Method, |version com.daml.ledger.api.v1.testing|: Allows clients to change the ledger's clock in an atomic get-and-set operation.
-
-* Request: :ref:`SetTimeRequest <com.daml.ledger.api.v1.testing.SetTimeRequest>`
-* Response: :ref:`Empty <google.protobuf.Empty>`
-
-.. _com.daml.ledger.api.v1.testing.GetTimeRequest:
-
-GetTimeRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.testing|: 
-
-``ledger_id`` : :ref:`string <string>`
-
-Must correspond to the ledger ID reported by the Ledger Identification Service.
-Must be a valid LedgerString (as describe in ``value.proto``).
-Optional 
-
-.. _com.daml.ledger.api.v1.testing.GetTimeResponse:
-
-GetTimeResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.testing|: 
-
-``current_time`` : :ref:`Timestamp <google.protobuf.Timestamp>`
-
-The current time according to the ledger server. 
-
-.. _com.daml.ledger.api.v1.testing.SetTimeRequest:
-
-SetTimeRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v1.testing|: 
-
-``ledger_id`` : :ref:`string <string>`
-
-Must correspond to the ledger ID reported by the Ledger Identification Service.
-Must be a valid LedgerString (as describe in ``value.proto``).
-Optional 
-
-``current_time`` : :ref:`Timestamp <google.protobuf.Timestamp>`
-
-MUST precisely match the current time as it's known to the ledger server. 
-
-``new_time`` : :ref:`Timestamp <google.protobuf.Timestamp>`
-
-The time the client wants to set on the ledger.
-MUST be a point int time after ``current_time``. 
-
-
-----
-
 ``com/daml/ledger/api/v1/trace_context.proto``
 
 .. _com.daml.ledger.api.v1.TraceContext:
@@ -3878,11 +1948,11 @@ TraceContext
 
 Message, |version com.daml.ledger.api.v1|: 
 
-``traceparent`` : :ref:`StringValue <google.protobuf.StringValue>`
+``traceparent`` :  `google.protobuf.StringValue <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#stringvalue>`__
 
 https://www.w3.org/TR/trace-context/ 
 
-``tracestate`` : :ref:`StringValue <google.protobuf.StringValue>`
+``tracestate`` :  `google.protobuf.StringValue <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#stringvalue>`__
 
  
 
@@ -3916,7 +1986,7 @@ The workflow ID used in command submission.
 Must be a valid LedgerString (as described in ``value.proto``).
 Optional 
 
-``effective_at`` : :ref:`Timestamp <google.protobuf.Timestamp>`
+``effective_at`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
 
 Ledger effective time.
 Must be a valid LedgerString (as described in ``value.proto``).
@@ -3970,7 +2040,7 @@ The workflow ID used in command submission. Only set if the ``workflow_id`` for 
 Must be a valid LedgerString (as described in ``value.proto``).
 Optional 
 
-``effective_at`` : :ref:`Timestamp <google.protobuf.Timestamp>`
+``effective_at`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
 
 Ledger effective time.
 Required 
@@ -3980,7 +2050,7 @@ Required
 The absolute offset. The format of this field is described in ``ledger_offset.proto``.
 Required 
 
-``events_by_id`` : :ref:`EventsByIdEntry <com.daml.ledger.api.v1.TransactionTree.EventsByIdEntry>` (repeated)
+``events_by_id`` : :ref:`TransactionTree.EventsByIdEntry <com.daml.ledger.api.v1.TransactionTree.EventsByIdEntry>` (repeated)
 
 Changes to the ledger that were caused by this transaction. Nodes of the transaction tree.
 Each key be a valid LedgerString (as describe in ``value.proto``).
@@ -4154,15 +2224,17 @@ TransactionFilter
 Message, |version com.daml.ledger.api.v1|: A filter both for filtering create and archive events as well as for
 filtering transaction trees.
 
-``filters_by_party`` : :ref:`FiltersByPartyEntry <com.daml.ledger.api.v1.TransactionFilter.FiltersByPartyEntry>` (repeated)
+``filters_by_party`` : :ref:`TransactionFilter.FiltersByPartyEntry <com.daml.ledger.api.v1.TransactionFilter.FiltersByPartyEntry>` (repeated)
 
 Each key must be a valid PartyIdString (as described in ``value.proto``).
 The interpretation of the filter depends on the stream being filtered:
-(1) For **transaction tree streams** only party filters with wildcards are allowed, and all subtrees
-    whose root has one of the listed parties as an informee are returned.
-(2) For **transaction and active-contract-set streams** create and archive events are returned for all contracts whose
+
+1. For **transaction tree streams** only party filters with wildcards are allowed, and all subtrees
+   whose root has one of the listed parties as an informee are returned.
+2. For **transaction and active-contract-set streams** create and archive events are returned for all contracts whose
    stakeholders include at least one of the listed parties and match the
    per-party filter.
+
 Required 
 
 .. _com.daml.ledger.api.v1.TransactionFilter.FiltersByPartyEntry:
@@ -4517,7 +2589,7 @@ GenMap
 
 Message, |version com.daml.ledger.api.v1|: 
 
-``entries`` : :ref:`Entry <com.daml.ledger.api.v1.GenMap.Entry>` (repeated)
+``entries`` : :ref:`GenMap.Entry <com.daml.ledger.api.v1.GenMap.Entry>` (repeated)
 
  
 
@@ -4578,7 +2650,7 @@ Map
 
 Message, |version com.daml.ledger.api.v1|: 
 
-``entries`` : :ref:`Entry <com.daml.ledger.api.v1.Map.Entry>` (repeated)
+``entries`` : :ref:`Map.Entry <com.daml.ledger.api.v1.Map.Entry>` (repeated)
 
  
 
@@ -4638,8 +2710,10 @@ Message, |version com.daml.ledger.api.v1|: A named nested value within a record.
 
 When reading a transaction stream, it's omitted if verbose streaming is not enabled.
 When submitting a commmand, it's optional:
+
   - if all keys within a single record are present, the order in which fields appear does not matter. however, each key must appear exactly once.
   - if any of the keys within a single record are omitted, the order of fields MUST match the order of declaration in the Daml template.
+
 Must be a valid NameString 
 
 ``value`` : :ref:`Value <com.daml.ledger.api.v1.Value>`
@@ -4687,8 +2761,10 @@ Represents a homogeneous list of values.
 
 A Numeric, that is a decimal value with precision 38 (at most 38 significant digits) and a
 scale between 0 and 37 (significant digits on the right of the decimal point).
-The field has to match the regex
+The field has to match the regex::
+
   [+-]?\d{1,38}(.\d{0,37})?
+
 and should be representable by a Numeric without loss of precision. 
 
 ``oneof Sum.text`` : :ref:`string <string>`
@@ -4713,7 +2789,7 @@ Must be a valid PartyIdString.
 
 True or false. 
 
-``oneof Sum.unit`` : :ref:`Empty <google.protobuf.Empty>`
+``oneof Sum.unit`` :  `google.protobuf.Empty <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#empty>`__
 
 This value is used for example for choices that don't take any arguments. 
 
@@ -4884,6 +2960,1888 @@ A value of 0 means that the server enforces no page size limit.
 
 ----
 
+``com/daml/ledger/api/v1/admin/command_inspection_service.proto``
+
+.. _com.daml.ledger.api.v1.admin.CommandInspectionService:
+
+--------------------------------------------------------------------------------------------
+CommandInspectionService
+--------------------------------------------------------------------------------------------
+
+Service, |version com.daml.ledger.api.v1.admin|: Status: experimental interface, will change before it is deemed production
+ready
+
+The inspection service provides methods for the ledger administrator
+to look under the hood of a running system.
+In V2 Ledger API this service is not available.
+
+.. _com.daml.ledger.api.v1.admin.CommandInspectionService.GetCommandStatus:
+
+GetCommandStatus
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.admin|: Inquire about the status of a command.
+This service is used for debugging only. The command status is only tracked in memory and is not persisted.
+The service can be used to understand the failure status and the structure of a command.
+Requires admin privileges
+The service is alpha without backward compatibility guarantees.
+
+* Request: :ref:`GetCommandStatusRequest <com.daml.ledger.api.v1.admin.GetCommandStatusRequest>`
+* Response: :ref:`GetCommandStatusResponse <com.daml.ledger.api.v1.admin.GetCommandStatusResponse>`
+
+.. _com.daml.ledger.api.v1.admin.GetCommandStatusRequest:
+
+GetCommandStatusRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``command_id_prefix`` : :ref:`string <string>`
+
+optional filter by command id 
+
+``state`` : :ref:`CommandState <com.daml.ledger.api.v1.admin.CommandState>`
+
+optional filter by state 
+
+``limit`` : :ref:`uint32 <uint32>`
+
+optional limit of returned statuses, defaults to 100 
+
+.. _com.daml.ledger.api.v1.admin.GetCommandStatusResponse:
+
+GetCommandStatusResponse
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``command_status`` : :ref:`GetCommandStatusResponse.CommandStatus <com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus>` (repeated)
+
+ 
+
+.. _com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus:
+
+GetCommandStatusResponse.CommandStatus
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``started`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
+
+ 
+
+``completed`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
+
+ 
+
+``completion`` : :ref:`com.daml.ledger.api.v1.Completion <com.daml.ledger.api.v1.Completion>`
+
+ 
+
+``state`` : :ref:`CommandState <com.daml.ledger.api.v1.admin.CommandState>`
+
+ 
+
+``commands`` : :ref:`com.daml.ledger.api.v1.Command <com.daml.ledger.api.v1.Command>` (repeated)
+
+ 
+
+``request_statistics`` : :ref:`GetCommandStatusResponse.CommandStatus.RequestStatistics <com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.RequestStatistics>`
+
+ 
+
+``updates`` : :ref:`GetCommandStatusResponse.CommandStatus.CommandUpdates <com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.CommandUpdates>`
+
+ 
+
+.. _com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.CommandUpdates:
+
+GetCommandStatusResponse.CommandStatus.CommandUpdates
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``created`` : :ref:`GetCommandStatusResponse.CommandStatus.CommandUpdates.Contract <com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.CommandUpdates.Contract>` (repeated)
+
+ 
+
+``archived`` : :ref:`GetCommandStatusResponse.CommandStatus.CommandUpdates.Contract <com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.CommandUpdates.Contract>` (repeated)
+
+ 
+
+``exercised`` : :ref:`uint32 <uint32>`
+
+ 
+
+``fetched`` : :ref:`uint32 <uint32>`
+
+ 
+
+``looked_up_by_key`` : :ref:`uint32 <uint32>`
+
+ 
+
+.. _com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.CommandUpdates.Contract:
+
+GetCommandStatusResponse.CommandStatus.CommandUpdates.Contract
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``template_id`` : :ref:`com.daml.ledger.api.v1.Identifier <com.daml.ledger.api.v1.Identifier>`
+
+ 
+
+``contract_id`` : :ref:`string <string>`
+
+ 
+
+``contract_key`` : :ref:`com.daml.ledger.api.v1.Value <com.daml.ledger.api.v1.Value>`
+
+ 
+
+.. _com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.RequestStatistics:
+
+GetCommandStatusResponse.CommandStatus.RequestStatistics
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``envelopes`` : :ref:`uint32 <uint32>`
+
+ 
+
+``request_size`` : :ref:`uint32 <uint32>`
+
+ 
+
+``recipients`` : :ref:`uint32 <uint32>`
+
+ 
+
+
+
+
+.. _com.daml.ledger.api.v1.admin.CommandState:
+
+CommandState
+============================================================================================
+
+Enum, |version com.daml.ledger.api.v1.admin|: 
+
+
+
+.. list-table::
+   :header-rows: 0
+   :width: 100%
+
+   * - .. _com.daml.ledger.api.v1.admin.CommandState.STATE_UNSPECIFIED:
+
+       STATE_UNSPECIFIED
+     - 0
+     - This value acts as wildcard in the queries
+
+   * - .. _com.daml.ledger.api.v1.admin.CommandState.STATE_PENDING:
+
+       STATE_PENDING
+     - 1
+     - 
+
+   * - .. _com.daml.ledger.api.v1.admin.CommandState.STATE_SUCCEEDED:
+
+       STATE_SUCCEEDED
+     - 2
+     - 
+
+   * - .. _com.daml.ledger.api.v1.admin.CommandState.STATE_FAILED:
+
+       STATE_FAILED
+     - 3
+     - 
+
+   
+
+----
+
+``com/daml/ledger/api/v1/admin/config_management_service.proto``
+
+.. _com.daml.ledger.api.v1.admin.ConfigManagementService:
+
+--------------------------------------------------------------------------------------------
+ConfigManagementService
+--------------------------------------------------------------------------------------------
+
+Service, |version com.daml.ledger.api.v1.admin|: Status: experimental interface, will change before it is deemed production
+ready
+
+The ledger configuration management service provides methods for the ledger administrator
+to change the current ledger configuration. The services provides methods to modify
+different aspects of the configuration.
+In V2 Ledger API this service is not available anymore.
+
+.. _com.daml.ledger.api.v1.admin.ConfigManagementService.GetTimeModel:
+
+GetTimeModel
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.admin|: Return the currently active time model and the current configuration generation.
+
+* Request: :ref:`GetTimeModelRequest <com.daml.ledger.api.v1.admin.GetTimeModelRequest>`
+* Response: :ref:`GetTimeModelResponse <com.daml.ledger.api.v1.admin.GetTimeModelResponse>`
+
+.. _com.daml.ledger.api.v1.admin.ConfigManagementService.SetTimeModel:
+
+SetTimeModel
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.admin|: Set the ledger time model.
+
+* Request: :ref:`SetTimeModelRequest <com.daml.ledger.api.v1.admin.SetTimeModelRequest>`
+* Response: :ref:`SetTimeModelResponse <com.daml.ledger.api.v1.admin.SetTimeModelResponse>`
+
+.. _com.daml.ledger.api.v1.admin.GetTimeModelRequest:
+
+GetTimeModelRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+Message has no fields.
+
+.. _com.daml.ledger.api.v1.admin.GetTimeModelResponse:
+
+GetTimeModelResponse
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``configuration_generation`` : :ref:`int64 <int64>`
+
+The current configuration generation. The generation is a monotonically increasing
+integer that is incremented on each change. Used when setting the time model. 
+
+``time_model`` : :ref:`TimeModel <com.daml.ledger.api.v1.admin.TimeModel>`
+
+The current ledger time model. 
+
+.. _com.daml.ledger.api.v1.admin.SetTimeModelRequest:
+
+SetTimeModelRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``submission_id`` : :ref:`string <string>`
+
+Submission identifier used for tracking the request and to reject
+duplicate submissions.
+Required. 
+
+``maximum_record_time`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
+
+Deadline for the configuration change after which the change is rejected. 
+
+``configuration_generation`` : :ref:`int64 <int64>`
+
+The current configuration generation which we're submitting the change against.
+This is used to perform a compare-and-swap of the configuration to
+safeguard against concurrent modifications.
+Required. 
+
+``new_time_model`` : :ref:`TimeModel <com.daml.ledger.api.v1.admin.TimeModel>`
+
+The new time model that replaces the current one.
+Required. 
+
+.. _com.daml.ledger.api.v1.admin.SetTimeModelResponse:
+
+SetTimeModelResponse
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``configuration_generation`` : :ref:`int64 <int64>`
+
+The configuration generation of the committed time model. 
+
+.. _com.daml.ledger.api.v1.admin.TimeModel:
+
+TimeModel
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``avg_transaction_latency`` :  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration>`__
+
+The expected average latency of a transaction, i.e., the average time
+from submitting the transaction to a [[WriteService]] and the transaction
+being assigned a record time.
+Required. 
+
+``min_skew`` :  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration>`__
+
+The minimimum skew between ledger time and record time: lt_TX >= rt_TX - minSkew
+Required. 
+
+``max_skew`` :  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration>`__
+
+The maximum skew between ledger time and record time: lt_TX <= rt_TX + maxSkew
+Required. 
+
+
+----
+
+``com/daml/ledger/api/v1/admin/identity_provider_config_service.proto``
+
+.. _com.daml.ledger.api.v1.admin.IdentityProviderConfigService:
+
+--------------------------------------------------------------------------------------------
+IdentityProviderConfigService
+--------------------------------------------------------------------------------------------
+
+Service, |version com.daml.ledger.api.v1.admin|: Identity Provider Config Service makes it possible for participant node administrators
+to setup and manage additional identity providers at runtime.
+
+This allows using access tokens from identity providers unknown at deployment time. When an identity
+provider is configured, independent IDP administrators can manage their own set of parties and users.
+Such parties and users have a matching `identity_provider_id` defined and are inaccessible to
+administrators from other identity providers. A user will only be authenticated if the corresponding JWT
+token is issued by the appropriate identity provider.
+Users and parties without `identity_provider_id` defined are assumed to be using the default identity provider,
+which is configured statically at the participant node's deployment time.
+
+The Ledger API uses the "iss" claim of a JWT token to match the token to a specific IDP. If there is no match,
+the default IDP is assumed.
+
+The fields of request messages (and sub-messages) are marked either as ``Optional`` or ``Required``:
+
+1. ``Optional`` denoting the client may leave the field unset when sending a request.
+2. ``Required`` denoting the client must set the field to a non-default value when sending a request.
+
+An identity provider config resource is described by the ``IdentityProviderConfig`` message,
+An identity provider config resource, once it has been created, can be modified.
+In order to update the properties represented by the ``IdentityProviderConfig`` message use the ``UpdateIdentityProviderConfig`` RPC.
+The only fields that can be modified are those marked as ``Modifiable``.
+
+.. _com.daml.ledger.api.v1.admin.IdentityProviderConfigService.CreateIdentityProviderConfig:
+
+CreateIdentityProviderConfig
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.admin|: Create a new identity provider configuration.
+The request will fail if the maximum allowed number of separate configurations is reached.
+
+* Request: :ref:`CreateIdentityProviderConfigRequest <com.daml.ledger.api.v1.admin.CreateIdentityProviderConfigRequest>`
+* Response: :ref:`CreateIdentityProviderConfigResponse <com.daml.ledger.api.v1.admin.CreateIdentityProviderConfigResponse>`
+
+.. _com.daml.ledger.api.v1.admin.IdentityProviderConfigService.GetIdentityProviderConfig:
+
+GetIdentityProviderConfig
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.admin|: Get the identity provider configuration data by id.
+
+* Request: :ref:`GetIdentityProviderConfigRequest <com.daml.ledger.api.v1.admin.GetIdentityProviderConfigRequest>`
+* Response: :ref:`GetIdentityProviderConfigResponse <com.daml.ledger.api.v1.admin.GetIdentityProviderConfigResponse>`
+
+.. _com.daml.ledger.api.v1.admin.IdentityProviderConfigService.UpdateIdentityProviderConfig:
+
+UpdateIdentityProviderConfig
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.admin|: Update selected modifiable attribute of an identity provider config resource described
+by the ``IdentityProviderConfig`` message.
+
+* Request: :ref:`UpdateIdentityProviderConfigRequest <com.daml.ledger.api.v1.admin.UpdateIdentityProviderConfigRequest>`
+* Response: :ref:`UpdateIdentityProviderConfigResponse <com.daml.ledger.api.v1.admin.UpdateIdentityProviderConfigResponse>`
+
+.. _com.daml.ledger.api.v1.admin.IdentityProviderConfigService.ListIdentityProviderConfigs:
+
+ListIdentityProviderConfigs
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.admin|: List all existing identity provider configurations.
+
+* Request: :ref:`ListIdentityProviderConfigsRequest <com.daml.ledger.api.v1.admin.ListIdentityProviderConfigsRequest>`
+* Response: :ref:`ListIdentityProviderConfigsResponse <com.daml.ledger.api.v1.admin.ListIdentityProviderConfigsResponse>`
+
+.. _com.daml.ledger.api.v1.admin.IdentityProviderConfigService.DeleteIdentityProviderConfig:
+
+DeleteIdentityProviderConfig
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.admin|: Delete an existing identity provider configuration.
+
+* Request: :ref:`DeleteIdentityProviderConfigRequest <com.daml.ledger.api.v1.admin.DeleteIdentityProviderConfigRequest>`
+* Response: :ref:`DeleteIdentityProviderConfigResponse <com.daml.ledger.api.v1.admin.DeleteIdentityProviderConfigResponse>`
+
+.. _com.daml.ledger.api.v1.admin.CreateIdentityProviderConfigRequest:
+
+CreateIdentityProviderConfigRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``identity_provider_config`` : :ref:`IdentityProviderConfig <com.daml.ledger.api.v1.admin.IdentityProviderConfig>`
+
+Required 
+
+.. _com.daml.ledger.api.v1.admin.CreateIdentityProviderConfigResponse:
+
+CreateIdentityProviderConfigResponse
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``identity_provider_config`` : :ref:`IdentityProviderConfig <com.daml.ledger.api.v1.admin.IdentityProviderConfig>`
+
+ 
+
+.. _com.daml.ledger.api.v1.admin.DeleteIdentityProviderConfigRequest:
+
+DeleteIdentityProviderConfigRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``identity_provider_id`` : :ref:`string <string>`
+
+The identity provider config to delete.
+Required 
+
+.. _com.daml.ledger.api.v1.admin.DeleteIdentityProviderConfigResponse:
+
+DeleteIdentityProviderConfigResponse
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: Does not (yet) contain any data.
+
+Message has no fields.
+
+.. _com.daml.ledger.api.v1.admin.GetIdentityProviderConfigRequest:
+
+GetIdentityProviderConfigRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``identity_provider_id`` : :ref:`string <string>`
+
+Required 
+
+.. _com.daml.ledger.api.v1.admin.GetIdentityProviderConfigResponse:
+
+GetIdentityProviderConfigResponse
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``identity_provider_config`` : :ref:`IdentityProviderConfig <com.daml.ledger.api.v1.admin.IdentityProviderConfig>`
+
+ 
+
+.. _com.daml.ledger.api.v1.admin.IdentityProviderConfig:
+
+IdentityProviderConfig
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``identity_provider_id`` : :ref:`string <string>`
+
+The identity provider identifier
+Must be a valid LedgerString (as describe in ``value.proto``).
+Required 
+
+``is_deactivated`` : :ref:`bool <bool>`
+
+When set, the callers using JWT tokens issued by this identity provider are denied all access
+to the Ledger API.
+Optional,
+Modifiable 
+
+``issuer`` : :ref:`string <string>`
+
+Specifies the issuer of the JWT token.
+The issuer value is a case sensitive URL using the https scheme that contains scheme, host,
+and optionally, port number and path components and no query or fragment components.
+Required
+Modifiable 
+
+``jwks_url`` : :ref:`string <string>`
+
+The JWKS (JSON Web Key Set) URL.
+The Ledger API uses JWKs (JSON Web Keys) from the provided URL to verify that the JWT has been
+signed with the loaded JWK. Only RS256 (RSA Signature with SHA-256) signing algorithm is supported.
+Required
+Modifiable 
+
+``audience`` : :ref:`string <string>`
+
+Specifies the audience of the JWT token.
+When set, the callers using JWT tokens issued by this identity provider are allowed to get an access
+only if the "aud" claim includes the string specified here
+Optional,
+Modifiable 
+
+.. _com.daml.ledger.api.v1.admin.ListIdentityProviderConfigsRequest:
+
+ListIdentityProviderConfigsRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: Pagination is not required as the resulting data set is small enough to be returned in a single call
+
+Message has no fields.
+
+.. _com.daml.ledger.api.v1.admin.ListIdentityProviderConfigsResponse:
+
+ListIdentityProviderConfigsResponse
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``identity_provider_configs`` : :ref:`IdentityProviderConfig <com.daml.ledger.api.v1.admin.IdentityProviderConfig>` (repeated)
+
+ 
+
+.. _com.daml.ledger.api.v1.admin.UpdateIdentityProviderConfigRequest:
+
+UpdateIdentityProviderConfigRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``identity_provider_config`` : :ref:`IdentityProviderConfig <com.daml.ledger.api.v1.admin.IdentityProviderConfig>`
+
+The identity provider config to update.
+Required,
+Modifiable 
+
+``update_mask`` :  `google.protobuf.FieldMask <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask>`__
+
+An update mask specifies how and which properties of the ``IdentityProviderConfig`` message are to be updated.
+An update mask consists of a set of update paths.
+A valid update path points to a field or a subfield relative to the ``IdentityProviderConfig`` message.
+A valid update mask must:
+
+1. contain at least one update path,
+2. contain only valid update paths.
+
+Fields that can be updated are marked as ``Modifiable``.
+For additional information see the documentation for standard protobuf3's ``google.protobuf.FieldMask``.
+Required 
+
+.. _com.daml.ledger.api.v1.admin.UpdateIdentityProviderConfigResponse:
+
+UpdateIdentityProviderConfigResponse
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``identity_provider_config`` : :ref:`IdentityProviderConfig <com.daml.ledger.api.v1.admin.IdentityProviderConfig>`
+
+Updated identity provider config 
+
+
+----
+
+``com/daml/ledger/api/v1/admin/metering_report_service.proto``
+
+.. _com.daml.ledger.api.v1.admin.MeteringReportService:
+
+--------------------------------------------------------------------------------------------
+MeteringReportService
+--------------------------------------------------------------------------------------------
+
+Service, |version com.daml.ledger.api.v1.admin|: Experimental API to retrieve metering reports.
+
+Metering reports aim to provide the information necessary for billing participant
+and application operators.
+
+.. _com.daml.ledger.api.v1.admin.MeteringReportService.GetMeteringReport:
+
+GetMeteringReport
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.admin|: Retrieve a metering report.
+
+* Request: :ref:`GetMeteringReportRequest <com.daml.ledger.api.v1.admin.GetMeteringReportRequest>`
+* Response: :ref:`GetMeteringReportResponse <com.daml.ledger.api.v1.admin.GetMeteringReportResponse>`
+
+.. _com.daml.ledger.api.v1.admin.GetMeteringReportRequest:
+
+GetMeteringReportRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: Authorized if and only if the authenticated user is a participant admin.
+
+``from`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
+
+The from timestamp (inclusive).
+Required. 
+
+``to`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
+
+The to timestamp (exclusive).
+If not provided, the server will default to its current time. 
+
+``application_id`` : :ref:`string <string>`
+
+If set to a non-empty value, then the report will only be generated for that application.
+Optional. 
+
+.. _com.daml.ledger.api.v1.admin.GetMeteringReportResponse:
+
+GetMeteringReportResponse
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``request`` : :ref:`GetMeteringReportRequest <com.daml.ledger.api.v1.admin.GetMeteringReportRequest>`
+
+The actual request that was executed. 
+
+``report_generation_time`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
+
+The time at which the report was computed. 
+
+``metering_report_json`` :  `google.protobuf.Struct <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct>`__
+
+The metering report json.  For a JSON Schema definition of the JSon see:
+https://github.com/digital-asset/daml/blob/main/ledger-api/grpc-definitions/metering-report-schema.json 
+
+
+----
+
+``com/daml/ledger/api/v1/admin/object_meta.proto``
+
+.. _com.daml.ledger.api.v1.admin.ObjectMeta:
+
+ObjectMeta
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: Represents metadata corresponding to a participant resource (e.g. a participant user or participant local information about a party).
+
+Based on ``ObjectMeta`` meta used in Kubernetes API.
+See https://github.com/kubernetes/apimachinery/blob/master/pkg/apis/meta/v1/generated.proto#L640
+
+``resource_version`` : :ref:`string <string>`
+
+An opaque, non-empty value, populated by a participant server which represents the internal version of the resource
+this ``ObjectMeta`` message is attached to. The participant server will change it to a unique value each time the corresponding resource is updated.
+You must not rely on the format of resource version. The participant server might change it without notice.
+You can obtain the newest resource version value by issuing a read request.
+You may use it for concurrent change detection by passing it back unmodified in an update request.
+The participant server will then compare the passed value with the value maintained by the system to determine
+if any other updates took place since you had read the resource version.
+Upon a successful update you are guaranteed that no other update took place during your read-modify-write sequence.
+However, if another update took place during your read-modify-write sequence then your update will fail with an appropriate error.
+Concurrent change control is optional. It will be applied only if you include a resource version in an update request.
+When creating a new instance of a resource you must leave the resource version empty.
+Its value will be populated by the participant server upon successful resource creation.
+Optional 
+
+``annotations`` : :ref:`ObjectMeta.AnnotationsEntry <com.daml.ledger.api.v1.admin.ObjectMeta.AnnotationsEntry>` (repeated)
+
+A set of modifiable key-value pairs that can be used to represent arbitrary, client-specific metadata.
+Constraints:
+
+1. The total size over all keys and values cannot exceed 256kb in UTF-8 encoding.
+2. Keys are composed of an optional prefix segment and a required name segment such that:
+
+   - key prefix, when present, must be a valid DNS subdomain with at most 253 characters, followed by a '/' (forward slash) character,
+   - name segment must have at most 63 characters that are either alphanumeric ([a-z0-9A-Z]), or a '.' (dot), '-' (dash) or '_' (underscore);
+     and it must start and end with an alphanumeric character.
+
+3. Values can be any non-empty strings.
+
+Keys with empty prefix are reserved for end-users.
+Properties set by external tools or internally by the participant server must use non-empty key prefixes.
+Duplicate keys are disallowed by the semantics of the protobuf3 maps.
+See: https://developers.google.com/protocol-buffers/docs/proto3#maps
+Annotations may be a part of a modifiable resource.
+Use the resource's update RPC to update its annotations.
+In order to add a new annotation or update an existing one using an update RPC, provide the desired annotation in the update request.
+In order to remove an annotation using an update RPC, provide the target annotation's key but set its value to the empty string in the update request.
+Optional
+Modifiable 
+
+.. _com.daml.ledger.api.v1.admin.ObjectMeta.AnnotationsEntry:
+
+ObjectMeta.AnnotationsEntry
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``key`` : :ref:`string <string>`
+
+ 
+
+``value`` : :ref:`string <string>`
+
+ 
+
+
+----
+
+``com/daml/ledger/api/v1/admin/package_management_service.proto``
+
+.. _com.daml.ledger.api.v1.admin.PackageManagementService:
+
+--------------------------------------------------------------------------------------------
+PackageManagementService
+--------------------------------------------------------------------------------------------
+
+Service, |version com.daml.ledger.api.v1.admin|: Status: experimental interface, will change before it is deemed production
+ready
+
+Query the Daml-LF packages supported by the ledger participant and upload
+DAR files. We use 'backing participant' to refer to this specific participant
+in the methods of this API.
+
+.. _com.daml.ledger.api.v1.admin.PackageManagementService.ListKnownPackages:
+
+ListKnownPackages
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.admin|: Returns the details of all Daml-LF packages known to the backing participant.
+
+* Request: :ref:`ListKnownPackagesRequest <com.daml.ledger.api.v1.admin.ListKnownPackagesRequest>`
+* Response: :ref:`ListKnownPackagesResponse <com.daml.ledger.api.v1.admin.ListKnownPackagesResponse>`
+
+.. _com.daml.ledger.api.v1.admin.PackageManagementService.UploadDarFile:
+
+UploadDarFile
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.admin|: Upload a DAR file to the backing participant.
+Depending on the ledger implementation this might also make the package
+available on the whole ledger. This call might not be supported by some
+ledger implementations. Canton could be an example, where uploading a DAR
+is not sufficient to render it usable, it must be activated first.
+This call may:
+
+- Succeed, if the package was successfully uploaded, or if the same package
+  was already uploaded before.
+- Respond with a gRPC error
+
+* Request: :ref:`UploadDarFileRequest <com.daml.ledger.api.v1.admin.UploadDarFileRequest>`
+* Response: :ref:`UploadDarFileResponse <com.daml.ledger.api.v1.admin.UploadDarFileResponse>`
+
+.. _com.daml.ledger.api.v1.admin.PackageManagementService.ValidateDarFile:
+
+ValidateDarFile
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.admin|: Performs the same checks that UploadDarFile call performs, but doesn't
+persist the DAR and does not make it available for command execution.
+This call:
+- Succeeds if the packages contained in the DAR are valid
+- Respond with a gRPC error if the provided packages are not valid
+
+* Request: :ref:`ValidateDarFileRequest <com.daml.ledger.api.v1.admin.ValidateDarFileRequest>`
+* Response: :ref:`ValidateDarFileResponse <com.daml.ledger.api.v1.admin.ValidateDarFileResponse>`
+
+.. _com.daml.ledger.api.v1.admin.ListKnownPackagesRequest:
+
+ListKnownPackagesRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+Message has no fields.
+
+.. _com.daml.ledger.api.v1.admin.ListKnownPackagesResponse:
+
+ListKnownPackagesResponse
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``package_details`` : :ref:`PackageDetails <com.daml.ledger.api.v1.admin.PackageDetails>` (repeated)
+
+The details of all Daml-LF packages known to backing participant.
+Required 
+
+.. _com.daml.ledger.api.v1.admin.PackageDetails:
+
+PackageDetails
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``package_id`` : :ref:`string <string>`
+
+The identity of the Daml-LF package.
+Must be a valid PackageIdString (as describe in ``value.proto``).
+Required 
+
+``package_size`` : :ref:`uint64 <uint64>`
+
+Size of the package in bytes.
+The size of the package is given by the size of the ``daml_lf``
+ArchivePayload. See further details in ``daml_lf.proto``.
+Required 
+
+``known_since`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
+
+Indicates since when the package is known to the backing participant.
+Required 
+
+``source_description`` : :ref:`string <string>`
+
+Description provided by the backing participant describing where
+it got the package from.
+Optional 
+
+.. _com.daml.ledger.api.v1.admin.UploadDarFileRequest:
+
+UploadDarFileRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``dar_file`` : :ref:`bytes <bytes>`
+
+Contains a Daml archive DAR file, which in turn is a jar like zipped
+container for ``daml_lf`` archives. See further details in
+``daml_lf.proto``.
+Required 
+
+``submission_id`` : :ref:`string <string>`
+
+Unique submission identifier.
+Optional, defaults to a random identifier. 
+
+.. _com.daml.ledger.api.v1.admin.UploadDarFileResponse:
+
+UploadDarFileResponse
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: An empty message that is received when the upload operation succeeded.
+
+Message has no fields.
+
+.. _com.daml.ledger.api.v1.admin.ValidateDarFileRequest:
+
+ValidateDarFileRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``dar_file`` : :ref:`bytes <bytes>`
+
+Contains a Daml archive DAR file, which in turn is a jar like zipped
+container for ``daml_lf`` archives. See further details in
+``daml_lf.proto``.
+Required 
+
+``submission_id`` : :ref:`string <string>`
+
+Unique submission identifier.
+Optional, defaults to a random identifier. 
+
+.. _com.daml.ledger.api.v1.admin.ValidateDarFileResponse:
+
+ValidateDarFileResponse
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+Message has no fields.
+
+
+----
+
+``com/daml/ledger/api/v1/admin/participant_pruning_service.proto``
+
+.. _com.daml.ledger.api.v1.admin.ParticipantPruningService:
+
+--------------------------------------------------------------------------------------------
+ParticipantPruningService
+--------------------------------------------------------------------------------------------
+
+Service, |version com.daml.ledger.api.v1.admin|: Prunes/truncates the "oldest" transactions from the participant (the participant Ledger Api Server plus any other
+participant-local state) by removing a portion of the ledger in such a way that the set of future, allowed
+commands are not affected.
+
+This enables:
+
+1. keeping the "inactive" portion of the ledger to a manageable size and
+2. removing inactive state to honor the right to be forgotten.
+
+.. _com.daml.ledger.api.v1.admin.ParticipantPruningService.Prune:
+
+Prune
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.admin|: Prune the ledger specifying the offset before and at which ledger transactions should be removed. Only returns when
+the potentially long-running prune request ends successfully or with an error.
+
+* Request: :ref:`PruneRequest <com.daml.ledger.api.v1.admin.PruneRequest>`
+* Response: :ref:`PruneResponse <com.daml.ledger.api.v1.admin.PruneResponse>`
+
+.. _com.daml.ledger.api.v1.admin.PruneRequest:
+
+PruneRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``prune_up_to`` : :ref:`string <string>`
+
+Inclusive offset up to which the ledger is to be pruned.
+By default the following data is pruned:
+
+1. All normal and divulged contracts that have been archived before
+   `prune_up_to`.
+2. All transaction events and completions before `prune_up_to` 
+
+``submission_id`` : :ref:`string <string>`
+
+Unique submission identifier.
+Optional, defaults to a random identifier, used for logging. 
+
+``prune_all_divulged_contracts`` : :ref:`bool <bool>`
+
+Prune all immediately and retroactively divulged contracts created before `prune_up_to`
+independent of whether they were archived before `prune_up_to`. Useful to avoid leaking
+storage on participant nodes that can see a divulged contract but not its archival.
+
+Application developers SHOULD write their Daml applications
+such that they do not rely on divulged contracts; i.e., no warnings from
+using divulged contracts as inputs to transactions are emitted.
+
+Participant node operators SHOULD set the `prune_all_divulged_contracts` flag to avoid leaking
+storage due to accumulating unarchived divulged contracts PROVIDED that:
+
+1. no application using this participant node relies on divulgence OR
+2. divulged contracts on which applications rely have been re-divulged after the `prune_up_to` offset. 
+
+.. _com.daml.ledger.api.v1.admin.PruneResponse:
+
+PruneResponse
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: Empty for now, but may contain fields in the future
+
+Message has no fields.
+
+
+----
+
+``com/daml/ledger/api/v1/admin/party_management_service.proto``
+
+.. _com.daml.ledger.api.v1.admin.PartyManagementService:
+
+--------------------------------------------------------------------------------------------
+PartyManagementService
+--------------------------------------------------------------------------------------------
+
+Service, |version com.daml.ledger.api.v1.admin|: This service allows inspecting the party management state of the ledger known to the participant
+and managing the participant-local party metadata.
+
+The authorization rules for its RPCs are specified on the ``<RpcName>Request``
+messages as boolean expressions over these facts:
+
+1. ``HasRight(r)`` denoting whether the authenticated user has right ``r`` and
+2. ``IsAuthenticatedIdentityProviderAdmin(idp)`` denoting whether ``idp`` is equal to the ``identity_provider_id``
+   of the authenticated user and the user has an IdentityProviderAdmin right.
+
+If `identity_provider_id` is set to an empty string, then it's effectively set to the value of access token's 'iss' field if that is provided.
+If `identity_provider_id` remains an empty string, the default identity provider will be assumed.
+
+The fields of request messages (and sub-messages) are marked either as ``Optional`` or ``Required``:
+
+1. ``Optional`` denoting the client may leave the field unset when sending a request.
+2. ``Required`` denoting the client must set the field to a non-default value when sending a request.
+
+A party details resource is described by the ``PartyDetails`` message,
+A party details resource, once it has been created, can be modified using the ``UpdatePartyDetails`` RPC.
+The only fields that can be modified are those marked as ``Modifiable``.
+
+.. _com.daml.ledger.api.v1.admin.PartyManagementService.GetParticipantId:
+
+GetParticipantId
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.admin|: Return the identifier of the participant.
+All horizontally scaled replicas should return the same id.
+daml-on-kv-ledger: returns an identifier supplied on command line at launch time
+canton: returns globally unique identifier of the participant
+
+* Request: :ref:`GetParticipantIdRequest <com.daml.ledger.api.v1.admin.GetParticipantIdRequest>`
+* Response: :ref:`GetParticipantIdResponse <com.daml.ledger.api.v1.admin.GetParticipantIdResponse>`
+
+.. _com.daml.ledger.api.v1.admin.PartyManagementService.GetParties:
+
+GetParties
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.admin|: Get the party details of the given parties. Only known parties will be
+returned in the list.
+
+* Request: :ref:`GetPartiesRequest <com.daml.ledger.api.v1.admin.GetPartiesRequest>`
+* Response: :ref:`GetPartiesResponse <com.daml.ledger.api.v1.admin.GetPartiesResponse>`
+
+.. _com.daml.ledger.api.v1.admin.PartyManagementService.ListKnownParties:
+
+ListKnownParties
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.admin|: List the parties known by the participant.
+The list returned contains parties whose ledger access is facilitated by
+the participant and the ones maintained elsewhere.
+
+* Request: :ref:`ListKnownPartiesRequest <com.daml.ledger.api.v1.admin.ListKnownPartiesRequest>`
+* Response: :ref:`ListKnownPartiesResponse <com.daml.ledger.api.v1.admin.ListKnownPartiesResponse>`
+
+.. _com.daml.ledger.api.v1.admin.PartyManagementService.AllocateParty:
+
+AllocateParty
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.admin|: Allocates a new party on a ledger and adds it to the set managed by the participant.
+Caller specifies a party identifier suggestion, the actual identifier
+allocated might be different and is implementation specific.
+Caller can specify party metadata that is stored locally on the participant.
+This call may:
+
+- Succeed, in which case the actual allocated identifier is visible in
+  the response.
+- Respond with a gRPC error
+
+daml-on-kv-ledger: suggestion's uniqueness is checked by the validators in
+the consensus layer and call rejected if the identifier is already present.
+canton: completely different globally unique identifier is allocated.
+Behind the scenes calls to an internal protocol are made. As that protocol
+is richer than the surface protocol, the arguments take implicit values
+The party identifier suggestion must be a valid party name. Party names are required to be non-empty US-ASCII strings built from letters, digits, space,
+colon, minus and underscore limited to 255 chars
+
+* Request: :ref:`AllocatePartyRequest <com.daml.ledger.api.v1.admin.AllocatePartyRequest>`
+* Response: :ref:`AllocatePartyResponse <com.daml.ledger.api.v1.admin.AllocatePartyResponse>`
+
+.. _com.daml.ledger.api.v1.admin.PartyManagementService.UpdatePartyDetails:
+
+UpdatePartyDetails
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.admin|: Update selected modifiable participant-local attributes of a party details resource.
+Can update the participant's local information for local parties.
+
+* Request: :ref:`UpdatePartyDetailsRequest <com.daml.ledger.api.v1.admin.UpdatePartyDetailsRequest>`
+* Response: :ref:`UpdatePartyDetailsResponse <com.daml.ledger.api.v1.admin.UpdatePartyDetailsResponse>`
+
+.. _com.daml.ledger.api.v1.admin.PartyManagementService.UpdatePartyIdentityProviderId:
+
+UpdatePartyIdentityProviderId
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.admin|: Update the assignment of a party from one IDP to another.
+
+* Request: :ref:`UpdatePartyIdentityProviderRequest <com.daml.ledger.api.v1.admin.UpdatePartyIdentityProviderRequest>`
+* Response: :ref:`UpdatePartyIdentityProviderResponse <com.daml.ledger.api.v1.admin.UpdatePartyIdentityProviderResponse>`
+
+.. _com.daml.ledger.api.v1.admin.AllocatePartyRequest:
+
+AllocatePartyRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(identity_provider_id)``
+
+``party_id_hint`` : :ref:`string <string>`
+
+A hint to the participant which party ID to allocate. It can be
+ignored.
+Must be a valid PartyIdString (as described in ``value.proto``).
+Optional 
+
+``display_name`` : :ref:`string <string>`
+
+Human-readable name of the party to be added to the participant. It doesn't
+have to be unique.
+Use of this field is discouraged. Use ``local_metadata`` instead.
+Optional 
+
+``local_metadata`` : :ref:`ObjectMeta <com.daml.ledger.api.v1.admin.ObjectMeta>`
+
+Participant-local metadata to be stored in the ``PartyDetails`` of this newly allocated party.
+Optional 
+
+``identity_provider_id`` : :ref:`string <string>`
+
+The id of the ``Identity Provider``
+Optional, if not set, assume the party is managed by the default identity provider or party is not hosted by the participant. 
+
+.. _com.daml.ledger.api.v1.admin.AllocatePartyResponse:
+
+AllocatePartyResponse
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``party_details`` : :ref:`PartyDetails <com.daml.ledger.api.v1.admin.PartyDetails>`
+
+ 
+
+.. _com.daml.ledger.api.v1.admin.GetParticipantIdRequest:
+
+GetParticipantIdRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin)``
+
+Message has no fields.
+
+.. _com.daml.ledger.api.v1.admin.GetParticipantIdResponse:
+
+GetParticipantIdResponse
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``participant_id`` : :ref:`string <string>`
+
+Identifier of the participant, which SHOULD be globally unique.
+Must be a valid LedgerString (as describe in ``value.proto``). 
+
+.. _com.daml.ledger.api.v1.admin.GetPartiesRequest:
+
+GetPartiesRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(identity_provider_id)``
+
+``parties`` : :ref:`string <string>` (repeated)
+
+The stable, unique identifier of the Daml parties.
+Must be valid PartyIdStrings (as described in ``value.proto``).
+Required 
+
+``identity_provider_id`` : :ref:`string <string>`
+
+The id of the ``Identity Provider`` whose parties should be retrieved.
+Optional, if not set, assume the party is managed by the default identity provider or party is not hosted by the participant. 
+
+.. _com.daml.ledger.api.v1.admin.GetPartiesResponse:
+
+GetPartiesResponse
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``party_details`` : :ref:`PartyDetails <com.daml.ledger.api.v1.admin.PartyDetails>` (repeated)
+
+The details of the requested Daml parties by the participant, if known.
+The party details may not be in the same order as requested.
+Required 
+
+.. _com.daml.ledger.api.v1.admin.ListKnownPartiesRequest:
+
+ListKnownPartiesRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(identity_provider_id)``
+
+``page_token`` : :ref:`string <string>`
+
+Pagination token to determine the specific page to fetch. Using the token guarantees that parties on a subsequent
+page are all lexically greater than the last party on a previous page. Server does not store intermediate results
+between calls chained by a series of page tokens. As a consequence, if new parties are being added and a page is
+requested twice using the same token, more parties can be returned on the second call.
+Leave empty to fetch the first page.
+Optional 
+
+``page_size`` : :ref:`int32 <int32>`
+
+Maximum number of results to be returned by the server. The server will return no more than that many results,
+but it might return fewer. If the page_size is 0, the server will decide the number of results to be returned.
+If the page_size exceeds the maximum supported by the server, an error will be returned. To obtain the server's
+maximum consult the PartyManagementFeature descriptor available in the VersionService.
+Optional 
+
+``identity_provider_id`` : :ref:`string <string>`
+
+The id of the ``Identity Provider`` whose parties should be retrieved.
+Optional, if not set, assume the party is managed by the default identity provider or party is not hosted by the participant. 
+
+.. _com.daml.ledger.api.v1.admin.ListKnownPartiesResponse:
+
+ListKnownPartiesResponse
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``party_details`` : :ref:`PartyDetails <com.daml.ledger.api.v1.admin.PartyDetails>` (repeated)
+
+The details of all Daml parties known by the participant.
+Required 
+
+``next_page_token`` : :ref:`string <string>`
+
+Pagination token to retrieve the next page.
+Empty, if there are no further results. 
+
+.. _com.daml.ledger.api.v1.admin.PartyDetails:
+
+PartyDetails
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``party`` : :ref:`string <string>`
+
+The stable unique identifier of a Daml party.
+Must be a valid PartyIdString (as described in ``value.proto``).
+Required 
+
+``display_name`` : :ref:`string <string>`
+
+Human readable name associated with the party at allocation time.
+Caution, it might not be unique.
+Use of this field is discouraged. Use the `local_metadata` field instead.
+Optional 
+
+``is_local`` : :ref:`bool <bool>`
+
+true if party is hosted by the participant and the party shares the same identity provider as the user issuing the request.
+Optional 
+
+``local_metadata`` : :ref:`ObjectMeta <com.daml.ledger.api.v1.admin.ObjectMeta>`
+
+Participant-local metadata of this party.
+Optional,
+Modifiable 
+
+``identity_provider_id`` : :ref:`string <string>`
+
+The id of the ``Identity Provider``
+Optional, if not set, there could be 3 options:
+
+1. the party is managed by the default identity provider.
+2. party is not hosted by the participant.
+3. party is hosted by the participant, but is outside of the user's identity provider. 
+
+.. _com.daml.ledger.api.v1.admin.UpdatePartyDetailsRequest:
+
+UpdatePartyDetailsRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(party_details.identity_provider_id)``
+
+``party_details`` : :ref:`PartyDetails <com.daml.ledger.api.v1.admin.PartyDetails>`
+
+Party to be updated
+Required,
+Modifiable 
+
+``update_mask`` :  `google.protobuf.FieldMask <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask>`__
+
+An update mask specifies how and which properties of the ``PartyDetails`` message are to be updated.
+An update mask consists of a set of update paths.
+A valid update path points to a field or a subfield relative to the ``PartyDetails`` message.
+A valid update mask must:
+
+1. contain at least one update path,
+2. contain only valid update paths.
+
+Fields that can be updated are marked as ``Modifiable``.
+An update path can also point to non-``Modifiable`` fields such as 'party' and 'local_metadata.resource_version'
+because they are used:
+
+1. to identify the party details resource subject to the update,
+2. for concurrent change control.
+
+An update path can also point to non-``Modifiable`` fields such as 'is_local' and 'display_name'
+as long as the values provided in the update request match the server values.
+Examples of update paths: 'local_metadata.annotations', 'local_metadata'.
+For additional information see the documentation for standard protobuf3's ``google.protobuf.FieldMask``.
+For similar Ledger API see ``com.daml.ledger.api.v1.admin.UpdateUserRequest``.
+Required 
+
+.. _com.daml.ledger.api.v1.admin.UpdatePartyDetailsResponse:
+
+UpdatePartyDetailsResponse
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``party_details`` : :ref:`PartyDetails <com.daml.ledger.api.v1.admin.PartyDetails>`
+
+Updated party details 
+
+.. _com.daml.ledger.api.v1.admin.UpdatePartyIdentityProviderRequest:
+
+UpdatePartyIdentityProviderRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin)``
+
+``party`` : :ref:`string <string>`
+
+Party to update 
+
+``source_identity_provider_id`` : :ref:`string <string>`
+
+Current identity provider id of the party 
+
+``target_identity_provider_id`` : :ref:`string <string>`
+
+Target identity provider id of the party 
+
+.. _com.daml.ledger.api.v1.admin.UpdatePartyIdentityProviderResponse:
+
+UpdatePartyIdentityProviderResponse
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+Message has no fields.
+
+
+----
+
+``com/daml/ledger/api/v1/admin/user_management_service.proto``
+
+.. _com.daml.ledger.api.v1.admin.UserManagementService:
+
+--------------------------------------------------------------------------------------------
+UserManagementService
+--------------------------------------------------------------------------------------------
+
+Service, |version com.daml.ledger.api.v1.admin|: Service to manage users and their rights for interacting with the Ledger API
+served by a participant node.
+
+The authorization rules for its RPCs are specified on the ``<RpcName>Request``
+messages as boolean expressions over these facts:
+
+1. ``HasRight(r)`` denoting whether the authenticated user has right ``r`` and
+2. ``IsAuthenticatedUser(uid)`` denoting whether ``uid`` is the empty string or equal to the id of the authenticated user.
+3. ``IsAuthenticatedIdentityProviderAdmin(idp)`` denoting whether ``idp`` is equal to the ``identity_provider_id``
+   of the authenticated user and the user has an IdentityProviderAdmin right.
+
+If `user_id` is set to the empty string (the default), then the data for the authenticated user will be retrieved.
+If `identity_provider_id` is set to an empty string, then it's effectively set to the value of access token's 'iss' field if that is provided.
+If `identity_provider_id` remains an empty string, the default identity provider will be assumed.
+
+The fields of request messages (and sub-messages) are marked either as ``Optional`` or ``Required``:
+
+1. ``Optional`` denoting the client may leave the field unset when sending a request.
+2. ``Required`` denoting the client must set the field to a non-default value when sending a request.
+
+A user resource consists of:
+
+1. a set of properties represented by the ``User`` message,
+2. a set of user rights, where each right is represented by the ``Right`` message.
+
+A user resource, once it has been created, can be modified.
+In order to update the properties represented by the ``User`` message use the ``UpdateUser`` RPC. The only fields that can be modified are those marked as ``Modifiable``.
+In order to grant or revoke user rights use ``GrantRights' and ``RevokeRights`` RPCs.
+
+.. _com.daml.ledger.api.v1.admin.UserManagementService.CreateUser:
+
+CreateUser
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.admin|: Create a new user.
+
+* Request: :ref:`CreateUserRequest <com.daml.ledger.api.v1.admin.CreateUserRequest>`
+* Response: :ref:`CreateUserResponse <com.daml.ledger.api.v1.admin.CreateUserResponse>`
+
+.. _com.daml.ledger.api.v1.admin.UserManagementService.GetUser:
+
+GetUser
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.admin|: Get the user data of a specific user or the authenticated user.
+
+* Request: :ref:`GetUserRequest <com.daml.ledger.api.v1.admin.GetUserRequest>`
+* Response: :ref:`GetUserResponse <com.daml.ledger.api.v1.admin.GetUserResponse>`
+
+.. _com.daml.ledger.api.v1.admin.UserManagementService.UpdateUser:
+
+UpdateUser
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.admin|: Update selected modifiable attribute of a user resource described by the ``User`` message.
+
+* Request: :ref:`UpdateUserRequest <com.daml.ledger.api.v1.admin.UpdateUserRequest>`
+* Response: :ref:`UpdateUserResponse <com.daml.ledger.api.v1.admin.UpdateUserResponse>`
+
+.. _com.daml.ledger.api.v1.admin.UserManagementService.DeleteUser:
+
+DeleteUser
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.admin|: Delete an existing user and all its rights.
+
+* Request: :ref:`DeleteUserRequest <com.daml.ledger.api.v1.admin.DeleteUserRequest>`
+* Response: :ref:`DeleteUserResponse <com.daml.ledger.api.v1.admin.DeleteUserResponse>`
+
+.. _com.daml.ledger.api.v1.admin.UserManagementService.ListUsers:
+
+ListUsers
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.admin|: List all existing users.
+
+* Request: :ref:`ListUsersRequest <com.daml.ledger.api.v1.admin.ListUsersRequest>`
+* Response: :ref:`ListUsersResponse <com.daml.ledger.api.v1.admin.ListUsersResponse>`
+
+.. _com.daml.ledger.api.v1.admin.UserManagementService.GrantUserRights:
+
+GrantUserRights
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.admin|: Grant rights to a user.
+Granting rights does not affect the resource version of the corresponding user.
+
+* Request: :ref:`GrantUserRightsRequest <com.daml.ledger.api.v1.admin.GrantUserRightsRequest>`
+* Response: :ref:`GrantUserRightsResponse <com.daml.ledger.api.v1.admin.GrantUserRightsResponse>`
+
+.. _com.daml.ledger.api.v1.admin.UserManagementService.RevokeUserRights:
+
+RevokeUserRights
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.admin|: Revoke rights from a user.
+Revoking rights does not affect the resource version of the corresponding user.
+
+* Request: :ref:`RevokeUserRightsRequest <com.daml.ledger.api.v1.admin.RevokeUserRightsRequest>`
+* Response: :ref:`RevokeUserRightsResponse <com.daml.ledger.api.v1.admin.RevokeUserRightsResponse>`
+
+.. _com.daml.ledger.api.v1.admin.UserManagementService.ListUserRights:
+
+ListUserRights
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.admin|: List the set of all rights granted to a user.
+
+* Request: :ref:`ListUserRightsRequest <com.daml.ledger.api.v1.admin.ListUserRightsRequest>`
+* Response: :ref:`ListUserRightsResponse <com.daml.ledger.api.v1.admin.ListUserRightsResponse>`
+
+.. _com.daml.ledger.api.v1.admin.UserManagementService.UpdateUserIdentityProviderId:
+
+UpdateUserIdentityProviderId
+============================================================================================
+
+Method, |version com.daml.ledger.api.v1.admin|: Update the assignment of a user from one IDP to another.
+
+* Request: :ref:`UpdateUserIdentityProviderRequest <com.daml.ledger.api.v1.admin.UpdateUserIdentityProviderRequest>`
+* Response: :ref:`UpdateUserIdentityProviderResponse <com.daml.ledger.api.v1.admin.UpdateUserIdentityProviderResponse>`
+
+.. _com.daml.ledger.api.v1.admin.CreateUserRequest:
+
+CreateUserRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(user.identity_provider_id)``
+
+``user`` : :ref:`User <com.daml.ledger.api.v1.admin.User>`
+
+The user to create.
+Required 
+
+``rights`` : :ref:`Right <com.daml.ledger.api.v1.admin.Right>` (repeated)
+
+The rights to be assigned to the user upon creation,
+which SHOULD include appropriate rights for the ``user.primary_party``.
+Optional 
+
+.. _com.daml.ledger.api.v1.admin.CreateUserResponse:
+
+CreateUserResponse
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``user`` : :ref:`User <com.daml.ledger.api.v1.admin.User>`
+
+Created user. 
+
+.. _com.daml.ledger.api.v1.admin.DeleteUserRequest:
+
+DeleteUserRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(identity_provider_id)``
+
+``user_id`` : :ref:`string <string>`
+
+The user to delete.
+Required 
+
+``identity_provider_id`` : :ref:`string <string>`
+
+The id of the ``Identity Provider``
+Optional, if not set, assume the user is managed by the default identity provider. 
+
+.. _com.daml.ledger.api.v1.admin.DeleteUserResponse:
+
+DeleteUserResponse
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: Does not (yet) contain any data.
+
+Message has no fields.
+
+.. _com.daml.ledger.api.v1.admin.GetUserRequest:
+
+GetUserRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(identity_provider_id) OR IsAuthenticatedUser(user_id)``
+
+``user_id`` : :ref:`string <string>`
+
+The user whose data to retrieve.
+If set to empty string (the default), then the data for the authenticated user will be retrieved.
+Optional 
+
+``identity_provider_id`` : :ref:`string <string>`
+
+The id of the ``Identity Provider``
+Optional, if not set, assume the user is managed by the default identity provider. 
+
+.. _com.daml.ledger.api.v1.admin.GetUserResponse:
+
+GetUserResponse
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``user`` : :ref:`User <com.daml.ledger.api.v1.admin.User>`
+
+Retrieved user. 
+
+.. _com.daml.ledger.api.v1.admin.GrantUserRightsRequest:
+
+GrantUserRightsRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: Add the rights to the set of rights granted to the user.
+
+Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(identity_provider_id)``
+
+``user_id`` : :ref:`string <string>`
+
+The user to whom to grant rights.
+Required 
+
+``rights`` : :ref:`Right <com.daml.ledger.api.v1.admin.Right>` (repeated)
+
+The rights to grant.
+Optional 
+
+``identity_provider_id`` : :ref:`string <string>`
+
+The id of the ``Identity Provider``
+Optional, if not set, assume the user is managed by the default identity provider. 
+
+.. _com.daml.ledger.api.v1.admin.GrantUserRightsResponse:
+
+GrantUserRightsResponse
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``newly_granted_rights`` : :ref:`Right <com.daml.ledger.api.v1.admin.Right>` (repeated)
+
+The rights that were newly granted by the request. 
+
+.. _com.daml.ledger.api.v1.admin.ListUserRightsRequest:
+
+ListUserRightsRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(identity_provider_id) OR IsAuthenticatedUser(user_id)``
+
+``user_id`` : :ref:`string <string>`
+
+The user for which to list the rights.
+If set to empty string (the default), then the rights for the authenticated user will be listed.
+Required 
+
+``identity_provider_id`` : :ref:`string <string>`
+
+The id of the ``Identity Provider``
+Optional, if not set, assume the user is managed by the default identity provider. 
+
+.. _com.daml.ledger.api.v1.admin.ListUserRightsResponse:
+
+ListUserRightsResponse
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``rights`` : :ref:`Right <com.daml.ledger.api.v1.admin.Right>` (repeated)
+
+All rights of the user. 
+
+.. _com.daml.ledger.api.v1.admin.ListUsersRequest:
+
+ListUsersRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(identity_provider_id)``
+
+``page_token`` : :ref:`string <string>`
+
+Pagination token to determine the specific page to fetch.
+Leave empty to fetch the first page.
+Optional 
+
+``page_size`` : :ref:`int32 <int32>`
+
+Maximum number of results to be returned by the server. The server will return no more than that many results, but it might return fewer.
+If 0, the server will decide the number of results to be returned.
+Optional 
+
+``identity_provider_id`` : :ref:`string <string>`
+
+The id of the ``Identity Provider``
+Optional, if not set, assume the user is managed by the default identity provider. 
+
+.. _com.daml.ledger.api.v1.admin.ListUsersResponse:
+
+ListUsersResponse
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``users`` : :ref:`User <com.daml.ledger.api.v1.admin.User>` (repeated)
+
+A subset of users of the participant node that fit into this page. 
+
+``next_page_token`` : :ref:`string <string>`
+
+Pagination token to retrieve the next page.
+Empty, if there are no further results. 
+
+.. _com.daml.ledger.api.v1.admin.RevokeUserRightsRequest:
+
+RevokeUserRightsRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: Remove the rights from the set of rights granted to the user.
+
+Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(identity_provider_id)``
+
+``user_id`` : :ref:`string <string>`
+
+The user from whom to revoke rights.
+Required 
+
+``rights`` : :ref:`Right <com.daml.ledger.api.v1.admin.Right>` (repeated)
+
+The rights to revoke.
+Optional 
+
+``identity_provider_id`` : :ref:`string <string>`
+
+The id of the ``Identity Provider``
+Optional, if not set, assume the user is managed by the default identity provider. 
+
+.. _com.daml.ledger.api.v1.admin.RevokeUserRightsResponse:
+
+RevokeUserRightsResponse
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``newly_revoked_rights`` : :ref:`Right <com.daml.ledger.api.v1.admin.Right>` (repeated)
+
+The rights that were actually revoked by the request. 
+
+.. _com.daml.ledger.api.v1.admin.Right:
+
+Right
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: A right granted to a user.
+
+``oneof kind.participant_admin`` : :ref:`Right.ParticipantAdmin <com.daml.ledger.api.v1.admin.Right.ParticipantAdmin>`
+
+The user can administer the participant node. 
+
+``oneof kind.can_act_as`` : :ref:`Right.CanActAs <com.daml.ledger.api.v1.admin.Right.CanActAs>`
+
+The user can act as a specific party. 
+
+``oneof kind.can_read_as`` : :ref:`Right.CanReadAs <com.daml.ledger.api.v1.admin.Right.CanReadAs>`
+
+The user can read ledger data visible to a specific party. 
+
+``oneof kind.identity_provider_admin`` : :ref:`Right.IdentityProviderAdmin <com.daml.ledger.api.v1.admin.Right.IdentityProviderAdmin>`
+
+The user can administer users and parties assigned to the same identity provider as the one of the user. 
+
+.. _com.daml.ledger.api.v1.admin.Right.CanActAs:
+
+Right.CanActAs
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``party`` : :ref:`string <string>`
+
+The right to authorize commands for this party. 
+
+.. _com.daml.ledger.api.v1.admin.Right.CanReadAs:
+
+Right.CanReadAs
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``party`` : :ref:`string <string>`
+
+The right to read ledger data visible to this party. 
+
+.. _com.daml.ledger.api.v1.admin.Right.IdentityProviderAdmin:
+
+Right.IdentityProviderAdmin
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: The right to administer the identity provider that the user is assigned to.
+It means, being able to manage users and parties that are also assigned
+to the same identity provider.
+
+Message has no fields.
+
+.. _com.daml.ledger.api.v1.admin.Right.ParticipantAdmin:
+
+Right.ParticipantAdmin
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: The right to administer the participant node.
+
+Message has no fields.
+
+.. _com.daml.ledger.api.v1.admin.UpdateUserIdentityProviderRequest:
+
+UpdateUserIdentityProviderRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin)``
+
+``user_id`` : :ref:`string <string>`
+
+User to update 
+
+``source_identity_provider_id`` : :ref:`string <string>`
+
+Current identity provider id of the user 
+
+``target_identity_provider_id`` : :ref:`string <string>`
+
+Target identity provider id of the user 
+
+.. _com.daml.ledger.api.v1.admin.UpdateUserIdentityProviderResponse:
+
+UpdateUserIdentityProviderResponse
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+Message has no fields.
+
+.. _com.daml.ledger.api.v1.admin.UpdateUserRequest:
+
+UpdateUserRequest
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(user.identity_provider_id)``
+
+``user`` : :ref:`User <com.daml.ledger.api.v1.admin.User>`
+
+The user to update.
+Required,
+Modifiable 
+
+``update_mask`` :  `google.protobuf.FieldMask <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask>`__
+
+An update mask specifies how and which properties of the ``User`` message are to be updated.
+An update mask consists of a set of update paths.
+A valid update path points to a field or a subfield relative to the ``User`` message.
+A valid update mask must:
+
+1. contain at least one update path,
+2. contain only valid update paths.
+
+Fields that can be updated are marked as ``Modifiable``.
+An update path can also point to a non-``Modifiable`` fields such as 'id' and 'metadata.resource_version'
+because they are used:
+
+1. to identify the user resource subject to the update,
+2. for concurrent change control.
+
+Examples of valid update paths: 'primary_party', 'metadata', 'metadata.annotations'.
+For additional information see the documentation for standard protobuf3's ``google.protobuf.FieldMask``.
+For similar Ledger API see ``com.daml.ledger.api.v1.admin.UpdatePartyDetailsRequest``.
+Required 
+
+.. _com.daml.ledger.api.v1.admin.UpdateUserResponse:
+
+UpdateUserResponse
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: 
+
+``user`` : :ref:`User <com.daml.ledger.api.v1.admin.User>`
+
+Updated user 
+
+.. _com.daml.ledger.api.v1.admin.User:
+
+User
+============================================================================================
+
+Message, |version com.daml.ledger.api.v1.admin|: Users are used to dynamically manage the rights given to Daml applications.
+They are stored and managed per participant node.
+
+Read the :doc:`Authorization documentation </app-dev/authorization>` to learn more.
+
+``id`` : :ref:`string <string>`
+
+The user identifier, which must be a non-empty string of at most 128
+characters that are either alphanumeric ASCII characters or one of the symbols "@^$.!`-#+'~_|:".
+Required 
+
+``primary_party`` : :ref:`string <string>`
+
+The primary party as which this user reads and acts by default on the ledger
+*provided* it has the corresponding ``CanReadAs(primary_party)`` or
+``CanActAs(primary_party)`` rights.
+Ledger API clients SHOULD set this field to a non-empty value for all users to
+enable the users to act on the ledger using their own Daml party.
+Users for participant administrators MAY have an associated primary party.
+Optional,
+Modifiable 
+
+``is_deactivated`` : :ref:`bool <bool>`
+
+When set, then the user is denied all access to the Ledger API.
+Otherwise, the user has access to the Ledger API as per the user's rights.
+Optional,
+Modifiable 
+
+``metadata`` : :ref:`ObjectMeta <com.daml.ledger.api.v1.admin.ObjectMeta>`
+
+The metadata of this user.
+Note that the ``metadata.resource_version`` tracks changes to the properties described by the ``User`` message and not the user's rights.
+Optional,
+Modifiable 
+
+``identity_provider_id`` : :ref:`string <string>`
+
+The id of the identity provider configured by ``Identity Provider Config``
+Optional, if not set, assume the user is managed by the default identity provider. 
+
+
+----
+
 ``com/daml/ledger/api/v2/command_completion_service.proto``
 
 .. _com.daml.ledger.api.v2.CommandCompletionService:
@@ -4951,7 +4909,7 @@ CompletionStreamResponse
 
 Message, |version com.daml.ledger.api.v2|: 
 
-``checkpoint`` : :ref:`Checkpoint <com.daml.ledger.api.v1.Checkpoint>`
+``checkpoint`` : :ref:`com.daml.ledger.api.v1.Checkpoint <com.daml.ledger.api.v1.Checkpoint>`
 
 This checkpoint may be used to restart consumption.  The
 checkpoint belongs to the completion in this response.
@@ -4965,9 +4923,11 @@ Required
 
 The sequencing domain.
 In case
+
   - successful/failed transactions: identifies the sequencing domain of the transaction
   - for successful/failed unassign commands: identifies the source domain
   - for successful/failed assign commands: identifies the target domain
+
 Required 
 
 
@@ -4996,7 +4956,7 @@ Method, |version com.daml.ledger.api.v2|: Submits a single composite command and
 Propagates the gRPC error of failed submissions including Daml interpretation errors.
 
 * Request: :ref:`SubmitAndWaitRequest <com.daml.ledger.api.v2.SubmitAndWaitRequest>`
-* Response: :ref:`Empty <google.protobuf.Empty>`
+* Response:  `.google.protobuf.Empty <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#empty>`__
 
 .. _com.daml.ledger.api.v2.CommandService.SubmitAndWaitForUpdateId:
 
@@ -5227,12 +5187,12 @@ Deprecated in favor of the ``act_as`` field. If both are set, then the effective
 behalf the command should be executed is the union of all parties listed in ``party`` and ``act_as``.
 Optional 
 
-``commands`` : :ref:`Command <com.daml.ledger.api.v1.Command>` (repeated)
+``commands`` : :ref:`com.daml.ledger.api.v1.Command <com.daml.ledger.api.v1.Command>` (repeated)
 
 Individual elements of this atomic command. Must be non-empty.
 Required 
 
-``oneof deduplication_period.deduplication_duration`` : :ref:`Duration <google.protobuf.Duration>`
+``oneof deduplication_period.deduplication_duration`` :  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration>`__
 
 Specifies the length of the deduplication period.
 It is interpreted relative to the local clock at some point during the submission's processing.
@@ -5244,7 +5204,7 @@ Must be non-negative. Must not exceed the maximum deduplication time (see
 Specifies the start of the deduplication period by a completion stream offset (exclusive).
 Must be a valid LedgerString (as described in ``participant_offset.proto``). 
 
-``min_ledger_time_abs`` : :ref:`Timestamp <google.protobuf.Timestamp>`
+``min_ledger_time_abs`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
 
 Lower bound for the ledger time assigned to the resulting transaction.
 Note: The ledger time of a transaction is assigned as part of command interpretation.
@@ -5253,7 +5213,7 @@ the time the resulting transaction is sequenced, its assigned ledger time is not
 Must not be set at the same time as min_ledger_time_rel.
 Optional 
 
-``min_ledger_time_rel`` : :ref:`Duration <google.protobuf.Duration>`
+``min_ledger_time_rel`` :  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration>`__
 
 Same as min_ledger_time_abs, but specified as a duration, starting from the time the command is received by the server.
 Must not be set at the same time as min_ledger_time_abs.
@@ -5291,7 +5251,7 @@ Must be a valid LedgerString (as described in ``value.proto``).
 If omitted, the participant or the committer may set a value of their choice.
 Optional 
 
-``disclosed_contracts`` : :ref:`DisclosedContract <com.daml.ledger.api.v1.DisclosedContract>` (repeated)
+``disclosed_contracts`` : :ref:`com.daml.ledger.api.v1.DisclosedContract <com.daml.ledger.api.v1.DisclosedContract>` (repeated)
 
 Additional contracts used to resolve contract & contract key lookups.
 Optional 
@@ -5324,7 +5284,7 @@ The ID of the succeeded or failed command.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
 
-``status`` : :ref:`Status <google.rpc.Status>`
+``status`` :  `google.rpc.Status <https://cloud.google.com/tasks/docs/reference/rpc/google.rpc#status>`__
 
 Identifies the exact type of the error.
 It uses the same format of conveying error details as it is used for the RPC responses of the APIs.
@@ -5362,14 +5322,14 @@ Specifies the start of the deduplication period by a completion stream offset (e
 
 Must be a valid LedgerString (as described in ``value.proto``). 
 
-``oneof deduplication_period.deduplication_duration`` : :ref:`Duration <google.protobuf.Duration>`
+``oneof deduplication_period.deduplication_duration`` :  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration>`__
 
 Specifies the length of the deduplication period.
 It is measured in record time of completions.
 
 Must be non-negative. 
 
-``trace_context`` : :ref:`TraceContext <com.daml.ledger.api.v1.TraceContext>`
+``trace_context`` : :ref:`com.daml.ledger.api.v1.TraceContext <com.daml.ledger.api.v1.TraceContext>`
 
 Optional; ledger api trace context
 
@@ -5406,7 +5366,7 @@ Method, |version com.daml.ledger.api.v2|: Get the create and the consuming exerc
 No events will be returned for contracts that have been pruned because they
 have already been archived before the latest pruning offset.
 
-* Request: :ref:`GetEventsByContractIdRequest <com.daml.ledger.api.v1.GetEventsByContractIdRequest>`
+* Request: :ref:`.com.daml.ledger.api.v1.GetEventsByContractIdRequest <com.daml.ledger.api.v1.GetEventsByContractIdRequest>`
 * Response: :ref:`GetEventsByContractIdResponse <com.daml.ledger.api.v2.GetEventsByContractIdResponse>`
 
 .. _com.daml.ledger.api.v2.Archived:
@@ -5416,7 +5376,7 @@ Archived
 
 Message, |version com.daml.ledger.api.v2|: 
 
-``archived_event`` : :ref:`ArchivedEvent <com.daml.ledger.api.v1.ArchivedEvent>`
+``archived_event`` : :ref:`com.daml.ledger.api.v1.ArchivedEvent <com.daml.ledger.api.v1.ArchivedEvent>`
 
 Required 
 
@@ -5432,7 +5392,7 @@ Created
 
 Message, |version com.daml.ledger.api.v2|: 
 
-``created_event`` : :ref:`CreatedEvent <com.daml.ledger.api.v1.CreatedEvent>`
+``created_event`` : :ref:`com.daml.ledger.api.v1.CreatedEvent <com.daml.ledger.api.v1.CreatedEvent>`
 
 Required 
 
@@ -5481,7 +5441,7 @@ ListPackages
 Method, |version com.daml.ledger.api.v2|: Returns the identifiers of all supported packages.
 
 * Request: :ref:`ListPackagesRequest <com.daml.ledger.api.v2.ListPackagesRequest>`
-* Response: :ref:`ListPackagesResponse <com.daml.ledger.api.v1.ListPackagesResponse>`
+* Response: :ref:`.com.daml.ledger.api.v1.ListPackagesResponse <com.daml.ledger.api.v1.ListPackagesResponse>`
 
 .. _com.daml.ledger.api.v2.PackageService.GetPackage:
 
@@ -5491,7 +5451,7 @@ GetPackage
 Method, |version com.daml.ledger.api.v2|: Returns the contents of a single package.
 
 * Request: :ref:`GetPackageRequest <com.daml.ledger.api.v2.GetPackageRequest>`
-* Response: :ref:`GetPackageResponse <com.daml.ledger.api.v1.GetPackageResponse>`
+* Response: :ref:`.com.daml.ledger.api.v1.GetPackageResponse <com.daml.ledger.api.v1.GetPackageResponse>`
 
 .. _com.daml.ledger.api.v2.PackageService.GetPackageStatus:
 
@@ -5501,7 +5461,7 @@ GetPackageStatus
 Method, |version com.daml.ledger.api.v2|: Returns the status of a single package.
 
 * Request: :ref:`GetPackageStatusRequest <com.daml.ledger.api.v2.GetPackageStatusRequest>`
-* Response: :ref:`GetPackageStatusResponse <com.daml.ledger.api.v1.GetPackageStatusResponse>`
+* Response: :ref:`.com.daml.ledger.api.v1.GetPackageStatusResponse <com.daml.ledger.api.v1.GetPackageStatusResponse>`
 
 .. _com.daml.ledger.api.v2.GetPackageRequest:
 
@@ -5581,7 +5541,7 @@ are lexicographically comparable.
 
 The format of this string is specific to the participant and opaque to the client. 
 
-``oneof value.boundary`` : :ref:`ParticipantBoundary <com.daml.ledger.api.v2.ParticipantOffset.ParticipantBoundary>`
+``oneof value.boundary`` : :ref:`ParticipantOffset.ParticipantBoundary <com.daml.ledger.api.v2.ParticipantOffset.ParticipantBoundary>`
 
  
 
@@ -5660,7 +5620,7 @@ with each unassign command for the same contract. Creation of the contract corre
 equals zero.
 Required 
 
-``created_event`` : :ref:`CreatedEvent <com.daml.ledger.api.v1.CreatedEvent>`
+``created_event`` : :ref:`com.daml.ledger.api.v1.CreatedEvent <com.daml.ledger.api.v1.CreatedEvent>`
 
 Required 
 
@@ -5702,7 +5662,7 @@ Required
 
  
 
-``trace_context`` : :ref:`TraceContext <com.daml.ledger.api.v1.TraceContext>`
+``trace_context`` : :ref:`com.daml.ledger.api.v1.TraceContext <com.daml.ledger.api.v1.TraceContext>`
 
 Optional; ledger api trace context
 
@@ -5734,7 +5694,7 @@ The ID of the reassigned contract.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
 
-``template_id`` : :ref:`Identifier <com.daml.ledger.api.v1.Identifier>`
+``template_id`` : :ref:`com.daml.ledger.api.v1.Identifier <com.daml.ledger.api.v1.Identifier>`
 
 The template of the reassigned contract.
  Required 
@@ -5765,7 +5725,7 @@ with each unassign command for the same contract. Creation of the contract corre
 equals zero.
 Required 
 
-``assignment_exclusivity`` : :ref:`Timestamp <google.protobuf.Timestamp>`
+``assignment_exclusivity`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
 
 Assignment exclusivity
 Before this time (measured on the target domain), only the submitter of the unassignment can initiate the assignment
@@ -5950,7 +5910,7 @@ ActiveContract
 
 Message, |version com.daml.ledger.api.v2|: 
 
-``created_event`` : :ref:`CreatedEvent <com.daml.ledger.api.v1.CreatedEvent>`
+``created_event`` : :ref:`com.daml.ledger.api.v1.CreatedEvent <com.daml.ledger.api.v1.CreatedEvent>`
 
 Required 
 
@@ -6054,7 +6014,7 @@ GetConnectedDomainsResponse
 
 Message, |version com.daml.ledger.api.v2|: 
 
-``connected_domains`` : :ref:`ConnectedDomain <com.daml.ledger.api.v2.GetConnectedDomainsResponse.ConnectedDomain>` (repeated)
+``connected_domains`` : :ref:`GetConnectedDomainsResponse.ConnectedDomain <com.daml.ledger.api.v2.GetConnectedDomainsResponse.ConnectedDomain>` (repeated)
 
  
 
@@ -6145,7 +6105,7 @@ IncompleteUnassigned
 
 Message, |version com.daml.ledger.api.v2|: 
 
-``created_event`` : :ref:`CreatedEvent <com.daml.ledger.api.v1.CreatedEvent>`
+``created_event`` : :ref:`com.daml.ledger.api.v1.CreatedEvent <com.daml.ledger.api.v1.CreatedEvent>`
 
 Required 
 
@@ -6192,75 +6152,6 @@ whose connected domains are being listed.
 
 ----
 
-``com/daml/ledger/api/v2/testing/time_service.proto``
-
-.. _com.daml.ledger.api.v2.testing.TimeService:
-
---------------------------------------------------------------------------------------------
-TimeService
---------------------------------------------------------------------------------------------
-
-Service, |version com.daml.ledger.api.v2.testing|: Optional service, exposed for testing static time scenarios.
-
-.. _com.daml.ledger.api.v2.testing.TimeService.GetTime:
-
-GetTime
-============================================================================================
-
-Method, |version com.daml.ledger.api.v2.testing|: Returns the current time according to the ledger server.
-
-* Request: :ref:`GetTimeRequest <com.daml.ledger.api.v2.testing.GetTimeRequest>`
-* Response: :ref:`GetTimeResponse <com.daml.ledger.api.v2.testing.GetTimeResponse>`
-
-.. _com.daml.ledger.api.v2.testing.TimeService.SetTime:
-
-SetTime
-============================================================================================
-
-Method, |version com.daml.ledger.api.v2.testing|: Allows clients to change the ledger's clock in an atomic get-and-set operation.
-
-* Request: :ref:`SetTimeRequest <com.daml.ledger.api.v2.testing.SetTimeRequest>`
-* Response: :ref:`Empty <google.protobuf.Empty>`
-
-.. _com.daml.ledger.api.v2.testing.GetTimeRequest:
-
-GetTimeRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v2.testing|: 
-
-Message has no fields.
-
-.. _com.daml.ledger.api.v2.testing.GetTimeResponse:
-
-GetTimeResponse
-============================================================================================
-
-Message, |version com.daml.ledger.api.v2.testing|: 
-
-``current_time`` : :ref:`Timestamp <google.protobuf.Timestamp>`
-
-The current time according to the ledger server. 
-
-.. _com.daml.ledger.api.v2.testing.SetTimeRequest:
-
-SetTimeRequest
-============================================================================================
-
-Message, |version com.daml.ledger.api.v2.testing|: 
-
-``current_time`` : :ref:`Timestamp <google.protobuf.Timestamp>`
-
-MUST precisely match the current time as it's known to the ledger server. 
-
-``new_time`` : :ref:`Timestamp <google.protobuf.Timestamp>`
-
-The time the client wants to set on the ledger.
-MUST be a point int time after ``current_time``. 
-
-
-----
-
 ``com/daml/ledger/api/v2/transaction.proto``
 
 .. _com.daml.ledger.api.v2.Transaction:
@@ -6288,13 +6179,13 @@ The workflow ID used in command submission.
 Must be a valid LedgerString (as described in ``value.proto``).
 Optional 
 
-``effective_at`` : :ref:`Timestamp <google.protobuf.Timestamp>`
+``effective_at`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
 
 Ledger effective time.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
 
-``events`` : :ref:`Event <com.daml.ledger.api.v1.Event>` (repeated)
+``events`` : :ref:`com.daml.ledger.api.v1.Event <com.daml.ledger.api.v1.Event>` (repeated)
 
 The collection of events.
 Only contains ``CreatedEvent`` or ``ArchivedEvent``.
@@ -6311,7 +6202,7 @@ A valid domain ID.
 Identifies the domain that synchronized the transaction.
 Required 
 
-``trace_context`` : :ref:`TraceContext <com.daml.ledger.api.v1.TraceContext>`
+``trace_context`` : :ref:`com.daml.ledger.api.v1.TraceContext <com.daml.ledger.api.v1.TraceContext>`
 
 Optional; ledger api trace context
 
@@ -6348,7 +6239,7 @@ The workflow ID used in command submission. Only set if the ``workflow_id`` for 
 Must be a valid LedgerString (as described in ``value.proto``).
 Optional 
 
-``effective_at`` : :ref:`Timestamp <google.protobuf.Timestamp>`
+``effective_at`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
 
 Ledger effective time.
 Required 
@@ -6358,7 +6249,7 @@ Required
 The absolute offset. The format of this field is described in ``participant_offset.proto``.
 Required 
 
-``events_by_id`` : :ref:`EventsByIdEntry <com.daml.ledger.api.v2.TransactionTree.EventsByIdEntry>` (repeated)
+``events_by_id`` : :ref:`TransactionTree.EventsByIdEntry <com.daml.ledger.api.v2.TransactionTree.EventsByIdEntry>` (repeated)
 
 Changes to the ledger that were caused by this transaction. Nodes of the transaction tree.
 Each key be a valid LedgerString (as describe in ``value.proto``).
@@ -6378,7 +6269,7 @@ A valid domain ID.
 Identifies the domain that synchronized the transaction.
 Required 
 
-``trace_context`` : :ref:`TraceContext <com.daml.ledger.api.v1.TraceContext>`
+``trace_context`` : :ref:`com.daml.ledger.api.v1.TraceContext <com.daml.ledger.api.v1.TraceContext>`
 
 Optional; ledger api trace context
 
@@ -6401,7 +6292,7 @@ Message, |version com.daml.ledger.api.v2|:
 
  
 
-``value`` : :ref:`TreeEvent <com.daml.ledger.api.v1.TreeEvent>`
+``value`` : :ref:`com.daml.ledger.api.v1.TreeEvent <com.daml.ledger.api.v1.TreeEvent>`
 
  
 
@@ -6418,17 +6309,19 @@ TransactionFilter
 Message, |version com.daml.ledger.api.v2|: A filter both for filtering create and archive events as well as for
 filtering transaction trees.
 
-``filters_by_party`` : :ref:`FiltersByPartyEntry <com.daml.ledger.api.v2.TransactionFilter.FiltersByPartyEntry>` (repeated)
+``filters_by_party`` : :ref:`TransactionFilter.FiltersByPartyEntry <com.daml.ledger.api.v2.TransactionFilter.FiltersByPartyEntry>` (repeated)
 
 Each key must be a valid PartyIdString (as described in ``value.proto``).
 The interpretation of the filter depends on the stream being filtered:
-(1) For **transaction tree streams** all party keys used as wildcard filters, and all subtrees
-    whose root has one of the listed parties as an informee are returned.
-    If there are InclusiveFilters, those will control returned ``CreatedEvent`` fields were applicable, but not
-    used for template/interface filtering.
-(2) For **transaction and active-contract-set streams** create and archive events are returned for all contracts whose
+
+1. For **transaction tree streams** all party keys used as wildcard filters, and all subtrees
+   whose root has one of the listed parties as an informee are returned.
+   If there are InclusiveFilters, those will control returned ``CreatedEvent`` fields were applicable, but not
+   used for template/interface filtering.
+2. For **transaction and active-contract-set streams** create and archive events are returned for all contracts whose
    stakeholders include at least one of the listed parties and match the
    per-party filter.
+
 Required 
 
 .. _com.daml.ledger.api.v2.TransactionFilter.FiltersByPartyEntry:
@@ -6442,7 +6335,7 @@ Message, |version com.daml.ledger.api.v2|:
 
  
 
-``value`` : :ref:`Filters <com.daml.ledger.api.v1.Filters>`
+``value`` : :ref:`com.daml.ledger.api.v1.Filters <com.daml.ledger.api.v1.Filters>`
 
  
 
@@ -6704,7 +6597,7 @@ GetLedgerApiVersion
 Method, |version com.daml.ledger.api.v2|: Read the Ledger API version
 
 * Request: :ref:`GetLedgerApiVersionRequest <com.daml.ledger.api.v2.GetLedgerApiVersionRequest>`
-* Response: :ref:`GetLedgerApiVersionResponse <com.daml.ledger.api.v1.GetLedgerApiVersionResponse>`
+* Response: :ref:`.com.daml.ledger.api.v1.GetLedgerApiVersionResponse <com.daml.ledger.api.v1.GetLedgerApiVersionResponse>`
 
 .. _com.daml.ledger.api.v2.GetLedgerApiVersionRequest:
 
