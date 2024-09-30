@@ -7,6 +7,8 @@ for interacting with the gRPC-based Ledger API.
 
 ----
 
+.. _com/daml/ledger/api/v1/active_contracts_service.proto:
+
 ``com/daml/ledger/api/v1/active_contracts_service.proto``
 
 .. _com.daml.ledger.api.v1.ActiveContractsService:
@@ -38,22 +40,30 @@ GetActiveContractsRequest
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.GetActiveContractsRequest.ledger_id:
+
 ``ledger_id`` : :ref:`string <string>`
 
 Must correspond to the ledger ID reported by the Ledger Identification Service.
 Must be a valid LedgerString (as described in ``value.proto``).
 Optional 
 
+.. _com.daml.ledger.api.v1.GetActiveContractsRequest.filter:
+
 ``filter`` : :ref:`TransactionFilter <com.daml.ledger.api.v1.TransactionFilter>`
 
 Templates to include in the served snapshot, per party.
 Required 
+
+.. _com.daml.ledger.api.v1.GetActiveContractsRequest.verbose:
 
 ``verbose`` : :ref:`bool <bool>`
 
 If enabled, values served over the API will contain more information than strictly necessary to interpret the data.
 In particular, setting the verbose flag to true triggers the ledger to include labels for record fields.
 Optional 
+
+.. _com.daml.ledger.api.v1.GetActiveContractsRequest.active_at_offset:
 
 ``active_at_offset`` : :ref:`string <string>`
 
@@ -70,16 +80,22 @@ GetActiveContractsResponse
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.GetActiveContractsResponse.offset:
+
 ``offset`` : :ref:`string <string>`
 
 Included only in the last message.
 The client should start consuming the transactions endpoint with this offset.
 The format of this field is described in ``ledger_offset.proto``. 
 
+.. _com.daml.ledger.api.v1.GetActiveContractsResponse.workflow_id:
+
 ``workflow_id`` : :ref:`string <string>`
 
 The workflow that created the contracts.
 Must be a valid LedgerString (as described in ``value.proto``). 
+
+.. _com.daml.ledger.api.v1.GetActiveContractsResponse.active_contracts:
 
 ``active_contracts`` : :ref:`CreatedEvent <com.daml.ledger.api.v1.CreatedEvent>` (repeated)
 
@@ -88,6 +104,8 @@ Must be a valid LedgerString (as described in ``value.proto``).
 
 
 ----
+
+.. _com/daml/ledger/api/v1/command_completion_service.proto:
 
 ``com/daml/ledger/api/v1/command_completion_service.proto``
 
@@ -142,10 +160,14 @@ Message, |version com.daml.ledger.api.v1|: Checkpoints may be used to:
 * detect time out of commands.
 * provide an offset which can be used to restart consumption.
 
+.. _com.daml.ledger.api.v1.Checkpoint.record_time:
+
 ``record_time`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
 
 All commands with a maximum record time below this value MUST be considered lost if their completion has not arrived before this checkpoint.
 Required 
+
+.. _com.daml.ledger.api.v1.Checkpoint.offset:
 
 ``offset`` : :ref:`LedgerOffset <com.daml.ledger.api.v1.LedgerOffset>`
 
@@ -158,6 +180,8 @@ CompletionEndRequest
 ============================================================================================
 
 Message, |version com.daml.ledger.api.v1|: 
+
+.. _com.daml.ledger.api.v1.CompletionEndRequest.ledger_id:
 
 ``ledger_id`` : :ref:`string <string>`
 
@@ -172,6 +196,8 @@ CompletionEndResponse
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.CompletionEndResponse.offset:
+
 ``offset`` : :ref:`LedgerOffset <com.daml.ledger.api.v1.LedgerOffset>`
 
 This offset can be used in a CompletionStreamRequest message.
@@ -184,11 +210,15 @@ CompletionStreamRequest
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.CompletionStreamRequest.ledger_id:
+
 ``ledger_id`` : :ref:`string <string>`
 
 Must correspond to the ledger id reported by the Ledger Identification Service.
 Must be a valid LedgerString (as described in ``value.proto``).
 Optional 
+
+.. _com.daml.ledger.api.v1.CompletionStreamRequest.application_id:
 
 ``application_id`` : :ref:`string <string>`
 
@@ -197,6 +227,8 @@ Must be a valid ApplicationIdString (as described in ``value.proto``).
 Required unless authentication is used with a user token or a custom token specifying an application-id.
 In that case, the token's user-id, respectively application-id, will be used for the request's application_id. 
 
+.. _com.daml.ledger.api.v1.CompletionStreamRequest.parties:
+
 ``parties`` : :ref:`string <string>` (repeated)
 
 Non-empty list of parties whose data should be included.
@@ -204,6 +236,8 @@ Only completions of commands for which at least one of the ``act_as`` parties is
 will be visible in the stream.
 Must be a valid PartyIdString (as described in ``value.proto``).
 Required 
+
+.. _com.daml.ledger.api.v1.CompletionStreamRequest.offset:
 
 ``offset`` : :ref:`LedgerOffset <com.daml.ledger.api.v1.LedgerOffset>`
 
@@ -218,11 +252,15 @@ CompletionStreamResponse
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.CompletionStreamResponse.checkpoint:
+
 ``checkpoint`` : :ref:`Checkpoint <com.daml.ledger.api.v1.Checkpoint>`
 
 This checkpoint may be used to restart consumption.  The
 checkpoint is after any completions in this response.
 Optional 
+
+.. _com.daml.ledger.api.v1.CompletionStreamResponse.completions:
 
 ``completions`` : :ref:`Completion <com.daml.ledger.api.v1.Completion>` (repeated)
 
@@ -230,6 +268,8 @@ If set, one or more completions.
 
 
 ----
+
+.. _com/daml/ledger/api/v1/command_service.proto:
 
 ``com/daml/ledger/api/v1/command_service.proto``
 
@@ -296,11 +336,15 @@ SubmitAndWaitForTransactionIdResponse
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.SubmitAndWaitForTransactionIdResponse.transaction_id:
+
 ``transaction_id`` : :ref:`string <string>`
 
 The id of the transaction that resulted from the submitted command.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
+
+.. _com.daml.ledger.api.v1.SubmitAndWaitForTransactionIdResponse.completion_offset:
 
 ``completion_offset`` : :ref:`string <string>`
 
@@ -314,10 +358,14 @@ SubmitAndWaitForTransactionResponse
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.SubmitAndWaitForTransactionResponse.transaction:
+
 ``transaction`` : :ref:`Transaction <com.daml.ledger.api.v1.Transaction>`
 
 The flat transaction that resulted from the submitted command.
 Required 
+
+.. _com.daml.ledger.api.v1.SubmitAndWaitForTransactionResponse.completion_offset:
 
 ``completion_offset`` : :ref:`string <string>`
 
@@ -331,10 +379,14 @@ SubmitAndWaitForTransactionTreeResponse
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.SubmitAndWaitForTransactionTreeResponse.transaction:
+
 ``transaction`` : :ref:`TransactionTree <com.daml.ledger.api.v1.TransactionTree>`
 
 The transaction tree that resulted from the submitted command.
 Required 
+
+.. _com.daml.ledger.api.v1.SubmitAndWaitForTransactionTreeResponse.completion_offset:
 
 ``completion_offset`` : :ref:`string <string>`
 
@@ -348,6 +400,8 @@ SubmitAndWaitRequest
 
 Message, |version com.daml.ledger.api.v1|: These commands are atomic, and will become transactions.
 
+.. _com.daml.ledger.api.v1.SubmitAndWaitRequest.commands:
+
 ``commands`` : :ref:`Commands <com.daml.ledger.api.v1.Commands>`
 
 The commands to be submitted.
@@ -355,6 +409,8 @@ Required
 
 
 ----
+
+.. _com/daml/ledger/api/v1/command_submission_service.proto:
 
 ``com/daml/ledger/api/v1/command_submission_service.proto``
 
@@ -396,6 +452,8 @@ SubmitRequest
 
 Message, |version com.daml.ledger.api.v1|: The submitted commands will be processed atomically in a single transaction. Moreover, each ``Command`` in ``commands`` will be executed in the order specified by the request.
 
+.. _com.daml.ledger.api.v1.SubmitRequest.commands:
+
 ``commands`` : :ref:`Commands <com.daml.ledger.api.v1.Commands>`
 
 The commands to be submitted in a single transaction.
@@ -403,6 +461,8 @@ Required
 
 
 ----
+
+.. _com/daml/ledger/api/v1/commands.proto:
 
 ``com/daml/ledger/api/v1/commands.proto``
 
@@ -413,17 +473,25 @@ Command
 
 Message, |version com.daml.ledger.api.v1|: A command can either create a new contract or exercise a choice on an existing contract.
 
+.. _com.daml.ledger.api.v1.Command.create:
+
 ``oneof command.create`` : :ref:`CreateCommand <com.daml.ledger.api.v1.CreateCommand>`
 
  
+
+.. _com.daml.ledger.api.v1.Command.exercise:
 
 ``oneof command.exercise`` : :ref:`ExerciseCommand <com.daml.ledger.api.v1.ExerciseCommand>`
 
  
 
+.. _com.daml.ledger.api.v1.Command.exerciseByKey:
+
 ``oneof command.exerciseByKey`` : :ref:`ExerciseByKeyCommand <com.daml.ledger.api.v1.ExerciseByKeyCommand>`
 
  
+
+.. _com.daml.ledger.api.v1.Command.createAndExercise:
 
 ``oneof command.createAndExercise`` : :ref:`CreateAndExerciseCommand <com.daml.ledger.api.v1.CreateAndExerciseCommand>`
 
@@ -436,11 +504,15 @@ Commands
 
 Message, |version com.daml.ledger.api.v1|: A composite command that groups multiple commands together.
 
+.. _com.daml.ledger.api.v1.Commands.ledger_id:
+
 ``ledger_id`` : :ref:`string <string>`
 
 Must correspond to the ledger ID reported by the Ledger Identification Service.
 Must be a valid LedgerString (as described in ``value.proto``).
 Optional 
+
+.. _com.daml.ledger.api.v1.Commands.workflow_id:
 
 ``workflow_id`` : :ref:`string <string>`
 
@@ -448,12 +520,16 @@ Identifier of the on-ledger workflow that this command is a part of.
 Must be a valid LedgerString (as described in ``value.proto``).
 Optional 
 
+.. _com.daml.ledger.api.v1.Commands.application_id:
+
 ``application_id`` : :ref:`string <string>`
 
 Uniquely identifies the application or participant user that issued the command.
 Must be a valid ApplicationIdString (as described in ``value.proto``).
 Required unless authentication is used with a user token or a custom token specifying an application-id.
 In that case, the token's user-id, respectively application-id, will be used for the request's application_id. 
+
+.. _com.daml.ledger.api.v1.Commands.command_id:
 
 ``command_id`` : :ref:`string <string>`
 
@@ -463,6 +539,8 @@ where party + act_as is interpreted as a set of party names.
 The change ID can be used for matching the intended ledger changes with all their completions.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
+
+.. _com.daml.ledger.api.v1.Commands.party:
 
 ``party`` : :ref:`string <string>`
 
@@ -474,10 +552,14 @@ Deprecated in favor of the ``act_as`` field. If both are set, then the effective
 behalf the command should be executed is the union of all parties listed in ``party`` and ``act_as``.
 Optional 
 
+.. _com.daml.ledger.api.v1.Commands.commands:
+
 ``commands`` : :ref:`Command <com.daml.ledger.api.v1.Command>` (repeated)
 
 Individual elements of this atomic command. Must be non-empty.
 Required 
+
+.. _com.daml.ledger.api.v1.Commands.deduplication_time:
 
 ``oneof deduplication_period.deduplication_time`` :  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration>`__
 
@@ -486,6 +568,8 @@ Same semantics apply as for `deduplication_duration`.
 Must be non-negative. Must not exceed the maximum deduplication time (see
 ``ledger_configuration_service.proto``). 
 
+.. _com.daml.ledger.api.v1.Commands.deduplication_duration:
+
 ``oneof deduplication_period.deduplication_duration`` :  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration>`__
 
 Specifies the length of the deduplication period.
@@ -493,10 +577,14 @@ It is interpreted relative to the local clock at some point during the submissio
 Must be non-negative. Must not exceed the maximum deduplication time (see
 ``ledger_configuration_service.proto``). 
 
+.. _com.daml.ledger.api.v1.Commands.deduplication_offset:
+
 ``oneof deduplication_period.deduplication_offset`` : :ref:`string <string>`
 
 Specifies the start of the deduplication period by a completion stream offset (exclusive).
 Must be a valid LedgerString (as described in ``ledger_offset.proto``). 
+
+.. _com.daml.ledger.api.v1.Commands.min_ledger_time_abs:
 
 ``min_ledger_time_abs`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
 
@@ -507,11 +595,15 @@ the time the resulting transaction is sequenced, its assigned ledger time is not
 Must not be set at the same time as min_ledger_time_rel.
 Optional 
 
+.. _com.daml.ledger.api.v1.Commands.min_ledger_time_rel:
+
 ``min_ledger_time_rel`` :  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration>`__
 
 Same as min_ledger_time_abs, but specified as a duration, starting from the time the command is received by the server.
 Must not be set at the same time as min_ledger_time_abs.
 Optional 
+
+.. _com.daml.ledger.api.v1.Commands.act_as:
 
 ``act_as`` : :ref:`string <string>` (repeated)
 
@@ -522,6 +614,8 @@ This field supersedes the ``party`` field. The effective set of parties on whose
 should be executed is the union of all parties listed in ``party`` and ``act_as``, which must be non-empty.
 Each element must be a valid PartyIdString (as described in ``value.proto``).
 Optional 
+
+.. _com.daml.ledger.api.v1.Commands.read_as:
 
 ``read_as`` : :ref:`string <string>` (repeated)
 
@@ -535,6 +629,8 @@ If ledger API authorization is enabled, then the authorization metadata must aut
 to read contract data on behalf of each of the given parties.
 Optional 
 
+.. _com.daml.ledger.api.v1.Commands.submission_id:
+
 ``submission_id`` : :ref:`string <string>`
 
 A unique identifier to distinguish completions for different submissions with the same change ID.
@@ -545,10 +641,14 @@ Must be a valid LedgerString (as described in ``value.proto``).
 If omitted, the participant or the committer may set a value of their choice.
 Optional 
 
+.. _com.daml.ledger.api.v1.Commands.disclosed_contracts:
+
 ``disclosed_contracts`` : :ref:`DisclosedContract <com.daml.ledger.api.v1.DisclosedContract>` (repeated)
 
 Additional contracts used to resolve contract & contract key lookups.
 Optional 
+
+.. _com.daml.ledger.api.v1.Commands.package_id_selection_preference:
 
 ``package_id_selection_preference`` : :ref:`string <string>` (repeated)
 
@@ -562,21 +662,29 @@ CreateAndExerciseCommand
 
 Message, |version com.daml.ledger.api.v1|: Create a contract and exercise a choice on it in the same transaction.
 
+.. _com.daml.ledger.api.v1.CreateAndExerciseCommand.template_id:
+
 ``template_id`` : :ref:`Identifier <com.daml.ledger.api.v1.Identifier>`
 
 The template of the contract the client wants to create.
 Required 
+
+.. _com.daml.ledger.api.v1.CreateAndExerciseCommand.create_arguments:
 
 ``create_arguments`` : :ref:`Record <com.daml.ledger.api.v1.Record>`
 
 The arguments required for creating a contract from this template.
 Required 
 
+.. _com.daml.ledger.api.v1.CreateAndExerciseCommand.choice:
+
 ``choice`` : :ref:`string <string>`
 
 The name of the choice the client wants to exercise.
 Must be a valid NameString (as described in ``value.proto``).
 Required 
+
+.. _com.daml.ledger.api.v1.CreateAndExerciseCommand.choice_argument:
 
 ``choice_argument`` : :ref:`Value <com.daml.ledger.api.v1.Value>`
 
@@ -590,10 +698,14 @@ CreateCommand
 
 Message, |version com.daml.ledger.api.v1|: Create a new contract instance based on a template.
 
+.. _com.daml.ledger.api.v1.CreateCommand.template_id:
+
 ``template_id`` : :ref:`Identifier <com.daml.ledger.api.v1.Identifier>`
 
 The template of contract the client wants to create.
 Required 
+
+.. _com.daml.ledger.api.v1.CreateCommand.create_arguments:
 
 ``create_arguments`` : :ref:`Record <com.daml.ledger.api.v1.Record>`
 
@@ -608,15 +720,21 @@ DisclosedContract
 Message, |version com.daml.ledger.api.v1|: An additional contract that is used to resolve
 contract & contract key lookups.
 
+.. _com.daml.ledger.api.v1.DisclosedContract.template_id:
+
 ``template_id`` : :ref:`Identifier <com.daml.ledger.api.v1.Identifier>`
 
 The template id of the contract.
 Required 
 
+.. _com.daml.ledger.api.v1.DisclosedContract.contract_id:
+
 ``contract_id`` : :ref:`string <string>`
 
 The contract id
 Required 
+
+.. _com.daml.ledger.api.v1.DisclosedContract.created_event_blob:
 
 ``created_event_blob`` : :ref:`bytes <bytes>`
 
@@ -631,21 +749,29 @@ ExerciseByKeyCommand
 
 Message, |version com.daml.ledger.api.v1|: Exercise a choice on an existing contract specified by its key.
 
+.. _com.daml.ledger.api.v1.ExerciseByKeyCommand.template_id:
+
 ``template_id`` : :ref:`Identifier <com.daml.ledger.api.v1.Identifier>`
 
 The template of contract the client wants to exercise.
 Required 
+
+.. _com.daml.ledger.api.v1.ExerciseByKeyCommand.contract_key:
 
 ``contract_key`` : :ref:`Value <com.daml.ledger.api.v1.Value>`
 
 The key of the contract the client wants to exercise upon.
 Required 
 
+.. _com.daml.ledger.api.v1.ExerciseByKeyCommand.choice:
+
 ``choice`` : :ref:`string <string>`
 
 The name of the choice the client wants to exercise.
 Must be a valid NameString (as described in ``value.proto``)
 Required 
+
+.. _com.daml.ledger.api.v1.ExerciseByKeyCommand.choice_argument:
 
 ``choice_argument`` : :ref:`Value <com.daml.ledger.api.v1.Value>`
 
@@ -659,10 +785,14 @@ ExerciseCommand
 
 Message, |version com.daml.ledger.api.v1|: Exercise a choice on an existing contract.
 
+.. _com.daml.ledger.api.v1.ExerciseCommand.template_id:
+
 ``template_id`` : :ref:`Identifier <com.daml.ledger.api.v1.Identifier>`
 
 The template of contract the client wants to exercise.
 Required 
+
+.. _com.daml.ledger.api.v1.ExerciseCommand.contract_id:
 
 ``contract_id`` : :ref:`string <string>`
 
@@ -670,11 +800,15 @@ The ID of the contract the client wants to exercise upon.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
 
+.. _com.daml.ledger.api.v1.ExerciseCommand.choice:
+
 ``choice`` : :ref:`string <string>`
 
 The name of the choice the client wants to exercise.
 Must be a valid NameString (as described in ``value.proto``)
 Required 
+
+.. _com.daml.ledger.api.v1.ExerciseCommand.choice_argument:
 
 ``choice_argument`` : :ref:`Value <com.daml.ledger.api.v1.Value>`
 
@@ -683,6 +817,8 @@ Required
 
 
 ----
+
+.. _com/daml/ledger/api/v1/completion.proto:
 
 ``com/daml/ledger/api/v1/completion.proto``
 
@@ -693,17 +829,23 @@ Completion
 
 Message, |version com.daml.ledger.api.v1|: A completion represents the status of a submitted command on the ledger: it can be successful or failed.
 
+.. _com.daml.ledger.api.v1.Completion.command_id:
+
 ``command_id`` : :ref:`string <string>`
 
 The ID of the succeeded or failed command.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
 
+.. _com.daml.ledger.api.v1.Completion.status:
+
 ``status`` :  `google.rpc.Status <https://cloud.google.com/tasks/docs/reference/rpc/google.rpc#status>`__
 
 Identifies the exact type of the error.
 It uses the same format of conveying error details as it is used for the RPC responses of the APIs.
 Optional 
+
+.. _com.daml.ledger.api.v1.Completion.transaction_id:
 
 ``transaction_id`` : :ref:`string <string>`
 
@@ -712,11 +854,15 @@ Only set for successfully executed commands.
 Must be a valid LedgerString (as described in ``value.proto``).
 Optional 
 
+.. _com.daml.ledger.api.v1.Completion.application_id:
+
 ``application_id`` : :ref:`string <string>`
 
 The application-id or user-id that was used for the submission, as described in ``commands.proto``.
 Must be a valid ApplicationIdString (as described in ``value.proto``).
 Optional for historic completions where this data is not available. 
+
+.. _com.daml.ledger.api.v1.Completion.act_as:
 
 ``act_as`` : :ref:`string <string>` (repeated)
 
@@ -726,11 +872,15 @@ The order of the parties need not be the same as in the submission.
 Each element must be a valid PartyIdString (as described in ``value.proto``).
 Optional for historic completions where this data is not available. 
 
+.. _com.daml.ledger.api.v1.Completion.submission_id:
+
 ``submission_id`` : :ref:`string <string>`
 
 The submission ID this completion refers to, as described in ``commands.proto``.
 Must be a valid LedgerString (as described in ``value.proto``).
 Optional 
+
+.. _com.daml.ledger.api.v1.Completion.deduplication_offset:
 
 ``oneof deduplication_period.deduplication_offset`` : :ref:`string <string>`
 
@@ -738,12 +888,16 @@ Specifies the start of the deduplication period by a completion stream offset (e
 
 Must be a valid LedgerString (as described in ``value.proto``). 
 
+.. _com.daml.ledger.api.v1.Completion.deduplication_duration:
+
 ``oneof deduplication_period.deduplication_duration`` :  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration>`__
 
 Specifies the length of the deduplication period.
 It is measured in record time of completions.
 
 Must be non-negative. 
+
+.. _com.daml.ledger.api.v1.Completion.trace_context:
 
 ``trace_context`` : :ref:`TraceContext <com.daml.ledger.api.v1.TraceContext>`
 
@@ -760,6 +914,8 @@ instead.
 
 ----
 
+.. _com/daml/ledger/api/v1/contract_metadata.proto:
+
 ``com/daml/ledger/api/v1/contract_metadata.proto``
 
 .. _com.daml.ledger.api.v1.ContractMetadata:
@@ -770,15 +926,21 @@ ContractMetadata
 Message, |version com.daml.ledger.api.v1|: Contract-related metadata used in DisclosedContract (that can be included in command submission)
 or forwarded as part of the CreatedEvent in Active Contract Set or Transaction streams.
 
+.. _com.daml.ledger.api.v1.ContractMetadata.created_at:
+
 ``created_at`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
 
 Ledger effective time of the transaction that created the contract.
 Required 
 
+.. _com.daml.ledger.api.v1.ContractMetadata.contract_key_hash:
+
 ``contract_key_hash`` : :ref:`bytes <bytes>`
 
 Hash of the contract key if defined.
 Optional 
+
+.. _com.daml.ledger.api.v1.ContractMetadata.driver_metadata:
 
 ``driver_metadata`` : :ref:`bytes <bytes>`
 
@@ -787,6 +949,8 @@ Optional
 
 
 ----
+
+.. _com/daml/ledger/api/v1/event.proto:
 
 ``com/daml/ledger/api/v1/event.proto``
 
@@ -797,11 +961,15 @@ ArchivedEvent
 
 Message, |version com.daml.ledger.api.v1|: Records that a contract has been archived, and choices may no longer be exercised on it.
 
+.. _com.daml.ledger.api.v1.ArchivedEvent.event_id:
+
 ``event_id`` : :ref:`string <string>`
 
 The ID of this particular event.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
+
+.. _com.daml.ledger.api.v1.ArchivedEvent.contract_id:
 
 ``contract_id`` : :ref:`string <string>`
 
@@ -809,10 +977,14 @@ The ID of the archived contract.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
 
+.. _com.daml.ledger.api.v1.ArchivedEvent.template_id:
+
 ``template_id`` : :ref:`Identifier <com.daml.ledger.api.v1.Identifier>`
 
 The template of the archived contract.
 Required 
+
+.. _com.daml.ledger.api.v1.ArchivedEvent.witness_parties:
 
 ``witness_parties`` : :ref:`string <string>` (repeated)
 
@@ -832,11 +1004,15 @@ CreatedEvent
 
 Message, |version com.daml.ledger.api.v1|: Records that a contract has been created, and choices may now be exercised on it.
 
+.. _com.daml.ledger.api.v1.CreatedEvent.event_id:
+
 ``event_id`` : :ref:`string <string>`
 
 The ID of this particular event.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
+
+.. _com.daml.ledger.api.v1.CreatedEvent.contract_id:
 
 ``contract_id`` : :ref:`string <string>`
 
@@ -844,21 +1020,29 @@ The ID of the created contract.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
 
+.. _com.daml.ledger.api.v1.CreatedEvent.template_id:
+
 ``template_id`` : :ref:`Identifier <com.daml.ledger.api.v1.Identifier>`
 
 The template of the created contract.
 Required 
+
+.. _com.daml.ledger.api.v1.CreatedEvent.package_name:
 
 ``package_name`` :  `google.protobuf.StringValue <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#stringvalue>`__
 
 The package name of the created contract.
 Optional 
 
+.. _com.daml.ledger.api.v1.CreatedEvent.contract_key:
+
 ``contract_key`` : :ref:`Value <com.daml.ledger.api.v1.Value>`
 
 The key of the created contract.
 This will be set if and only if ``create_arguments`` is set and ``template_id`` defines a contract key.
 Optional 
+
+.. _com.daml.ledger.api.v1.CreatedEvent.create_arguments:
 
 ``create_arguments`` : :ref:`Record <com.daml.ledger.api.v1.Record>`
 
@@ -874,12 +1058,16 @@ Set either:
 
 Optional 
 
+.. _com.daml.ledger.api.v1.CreatedEvent.created_event_blob:
+
 ``created_event_blob`` : :ref:`bytes <bytes>`
 
 Opaque representation of contract create event payload intended for forwarding
 to an API server as a contract disclosed as part of a command
 submission.
 Optional 
+
+.. _com.daml.ledger.api.v1.CreatedEvent.interface_views:
 
 ``interface_views`` : :ref:`InterfaceView <com.daml.ledger.api.v1.InterfaceView>` (repeated)
 
@@ -891,6 +1079,8 @@ Includes an ``InterfaceView`` for each interface for which there is a ``Interfac
   - and which has ``include_interface_view`` set.
 
 Optional 
+
+.. _com.daml.ledger.api.v1.CreatedEvent.witness_parties:
 
 ``witness_parties`` : :ref:`string <string>` (repeated)
 
@@ -909,16 +1099,22 @@ an assignment or unassignment): this will include all parties of the
 
 Required 
 
+.. _com.daml.ledger.api.v1.CreatedEvent.signatories:
+
 ``signatories`` : :ref:`string <string>` (repeated)
 
 The signatories for this contract as specified by the template.
 Required 
+
+.. _com.daml.ledger.api.v1.CreatedEvent.observers:
 
 ``observers`` : :ref:`string <string>` (repeated)
 
 The observers for this contract as specified explicitly by the template or implicitly as choice controllers.
 This field never contains parties that are signatories.
 Required 
+
+.. _com.daml.ledger.api.v1.CreatedEvent.agreement_text:
 
 ``agreement_text`` :  `google.protobuf.StringValue <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#stringvalue>`__
 
@@ -928,6 +1124,8 @@ This is necessary since the empty string is an acceptable (and in fact the defau
 text, but also the default string in protobuf.
 This means a newer client works with an older sandbox seamlessly.
 Optional 
+
+.. _com.daml.ledger.api.v1.CreatedEvent.created_at:
 
 ``created_at`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
 
@@ -949,9 +1147,13 @@ indicates the subset of the requested parties that can see the event
 in question. In the flat transaction stream you'll only receive events
 that have witnesses.
 
+.. _com.daml.ledger.api.v1.Event.created:
+
 ``oneof event.created`` : :ref:`CreatedEvent <com.daml.ledger.api.v1.CreatedEvent>`
 
  
+
+.. _com.daml.ledger.api.v1.Event.archived:
 
 ``oneof event.archived`` : :ref:`ArchivedEvent <com.daml.ledger.api.v1.ArchivedEvent>`
 
@@ -964,11 +1166,15 @@ ExercisedEvent
 
 Message, |version com.daml.ledger.api.v1|: Records that a choice has been exercised on a target contract.
 
+.. _com.daml.ledger.api.v1.ExercisedEvent.event_id:
+
 ``event_id`` : :ref:`string <string>`
 
 The ID of this particular event.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
+
+.. _com.daml.ledger.api.v1.ExercisedEvent.contract_id:
 
 ``contract_id`` : :ref:`string <string>`
 
@@ -976,20 +1182,28 @@ The ID of the target contract.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
 
+.. _com.daml.ledger.api.v1.ExercisedEvent.template_id:
+
 ``template_id`` : :ref:`Identifier <com.daml.ledger.api.v1.Identifier>`
 
 The template of the target contract.
 Required 
+
+.. _com.daml.ledger.api.v1.ExercisedEvent.package_name:
 
 ``package_name`` :  `google.protobuf.StringValue <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#stringvalue>`__
 
 The package name of the created contract.
 Optional 
 
+.. _com.daml.ledger.api.v1.ExercisedEvent.interface_id:
+
 ``interface_id`` : :ref:`Identifier <com.daml.ledger.api.v1.Identifier>`
 
 The interface where the choice is defined, if inherited.
 Optional 
+
+.. _com.daml.ledger.api.v1.ExercisedEvent.choice:
 
 ``choice`` : :ref:`string <string>`
 
@@ -997,10 +1211,14 @@ The choice that was exercised on the target contract.
 Must be a valid NameString (as described in ``value.proto``).
 Required 
 
+.. _com.daml.ledger.api.v1.ExercisedEvent.choice_argument:
+
 ``choice_argument`` : :ref:`Value <com.daml.ledger.api.v1.Value>`
 
 The argument of the exercised choice.
 Required 
+
+.. _com.daml.ledger.api.v1.ExercisedEvent.acting_parties:
 
 ``acting_parties`` : :ref:`string <string>` (repeated)
 
@@ -1008,10 +1226,14 @@ The parties that exercised the choice.
 Each element must be a valid PartyIdString (as described in ``value.proto``).
 Required 
 
+.. _com.daml.ledger.api.v1.ExercisedEvent.consuming:
+
 ``consuming`` : :ref:`bool <bool>`
 
 If true, the target contract may no longer be exercised.
 Required 
+
+.. _com.daml.ledger.api.v1.ExercisedEvent.witness_parties:
 
 ``witness_parties`` : :ref:`string <string>` (repeated)
 
@@ -1028,6 +1250,8 @@ explicitly marked as observers.
 Each element must be a valid PartyIdString (as described in ``value.proto``).
 Required 
 
+.. _com.daml.ledger.api.v1.ExercisedEvent.child_event_ids:
+
 ``child_event_ids`` : :ref:`string <string>` (repeated)
 
 References to further events in the same transaction that appeared as a result of this ``ExercisedEvent``.
@@ -1035,6 +1259,8 @@ It contains only the immediate children of this event, not all members of the su
 The order of the children is the same as the event order in the transaction.
 Each element must be a valid LedgerString (as described in ``value.proto``).
 Optional 
+
+.. _com.daml.ledger.api.v1.ExercisedEvent.exercise_result:
 
 ``exercise_result`` : :ref:`Value <com.daml.ledger.api.v1.Value>`
 
@@ -1048,10 +1274,14 @@ InterfaceView
 
 Message, |version com.daml.ledger.api.v1|: View of a create event matched by an interface filter.
 
+.. _com.daml.ledger.api.v1.InterfaceView.interface_id:
+
 ``interface_id`` : :ref:`Identifier <com.daml.ledger.api.v1.Identifier>`
 
 The interface implemented by the matched event.
 Required 
+
+.. _com.daml.ledger.api.v1.InterfaceView.view_status:
 
 ``view_status`` :  `google.rpc.Status <https://cloud.google.com/tasks/docs/reference/rpc/google.rpc#status>`__
 
@@ -1059,6 +1289,8 @@ Whether the view was successfully computed, and if not,
 the reason for the error. The error is reported using the same rules
 for error codes and messages as the errors returned for API requests.
 Required 
+
+.. _com.daml.ledger.api.v1.InterfaceView.view_value:
 
 ``view_value`` : :ref:`Record <com.daml.ledger.api.v1.Record>`
 
@@ -1069,6 +1301,8 @@ Optional
 
 
 ----
+
+.. _com/daml/ledger/api/v1/event_query_service.proto:
 
 ``com/daml/ledger/api/v1/event_query_service.proto``
 
@@ -1112,10 +1346,14 @@ GetEventsByContractIdRequest
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.GetEventsByContractIdRequest.contract_id:
+
 ``contract_id`` : :ref:`string <string>`
 
 The contract id being queried.
 Required 
+
+.. _com.daml.ledger.api.v1.GetEventsByContractIdRequest.requesting_parties:
 
 ``requesting_parties`` : :ref:`string <string>` (repeated)
 
@@ -1132,11 +1370,15 @@ GetEventsByContractIdResponse
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.GetEventsByContractIdResponse.create_event:
+
 ``create_event`` : :ref:`CreatedEvent <com.daml.ledger.api.v1.CreatedEvent>`
 
 The create event for the contract with the ``contract_id`` given in the request
 provided it exists and has not yet been pruned.
 Optional 
+
+.. _com.daml.ledger.api.v1.GetEventsByContractIdResponse.archive_event:
 
 ``archive_event`` : :ref:`ArchivedEvent <com.daml.ledger.api.v1.ArchivedEvent>`
 
@@ -1151,15 +1393,21 @@ GetEventsByContractKeyRequest
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.GetEventsByContractKeyRequest.contract_key:
+
 ``contract_key`` : :ref:`Value <com.daml.ledger.api.v1.Value>`
 
 The contract key to search for.
 Required 
 
+.. _com.daml.ledger.api.v1.GetEventsByContractKeyRequest.template_id:
+
 ``template_id`` : :ref:`Identifier <com.daml.ledger.api.v1.Identifier>`
 
 The template id associated with the contract key
 Required 
+
+.. _com.daml.ledger.api.v1.GetEventsByContractKeyRequest.requesting_parties:
 
 ``requesting_parties`` : :ref:`string <string>` (repeated)
 
@@ -1170,6 +1418,8 @@ https://docs.daml.com/concepts/ledger-model/ledger-privacy.html#contract-observe
 To gain visibility of all contract key bindings and to ensure consistent performance use a key maintainer as
 a requesting party.
 Required 
+
+.. _com.daml.ledger.api.v1.GetEventsByContractKeyRequest.continuation_token:
 
 ``continuation_token`` : :ref:`string <string>`
 
@@ -1183,6 +1433,8 @@ GetEventsByContractKeyResponse
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.GetEventsByContractKeyResponse.create_event:
+
 ``create_event`` : :ref:`CreatedEvent <com.daml.ledger.api.v1.CreatedEvent>`
 
 The most recent create event for a contract with the key given in the request, if
@@ -1191,10 +1443,14 @@ this is the most recent create event preceding the create event whose
 ``continuation_token`` was provided.
 Optional 
 
+.. _com.daml.ledger.api.v1.GetEventsByContractKeyResponse.archive_event:
+
 ``archive_event`` : :ref:`ArchivedEvent <com.daml.ledger.api.v1.ArchivedEvent>`
 
 The archive event for the create event provided the created contract is archived.
 Optional 
+
+.. _com.daml.ledger.api.v1.GetEventsByContractKeyResponse.continuation_token:
 
 ``continuation_token`` : :ref:`string <string>`
 
@@ -1205,6 +1461,8 @@ Optional
 
 ----
 
+.. _com/daml/ledger/api/v1/experimental_features.proto:
+
 ``com/daml/ledger/api/v1/experimental_features.proto``
 
 .. _com.daml.ledger.api.v1.AcsActiveAtOffsetFeature:
@@ -1213,6 +1471,8 @@ AcsActiveAtOffsetFeature
 ============================================================================================
 
 Message, |version com.daml.ledger.api.v1|: Whether the Ledger API supports requesting ACS at an offset
+
+.. _com.daml.ledger.api.v1.AcsActiveAtOffsetFeature.supported:
 
 ``supported`` : :ref:`bool <bool>`
 
@@ -1225,13 +1485,19 @@ CommandDeduplicationFeatures
 
 Message, |version com.daml.ledger.api.v1|: Feature descriptors for command deduplication intended to be used for adapting Ledger API tests.
 
+.. _com.daml.ledger.api.v1.CommandDeduplicationFeatures.deduplication_period_support:
+
 ``deduplication_period_support`` : :ref:`CommandDeduplicationPeriodSupport <com.daml.ledger.api.v1.CommandDeduplicationPeriodSupport>`
 
  
 
+.. _com.daml.ledger.api.v1.CommandDeduplicationFeatures.deduplication_type:
+
 ``deduplication_type`` : :ref:`CommandDeduplicationType <com.daml.ledger.api.v1.CommandDeduplicationType>`
 
  
+
+.. _com.daml.ledger.api.v1.CommandDeduplicationFeatures.max_deduplication_duration_enforced:
 
 ``max_deduplication_duration_enforced`` : :ref:`bool <bool>`
 
@@ -1246,9 +1512,13 @@ CommandDeduplicationPeriodSupport
 Message, |version com.daml.ledger.api.v1|: Feature descriptor specifying how deduplication periods can be specified and how they are handled by the participant
 node.
 
+.. _com.daml.ledger.api.v1.CommandDeduplicationPeriodSupport.offset_support:
+
 ``offset_support`` : :ref:`CommandDeduplicationPeriodSupport.OffsetSupport <com.daml.ledger.api.v1.CommandDeduplicationPeriodSupport.OffsetSupport>`
 
  
+
+.. _com.daml.ledger.api.v1.CommandDeduplicationPeriodSupport.duration_support:
 
 ``duration_support`` : :ref:`CommandDeduplicationPeriodSupport.DurationSupport <com.daml.ledger.api.v1.CommandDeduplicationPeriodSupport.DurationSupport>`
 
@@ -1261,6 +1531,8 @@ ExperimentalCommandInspectionService
 
 Message, |version com.daml.ledger.api.v1|: Whether the Ledger API supports command inspection service
 
+.. _com.daml.ledger.api.v1.ExperimentalCommandInspectionService.supported:
+
 ``supported`` : :ref:`bool <bool>`
 
  
@@ -1271,6 +1543,8 @@ ExperimentalCommitterEventLog
 ============================================================================================
 
 Message, |version com.daml.ledger.api.v1|: How the committer stores events.
+
+.. _com.daml.ledger.api.v1.ExperimentalCommitterEventLog.event_log_type:
 
 ``event_log_type`` : :ref:`ExperimentalCommitterEventLog.CommitterEventLogType <com.daml.ledger.api.v1.ExperimentalCommitterEventLog.CommitterEventLogType>`
 
@@ -1283,6 +1557,8 @@ ExperimentalContractIds
 
 Message, |version com.daml.ledger.api.v1|: See `daml-lf/spec/contract-id.rst` for more information on contract ID formats.
 
+.. _com.daml.ledger.api.v1.ExperimentalContractIds.v1:
+
 ``v1`` : :ref:`ExperimentalContractIds.ContractIdV1Support <com.daml.ledger.api.v1.ExperimentalContractIds.ContractIdV1Support>`
 
  
@@ -1293,6 +1569,8 @@ ExperimentalExplicitDisclosure
 ============================================================================================
 
 Message, |version com.daml.ledger.api.v1|: Enables the use of explicitly disclosed contracts for command submission
+
+.. _com.daml.ledger.api.v1.ExperimentalExplicitDisclosure.supported:
 
 ``supported`` : :ref:`bool <bool>`
 
@@ -1305,49 +1583,73 @@ ExperimentalFeatures
 
 Message, |version com.daml.ledger.api.v1|: See the feature message definitions for descriptions.
 
+.. _com.daml.ledger.api.v1.ExperimentalFeatures.self_service_error_codes:
+
 ``self_service_error_codes`` : :ref:`ExperimentalSelfServiceErrorCodes <com.daml.ledger.api.v1.ExperimentalSelfServiceErrorCodes>`
 
  
+
+.. _com.daml.ledger.api.v1.ExperimentalFeatures.static_time:
 
 ``static_time`` : :ref:`ExperimentalStaticTime <com.daml.ledger.api.v1.ExperimentalStaticTime>`
 
  
 
+.. _com.daml.ledger.api.v1.ExperimentalFeatures.command_deduplication:
+
 ``command_deduplication`` : :ref:`CommandDeduplicationFeatures <com.daml.ledger.api.v1.CommandDeduplicationFeatures>`
 
  
+
+.. _com.daml.ledger.api.v1.ExperimentalFeatures.optional_ledger_id:
 
 ``optional_ledger_id`` : :ref:`ExperimentalOptionalLedgerId <com.daml.ledger.api.v1.ExperimentalOptionalLedgerId>`
 
  
 
+.. _com.daml.ledger.api.v1.ExperimentalFeatures.contract_ids:
+
 ``contract_ids`` : :ref:`ExperimentalContractIds <com.daml.ledger.api.v1.ExperimentalContractIds>`
 
  
+
+.. _com.daml.ledger.api.v1.ExperimentalFeatures.committer_event_log:
 
 ``committer_event_log`` : :ref:`ExperimentalCommitterEventLog <com.daml.ledger.api.v1.ExperimentalCommitterEventLog>`
 
  
 
+.. _com.daml.ledger.api.v1.ExperimentalFeatures.explicit_disclosure:
+
 ``explicit_disclosure`` : :ref:`ExperimentalExplicitDisclosure <com.daml.ledger.api.v1.ExperimentalExplicitDisclosure>`
 
  
+
+.. _com.daml.ledger.api.v1.ExperimentalFeatures.user_and_party_local_metadata_extensions:
 
 ``user_and_party_local_metadata_extensions`` : :ref:`ExperimentalUserAndPartyLocalMetadataExtensions <com.daml.ledger.api.v1.ExperimentalUserAndPartyLocalMetadataExtensions>`
 
  
 
+.. _com.daml.ledger.api.v1.ExperimentalFeatures.acs_active_at_offset:
+
 ``acs_active_at_offset`` : :ref:`AcsActiveAtOffsetFeature <com.daml.ledger.api.v1.AcsActiveAtOffsetFeature>`
 
  
+
+.. _com.daml.ledger.api.v1.ExperimentalFeatures.template_filters:
 
 ``template_filters`` : :ref:`TransactionsWithTemplateFilters <com.daml.ledger.api.v1.TransactionsWithTemplateFilters>`
 
  
 
+.. _com.daml.ledger.api.v1.ExperimentalFeatures.command_inspection_service:
+
 ``command_inspection_service`` : :ref:`ExperimentalCommandInspectionService <com.daml.ledger.api.v1.ExperimentalCommandInspectionService>`
 
  
+
+.. _com.daml.ledger.api.v1.ExperimentalFeatures.pruned_offsets:
 
 ``pruned_offsets`` : :ref:`StreamingPrunedOffsets <com.daml.ledger.api.v1.StreamingPrunedOffsets>`
 
@@ -1378,6 +1680,8 @@ ExperimentalStaticTime
 
 Message, |version com.daml.ledger.api.v1|: Ledger is in the static time mode and exposes a time service.
 
+.. _com.daml.ledger.api.v1.ExperimentalStaticTime.supported:
+
 ``supported`` : :ref:`bool <bool>`
 
  
@@ -1392,6 +1696,8 @@ Message, |version com.daml.ledger.api.v1|: Whether the Ledger API supports:
 - metadata with annotations and resource version for users and parties,
 - update calls for users and parties.
 
+.. _com.daml.ledger.api.v1.ExperimentalUserAndPartyLocalMetadataExtensions.supported:
+
 ``supported`` : :ref:`bool <bool>`
 
  
@@ -1403,6 +1709,8 @@ StreamingPrunedOffsets
 
 Message, |version com.daml.ledger.api.v1|: Whether the Ledger API supports streaming pruned offsets in the transaction streams
 
+.. _com.daml.ledger.api.v1.StreamingPrunedOffsets.supported:
+
 ``supported`` : :ref:`bool <bool>`
 
  
@@ -1413,6 +1721,8 @@ TransactionsWithTemplateFilters
 ============================================================================================
 
 Message, |version com.daml.ledger.api.v1|: Whether the Ledger API supports querying for transaction streams using template filters
+
+.. _com.daml.ledger.api.v1.TransactionsWithTemplateFilters.supported:
 
 ``supported`` : :ref:`bool <bool>`
 
@@ -1572,6 +1882,8 @@ Enum, |version com.daml.ledger.api.v1|:
 
 ----
 
+.. _com/daml/ledger/api/v1/ledger_configuration_service.proto:
+
 ``com/daml/ledger/api/v1/ledger_configuration_service.proto``
 
 .. _com.daml.ledger.api.v1.LedgerConfigurationService:
@@ -1600,6 +1912,8 @@ GetLedgerConfigurationRequest
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.GetLedgerConfigurationRequest.ledger_id:
+
 ``ledger_id`` : :ref:`string <string>`
 
 Must correspond to the ledger ID reported by the Ledger Identification Service.
@@ -1613,6 +1927,8 @@ GetLedgerConfigurationResponse
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.GetLedgerConfigurationResponse.ledger_configuration:
+
 ``ledger_configuration`` : :ref:`LedgerConfiguration <com.daml.ledger.api.v1.LedgerConfiguration>`
 
 The latest ledger configuration. 
@@ -1624,6 +1940,8 @@ LedgerConfiguration
 
 Message, |version com.daml.ledger.api.v1|: LedgerConfiguration contains parameters of the ledger instance that may be useful to clients.
 
+.. _com.daml.ledger.api.v1.LedgerConfiguration.max_deduplication_duration:
+
 ``max_deduplication_duration`` :  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration>`__
 
 If a command submission specifies a deduplication period of length up to ``max_deduplication_duration``,
@@ -1634,6 +1952,8 @@ Command submissions with longer periods MAY get accepted though.
 
 
 ----
+
+.. _com/daml/ledger/api/v1/ledger_identity_service.proto:
 
 ``com/daml/ledger/api/v1/ledger_identity_service.proto``
 
@@ -1674,6 +1994,8 @@ GetLedgerIdentityResponse
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.GetLedgerIdentityResponse.ledger_id:
+
 ``ledger_id`` : :ref:`string <string>`
 
 The ID of the ledger exposed by the server.
@@ -1682,6 +2004,8 @@ Optional
 
 
 ----
+
+.. _com/daml/ledger/api/v1/ledger_offset.proto:
 
 ``com/daml/ledger/api/v1/ledger_offset.proto``
 
@@ -1706,9 +2030,13 @@ to return a meaningful offset.
 The server implementation ensures internally that offsets
 are lexicographically comparable.
 
+.. _com.daml.ledger.api.v1.LedgerOffset.absolute:
+
 ``oneof value.absolute`` : :ref:`string <string>`
 
 The format of this string is specific to the ledger and opaque to the client. 
+
+.. _com.daml.ledger.api.v1.LedgerOffset.boundary:
 
 ``oneof value.boundary`` : :ref:`LedgerOffset.LedgerBoundary <com.daml.ledger.api.v1.LedgerOffset.LedgerBoundary>`
 
@@ -1745,6 +2073,8 @@ Enum, |version com.daml.ledger.api.v1|:
    
 
 ----
+
+.. _com/daml/ledger/api/v1/package_service.proto:
 
 ``com/daml/ledger/api/v1/package_service.proto``
 
@@ -1793,11 +2123,15 @@ GetPackageRequest
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.GetPackageRequest.ledger_id:
+
 ``ledger_id`` : :ref:`string <string>`
 
 Must correspond to the ledger ID reported by the Ledger Identification Service.
 Must be a valid LedgerString (as described in ``value.proto``).
 Optional 
+
+.. _com.daml.ledger.api.v1.GetPackageRequest.package_id:
 
 ``package_id`` : :ref:`string <string>`
 
@@ -1812,15 +2146,21 @@ GetPackageResponse
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.GetPackageResponse.hash_function:
+
 ``hash_function`` : :ref:`HashFunction <com.daml.ledger.api.v1.HashFunction>`
 
 The hash function we use to calculate the hash.
 Required 
 
+.. _com.daml.ledger.api.v1.GetPackageResponse.archive_payload:
+
 ``archive_payload`` : :ref:`bytes <bytes>`
 
 Contains a ``daml_lf`` ArchivePayload. See further details in ``daml_lf.proto``.
 Required 
+
+.. _com.daml.ledger.api.v1.GetPackageResponse.hash:
 
 ``hash`` : :ref:`string <string>`
 
@@ -1835,11 +2175,15 @@ GetPackageStatusRequest
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.GetPackageStatusRequest.ledger_id:
+
 ``ledger_id`` : :ref:`string <string>`
 
 Must correspond to the ledger ID reported by the Ledger Identification Service.
 Must be a valid LedgerString (as described in ``value.proto``).
 Optional 
+
+.. _com.daml.ledger.api.v1.GetPackageStatusRequest.package_id:
 
 ``package_id`` : :ref:`string <string>`
 
@@ -1854,6 +2198,8 @@ GetPackageStatusResponse
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.GetPackageStatusResponse.package_status:
+
 ``package_status`` : :ref:`PackageStatus <com.daml.ledger.api.v1.PackageStatus>`
 
 The status of the package. 
@@ -1864,6 +2210,8 @@ ListPackagesRequest
 ============================================================================================
 
 Message, |version com.daml.ledger.api.v1|: 
+
+.. _com.daml.ledger.api.v1.ListPackagesRequest.ledger_id:
 
 ``ledger_id`` : :ref:`string <string>`
 
@@ -1877,6 +2225,8 @@ ListPackagesResponse
 ============================================================================================
 
 Message, |version com.daml.ledger.api.v1|: 
+
+.. _com.daml.ledger.api.v1.ListPackagesResponse.package_ids:
 
 ``package_ids`` : :ref:`string <string>` (repeated)
 
@@ -1939,6 +2289,8 @@ Enum, |version com.daml.ledger.api.v1|:
 
 ----
 
+.. _com/daml/ledger/api/v1/trace_context.proto:
+
 ``com/daml/ledger/api/v1/trace_context.proto``
 
 .. _com.daml.ledger.api.v1.TraceContext:
@@ -1948,9 +2300,13 @@ TraceContext
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.TraceContext.traceparent:
+
 ``traceparent`` :  `google.protobuf.StringValue <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#stringvalue>`__
 
 https://www.w3.org/TR/trace-context/ 
+
+.. _com.daml.ledger.api.v1.TraceContext.tracestate:
 
 ``tracestate`` :  `google.protobuf.StringValue <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#stringvalue>`__
 
@@ -1958,6 +2314,8 @@ https://www.w3.org/TR/trace-context/
 
 
 ----
+
+.. _com/daml/ledger/api/v1/transaction.proto:
 
 ``com/daml/ledger/api/v1/transaction.proto``
 
@@ -1968,11 +2326,15 @@ Transaction
 
 Message, |version com.daml.ledger.api.v1|: Filtered view of an on-ledger transaction's create and archive events.
 
+.. _com.daml.ledger.api.v1.Transaction.transaction_id:
+
 ``transaction_id`` : :ref:`string <string>`
 
 Assigned by the server. Useful for correlating logs.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
+
+.. _com.daml.ledger.api.v1.Transaction.command_id:
 
 ``command_id`` : :ref:`string <string>`
 
@@ -1980,11 +2342,15 @@ The ID of the command which resulted in this transaction. Missing for everyone e
 Must be a valid LedgerString (as described in ``value.proto``).
 Optional 
 
+.. _com.daml.ledger.api.v1.Transaction.workflow_id:
+
 ``workflow_id`` : :ref:`string <string>`
 
 The workflow ID used in command submission.
 Must be a valid LedgerString (as described in ``value.proto``).
 Optional 
+
+.. _com.daml.ledger.api.v1.Transaction.effective_at:
 
 ``effective_at`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
 
@@ -1992,16 +2358,22 @@ Ledger effective time.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
 
+.. _com.daml.ledger.api.v1.Transaction.events:
+
 ``events`` : :ref:`Event <com.daml.ledger.api.v1.Event>` (repeated)
 
 The collection of events.
 Only contains ``CreatedEvent`` or ``ArchivedEvent``.
 Required 
 
+.. _com.daml.ledger.api.v1.Transaction.offset:
+
 ``offset`` : :ref:`string <string>`
 
 The absolute offset. The format of this field is described in ``ledger_offset.proto``.
 Required 
+
+.. _com.daml.ledger.api.v1.Transaction.trace_context:
 
 ``trace_context`` : :ref:`TraceContext <com.daml.ledger.api.v1.TraceContext>`
 
@@ -2022,11 +2394,15 @@ TransactionTree
 
 Message, |version com.daml.ledger.api.v1|: Complete view of an on-ledger transaction.
 
+.. _com.daml.ledger.api.v1.TransactionTree.transaction_id:
+
 ``transaction_id`` : :ref:`string <string>`
 
 Assigned by the server. Useful for correlating logs.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
+
+.. _com.daml.ledger.api.v1.TransactionTree.command_id:
 
 ``command_id`` : :ref:`string <string>`
 
@@ -2034,27 +2410,37 @@ The ID of the command which resulted in this transaction. Missing for everyone e
 Must be a valid LedgerString (as described in ``value.proto``).
 Optional 
 
+.. _com.daml.ledger.api.v1.TransactionTree.workflow_id:
+
 ``workflow_id`` : :ref:`string <string>`
 
 The workflow ID used in command submission. Only set if the ``workflow_id`` for the command was set.
 Must be a valid LedgerString (as described in ``value.proto``).
 Optional 
 
+.. _com.daml.ledger.api.v1.TransactionTree.effective_at:
+
 ``effective_at`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
 
 Ledger effective time.
 Required 
+
+.. _com.daml.ledger.api.v1.TransactionTree.offset:
 
 ``offset`` : :ref:`string <string>`
 
 The absolute offset. The format of this field is described in ``ledger_offset.proto``.
 Required 
 
+.. _com.daml.ledger.api.v1.TransactionTree.events_by_id:
+
 ``events_by_id`` : :ref:`TransactionTree.EventsByIdEntry <com.daml.ledger.api.v1.TransactionTree.EventsByIdEntry>` (repeated)
 
 Changes to the ledger that were caused by this transaction. Nodes of the transaction tree.
 Each key be a valid LedgerString (as describe in ``value.proto``).
 Required 
+
+.. _com.daml.ledger.api.v1.TransactionTree.root_event_ids:
 
 ``root_event_ids`` : :ref:`string <string>` (repeated)
 
@@ -2063,6 +2449,8 @@ Each element must be a valid LedgerString (as describe in ``value.proto``).
 The elements are in the same order as the commands in the
 corresponding Commands object that triggered this transaction.
 Required 
+
+.. _com.daml.ledger.api.v1.TransactionTree.trace_context:
 
 ``trace_context`` : :ref:`TraceContext <com.daml.ledger.api.v1.TraceContext>`
 
@@ -2083,9 +2471,13 @@ TransactionTree.EventsByIdEntry
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.TransactionTree.EventsByIdEntry.key:
+
 ``key`` : :ref:`string <string>`
 
  
+
+.. _com.daml.ledger.api.v1.TransactionTree.EventsByIdEntry.value:
 
 ``value`` : :ref:`TreeEvent <com.daml.ledger.api.v1.TreeEvent>`
 
@@ -2104,9 +2496,13 @@ Note that transaction trees might contain events with
 _no_ witness parties, which were included simply because they were
 children of events which have witnesses.
 
+.. _com.daml.ledger.api.v1.TreeEvent.created:
+
 ``oneof kind.created`` : :ref:`CreatedEvent <com.daml.ledger.api.v1.CreatedEvent>`
 
  
+
+.. _com.daml.ledger.api.v1.TreeEvent.exercised:
 
 ``oneof kind.exercised`` : :ref:`ExercisedEvent <com.daml.ledger.api.v1.ExercisedEvent>`
 
@@ -2114,6 +2510,8 @@ children of events which have witnesses.
 
 
 ----
+
+.. _com/daml/ledger/api/v1/transaction_filter.proto:
 
 ``com/daml/ledger/api/v1/transaction_filter.proto``
 
@@ -2123,6 +2521,8 @@ Filters
 ============================================================================================
 
 Message, |version com.daml.ledger.api.v1|: The union of a set of contract filters, or a wildcard.
+
+.. _com.daml.ledger.api.v1.Filters.inclusive:
 
 ``inclusive`` : :ref:`InclusiveFilters <com.daml.ledger.api.v1.InclusiveFilters>`
 
@@ -2140,6 +2540,8 @@ InclusiveFilters
 Message, |version com.daml.ledger.api.v1|: A filter that matches all contracts that are either an instance of one of
 the ``template_ids`` or that match one of the ``interface_filters``.
 
+.. _com.daml.ledger.api.v1.InclusiveFilters.template_ids:
+
 ``template_ids`` : :ref:`Identifier <com.daml.ledger.api.v1.Identifier>` (repeated)
 
 A collection of templates for which the data will be included in the
@@ -2151,11 +2553,15 @@ Deprecated in favor of the ``template_filters``. If the ``template_filters`` fie
 the ``template_ids`` field is ignored.
 Optional 
 
+.. _com.daml.ledger.api.v1.InclusiveFilters.interface_filters:
+
 ``interface_filters`` : :ref:`InterfaceFilter <com.daml.ledger.api.v1.InterfaceFilter>` (repeated)
 
 Include an ``InterfaceView`` for every ``InterfaceFilter`` matching a contract.
 The ``InterfaceFilter`` instances MUST each use a unique ``interface_id``.
 Optional 
+
+.. _com.daml.ledger.api.v1.InclusiveFilters.template_filters:
 
 ``template_filters`` : :ref:`TemplateFilter <com.daml.ledger.api.v1.TemplateFilter>` (repeated)
 
@@ -2175,6 +2581,8 @@ InterfaceFilter
 
 Message, |version com.daml.ledger.api.v1|: This filter matches contracts that implement a specific interface.
 
+.. _com.daml.ledger.api.v1.InterfaceFilter.interface_id:
+
 ``interface_id`` : :ref:`Identifier <com.daml.ledger.api.v1.Identifier>`
 
 The interface that a matching contract must implement.
@@ -2182,11 +2590,15 @@ The ``interface_id`` needs to be valid: corresponding interface should be define
 one of the available packages at the time of the query.
 Required 
 
+.. _com.daml.ledger.api.v1.InterfaceFilter.include_interface_view:
+
 ``include_interface_view`` : :ref:`bool <bool>`
 
 Whether to include the interface view on the contract in the returned ``CreatedEvent``.
 Use this to access contract data in a uniform manner in your API client.
 Optional 
+
+.. _com.daml.ledger.api.v1.InterfaceFilter.include_created_event_blob:
 
 ``include_created_event_blob`` : :ref:`bool <bool>`
 
@@ -2202,12 +2614,16 @@ TemplateFilter
 
 Message, |version com.daml.ledger.api.v1|: This filter matches contracts of a specific template.
 
+.. _com.daml.ledger.api.v1.TemplateFilter.template_id:
+
 ``template_id`` : :ref:`Identifier <com.daml.ledger.api.v1.Identifier>`
 
 A template for which the payload should be included in the response.
 The ``template_id`` needs to be valid: corresponding template should be defined in
 one of the available packages at the time of the query.
 Required 
+
+.. _com.daml.ledger.api.v1.TemplateFilter.include_created_event_blob:
 
 ``include_created_event_blob`` : :ref:`bool <bool>`
 
@@ -2223,6 +2639,8 @@ TransactionFilter
 
 Message, |version com.daml.ledger.api.v1|: A filter both for filtering create and archive events as well as for
 filtering transaction trees.
+
+.. _com.daml.ledger.api.v1.TransactionFilter.filters_by_party:
 
 ``filters_by_party`` : :ref:`TransactionFilter.FiltersByPartyEntry <com.daml.ledger.api.v1.TransactionFilter.FiltersByPartyEntry>` (repeated)
 
@@ -2244,9 +2662,13 @@ TransactionFilter.FiltersByPartyEntry
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.TransactionFilter.FiltersByPartyEntry.key:
+
 ``key`` : :ref:`string <string>`
 
  
+
+.. _com.daml.ledger.api.v1.TransactionFilter.FiltersByPartyEntry.value:
 
 ``value`` : :ref:`Filters <com.daml.ledger.api.v1.Filters>`
 
@@ -2254,6 +2676,8 @@ Message, |version com.daml.ledger.api.v1|:
 
 
 ----
+
+.. _com/daml/ledger/api/v1/transaction_service.proto:
 
 ``com/daml/ledger/api/v1/transaction_service.proto``
 
@@ -2359,6 +2783,8 @@ GetFlatTransactionResponse
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.GetFlatTransactionResponse.transaction:
+
 ``transaction`` : :ref:`Transaction <com.daml.ledger.api.v1.Transaction>`
 
  
@@ -2379,9 +2805,13 @@ GetLatestPrunedOffsetsResponse
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.GetLatestPrunedOffsetsResponse.participant_pruned_up_to_inclusive:
+
 ``participant_pruned_up_to_inclusive`` : :ref:`LedgerOffset <com.daml.ledger.api.v1.LedgerOffset>`
 
 The offset up to which the ledger has been pruned, disregarding the state of all divulged contracts pruning. 
+
+.. _com.daml.ledger.api.v1.GetLatestPrunedOffsetsResponse.all_divulged_contracts_pruned_up_to_inclusive:
 
 ``all_divulged_contracts_pruned_up_to_inclusive`` : :ref:`LedgerOffset <com.daml.ledger.api.v1.LedgerOffset>`
 
@@ -2397,6 +2827,8 @@ GetLedgerEndRequest
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.GetLedgerEndRequest.ledger_id:
+
 ``ledger_id`` : :ref:`string <string>`
 
 Must correspond to the ledger ID reported by the Ledger Identification Service.
@@ -2410,6 +2842,8 @@ GetLedgerEndResponse
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.GetLedgerEndResponse.offset:
+
 ``offset`` : :ref:`LedgerOffset <com.daml.ledger.api.v1.LedgerOffset>`
 
 The absolute offset of the current ledger end. 
@@ -2421,17 +2855,23 @@ GetTransactionByEventIdRequest
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.GetTransactionByEventIdRequest.ledger_id:
+
 ``ledger_id`` : :ref:`string <string>`
 
 Must correspond to the ledger ID reported by the Ledger Identification Service.
 Must be a valid LedgerString (as described in ``value.proto``).
 Optional 
 
+.. _com.daml.ledger.api.v1.GetTransactionByEventIdRequest.event_id:
+
 ``event_id`` : :ref:`string <string>`
 
 The ID of a particular event.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
+
+.. _com.daml.ledger.api.v1.GetTransactionByEventIdRequest.requesting_parties:
 
 ``requesting_parties`` : :ref:`string <string>` (repeated)
 
@@ -2447,17 +2887,23 @@ GetTransactionByIdRequest
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.GetTransactionByIdRequest.ledger_id:
+
 ``ledger_id`` : :ref:`string <string>`
 
 Must correspond to the ledger ID reported by the Ledger Identification Service.
 Must be a valid LedgerString (as describe in ``value.proto``).
 Optional 
 
+.. _com.daml.ledger.api.v1.GetTransactionByIdRequest.transaction_id:
+
 ``transaction_id`` : :ref:`string <string>`
 
 The ID of a particular transaction.
 Must be a valid LedgerString (as describe in ``value.proto``).
 Required 
+
+.. _com.daml.ledger.api.v1.GetTransactionByIdRequest.requesting_parties:
 
 ``requesting_parties`` : :ref:`string <string>` (repeated)
 
@@ -2473,6 +2919,8 @@ GetTransactionResponse
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.GetTransactionResponse.transaction:
+
 ``transaction`` : :ref:`TransactionTree <com.daml.ledger.api.v1.TransactionTree>`
 
  
@@ -2484,9 +2932,13 @@ GetTransactionTreesResponse
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.GetTransactionTreesResponse.transactions:
+
 ``transactions`` : :ref:`TransactionTree <com.daml.ledger.api.v1.TransactionTree>` (repeated)
 
 The list of transaction trees that matches the filter in ``GetTransactionsRequest`` for the ``GetTransactionTrees`` method. 
+
+.. _com.daml.ledger.api.v1.GetTransactionTreesResponse.pruned_offset:
 
 ``pruned_offset`` : :ref:`string <string>`
 
@@ -2504,11 +2956,15 @@ GetTransactionsRequest
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.GetTransactionsRequest.ledger_id:
+
 ``ledger_id`` : :ref:`string <string>`
 
 Must correspond to the ledger ID reported by the Ledger Identification Service.
 Must be a valid LedgerString (as described in ``value.proto``).
 Optional 
+
+.. _com.daml.ledger.api.v1.GetTransactionsRequest.begin:
 
 ``begin`` : :ref:`LedgerOffset <com.daml.ledger.api.v1.LedgerOffset>`
 
@@ -2516,11 +2972,15 @@ Beginning of the requested ledger section.
 This offset is exclusive: the response will only contain transactions whose offset is strictly greater than this.
 Required 
 
+.. _com.daml.ledger.api.v1.GetTransactionsRequest.end:
+
 ``end`` : :ref:`LedgerOffset <com.daml.ledger.api.v1.LedgerOffset>`
 
 End of the requested ledger section.
 This offset is inclusive: the response will only contain transactions whose offset is less than or equal to this.
 Optional, if not set, the stream will not terminate. 
+
+.. _com.daml.ledger.api.v1.GetTransactionsRequest.filter:
 
 ``filter`` : :ref:`TransactionFilter <com.daml.ledger.api.v1.TransactionFilter>`
 
@@ -2528,11 +2988,15 @@ Requesting parties with template filters.
 Template filters must be empty for GetTransactionTrees requests.
 Required 
 
+.. _com.daml.ledger.api.v1.GetTransactionsRequest.verbose:
+
 ``verbose`` : :ref:`bool <bool>`
 
 If enabled, values served over the API will contain more information than strictly necessary to interpret the data.
 In particular, setting the verbose flag to true triggers the ledger to include labels for record fields.
 Optional 
+
+.. _com.daml.ledger.api.v1.GetTransactionsRequest.send_pruned_offsets:
 
 ``send_pruned_offsets`` : :ref:`bool <bool>`
 
@@ -2546,9 +3010,13 @@ GetTransactionsResponse
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.GetTransactionsResponse.transactions:
+
 ``transactions`` : :ref:`Transaction <com.daml.ledger.api.v1.Transaction>` (repeated)
 
 The list of transactions that matches the filter in GetTransactionsRequest for the GetTransactions method. 
+
+.. _com.daml.ledger.api.v1.GetTransactionsResponse.pruned_offset:
 
 ``pruned_offset`` : :ref:`string <string>`
 
@@ -2562,6 +3030,8 @@ When `pruned_offset` is set, the message does not contain any transactions in th
 
 ----
 
+.. _com/daml/ledger/api/v1/value.proto:
+
 ``com/daml/ledger/api/v1/value.proto``
 
 .. _com.daml.ledger.api.v1.Enum:
@@ -2571,10 +3041,14 @@ Enum
 
 Message, |version com.daml.ledger.api.v1|: A value with finite set of alternative representations.
 
+.. _com.daml.ledger.api.v1.Enum.enum_id:
+
 ``enum_id`` : :ref:`Identifier <com.daml.ledger.api.v1.Identifier>`
 
 Omitted from the transaction stream when verbose streaming is not enabled.
 Optional when submitting commands. 
+
+.. _com.daml.ledger.api.v1.Enum.constructor:
 
 ``constructor`` : :ref:`string <string>`
 
@@ -2589,6 +3063,8 @@ GenMap
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.GenMap.entries:
+
 ``entries`` : :ref:`GenMap.Entry <com.daml.ledger.api.v1.GenMap.Entry>` (repeated)
 
  
@@ -2600,9 +3076,13 @@ GenMap.Entry
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.GenMap.Entry.key:
+
 ``key`` : :ref:`Value <com.daml.ledger.api.v1.Value>`
 
  
+
+.. _com.daml.ledger.api.v1.GenMap.Entry.value:
 
 ``value`` : :ref:`Value <com.daml.ledger.api.v1.Value>`
 
@@ -2615,16 +3095,22 @@ Identifier
 
 Message, |version com.daml.ledger.api.v1|: Unique identifier of an entity.
 
+.. _com.daml.ledger.api.v1.Identifier.package_id:
+
 ``package_id`` : :ref:`string <string>`
 
 The identifier of the Daml package that contains the entity.
 Must be a valid PackageIdString.
 Required 
 
+.. _com.daml.ledger.api.v1.Identifier.module_name:
+
 ``module_name`` : :ref:`string <string>`
 
 The dot-separated module name of the identifier.
 Required 
+
+.. _com.daml.ledger.api.v1.Identifier.entity_name:
 
 ``entity_name`` : :ref:`string <string>`
 
@@ -2638,6 +3124,8 @@ List
 
 Message, |version com.daml.ledger.api.v1|: A homogenous collection of values.
 
+.. _com.daml.ledger.api.v1.List.elements:
+
 ``elements`` : :ref:`Value <com.daml.ledger.api.v1.Value>` (repeated)
 
 The elements must all be of the same concrete value type.
@@ -2650,6 +3138,8 @@ Map
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.Map.entries:
+
 ``entries`` : :ref:`Map.Entry <com.daml.ledger.api.v1.Map.Entry>` (repeated)
 
  
@@ -2661,9 +3151,13 @@ Map.Entry
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.Map.Entry.key:
+
 ``key`` : :ref:`string <string>`
 
  
+
+.. _com.daml.ledger.api.v1.Map.Entry.value:
 
 ``value`` : :ref:`Value <com.daml.ledger.api.v1.Value>`
 
@@ -2678,6 +3172,8 @@ Message, |version com.daml.ledger.api.v1|: Corresponds to Java's Optional type, 
 The reason why we need to wrap this in an additional ``message`` is that we
 need to be able to encode the ``None`` case in the ``Value`` oneof.
 
+.. _com.daml.ledger.api.v1.Optional.value:
+
 ``value`` : :ref:`Value <com.daml.ledger.api.v1.Value>`
 
 optional 
@@ -2689,10 +3185,14 @@ Record
 
 Message, |version com.daml.ledger.api.v1|: Contains nested values.
 
+.. _com.daml.ledger.api.v1.Record.record_id:
+
 ``record_id`` : :ref:`Identifier <com.daml.ledger.api.v1.Identifier>`
 
 Omitted from the transaction stream when verbose streaming is not enabled.
 Optional when submitting commands. 
+
+.. _com.daml.ledger.api.v1.Record.fields:
 
 ``fields`` : :ref:`RecordField <com.daml.ledger.api.v1.RecordField>` (repeated)
 
@@ -2706,6 +3206,8 @@ RecordField
 
 Message, |version com.daml.ledger.api.v1|: A named nested value within a record.
 
+.. _com.daml.ledger.api.v1.RecordField.label:
+
 ``label`` : :ref:`string <string>`
 
 When reading a transaction stream, it's omitted if verbose streaming is not enabled.
@@ -2715,6 +3217,8 @@ When submitting a commmand, it's optional:
   - if any of the keys within a single record are omitted, the order of fields MUST match the order of declaration in the Daml template.
 
 Must be a valid NameString 
+
+.. _com.daml.ledger.api.v1.RecordField.value:
 
 ``value`` : :ref:`Value <com.daml.ledger.api.v1.Value>`
 
@@ -2736,26 +3240,38 @@ defined as follows:
 - LedgerStrings are strings with length <= 255 that match the regexp ``[A-Za-z0-9#:\-_/ ]+``.
 - ApplicationIdStrings are strings with length <= 255 that match the regexp ``[A-Za-z0-9#:\-_/ @\|]+``.
 
+.. _com.daml.ledger.api.v1.Value.record:
+
 ``oneof Sum.record`` : :ref:`Record <com.daml.ledger.api.v1.Record>`
 
  
 
+.. _com.daml.ledger.api.v1.Value.variant:
+
 ``oneof Sum.variant`` : :ref:`Variant <com.daml.ledger.api.v1.Variant>`
 
  
+
+.. _com.daml.ledger.api.v1.Value.contract_id:
 
 ``oneof Sum.contract_id`` : :ref:`string <string>`
 
 Identifier of an on-ledger contract. Commands which reference an unknown or already archived contract ID will fail.
 Must be a valid LedgerString. 
 
+.. _com.daml.ledger.api.v1.Value.list:
+
 ``oneof Sum.list`` : :ref:`List <com.daml.ledger.api.v1.List>`
 
 Represents a homogeneous list of values. 
 
+.. _com.daml.ledger.api.v1.Value.int64:
+
 ``oneof Sum.int64`` : :ref:`sint64 <sint64>`
 
  
+
+.. _com.daml.ledger.api.v1.Value.numeric:
 
 ``oneof Sum.numeric`` : :ref:`string <string>`
 
@@ -2767,9 +3283,13 @@ The field has to match the regex::
 
 and should be representable by a Numeric without loss of precision. 
 
+.. _com.daml.ledger.api.v1.Value.text:
+
 ``oneof Sum.text`` : :ref:`string <string>`
 
 A string. 
+
+.. _com.daml.ledger.api.v1.Value.timestamp:
 
 ``oneof Sum.timestamp`` : :ref:`sfixed64 <sfixed64>`
 
@@ -2780,18 +3300,26 @@ epoch is greater than that. Range: 0001-01-01T00:00:00Z to
 9999-12-31T23:59:59.999999Z, so that we can convert to/from
 https://www.ietf.org/rfc/rfc3339.txt 
 
+.. _com.daml.ledger.api.v1.Value.party:
+
 ``oneof Sum.party`` : :ref:`string <string>`
 
 An agent operating on the ledger.
 Must be a valid PartyIdString. 
 
+.. _com.daml.ledger.api.v1.Value.bool:
+
 ``oneof Sum.bool`` : :ref:`bool <bool>`
 
 True or false. 
 
+.. _com.daml.ledger.api.v1.Value.unit:
+
 ``oneof Sum.unit`` :  `google.protobuf.Empty <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#empty>`__
 
 This value is used for example for choices that don't take any arguments. 
+
+.. _com.daml.ledger.api.v1.Value.date:
 
 ``oneof Sum.date`` : :ref:`int32 <int32>`
 
@@ -2799,17 +3327,25 @@ Days since the unix epoch. Can go backwards. Limited from
 0001-01-01 to 9999-12-31, also to be compatible with
 https://www.ietf.org/rfc/rfc3339.txt 
 
+.. _com.daml.ledger.api.v1.Value.optional:
+
 ``oneof Sum.optional`` : :ref:`Optional <com.daml.ledger.api.v1.Optional>`
 
 The Optional type, None or Some 
+
+.. _com.daml.ledger.api.v1.Value.map:
 
 ``oneof Sum.map`` : :ref:`Map <com.daml.ledger.api.v1.Map>`
 
 The Map type 
 
+.. _com.daml.ledger.api.v1.Value.enum:
+
 ``oneof Sum.enum`` : :ref:`Enum <com.daml.ledger.api.v1.Enum>`
 
 The Enum type 
+
+.. _com.daml.ledger.api.v1.Value.gen_map:
 
 ``oneof Sum.gen_map`` : :ref:`GenMap <com.daml.ledger.api.v1.GenMap>`
 
@@ -2822,16 +3358,22 @@ Variant
 
 Message, |version com.daml.ledger.api.v1|: A value with alternative representations.
 
+.. _com.daml.ledger.api.v1.Variant.variant_id:
+
 ``variant_id`` : :ref:`Identifier <com.daml.ledger.api.v1.Identifier>`
 
 Omitted from the transaction stream when verbose streaming is not enabled.
 Optional when submitting commands. 
+
+.. _com.daml.ledger.api.v1.Variant.constructor:
 
 ``constructor`` : :ref:`string <string>`
 
 Determines which of the Variant's alternatives is encoded in this message.
 Must be a valid NameString.
 Required 
+
+.. _com.daml.ledger.api.v1.Variant.value:
 
 ``value`` : :ref:`Value <com.daml.ledger.api.v1.Value>`
 
@@ -2840,6 +3382,8 @@ Required
 
 
 ----
+
+.. _com/daml/ledger/api/v1/version_service.proto:
 
 ``com/daml/ledger/api/v1/version_service.proto``
 
@@ -2868,17 +3412,23 @@ FeaturesDescriptor
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.FeaturesDescriptor.user_management:
+
 ``user_management`` : :ref:`UserManagementFeature <com.daml.ledger.api.v1.UserManagementFeature>`
 
 If set, then the Ledger API server supports user management.
 It is recommended that clients query this field to gracefully adjust their behavior for
 ledgers that do not support user management. 
 
+.. _com.daml.ledger.api.v1.FeaturesDescriptor.party_management:
+
 ``party_management`` : :ref:`PartyManagementFeature <com.daml.ledger.api.v1.PartyManagementFeature>`
 
 If set, then the Ledger API server supports party management configurability.
 It is recommended that clients query this field to gracefully adjust their behavior to
 maximum party page size. 
+
+.. _com.daml.ledger.api.v1.FeaturesDescriptor.experimental:
 
 ``experimental`` : :ref:`ExperimentalFeatures <com.daml.ledger.api.v1.ExperimentalFeatures>`
 
@@ -2894,6 +3444,8 @@ GetLedgerApiVersionRequest
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.GetLedgerApiVersionRequest.ledger_id:
+
 ``ledger_id`` : :ref:`string <string>`
 
 Must correspond to the ledger ID reported by the Ledger Identification Service.
@@ -2907,9 +3459,13 @@ GetLedgerApiVersionResponse
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.GetLedgerApiVersionResponse.version:
+
 ``version`` : :ref:`string <string>`
 
 The version of the ledger API. 
+
+.. _com.daml.ledger.api.v1.GetLedgerApiVersionResponse.features:
 
 ``features`` : :ref:`FeaturesDescriptor <com.daml.ledger.api.v1.FeaturesDescriptor>`
 
@@ -2930,6 +3486,8 @@ PartyManagementFeature
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.PartyManagementFeature.max_parties_page_size:
+
 ``max_parties_page_size`` : :ref:`int32 <int32>`
 
 The maximum number of parties the server can return in a single response (page). 
@@ -2941,15 +3499,21 @@ UserManagementFeature
 
 Message, |version com.daml.ledger.api.v1|: 
 
+.. _com.daml.ledger.api.v1.UserManagementFeature.supported:
+
 ``supported`` : :ref:`bool <bool>`
 
 Whether the Ledger API server provides the user management service. 
+
+.. _com.daml.ledger.api.v1.UserManagementFeature.max_rights_per_user:
 
 ``max_rights_per_user`` : :ref:`int32 <int32>`
 
 The maximum number of rights that can be assigned to a single user.
 Servers MUST support at least 100 rights per user.
 A value of 0 means that the server enforces no rights per user limit. 
+
+.. _com.daml.ledger.api.v1.UserManagementFeature.max_users_page_size:
 
 ``max_users_page_size`` : :ref:`int32 <int32>`
 
@@ -2959,6 +3523,8 @@ A value of 0 means that the server enforces no page size limit.
 
 
 ----
+
+.. _com/daml/ledger/api/v1/admin/command_inspection_service.proto:
 
 ``com/daml/ledger/api/v1/admin/command_inspection_service.proto``
 
@@ -2996,13 +3562,19 @@ GetCommandStatusRequest
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.GetCommandStatusRequest.command_id_prefix:
+
 ``command_id_prefix`` : :ref:`string <string>`
 
 optional filter by command id 
 
+.. _com.daml.ledger.api.v1.admin.GetCommandStatusRequest.state:
+
 ``state`` : :ref:`CommandState <com.daml.ledger.api.v1.admin.CommandState>`
 
 optional filter by state 
+
+.. _com.daml.ledger.api.v1.admin.GetCommandStatusRequest.limit:
 
 ``limit`` : :ref:`uint32 <uint32>`
 
@@ -3015,6 +3587,8 @@ GetCommandStatusResponse
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.GetCommandStatusResponse.command_status:
+
 ``command_status`` : :ref:`GetCommandStatusResponse.CommandStatus <com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus>` (repeated)
 
  
@@ -3026,29 +3600,43 @@ GetCommandStatusResponse.CommandStatus
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.started:
+
 ``started`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
 
  
+
+.. _com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.completed:
 
 ``completed`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
 
  
 
+.. _com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.completion:
+
 ``completion`` : :ref:`com.daml.ledger.api.v1.Completion <com.daml.ledger.api.v1.Completion>`
 
  
+
+.. _com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.state:
 
 ``state`` : :ref:`CommandState <com.daml.ledger.api.v1.admin.CommandState>`
 
  
 
+.. _com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.commands:
+
 ``commands`` : :ref:`com.daml.ledger.api.v1.Command <com.daml.ledger.api.v1.Command>` (repeated)
 
  
 
+.. _com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.request_statistics:
+
 ``request_statistics`` : :ref:`GetCommandStatusResponse.CommandStatus.RequestStatistics <com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.RequestStatistics>`
 
  
+
+.. _com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.updates:
 
 ``updates`` : :ref:`GetCommandStatusResponse.CommandStatus.CommandUpdates <com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.CommandUpdates>`
 
@@ -3061,21 +3649,31 @@ GetCommandStatusResponse.CommandStatus.CommandUpdates
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.CommandUpdates.created:
+
 ``created`` : :ref:`GetCommandStatusResponse.CommandStatus.CommandUpdates.Contract <com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.CommandUpdates.Contract>` (repeated)
 
  
+
+.. _com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.CommandUpdates.archived:
 
 ``archived`` : :ref:`GetCommandStatusResponse.CommandStatus.CommandUpdates.Contract <com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.CommandUpdates.Contract>` (repeated)
 
  
 
+.. _com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.CommandUpdates.exercised:
+
 ``exercised`` : :ref:`uint32 <uint32>`
 
  
 
+.. _com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.CommandUpdates.fetched:
+
 ``fetched`` : :ref:`uint32 <uint32>`
 
  
+
+.. _com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.CommandUpdates.looked_up_by_key:
 
 ``looked_up_by_key`` : :ref:`uint32 <uint32>`
 
@@ -3088,13 +3686,19 @@ GetCommandStatusResponse.CommandStatus.CommandUpdates.Contract
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.CommandUpdates.Contract.template_id:
+
 ``template_id`` : :ref:`com.daml.ledger.api.v1.Identifier <com.daml.ledger.api.v1.Identifier>`
 
  
 
+.. _com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.CommandUpdates.Contract.contract_id:
+
 ``contract_id`` : :ref:`string <string>`
 
  
+
+.. _com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.CommandUpdates.Contract.contract_key:
 
 ``contract_key`` : :ref:`com.daml.ledger.api.v1.Value <com.daml.ledger.api.v1.Value>`
 
@@ -3107,13 +3711,19 @@ GetCommandStatusResponse.CommandStatus.RequestStatistics
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.RequestStatistics.envelopes:
+
 ``envelopes`` : :ref:`uint32 <uint32>`
 
  
 
+.. _com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.RequestStatistics.request_size:
+
 ``request_size`` : :ref:`uint32 <uint32>`
 
  
+
+.. _com.daml.ledger.api.v1.admin.GetCommandStatusResponse.CommandStatus.RequestStatistics.recipients:
 
 ``recipients`` : :ref:`uint32 <uint32>`
 
@@ -3162,6 +3772,8 @@ Enum, |version com.daml.ledger.api.v1.admin|:
    
 
 ----
+
+.. _com/daml/ledger/api/v1/admin/config_management_service.proto:
 
 ``com/daml/ledger/api/v1/admin/config_management_service.proto``
 
@@ -3215,10 +3827,14 @@ GetTimeModelResponse
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.GetTimeModelResponse.configuration_generation:
+
 ``configuration_generation`` : :ref:`int64 <int64>`
 
 The current configuration generation. The generation is a monotonically increasing
 integer that is incremented on each change. Used when setting the time model. 
+
+.. _com.daml.ledger.api.v1.admin.GetTimeModelResponse.time_model:
 
 ``time_model`` : :ref:`TimeModel <com.daml.ledger.api.v1.admin.TimeModel>`
 
@@ -3231,15 +3847,21 @@ SetTimeModelRequest
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.SetTimeModelRequest.submission_id:
+
 ``submission_id`` : :ref:`string <string>`
 
 Submission identifier used for tracking the request and to reject
 duplicate submissions.
 Required. 
 
+.. _com.daml.ledger.api.v1.admin.SetTimeModelRequest.maximum_record_time:
+
 ``maximum_record_time`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
 
 Deadline for the configuration change after which the change is rejected. 
+
+.. _com.daml.ledger.api.v1.admin.SetTimeModelRequest.configuration_generation:
 
 ``configuration_generation`` : :ref:`int64 <int64>`
 
@@ -3247,6 +3869,8 @@ The current configuration generation which we're submitting the change against.
 This is used to perform a compare-and-swap of the configuration to
 safeguard against concurrent modifications.
 Required. 
+
+.. _com.daml.ledger.api.v1.admin.SetTimeModelRequest.new_time_model:
 
 ``new_time_model`` : :ref:`TimeModel <com.daml.ledger.api.v1.admin.TimeModel>`
 
@@ -3260,6 +3884,8 @@ SetTimeModelResponse
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.SetTimeModelResponse.configuration_generation:
+
 ``configuration_generation`` : :ref:`int64 <int64>`
 
 The configuration generation of the committed time model. 
@@ -3271,6 +3897,8 @@ TimeModel
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.TimeModel.avg_transaction_latency:
+
 ``avg_transaction_latency`` :  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration>`__
 
 The expected average latency of a transaction, i.e., the average time
@@ -3278,10 +3906,14 @@ from submitting the transaction to a [[WriteService]] and the transaction
 being assigned a record time.
 Required. 
 
+.. _com.daml.ledger.api.v1.admin.TimeModel.min_skew:
+
 ``min_skew`` :  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration>`__
 
 The minimimum skew between ledger time and record time: lt_TX >= rt_TX - minSkew
 Required. 
+
+.. _com.daml.ledger.api.v1.admin.TimeModel.max_skew:
 
 ``max_skew`` :  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration>`__
 
@@ -3290,6 +3922,8 @@ Required.
 
 
 ----
+
+.. _com/daml/ledger/api/v1/admin/identity_provider_config_service.proto:
 
 ``com/daml/ledger/api/v1/admin/identity_provider_config_service.proto``
 
@@ -3382,6 +4016,8 @@ CreateIdentityProviderConfigRequest
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.CreateIdentityProviderConfigRequest.identity_provider_config:
+
 ``identity_provider_config`` : :ref:`IdentityProviderConfig <com.daml.ledger.api.v1.admin.IdentityProviderConfig>`
 
 Required 
@@ -3393,6 +4029,8 @@ CreateIdentityProviderConfigResponse
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.CreateIdentityProviderConfigResponse.identity_provider_config:
+
 ``identity_provider_config`` : :ref:`IdentityProviderConfig <com.daml.ledger.api.v1.admin.IdentityProviderConfig>`
 
  
@@ -3403,6 +4041,8 @@ DeleteIdentityProviderConfigRequest
 ============================================================================================
 
 Message, |version com.daml.ledger.api.v1.admin|: 
+
+.. _com.daml.ledger.api.v1.admin.DeleteIdentityProviderConfigRequest.identity_provider_id:
 
 ``identity_provider_id`` : :ref:`string <string>`
 
@@ -3425,6 +4065,8 @@ GetIdentityProviderConfigRequest
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.GetIdentityProviderConfigRequest.identity_provider_id:
+
 ``identity_provider_id`` : :ref:`string <string>`
 
 Required 
@@ -3435,6 +4077,8 @@ GetIdentityProviderConfigResponse
 ============================================================================================
 
 Message, |version com.daml.ledger.api.v1.admin|: 
+
+.. _com.daml.ledger.api.v1.admin.GetIdentityProviderConfigResponse.identity_provider_config:
 
 ``identity_provider_config`` : :ref:`IdentityProviderConfig <com.daml.ledger.api.v1.admin.IdentityProviderConfig>`
 
@@ -3447,11 +4091,15 @@ IdentityProviderConfig
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.IdentityProviderConfig.identity_provider_id:
+
 ``identity_provider_id`` : :ref:`string <string>`
 
 The identity provider identifier
 Must be a valid LedgerString (as describe in ``value.proto``).
 Required 
+
+.. _com.daml.ledger.api.v1.admin.IdentityProviderConfig.is_deactivated:
 
 ``is_deactivated`` : :ref:`bool <bool>`
 
@@ -3459,6 +4107,8 @@ When set, the callers using JWT tokens issued by this identity provider are deni
 to the Ledger API.
 Optional,
 Modifiable 
+
+.. _com.daml.ledger.api.v1.admin.IdentityProviderConfig.issuer:
 
 ``issuer`` : :ref:`string <string>`
 
@@ -3468,6 +4118,8 @@ and optionally, port number and path components and no query or fragment compone
 Required
 Modifiable 
 
+.. _com.daml.ledger.api.v1.admin.IdentityProviderConfig.jwks_url:
+
 ``jwks_url`` : :ref:`string <string>`
 
 The JWKS (JSON Web Key Set) URL.
@@ -3475,6 +4127,8 @@ The Ledger API uses JWKs (JSON Web Keys) from the provided URL to verify that th
 signed with the loaded JWK. Only RS256 (RSA Signature with SHA-256) signing algorithm is supported.
 Required
 Modifiable 
+
+.. _com.daml.ledger.api.v1.admin.IdentityProviderConfig.audience:
 
 ``audience`` : :ref:`string <string>`
 
@@ -3500,6 +4154,8 @@ ListIdentityProviderConfigsResponse
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.ListIdentityProviderConfigsResponse.identity_provider_configs:
+
 ``identity_provider_configs`` : :ref:`IdentityProviderConfig <com.daml.ledger.api.v1.admin.IdentityProviderConfig>` (repeated)
 
  
@@ -3511,11 +4167,15 @@ UpdateIdentityProviderConfigRequest
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.UpdateIdentityProviderConfigRequest.identity_provider_config:
+
 ``identity_provider_config`` : :ref:`IdentityProviderConfig <com.daml.ledger.api.v1.admin.IdentityProviderConfig>`
 
 The identity provider config to update.
 Required,
 Modifiable 
+
+.. _com.daml.ledger.api.v1.admin.UpdateIdentityProviderConfigRequest.update_mask:
 
 ``update_mask`` :  `google.protobuf.FieldMask <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask>`__
 
@@ -3538,12 +4198,16 @@ UpdateIdentityProviderConfigResponse
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.UpdateIdentityProviderConfigResponse.identity_provider_config:
+
 ``identity_provider_config`` : :ref:`IdentityProviderConfig <com.daml.ledger.api.v1.admin.IdentityProviderConfig>`
 
 Updated identity provider config 
 
 
 ----
+
+.. _com/daml/ledger/api/v1/admin/metering_report_service.proto:
 
 ``com/daml/ledger/api/v1/admin/metering_report_service.proto``
 
@@ -3575,15 +4239,21 @@ GetMeteringReportRequest
 
 Message, |version com.daml.ledger.api.v1.admin|: Authorized if and only if the authenticated user is a participant admin.
 
+.. _com.daml.ledger.api.v1.admin.GetMeteringReportRequest.from:
+
 ``from`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
 
 The from timestamp (inclusive).
 Required. 
 
+.. _com.daml.ledger.api.v1.admin.GetMeteringReportRequest.to:
+
 ``to`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
 
 The to timestamp (exclusive).
 If not provided, the server will default to its current time. 
+
+.. _com.daml.ledger.api.v1.admin.GetMeteringReportRequest.application_id:
 
 ``application_id`` : :ref:`string <string>`
 
@@ -3597,13 +4267,19 @@ GetMeteringReportResponse
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.GetMeteringReportResponse.request:
+
 ``request`` : :ref:`GetMeteringReportRequest <com.daml.ledger.api.v1.admin.GetMeteringReportRequest>`
 
 The actual request that was executed. 
 
+.. _com.daml.ledger.api.v1.admin.GetMeteringReportResponse.report_generation_time:
+
 ``report_generation_time`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
 
 The time at which the report was computed. 
+
+.. _com.daml.ledger.api.v1.admin.GetMeteringReportResponse.metering_report_json:
 
 ``metering_report_json`` :  `google.protobuf.Struct <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct>`__
 
@@ -3612,6 +4288,8 @@ https://github.com/digital-asset/daml/blob/main/ledger-api/grpc-definitions/mete
 
 
 ----
+
+.. _com/daml/ledger/api/v1/admin/object_meta.proto:
 
 ``com/daml/ledger/api/v1/admin/object_meta.proto``
 
@@ -3624,6 +4302,8 @@ Message, |version com.daml.ledger.api.v1.admin|: Represents metadata correspondi
 
 Based on ``ObjectMeta`` meta used in Kubernetes API.
 See https://github.com/kubernetes/apimachinery/blob/master/pkg/apis/meta/v1/generated.proto#L640
+
+.. _com.daml.ledger.api.v1.admin.ObjectMeta.resource_version:
 
 ``resource_version`` : :ref:`string <string>`
 
@@ -3640,6 +4320,8 @@ Concurrent change control is optional. It will be applied only if you include a 
 When creating a new instance of a resource you must leave the resource version empty.
 Its value will be populated by the participant server upon successful resource creation.
 Optional 
+
+.. _com.daml.ledger.api.v1.admin.ObjectMeta.annotations:
 
 ``annotations`` : :ref:`ObjectMeta.AnnotationsEntry <com.daml.ledger.api.v1.admin.ObjectMeta.AnnotationsEntry>` (repeated)
 
@@ -3673,9 +4355,13 @@ ObjectMeta.AnnotationsEntry
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.ObjectMeta.AnnotationsEntry.key:
+
 ``key`` : :ref:`string <string>`
 
  
+
+.. _com.daml.ledger.api.v1.admin.ObjectMeta.AnnotationsEntry.value:
 
 ``value`` : :ref:`string <string>`
 
@@ -3683,6 +4369,8 @@ Message, |version com.daml.ledger.api.v1.admin|:
 
 
 ----
+
+.. _com/daml/ledger/api/v1/admin/package_management_service.proto:
 
 ``com/daml/ledger/api/v1/admin/package_management_service.proto``
 
@@ -3758,6 +4446,8 @@ ListKnownPackagesResponse
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.ListKnownPackagesResponse.package_details:
+
 ``package_details`` : :ref:`PackageDetails <com.daml.ledger.api.v1.admin.PackageDetails>` (repeated)
 
 The details of all Daml-LF packages known to backing participant.
@@ -3770,11 +4460,15 @@ PackageDetails
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.PackageDetails.package_id:
+
 ``package_id`` : :ref:`string <string>`
 
 The identity of the Daml-LF package.
 Must be a valid PackageIdString (as describe in ``value.proto``).
 Required 
+
+.. _com.daml.ledger.api.v1.admin.PackageDetails.package_size:
 
 ``package_size`` : :ref:`uint64 <uint64>`
 
@@ -3783,10 +4477,14 @@ The size of the package is given by the size of the ``daml_lf``
 ArchivePayload. See further details in ``daml_lf.proto``.
 Required 
 
+.. _com.daml.ledger.api.v1.admin.PackageDetails.known_since:
+
 ``known_since`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
 
 Indicates since when the package is known to the backing participant.
 Required 
+
+.. _com.daml.ledger.api.v1.admin.PackageDetails.source_description:
 
 ``source_description`` : :ref:`string <string>`
 
@@ -3801,12 +4499,16 @@ UploadDarFileRequest
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.UploadDarFileRequest.dar_file:
+
 ``dar_file`` : :ref:`bytes <bytes>`
 
 Contains a Daml archive DAR file, which in turn is a jar like zipped
 container for ``daml_lf`` archives. See further details in
 ``daml_lf.proto``.
 Required 
+
+.. _com.daml.ledger.api.v1.admin.UploadDarFileRequest.submission_id:
 
 ``submission_id`` : :ref:`string <string>`
 
@@ -3829,12 +4531,16 @@ ValidateDarFileRequest
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.ValidateDarFileRequest.dar_file:
+
 ``dar_file`` : :ref:`bytes <bytes>`
 
 Contains a Daml archive DAR file, which in turn is a jar like zipped
 container for ``daml_lf`` archives. See further details in
 ``daml_lf.proto``.
 Required 
+
+.. _com.daml.ledger.api.v1.admin.ValidateDarFileRequest.submission_id:
 
 ``submission_id`` : :ref:`string <string>`
 
@@ -3852,6 +4558,8 @@ Message has no fields.
 
 
 ----
+
+.. _com/daml/ledger/api/v1/admin/participant_pruning_service.proto:
 
 ``com/daml/ledger/api/v1/admin/participant_pruning_service.proto``
 
@@ -3888,6 +4596,8 @@ PruneRequest
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.PruneRequest.prune_up_to:
+
 ``prune_up_to`` : :ref:`string <string>`
 
 Inclusive offset up to which the ledger is to be pruned.
@@ -3897,10 +4607,14 @@ By default the following data is pruned:
    `prune_up_to`.
 2. All transaction events and completions before `prune_up_to` 
 
+.. _com.daml.ledger.api.v1.admin.PruneRequest.submission_id:
+
 ``submission_id`` : :ref:`string <string>`
 
 Unique submission identifier.
 Optional, defaults to a random identifier, used for logging. 
+
+.. _com.daml.ledger.api.v1.admin.PruneRequest.prune_all_divulged_contracts:
 
 ``prune_all_divulged_contracts`` : :ref:`bool <bool>`
 
@@ -3929,6 +4643,8 @@ Message has no fields.
 
 
 ----
+
+.. _com/daml/ledger/api/v1/admin/party_management_service.proto:
 
 ``com/daml/ledger/api/v1/admin/party_management_service.proto``
 
@@ -4050,12 +4766,16 @@ AllocatePartyRequest
 
 Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(identity_provider_id)``
 
+.. _com.daml.ledger.api.v1.admin.AllocatePartyRequest.party_id_hint:
+
 ``party_id_hint`` : :ref:`string <string>`
 
 A hint to the participant which party ID to allocate. It can be
 ignored.
 Must be a valid PartyIdString (as described in ``value.proto``).
 Optional 
+
+.. _com.daml.ledger.api.v1.admin.AllocatePartyRequest.display_name:
 
 ``display_name`` : :ref:`string <string>`
 
@@ -4064,10 +4784,14 @@ have to be unique.
 Use of this field is discouraged. Use ``local_metadata`` instead.
 Optional 
 
+.. _com.daml.ledger.api.v1.admin.AllocatePartyRequest.local_metadata:
+
 ``local_metadata`` : :ref:`ObjectMeta <com.daml.ledger.api.v1.admin.ObjectMeta>`
 
 Participant-local metadata to be stored in the ``PartyDetails`` of this newly allocated party.
 Optional 
+
+.. _com.daml.ledger.api.v1.admin.AllocatePartyRequest.identity_provider_id:
 
 ``identity_provider_id`` : :ref:`string <string>`
 
@@ -4080,6 +4804,8 @@ AllocatePartyResponse
 ============================================================================================
 
 Message, |version com.daml.ledger.api.v1.admin|: 
+
+.. _com.daml.ledger.api.v1.admin.AllocatePartyResponse.party_details:
 
 ``party_details`` : :ref:`PartyDetails <com.daml.ledger.api.v1.admin.PartyDetails>`
 
@@ -4101,6 +4827,8 @@ GetParticipantIdResponse
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.GetParticipantIdResponse.participant_id:
+
 ``participant_id`` : :ref:`string <string>`
 
 Identifier of the participant, which SHOULD be globally unique.
@@ -4113,11 +4841,15 @@ GetPartiesRequest
 
 Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(identity_provider_id)``
 
+.. _com.daml.ledger.api.v1.admin.GetPartiesRequest.parties:
+
 ``parties`` : :ref:`string <string>` (repeated)
 
 The stable, unique identifier of the Daml parties.
 Must be valid PartyIdStrings (as described in ``value.proto``).
 Required 
+
+.. _com.daml.ledger.api.v1.admin.GetPartiesRequest.identity_provider_id:
 
 ``identity_provider_id`` : :ref:`string <string>`
 
@@ -4130,6 +4862,8 @@ GetPartiesResponse
 ============================================================================================
 
 Message, |version com.daml.ledger.api.v1.admin|: 
+
+.. _com.daml.ledger.api.v1.admin.GetPartiesResponse.party_details:
 
 ``party_details`` : :ref:`PartyDetails <com.daml.ledger.api.v1.admin.PartyDetails>` (repeated)
 
@@ -4144,6 +4878,8 @@ ListKnownPartiesRequest
 
 Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(identity_provider_id)``
 
+.. _com.daml.ledger.api.v1.admin.ListKnownPartiesRequest.page_token:
+
 ``page_token`` : :ref:`string <string>`
 
 Pagination token to determine the specific page to fetch. Using the token guarantees that parties on a subsequent
@@ -4153,6 +4889,8 @@ requested twice using the same token, more parties can be returned on the second
 Leave empty to fetch the first page.
 Optional 
 
+.. _com.daml.ledger.api.v1.admin.ListKnownPartiesRequest.page_size:
+
 ``page_size`` : :ref:`int32 <int32>`
 
 Maximum number of results to be returned by the server. The server will return no more than that many results,
@@ -4160,6 +4898,8 @@ but it might return fewer. If the page_size is 0, the server will decide the num
 If the page_size exceeds the maximum supported by the server, an error will be returned. To obtain the server's
 maximum consult the PartyManagementFeature descriptor available in the VersionService.
 Optional 
+
+.. _com.daml.ledger.api.v1.admin.ListKnownPartiesRequest.identity_provider_id:
 
 ``identity_provider_id`` : :ref:`string <string>`
 
@@ -4173,10 +4913,14 @@ ListKnownPartiesResponse
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.ListKnownPartiesResponse.party_details:
+
 ``party_details`` : :ref:`PartyDetails <com.daml.ledger.api.v1.admin.PartyDetails>` (repeated)
 
 The details of all Daml parties known by the participant.
 Required 
+
+.. _com.daml.ledger.api.v1.admin.ListKnownPartiesResponse.next_page_token:
 
 ``next_page_token`` : :ref:`string <string>`
 
@@ -4190,11 +4934,15 @@ PartyDetails
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.PartyDetails.party:
+
 ``party`` : :ref:`string <string>`
 
 The stable unique identifier of a Daml party.
 Must be a valid PartyIdString (as described in ``value.proto``).
 Required 
+
+.. _com.daml.ledger.api.v1.admin.PartyDetails.display_name:
 
 ``display_name`` : :ref:`string <string>`
 
@@ -4203,16 +4951,22 @@ Caution, it might not be unique.
 Use of this field is discouraged. Use the `local_metadata` field instead.
 Optional 
 
+.. _com.daml.ledger.api.v1.admin.PartyDetails.is_local:
+
 ``is_local`` : :ref:`bool <bool>`
 
 true if party is hosted by the participant and the party shares the same identity provider as the user issuing the request.
 Optional 
+
+.. _com.daml.ledger.api.v1.admin.PartyDetails.local_metadata:
 
 ``local_metadata`` : :ref:`ObjectMeta <com.daml.ledger.api.v1.admin.ObjectMeta>`
 
 Participant-local metadata of this party.
 Optional,
 Modifiable 
+
+.. _com.daml.ledger.api.v1.admin.PartyDetails.identity_provider_id:
 
 ``identity_provider_id`` : :ref:`string <string>`
 
@@ -4230,11 +4984,15 @@ UpdatePartyDetailsRequest
 
 Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(party_details.identity_provider_id)``
 
+.. _com.daml.ledger.api.v1.admin.UpdatePartyDetailsRequest.party_details:
+
 ``party_details`` : :ref:`PartyDetails <com.daml.ledger.api.v1.admin.PartyDetails>`
 
 Party to be updated
 Required,
 Modifiable 
+
+.. _com.daml.ledger.api.v1.admin.UpdatePartyDetailsRequest.update_mask:
 
 ``update_mask`` :  `google.protobuf.FieldMask <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask>`__
 
@@ -4267,6 +5025,8 @@ UpdatePartyDetailsResponse
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.UpdatePartyDetailsResponse.party_details:
+
 ``party_details`` : :ref:`PartyDetails <com.daml.ledger.api.v1.admin.PartyDetails>`
 
 Updated party details 
@@ -4278,13 +5038,19 @@ UpdatePartyIdentityProviderRequest
 
 Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin)``
 
+.. _com.daml.ledger.api.v1.admin.UpdatePartyIdentityProviderRequest.party:
+
 ``party`` : :ref:`string <string>`
 
 Party to update 
 
+.. _com.daml.ledger.api.v1.admin.UpdatePartyIdentityProviderRequest.source_identity_provider_id:
+
 ``source_identity_provider_id`` : :ref:`string <string>`
 
 Current identity provider id of the party 
+
+.. _com.daml.ledger.api.v1.admin.UpdatePartyIdentityProviderRequest.target_identity_provider_id:
 
 ``target_identity_provider_id`` : :ref:`string <string>`
 
@@ -4301,6 +5067,8 @@ Message has no fields.
 
 
 ----
+
+.. _com/daml/ledger/api/v1/admin/user_management_service.proto:
 
 ``com/daml/ledger/api/v1/admin/user_management_service.proto``
 
@@ -4438,10 +5206,14 @@ CreateUserRequest
 
 Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(user.identity_provider_id)``
 
+.. _com.daml.ledger.api.v1.admin.CreateUserRequest.user:
+
 ``user`` : :ref:`User <com.daml.ledger.api.v1.admin.User>`
 
 The user to create.
 Required 
+
+.. _com.daml.ledger.api.v1.admin.CreateUserRequest.rights:
 
 ``rights`` : :ref:`Right <com.daml.ledger.api.v1.admin.Right>` (repeated)
 
@@ -4456,6 +5228,8 @@ CreateUserResponse
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.CreateUserResponse.user:
+
 ``user`` : :ref:`User <com.daml.ledger.api.v1.admin.User>`
 
 Created user. 
@@ -4467,10 +5241,14 @@ DeleteUserRequest
 
 Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(identity_provider_id)``
 
+.. _com.daml.ledger.api.v1.admin.DeleteUserRequest.user_id:
+
 ``user_id`` : :ref:`string <string>`
 
 The user to delete.
 Required 
+
+.. _com.daml.ledger.api.v1.admin.DeleteUserRequest.identity_provider_id:
 
 ``identity_provider_id`` : :ref:`string <string>`
 
@@ -4493,11 +5271,15 @@ GetUserRequest
 
 Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(identity_provider_id) OR IsAuthenticatedUser(user_id)``
 
+.. _com.daml.ledger.api.v1.admin.GetUserRequest.user_id:
+
 ``user_id`` : :ref:`string <string>`
 
 The user whose data to retrieve.
 If set to empty string (the default), then the data for the authenticated user will be retrieved.
 Optional 
+
+.. _com.daml.ledger.api.v1.admin.GetUserRequest.identity_provider_id:
 
 ``identity_provider_id`` : :ref:`string <string>`
 
@@ -4510,6 +5292,8 @@ GetUserResponse
 ============================================================================================
 
 Message, |version com.daml.ledger.api.v1.admin|: 
+
+.. _com.daml.ledger.api.v1.admin.GetUserResponse.user:
 
 ``user`` : :ref:`User <com.daml.ledger.api.v1.admin.User>`
 
@@ -4524,15 +5308,21 @@ Message, |version com.daml.ledger.api.v1.admin|: Add the rights to the set of ri
 
 Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(identity_provider_id)``
 
+.. _com.daml.ledger.api.v1.admin.GrantUserRightsRequest.user_id:
+
 ``user_id`` : :ref:`string <string>`
 
 The user to whom to grant rights.
 Required 
 
+.. _com.daml.ledger.api.v1.admin.GrantUserRightsRequest.rights:
+
 ``rights`` : :ref:`Right <com.daml.ledger.api.v1.admin.Right>` (repeated)
 
 The rights to grant.
 Optional 
+
+.. _com.daml.ledger.api.v1.admin.GrantUserRightsRequest.identity_provider_id:
 
 ``identity_provider_id`` : :ref:`string <string>`
 
@@ -4546,6 +5336,8 @@ GrantUserRightsResponse
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.GrantUserRightsResponse.newly_granted_rights:
+
 ``newly_granted_rights`` : :ref:`Right <com.daml.ledger.api.v1.admin.Right>` (repeated)
 
 The rights that were newly granted by the request. 
@@ -4557,11 +5349,15 @@ ListUserRightsRequest
 
 Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(identity_provider_id) OR IsAuthenticatedUser(user_id)``
 
+.. _com.daml.ledger.api.v1.admin.ListUserRightsRequest.user_id:
+
 ``user_id`` : :ref:`string <string>`
 
 The user for which to list the rights.
 If set to empty string (the default), then the rights for the authenticated user will be listed.
 Required 
+
+.. _com.daml.ledger.api.v1.admin.ListUserRightsRequest.identity_provider_id:
 
 ``identity_provider_id`` : :ref:`string <string>`
 
@@ -4575,6 +5371,8 @@ ListUserRightsResponse
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.ListUserRightsResponse.rights:
+
 ``rights`` : :ref:`Right <com.daml.ledger.api.v1.admin.Right>` (repeated)
 
 All rights of the user. 
@@ -4586,17 +5384,23 @@ ListUsersRequest
 
 Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(identity_provider_id)``
 
+.. _com.daml.ledger.api.v1.admin.ListUsersRequest.page_token:
+
 ``page_token`` : :ref:`string <string>`
 
 Pagination token to determine the specific page to fetch.
 Leave empty to fetch the first page.
 Optional 
 
+.. _com.daml.ledger.api.v1.admin.ListUsersRequest.page_size:
+
 ``page_size`` : :ref:`int32 <int32>`
 
 Maximum number of results to be returned by the server. The server will return no more than that many results, but it might return fewer.
 If 0, the server will decide the number of results to be returned.
 Optional 
+
+.. _com.daml.ledger.api.v1.admin.ListUsersRequest.identity_provider_id:
 
 ``identity_provider_id`` : :ref:`string <string>`
 
@@ -4610,9 +5414,13 @@ ListUsersResponse
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.ListUsersResponse.users:
+
 ``users`` : :ref:`User <com.daml.ledger.api.v1.admin.User>` (repeated)
 
 A subset of users of the participant node that fit into this page. 
+
+.. _com.daml.ledger.api.v1.admin.ListUsersResponse.next_page_token:
 
 ``next_page_token`` : :ref:`string <string>`
 
@@ -4628,15 +5436,21 @@ Message, |version com.daml.ledger.api.v1.admin|: Remove the rights from the set 
 
 Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(identity_provider_id)``
 
+.. _com.daml.ledger.api.v1.admin.RevokeUserRightsRequest.user_id:
+
 ``user_id`` : :ref:`string <string>`
 
 The user from whom to revoke rights.
 Required 
 
+.. _com.daml.ledger.api.v1.admin.RevokeUserRightsRequest.rights:
+
 ``rights`` : :ref:`Right <com.daml.ledger.api.v1.admin.Right>` (repeated)
 
 The rights to revoke.
 Optional 
+
+.. _com.daml.ledger.api.v1.admin.RevokeUserRightsRequest.identity_provider_id:
 
 ``identity_provider_id`` : :ref:`string <string>`
 
@@ -4650,6 +5464,8 @@ RevokeUserRightsResponse
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.RevokeUserRightsResponse.newly_revoked_rights:
+
 ``newly_revoked_rights`` : :ref:`Right <com.daml.ledger.api.v1.admin.Right>` (repeated)
 
 The rights that were actually revoked by the request. 
@@ -4661,17 +5477,25 @@ Right
 
 Message, |version com.daml.ledger.api.v1.admin|: A right granted to a user.
 
+.. _com.daml.ledger.api.v1.admin.Right.participant_admin:
+
 ``oneof kind.participant_admin`` : :ref:`Right.ParticipantAdmin <com.daml.ledger.api.v1.admin.Right.ParticipantAdmin>`
 
 The user can administer the participant node. 
+
+.. _com.daml.ledger.api.v1.admin.Right.can_act_as:
 
 ``oneof kind.can_act_as`` : :ref:`Right.CanActAs <com.daml.ledger.api.v1.admin.Right.CanActAs>`
 
 The user can act as a specific party. 
 
+.. _com.daml.ledger.api.v1.admin.Right.can_read_as:
+
 ``oneof kind.can_read_as`` : :ref:`Right.CanReadAs <com.daml.ledger.api.v1.admin.Right.CanReadAs>`
 
 The user can read ledger data visible to a specific party. 
+
+.. _com.daml.ledger.api.v1.admin.Right.identity_provider_admin:
 
 ``oneof kind.identity_provider_admin`` : :ref:`Right.IdentityProviderAdmin <com.daml.ledger.api.v1.admin.Right.IdentityProviderAdmin>`
 
@@ -4684,6 +5508,8 @@ Right.CanActAs
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.Right.CanActAs.party:
+
 ``party`` : :ref:`string <string>`
 
 The right to authorize commands for this party. 
@@ -4694,6 +5520,8 @@ Right.CanReadAs
 ============================================================================================
 
 Message, |version com.daml.ledger.api.v1.admin|: 
+
+.. _com.daml.ledger.api.v1.admin.Right.CanReadAs.party:
 
 ``party`` : :ref:`string <string>`
 
@@ -4726,13 +5554,19 @@ UpdateUserIdentityProviderRequest
 
 Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin)``
 
+.. _com.daml.ledger.api.v1.admin.UpdateUserIdentityProviderRequest.user_id:
+
 ``user_id`` : :ref:`string <string>`
 
 User to update 
 
+.. _com.daml.ledger.api.v1.admin.UpdateUserIdentityProviderRequest.source_identity_provider_id:
+
 ``source_identity_provider_id`` : :ref:`string <string>`
 
 Current identity provider id of the user 
+
+.. _com.daml.ledger.api.v1.admin.UpdateUserIdentityProviderRequest.target_identity_provider_id:
 
 ``target_identity_provider_id`` : :ref:`string <string>`
 
@@ -4754,11 +5588,15 @@ UpdateUserRequest
 
 Message, |version com.daml.ledger.api.v1.admin|: Required authorization: ``HasRight(ParticipantAdmin) OR IsAuthenticatedIdentityProviderAdmin(user.identity_provider_id)``
 
+.. _com.daml.ledger.api.v1.admin.UpdateUserRequest.user:
+
 ``user`` : :ref:`User <com.daml.ledger.api.v1.admin.User>`
 
 The user to update.
 Required,
 Modifiable 
+
+.. _com.daml.ledger.api.v1.admin.UpdateUserRequest.update_mask:
 
 ``update_mask`` :  `google.protobuf.FieldMask <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask>`__
 
@@ -4789,6 +5627,8 @@ UpdateUserResponse
 
 Message, |version com.daml.ledger.api.v1.admin|: 
 
+.. _com.daml.ledger.api.v1.admin.UpdateUserResponse.user:
+
 ``user`` : :ref:`User <com.daml.ledger.api.v1.admin.User>`
 
 Updated user 
@@ -4803,11 +5643,15 @@ They are stored and managed per participant node.
 
 Read the :doc:`Authorization documentation </app-dev/authorization>` to learn more.
 
+.. _com.daml.ledger.api.v1.admin.User.id:
+
 ``id`` : :ref:`string <string>`
 
 The user identifier, which must be a non-empty string of at most 128
 characters that are either alphanumeric ASCII characters or one of the symbols "@^$.!`-#+'~_|:".
 Required 
+
+.. _com.daml.ledger.api.v1.admin.User.primary_party:
 
 ``primary_party`` : :ref:`string <string>`
 
@@ -4820,12 +5664,16 @@ Users for participant administrators MAY have an associated primary party.
 Optional,
 Modifiable 
 
+.. _com.daml.ledger.api.v1.admin.User.is_deactivated:
+
 ``is_deactivated`` : :ref:`bool <bool>`
 
 When set, then the user is denied all access to the Ledger API.
 Otherwise, the user has access to the Ledger API as per the user's rights.
 Optional,
 Modifiable 
+
+.. _com.daml.ledger.api.v1.admin.User.metadata:
 
 ``metadata`` : :ref:`ObjectMeta <com.daml.ledger.api.v1.admin.ObjectMeta>`
 
@@ -4834,6 +5682,8 @@ Note that the ``metadata.resource_version`` tracks changes to the properties des
 Optional,
 Modifiable 
 
+.. _com.daml.ledger.api.v1.admin.User.identity_provider_id:
+
 ``identity_provider_id`` : :ref:`string <string>`
 
 The id of the identity provider configured by ``Identity Provider Config``
@@ -4841,6 +5691,8 @@ Optional, if not set, assume the user is managed by the default identity provide
 
 
 ----
+
+.. _com/daml/ledger/api/v2/command_completion_service.proto:
 
 ``com/daml/ledger/api/v2/command_completion_service.proto``
 
@@ -4882,12 +5734,16 @@ CompletionStreamRequest
 
 Message, |version com.daml.ledger.api.v2|: 
 
+.. _com.daml.ledger.api.v2.CompletionStreamRequest.application_id:
+
 ``application_id`` : :ref:`string <string>`
 
 Only completions of commands submitted with the same application_id will be visible in the stream.
 Must be a valid ApplicationIdString (as described in ``value.proto``).
 Required unless authentication is used with a user token or a custom token specifying an application-id.
 In that case, the token's user-id, respectively application-id, will be used for the request's application_id. 
+
+.. _com.daml.ledger.api.v2.CompletionStreamRequest.parties:
 
 ``parties`` : :ref:`string <string>` (repeated)
 
@@ -4896,6 +5752,8 @@ Only completions of commands for which at least one of the ``act_as`` parties is
 will be visible in the stream.
 Must be a valid PartyIdString (as described in ``value.proto``).
 Required 
+
+.. _com.daml.ledger.api.v2.CompletionStreamRequest.begin_exclusive:
 
 ``begin_exclusive`` : :ref:`ParticipantOffset <com.daml.ledger.api.v2.ParticipantOffset>`
 
@@ -4909,15 +5767,21 @@ CompletionStreamResponse
 
 Message, |version com.daml.ledger.api.v2|: 
 
+.. _com.daml.ledger.api.v2.CompletionStreamResponse.checkpoint:
+
 ``checkpoint`` : :ref:`com.daml.ledger.api.v1.Checkpoint <com.daml.ledger.api.v1.Checkpoint>`
 
 This checkpoint may be used to restart consumption.  The
 checkpoint belongs to the completion in this response.
 Required 
 
+.. _com.daml.ledger.api.v2.CompletionStreamResponse.completion:
+
 ``completion`` : :ref:`Completion <com.daml.ledger.api.v2.Completion>`
 
 Required 
+
+.. _com.daml.ledger.api.v2.CompletionStreamResponse.domain_id:
 
 ``domain_id`` : :ref:`string <string>`
 
@@ -4932,6 +5796,8 @@ Required
 
 
 ----
+
+.. _com/daml/ledger/api/v2/command_service.proto:
 
 ``com/daml/ledger/api/v2/command_service.proto``
 
@@ -4998,10 +5864,14 @@ SubmitAndWaitForTransactionResponse
 
 Message, |version com.daml.ledger.api.v2|: 
 
+.. _com.daml.ledger.api.v2.SubmitAndWaitForTransactionResponse.transaction:
+
 ``transaction`` : :ref:`Transaction <com.daml.ledger.api.v2.Transaction>`
 
 The flat transaction that resulted from the submitted command.
 Required 
+
+.. _com.daml.ledger.api.v2.SubmitAndWaitForTransactionResponse.completion_offset:
 
 ``completion_offset`` : :ref:`string <string>`
 
@@ -5015,10 +5885,14 @@ SubmitAndWaitForTransactionTreeResponse
 
 Message, |version com.daml.ledger.api.v2|: 
 
+.. _com.daml.ledger.api.v2.SubmitAndWaitForTransactionTreeResponse.transaction:
+
 ``transaction`` : :ref:`TransactionTree <com.daml.ledger.api.v2.TransactionTree>`
 
 The transaction tree that resulted from the submitted command.
 Required 
+
+.. _com.daml.ledger.api.v2.SubmitAndWaitForTransactionTreeResponse.completion_offset:
 
 ``completion_offset`` : :ref:`string <string>`
 
@@ -5032,11 +5906,15 @@ SubmitAndWaitForUpdateIdResponse
 
 Message, |version com.daml.ledger.api.v2|: 
 
+.. _com.daml.ledger.api.v2.SubmitAndWaitForUpdateIdResponse.update_id:
+
 ``update_id`` : :ref:`string <string>`
 
 The id of the transaction that resulted from the submitted command.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
+
+.. _com.daml.ledger.api.v2.SubmitAndWaitForUpdateIdResponse.completion_offset:
 
 ``completion_offset`` : :ref:`string <string>`
 
@@ -5050,6 +5928,8 @@ SubmitAndWaitRequest
 
 Message, |version com.daml.ledger.api.v2|: These commands are atomic, and will become transactions.
 
+.. _com.daml.ledger.api.v2.SubmitAndWaitRequest.commands:
+
 ``commands`` : :ref:`Commands <com.daml.ledger.api.v2.Commands>`
 
 The commands to be submitted.
@@ -5057,6 +5937,8 @@ Required
 
 
 ----
+
+.. _com/daml/ledger/api/v2/command_submission_service.proto:
 
 ``com/daml/ledger/api/v2/command_submission_service.proto``
 
@@ -5108,6 +5990,8 @@ SubmitReassignmentRequest
 
 Message, |version com.daml.ledger.api.v2|: 
 
+.. _com.daml.ledger.api.v2.SubmitReassignmentRequest.reassignment_command:
+
 ``reassignment_command`` : :ref:`ReassignmentCommand <com.daml.ledger.api.v2.ReassignmentCommand>`
 
 The reassignment command to be submitted.
@@ -5129,6 +6013,8 @@ SubmitRequest
 
 Message, |version com.daml.ledger.api.v2|: The submitted commands will be processed atomically in a single transaction. Moreover, each ``Command`` in ``commands`` will be executed in the order specified by the request.
 
+.. _com.daml.ledger.api.v2.SubmitRequest.commands:
+
 ``commands`` : :ref:`Commands <com.daml.ledger.api.v2.Commands>`
 
 The commands to be submitted in a single transaction.
@@ -5146,6 +6032,8 @@ Message has no fields.
 
 ----
 
+.. _com/daml/ledger/api/v2/commands.proto:
+
 ``com/daml/ledger/api/v2/commands.proto``
 
 .. _com.daml.ledger.api.v2.Commands:
@@ -5155,11 +6043,15 @@ Commands
 
 Message, |version com.daml.ledger.api.v2|: A composite command that groups multiple commands together.
 
+.. _com.daml.ledger.api.v2.Commands.workflow_id:
+
 ``workflow_id`` : :ref:`string <string>`
 
 Identifier of the on-ledger workflow that this command is a part of.
 Must be a valid LedgerString (as described in ``value.proto``).
 Optional 
+
+.. _com.daml.ledger.api.v2.Commands.application_id:
 
 ``application_id`` : :ref:`string <string>`
 
@@ -5167,6 +6059,8 @@ Uniquely identifies the application or participant user that issued the command.
 Must be a valid ApplicationIdString (as described in ``value.proto``).
 Required unless authentication is used with a user token or a custom token specifying an application-id.
 In that case, the token's user-id, respectively application-id, will be used for the request's application_id. 
+
+.. _com.daml.ledger.api.v2.Commands.command_id:
 
 ``command_id`` : :ref:`string <string>`
 
@@ -5176,6 +6070,8 @@ where party + act_as is interpreted as a set of party names.
 The change ID can be used for matching the intended ledger changes with all their completions.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
+
+.. _com.daml.ledger.api.v2.Commands.party:
 
 ``party`` : :ref:`string <string>`
 
@@ -5187,10 +6083,14 @@ Deprecated in favor of the ``act_as`` field. If both are set, then the effective
 behalf the command should be executed is the union of all parties listed in ``party`` and ``act_as``.
 Optional 
 
+.. _com.daml.ledger.api.v2.Commands.commands:
+
 ``commands`` : :ref:`com.daml.ledger.api.v1.Command <com.daml.ledger.api.v1.Command>` (repeated)
 
 Individual elements of this atomic command. Must be non-empty.
 Required 
+
+.. _com.daml.ledger.api.v2.Commands.deduplication_duration:
 
 ``oneof deduplication_period.deduplication_duration`` :  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration>`__
 
@@ -5199,10 +6099,14 @@ It is interpreted relative to the local clock at some point during the submissio
 Must be non-negative. Must not exceed the maximum deduplication time (see
 ``ledger_configuration_service.proto``). 
 
+.. _com.daml.ledger.api.v2.Commands.deduplication_offset:
+
 ``oneof deduplication_period.deduplication_offset`` : :ref:`string <string>`
 
 Specifies the start of the deduplication period by a completion stream offset (exclusive).
 Must be a valid LedgerString (as described in ``participant_offset.proto``). 
+
+.. _com.daml.ledger.api.v2.Commands.min_ledger_time_abs:
 
 ``min_ledger_time_abs`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
 
@@ -5213,11 +6117,15 @@ the time the resulting transaction is sequenced, its assigned ledger time is not
 Must not be set at the same time as min_ledger_time_rel.
 Optional 
 
+.. _com.daml.ledger.api.v2.Commands.min_ledger_time_rel:
+
 ``min_ledger_time_rel`` :  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration>`__
 
 Same as min_ledger_time_abs, but specified as a duration, starting from the time the command is received by the server.
 Must not be set at the same time as min_ledger_time_abs.
 Optional 
+
+.. _com.daml.ledger.api.v2.Commands.act_as:
 
 ``act_as`` : :ref:`string <string>` (repeated)
 
@@ -5228,6 +6136,8 @@ This field supersedes the ``party`` field. The effective set of parties on whose
 should be executed is the union of all parties listed in ``party`` and ``act_as``, which must be non-empty.
 Each element must be a valid PartyIdString (as described in ``value.proto``).
 Optional 
+
+.. _com.daml.ledger.api.v2.Commands.read_as:
 
 ``read_as`` : :ref:`string <string>` (repeated)
 
@@ -5241,6 +6151,8 @@ If ledger API authorization is enabled, then the authorization metadata must aut
 to read contract data on behalf of each of the given parties.
 Optional 
 
+.. _com.daml.ledger.api.v2.Commands.submission_id:
+
 ``submission_id`` : :ref:`string <string>`
 
 A unique identifier to distinguish completions for different submissions with the same change ID.
@@ -5251,15 +6163,21 @@ Must be a valid LedgerString (as described in ``value.proto``).
 If omitted, the participant or the committer may set a value of their choice.
 Optional 
 
+.. _com.daml.ledger.api.v2.Commands.disclosed_contracts:
+
 ``disclosed_contracts`` : :ref:`com.daml.ledger.api.v1.DisclosedContract <com.daml.ledger.api.v1.DisclosedContract>` (repeated)
 
 Additional contracts used to resolve contract & contract key lookups.
 Optional 
 
+.. _com.daml.ledger.api.v2.Commands.domain_id:
+
 ``domain_id`` : :ref:`string <string>`
 
 Must be a valid domain ID
 Required 
+
+.. _com.daml.ledger.api.v2.Commands.package_id_selection_preference:
 
 ``package_id_selection_preference`` : :ref:`string <string>` (repeated)
 
@@ -5268,6 +6186,8 @@ package names and interface instances in command submission and interpretation
 
 
 ----
+
+.. _com/daml/ledger/api/v2/completion.proto:
 
 ``com/daml/ledger/api/v2/completion.proto``
 
@@ -5278,11 +6198,15 @@ Completion
 
 Message, |version com.daml.ledger.api.v2|: A completion represents the status of a submitted command on the ledger: it can be successful or failed.
 
+.. _com.daml.ledger.api.v2.Completion.command_id:
+
 ``command_id`` : :ref:`string <string>`
 
 The ID of the succeeded or failed command.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
+
+.. _com.daml.ledger.api.v2.Completion.status:
 
 ``status`` :  `google.rpc.Status <https://cloud.google.com/tasks/docs/reference/rpc/google.rpc#status>`__
 
@@ -5290,17 +6214,23 @@ Identifies the exact type of the error.
 It uses the same format of conveying error details as it is used for the RPC responses of the APIs.
 Optional 
 
+.. _com.daml.ledger.api.v2.Completion.update_id:
+
 ``update_id`` : :ref:`string <string>`
 
 The update_id of the transaction or reassignment that resulted from the command with command_id.
 Only set for successfully executed commands.
 Must be a valid LedgerString (as described in ``value.proto``). 
 
+.. _com.daml.ledger.api.v2.Completion.application_id:
+
 ``application_id`` : :ref:`string <string>`
 
 The application-id or user-id that was used for the submission, as described in ``commands.proto``.
 Must be a valid ApplicationIdString (as described in ``value.proto``).
 Optional for historic completions where this data is not available. 
+
+.. _com.daml.ledger.api.v2.Completion.act_as:
 
 ``act_as`` : :ref:`string <string>` (repeated)
 
@@ -5310,11 +6240,15 @@ The order of the parties need not be the same as in the submission.
 Each element must be a valid PartyIdString (as described in ``value.proto``).
 Optional for historic completions where this data is not available. 
 
+.. _com.daml.ledger.api.v2.Completion.submission_id:
+
 ``submission_id`` : :ref:`string <string>`
 
 The submission ID this completion refers to, as described in ``commands.proto``.
 Must be a valid LedgerString (as described in ``value.proto``).
 Optional 
+
+.. _com.daml.ledger.api.v2.Completion.deduplication_offset:
 
 ``oneof deduplication_period.deduplication_offset`` : :ref:`string <string>`
 
@@ -5322,12 +6256,16 @@ Specifies the start of the deduplication period by a completion stream offset (e
 
 Must be a valid LedgerString (as described in ``value.proto``). 
 
+.. _com.daml.ledger.api.v2.Completion.deduplication_duration:
+
 ``oneof deduplication_period.deduplication_duration`` :  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration>`__
 
 Specifies the length of the deduplication period.
 It is measured in record time of completions.
 
 Must be non-negative. 
+
+.. _com.daml.ledger.api.v2.Completion.trace_context:
 
 ``trace_context`` : :ref:`com.daml.ledger.api.v1.TraceContext <com.daml.ledger.api.v1.TraceContext>`
 
@@ -5343,6 +6281,8 @@ instead.
 
 
 ----
+
+.. _com/daml/ledger/api/v2/event_query_service.proto:
 
 ``com/daml/ledger/api/v2/event_query_service.proto``
 
@@ -5376,9 +6316,13 @@ Archived
 
 Message, |version com.daml.ledger.api.v2|: 
 
+.. _com.daml.ledger.api.v2.Archived.archived_event:
+
 ``archived_event`` : :ref:`com.daml.ledger.api.v1.ArchivedEvent <com.daml.ledger.api.v1.ArchivedEvent>`
 
 Required 
+
+.. _com.daml.ledger.api.v2.Archived.domain_id:
 
 ``domain_id`` : :ref:`string <string>`
 
@@ -5392,9 +6336,13 @@ Created
 
 Message, |version com.daml.ledger.api.v2|: 
 
+.. _com.daml.ledger.api.v2.Created.created_event:
+
 ``created_event`` : :ref:`com.daml.ledger.api.v1.CreatedEvent <com.daml.ledger.api.v1.CreatedEvent>`
 
 Required 
+
+.. _com.daml.ledger.api.v2.Created.domain_id:
 
 ``domain_id`` : :ref:`string <string>`
 
@@ -5408,11 +6356,15 @@ GetEventsByContractIdResponse
 
 Message, |version com.daml.ledger.api.v2|: 
 
+.. _com.daml.ledger.api.v2.GetEventsByContractIdResponse.created:
+
 ``created`` : :ref:`Created <com.daml.ledger.api.v2.Created>`
 
 The create event for the contract with the ``contract_id`` given in the request
 provided it exists and has not yet been pruned.
 Optional 
+
+.. _com.daml.ledger.api.v2.GetEventsByContractIdResponse.archived:
 
 ``archived`` : :ref:`Archived <com.daml.ledger.api.v2.Archived>`
 
@@ -5422,6 +6374,8 @@ Optional
 
 
 ----
+
+.. _com/daml/ledger/api/v2/package_service.proto:
 
 ``com/daml/ledger/api/v2/package_service.proto``
 
@@ -5470,6 +6424,8 @@ GetPackageRequest
 
 Message, |version com.daml.ledger.api.v2|: 
 
+.. _com.daml.ledger.api.v2.GetPackageRequest.package_id:
+
 ``package_id`` : :ref:`string <string>`
 
 The ID of the requested package.
@@ -5482,6 +6438,8 @@ GetPackageStatusRequest
 ============================================================================================
 
 Message, |version com.daml.ledger.api.v2|: 
+
+.. _com.daml.ledger.api.v2.GetPackageStatusRequest.package_id:
 
 ``package_id`` : :ref:`string <string>`
 
@@ -5500,6 +6458,8 @@ Message has no fields.
 
 
 ----
+
+.. _com/daml/ledger/api/v2/participant_offset.proto:
 
 ``com/daml/ledger/api/v2/participant_offset.proto``
 
@@ -5537,9 +6497,13 @@ to return a meaningful offset.
 The server implementation ensures internally that offsets
 are lexicographically comparable.
 
+.. _com.daml.ledger.api.v2.ParticipantOffset.absolute:
+
 ``oneof value.absolute`` : :ref:`string <string>`
 
 The format of this string is specific to the participant and opaque to the client. 
+
+.. _com.daml.ledger.api.v2.ParticipantOffset.boundary:
 
 ``oneof value.boundary`` : :ref:`ParticipantOffset.ParticipantBoundary <com.daml.ledger.api.v2.ParticipantOffset.ParticipantBoundary>`
 
@@ -5577,6 +6541,8 @@ Enum, |version com.daml.ledger.api.v2|:
 
 ----
 
+.. _com/daml/ledger/api/v2/reassignment.proto:
+
 ``com/daml/ledger/api/v2/reassignment.proto``
 
 .. _com.daml.ledger.api.v2.AssignedEvent:
@@ -5586,17 +6552,23 @@ AssignedEvent
 
 Message, |version com.daml.ledger.api.v2|: Records that a contract has been assigned, and it can be used on the target domain.
 
+.. _com.daml.ledger.api.v2.AssignedEvent.source:
+
 ``source`` : :ref:`string <string>`
 
 The ID of the source domain.
 Must be a valid domain ID.
 Required 
 
+.. _com.daml.ledger.api.v2.AssignedEvent.target:
+
 ``target`` : :ref:`string <string>`
 
 The ID of the target domain.
 Must be a valid domain ID.
 Required 
+
+.. _com.daml.ledger.api.v2.AssignedEvent.unassign_id:
 
 ``unassign_id`` : :ref:`string <string>`
 
@@ -5606,6 +6578,8 @@ For one contract the (unassign_id, source domain) pair is unique.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
 
+.. _com.daml.ledger.api.v2.AssignedEvent.submitter:
+
 ``submitter`` : :ref:`string <string>`
 
 Party on whose behalf the assign command was executed.
@@ -5613,12 +6587,16 @@ Empty if the assignment happened offline via the repair service.
 Must be a valid PartyIdString (as described in ``value.proto``).
 Optional 
 
+.. _com.daml.ledger.api.v2.AssignedEvent.reassignment_counter:
+
 ``reassignment_counter`` : :ref:`uint64 <uint64>`
 
 Each corresponding assigned and unassigned event has the same reassignment_counter. This strictly increases
 with each unassign command for the same contract. Creation of the contract corresponds to reassignment_counter
 equals zero.
 Required 
+
+.. _com.daml.ledger.api.v2.AssignedEvent.created_event:
 
 ``created_event`` : :ref:`com.daml.ledger.api.v1.CreatedEvent <com.daml.ledger.api.v1.CreatedEvent>`
 
@@ -5631,11 +6609,15 @@ Reassignment
 
 Message, |version com.daml.ledger.api.v2|: Complete view of an on-ledger reassignment.
 
+.. _com.daml.ledger.api.v2.Reassignment.update_id:
+
 ``update_id`` : :ref:`string <string>`
 
 Assigned by the server. Useful for correlating logs.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
+
+.. _com.daml.ledger.api.v2.Reassignment.command_id:
 
 ``command_id`` : :ref:`string <string>`
 
@@ -5643,24 +6625,34 @@ The ID of the command which resulted in this reassignment. Missing for everyone 
 Must be a valid LedgerString (as described in ``value.proto``).
 Optional 
 
+.. _com.daml.ledger.api.v2.Reassignment.workflow_id:
+
 ``workflow_id`` : :ref:`string <string>`
 
 The workflow ID used in reassignment command submission. Only set if the ``workflow_id`` for the command was set.
 Must be a valid LedgerString (as described in ``value.proto``).
 Optional 
 
+.. _com.daml.ledger.api.v2.Reassignment.offset:
+
 ``offset`` : :ref:`string <string>`
 
 The absolute offset. The format of this field is described in ``participant_offset.proto``.
 Required 
 
+.. _com.daml.ledger.api.v2.Reassignment.unassigned_event:
+
 ``oneof event.unassigned_event`` : :ref:`UnassignedEvent <com.daml.ledger.api.v2.UnassignedEvent>`
 
  
 
+.. _com.daml.ledger.api.v2.Reassignment.assigned_event:
+
 ``oneof event.assigned_event`` : :ref:`AssignedEvent <com.daml.ledger.api.v2.AssignedEvent>`
 
  
+
+.. _com.daml.ledger.api.v2.Reassignment.trace_context:
 
 ``trace_context`` : :ref:`com.daml.ledger.api.v1.TraceContext <com.daml.ledger.api.v1.TraceContext>`
 
@@ -5681,6 +6673,8 @@ UnassignedEvent
 
 Message, |version com.daml.ledger.api.v2|: Records that a contract has been unassigned, and it becomes unusable on the source domain
 
+.. _com.daml.ledger.api.v2.UnassignedEvent.unassign_id:
+
 ``unassign_id`` : :ref:`string <string>`
 
 The ID of the unassignment. This needs to be used as an input for a assign ReassignmentCommand.
@@ -5688,16 +6682,22 @@ For one contract the (unassign_id, source domain) pair is unique.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
 
+.. _com.daml.ledger.api.v2.UnassignedEvent.contract_id:
+
 ``contract_id`` : :ref:`string <string>`
 
 The ID of the reassigned contract.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
 
+.. _com.daml.ledger.api.v2.UnassignedEvent.template_id:
+
 ``template_id`` : :ref:`com.daml.ledger.api.v1.Identifier <com.daml.ledger.api.v1.Identifier>`
 
 The template of the reassigned contract.
  Required 
+
+.. _com.daml.ledger.api.v2.UnassignedEvent.source:
 
 ``source`` : :ref:`string <string>`
 
@@ -5705,11 +6705,15 @@ The ID of the source domain
 Must be a valid domain ID
 Required 
 
+.. _com.daml.ledger.api.v2.UnassignedEvent.target:
+
 ``target`` : :ref:`string <string>`
 
 The ID of the target domain
 Must be a valid domain ID
 Required 
+
+.. _com.daml.ledger.api.v2.UnassignedEvent.submitter:
 
 ``submitter`` : :ref:`string <string>`
 
@@ -5718,12 +6722,16 @@ Empty if the unassignment happened offline via the repair service.
 Must be a valid PartyIdString (as described in ``value.proto``).
 Optional 
 
+.. _com.daml.ledger.api.v2.UnassignedEvent.reassignment_counter:
+
 ``reassignment_counter`` : :ref:`uint64 <uint64>`
 
 Each corresponding assigned and unassigned event has the same reassignment_counter. This strictly increases
 with each unassign command for the same contract. Creation of the contract corresponds to reassignment_counter
 equals zero.
 Required 
+
+.. _com.daml.ledger.api.v2.UnassignedEvent.assignment_exclusivity:
 
 ``assignment_exclusivity`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
 
@@ -5732,6 +6740,8 @@ Before this time (measured on the target domain), only the submitter of the unas
 Defined for reassigning participants.
 Optional 
 
+.. _com.daml.ledger.api.v2.UnassignedEvent.witness_parties:
+
 ``witness_parties`` : :ref:`string <string>` (repeated)
 
 The parties that are notified of this event.
@@ -5739,6 +6749,8 @@ Required
 
 
 ----
+
+.. _com/daml/ledger/api/v2/reassignment_command.proto:
 
 ``com/daml/ledger/api/v2/reassignment_command.proto``
 
@@ -5749,17 +6761,23 @@ AssignCommand
 
 Message, |version com.daml.ledger.api.v2|: Assign a contract
 
+.. _com.daml.ledger.api.v2.AssignCommand.unassign_id:
+
 ``unassign_id`` : :ref:`string <string>`
 
 The ID from the unassigned event to be completed by this assignment.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
 
+.. _com.daml.ledger.api.v2.AssignCommand.source:
+
 ``source`` : :ref:`string <string>`
 
 The ID of the source domain
 Must be a valid domain ID
 Required 
+
+.. _com.daml.ledger.api.v2.AssignCommand.target:
 
 ``target`` : :ref:`string <string>`
 
@@ -5774,11 +6792,15 @@ ReassignmentCommand
 
 Message, |version com.daml.ledger.api.v2|: 
 
+.. _com.daml.ledger.api.v2.ReassignmentCommand.workflow_id:
+
 ``workflow_id`` : :ref:`string <string>`
 
 Identifier of the on-ledger workflow that this command is a part of.
 Must be a valid LedgerString (as described in ``value.proto``).
 Optional 
+
+.. _com.daml.ledger.api.v2.ReassignmentCommand.application_id:
 
 ``application_id`` : :ref:`string <string>`
 
@@ -5786,6 +6808,8 @@ Uniquely identifies the application or participant user that issued the command.
 Must be a valid ApplicationIdString (as described in ``value.proto``).
 Required unless authentication is used with a user token or a custom token specifying an application-id.
 In that case, the token's user-id, respectively application-id, will be used for the request's application_id. 
+
+.. _com.daml.ledger.api.v2.ReassignmentCommand.command_id:
 
 ``command_id`` : :ref:`string <string>`
 
@@ -5795,6 +6819,8 @@ The change ID can be used for matching the intended ledger changes with all thei
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
 
+.. _com.daml.ledger.api.v2.ReassignmentCommand.submitter:
+
 ``submitter`` : :ref:`string <string>`
 
 Party on whose behalf the command should be executed.
@@ -5803,13 +6829,19 @@ to act on behalf of the given party.
 Must be a valid PartyIdString (as described in ``value.proto``).
 Required 
 
+.. _com.daml.ledger.api.v2.ReassignmentCommand.unassign_command:
+
 ``oneof command.unassign_command`` : :ref:`UnassignCommand <com.daml.ledger.api.v2.UnassignCommand>`
 
  
 
+.. _com.daml.ledger.api.v2.ReassignmentCommand.assign_command:
+
 ``oneof command.assign_command`` : :ref:`AssignCommand <com.daml.ledger.api.v2.AssignCommand>`
 
  
+
+.. _com.daml.ledger.api.v2.ReassignmentCommand.submission_id:
 
 ``submission_id`` : :ref:`string <string>`
 
@@ -5828,17 +6860,23 @@ UnassignCommand
 
 Message, |version com.daml.ledger.api.v2|: Unassign a contract
 
+.. _com.daml.ledger.api.v2.UnassignCommand.contract_id:
+
 ``contract_id`` : :ref:`string <string>`
 
 The ID of the contract the client wants to unassign.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
 
+.. _com.daml.ledger.api.v2.UnassignCommand.source:
+
 ``source`` : :ref:`string <string>`
 
 The ID of the source domain
 Must be a valid domain ID
 Required 
+
+.. _com.daml.ledger.api.v2.UnassignCommand.target:
 
 ``target`` : :ref:`string <string>`
 
@@ -5848,6 +6886,8 @@ Required
 
 
 ----
+
+.. _com/daml/ledger/api/v2/state_service.proto:
 
 ``com/daml/ledger/api/v2/state_service.proto``
 
@@ -5910,14 +6950,20 @@ ActiveContract
 
 Message, |version com.daml.ledger.api.v2|: 
 
+.. _com.daml.ledger.api.v2.ActiveContract.created_event:
+
 ``created_event`` : :ref:`com.daml.ledger.api.v1.CreatedEvent <com.daml.ledger.api.v1.CreatedEvent>`
 
 Required 
+
+.. _com.daml.ledger.api.v2.ActiveContract.domain_id:
 
 ``domain_id`` : :ref:`string <string>`
 
 A valid domain ID
 Required 
+
+.. _com.daml.ledger.api.v2.ActiveContract.reassignment_counter:
 
 ``reassignment_counter`` : :ref:`uint64 <uint64>`
 
@@ -5935,16 +6981,22 @@ GetActiveContractsRequest
 
 Message, |version com.daml.ledger.api.v2|: 
 
+.. _com.daml.ledger.api.v2.GetActiveContractsRequest.filter:
+
 ``filter`` : :ref:`TransactionFilter <com.daml.ledger.api.v2.TransactionFilter>`
 
 Templates to include in the served snapshot, per party.
 Required 
+
+.. _com.daml.ledger.api.v2.GetActiveContractsRequest.verbose:
 
 ``verbose`` : :ref:`bool <bool>`
 
 If enabled, values served over the API will contain more information than strictly necessary to interpret the data.
 In particular, setting the verbose flag to true triggers the ledger to include labels for record fields.
 Optional 
+
+.. _com.daml.ledger.api.v2.GetActiveContractsRequest.active_at_offset:
 
 ``active_at_offset`` : :ref:`string <string>`
 
@@ -5961,11 +7013,15 @@ GetActiveContractsResponse
 
 Message, |version com.daml.ledger.api.v2|: 
 
+.. _com.daml.ledger.api.v2.GetActiveContractsResponse.offset:
+
 ``offset`` : :ref:`string <string>`
 
 Included only in the last message.
 The client should start consuming the transactions endpoint with this offset.
 The format of this field is described in ``participant_offset.proto``. 
+
+.. _com.daml.ledger.api.v2.GetActiveContractsResponse.workflow_id:
 
 ``workflow_id`` : :ref:`string <string>`
 
@@ -5973,6 +7029,8 @@ The workflow ID used in command submission which corresponds to the contract_ent
 the ``workflow_id`` for the command was set.
 Must be a valid LedgerString (as described in ``value.proto``).
 Optional 
+
+.. _com.daml.ledger.api.v2.GetActiveContractsResponse.active_contract:
 
 ``oneof contract_entry.active_contract`` : :ref:`ActiveContract <com.daml.ledger.api.v2.ActiveContract>`
 
@@ -5983,10 +7041,14 @@ Since activeness is defined as a per domain concept, it is possible, that a cont
 domain, but already archived on another.
 There will be one such message for each domain the contract is active on. 
 
+.. _com.daml.ledger.api.v2.GetActiveContractsResponse.incomplete_unassigned:
+
 ``oneof contract_entry.incomplete_unassigned`` : :ref:`IncompleteUnassigned <com.daml.ledger.api.v2.IncompleteUnassigned>`
 
 Included iff the unassigned event was before or at the active_at_offset, but there was no corresponding
 assigned event before or at the active_at_offset. 
+
+.. _com.daml.ledger.api.v2.GetActiveContractsResponse.incomplete_assigned:
 
 ``oneof contract_entry.incomplete_assigned`` : :ref:`IncompleteAssigned <com.daml.ledger.api.v2.IncompleteAssigned>`
 
@@ -6001,6 +7063,8 @@ GetConnectedDomainsRequest
 
 Message, |version com.daml.ledger.api.v2|: 
 
+.. _com.daml.ledger.api.v2.GetConnectedDomainsRequest.party:
+
 ``party`` : :ref:`string <string>`
 
 The party of interest
@@ -6014,6 +7078,8 @@ GetConnectedDomainsResponse
 
 Message, |version com.daml.ledger.api.v2|: 
 
+.. _com.daml.ledger.api.v2.GetConnectedDomainsResponse.connected_domains:
+
 ``connected_domains`` : :ref:`GetConnectedDomainsResponse.ConnectedDomain <com.daml.ledger.api.v2.GetConnectedDomainsResponse.ConnectedDomain>` (repeated)
 
  
@@ -6025,15 +7091,21 @@ GetConnectedDomainsResponse.ConnectedDomain
 
 Message, |version com.daml.ledger.api.v2|: 
 
+.. _com.daml.ledger.api.v2.GetConnectedDomainsResponse.ConnectedDomain.domain_alias:
+
 ``domain_alias`` : :ref:`string <string>`
 
 The alias of the domain
 Required 
 
+.. _com.daml.ledger.api.v2.GetConnectedDomainsResponse.ConnectedDomain.domain_id:
+
 ``domain_id`` : :ref:`string <string>`
 
 The ID of the domain
 Required 
+
+.. _com.daml.ledger.api.v2.GetConnectedDomainsResponse.ConnectedDomain.permission:
 
 ``permission`` : :ref:`ParticipantPermission <com.daml.ledger.api.v2.ParticipantPermission>`
 
@@ -6056,9 +7128,13 @@ GetLatestPrunedOffsetsResponse
 
 Message, |version com.daml.ledger.api.v2|: 
 
+.. _com.daml.ledger.api.v2.GetLatestPrunedOffsetsResponse.participant_pruned_up_to_inclusive:
+
 ``participant_pruned_up_to_inclusive`` : :ref:`ParticipantOffset <com.daml.ledger.api.v2.ParticipantOffset>`
 
 The offset up to which the ledger has been pruned, disregarding the state of all divulged contracts pruning. 
+
+.. _com.daml.ledger.api.v2.GetLatestPrunedOffsetsResponse.all_divulged_contracts_pruned_up_to_inclusive:
 
 ``all_divulged_contracts_pruned_up_to_inclusive`` : :ref:`ParticipantOffset <com.daml.ledger.api.v2.ParticipantOffset>`
 
@@ -6083,6 +7159,8 @@ GetLedgerEndResponse
 
 Message, |version com.daml.ledger.api.v2|: 
 
+.. _com.daml.ledger.api.v2.GetLedgerEndResponse.offset:
+
 ``offset`` : :ref:`ParticipantOffset <com.daml.ledger.api.v2.ParticipantOffset>`
 
 The absolute offset of the current ledger end. 
@@ -6093,6 +7171,8 @@ IncompleteAssigned
 ============================================================================================
 
 Message, |version com.daml.ledger.api.v2|: 
+
+.. _com.daml.ledger.api.v2.IncompleteAssigned.assigned_event:
 
 ``assigned_event`` : :ref:`AssignedEvent <com.daml.ledger.api.v2.AssignedEvent>`
 
@@ -6105,9 +7185,13 @@ IncompleteUnassigned
 
 Message, |version com.daml.ledger.api.v2|: 
 
+.. _com.daml.ledger.api.v2.IncompleteUnassigned.created_event:
+
 ``created_event`` : :ref:`com.daml.ledger.api.v1.CreatedEvent <com.daml.ledger.api.v1.CreatedEvent>`
 
 Required 
+
+.. _com.daml.ledger.api.v2.IncompleteUnassigned.unassigned_event:
 
 ``unassigned_event`` : :ref:`UnassignedEvent <com.daml.ledger.api.v2.UnassignedEvent>`
 
@@ -6152,6 +7236,8 @@ whose connected domains are being listed.
 
 ----
 
+.. _com/daml/ledger/api/v2/transaction.proto:
+
 ``com/daml/ledger/api/v2/transaction.proto``
 
 .. _com.daml.ledger.api.v2.Transaction:
@@ -6161,11 +7247,15 @@ Transaction
 
 Message, |version com.daml.ledger.api.v2|: Filtered view of an on-ledger transaction's create and archive events.
 
+.. _com.daml.ledger.api.v2.Transaction.update_id:
+
 ``update_id`` : :ref:`string <string>`
 
 Assigned by the server. Useful for correlating logs.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
+
+.. _com.daml.ledger.api.v2.Transaction.command_id:
 
 ``command_id`` : :ref:`string <string>`
 
@@ -6173,11 +7263,15 @@ The ID of the command which resulted in this transaction. Missing for everyone e
 Must be a valid LedgerString (as described in ``value.proto``).
 Optional 
 
+.. _com.daml.ledger.api.v2.Transaction.workflow_id:
+
 ``workflow_id`` : :ref:`string <string>`
 
 The workflow ID used in command submission.
 Must be a valid LedgerString (as described in ``value.proto``).
 Optional 
+
+.. _com.daml.ledger.api.v2.Transaction.effective_at:
 
 ``effective_at`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
 
@@ -6185,22 +7279,30 @@ Ledger effective time.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
 
+.. _com.daml.ledger.api.v2.Transaction.events:
+
 ``events`` : :ref:`com.daml.ledger.api.v1.Event <com.daml.ledger.api.v1.Event>` (repeated)
 
 The collection of events.
 Only contains ``CreatedEvent`` or ``ArchivedEvent``.
 Required 
 
+.. _com.daml.ledger.api.v2.Transaction.offset:
+
 ``offset`` : :ref:`string <string>`
 
 The absolute offset. The format of this field is described in ``participant_offset.proto``.
 Required 
+
+.. _com.daml.ledger.api.v2.Transaction.domain_id:
 
 ``domain_id`` : :ref:`string <string>`
 
 A valid domain ID.
 Identifies the domain that synchronized the transaction.
 Required 
+
+.. _com.daml.ledger.api.v2.Transaction.trace_context:
 
 ``trace_context`` : :ref:`com.daml.ledger.api.v1.TraceContext <com.daml.ledger.api.v1.TraceContext>`
 
@@ -6221,11 +7323,15 @@ TransactionTree
 
 Message, |version com.daml.ledger.api.v2|: Complete view of an on-ledger transaction.
 
+.. _com.daml.ledger.api.v2.TransactionTree.update_id:
+
 ``update_id`` : :ref:`string <string>`
 
 Assigned by the server. Useful for correlating logs.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
+
+.. _com.daml.ledger.api.v2.TransactionTree.command_id:
 
 ``command_id`` : :ref:`string <string>`
 
@@ -6233,27 +7339,37 @@ The ID of the command which resulted in this transaction. Missing for everyone e
 Must be a valid LedgerString (as described in ``value.proto``).
 Optional 
 
+.. _com.daml.ledger.api.v2.TransactionTree.workflow_id:
+
 ``workflow_id`` : :ref:`string <string>`
 
 The workflow ID used in command submission. Only set if the ``workflow_id`` for the command was set.
 Must be a valid LedgerString (as described in ``value.proto``).
 Optional 
 
+.. _com.daml.ledger.api.v2.TransactionTree.effective_at:
+
 ``effective_at`` :  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp>`__
 
 Ledger effective time.
 Required 
+
+.. _com.daml.ledger.api.v2.TransactionTree.offset:
 
 ``offset`` : :ref:`string <string>`
 
 The absolute offset. The format of this field is described in ``participant_offset.proto``.
 Required 
 
+.. _com.daml.ledger.api.v2.TransactionTree.events_by_id:
+
 ``events_by_id`` : :ref:`TransactionTree.EventsByIdEntry <com.daml.ledger.api.v2.TransactionTree.EventsByIdEntry>` (repeated)
 
 Changes to the ledger that were caused by this transaction. Nodes of the transaction tree.
 Each key be a valid LedgerString (as describe in ``value.proto``).
 Required 
+
+.. _com.daml.ledger.api.v2.TransactionTree.root_event_ids:
 
 ``root_event_ids`` : :ref:`string <string>` (repeated)
 
@@ -6263,11 +7379,15 @@ The elements are in the same order as the commands in the
 corresponding Commands object that triggered this transaction.
 Required 
 
+.. _com.daml.ledger.api.v2.TransactionTree.domain_id:
+
 ``domain_id`` : :ref:`string <string>`
 
 A valid domain ID.
 Identifies the domain that synchronized the transaction.
 Required 
+
+.. _com.daml.ledger.api.v2.TransactionTree.trace_context:
 
 ``trace_context`` : :ref:`com.daml.ledger.api.v1.TraceContext <com.daml.ledger.api.v1.TraceContext>`
 
@@ -6288,9 +7408,13 @@ TransactionTree.EventsByIdEntry
 
 Message, |version com.daml.ledger.api.v2|: 
 
+.. _com.daml.ledger.api.v2.TransactionTree.EventsByIdEntry.key:
+
 ``key`` : :ref:`string <string>`
 
  
+
+.. _com.daml.ledger.api.v2.TransactionTree.EventsByIdEntry.value:
 
 ``value`` : :ref:`com.daml.ledger.api.v1.TreeEvent <com.daml.ledger.api.v1.TreeEvent>`
 
@@ -6298,6 +7422,8 @@ Message, |version com.daml.ledger.api.v2|:
 
 
 ----
+
+.. _com/daml/ledger/api/v2/transaction_filter.proto:
 
 ``com/daml/ledger/api/v2/transaction_filter.proto``
 
@@ -6308,6 +7434,8 @@ TransactionFilter
 
 Message, |version com.daml.ledger.api.v2|: A filter both for filtering create and archive events as well as for
 filtering transaction trees.
+
+.. _com.daml.ledger.api.v2.TransactionFilter.filters_by_party:
 
 ``filters_by_party`` : :ref:`TransactionFilter.FiltersByPartyEntry <com.daml.ledger.api.v2.TransactionFilter.FiltersByPartyEntry>` (repeated)
 
@@ -6331,9 +7459,13 @@ TransactionFilter.FiltersByPartyEntry
 
 Message, |version com.daml.ledger.api.v2|: 
 
+.. _com.daml.ledger.api.v2.TransactionFilter.FiltersByPartyEntry.key:
+
 ``key`` : :ref:`string <string>`
 
  
+
+.. _com.daml.ledger.api.v2.TransactionFilter.FiltersByPartyEntry.value:
 
 ``value`` : :ref:`com.daml.ledger.api.v1.Filters <com.daml.ledger.api.v1.Filters>`
 
@@ -6341,6 +7473,8 @@ Message, |version com.daml.ledger.api.v2|:
 
 
 ----
+
+.. _com/daml/ledger/api/v2/update_service.proto:
 
 ``com/daml/ledger/api/v2/update_service.proto``
 
@@ -6436,11 +7570,15 @@ GetTransactionByEventIdRequest
 
 Message, |version com.daml.ledger.api.v2|: 
 
+.. _com.daml.ledger.api.v2.GetTransactionByEventIdRequest.event_id:
+
 ``event_id`` : :ref:`string <string>`
 
 The ID of a particular event.
 Must be a valid LedgerString (as described in ``value.proto``).
 Required 
+
+.. _com.daml.ledger.api.v2.GetTransactionByEventIdRequest.requesting_parties:
 
 ``requesting_parties`` : :ref:`string <string>` (repeated)
 
@@ -6456,11 +7594,15 @@ GetTransactionByIdRequest
 
 Message, |version com.daml.ledger.api.v2|: 
 
+.. _com.daml.ledger.api.v2.GetTransactionByIdRequest.update_id:
+
 ``update_id`` : :ref:`string <string>`
 
 The ID of a particular transaction.
 Must be a valid LedgerString (as describe in ``value.proto``).
 Required 
+
+.. _com.daml.ledger.api.v2.GetTransactionByIdRequest.requesting_parties:
 
 ``requesting_parties`` : :ref:`string <string>` (repeated)
 
@@ -6476,6 +7618,8 @@ GetTransactionResponse
 
 Message, |version com.daml.ledger.api.v2|: 
 
+.. _com.daml.ledger.api.v2.GetTransactionResponse.transaction:
+
 ``transaction`` : :ref:`Transaction <com.daml.ledger.api.v2.Transaction>`
 
 Required 
@@ -6486,6 +7630,8 @@ GetTransactionTreeResponse
 ============================================================================================
 
 Message, |version com.daml.ledger.api.v2|: 
+
+.. _com.daml.ledger.api.v2.GetTransactionTreeResponse.transaction:
 
 ``transaction`` : :ref:`TransactionTree <com.daml.ledger.api.v2.TransactionTree>`
 
@@ -6498,13 +7644,19 @@ GetUpdateTreesResponse
 
 Message, |version com.daml.ledger.api.v2|: 
 
+.. _com.daml.ledger.api.v2.GetUpdateTreesResponse.transaction_tree:
+
 ``oneof update.transaction_tree`` : :ref:`TransactionTree <com.daml.ledger.api.v2.TransactionTree>`
 
  
 
+.. _com.daml.ledger.api.v2.GetUpdateTreesResponse.reassignment:
+
 ``oneof update.reassignment`` : :ref:`Reassignment <com.daml.ledger.api.v2.Reassignment>`
 
  
+
+.. _com.daml.ledger.api.v2.GetUpdateTreesResponse.pruned_offset:
 
 ``pruned_offset`` : :ref:`string <string>`
 
@@ -6522,11 +7674,15 @@ GetUpdatesRequest
 
 Message, |version com.daml.ledger.api.v2|: 
 
+.. _com.daml.ledger.api.v2.GetUpdatesRequest.begin_exclusive:
+
 ``begin_exclusive`` : :ref:`ParticipantOffset <com.daml.ledger.api.v2.ParticipantOffset>`
 
 Beginning of the requested ledger section.
 The response will only contain transactions whose offset is strictly greater than this.
 Required 
+
+.. _com.daml.ledger.api.v2.GetUpdatesRequest.end_inclusive:
 
 ``end_inclusive`` : :ref:`ParticipantOffset <com.daml.ledger.api.v2.ParticipantOffset>`
 
@@ -6534,11 +7690,15 @@ End of the requested ledger section.
 The response will only contain transactions whose offset is less than or equal to this.
 Optional, if not set, the stream will not terminate. 
 
+.. _com.daml.ledger.api.v2.GetUpdatesRequest.filter:
+
 ``filter`` : :ref:`TransactionFilter <com.daml.ledger.api.v2.TransactionFilter>`
 
 Requesting parties with template filters.
 Template filters must be empty for GetUpdateTrees requests.
 Required 
+
+.. _com.daml.ledger.api.v2.GetUpdatesRequest.verbose:
 
 ``verbose`` : :ref:`bool <bool>`
 
@@ -6546,6 +7706,8 @@ If enabled, values served over the API will contain more information than strict
 In particular, setting the verbose flag to true triggers the ledger to include labels, record and variant type ids
 for record fields.
 Optional 
+
+.. _com.daml.ledger.api.v2.GetUpdatesRequest.send_pruned_offsets:
 
 ``send_pruned_offsets`` : :ref:`bool <bool>`
 
@@ -6559,13 +7721,19 @@ GetUpdatesResponse
 
 Message, |version com.daml.ledger.api.v2|: 
 
+.. _com.daml.ledger.api.v2.GetUpdatesResponse.transaction:
+
 ``oneof update.transaction`` : :ref:`Transaction <com.daml.ledger.api.v2.Transaction>`
 
  
 
+.. _com.daml.ledger.api.v2.GetUpdatesResponse.reassignment:
+
 ``oneof update.reassignment`` : :ref:`Reassignment <com.daml.ledger.api.v2.Reassignment>`
 
  
+
+.. _com.daml.ledger.api.v2.GetUpdatesResponse.pruned_offset:
 
 ``pruned_offset`` : :ref:`string <string>`
 
@@ -6578,6 +7746,8 @@ When `pruned_offset` is set, the message does not contain any transactions in th
 
 
 ----
+
+.. _com/daml/ledger/api/v2/version_service.proto:
 
 ``com/daml/ledger/api/v2/version_service.proto``
 
@@ -6973,3 +8143,4 @@ Scalar Value Types
 .. |version com.daml.ledger.api.v1.admin| replace:: v1/admin
 .. |version com.daml.ledger.api.v2| replace:: v2
 .. |version com.daml.ledger.api.v2.admin| replace:: v2/admin
+
