@@ -4,12 +4,16 @@
 Extend the Application
 ======================
 
-Alice can accept a transfer offer from the provider. However, it's possible that Alice, or any other user, may want to reject a transfer offer. For example, the provider may offer an incorrect amount, or the user may decide to reject the transfer for another reason. The remainder of this guide demonstrates how to extend the single-domain Daml application using an example scenario.
+Alice can accept a transfer offer from the provider. 
+However, Alice, or any other user, may want to reject a transfer offer. 
+For example, the provider may offer an incorrect amount, or the user may reject the transfer for another reason. 
+The remainder of this guide demonstrates how to extend the single-domain Daml application to reject a transfer offer and record the reason for the rejection.
 
 Plan the Extension
 ------------------
 
-It's critical to break updates into manageable parts. Extend the business operation in three steps to include a choice that rejects transfer offers:
+It's critical to break updates into manageable parts. 
+Extend the business operation in three steps to include a choice that rejects transfer offers:
 
 1. Update the model
    Create a new `template <https://docs.daml.com/daml/stdlib/Prelude.html#type-da-internal-template-functions-template-31804>`_ and `choice <https://docs.daml.com/daml/stdlib/Prelude.html#type-da-internal-template-functions-choice-82157>`_ in the Daml model to allow users to reject a transfer offer with a reason. The choice represents a new action that may be taken against a given contract.
@@ -28,7 +32,9 @@ Imagine that the provider creates a transfer offer of 1,000 credits.
 .. image:: images/create-transfer-offers-provider.png
    :alt: Provider transfer offers view
 
-Alice sees the offer, but is disappointed. The offer was expected to be 10,000 credits. Instead of accepting the faulty offer, Alice decides to reject the offer.
+Alice sees the offer, but is disappointed. 
+The offer was expected to be 10,000 credits. 
+Instead of accepting the faulty offer, Alice decides to reject the offer.
 
 .. image:: images/alice-rejects-transfer-offer.png
    :alt: Alice transfer offers view

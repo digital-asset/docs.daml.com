@@ -17,7 +17,7 @@ The complete business operation showcases how Daml can facilitate financial tran
    .. note::
       Incognito mode is recommended to avoid browser caching issues.
 
-   For convenience, split the browsers side by side, either horizontally or vertically, based on your preference.
+   Split the browsers side by side, either horizontally or vertically, for conveneince.
 
    Horizontal split:
 

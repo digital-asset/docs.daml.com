@@ -93,7 +93,7 @@ Mutation hooks differ from query hooks in that they connect directly to frontend
     import { ContractId } from '@daml/types';
     import useLedgerApiClient from '../queries/useLedgerApiClient';
 
-The ``useLedgerApiClient`` import calls the query hook by the same name to access the Daml ledger API client. The client enables the React hook to update the Daml :doc:`ledger state </getting-started/app-architecture>`. In this event, to exercise the ``RejectWithReason`` choice in the Daml model.
+The ``useLedgerApiClient`` import calls the query hook by the same name to access the Daml ledger API client. The client enables the React hook to update the Daml :doc:`ledger state </getting-started/app-architecture>` - in this event, to exercise the ``RejectWithReason`` choice in the Daml model.
 
 .. code-block:: typescript
    :linenos:

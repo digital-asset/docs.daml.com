@@ -12,7 +12,7 @@ Build and Test the App/Backend
 
    *Ignore these substeps if Gradle builds successfully.*
 
-   If you possess a Daml enterprise license and the output returns errors such as:
+   If you have a Daml enterprise license and the output returns errors such as:
    
    .. code-block:: text
    
@@ -20,7 +20,7 @@ Build and Test the App/Backend
       Forbidden for user.
       Could not resolve all files for configuration.
       
-   Then email support@digitalasset.com with your Artifactory username and the error message.
+   Email support@digitalasset.com with your Artifactory username and the error message.
 
    To illustrate, the error message may show:
 
@@ -33,7 +33,7 @@ Build and Test the App/Backend
    .. image:: images/daml-scribe-assemble-gradlew-error.png
       :alt: Gradle could not get resource example
 
-   You can verify your Artifactory username and password have been correctly integrated into the app with a credential request command:
+   You can verify that your Artifactory username and password have been correctly integrated into the app with a credential request command:
 
    .. code-block:: bash
 
@@ -131,4 +131,4 @@ Build and Test the App/Backend
       .. image:: images/failed-to-connect-messages.png
          :alt: Bootrun running output
 
-The backend is now operational! You're ready to build the frontend!
+The backend is now operational! You are ready to build the frontend!

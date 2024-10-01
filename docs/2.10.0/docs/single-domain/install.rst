@@ -188,7 +188,7 @@ Install the Application
    .. image:: images/DAML_SDK_RELEASE_VERSION.png
       :alt: Daml SDK version example
 
-2. After installation, add Daml to your PATH in your shell configuration file (``.zshrc`` or ``.bashrc`` depending on your system) if it wasn't added automatically:
+2. After installation, add Daml to your PATH in your shell configuration file (``.zshrc`` or ``.bashrc`` depending on your system) if it was not added automatically:
 
    a. To edit the file in the terminal or PowerShell, enter ``vim ~/.bashrc`` or ``vim ~/.zshrc``.
    b. If you don't know which shell your system runs, find the appropriate file by entering ``ls -a ~/.`` in the command prompt.

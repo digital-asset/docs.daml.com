@@ -4,16 +4,18 @@
 Extend the Model
 ================
 
-Extend the single domain quick start, beginning with the model. Daml choices determine how the backend API endpoints are written, which in turn guide the development of the frontend UI elements and event listeners.
+Extend the single domain quick start, beginning with the model. 
+Daml choices determine how the backend API endpoints are written, which in turn guide the development of the frontend UI elements and event listeners.
 
-Begin with an open terminal in the project's root directory. If you use `Visual Studio <https://code.visualstudio.com/docs/languages/java>`_, enter ``daml studio`` to open the text editor.
+Begin with an open terminal in the project's root directory. 
+If you use `Visual Studio <https://code.visualstudio.com/docs/languages/java>`_, enter ``daml studio`` to open the text editor.
 
 .. code-block:: bash
 
    daml-app-template ~ % daml studio
 
 .. note::
-   ``daml studio`` should automatically install the :doc:`Daml Studio </daml/daml-studio>` extension in Visual Studio. The extension assists Daml app development. You can double-check that the extension is installed by opening the extension menu and searching for "Daml studio."
+   ``daml studio`` should automatically install the :doc:`Daml Studio </daml/daml-studio>` extension in Visual Studio. The extension assists Daml app development. You can double-check that the extension is installed by opening the extension menu and searching for "Daml Studio."
 
    .. image:: images/daml-studio-extension.png
       :alt: Visual Studio Daml Studio extension
@@ -85,13 +87,16 @@ Templates specify:
             unlockedCid <- unlockAndRemoveObservers (S.fromList [provider, sender]) receiver lockedTransferableCid
             return (rejectedOfferCid, unlockedCid)
 
-   This choice takes a reason for the rejection, and ensures that the receiver controls the choice and that the transfer offer contract has not expired. When the choice is exercised a new "RejectedTransferOffer" contract is created that subsequently unlocks the assets that were to be transferred, and removes the provider and sender as observers. This choice contains a handful of interesting Daml-specific items:
+   This choice takes a reason for the rejection and ensures that the receiver controls the choice and that the transfer offer contract has not expired. 
+   When the choice is exercised a new "RejectedTransferOffer" contract is created that then unlocks the assets that were to be transferred and removes the provider and sender as observers. 
+   This choice contains a handful of Daml-specific items:
 
    - ``controller receiver`` specifies that only the receiver of the transfer offer can exercise this choice.
    - ``now <- getTime`` fetches the current time on the ledger. 
 
      .. note::
-        In a dev environment without an active ledger, the :doc:`getTime </concepts/time>` function returns the epoch time, January 1, 1970. This happens because the ledger is not active and cannot fetch the system time. In a Daml application deployed to an active ledger, ``getTime`` fetches the current ledger time, which reflects the time that the ledger itself is using.
+        In a dev environment without an active ledger, the :doc:`getTime </concepts/time>` function returns the epoch time, January 1, 1970. 
+        This happens because the ledger is not active and cannot fetch the system time. In a Daml application deployed to an active ledger, ``getTime`` fetches the current ledger time, which reflects the time that the ledger itself is using.
 
    - ``assertMsg`` `asserts <https://docs.daml.com/daml/stdlib/Prelude.html#function-da-internal-assert-assertmsg-31545>`_ the current time is less than the time of the ``expiresAt`` value. The assertion fails and the transaction is aborted if the value of ``now`` is later than or equal to the time value of ``expiresAt``.
    - ``unlockAndRemoveObservers`` removes the receiver. When the receiver rejects the offer they are no longer a stakeholder in the transaction and have no need to observe the contract. The function call also unlocks the credits reserved for the transaction.
