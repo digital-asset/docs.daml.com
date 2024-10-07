@@ -51,14 +51,16 @@ In financial and other regulated industries, privacy—specifically sub-transact
 
 Daml addresses this need for privacy through the Canton protocol, which decomposes transaction data into views or projections. These views allow stakeholders to see only the information relevant to their role, as defined in the smart contracts. This sub-transaction privacy ensures confidentiality by distributing sensitive data on a strict need-to-know basis to authorized parties.
 
-4.1.1 Design Considerations to Ensure Privacy
+Design Considerations to Ensure Privacy
+---------------------------------------
 To ensure privacy, Daml contracts must be designed in a way that models who gets to see which data. Appropriate roles should be assigned to stakeholders within the contract, ensuring that sub-transaction privacy is maintained in compliance with regulatory requirements.
 
 Independent Control
 ===================
 The second key requirement is independent control. Issuers and custodians of digital assets have regulatory and fiduciary responsibilities to control the availability, scalability, and performance of the technology employed for tokenized asset transactions. They also need to comply with regulatory requirements such as Know Your Customer (KYC) and Anti-Money Laundering (AML). Therefore, they need to control the access to assets and transactions. They need control over the smart contracts for any special scenarios that need corrections or overriding. Finally, the technology must be able to evolve to continue to comply with new regulations.
 
-4.2.1 Architectural Considerations to Ensure Independent Control
+Architectural Considerations to Ensure Independent Control
+----------------------------------------------------------
 For these reasons, app users must have full control over their legal system of records. If an app user relies solely on the app provider’s participant node, reconciliation challenges may resurface, since it would need to integrate its system of records with the app provider’s participant node. Instead, the app user should deploy their own participant node that serves as their primary source of data to maintain data sovereignty and independent control.
 
 From here, they can choose to:
