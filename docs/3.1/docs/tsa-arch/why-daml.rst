@@ -74,7 +74,7 @@ Long-Term Value
 ***************
 Strategic Value of Cross-Application Transactions
 =================================================
-The second key value driver—synchronization and connectivity across multiple applications—enables long-term strategic benefits by creating a broader Daml and Canton ecosystem. In this ecosystem, Daml and Canton act not just as record-keeping systems, but as platforms that enable network effects and exponential value through interconnected applications.
+The second key value driver, synchronization and connectivity across multiple applications, enables long-term strategic benefits by creating a broader Daml and Canton ecosystem. In this ecosystem, Daml and Canton act not just as record-keeping systems, but as platforms that enable network effects and exponential value through interconnected applications.
 
 For example, an app provider may start by tokenizing assets and maintaining an asset registry. Once the registry is operational, other app providers can develop complementary services, such as trading and settlement apps, which further increase the utility of the assets and extend the operational gains, such as removal of reconciliation costs, risk-free settlement, and reduction in turnaround times.
 
