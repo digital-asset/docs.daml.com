@@ -21,9 +21,9 @@ The second value driver is synchronization and connectivity across multiple appl
 
 This cross-application synchronization delivers significant benefits:
 
-Elimination of counterparty risk and the risk of partial settlements.
-Creation of new market opportunities, including intraday repo trading, asset mobility, and collateral optimization across geographic and organizational boundaries.
-Generation of network effects, where the value of the Daml ecosystem grows exponentially as more users and applications join. Existing users create demand for new assets and services, making it increasingly attractive for others to join and opening up opportunities for further connected or enhanced services through composition.
+* Elimination of counterparty risk and the risk of partial settlements.
+* Creation of new market opportunities, including intraday repo trading, asset mobility, and collateral optimization across geographic and organizational boundaries.
+* Generation of network effects, where the value of the Daml ecosystem grows exponentially as more users and applications join. Existing users create demand for new assets and services, making it increasingly attractive for others to join and opening up opportunities for further connected or enhanced services through composition.
 
 Stakeholder Perspectives
 ************************
