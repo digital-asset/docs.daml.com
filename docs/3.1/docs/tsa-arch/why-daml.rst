@@ -17,7 +17,7 @@ For example, asset issuance, registry, and lifecycle management greatly benefit 
 
 Synchronization Across Applications
 ===================================
-The second value driver is synchronization and connectivity across multiple applications. For instance, two separate asset registries–potentially in different organizations–can be composed into an atomic Delivery vs. Payment (DvP) system. This system guarantees that either both the payment and the delivery are settled or neither asset moves.
+The second value driver is synchronization and connectivity across multiple applications. For instance, two separate asset registries – potentially in different organizations – can be composed into an atomic Delivery vs. Payment (DvP) system. This system guarantees that either both the payment and the delivery are settled or neither asset moves.
 
 This cross-application synchronization delivers significant benefits:
 
