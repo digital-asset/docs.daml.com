@@ -47,26 +47,26 @@ Daml is targeted at enterprise use cases. App providers and app users are enterp
 
 Privacy
 =======
-Privacy — specifically sub-transaction privacy — is crucial in financial and other regulated industries. In a tokenization application, confidentiality around assets and transfers must be maintained at a subtransaction level. For example, it is not acceptable for the cap table of a tokenized financial asset to be publicly visible, nor should transfers be visible to parties not involved in the transaction.
+Privacy — specifically sub-transaction privacy — is crucial in financial and other regulated industries. In a tokenization application, confidentiality around assets and transfers must be maintained at a sub-transaction level. For example, it is not acceptable for the cap table of a tokenized financial asset to be publicly visible, nor should transfers be visible to parties not involved in the transaction.
 
 Daml addresses this need for privacy through the Canton protocol, which decomposes transaction data into views or projections. These views allow stakeholders to see only the information relevant to their role, as defined in the smart contracts. This sub-transaction privacy ensures confidentiality by distributing sensitive data on a strict need-to-know basis to authorized parties.
 
 Design Considerations to Ensure Privacy
 ---------------------------------------
-To ensure privacy, Daml contracts must be designed in a way that models who gets to see which data. Appropriate roles should be assigned to stakeholders within the contract, ensuring that sub-transaction privacy is maintained in compliance with regulatory requirements.
+To ensure privacy, Daml contracts must be designed to model who gets to see which data. Appropriate roles should be assigned to stakeholders within the contract, ensuring that sub-transaction privacy is maintained in compliance with regulatory requirements.
 
 Independent Control
 ===================
-The second key requirement is independent control. Issuers and custodians of digital assets have regulatory and fiduciary responsibilities to control the availability, scalability, and performance of the technology employed for tokenized asset transactions. They also need to comply with regulatory requirements such as Know Your Customer (KYC) and Anti-Money Laundering (AML). Therefore, they need to control the access to assets and transactions. They need control over the smart contracts for any special scenarios that need corrections or overriding. Finally, the technology must be able to evolve to continue to comply with new regulations.
+The second key requirement is independent control. Issuers and custodians of digital assets have regulatory and fiduciary responsibilities to control the availability, scalability, and performance of the technology employed for tokenized asset transactions. They must also comply with regulatory requirements such as Know Your Customer (KYC) and Anti-Money Laundering (AML). Therefore, they need to control the access to assets and transactions. They need control over the smart contracts for any special scenarios that need corrections or overriding. Finally, the technology must be able to evolve to continue to comply with new regulations.
 
 Architectural Considerations to Ensure Independent Control
 ----------------------------------------------------------
 For these reasons, app users must have full control over their legal system of records. If an app user relies solely on the app provider’s participant node, reconciliation challenges may resurface, since it would need to integrate its system of records with the app provider’s participant node. Instead, the app user should deploy their own participant node that serves as their primary source of data to maintain data sovereignty and independent control.
 
-From here, they can choose to:
+From here, app users can choose to:
 
-Use the frontend published by the app provider or develop their own for full control and customized functionalities.
-Develop and maintain their own backend to perform backend automation and integration with internal systems. 
+* Use the frontend published by the app provider or develop their own for full control and customized functionalities.
+* Develop and maintain their own backend to perform backend automation and integration with internal systems. 
 
 App users can gradually build their infrastructure through a staged adoption model, gaining flexibility in how much control they want. They can begin by using the app provider’s frontend and gradually move toward fully customizing their backend to meet their unique operational and regulatory needs. This approach allows app users to independently control adoption costs while steadily gaining full control over access, availability, scalability, and performance. 
 
@@ -82,9 +82,11 @@ By connecting these applications, the platform transforms into a marketplace, at
 
 Enablement of Native Interoperability
 =====================================
-To realize the strategic value, the smart contracts of these applications must be deployed and integrated at the same protocol-level to enable interoperability. 
+To realize the strategic value, the smart contracts of these applications must be deployed and integrated at the same protocol level to enable interoperability. 
 
-Canton enables interoperability by combining two types of smart contracts. Internal smart contracts that model the business logic, and integration smart contracts that provide an API, allowing external applications to connect to. 
+Canton enables interoperability by combining two types of smart contracts: 
+* Internal smart contracts that model the business logic
+* Integration smart contracts that provide an API, allowing external applications to connect to 
 
 By designing internal and integration smart contracts, app providers can compose higher-order apps and derive long-term value from their Daml applications.
 
