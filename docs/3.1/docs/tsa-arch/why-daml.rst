@@ -1,7 +1,7 @@
 Why Daml
 ########
 
-Why Daml: Maximizing Value through Architectural Alignment
+Why Daml: Maximizing Value Through Architectural Alignment
 **********************************************************
 To maximize the value of Daml and Canton, it is essential to align architectural decisions with the organization’s business goals. This alignment begins with a clear understanding of “why Daml,” focusing on the unique value it provides. This documentation outlines the core value drivers of a Daml application, providing guidance for architectural decisions impacting the two primary stakeholders: app providers and app users.
 
