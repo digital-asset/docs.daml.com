@@ -9,7 +9,7 @@ Core Value Drivers
 ******************
 Daml applications provide two key value drivers that are fundamental to deriving maximum value for organizations:
 
-Synchronization within an Application
+Synchronization Within an Application
 =====================================
 The first key value driver is synchronization and connectivity between users within an application that spans organizational boundaries. This value is realized in the form of saving operational costs associated with traditional multi-day processes. Daml enables the automation of business processes that involve data sharing and synchronization across organizational boundaries, which hasn’t been possible until now due to the limitations of existing technologies. 
   
