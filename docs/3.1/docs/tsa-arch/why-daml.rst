@@ -86,7 +86,7 @@ To realize the strategic value, the smart contracts of these applications must b
 
 Canton enables interoperability by combining two types of smart contracts. Internal smart contracts that model the business logic, and integration smart contracts that provide an API, allowing external applications to connect to. 
 
-By designing internal and integration smart contracts, app providers can compose higher order apps and derive long term value from their Daml applications.
+By designing internal and integration smart contracts, app providers can compose higher-order apps and derive long-term value from their Daml applications.
 
 Key Takeaways
 *************
