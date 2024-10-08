@@ -39,7 +39,7 @@ From the App User’s Perspective
 ===============================
 An app user is an organization that subscribes to the Daml application to use the services provided by the app provider.
 
-Apart from the operational benefits such as significant reduction in operational costs, an app user can participate in cross-organization workflows without the reconciliation challenges. The Daml app relieves the app-users from maintaining their own record-keeping systems. They can now focus on building their decision-making system because the Daml app gives them a real-time fully-reconciled system of records with their counterparties.
+Apart from the operational benefits such as significant reduction in operational costs, an app user can participate in cross-organization workflows without the reconciliation challenges. The Daml app relieves the app users from maintaining their own record-keeping systems. They can now focus on building their decision-making system because the Daml app gives them a real-time fully-reconciled system of records with their counterparties.
 
 Enterprise Requirements: Privacy and Independent Control
 ********************************************************
