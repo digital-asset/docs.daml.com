@@ -9,6 +9,8 @@ subtrees:
 
   - file: multiparty-application-intro
     title: "Introduction to Multi-Party Applications and Daml"
+  - file: tsa-arch/why-daml
+    title: "Why Daml"
 
 - caption: "Set Up Your Developer Environment"
   entries:
