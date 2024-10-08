@@ -47,7 +47,7 @@ Daml is targeted at enterprise use cases. App providers and app users are enterp
 
 Privacy
 =======
-In financial and other regulated industries, privacy—specifically sub-transaction privacy—is crucial. In a tokenization application, confidentiality around assets and transfers must be maintained at a subtransaction level. For example, it is not acceptable for the cap table of a tokenized financial asset to be publicly visible, nor should transfers be visible to parties not involved in the transaction.
+Privacy — specifically sub-transaction privacy — is crucial in financial and other regulated industries. In a tokenization application, confidentiality around assets and transfers must be maintained at a subtransaction level. For example, it is not acceptable for the cap table of a tokenized financial asset to be publicly visible, nor should transfers be visible to parties not involved in the transaction.
 
 Daml addresses this need for privacy through the Canton protocol, which decomposes transaction data into views or projections. These views allow stakeholders to see only the information relevant to their role, as defined in the smart contracts. This sub-transaction privacy ensures confidentiality by distributing sensitive data on a strict need-to-know basis to authorized parties.
 
