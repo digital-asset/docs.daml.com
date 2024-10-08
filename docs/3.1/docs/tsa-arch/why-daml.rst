@@ -93,6 +93,6 @@ Key Takeaways
 1. The first value driver of a Daml app is synchronization within an application, which reduces operational costs and opens opportunities for real-time workflows.
 2. The second value driver is synchronization across applications, creating long-term value by enabling network effects and opening new market opportunities.
 3. App providers can offer real-time synchronization and connectivity between app-users and applications while preserving stakeholders’ sovereignty and privacy. App users benefit from cost savings, and real-time cross-organizational workflows.
-4. Privacy and independent control are critical for regulatory compliance. Daml ensures privacy through role-specific views, and independent control through participant nodes.
+4. Privacy and independent control are critical for regulatory compliance. Daml ensures privacy through role-specific views and independent control through participant nodes.
 5. To maximize value, app providers should design for interoperability, enabling the composition of interconnected applications that extend the utility of the platform.
 
