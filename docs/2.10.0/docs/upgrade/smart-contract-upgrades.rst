@@ -19,7 +19,7 @@ Smart Contract Upgrade (SCU) allows Daml models (packages in DAR files) to be
 updated on Canton transparently, provided some guidelines in making the
 changes are followed. For example, you can fix an application bug by uploading
 the DAR of the fixed package. This feature requires the minimum versions of LF
-1.17 and Canton Protocol versions 6. This section provides an overview of
+1.17 and Canton Protocol version 7. This section provides an overview of
 the SCU feature, while :ref:`The Smart Contract Upgrade Model in Depth
 <upgrade-model-reference>` is a concise, technical description of the feature.
 
@@ -150,11 +150,11 @@ Requirements
 
 Note that SCU is only available when the criteria below are met:
 
--  Canton 2.9.x or above
+-  Canton 2.10.x or above
 
 -  Daml LF Version 1.17 or above
 
--  Canton Protocol Version 6 or above
+-  Canton Protocol Version 7 or above
 
 There are instructions below on how to configure this setup. The
 sections below, unless explicitly stated otherwise, assume that this is
@@ -275,11 +275,11 @@ Canton
 
 When considering the Canton ledger nodes, only the Canton participant
 node is aware of smart contract upgrading. The Canton domain nodes are
-only concerned with the protocol version which must be at least 6 to allow connected participants to use upgradable Daml packages.
+only concerned with the protocol version which must be at least 7 to allow connected participants to use upgradable Daml packages.
 
 Below, we provide a brief overview of the interactions with the
 participant node that have been adapted for supporting the smart
-contract upgrading feature starting with Canton 2.9:
+contract upgrading feature starting with Canton 2.10:
 
 -  DAR upload requests go through an additional validation stage to
    check the contained new packages for upgrade-compatibility with
@@ -1754,7 +1754,7 @@ Migration
 ---------
 
 SCU is only supported on LF1.17, which in turn is only supported on
-Canton Protocol Version 6. This means that existing deployed contracts require migration and redeployment to utilize this feature.
+Canton Protocol Version 7. This means that existing deployed contracts require migration and redeployment to utilize this feature.
 
 First you must migrate your Daml model to be compatible with
 upgrades; see `Best Practices <#best-practices>`__ for what to
@@ -1774,7 +1774,7 @@ LF1.15 packages are not subject to this restriction, and can exist alongside LF1
 packages.
 
 Once you have your new DARs, you need to upgrade your Canton and
-protocol version together, since 2.9 introduces a new protocol version.
+protocol version together, since 2.10 introduces a new protocol version.
 The steps to achieve this are given in the :ref:`Canton Upgrading
 manual <one_step_migration>`.
 
