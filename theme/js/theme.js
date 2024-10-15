@@ -607,6 +607,11 @@ $(document).ready(function () {
             });
     }
     setHighlighterWidth();
+    
+    // Assign the CSS class "section" for Ledger API reference doc spans.
+    // This fixes a problem with clicking on internal links in the Ledger API reference docs.
+    // The scroll position, after clicking a link, was behind the nav bar.
+    $("span[id^=com-daml-ledger-api-v]").addClass("section");
 });
 
 $(window).resize(function () {
