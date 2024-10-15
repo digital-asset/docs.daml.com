@@ -102,8 +102,8 @@ Current Limitations
   not work. Therefore, before you disable a participant, please make sure that is not involved in any contract. This is
   a current limitation.
 - Participants do not allow pruning of state more recent than the most recently observed transaction minus the
-  `ledger-api.max-deduplication-duration` configuration. As a result, an inactive participant may not prune all state
-  older than the configured retention period.
+  `ledger-api.max-deduplication-duration` configuration. As a result, an inactive participant may not prune all archived
+  contracts and transactions older than the configured retention period.
 
 .. TODO(#5690): pruning and disconnected participants (note above)
 .. TODO(#5945): pruning with dangling parties (note above)
