@@ -38,7 +38,7 @@ working environment for each version of the documentation.
 :warning: Make sure you select Mac OS on the left menu for the correct Nix installation command.
 
 * [JFrog access](https://digitalasset.jfrog.io/ui/admin/artifactory/user_profile)
-  You need a JFrog account to access the build artifacts. Check you can see the `assembly` directory in the list of Artifacts. If you don't have it, ask `#org-security` for `readers` access.
+  You need a JFrog account to access the build artifacts. Check you can see the `assembly` directory in the list of Artifacts. If you don't have it, send an e-mail to help@digitalasset.com, asking for `readers` access.
 
 ### Clone the repo
 
