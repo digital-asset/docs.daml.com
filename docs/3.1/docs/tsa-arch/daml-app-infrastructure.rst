@@ -9,7 +9,7 @@ Infrastructure at a High-Level
 ******************************
 The Canton infrastructure consists of two main components: participant nodes and synchronizers.
 
-.. figure:: tsa-arch/images/daml-app-infra.png
+.. image:: images/daml-app-infra.png
    :alt: Daml application infrastructure diagram labelled as described below.
    :align: center
 
