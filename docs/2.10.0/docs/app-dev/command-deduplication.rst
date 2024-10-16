@@ -37,7 +37,7 @@ The first three form the :ref:`change ID <change-id>` that identifies the intend
 
 - The deduplication period specifies the period for which no earlier submissions with the same change ID should have been accepted, as witnessed by a completion event on the :ref:`command completion service <command-completion-service>`.
   If such a change has been accepted in that period, the current submission shall be rejected.
-  The period is specified either as a :ref:`deduplication duration <com.daml.ledger.api.v1.Commands.deduplication_duration>` or as a :ref:`deduplication offset <com.daml.ledger.api.v1.Commands.deduplication_offset>` (inclusive).
+  The period is specified either as a :ref:`deduplication duration <com.daml.ledger.api.v1.Commands.deduplication_period.deduplication_duration>` or as a :ref:`deduplication offset <com.daml.ledger.api.v1.Commands.deduplication_period.deduplication_offset>` (inclusive).
 
 - The :ref:`submission ID <com.daml.ledger.api.v1.Commands.submission_id>` is chosen by the application to identify a specific submission.
   It is included in the corresponding completion event so that the application can correlate specific submissions to specific completions.
@@ -50,7 +50,7 @@ The ledger may arbitrarily extend the deduplication period specified in the subm
 
 The deduplication period chosen by the ledger is the *effective deduplication period*.
 The ledger may also convert a requested deduplication duration into an effective deduplication offset or vice versa.
-The effective deduplication period is reported in the command completion event in the :ref:`deduplication duration <com.daml.ledger.api.v1.Completion.deduplication_duration>` or :ref:`deduplication offset <com.daml.ledger.api.v1.Completion.deduplication_offset>` fields.
+The effective deduplication period is reported in the command completion event in the :ref:`deduplication duration <com.daml.ledger.api.v1.Completion.deduplication_period.deduplication_duration>` or :ref:`deduplication offset <com.daml.ledger.api.v1.Completion.deduplication_period.deduplication_offset>` fields.
 
 A command submission is considered a **duplicate submission** if at least one of the following holds:
 
@@ -143,7 +143,7 @@ Under this caveat, the following strategy works for applications that use the :r
 
    - Set the :ref:`command ID <com.daml.ledger.api.v1.Commands.command_id>` to the chosen command ID from :ref:`Step 1 <dedup-bounded-step-command-id>`.
 
-   - Set the :ref:`deduplication duration <com.daml.ledger.api.v1.Commands.deduplication_duration>` to the bound ``B``.
+   - Set the :ref:`deduplication duration <com.daml.ledger.api.v1.Commands.deduplication_period.deduplication_duration>` to the bound ``B``.
 
      .. note::
         It is prudent to explicitly set the deduplication duration to the desired bound ``B``,
@@ -338,7 +338,7 @@ We recommend the following strategy for using deduplication offsets:
 
    - Set the :ref:`command ID <com.daml.ledger.api.v1.Commands.command_id>` to the chosen command ID from :ref:`Step 1 <dedup-bounded-step-command-id>`.
 
-   - Set the :ref:`deduplication offset <com.daml.ledger.api.v1.Commands.deduplication_offset>` to ``OFF0``.
+   - Set the :ref:`deduplication offset <com.daml.ledger.api.v1.Commands.deduplication_period.deduplication_offset>` to ``OFF0``.
 
    - Set the :ref:`submission ID <com.daml.ledger.api.v1.Commands.submission_id>` to a fresh value, e.g., a random UUID.
 
