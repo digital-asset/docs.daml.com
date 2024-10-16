@@ -608,10 +608,11 @@ $(document).ready(function () {
     }
     setHighlighterWidth();
     
-    // Assign the CSS class "section" for Ledger API reference doc spans.
-    // This fixes a problem with clicking on internal links in the Ledger API reference docs.
+    // Assign the CSS class "section" to any span that is a direct child of a div of class section.
+    // This fixes a problem with clicking on links to RST cross-references.
     // The scroll position, after clicking a link, was behind the nav bar.
-    $("span[id^=com-daml-ledger-api-v]").addClass("section");
+    // https://github.com/digital-asset/docs.daml.com/issues/722
+    $('div.section > span').addClass('section');
 });
 
 $(window).resize(function () {
