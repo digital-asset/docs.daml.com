@@ -84,6 +84,22 @@ It might make sense to start with 128GB, run a long-running scale & performance 
 Most Canton indexes are contract-id based, which means that the index lookups are randomly distributed. Solid state drives with
 high throughput perform much better than spinning disks for this purpose.
 
+.. _shared_env_performance:
+
+Predictability of Shared Environments
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The throughput and latency of a Canton node is highly dependent on the performance of the database. 
+Sharing hardware or software is an efficient method to save cost and better utilize available resources, but comes 
+with some drawbacks: If the database is operated in a shared environment such as the Cloud, where other applications are either using the same 
+database or are operated on the same hardware, the performance of the Canton node will vary due to 
+contention on shared resources. This is a natural effect of shared environments and cannot be fundamentally 
+avoided, but can be difficult to diagnose as a user of the shared environment due to lack of visibility into 
+the other applications.
+
+If you are operating in a shared environment, you should monitor the performance of the database and expect
+a higher variance in latency and throughput. 
+
 .. _postgres-configuration:
 
 Postgres Configuration
