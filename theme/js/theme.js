@@ -607,6 +607,12 @@ $(document).ready(function () {
             });
     }
     setHighlighterWidth();
+    
+    // Assign the CSS class "section" to any span that is a direct child of a div of class section.
+    // This fixes a problem with clicking on links to RST cross-references.
+    // The scroll position, after clicking a link, was behind the nav bar.
+    // https://github.com/digital-asset/docs.daml.com/issues/722
+    $('div.section > span').addClass('section');
 });
 
 $(window).resize(function () {
