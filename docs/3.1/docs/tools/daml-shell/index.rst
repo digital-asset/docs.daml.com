@@ -50,11 +50,12 @@ Running Daml Shell
 ==================
 
 You can run Daml Shell from a ``jar`` artifact or from a ``Docker``
-image. See the Release Notes for download instructions.
+image (`tag
+list <https://hub.docker.com/repository/docker/digitalasset/daml-shell/tags?ordering=last_updated>`__).
 
 .. code-block:: sh
 
-   docker run -it --net host digitalasset-docker.jfrog.io/daml-shell:<version-tag> # change --net host if desired
+   docker run -it --net host digitalasset-docker.jfrog.io/daml-shell:<version-tag> # version-tag format: x.y.z
 
 Commands
 ========
