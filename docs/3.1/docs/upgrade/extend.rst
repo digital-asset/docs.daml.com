@@ -7,6 +7,8 @@ Extending Daml Applications
 .. .. toctree::
    :hidden:
 
+An extension adds new templates and data structures to your Daml model, while leaving all previously written definitions unchanged.
+
 Consider the following simple Daml model for carbon certificates:
 
 .. literalinclude:: example/carbon-1.0.0/daml/CarbonV1.daml
