@@ -790,3 +790,6 @@ you may need to specifically allow it on the participants.
     canton.participants.<nodeName>.parameters.allow-for-unauthenticated-contract-ids=true
 
 Please adjust ``<nodeName>`` to match your case.
+
+**IMPORTANT**: Please note that you MUST set the flag on ALL the participants connected to the domain.
+Failure to do so causes critical failure of the participants.
