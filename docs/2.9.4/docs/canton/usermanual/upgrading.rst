@@ -787,4 +787,4 @@ you may need to specifically allow it on the participants.
 Please adjust ``<nodeName>`` to match your case.
 
 **IMPORTANT**: Please note that you MUST set the flag on ALL the participants connected to the domain.
-Failure to do so will end up in critical failures of the participants.
+Failure to do so causes critical failure of the participants.
