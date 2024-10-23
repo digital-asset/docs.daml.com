@@ -66,7 +66,7 @@ Non-repudiation applies to both the app provider and the app users.
 
 Self-sovereignty Over App Data for App Users
 ============================================
-App users receive a copy of all their app data that is synchronized in real-time with the provider and other stakeholders’ copy of that data. This copy empowers app users to build custom integrations of their application data with their internal systems at will. Additionally, this copy implies that the data remains accessible even if the provider loses it, for example, as a result of a ransomware attack.
+App users receive a copy of all their app data that is synchronized in real time with the provider and other stakeholders’ copies of that data. This copy empowers app users to build custom integrations of their application data with their internal systems at will. Additionally, this copy implies that the data remains accessible even if the provider loses it, for example, as a result of a ransomware attack.
 
 The app user’s participant node validates all changes to the app user’s data before they are committed. The validation checks are specified in the application’s DAR files uploaded to the user’s participant node. For example, if the application’s DAR file specifies that the app user must authorize all asset transfers, the user’s participant node ensures that this rule is enforced. This prevents third parties, including the app provider, from tampering with the record.
 
