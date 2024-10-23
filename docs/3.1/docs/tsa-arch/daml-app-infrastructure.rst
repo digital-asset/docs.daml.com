@@ -38,7 +38,7 @@ Participant nodes send two types of messages to the sequencer using the gRPC pro
 * Send: a regular message; a single gRPC message, to which the sequencer responds with a one-time response.
 * Read: a subscription request; a server-side streaming gRPC, to which the sequencer responds with a stream of messages.
 
-Both send and read operations are always initiated by participant nodes to the sequencer. Therefore, to enable required communication between infrastructure components, the sequencer must permit inbound gRPC connectivity, while the participant nodes must permit outbound gRPC connectivity.
+Participant nodes always initiate both send and read operations to the sequencer. Therefore, the sequencer must permit inbound gRPC connectivity, while the participant nodes must permit outbound gRPC connectivity to enable required communication between infrastructure components.
 
 The mediator communicates with the sequencer using the same mechanism and subscribes to streaming messages from the sequencer. However, since the sequencer and mediator typically run in the same administrative domain, this communication does not present security concerns, unlike communication between participant nodes and the sequencer.
 
