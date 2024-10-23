@@ -5,8 +5,8 @@ Daml Application Infrastructure: Minimum Requirements to Run a Daml Application 
 *****************************************************************************************
 Daml applications run on the Canton infrastructure and provide the benefits of distributed ledger technology, data sovereignty, and privacy. This documentation explores the components of Canton and the minimum requirements to run a Daml application on the Canton infrastructure.
 
-Infrastructure at a High-Level
-******************************
+High-Level Infrastructure
+*************************
 The Canton infrastructure consists of two main components: participant nodes and synchronizers.
 
 .. image:: images/daml-app-infra.png
