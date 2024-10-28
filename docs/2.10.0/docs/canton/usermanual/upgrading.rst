@@ -209,7 +209,35 @@ Version Specific Notes
 Upgrade to Release 2.9
 ^^^^^^^^^^^^^^^^^^^^^^
 
-TODO
+Protocol Versions
+"""""""""""""""""
+The recommended protocol version is 5 (see :ref:`here <protocol_version>` for more information about protocol versions).
+
+Version 2.9 does not offer support for protocol versions 3 and 4.
+If your sync domain is running one of these protocol versions, upgrade as described :ref:`below <one_step_migration>`.
+
+Protocol version should be set explicitly
+"""""""""""""""""""""""""""""""""""""""""
+Until now, sync domains were configured to pick the latest protocol version by default.
+Since the protocol version is an important parameter of the sync domain, having this value set behind
+the scenes caused unwanted behavior.
+
+You now must specify the protocol version for your sync domain:
+
+.. code:: text
+
+    myDomain {
+        init.domain-parameters.protocol-version = 5
+    }
+
+For a domain manager:
+
+.. code:: text
+
+    domainManager {
+        init.domain-parameters.protocol-version = 5
+    }
+
 
 Deactivated sync domain data cleanup
 """"""""""""""""""""""""""""""""""""
@@ -222,6 +250,14 @@ command.
 
 Note that the ``migrate_domain`` command in 2.9 now automatically removes such data,
 but only for the sync domain on which it has been invoked.
+
+Paging in Party Management
+""""""""""""""""""""""""""
+The `ListKnownParties` method on the `PartyManagementService` now returns at most 10,000 results by default
+to avoid memory issues in participants that know more than 10,000 parties.
+
+The `next_page_token` can be used to request the next page (see `request <https://docs.daml.com/2.9.0/app-dev/grpc/proto-docs.html#com-daml-ledger-api-v1-admin-listknownpartiesrequest>`_
+and `response <https://docs.daml.com/2.9.0/app-dev/grpc/proto-docs.html#com-daml-ledger-api-v1-admin-listknownpartiesresponse>`_).
 
 .. _upgrade_to_2.8:
 
@@ -696,22 +732,27 @@ these prior releases to a protocol version supported by this minor release versi
     tests, and its steps are known to work, additional measures and configuration may be required to
     address the peculiarities of your environment.
 
-One-Step Migration Recipe for 2.9
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+One-Step Migration Recipe for 2.10
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 General recipe to migrate from a sync domain running on a :ref:`2.3 <upgrade_to_2.3>`,
 :ref:`2.4 <upgrade_to_2.4>`, :ref:`2.5 <upgrade_to_2.5>`, :ref:`2.6 <upgrade_to_2.6>`,
 :ref:`2.7 <upgrade_to_2.7>` or :ref:`2.8 <upgrade_to_2.8>` release and protocol
-version 3 or 4 to a new sync domain running on the 2.9 release and protocol version 5:
+version 3 or 4 to a new sync domain running on the 2.10 release and protocol version 5:
 
 .. note::
 
-    Although version 2.9 supports other protocol versions, it is recommended to use protocol version 5.
+    Although version 2.10 supports other protocol versions, protocol version 5 is recommended.
+
+.. note::
+
+    When upgrading from 2.9 to 2.10, follow the steps for :ref:`upgrading the Canton binary <upgrade_canton_binary>`
+    instead, as both 2.9 and 2.10 support protocol version 5.
 
 #. Start a new sync domain running protocol version 5
 #. :ref:`Halt activity on the old sync domain <halt-activity-current-domain>`
 #. Wait for pending transactions to complete or time out
 #. Backup the current sync domain including participants
-#. Participants: Upgrade the binary to 2.9
+#. Participants: Upgrade the binary to 2.10
 #. Participants: :ref:`Enable repair commands <enable-repair-commands>`
 #. All nodes: :ref:`Test the configuration <test-your-config>` considering this :ref:`additional change <test-your-config-details>` if your old domain runs protocol version 3.
 #. All nodes: :ref:`Apply the DB migrations <migrating_the_database>`
@@ -749,3 +790,6 @@ you may need to specifically allow it on the participants.
     canton.participants.<nodeName>.parameters.allow-for-unauthenticated-contract-ids=true
 
 Please adjust ``<nodeName>`` to match your case.
+
+**IMPORTANT**: Please note that you MUST set the flag on ALL the participants connected to the domain.
+Failure to do so causes critical failure of the participants.

@@ -1080,7 +1080,7 @@ whole.
 **Examples**
 
 In these examples we assume the existence of packages ``q-1.0.0`` and
-``q-2.0.0`` with LF version 1.16, and that the latter is a valid upgrade of
+``q-2.0.0`` with LF version 1.17, and that the latter is a valid upgrade of
 the former.
 
 .. list-table::
@@ -1201,8 +1201,6 @@ The upgrade validation for parameterized data types follows the same
 rules as non-parameterized data types, but also compares type variables. Type
 variables may be renamed.
 
-.. _example-1:
-
 **Example**
 
 Below, the parameterized data type on the right is a valid upgrade of
@@ -1299,28 +1297,25 @@ the type constructor application ``C Int`` on the left.
             data Demo = Demo with
               field1 : C T
 
-Interface Definitions
-~~~~~~~~~~~~~~~~~~~~~
+Interface and Exception Definitions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Interface definitions cannot be upgraded. We strongly discourage
-uploading a package that contains both interface and template
-definitions, as these templates cannot benefit from smart contract upgrade
-in the future. Instead, we recommend declaring interfaces in a
-package of their own that defines no template.
+Neither interface definitions nor exception definitions can be upgraded. We
+strongly discourage uploading a package that defines interfaces or exceptions
+alongside templates, as these templates cannot benefit from smart contract
+upgrade in the future. Instead, we recommend declaring interfaces and exceptions
+in a package of their own that defines no template.
 
 Interface Instances
 ~~~~~~~~~~~~~~~~~~~
-
-The instances of an interface in the new version of a package must form a
-superset of the instances of that interface in the prior version of that 
-package. In other words, it is valid to add new interface instances but
-deleting an interface instance leads to a validation error.
 
 Interface instances may be upgraded. Note however that the type signature of 
 their methods and view cannot change between two versions of an instance since
 they are fixed by the interface definition, which is non-upgradable. Hence,
 the only thing that can change between two versions of an instance is the
 bodies of its methods and view.
+
+Adding or deleting an interface leads to a validation error.
 
 **Examples**
 
@@ -1332,7 +1327,6 @@ Assume an interface ``I`` with view type ``IView`` and a method ``m``.
   
     interface I where
       viewtype IView
-      m : Int
   
 Then, below, the instance of ``I`` for template ``T`` on the right is a valid 
 upgrade of the instance on the left. It changes the ``view`` expression and the
@@ -1370,18 +1364,9 @@ body of method ``m``.
                   view = IView (fromOptional i j)
                   m = fromOptional i j
 
-Assume now an interface ``I2`` with view type ``IView2`` and a method ``m2``.
-
-.. code:: daml
-
-    data IView2 = IView2 { i : Int }
-  
-    interface I2 where
-      viewtype IView2
-      m2 : Int
-
-Then, below, the template on the right is a valid upgrade of the template on the
-left. It adds a new instance of ``I2`` for template ``T``.
+Below, the template on the right is **not** a valid upgrade of the
+template on the left because it removes the instance of ``I`` for template
+``T2``.
 
 .. list-table::
    :widths: 50 50
@@ -1390,41 +1375,64 @@ left. It adds a new instance of ``I2`` for template ``T``.
 
    * - .. code-block:: daml
 
-            template T 
+            template T2 
               with
                 p : Party
                 i : Int
               where
                 signatory p
 
-                interface instance I for T where
+                interface instance I for T2 where
                   view = IView i
                   m = i
 
      - .. code-block:: daml
 
-            template T 
+            template T2 
               with
                 p : Party
                 i : Int
-                j : Optional Int
               where
                 signatory p
 
-                interface instance I for T where
+Below, the template on the right is **not** a valid upgrade of the
+template on the left because it adds a new instance of ``I`` for template
+``T3``.
+
+.. list-table::
+   :widths: 50 50
+   :width: 100%
+   :class: diff-block
+
+   * - .. code-block:: daml
+
+            template T3 
+              with
+                p : Party
+                i : Int
+              where
+                signatory p
+
+     - .. code-block:: daml
+
+            template T3 
+              with
+                p : Party
+                i : Int
+              where
+                signatory p
+
+                interface instance I for T3 where
                   view = IView i
                   m = i
 
-                interface instance I2 for T where
-                  view = IView2 i
-                  m2 = i
 
 Data Transformation: Runtime Semantics
 --------------------------------------
 
-Whenever a contract is fetched or exercised, a template version is selected
-according to a set of rules detailed below . We call this template the target
-template.
+A template version is selected whenever a contract is fetched, a choice is exercised, or an interface value is
+converted to a template value, according to a set
+of rules detailed below. We call this template the target template.
 
 The contract is then transformed into a value that fits the type of
 the target template. Then, its metadata (signatories, observers, key,
@@ -1442,88 +1450,58 @@ Below, we detail the rules governing target template selection, then explain how
 transformations are performed, and finally detail the rules of metadata
 re-computation.
 
-Target Templates
-~~~~~~~~~~~~~~~~
-
-In a top-level exercise triggered by a Ledger API command, the target
-template is determined by the rules of package preference detailed in the
-:ref:`dynamic package
-resolution<dynamic-package-resolution-in-command-submission>` section of the
-smart contract upgrade documentation.
+Static Target Template Selection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In a non-interface fetch or exercise triggered by the body of a choice, the
 target template is determined by the dependencies of the package that defines
 the choice. In other words, it is statically known.
 
-In an interface fetch or exercise triggered by the body of a choice, the target
-template is determined by the rules of package preference detailed in the
-:ref:`dynamic package
-resolution<dynamic-package-resolution-in-command-submission>` section of the
-smart contract upgrade documentation. In other words, it is dynamically
-selected.
+Interface fetches and exercises, on the other hand, are subject to dynamic target
+template selection, as detailed in :ref:`the next
+section<dynamic-target-template-selection>`. However, operations acting on
+interface *values* — as opposed to IDs — are static. Their mode of operation is
+detailed below.
 
-.. _example-1-1:
+Daml contracts are represented by one of two sorts of values at runtime:
+template values or interface values.
+
+* Template values are those whose concrete template type is statically
+  known. They are obtained by directly constructing a template record, or by a
+  call to ``fetch``. Their runtime representation is a simple record.
+* Interface values are those whose concrete template type is not fully 
+  statically known, aside from the fact that it implements a given interface.
+  They are obtained by applying ``toInterface`` to a template value.
+  At runtime, they are represented by a pair consisting of:
+
+    * a record: the contract;
+    * a template type: the runtime type of that record.
+  
+  For instance, if ``c`` is a contract of type ``T`` and ``T`` implements the 
+  interface ``I``, then ``toInterface c`` evaluates to the pair ``(c, T)``.
+
+  Note that the type of interface values is opaque: while it is useful to
+  conceptualize interface values as pairs for defining the runtime semantics of
+  the language, their actual implementation may vary and is not exposed to the
+  user.
+
+Let us assume an interface value ``iv`` = ``(c, T)``. Then 
+``fromInterface @U iv`` evaluates as follow.
+
+  * If ``U`` upgrades ``T``, then it evaluates to ``Some c'`` where ``c'`` is the
+    result of transforming ``c`` into a value of type ``U``.
+  * Otherwise, it evaluates to ``None``.
+
+Let us assume an interface value ``iv`` = ``(c, T)`` and an interface type 
+``I``. Then ``create @I iv`` evaluates as follow.
+
+  * If ``T`` does not implement ``I`` then an error is thrown.
+  * Otherwise ``create @T c`` is evaluated.
 
 **Example 1**
 
-Assume a package ``p`` with two versions. The new version adds an optional text
-field.
-
-.. list-table::
-   :widths: 50 50
-   :width: 100%
-   :class: diff-block
-
-   * - In ``p-1.0.0``:
-     - In ``p-2.0.0``:
-
-   * - .. code-block:: daml
-
-            template T 
-              with
-                p : Party
-              where
-                signatory p
-
-     - .. code-block:: daml
-
-            template T 
-              with
-                p : Party
-                t : Optional Text
-              where
-                signatory p
-
-Also assume a ledger that contains a contract of type ``T`` written by
-``p-1.0.0``, and another contract of written by ``p-2.0.0``.
-
-+------------+---------------+-----------------------------------------+
-| Contract   | Type          | Contract                                |
-| ID         |               |                                         |
-+============+===============+=========================================+
-| ``1234``   | ``p-1.0.0:T`` | ``T { p = 'Alice' }``                   |
-+------------+---------------+-----------------------------------------+
-| ``5678``   | ``p-2.0.0:T`` | ``T { p = 'Bob', t = Some "Hello" }``   |
-+------------+---------------+-----------------------------------------+
-
-Then
-
--  Fetching contract ``1234`` with package preference ``p-1.0.0`` retrieves the
-   contract and leaves it unchanged, returning ``T { p = 'Alice' }``.
--  Fetching contract ``1234`` with package preference ``p-2.0.0`` retrieves the
-   contract and successfully transforms it to the target template
-   type, returning ``T { p = 'Alice', t = None }``.
--  Fetching contract ``5678`` with package preference ``p-1.0.0`` retrieves the
-   contract and fails to downgrade it to the target template type,
-   returning an error.
--  Fetching contract ``5678`` with package preference ``p-2.0.0`` retrieves the
-   contract and leaves it unchanged, returning ``T { p = 'Bob', t =
-   Some "Hello" }``.
-
-**Example 2**
-
-Now, assume two versions of a package called dep, defining a template U
-and its upgrade.
+Assume two versions of a package called dep, defining a template U and its
+upgrade.
 
 .. list-table::
    :widths: 50 50
@@ -1602,9 +1580,126 @@ is the one defined in package ``dep-1.0.0``. Contract ``5678`` is thus
 downgraded to ``U { p = 'Bob'}`` upon retrieval. Note that the command
 preference for version ``2.0.0`` of package ``dep`` bears no incidence here.
 
-**Example 3**
+**Example 2**
 
-Let's consider a similar example, but this time with an exercise by interface.
+Assume an interface ``I`` with view type ``IView`` and a method ``m``.
+
+.. code:: daml
+
+    data IView = IView {}
+  
+    interface I where
+      viewtype IView
+
+Assume then two versions of a template ``T`` that implements ``I``.
+
+.. list-table::
+   :widths: 50 50
+   :width: 100%
+   :class: diff-block
+
+   * - .. code-block:: daml
+
+            template T 
+              with
+                p : Party
+              where
+                signatory p
+
+                interface instance I for T where
+                  view = IView {}
+
+     - .. code-block:: daml
+
+            template T 
+              with
+                p : Party
+                i : Optional Int
+              where
+                signatory p
+
+                interface instance I for T where
+                  view = IView {}
+
+Finally, assume that the module defining the first version of ``T`` is imported
+as ``V1``, and the module defining the second version of ``T`` is imported as
+``V2``. The expression ``fromInterface @V2.T (toInterface @I (V1.T 'Alice'))``
+evaluates as follows:
+
+  * ``toInterface @I (@V1.T alice)`` evaluates to the interface value 
+    ``(V1.T { p = 'Alice' }, V1.T)``.
+  * The type ``V2.T`` upgrades ``V1.T`` so ``fromInterface`` proceeds to 
+    transform ``(V1.T { p = 'Alice' })`` into a value of type ``V2.T``
+  * The entire expression thus evaluates to ``V2.T { p = 'Alice', i = None }``.
+
+.. _dynamic-target-template-selection:
+
+Dynamic Target Template Selection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In a top-level exercise triggered by a Ledger API command, or in an interface
+fetch or exercise triggered from the body of a choice, the rules of package preference detailed in
+:ref:`dynamic package
+resolution<dynamic-package-resolution-in-command-submission>`  determine the target template at runtime.
+
+**Example 1**
+
+Assume a package ``p`` with two versions. The new version adds an optional text
+field.
+
+.. list-table::
+   :widths: 50 50
+   :width: 100%
+   :class: diff-block
+
+   * - In ``p-1.0.0``:
+     - In ``p-2.0.0``:
+
+   * - .. code-block:: daml
+
+            template T 
+              with
+                p : Party
+              where
+                signatory p
+
+     - .. code-block:: daml
+
+            template T 
+              with
+                p : Party
+                t : Optional Text
+              where
+                signatory p
+
+Also assume a ledger that contains a contract of type ``T`` written by
+``p-1.0.0``, and another contract of written by ``p-2.0.0``.
+
++------------+---------------+-----------------------------------------+
+| Contract   | Type          | Contract                                |
+| ID         |               |                                         |
++============+===============+=========================================+
+| ``1234``   | ``p-1.0.0:T`` | ``T { p = 'Alice' }``                   |
++------------+---------------+-----------------------------------------+
+| ``5678``   | ``p-2.0.0:T`` | ``T { p = 'Bob', t = Some "Hello" }``   |
++------------+---------------+-----------------------------------------+
+
+Then
+
+-  Fetching contract ``1234`` with package preference ``p-1.0.0`` retrieves the
+   contract and leaves it unchanged, returning ``T { p = 'Alice' }``.
+-  Fetching contract ``1234`` with package preference ``p-2.0.0`` retrieves the
+   contract and successfully transforms it to the target template
+   type, returning ``T { p = 'Alice', t = None }``.
+-  Fetching contract ``5678`` with package preference ``p-1.0.0`` retrieves the
+   contract and fails to downgrade it to the target template type,
+   returning an error.
+-  Fetching contract ``5678`` with package preference ``p-2.0.0`` retrieves the
+   contract and leaves it unchanged, returning ``T { p = 'Bob', t =
+   Some "Hello" }``.
+
+
+**Example 2**
 
 Assume an interface ``I`` with a choice ``GetInt``
 
@@ -1701,7 +1796,7 @@ Then:
   type ``inst-1.0.0:Inst`` bears no incidence on the ``getInt`` method that is
   eventually executed.
 
-**Example 4**
+**Example 3**
 
 Assume now a package ``r`` with two versions. They define a template with a
 choice, and version ``2.0.0`` adds an optional field to the parameters of the
@@ -1993,7 +2088,7 @@ Upon retrieval and after conversion, the ensure clause of a contract is
 recomputed using the code of the target template. It is a runtime error if the
 recomputed ensure clause evaluates to ``False``.
 
-**Example**
+**Examples**
 
 Below, the template on the right is **not** a valid upgrade of the template on
 the left because its ensure clause will evaluate to ``False`` for contracts that
@@ -2023,3 +2118,123 @@ have been written using the template on the left with ``n = 0``.
              where
                signatory sig
                ensure n > 0
+
+Interface Views
+~~~~~~~~~~~~~~~
+
+The view for a given interface instance is not allowed to change between two
+versions of a contract. When a contract is fetched or exercised by interface,
+its view according to the code of the target template is compared to its view
+according to the code of the template that was used when the contract was
+created. It is a runtime error if the two views differ.
+
+**Example**
+
+Assume an interface ``I`` with view type ``IView`` and a method ``m``.
+
+.. code:: daml
+
+    data IView = IView { i : Int }
+  
+    interface I where
+      viewtype IView
+      m : Int
+ 
+In that case, the template on the right below is a valid upgrade of the template on the
+left.
+
+.. list-table::
+   :widths: 50 50
+   :width: 100%
+   :class: diff-block
+
+   * -  In ``p-1.0.0``:
+     -  In ``p-2.0.0``:
+
+   * - .. code-block:: daml
+
+            template T 
+              with
+                p : Party
+                i : Int
+              where
+                signatory p
+
+                interface instance I for T where
+                  view = IView i
+                  m = i
+
+     - .. code-block:: daml
+
+            template T 
+              with
+                p : Party
+                i : Int
+                j : Optional Int
+              where
+                signatory p
+
+                interface instance I for T where
+                  view = IView (fromOptional i j)
+                  m = fromOptional i j
+
+Assume a ledger that contains a contract of type ``T`` written by
+``p-1.0.0``.
+
++------------+---------------+-----------------------------------------+
+| Contract   | Type          | Contract                                |
+| ID         |               |                                         |
++============+===============+=========================================+
+| ``1234``   | ``p-1.0.0:T`` | ``T { p = 'Alice', i = 42 }``           |
++------------+---------------+-----------------------------------------+
+
+Fetching contract ``1234`` by interface with package preference ``p-2.0.0``
+retrieves the contract and computes its view according to ``p-1.0.0``: ``IView
+42``. The contract is then transformed into a value of type ``p-2.0.0:T``:
+``T { sig = 'Alice', i = 42, j = None }`` and its view is computed again, this
+time according to ``p-2.0.0``: ``IView 42``. Because the two views agree, the
+fetch is successful.
+
+On the other hand, below, the template on the right is **not** a valid upgrade
+of the template on the left.
+
+.. list-table::
+   :widths: 50 50
+   :width: 100%
+   :class: diff-block
+
+   * -  In ``p-1.0.0``:
+     -  In ``p-2.0.0``:
+
+   * - .. code-block:: daml
+
+            template T 
+              with
+                p : Party
+                i : Int
+              where
+                signatory p
+
+                interface instance I for T where
+                  view = IView i
+                  m = i
+
+     - .. code-block:: daml
+
+            template T 
+              with
+                p : Party
+                i : Int
+              where
+                signatory p
+
+                interface instance I for T where
+                  view = IView (i+1)
+                  m = i
+
+Assume the same ledger as above. Fetching contract ``1234`` by interface with
+package preference ``p-2.0.0`` again retrieves the contract and computes its
+view according to ``p-1.0.0``: ``IView 42``. The contract is then transformed
+into a value of type ``p-2.0.0:T``: ``T { sig = 'Alice', i = 42 }`` and its view
+is computed again, this time according to ``p-2.0.0``: ``IView 43``. Because the
+two views differ, the fetch is rejected at runtime.

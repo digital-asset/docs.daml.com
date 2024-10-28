@@ -84,6 +84,22 @@ It might make sense to start with 128GB, run a long-running scale & performance 
 Most Canton indexes are contract-id based, which means that the index lookups are randomly distributed. Solid state drives with
 high throughput perform much better than spinning disks for this purpose.
 
+.. _shared_env_performance:
+
+Predictability of Shared Environments
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The throughput and latency of a Canton node depends on the performance of the database.
+Sharing hardware or software saves cost and better utilizes available resources, but it comes
+with some drawbacks: If the database is operated in a shared environment such as the Cloud, where other applications are using the same
+database or are operated on the same hardware, the performance of the Canton node varies due to
+contention on shared resources. This is a natural effect of shared environments and cannot be entirely
+avoided. It can be difficult to diagnose as a user of the shared environment due to lack of visibility into
+the other applications and the host system.
+
+If you are operating in a shared environment, you should monitor the performance of the database and expect
+a higher variance in latency and throughput. 
+
 .. _postgres-configuration:
 
 Postgres Configuration
@@ -102,7 +118,7 @@ operations.
 Configuring the ``shared_buffers`` setting to hold 60-70% of the host memory is recommended, rather than the default
 suggestion of 25%, as the Postgres caching appears to be more effective than the host-based file access caching.
 
-Also increase the following variables ``N`` times beyond their default: Increase the ``checkpoint_timeout`` so that
+Also increase the following variables beyond their default: Increase the ``checkpoint_timeout`` so that
 the flushing to disk includes several writes and not just one per page, accumulated over time, together with
 a higher ``max_wal_size`` to ensure that the system does not prematurely flush before reaching the ``checkpoint_timeout``.
 Monitor your system during load testing and tune the parameters accordingly to your use case.

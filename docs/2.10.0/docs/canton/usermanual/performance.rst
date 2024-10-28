@@ -537,48 +537,8 @@ On the contrary, you will produce multiple root actions each belonging to their 
 to its template contract means that either the choice observer is the same in each case or the new observer is hosted by any of the contract's informee
 participants.
 
-.. TODO: currently the reference .. literalinclude:: code-snippets/Batching.daml is not working. Re-add it before release 2.10.0
-.. code:: daml
-
-   doUpdate : Bool -> Party -> Party -> [ContractId Example] -> Update ()
-
-   doUpdate efficient owner obs batch = do
-     if efficient then do
-       batcher <- create BatchFoo with owner
-       -- This only works out if obs is the same observer on all the exercised Example contracts
-       batcher `exercise` Run with batch = batch; obs = obs
-     else do
-       -- Canton will create one view per exercise
-       forA_ batch (`exercise` Foo)
-     pure ()
-
-   template Example with
-       owner : Party
-       obs: Party
-     where
-       signatory owner
-       observer obs
-
-       choice Foo : ()
-         controller owner
-         do
-           return ()
-
-   template BatchFoo with
-       owner : Party
-     where
-       signatory owner
-
-       choice Run : () with
-           batch : [ContractId Example]
-           obs : Party
-         -- The observer here is a choice observer. Therefore, Canton will
-         -- ship a single view with the top node of this choice if the observer of the
-         -- choice aligns with the observer of the contract.
-         observer obs
-         controller owner
-         do
-           forA_ batch (`exercise` Foo)
+.. literalinclude:: code-snippets/Batching.daml
+  :language: daml
 
 As a rule, the number of views should depend on the number of groups of informee participants
 you have in your batch choice, not the number of "batches" you process in parallel within one command.

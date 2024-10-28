@@ -9,6 +9,10 @@ subtrees:
 
   - file: multiparty-application-intro
     title: "Introduction to Multi-Party Applications and Daml"
+  - file: tsa-arch/why-daml
+    title: "Why Daml"
+  - file: tsa-arch/daml-app-infrastructure
+    title: "Daml Application Infrastructure"
 
 - caption: "Set Up Your Developer Environment"
   entries:
@@ -235,15 +239,12 @@ subtrees:
           - file: daml/resource-management/contention-reducing.rst
           - file: daml/resource-management/contention-techniques.rst
       - file: daml/resource-management/active-contract-set
-  - file: upgrade/index
-    title: "Upgrading and Extending Daml Applications"
-    entries:
-    - file: upgrade/extend
-      title: "Extending Daml Applications"
-    - file: upgrade/upgrade
-      title: "Upgrading Daml Applications"
-    - file: upgrade/automation
-      title: "Automating the Upgrade Process"
+  - file: upgrade/extend
+    title: "Extend Daml Applications"
+  - file: upgrade/upgrade
+    title: "Upgrade Daml Applications"
+  - file: upgrade/automation
+    title: "Automate Daml Application Upgrades"
   - file: create-daml-apps/developer-tools/index
     title: "Developer Tools"
     subtrees:
