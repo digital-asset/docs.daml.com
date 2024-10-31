@@ -534,7 +534,7 @@ On the contrary, you will produce multiple root actions each belonging to their 
 to its template contract means that either the choice observer is the same in each case or the new observer is hosted by any of the contract's informee
 participants.
 
-.. literalinclude:: ../code-snippets/Batching.daml
+.. literalinclude:: ../../code-snippets/Batching.daml
   :language: daml
 
 As a rule, the number of views should depend on the number of groups of informee participants
