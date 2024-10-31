@@ -506,7 +506,7 @@ If you submit a ledger API command (which can have multiple Daml commands), then
 
 Just putting all Daml commands into a single batch command does not help, as you might still create lots of views.
 
-In the protocol up to version 5, Canton creates a view for every action node in the transaction tree if the informees change 
+Currently, Canton creates a view for every action node in the transaction tree if the informees change
 between the node and its parent. Therefore, in order to minimize the number of views, you should try to minimize the number of 
 changes of informees. Informees are roughly the signatories, observers of the contract and of the choice, and the controllers of the choice. 
 
@@ -516,53 +516,54 @@ command on a generator contract with the list of contracts that in turn exercise
 If you write batch commands, group the operations on the ledger based on the informees and create a single choice and 
 batch operation per informee group. You can use choice observers to align informees if necessary. 
 
-For example, if the below `doUpdate` is only visible to the `owner` party, then whether the `efficient` flag is set or not 
-will have a huge impact on the number of views created.
+For example, if the `doUpdate` below is called from a choice visible to the `owner` party alone, then whether the `efficient`
+flag is set or not has a huge impact on the number of views created.
+In the choice `Foo` of the `Example` contract, even though the participants to be informed are a subset of the
+contract's informee participants they are not merged into a single view if this choice is called independently each time.
+On the contrary, you will produce multiple root actions each belonging to their own view. Finally, aligning the choice observer of `Run`
+to its template contract means that they must be the same.
 
 .. code:: daml
 
    doUpdate : Bool -> Party -> Party -> [ContractId Example] -> Update ()
-   doUpdate efficient owner obs batch = do 
-   if efficient then do 
-      -- Would be even more efficient if we can reuse the BatchFoo contract
-      batcher <- create BatchFoo with owner 
-      batcher `exercise` Run with batch = batch; obs = obs    
-   else do
-      -- Canton will create one view per exercise
-      forA_ batch (`exercise` Foo)    
-   pure ()
 
-   template Example
-   with 
-      owner : Party 
-      obs: Party 
-   where 
-      signatory owner 
-      observer obs 
+   doUpdate efficient owner obs batch = do
+     if efficient then do
+       batcher <- create BatchFoo with owner
+       -- This only works out if obs is the same observer on all the exercised Example contracts
+       batcher `exercise` Run with batch = batch; obs = obs
+     else do
+       -- Canton will create one view per exercise
+       forA_ batch (`exercise` Foo)
+     pure ()
 
-      choice Foo : ()
-         controller owner 
-         do 
-         return ()
+   template Example with
+       owner : Party
+       obs: Party
+     where
+       signatory owner
+       observer obs
 
-   template BatchFoo
-   with 
-      owner : Party 
-   where 
-      signatory owner 
-
-      choice Run : ()
-         with  
-         batch : [ContractId Example]
-         obs : Party
-         -- The observer here is a choice observer. Therefore, Canton will
-         -- ship a single view with the top node of this choice if the observer of the 
-         -- choice aligns with the observer of the contract.       
-         observer obs
-         controller owner 
+       choice Foo : ()
+         controller owner
          do
-         forA_ batch (`exercise` Foo)
+           return ()
 
+   template BatchFoo with
+       owner : Party
+     where
+       signatory owner
+
+       choice Run : () with
+           batch : [ContractId Example]
+           obs : Party
+         -- The observer here is a choice observer. Therefore, Canton will
+         -- ship a single view with the top node of this choice if the observer of the
+         -- choice aligns with the observer of the contract.
+         observer obs
+         controller owner
+         do
+           forA_ batch (`exercise` Foo)
 
 As a rule, the number of views should depend on the number of stakeholder groups you have in your batch choice, 
 not the number of "batches" you process in parallel within one command.
