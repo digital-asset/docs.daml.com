@@ -39,7 +39,6 @@ done
 tar xf $SOURCE_DIR/pdf-fonts-$RELEASE_TAG.tar.gz -C $BUILD_DIR/sphinx-target/pdf
 cd $BUILD_DIR/sphinx-target/pdf
 lualatex -halt-on-error -interaction=batchmode --shell-escape *.tex
-lualatex -halt-on-error -interaction=batchmode --shell-escape *.tex
 cd -
 mv $BUILD_DIR/sphinx-target/pdf/DigitalAssetSDK.pdf $TARGET_DIR/pdf-docs-$RELEASE_TAG.pdf
 
