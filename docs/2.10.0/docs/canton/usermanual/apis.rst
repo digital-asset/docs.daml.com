@@ -97,6 +97,8 @@ This will enable detailed SSL debugging information to be printed to the console
 and troubleshoot any problems you may be experiencing. It is recommended to only enable this flag when needed,
 as the output can be very verbose and may impact the performance of your application.
 
+.. _keepalive-configuration:
+
 Keep Alive
 ----------
 In order to prevent load-balancers or firewalls from terminating long-running RPC calls in the event of some silence on the
@@ -109,9 +111,27 @@ connection, all GRPC connections enable keep-alive by default. An example config
 GRPC client connections are configured with ``keep-alive-client``, with two settings: ``time``, and ``timeout``.
 The effect of the ``time`` and ``timeout`` settings are described in the `GRPC documentation <https://grpc.github.io/grpc-java/javadoc/io/grpc/ManagedChannelBuilder.html#keepAliveTime-long-java.util.concurrent.TimeUnit>`__.
 
-Servers can additionally change another setting: ``permit-keep-alive-time``. This specifies the most aggressive keep-alive time
-that a client is permitted to use. If a client uses keep-alive ``time`` that is more aggressive than the ``permit-keep-alive-time``, the connection will be terminated with a GOAWAY frame with "too_many_pings" as the debug data.
-This setting is described in more detail in the `GRPC documentation <https://grpc.github.io/grpc-java/javadoc/io/grpc/netty/NettyServerBuilder.html#permitKeepAliveTime-long-java.util.concurrent.TimeUnit>`__
+Servers can additionally change other two settings: ``permit-keep-alive-time`` and ``permit-keep-alive-without-calls``.
+The value in ``permit-keep-alive-time`` specifies the most aggressive keep-alive time that a client is permitted to use.
+If a client uses keep-alive ``time`` that is more aggressive than the ``permit-keep-alive-time``, the connection will be terminated
+with a GOAWAY frame with "too_many_pings" as the debug data.
+Setting ``permit-keep-alive-without-calls`` to true allows clients to send ping messages outside of any ongoing GRPC call. Such a ping
+otherwise results in a GOAWAY frame.
+
+The default values of these parameters are set differently for different APIs:
++---------------------------------+------------+------------+------------+
+| API                             | Admin API  | Public API | Ledger API |
++=================================+============+============+============+
+| time                            | 40s        | 40s        | 10min      |
++---------------------------------+------------+------------+------------+
+| timeout                         | 20s        | 20s        | 20s        |
++---------------------------------+------------+------------+------------+
+| permit-keep-alive-time          | 20s        | 20s        | 10s        |
++---------------------------------+------------+------------+------------+
+| permit-keep-alive-without-calls | false      | false      | true       |
++---------------------------------+------------+------------+------------+
+
+These settings are described in more detail in the `GRPC documentation <https://grpc.github.io/grpc-java/javadoc/io/grpc/netty/NettyServerBuilder.html#permitKeepAliveTime-long-java.util.concurrent.TimeUnit>`__
 and `GRPC manual page <https://github.com/grpc/grpc/blob/master/doc/keepalive.md>`__.
 
 Max Inbound Message Size
