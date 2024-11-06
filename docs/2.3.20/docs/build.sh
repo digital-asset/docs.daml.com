@@ -38,6 +38,8 @@ done
 # Build PDF docs
 tar xf $SOURCE_DIR/pdf-fonts-$RELEASE_TAG.tar.gz -C $BUILD_DIR/sphinx-target/pdf
 cd $BUILD_DIR/sphinx-target/pdf
+
+# At the moment, we need to run lualatex 2 times, otherwise there's no table of contents
 lualatex -halt-on-error -interaction=batchmode --shell-escape *.tex
 lualatex -halt-on-error -interaction=batchmode --shell-escape *.tex
 cd -
