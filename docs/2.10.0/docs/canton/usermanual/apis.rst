@@ -111,9 +111,9 @@ connection, all GRPC connections enable keep-alive by default. An example config
 GRPC client connections are configured with ``keep-alive-client``, with two settings: ``time``, and ``timeout``.
 The effect of the ``time`` and ``timeout`` settings are described in the `GRPC documentation <https://grpc.github.io/grpc-java/javadoc/io/grpc/ManagedChannelBuilder.html#keepAliveTime-long-java.util.concurrent.TimeUnit>`__.
 
-Servers can additionally change other two settings: ``permit-keep-alive-time`` and ``permit-keep-alive-without-calls``.
+Servers can also change two other settings: ``permit-keep-alive-time`` and ``permit-keep-alive-without-calls``.
 The value in ``permit-keep-alive-time`` specifies the most aggressive keep-alive time that a client is permitted to use.
-If a client uses keep-alive ``time`` that is more aggressive than the ``permit-keep-alive-time``, the connection will be terminated
+If a client uses keep-alive ``time`` that is more aggressive than the ``permit-keep-alive-time``, the connection is terminated
 with a GOAWAY frame with "too_many_pings" as the debug data.
 Setting ``permit-keep-alive-without-calls`` to true allows clients to send ping messages outside of any ongoing GRPC call. Such a ping
 otherwise results in a GOAWAY frame.
