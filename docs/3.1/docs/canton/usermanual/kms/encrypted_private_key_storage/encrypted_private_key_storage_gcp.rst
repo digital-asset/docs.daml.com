@@ -115,6 +115,9 @@ GCP KMS configuration.
 .. warning::
     It is not currently possible to change the key specification (e.g. enable multi-region) during rotation.
 
+Key rotation does not delete the previous key. Although it is disabled and can no longer be used, it is still persisted.
+If you wish to permanently delete it, please refer to the section :ref:`Deleting Canton Node Keys <deleting-canton-keys>`.
+
 Interoperability
 ----------------
 
