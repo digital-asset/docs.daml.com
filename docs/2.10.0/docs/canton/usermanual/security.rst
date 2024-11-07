@@ -326,7 +326,7 @@ Deleting Canton Node Keys
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Deletion of keys, in particular, private keys is not done automatically in Canton. When a key is rotated, the previous
-key remains stored but is disabled and no longer used. To permanently delete a key, use the following Canton console
+key remains stored, but is disabled and no longer used. To permanently delete a key, use the following Canton console
 command:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/topology/KeyManagementIntegrationTest.scala
