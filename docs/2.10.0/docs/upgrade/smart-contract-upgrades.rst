@@ -404,11 +404,11 @@ of our package:
   > daml init
   > daml version
   SDK versions:
-    2.9.0  (project SDK version from daml.yaml)
+    2.10.0  (project SDK version from daml.yaml)
 
-Running ``daml version`` should print a line showing that 2.9.0 or higher is the "project SDK version from daml.yaml".
+Running ``daml version`` should print a line showing that 2.10.0 or higher is the "project SDK version from daml.yaml".
 
-Add ``daml-script-beta`` to the list of dependencies in ``v1/my-pkg/daml.yaml``,
+Add ``daml-script`` to the list of dependencies in ``v1/my-pkg/daml.yaml``,
 as well as ``--target=1.17`` to the ``build-options``:
 
 .. code:: yaml
@@ -417,7 +417,7 @@ as well as ``--target=1.17`` to the ``build-options``:
   dependencies:
   - daml-prim
   - daml-stdlib
-  - daml-script-beta
+  - daml-script
   build-options:
   - --target=1.17
 
@@ -473,7 +473,7 @@ field pointing to v1:
   dependencies:
   - daml-prim
   - daml-stdlib
-  - daml-script-beta
+  - daml-script
   upgrades: ../../v1/my-pkg/.daml/dist/my-pkg-1.0.0.dar
   build-options:
   - --target=1.17
@@ -856,7 +856,7 @@ without modifications and is immediately available for use.
 
 .. note::
 
-  In 2.9, once a DAR is successfully uploaded, it cannot be
+  In 2.10, once a DAR is successfully uploaded, it cannot be
   safely removed from the participant node. Participant operators must
   then ensure that uploaded functionality does not break the intended
   upgrade lineage as newly uploaded DARs affect the upgrading line (i.e.
@@ -1977,12 +1977,12 @@ Daml Shell builds on PQS by providing a shell interface to inspect the
 ledger using package-name to view all versions of contracts, in an
 integrated way.
 
-Daml-Script-Beta
-----------------
+Daml-Script
+-----------
 
-Daml 2.9 introduces a new version of Daml Script, which can be used by
-depending on ``daml-script-beta`` in your ``daml.yaml``, as you will have seen
-in `Writing your first upgrade <#writing-your-first-upgrade>`__. Only this version of Daml Script
+Daml 2.10 introduces a new version of Daml Script, which can be used by
+depending on ``daml-script`` in your ``daml.yaml``, as you will have seen
+in `Writing your first upgrade <#writing-your-first-upgrade>`__. This version of Daml Script
 supports upgrades over the Ledger API.
 
 All commands and queries in this version of Daml Script now use
