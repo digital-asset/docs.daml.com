@@ -337,11 +337,12 @@ command:
 
 .. warning::
   Exercise caution when deleting a private key. You must ensure that the key is no longer in use and is not needed
-  for decrypting or verifying signatures of previous messages. Therefore, keys must only be deleted after you have
-  pruned all data that directly or indirectly uses them. This is especially crucial for sequencers in open networks.
-  For example, if a participant lags in retrieving sequenced events, and the sequencer’s signing key is rolled, the old
-  signing key must remain accessible to sign the events from before the key roll for lagging participants. Otherwise,
-  deleting the key prematurely may cause irreversible issues for these participants.
+  for decrypting or creating signatures for old messages. Therefore, you should only delete a key when the node
+  was pruned for a timestamp that is later than the point in time when the key was deactivated. This is especially
+  crucial for sequencers in open networks. For example, if a participant lags in retrieving sequenced events, and the
+  sequencer’s signing key is rolled, the old signing key must remain accessible to sign the events from before the key
+  roll for lagging participants. Otherwise, deleting the key prematurely may cause irreversible issues for these
+  participants.
 
 Namespace Intermediate Key Management
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
