@@ -325,6 +325,79 @@ Common patterns from the canton log:
 
           The log line contains the name of the missing claim, but not the actual claims. When using tokens based on user names (`Audience Based Tokens <https://docs.daml.com/app-dev/authorization.html#audience-based-tokens>`_ and `Scope Based Tokens <https://docs.daml.com/app-dev/authorization.html#scope-based-tokens>`_), consult the user management service to see whether you need to grant more rights to the user. When using tokens based on party names (`Custom Claims Access Tokens <https://docs.daml.com/app-dev/authorization.html#custom-daml-claims-access-tokens>`_), debug the token in `JWT.IO <https://jwt.io/#debugger-io>`_.
 
+Disconnections
+--------------
+
+Intermittent network failures cause the majority of disconnections that occur in real-life scenarios. Less frequently,
+disconnections happen when network proxies, load balancers, or other elements of the network infrastructure terminate the client-server
+connection because they think that there is no activity going on in the communication channel. Such disconnections are predictable and
+can be avoided by carefully configuring the components' keep-alive parameters.
+
+There are two keep-alive mechanisms to consider for the GRPC protocol stack: the low-level TCP keep-alive feature and the HTTP/2 pings.
+Canton endpoints utilize the latter. The article describing `how to use HTTP/2 PING-based keep-alives <https://grpc.io/docs/guides/keepalive/>`_
+is a good place to become familiar with the basics of this mechanism.
+
+The keep-alive parameters have to be set on all components involved. In this example we concentrate on configuring the Ledger API, but a similar
+approach can be used for other Canton APIs. This is described in the dedicated :ref:`keep-alive article <keepalive-configuration>`.
+Next, change the corresponding parameters on the Ledger API client. Consult the user manual specific to your application.
+The parameters on both ends should be set consistently, and the keep-alive time setting on the client should not be set lower than
+the ``permit-keep-alive-time`` of the Ledger API server.
+
+Finally, select the settings of the proxies between the client and the server. Again, the user manual specific to each component
+is the best place to learn how to manage these settings. The proxy inactivity timeouts should be more lenient than the client and server settings.
+
+You can determine if disconnections are caused by a misalingment of keep-alive settings on different components by enabling detailed
+networking logging on the Ledger API server. If the specific implementation allows, simultaneously increase the log level in the client
+application. If the client is written on the Java stack, you can probably apply a similar approach to that you would use in the Canton participant.
+
+The easiest way to start the keep-alive logging is to start Canton Participant with the ``--debug`` flag. Alternatively, you can
+modify the logger's configuration in the ``logback.xml`` file. You then have to bump the log level of the ``io.grpc.netty.NettyServerHandler``
+the ``io.grpc.netty.NettyClientHandler`` and the ``com.digitalasset.canton.platform.apiserver.GrpcConnectionLogger`` to ``DEBUG``.
+
+Once that is done, you can observe the lifecycle events of the underlying GRPC channels such as their opening and closing:
+
+.. code-block:: none
+
+    [..] DEBUG c.d.c.p.a.GrpcConnectionLogger:participant=participant - Grpc connection open: {io.grpc.Grpc.TRANSPORT_ATTR_LOCAL_ADDR=/127.0.0.1:5001,
+    io.grpc.internal.GrpcAttributes.securityLevel=NONE, io.grpc.Grpc.TRANSPORT_ATTR_REMOTE_ADDR=/127.0.0.1:49944}
+    [..] DEBUG c.d.c.p.a.GrpcConnectionLogger:participant=participant - Grpc connection closed: {io.grpc.Grpc.TRANSPORT_ATTR_LOCAL_ADDR=/127.0.0.1:5001,
+    io.grpc.internal.GrpcAttributes.securityLevel=NONE, io.grpc.Grpc.TRANSPORT_ATTR_REMOTE_ADDR=/127.0.0.1:49944}
+
+Likewise, you can observe the header and data frames being exchanged. That is the essence of the GRPC interchange.
+
+.. code-block:: none
+
+    [..] DEBUG io.grpc.netty.NettyServerHandler - [id: 0xc6d471d0, L:/127.0.0.1:5001 - R:/127.0.0.1:52722] INBOUND HEADERS: streamId=3
+    headers=GrpcHttp2RequestHeaders[:path: /com.daml.ledger.api.v1.TransactionService/GetTransactions, :authority: localhost:5001, :method: POST,
+    :scheme: http, te: trailers, content-type: application/grpc, user-agent: grpcurl/v1.8.7 grpc-go/1.48.0] padding=0 endStream=false
+
+    [..] DEBUG io.grpc.netty.NettyServerHandler - [id: 0x95fab9fc, L:/127.0.0.1:10038 - R:/127.0.0.1:57250] INBOUND DATA: streamId=21 padding=0 endStream=true
+    length=293 bytes=00000001200a83010a80010a7e0a6f4d45443a3a65656538663130322d616466662d346438352d383565612d3630313061383930356435663a3a313232306231...
+    [..] DEBUG io.grpc.netty.NettyServerHandler - [id: 0x73e32666, L:/127.0.0.1:10002 - R:/127.0.0.1:57924] OUTBOUND DATA: streamId=45 padding=0 endStream=false
+    length=344 bytes=000000015312d0020a6a65656538663130322d616466662d346438352d383565612d3630313061383930356435663a3a31323230613266313661343461636233...
+
+
+You can also observe the pings. Each component that receives a ping message sends a response back that contains the ack flag set to true.
+
+.. code-block:: none
+
+    [..] DEBUG io.grpc.netty.NettyServerHandler - [id: 0x73e32666, L:/127.0.0.1:10002 - R:/127.0.0.1:57924] OUTBOUND PING: ack=false bytes=57005
+    [..] DEBUG io.grpc.netty.NettyServerHandler - [id: 0x73e32666, L:/127.0.0.1:10002 - R:/127.0.0.1:57924] INBOUND PING: ack=true bytes=57005
+
+
+Finally, you can see the typical GO_AWAY messages that the clients and the servers exchange when they disconnect in an organized manner.
+
+.. code-block:: none
+
+    [..] DEBUG io.grpc.netty.NettyServerHandler - [id: 0x95fab9fc, L:/127.0.0.1:10038 - R:/127.0.0.1:57250] INBOUND GO_AWAY: lastStreamId=0 errorCode=0 length=0 bytes=
+    [..] DEBUG io.grpc.netty.NettyServerHandler - [id: 0x227a18df, L:/127.0.0.1:10042 - R:/127.0.0.1:51246] OUTBOUND GO_AWAY: lastStreamId=2147483647 errorCode=0
+    length=13 bytes=6170705f726571756573746564
+
+From the above logs you can get a pretty good idea of what happened around the moment when the connection was terminated. In particular, the absence of the ping, data and
+header messages may indicate that there was no activity on the channel, which may have prompted the proxy to terminate the connection. Similarly, the absence
+of the courtesy GO_AWAY messages may indicate that the connection was terminated abruptly.
+
+
 Performance Issues
 ------------------
 

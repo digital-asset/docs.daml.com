@@ -119,6 +119,7 @@ Setting ``permit-keep-alive-without-calls`` to true allows clients to send ping 
 otherwise results in a GOAWAY frame.
 
 The default values of these parameters are set differently for different APIs:
+
 +---------------------------------+------------+------------+------------+
 | API                             | Admin API  | Public API | Ledger API |
 +=================================+============+============+============+
