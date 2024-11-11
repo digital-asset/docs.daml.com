@@ -309,7 +309,7 @@ key remains stored, but is disabled and no longer used. To permanently delete a 
 command:
 
 .. todo::
-    `#832  <https://github.com/digital-asset/docs.daml.com/issues/832>`_
+    `#832: Add code snippet when versions refers to latest Canton snapshot <https://github.com/digital-asset/docs.daml.com/issues/832>`_
 
 .. code::
 
