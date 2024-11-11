@@ -308,11 +308,12 @@ Deletion of keys, in particular, private keys is not done automatically in Canto
 key remains stored, but is disabled and no longer used. To permanently delete a key, use the following Canton console
 command:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/security/topology/KeyManagementIntegrationTest.scala
-   :language: scala
-   :start-after: user-manual-entry-begin: DeletePrivateKey
-   :end-before: user-manual-entry-end: DeletePrivateKey
-   :dedent:
+.. todo::
+    `#832  <https://github.com/digital-asset/docs.daml.com/issues/832>`_
+
+.. code::
+
+    <node>.keys.secret.delete(privateKeyId, force = true)
 
 .. warning::
   Exercise caution when deleting a private key. You must ensure that the key is no longer in use and is not needed
