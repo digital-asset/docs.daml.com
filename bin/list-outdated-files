@@ -17,7 +17,8 @@ Options :
                 Use '' to search all extensions.
 -l limit :      Time limit to search, '1.year' by default.
                 Must be in relative format supported by git.
-                Examples: '1.week', '3.months'
+                Examples: '1.week', '3.months'.
+                Using large limits makes the script slow.
 -o output :     Output format.
                 - 'plain' for just the file names (default)
                 - 'gitlog' for additional git log info
