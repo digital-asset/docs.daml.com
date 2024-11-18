@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+directory=docs
+extensions=(rst md)
+limit=1.year
+output_format="simple"
+
+__usage="
+usage: list-outdated-files [ -d directory | -e extensions | -l limit | -o output]
+Options :
+-d directory :  Directory to search, 'docs' by default.
+                For more specific directory, use the 'docs/3.1' format.
+                Use '' to search all directories.
+-e extensions : List of file extensions separated by comma, 'rst,md' by default.
+                Use '' to search all extensions.
+-l limit :      Time limit to search, '1.year' by default.
+                Must be in relative format supported by git.
+                Examples: '1.week', '3.months'
+-o output :     Output format.
+                - 'plain' for just the file names (default)
+                - 'gitlog' for additional git log info
+"
+
+bold=$(tput bold)
+
+while getopts "d:e:l:o:h" arg; do
+  case $arg in
+    l)
+      limit=$OPTARG
+      ;;
+    d)
+      directory=$OPTARG
+      ;;
+    e)
+      IFS="," read -r -a extensions <<< $OPTARG
+      ;;
+    o)
+      output_format=$OPTARG
+      ;;
+    h)
+      echo "$__usage"
+      exit 1
+      ;;
+  esac
+done
+
+encoded_extensions=$(IFS="|" ; echo "${extensions[*]}")
+
+revision=$(git rev-list -1 --before ".$limit.ago" origin/main)
+
+comm -23 <(git ls-files | sort) <(git diff --name-only --stat $revision | sort) \
+ | if [ "$directory" != "" ]; then grep "^$directory/"; else cat; fi \
+ | if [ "$encoded_extensions" != "" ]; then grep -E ".[$encoded_extensions]+\$"; else cat; fi \
+ | if [ "$output_format" == "gitlog" ]; then while read filename ; do echo "File: ${bold}$filename"; git log -1 $filename; echo ""; echo ""; done; else cat; fi
