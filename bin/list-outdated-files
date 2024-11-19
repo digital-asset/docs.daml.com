@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Use the following bash script for searching pages that have not been updated for a long time (default: 1 year) as candidates for audit.
+# Occasionally we have outdated material that persists because there hasn't been a PR that explicitly removes it.
+
 set -euo pipefail
 
 directory=docs
@@ -47,11 +50,42 @@ while getopts "d:e:l:o:h" arg; do
   esac
 done
 
-encoded_extensions=$(IFS="|" ; echo "${extensions[*]}")
+list_unchanged_files() (
+  local revision=$(git rev-list -1 --before "$limit.ago" origin/main)
 
-revision=$(git rev-list -1 --before ".$limit.ago" origin/main)
+  # List all files and filter out the changed ones
+  comm -23 <(git ls-files | sort) <(git diff --name-only  --stat $revision | sort)
+)
 
-comm -23 <(git ls-files | sort) <(git diff --name-only --stat $revision | sort) \
- | if [ "$directory" != "" ]; then grep "^$directory/"; else cat; fi \
- | if [ "$encoded_extensions" != "" ]; then grep -E ".[$encoded_extensions]+\$"; else cat; fi \
- | if [ "$output_format" == "gitlog" ]; then while read filename ; do echo "File: ${bold}$filename"; git log -1 $filename; echo ""; echo ""; done; else cat; fi
+filter_directory() (
+  if [ "$directory" != "" ]
+    then grep "^$directory/"
+    else cat
+  fi
+)
+
+filter_extensions() (
+  local encoded_extensions=$(IFS="|" ; echo "${extensions[*]}")
+
+  if [ "$encoded_extensions" != "" ]
+    then grep -E ".[$encoded_extensions]+\$"
+    else cat
+  fi
+)
+
+produce_output() (
+  if [ "$output_format" == "gitlog" ]
+  then
+    while read filename
+      do
+        echo "File: ${bold}$filename"
+        git log -1 $filename
+        # git log has a longer output, so let's add 2 empty lines to separate the info visually
+        echo ""
+        echo ""
+      done
+    else cat
+  fi
+)
+
+list_unchanged_files | filter_directory | filter_extensions | produce_output
