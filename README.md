@@ -142,6 +142,26 @@ When there is a change to the root website, the entire site needs to be reindexe
 5. When that has completed, click the blue button for **Re-index All Configured Sources**. This may take about a half hour.
 6. When this has completed, the site search should work as expected.
 
+## Auditing outdated files
+
+Use the following bash script for searching pages that have not been updated for a long time (default: 1 year) as candidates for audit. 
+Occasionally we have outdated material that persists because there hasn't been a PR that explicitly removes it.
+
+Simple usage:
+```
+./bin/list-outdated-files
+```
+
+Customized usage:
+```
+./bin/list-outdated-files -l 3.months -d docs/3.1/docs -e json -o gitlog -r
+```
+
+Help:
+```
+./bin/list-outdated-files -h
+```
+
 ## Questions
 
 If you have questions or comments about these instructions, please reach out to the `#product-docs` channel on Slack.
