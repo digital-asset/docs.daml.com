@@ -71,7 +71,7 @@ Detailed steps to decommission a participant once the prerequisites are met
    in order to avoid failed commands and confusing errors in clients and in the participant’s logs.
 #. Disconnect the participant to be decommissioned from all domains as described in the section about
    :ref:`enabling and disabling connections <connectivity-participant-reconnect>`.
-#E. Disable the participant to be decommissioned in all sequencers to remove any sequencer data associated with it;
+#. Disable the participant to be decommissioned in all sequencers to remove any sequencer data associated with it;
    this can be done through the :ref:`sequencer.disable_member <TODO>` command.
 #. Remove the participant to be decommissioned from the domain topology via the domain manager to ensure that
    it is not considered part of the domain anymore, so that it cannot rejoin nor interfere with the ACS
@@ -103,15 +103,15 @@ Disconnecting all nodes from the sequencer to be decommissioned
 * Change the sequencer connection on the mediators connected to the sequencer to be decommissioned, so that
   they use another active sequencer, as per :ref:`mediator and domain manager connectivity <TODO>`.:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/ParticipantOffboardingIntegrationTest.scala
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/SequencerOffboardingIntegrationTest.scala
    :start-after: user-manual-entry-begin: SequencerOffboardingSwitchAwayMediator
    :end-before: user-manual-entry-end: SequencerOffboardingSwitchAwayMediator
    :dedent:
 
 * Change the domain manager’s sequencer connection to not use the sequencer to be decommissioned,
-  but instead another active sequencer using the :ref:`sequencer.connection_modify <TODO>` command.:
+  but instead another active sequencer using the :ref:`sequencer_connection.set <TODO>` command.:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/ParticipantOffboardingIntegrationTest.scala
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/SequencerOffboardingIntegrationTest.scala
    :start-after: user-manual-entry-begin: SequencerOffboardingSwitchAwayDomainManager
    :end-before: user-manual-entry-end: SequencerOffboardingSwitchAwayDomainManager
    :dedent:
@@ -119,7 +119,7 @@ Disconnecting all nodes from the sequencer to be decommissioned
 * Reconnect participants to the domain, as described in :ref:`domain connectivity <TODO>`, using a sequencer connection
   that doesn’t point to the sequencer to be decommissioned, but instead uses another active sequencer:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/ParticipantOffboardingIntegrationTest.scala
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/SequencerOffboardingIntegrationTest.scala
    :start-after: user-manual-entry-begin: SequencerOffboardingSwitchAwayParticipant
    :end-before: user-manual-entry-end: SequencerOffboardingSwitchAwayParticipant
    :dedent:
