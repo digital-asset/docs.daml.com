@@ -21,10 +21,10 @@ before decommissioning them is strongly recommended.
 .. _decommissioning-participants:
 
 Decommission a Participant Node
-===============================
+-------------------------------
 
 Restrictions
-------------
+^^^^^^^^^^^^
 
 Operators need to be mindful that making a participant unavailable (by disconnecting it from the domain or
 decommissioning it) might block other workflows and might prevent other parties from exercising choices on
@@ -49,8 +49,7 @@ The same applies vice versa, if `P2` is decommissioned.
 
 Thus, properly decommissioning a participant requires the following high-level steps:
 
-- Ensuring that the prerequisites are met: ensure that active contracts and workflows using them
-   are not "stuck" due to parties required to operate on them becoming unavailable.
+1. Ensuring that the prerequisites are met: ensure that active contracts and workflows using them are not "stuck" due to parties required to operate on them becoming unavailable.
 
 .. note::
    More in detail, for a contract action to be committed, all the action "informees" must be hosted on the domain.
@@ -61,12 +60,12 @@ Thus, properly decommissioning a participant requires the following high-level s
    The correct procedure to perform this step depends thus on the specifics of Daml templates used
    in the Daml application and must consequently be designed, implemented and tested specifically for it.
 
-- Decommissioning: remove the participant from the topology state.
+2. Decommissioning: remove the participant from the topology state.
 
 After that, the participant can be disposed of.
 
 Detailed steps to decommission a participant once the prerequisites are met
----------------------------------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 #. Applications should stop sending commands to the Ledger API of the participant to be decommissioned
    in order to avoid failed commands and confusing errors in clients and in the participant’s logs.
@@ -87,7 +86,7 @@ Detailed steps to decommission a participant once the prerequisites are met
 .. _decommissioning-sequencers:
 
 Decommission a Sequencer Node
-=============================
+-----------------------------
 
 Sequencers are part of a synchronization domain’s messaging infrastructure and don’t store application contracts,
 so they are disposable on condition that precautions are taken to avoid disrupting the synchronization services.
@@ -99,7 +98,7 @@ This means, concretely, ensuring that:
 After that, the sequencer can be decommissioned by removing it from the domain’s topology and finally disposed of.
 
 Disconnecting all nodes from the sequencer to be decommissioned
----------------------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 * Change the sequencer connection on the mediators connected to the sequencer to be decommissioned, so that
   they use another active sequencer, as per :ref:`mediator and domain manager connectivity <connectivity_mediator_and_domain_manager>`.:
@@ -126,7 +125,7 @@ Disconnecting all nodes from the sequencer to be decommissioned
    :dedent:
 
 Decommissioning the sequencer after having disconnected all nodes
------------------------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Sequencers are part of the domain simply by virtue of having their node ID equal to the domain ID,
 which also means they all have the same node ID. Since a sequencer’s identity is the same as the domain’s identity,
@@ -158,7 +157,7 @@ Finally, the cryptographic material exclusively owned by a decommissioned sequen
 .. _decommissioning-mediators:
 
 Decommission a Mediator Node
-============================
+----------------------------
 
 Mediators are also of a synchronization domain’s messaging infrastructure and don’t store application contracts,
 so they are disposable on condition that precautions are taken to avoid disrupting the synchronization services.
