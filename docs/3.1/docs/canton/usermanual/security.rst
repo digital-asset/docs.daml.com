@@ -299,6 +299,31 @@ A fingerprint of a key can be retrieved from the list of public keys:
    :end-before: user-manual-entry-end: ListPublicKeys
    :dedent:
 
+.. _deleting-canton-keys:
+
+Deleting Canton Node Keys
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Keys, particularly private keys, are not deleted automatically in Canton. When a key is rotated, the previous
+key is still stored but no longer enabled or used. To permanently delete a key, use the following Canton console
+command:
+
+.. todo::
+    `#832: Add code snippet when versions refers to latest Canton snapshot <https://github.com/digital-asset/docs.daml.com/issues/832>`_
+
+.. code::
+
+    <node>.keys.secret.delete(privateKeyId, force = true)
+
+.. warning::
+  Exercise caution when deleting a private key. You must ensure that the key is no longer in use and is not needed
+  for decrypting or creating signatures for old messages. Therefore, you should only delete a key when the node
+  has been pruned for a timestamp later than the point in time when the key was deactivated. This is especially
+  crucial for sequencers in open networks. For example, if a participant lags in retrieving sequenced events, and the
+  sequencer’s signing key is rolled, the old signing key must remain accessible to sign the events from before the key
+  roll for lagging participants. Otherwise, deleting the key prematurely may cause irreversible issues for these
+  participants.
+
 Namespace Intermediate Key Management
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
