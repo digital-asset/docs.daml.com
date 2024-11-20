@@ -210,7 +210,7 @@ The sync domain manager service also has no client-facing ingest point. Like the
    :align: center
    :width: 80%
 
-As of `v2.5.0 <https://blog.digitalasset.com/developers/release-notes/2.5.0>`__, the syncrhonizer manager uses PostgreSQL in an HA configuration for HA support.
+As of `v2.5.0 <https://blog.digitalasset.com/developers/release-notes/2.5.0>`__, the synchronizer manager uses PostgreSQL in an HA configuration for HA support.
 
 Trigger Service
 ***************
