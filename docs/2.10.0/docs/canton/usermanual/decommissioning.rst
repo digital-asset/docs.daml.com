@@ -78,7 +78,7 @@ Detailed steps to decommission a participant once the prerequisites are met
    (Active Contracts Set) commitments exchanged between participants.
    Use the :ref:`topology.participant_domain_states.authorize <topology.participant_domain_states.authorize>` command to do that.
 
-.. literalinclude:: /includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/ParticipantOffboardingIntegrationTest.scala
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/ParticipantOffboardingIntegrationTest.scala
    :start-after: user-manual-entry-begin: OffboardParticipant
    :end-before: user-manual-entry-end: OffboardParticipant
    :dedent:
@@ -103,7 +103,7 @@ Disconnecting all nodes from the sequencer to be decommissioned
 * Change the sequencer connection on the mediators connected to the sequencer to be decommissioned, so that
   they use another active sequencer, as per :ref:`mediator and domain manager connectivity <connectivity_mediator_and_domain_manager>`.:
 
-.. literalinclude:: /includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/SequencerOffboardingIntegrationTest.scala
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/SequencerOffboardingIntegrationTest.scala
    :start-after: user-manual-entry-begin: SequencerOffboardingSwitchAwayMediator
    :end-before: user-manual-entry-end: SequencerOffboardingSwitchAwayMediator
    :dedent:
@@ -111,7 +111,7 @@ Disconnecting all nodes from the sequencer to be decommissioned
 * Change the domain manager’s sequencer connection to not use the sequencer to be decommissioned,
   but instead another active sequencer using the :ref:`sequencer_connection.set <sequencer_connection.set>` command.:
 
-.. literalinclude:: /includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/SequencerOffboardingIntegrationTest.scala
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/SequencerOffboardingIntegrationTest.scala
    :start-after: user-manual-entry-begin: SequencerOffboardingSwitchAwayDomainManager
    :end-before: user-manual-entry-end: SequencerOffboardingSwitchAwayDomainManager
    :dedent:
@@ -119,7 +119,7 @@ Disconnecting all nodes from the sequencer to be decommissioned
 * Reconnect participants to the domain, as described in :ref:`domain connectivity <participant_domain_connectivity>`, using a sequencer connection
   that doesn’t point to the sequencer to be decommissioned, but instead uses another active sequencer:
 
-.. literalinclude:: /includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/SequencerOffboardingIntegrationTest.scala
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/SequencerOffboardingIntegrationTest.scala
    :start-after: user-manual-entry-begin: SequencerOffboardingSwitchAwayParticipant
    :end-before: user-manual-entry-end: SequencerOffboardingSwitchAwayParticipant
    :dedent:
@@ -141,9 +141,9 @@ In that case, owner-to-key mappings must be removed for the keys it exclusively 
 #. Remove the mappings for its exclusively owned keys using the :ref:`topology.owner_to_key_mappings.authorize <topology.owner_to_key_mappings.authorize>`
    command.
 
-.. literalinclude:: /includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/SequencerOffboardingIntegrationTest.scala
-   :start-after: user-manual-entry-begin: SequencerOffboarding
-   :end-before: user-manual-entry-end: SequencerOffboarding
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/SequencerOffboardingIntegrationTest.scala
+   :start-after: user-manual-entry-begin: SequencerOffboardingRemoveExclusiveKeys
+   :end-before: user-manual-entry-end: SequencerOffboardingRemoveExclusiveKeys
    :dedent:
 
 Finally, the cryptographic material exclusively owned by a decommissioned sequencer must also be disposed of:
@@ -166,7 +166,7 @@ This means, concretely, ensuring that at least one mediator remains on the domai
 If other mediators exist on the domain, a mediator can be decommissioned using a single console command
 :ref:`setup.offboard_mediator <setup.offboard_mediator>`.
 
-.. literalinclude:: /includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/MediatorOffboardingIntegrationTest.scala
+.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/MediatorOffboardingIntegrationTest.scala
    :start-after: user-manual-entry-begin: OffboardMediator
    :end-before: user-manual-entry-end: OffboardMediator
    :dedent:
