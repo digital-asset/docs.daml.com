@@ -117,8 +117,8 @@ AWS KMS configuration.
     Changing the key specification (e.g. enable multi region) during rotation can be done
     by updating the configuration before rotating the wrapper key.
 
-Key rotation does not delete the previous key. Although the key is disabled and can no longer be used, it is still persisted.
-If you wish to permanently delete it, please refer to the section :ref:`Deleting Canton Node Keys <deleting-canton-keys>`.
+Key rotation does not delete the previous key. Although the key can no longer be used, it persists.
+To permanently delete the previous key, refer to :ref:`Deleting Canton Node Keys <deleting-canton-keys>`.
 
 Interoperability
 ----------------
