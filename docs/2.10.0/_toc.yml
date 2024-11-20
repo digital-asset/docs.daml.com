@@ -1347,6 +1347,8 @@ subtrees:
         title: "Sequencer Connections"
       - file: canton/usermanual/repairing
         title: "Repair Nodes"
+      - file: canton/usermanual/decommissioning
+        title: "Decommission Nodes"
   - file: canton/usermanual/troubleshooting_guide
   - file: canton/usermanual/support_checklist
 
