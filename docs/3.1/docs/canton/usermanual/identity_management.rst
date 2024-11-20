@@ -148,7 +148,7 @@ directly by having the namespace key or through delegation (via ``NamespaceDeleg
 
 Participant Onboarding
 ~~~~~~~~~~~~~~~~~~~~~~
-Key to supporting topological flexibility is that participants can easily be added to new syncrhonizers. Therefore, the
+Key to supporting topological flexibility is that participants can easily be added to new synchronizers. Therefore, the
 on-boarding of new participants to sync domains needs to be secure but convenient. Looking at the console command, we note
 that in most examples, we are using the ``connect`` command to connect a participant to a sync domain. The connect command
 just wraps a set of admin-api commands:

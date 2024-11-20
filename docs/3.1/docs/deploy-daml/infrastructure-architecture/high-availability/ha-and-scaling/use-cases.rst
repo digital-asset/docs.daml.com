@@ -68,8 +68,8 @@ The distributed application provider communicates specific information to a new 
 5. Bob passes Alice the following information, which allows her to connect to the sync domain:
     a. One, or more, sequencer endpoints - https URLs.
     b. Certificate root public cert, if it's not a publicly signed CA.
-6. Alice picks a unique name for the syncrhonizer that is local to her participant. This will be used in the connection command.
-7. Alice enters the information into the connection command ``connect_multi`` and connects to Bob's syncrhonizer - not shown.
+6. Alice picks a unique name for the synchronizer that is local to her participant. This will be used in the connection command.
+7. Alice enters the information into the connection command ``connect_multi`` and connects to Bob's synchronizer - not shown.
 
 .. code-block:: sh
 
