@@ -12,19 +12,19 @@ This guide assumes general familiarity with Canton, in particular :ref:`Canton i
 and :ref:`operations from the Canton console <canton_console>`.
 
 The focus is on how to decommission a Canton node. Note that, while onboarding new nodes is always possible,
-a decommissioned node is effectively disposed of and cannot rejoin a domain anymore.
-Decommissioning is thus an irreversible operation.
+**a decommissioned node is effectively disposed of and cannot rejoin a domain anymore**.
+**Decommissioning is thus an irreversible operation**.
 
-In addition, decommissioning procedures are currently experimental; regardless, backing up nodes to be decommissioned
-before decommissioning them is strongly recommended.
+In addition, **decommissioning procedures are currently experimental**; regardless, **backing up nodes to be decommissioned
+before decommissioning them is strongly recommended**.
 
 .. _decommissioning-participants:
 
-Decommission a Participant Node
--------------------------------
+Decommissioning a Participant Node
+----------------------------------
 
-Restrictions
-^^^^^^^^^^^^
+Prerequisites
+^^^^^^^^^^^^^
 
 Operators need to be mindful that making a participant unavailable (by disconnecting it from the domain or
 decommissioning it) might block other workflows and might prevent other parties from exercising choices on
@@ -40,7 +40,7 @@ If `bank` is not multi-hosted, then any attempt of `alice` to use the contract w
 `bank` will not confirm. So the contract will remain active on `P2` forever unless purged
 via the repair service and only non-consuming choices and fetches can be committed.
 
-Similar considerations apply if `P2` were to be off-boarded, even though `alice` is “only” an observer: if `alice`
+Similar considerations apply if `P2` were to be decommissioned, even though `alice` is “only” an observer: if `alice`
 is not multi-hosted, the contract would remain active on `P1` until purged via the repair service and only
 non-consuming choices and fetches could be committed.
 
@@ -49,23 +49,26 @@ The same applies vice versa, if `P2` is decommissioned.
 
 Thus, properly decommissioning a participant requires the following high-level steps:
 
-1. Ensuring that the prerequisites are met: ensure that active contracts and workflows using them are not "stuck" due to parties required to operate on them becoming unavailable.
+1. *Ensuring that the prerequisites are met*: ensure that active contracts and workflows using them are not "stuck" due to parties required to operate on them becoming unavailable.
 
 .. note::
    More in detail, for a contract action to be committed, all the action "informees" must be hosted on the domain.
-   For “create” actions this means that all stakeholders must be hosted on active participants.
-   For consuming “exercise” actions this means that all stakeholders, actors, choice observers
-   and choice authorizers must be hosted on active participants.
+
+   - For “create” actions this means that all stakeholders must be hosted on active participants.
+   - For consuming “exercise” actions this means that all stakeholders, actors, choice observers
+     and choice authorizers must be hosted on active participants.
+
    The definition of “informee” is covered by the :ref:`ledger privacy model <privacy>` section.
+
    The correct procedure to perform this step depends thus on the specifics of Daml templates used
    in the Daml application and must consequently be designed, implemented and tested specifically for it.
 
-2. Decommissioning: remove the participant from the topology state.
+2. *Decommissioning*: remove the participant from the topology state.
 
 After that, the participant can be disposed of.
 
-Detailed steps to decommission a participant once the prerequisites are met
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Decommissioning a participant once the prerequisites are met
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 #. Applications should stop sending commands to the Ledger API of the participant to be decommissioned
    in order to avoid failed commands and confusing errors in clients and in the participant’s logs.
@@ -78,15 +81,18 @@ Detailed steps to decommission a participant once the prerequisites are met
    (Active Contracts Set) commitments exchanged between participants.
    Use the :ref:`topology.participant_domain_states.authorize <topology.participant_domain_states.authorize>` command to do that.
 
+The following code snippet exemplifies the last two steps:
+
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/ParticipantOffboardingIntegrationTest.scala
+   :language: scala
    :start-after: user-manual-entry-begin: OffboardParticipant
    :end-before: user-manual-entry-end: OffboardParticipant
    :dedent:
 
 .. _decommissioning-sequencers:
 
-Decommission a Sequencer Node
------------------------------
+Decommissioning a Sequencer Node
+--------------------------------
 
 Sequencers are part of a synchronization domain’s messaging infrastructure and don’t store application contracts,
 so they are disposable on condition that precautions are taken to avoid disrupting the synchronization services.
@@ -101,17 +107,19 @@ Disconnecting all nodes from the sequencer to be decommissioned
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 * Change the sequencer connection on the mediators connected to the sequencer to be decommissioned, so that
-  they use another active sequencer, as per :ref:`mediator and domain manager connectivity <connectivity_mediator_and_domain_manager>`.:
+  they use another active sequencer, as per :ref:`mediator and domain manager connectivity <connectivity_mediator_and_domain_manager>`:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/SequencerOffboardingIntegrationTest.scala
+   :language: scala
    :start-after: user-manual-entry-begin: SequencerOffboardingSwitchAwayMediator
    :end-before: user-manual-entry-end: SequencerOffboardingSwitchAwayMediator
    :dedent:
 
 * Change the domain manager’s sequencer connection to not use the sequencer to be decommissioned,
-  but instead another active sequencer using the :ref:`sequencer_connection.set <sequencer_connection.set>` command.:
+  but instead another active sequencer, using the :ref:`sequencer_connection.set <sequencer_connection.set>` command:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/SequencerOffboardingIntegrationTest.scala
+   :language: scala
    :start-after: user-manual-entry-begin: SequencerOffboardingSwitchAwayDomainManager
    :end-before: user-manual-entry-end: SequencerOffboardingSwitchAwayDomainManager
    :dedent:
@@ -120,12 +128,13 @@ Disconnecting all nodes from the sequencer to be decommissioned
   that doesn’t point to the sequencer to be decommissioned, but instead uses another active sequencer:
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/SequencerOffboardingIntegrationTest.scala
+   :language: scala
    :start-after: user-manual-entry-begin: SequencerOffboardingSwitchAwayParticipant
    :end-before: user-manual-entry-end: SequencerOffboardingSwitchAwayParticipant
    :dedent:
 
-Decommissioning the sequencer after having disconnected all nodes
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Decommissioning the sequencer
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Sequencers are part of the domain simply by virtue of having their node ID equal to the domain ID,
 which also means they all have the same node ID. Since a sequencer’s identity is the same as the domain’s identity,
@@ -142,6 +151,7 @@ In that case, owner-to-key mappings must be removed for the keys it exclusively 
    command.
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/SequencerOffboardingIntegrationTest.scala
+   :language: scala
    :start-after: user-manual-entry-begin: SequencerOffboardingRemoveExclusiveKeys
    :end-before: user-manual-entry-end: SequencerOffboardingRemoveExclusiveKeys
    :dedent:
@@ -156,8 +166,8 @@ Finally, the cryptographic material exclusively owned by a decommissioned sequen
 
 .. _decommissioning-mediators:
 
-Decommission a Mediator Node
-----------------------------
+Decommissioning a Mediator Node
+-------------------------------
 
 Mediators are also of a synchronization domain’s messaging infrastructure and don’t store application contracts,
 so they are disposable on condition that precautions are taken to avoid disrupting the synchronization services.
@@ -167,6 +177,7 @@ If other mediators exist on the domain, a mediator can be decommissioned using a
 :ref:`setup.offboard_mediator <setup.offboard_mediator>`.
 
 .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/MediatorOffboardingIntegrationTest.scala
+   :language: scala
    :start-after: user-manual-entry-begin: OffboardMediator
    :end-before: user-manual-entry-end: OffboardMediator
    :dedent:
