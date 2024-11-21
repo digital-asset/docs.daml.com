@@ -306,6 +306,7 @@ Or for all registered sync domains that are not configured to require a manual c
 .. snippet:: participant_connectivity
     .. success:: participant2.domains.reconnect_all()
 
+.. _connectivity_mediator_and_domain_manager:
 
 Mediator and Synchronization Domain Manager
 -------------------------------------------
