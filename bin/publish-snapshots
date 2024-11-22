@@ -69,6 +69,7 @@ broken() (
 2.9.0-rc1
 2.10.0-snapshot.20241002.0
 2.10.0-snapshot.20241016.0
+2.10.0-snapshot.20241120.0
 EOF
   echo "$known_broken" | grep $version >/dev/null
 )
