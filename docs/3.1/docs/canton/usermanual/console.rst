@@ -34,9 +34,9 @@ appear twice. However, the detailed explanations are only given within the parti
 Remote Administration
 ---------------------
 
-The Canton console can be used to execute commands against both
-its own in-process, local nodes and against other remote nodes.
-Properly configured with network address, port, and token information,
+The Canton console works with both
+local in-process nodes and remote nodes.
+Once you've configured the network address, port, and authentication information,
 you can use a single Canton console to administer all the nodes in your system.
 
 As an example, you might have previously started a Canton instance in daemon mode using something like the following:
@@ -62,8 +62,8 @@ Additionally, you can use the remote configuration to run a script:
 
     ./bin/canton run <some-canton-script> -c config/remote-participant1.conf
 
-Please note that most Canton commands can be executed from a remote console.
-However, a few commands are limited to only being called
+Note that most Canton commands can be executed from a remote console.
+However, a few commands can only be called
 from the local console of the node itself.
 
 Given a participant's config file, you can generate a skeleton remote config file

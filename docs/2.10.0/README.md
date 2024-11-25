@@ -29,6 +29,7 @@ The html files are in `workdir/build/gen`. Rerun the script to view any edits to
 :warning: If you make changes to docs managed by the other repos, you have to commit them there. In this repository, you can only make changes to the top-level ToC (`_toc.yml`) or some section introduction pages in the `docs` folder.
 
 :warning: If you do make a change to the TOCs in this repo, you then have to duplicate the change in the relevant satellite repo (except for the daml repo, which does not have a local ToC).
+Note that the `live-preview` script takes a few shortcuts. This is fine most of the time, but sometimes the final result can be a bit different.
 
 ### Theme
 

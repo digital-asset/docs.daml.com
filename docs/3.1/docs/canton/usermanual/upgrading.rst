@@ -17,8 +17,8 @@ must be upgraded.
 
 There are two key aspects that need to be addressed when upgrading a system:
 
-- Upgrading the Canton binary that is used to run a node.
-- Upgrading the protocol version (wire format and semantics of the APIs used between the nodes).
+- :ref:`Upgrading the Canton binary<upgrade_canton_binary>` that is used to run a node.
+- :ref:`Upgrading the protocol version<change_pv>` that defines how nodes interact with each other.
 
 Canton is a distributed system, where no single operator controls all nodes. Therefore,
 we must support the situation where nodes are upgraded individually, providing a safe upgrade
@@ -31,28 +31,36 @@ of a protocol used in a distributed Canton network is done by individually upgra
 and subsequently changing the protocol version used among the nodes to the
 desired one.
 
-The following recipe is a general guide. Before upgrading to a specific version, please check the
+The following is a general guide. Before upgrading to a specific version, please check the
 individual notes for each version.
 
 This guide also assumes that the upgrade is a minor or a patch release. Major release upgrades might
 differ and will be covered separately if necessary.
 
-Please read the entire guide before proceeding, please back up your data before you do any upgrade,
-and please test your upgrade carefully before attempting to upgrade your production system.
+.. warning::
+
+    Upgrading requires care and preparation.
+      * **Please back up your data before any upgrade.**
+      * **Please test your upgrade thoroughly before attempting to upgrade your production system.**
+
+.. _upgrade_canton_binary:
 
 Upgrade Canton Binary
 ---------------------
 
 A Canton node consists of one or more processes, where each process is defined by
 
-- A Java Virtual Machine application running a versioned jar of Canton.
+- A Java Virtual Machine application running a versioned JAR of Canton.
 - A set of configuration files describing the node that is being run.
 - An optional bootstrap script passed via ``--boostrap``, which runs on startup.
 - A database (with a specific schema), holding the data of the node.
 
-Therefore, to upgrade the node, you will need to not only replace the jar, but also test that
-the configuration files can still be parsed by the new process, that the bootstrap script you
-are using is still working, and you need to upgrade the database schema.
+To upgrade the node,
+
+#. Replace the Canton binary (which contains the Canton JAR).
+#. Test that the configuration files can still be parsed by the new process.
+#. Test that the bootstrap script you are using is still working.
+#. Upgrade the database schema.
 
 Generally, all changes to configuration files should be backward compatible, and therefore not
 be affected by the upgrade process. In rare cases, there might be a minor change to the configuration
@@ -67,7 +75,7 @@ Preparation
 ~~~~~~~~~~~
 
 First, please download the new Canton binary that you want to upgrade to and store it on the test
-system where you want to test the upgrade process first.
+system where you plan to test the upgrade process.
 
 Then, obtain a recent backup of the database of the node and deploy it to a database server
 of your convenience, such that **you can test the upgrade process without affecting your production system**.
@@ -102,10 +110,12 @@ data by cloning it. In Postgres, the command is:
 When doing this, you need to change the database name and user name in above command to match
 your setup.
 
+.. _test-your-config:
+
 Test your Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-First, test that the configuration still works
+Test that the configuration still works
 
 .. code-block:: bash
 
@@ -117,7 +127,7 @@ to match your case.
 If Canton starts and shows the command prompt of the console, then the configuration was
 parsed successfully.
 
-The command line option ``--manual-start`` will ensure that the node is not started automatically,
+The command line option ``--manual-start`` prevents the node from starting up automatically,
 as we first need to migrate the database.
 
 .. _migrating_the_database:
@@ -159,8 +169,8 @@ Subsequently, you can successfully start the node
 .. snippet:: migrating_participant
     .. success:: participant.start()
 
-Please note that while we've used a participant node here as an example, the behavior
-is the same for all other types of nodes.
+Please note that the procedure remains the same for all other types of nodes,
+with a participant node used here as an example.
 
 Test Your Upgrade
 ~~~~~~~~~~~~~~~~~
@@ -194,6 +204,20 @@ The ping command creates two contracts between the admin parties, then exercises
 Version Specific Notes
 ~~~~~~~~~~~~~~~~~~~~~~
 
+Deactivated sync domain data cleanup
+""""""""""""""""""""""""""""""""""""
+Version 2.9 adds a new repair command :ref:`participant.repair.purge_deactivated_domain <repair.purge_deactivated_domain>`
+to delete data of a defunct domain.
+
+Using this command is recommended for removing any remaining but unnecessary data from previous
+sync domains that were migrated using the :ref:`participant.repair.migrate_domain <repair.migrate_domain>`
+command.
+
+Note that the ``migrate_domain`` command in 2.9 now automatically removes such data,
+but only for the sync domain on which it has been invoked.
+
+.. _upgrade_to_2.8:
+
 Upgrade to Release 2.8
 ^^^^^^^^^^^^^^^^^^^^^^
 
@@ -211,7 +235,7 @@ Configuration changes
 The configuration value for the KMS wrapper-key now accepts a simple string.
 Update your configuration as follows:
 
-.. code:: bash
+.. code:: text
 
     crypto.private-key-store.encryption.wrapper-key-id = { str = "..."} # version 2.7
     crypto.private-key-store.encryption.wrapper-key-id = "..." # version 2.8
@@ -220,7 +244,7 @@ Update your configuration as follows:
 **Indexer Schema Migration and Cache Weight Configuration**:
 Remove the following configuration lines related to the indexer and Ledger API server schema migration and cache weight:
 
-.. code:: bash
+.. code:: text
 
     participants.participant.parameters.ledger-api-server-parameters.indexer.schema-migration-attempt-backoff
     participants.participant.parameters.ledger-api-server-parameters.indexer.schema-migration-attempts
@@ -230,7 +254,7 @@ Remove the following configuration lines related to the indexer and Ledger API s
 **SQL Batching Parameter**:
 The expert mode SQL batching parameter has been moved. Generally, we recommend not changing this parameter unless advised by support.
 
-.. code:: bash
+.. code:: text
 
     canton.participants.participant.parameters.stores.max-items-in-sql-clause # version 2.7
     canton.participants.participant.parameters.batching.max-items-in-sql-clause # version 2.8
@@ -246,7 +270,7 @@ It now expects a node reference to perform additional checks.
 To improve consistency and code safety, some testing console commands now expect an optional sync domain alias (rather than a plain sync domain alias).
 For example, the following call needs to be rewritten:
 
-.. code:: bash
+.. code:: text
 
     participant.testing.event_search("da") # version 2.7
     participant.testing.event_search(Some("da")) # version 2.8
@@ -259,7 +283,7 @@ We have reverted the packaging change introduced in version 2.7.0;
 the Bouncy Castle JAR is now included back in the Canton JAR.
 However, users with Oracle JRE must explicitly add the Bouncy Castle library to the classpath when running Canton.
 
-.. code-block:: java
+.. code-block:: bash
 
     java -cp bcprov-jdk15on-1.70.jar:canton-with-drivers-2.8.0-all.jar com.digitalasset.canton.CantonEnterpriseApp
 
@@ -275,6 +299,7 @@ Deprecations
 """"""""""""
 ``SequencerConnection.addConnection`` is deprecated. Use ``SequencerConnection.addEndpoints`` instead.
 
+.. _upgrade_to_2.7:
 
 Upgrade to Release 2.7
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -283,7 +308,7 @@ Alternatively, you can enable the new "migrate and start" mode in Canton, which 
 when a new minor version is deployed.
 This mode can be enabled by setting the appropriate storage parameter:
 
-.. code:: bash
+.. code:: text
 
     canton.X.Y.storage.parameters.migrate-and-start = yes
 
@@ -308,7 +333,7 @@ method ``addConnection`` has been renamed to ``addEndpoints`` to better reflect 
 
 Hence, the command to add a new sequencer connection to the mediator would be changed to:
 
-.. code:: bash
+.. code:: text
 
     mediator1.sequencer_connection.modifyConnections(
         _.addEndpoints(SequencerAlias.Default, connection)
@@ -328,7 +353,7 @@ Causality tracking
 """"""""""""""""""
 An obsolete early access feature to enable causality tracking, related to preview multi-sync-domain, was removed. If you enabled it, you need to remove the following config lines, as they will not compile anymore:
 
-.. code:: bash
+.. code:: text
 
     participants.participant.init.parameters.unsafe-enable-causality-tracking = true
     participants.participant.parameters.enable-causality-tracking = true
@@ -368,12 +393,16 @@ Specific error changes are as follows:
 
 * The ``ContractKeyNotVisible`` error (previously encapsulated by ``GenericInterpretationError``) is now transformed into a ``ContractKeyNotFound`` to avoid information leaking.
 
+.. _upgrade_to_2.6:
+
 Upgrade to Release 2.6
 ^^^^^^^^^^^^^^^^^^^^^^
 Version 2.6 changes the database schema used. Therefore, you must perform the
 database migration steps. Depending on the size of the database, this operation can take many hours.
 Vacuuming your database before starting your nodes helps avoid long startup times. Otherwise, the participant
 node can refuse to start due to extremely long initial database response times.
+
+.. _upgrade_to_2.5:
 
 Upgrade to Release 2.5
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -387,7 +416,7 @@ using deprecated flags.
 IMPORTANT: Existing sync domains and sync domain managers need to be reconfigured to keep on working. It is important
 that before attempting the binary upgrade, you configure the currently used protocol version explicitly:
 
-.. code:: bash
+.. code:: text
 
     canton.domains.mydomain.init.domain-parameters.protocol-version = 3
 
@@ -401,12 +430,14 @@ reconnect to the sync domain, as they will fail with a message like:
 
 To recover from this, you need to force a reset of the stored static sync domain parameters using:
 
-.. code:: bash
+.. code:: text
 
     canton.domains.mydomain.init.domain-parameters.protocol-version = 3
     canton.domains.mydomain.init.domain-parameters.reset-stored-static-config = yes
 
 To benefit from protocol version 4, you will have to :ref:`upgrade the sync domain accordingly <canton_domain_protocol_version_upgrading>`.
+
+.. _upgrade_to_2.4:
 
 Upgrade to Release 2.4
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -422,6 +453,8 @@ notes on the specific changes and their impact.
 There was no change to the protocol. Participants and sync domains running 2.3 can also run 2.4, as
 both versions use the same protocol version.
 
+.. _upgrade_to_2.3:
+
 Upgrade to Release 2.3
 ^^^^^^^^^^^^^^^^^^^^^^
 Version 2.3 will slightly extend the database schema used. Therefore, you will have to perform the
@@ -433,7 +466,7 @@ you need to turn on support for the deprecated protocol version.
 
 On the participant, you need to turn on support for deprecated protocols explicitly:
 
-.. code:: bash
+.. code:: text
 
     canton.participants.myparticipant.parameters.minimum-protocol-version = 2.0.0
 
@@ -441,12 +474,14 @@ The default settings have changed to use protocol 3, while existing sync domains
 Therefore, if you upgrade the binary on sync domains and sync domain manager nodes, you need to explicitly
 set the protocol version as follows:
 
-.. code:: bash
+.. code:: text
 
     canton.domains.mydomain.init.domain-parameters.protocol-version = 2.0.0
 
 **You cannot upgrade the protocol of a deployed sync domain!** You need to keep it running with the existing protocol.
 Please follow the protocol upgrade guide to learn how to introduce a new protocol version.
+
+.. _change_pv:
 
 Change the Canton Protocol Version
 ----------------------------------
@@ -493,12 +528,12 @@ A hard sync domain connection upgrade can be performed using the :ref:`respectiv
 Again, please ensure that you have appropriate backups in place and that you have tested this procedure before applying
 it to your production system. You will have to enable these commands using a special config switch:
 
-.. code:: bash
+.. code:: text
 
     canton.features.enable-repair-commands=yes
 
-The process of a hard migration is quite straightforward. Assuming that we have several participants,
-all connected to a sync domain named ``olddomain``, then ensure that there are no pending transactions.
+Assuming that you have several participants all connected to a sync domain named ``olddomain``,
+ensure that there are no pending transactions.
 You can do that by either controlling your applications, or by
 :ref:`setting the resource limits <resources.set_resource_limits>` to 0 on all participants:
 
@@ -508,9 +543,8 @@ You can do that by either controlling your applications, or by
     .. assert:: { participant.domains.connect_local(olddomain); true }
     .. success:: participant.resources.set_resource_limits(ResourceLimits(Some(0), Some(0)))
 
-This will reject all commands and finish processing the pending commands. Once you are sure that
-your participant node is idle, disconnect the participant node from the old sync domain
-connection:
+This rejects any new command and finishes processing the pending commands. Once you are sure that
+your participant node is idle, disconnect the participant node from the old sync domain:
 
 .. snippet:: migrating_protocol
     .. success:: participant.domains.disconnect("olddomain")

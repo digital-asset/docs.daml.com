@@ -36,12 +36,12 @@ The sync domain contributes to the high-level functional requirements in terms o
 facilitating the synchronization of changes. As the sync domain can only see
 encrypted transactions, refer to transaction privacy in the non-functional
 requirements, the functional requirements are satisfied on a lower level than
-the Daml transaction level.
+the Daml transaction.
 
   .. _synchronization-domain-req:
 
 * **Synchronization:** The sync domain must facilitate the synchronization of the
-  shared ledger among participants by establishing a total-order of
+  shared ledger among participants by establishing a total order of
   transactions.
 
   .. _transparency-domain-req:
@@ -74,8 +74,8 @@ Reliability
   .. _fail-over-domain-req:
 
 * **Seamless fail-over for sync domain entities:** All sync domain entities must be able
-  to tolerate crash faults up to a certain failure rate, e.g., 1 sequencer node
-  out of 3 can fail without interruption.
+  to tolerate crash faults up to a certain failure rate, e.g., one sequencer node
+  out of three can fail without interruption.
 
   .. _resilience-domain-req:
 
@@ -145,12 +145,12 @@ Security
   .. _distributed-trust-domain-req:
 
 * **Distributed Trust:** The sync domain should be able to be operated by a
-  consortium in order to distribute the trust of the participants in the sync domain
+  consortium to distribute the trust of the participants in the sync domain
   among many organizations.
 
   .. _transaction-privacy-domain-req:
 
-* **Transaction Metadata Privacy:** The sync domains entities must never learn the
+* **Transaction Metadata Privacy:** The sync domain entities must never learn the
   content of the transactions. The sync domain entities should learn a limited amount
   of transaction metadata, such as structural properties of a transaction and
   involved stakeholders.

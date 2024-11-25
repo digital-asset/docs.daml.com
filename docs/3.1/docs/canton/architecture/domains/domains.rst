@@ -8,6 +8,15 @@
 Synchronization Domain Architecture and Integrations
 ####################################################
 
+Recall the high-level topology with Canton sync domain being backed by different
+technologies, such as a relational database as well as block-chains like
+Hyperledger Fabric or Ethereum.
+
+.. https://app.lucidchart.com/documents/edit/da3c4533-a787-4669-b1e9-2446996072dc/0_0
+.. figure:: ../../images/topology.png
+   :align: center
+   :width: 80%
+
 In this chapter, we define the requirements specific to a Canton sync domain, explain
 the generic sync domain architecture, as well as the concrete integrations for Canton
 sync domain.

@@ -121,7 +121,7 @@ Such a connection can be configured using the ``connect_multi``:
 On the read side, the participant will establish a subscription to one available sequencer to subscribe to the stream of
 encrypted messages. If the sequencer fails, the participant will automatically attempt to resubscribe to the next available
 sequencer. On the write path, the participant will send requests to all available sequencers in a round-robin manner, circling
-through the available sequencers in sequence. The same connectivity behaviour applies to the domain manager and the mediator.
+through the available sequencers. The same connectivity behavior applies to the domain manager and the mediator.
 
 The :ref:`reference documentation <domains.connect_multi>` provides further information on how to
 connect to highly available sequencers, and the :ref:`high availability guide <ha_user_manual>` has instructions
@@ -306,6 +306,7 @@ Or for all registered sync domains that are not configured to require a manual c
 .. snippet:: participant_connectivity
     .. success:: participant2.domains.reconnect_all()
 
+.. _connectivity_mediator_and_domain_manager:
 
 Mediator and Synchronization Domain Manager
 -------------------------------------------

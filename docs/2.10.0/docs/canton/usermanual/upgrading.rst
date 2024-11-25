@@ -326,7 +326,7 @@ We have reverted the packaging change introduced in version 2.7.0;
 the Bouncy Castle JAR is now included back in the Canton JAR.
 However, users with Oracle JRE must explicitly add the Bouncy Castle library to the classpath when running Canton.
 
-.. code-block:: text
+.. code-block:: bash
 
     java -cp bcprov-jdk15on-1.70.jar:canton-with-drivers-2.8.0-all.jar com.digitalasset.canton.CantonEnterpriseApp
 

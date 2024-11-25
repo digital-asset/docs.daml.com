@@ -66,6 +66,8 @@ The list of supported protocol versions for each minor version is the following:
 
 .. _release-version-to-protocol-version-table:
 
+(*) The protocol versions marked with `*` are the alpha protocol version. To use an alpha protocol version, follow the  :ref:`documentation <how-do-i-enable-alpha-features>`.
+
 .. include:: /canton/includes/generated/versioning.rst.inc
 
 Features and protocol versions

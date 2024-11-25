@@ -1,3 +1,21 @@
+# Working on the documentation
+
+This folder manages the full build of technical documentation from the following repos:
+
+* [Daml docs](https://github.com/digital-asset/daml/tree/main/docs)
+* [Canton docs](https://github.com/DACH-NY/canton/tree/main/docs)
+* [Daml-Finance docs](https://github.com/digital-asset/daml-finance/tree/main/docs)
+
+:bulb: Docs in this repo build the main TOC with pointers to pages from the above repos.
+
+The process for updating the docs TOCs has some potential pitfalls. Follow the instructions in the main README *carefully* and in order.
+
+* [Set up this repo locally](https://github.com/digital-asset/docs.daml.com#setting-up-this-repo-locally)
+* [Build and view the docs locally](#live-preview)
+* [Commit changes to the docs](#how-to-commit-changes-to-the-docs)
+
+:arrow_right: If you encounter any issues, reach out to #product-docs on Slack.
+
 ### Live preview
 
 Run the `live-preview` script to render a local view of the site.
@@ -5,6 +23,12 @@ Run the `live-preview` script to render a local view of the site.
 ```zsh
 live-preview
 ```
+
+The html files are in `workdir/build/gen`. Rerun the script to view any edits to `docs/` files or the top-level ToC (`_toc.yml`).
+
+:warning: If you make changes to docs managed by the other repos, you have to commit them there. In this repository, you can only make changes to the top-level ToC (`_toc.yml`) or some section introduction pages in the `docs` folder.
+
+:warning: If you do make a change to the TOCs in this repo, you then have to duplicate the change in the relevant satellite repo (except for the daml repo, which does not have a local ToC).
 
 Note that the `live-preview` script takes a few shortcuts. This is fine most of the time, but sometimes the final result can be a bit different.
 
@@ -35,10 +59,17 @@ $ python -m http.server 8000 --bind 127.0.0.1
 
 Then pointing your web browser to [http://localhost:8000](http://localhost:8000).
 
-### Dependencies
+It also produces a PDF, and a tarball containing all of the HTML, under `workdir/target`.
 
-The `versions.json` file in this folder defines the dependencies used by this version of the docs.
-For example:
+## How to commit changes to this version of the docs
+
+1. Make the changes to docs in the Daml, Daml Finance, or Canton repo, create a PR, and merge into
+   main.
+   :warning: You must set up and build the repo you are working on before making changes and viewing
+   locally. Make sure you follow the build instructions carefully as they may differ to here.
+2. For Daml and Canton, a snapshot is generated every 24 hours that includes the PR.
+3. The `versions.json` file in this folder defines the dependencies used by this version of the
+   docs:
 
    ```json
    {

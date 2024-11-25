@@ -481,6 +481,8 @@ Now, you do the following analysis:
 
      * all the queries should normally take between 5-15ms. If you see queries taking consistently longer (e.g. all of them 60 - 70ms), then your database system is overloaded, queuing too many database requests on the database. You might want to increase the database resources (CPUs) or reduce the number of connections. While seeming counter intuitive, but giving too many db connections to a node will reduce the throughput, not increase it.
 
+     * verify whether you might be affected by :ref:`contention on shared resources in a shared environment<shared_env_performance>`.
+
 How to find the Bottleneck
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 

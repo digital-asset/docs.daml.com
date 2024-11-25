@@ -350,6 +350,8 @@ topology transactions:
    :end-before: architecture-handbook-entry-end: RotateNamespaceIntermediateKey
    :dedent:
 
+.. _moving_namespace_to_offline_storage:
+
 Moving the Namespace Secret Key to Offline Storage
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

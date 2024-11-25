@@ -63,7 +63,7 @@ You can filter or aggregate each metric using its accompanying labels. The instr
 The gRPC protocol is layered on top of HTTP/2, so certain labels (such as the ``daml_version`` and ``service``) from the above section are included. The labels added by default to each :ref:`gRPC API metric <grpc-metrics>` are as follows:
 
 - ``canton_version``: the `Canton protocol version <https://docs.daml.com/canton/usermanual/versioning.html#canton-protocol-version>`__
-- ``grpc_code``: the human readable status code for gRPC (for example: ``OK``, ``CANCELLED``, ``DEADLINE_EXCEEDED``)
+- ``grpc_code``: the human-readable status code for gRPC (for example: ``OK``, ``CANCELLED``, ``DEADLINE_EXCEEDED``)
 - The type of the client/server gRPC `request <http://www.grpc.io/docs/guides/concepts.html#rpc-life-cycle>`__, under the labels ``grpc_client_type`` and ``grpc_server_type``
 - The protobuf package and service names, under the labels ``grpc_service_name`` and ``grpc_method_name``
 
@@ -610,6 +610,10 @@ A sync domain node or a sequencer node responds with a message containing:
 - ``Ports``: the ports on which the sync domain exposes the Public and the Admin API
 - ``Connected Participants``: the list of connected participants
 - ``Sequencer``: a boolean flag indicating whether the embedded sequencer writer is operational
+
+A sequencer node also returns the following additional field starting from Canton 2.8.6:
+
+- ``Accepts admin changes``: a boolean flag indicating whether the sequencer accepts admin changes
 
 A sync domain topology manager or a mediator node returns:
 
