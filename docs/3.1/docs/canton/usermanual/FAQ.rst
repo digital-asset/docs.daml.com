@@ -175,8 +175,9 @@ by explicit agreement with Digital Asset. Please contact your relationship manag
 
 If you have enabled `dev version support`, you can use the alpha protocol versions without any additional configuration.
 
-.. TODO: Fix this literal include
-.. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/beta-version-support.conf
+..
+    TODO: Fix this include
+    .. literalinclude:: /canton/includes/mirrored/community/app/src/test/resources/documentation-snippets/beta-version-support.conf
 
 
 How to troubleshoot included configuration files?

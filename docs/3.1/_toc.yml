@@ -1294,8 +1294,16 @@ subtrees:
                       title: "Configure External Key Storage with GCP KMS"
                     - file: canton/usermanual/kms/external_key_storage/interoperability
                       title: "Interoperability with other nodes"
-                    - file: canton/usermanual/kms/external_key_storage/participant_kms_migration
+                    - file: canton/usermanual/kms/external_key_storage/participant_kms_migration/participant_kms_migration
                       title: "Participant Node Migration to KMS"
+                      subtrees:
+                        - hidden: False
+                          titlesonly: True
+                          entries:
+                            - file: canton/usermanual/kms/external_key_storage/participant_kms_migration/participant_kms_migration_same_namespace
+                              title: "With the same Namespace"
+                            - file: canton/usermanual/kms/external_key_storage/participant_kms_migration/participant_kms_migration_new_namespace
+                              title: "With a new Namespace"
                     - file: canton/usermanual/kms/external_key_storage/manual_kms_key_rotation
                       title: "Manual KMS key rotation"
             - file: canton/usermanual/kms/kms_driver_guide
@@ -1519,8 +1527,6 @@ subtrees:
             title: "Identity and Package Management"
           - file: concepts/time
             title: "Time on Daml Ledgers"
-          - file: concepts/ledger-model/upgrade-model-in-depth
-            title: "Smart Contract Upgrade In Depth"
       - file: reference/canton-advanced-architecture
         title: "Canton Advanced Architecture"
         entries:

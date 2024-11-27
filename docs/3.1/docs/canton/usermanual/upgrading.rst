@@ -3,6 +3,9 @@
 ..
    Proprietary code. All rights reserved.
 
+..
+    TODO: Update the contents of this doc
+
 .. _canton_upgrading:
 
 Upgrade To a New Release
@@ -206,7 +209,7 @@ Version Specific Notes
 
 Deactivated sync domain data cleanup
 """"""""""""""""""""""""""""""""""""
-Version 2.9 adds a new repair command :ref:`participant.repair.purge_deactivated_domain <repair.purge_deactivated_domain>`
+Version 2.9 adds a new repair command
 to delete data of a defunct domain.
 
 Using this command is recommended for removing any remaining but unnecessary data from previous
@@ -219,7 +222,7 @@ but only for the sync domain on which it has been invoked.
 .. _upgrade_to_2.8:
 
 Upgrade to Release 2.8
-^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""
 
 Version 2.8 extends the database schema. If you use the "migrate and start" feature, the database schema will be automatically updated.
 Otherwise, perform the manual database migration steps outlined in the :ref:`database migration steps <migrating_the_database>`.
@@ -620,7 +623,7 @@ exchange, as they might have performed the migration at slightly different times
 eventually stop once all participants are back up and connected.
 
 Expected Performance
-^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~
 
 Performance-wise, we can note the following: when we migrate contracts, we write directly into
 the respective event logs. This means that on the source sync domain, we insert a transfer-out, while

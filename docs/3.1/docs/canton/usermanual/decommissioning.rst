@@ -81,11 +81,13 @@ Decommissioning a participant once the prerequisites are met
 
 The following code snippet demonstrates the last two steps:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/ParticipantOffboardingIntegrationTest.scala
-   :language: scala
-   :start-after: user-manual-entry-begin: OffboardParticipant
-   :end-before: user-manual-entry-end: OffboardParticipant
-   :dedent:
+..
+    TODO: Fix this include
+    .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/ParticipantOffboardingIntegrationTest.scala
+       :language: scala
+       :start-after: user-manual-entry-begin: OffboardParticipant
+       :end-before: user-manual-entry-end: OffboardParticipant
+       :dedent:
 
 .. _decommissioning-sequencers:
 
@@ -107,28 +109,34 @@ Disconnecting all nodes from the sequencer to be decommissioned
 * Change the sequencer connection on the mediators connected to the sequencer to be decommissioned
   to use another active sequencer, as per :ref:`mediator and domain manager connectivity <connectivity_mediator_and_domain_manager>`:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/SequencerOffboardingIntegrationTest.scala
-   :language: scala
-   :start-after: user-manual-entry-begin: SequencerOffboardingSwitchAwayMediator
-   :end-before: user-manual-entry-end: SequencerOffboardingSwitchAwayMediator
-   :dedent:
+..
+    TODO: Fix this include
+    .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/SequencerOffboardingIntegrationTest.scala
+       :language: scala
+       :start-after: user-manual-entry-begin: SequencerOffboardingSwitchAwayMediator
+       :end-before: user-manual-entry-end: SequencerOffboardingSwitchAwayMediator
+       :dedent:
 
 * Change the domain manager’s sequencer connection to another active sequencer, using the :ref:`sequencer_connection.set <sequencer_connection.set>` command:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/SequencerOffboardingIntegrationTest.scala
-   :language: scala
-   :start-after: user-manual-entry-begin: SequencerOffboardingSwitchAwayDomainManager
-   :end-before: user-manual-entry-end: SequencerOffboardingSwitchAwayDomainManager
-   :dedent:
+..
+    TODO: Fix this include
+    .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/SequencerOffboardingIntegrationTest.scala
+       :language: scala
+       :start-after: user-manual-entry-begin: SequencerOffboardingSwitchAwayDomainManager
+       :end-before: user-manual-entry-end: SequencerOffboardingSwitchAwayDomainManager
+       :dedent:
 
 * Reconnect participants to the sync domain, as described in :ref:`domain connectivity <participant_domain_connectivity>`, using a sequencer connectio
   to another active sequencer:
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/SequencerOffboardingIntegrationTest.scala
-   :language: scala
-   :start-after: user-manual-entry-begin: SequencerOffboardingSwitchAwayParticipant
-   :end-before: user-manual-entry-end: SequencerOffboardingSwitchAwayParticipant
-   :dedent:
+..
+    TODO: Fix this include
+    .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/SequencerOffboardingIntegrationTest.scala
+       :language: scala
+       :start-after: user-manual-entry-begin: SequencerOffboardingSwitchAwayParticipant
+       :end-before: user-manual-entry-end: SequencerOffboardingSwitchAwayParticipant
+       :dedent:
 
 Decommissioning the sequencer
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -147,11 +155,13 @@ In that case, owner-to-key mappings must be removed for the keys it exclusively 
 #. Remove the mappings for its exclusively owned keys using the :ref:`topology.owner_to_key_mappings.authorize <topology.owner_to_key_mappings.authorize>`
    command.
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/SequencerOffboardingIntegrationTest.scala
-   :language: scala
-   :start-after: user-manual-entry-begin: SequencerOffboardingRemoveExclusiveKeys
-   :end-before: user-manual-entry-end: SequencerOffboardingRemoveExclusiveKeys
-   :dedent:
+..
+    TODO: Fix this include
+    .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/SequencerOffboardingIntegrationTest.scala
+       :language: scala
+       :start-after: user-manual-entry-begin: SequencerOffboardingRemoveExclusiveKeys
+       :end-before: user-manual-entry-end: SequencerOffboardingRemoveExclusiveKeys
+       :dedent:
 
 Finally, the cryptographic material exclusively owned by a decommissioned sequencer must also be disposed of:
 
@@ -173,8 +183,10 @@ This means ensuring that at least one mediator remains on the sync domain.
 If other mediators exist on the sync domain, a mediator can be decommissioned using a single console command
 :ref:`setup.offboard_mediator <setup.offboard_mediator>`.
 
-.. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/MediatorOffboardingIntegrationTest.scala
-   :language: scala
-   :start-after: user-manual-entry-begin: OffboardMediator
-   :end-before: user-manual-entry-end: OffboardMediator
-   :dedent:
+..
+    TODO: Fix this include
+    .. literalinclude:: /canton/includes/mirrored/enterprise/app/src/test/scala/com/digitalasset/canton/integration/tests/offboarding/MediatorOffboardingIntegrationTest.scala
+       :language: scala
+       :start-after: user-manual-entry-begin: OffboardMediator
+       :end-before: user-manual-entry-end: OffboardMediator
+       :dedent:
