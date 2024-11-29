@@ -14,21 +14,19 @@ JSON API provides almost all functionalities available by gRPC API, although the
 
 
 
-The goal of this API is to get your distributed ledger application up and running quickly, so we have deliberately excluded
-complicating concerns including, but not limited to:
+The goal of this document(???) is to get your distributed ledger application up and running quickly, so we have deliberately excluded
+complicating concerns including, but not limited to
 
 - inspecting transactions,
 - asynchronous submit/completion workflows,
-- temporal queries (e.g. active contracts *as of a certain time*), and
+- temporal queries (e.g. active contracts *as of a certain time*), and (TODO temporal?)
 
-For these and other features, use :doc:`the Ledger API </app-dev/ledger-api>` instead.
-The HTTP JSON API service is a "proxy", after a fashion, for that API; *there is literally nothing that HTTP JSON API service can do that your own application cannot do via gRPC*.
+For these and other features, use published OpenApi specification(TODO)  and  :doc:`the Ledger API </app-dev/ledger-api>`.
+While gRPC remains a primary API, almost every function should be mirrored via JSON API.
 
-If you are using this API from JavaScript or TypeScript, we strongly recommend using `the JavaScript bindings and code generator </app-dev/bindings-ts/index.html>`_ rather than invoking these endpoints directly.
+If you are using this API from JavaScript or TypeScript, we strongly recommend using `the JavaScript bindings and code generator </app-dev/bindings-ts/index.html>`_(TODO ) rather than invoking these endpoints directly.
 This will both simplify access to the endpoints described here and (with TypeScript) help to provide the correct JavaScript value format for each of your contracts, choice arguments, and choice results.
 
-As suggested by those bindings, the primary target application for the HTTP JSON API service is a web application, where user actions translate to one or a few ledger operations.
-It is not intended for high-throughput, high-performance ledger automation; the Ledger API is better suited to such use cases.
 
 We welcome feedback about the JSON API on
 `our issue tracker <https://github.com/digital-asset/daml/issues/new/choose>`_, or
@@ -38,50 +36,63 @@ We welcome feedback about the JSON API on
 Run the JSON API
 ****************
 
-Start a Daml Ledger
+Prepare canton configuration
+===================
+
+.. code-block:: none
+
+    canton {
+      participants {
+        participant1 {
+          storage {
+            type = memory
+          }
+          admin-api {
+            port = 14012
+          }
+          http-ledger-api-experimental {
+             server {
+                port = 8080
+             }
+         }
+       }
+      }
+    }
+
+Save config as (for instance) json_enabled.conf
+
+
+Start canton
 ===================
 
 You can run the JSON API alongside any ledger exposing the gRPC Ledger API you want. If you don't have an existing ledger, you can start an in-memory sandbox:
 
 .. code-block:: shell
 
-    daml new my-project --template quickstart-java
-    cd my-project
-    daml build
-    daml sandbox --wall-clock-time --dar ./.daml/dist/quickstart-0.0.1.dar
+    bin/canton -c json_enabled.conf
 
-.. _start-http-service:
 
-Start the HTTP JSON API Service
-===============================
+Ensure that the canton console is started. Please refer to (TODO link)
 
-Basic
------
-
-The most basic way to start the JSON API is with the command:
+Check that json api is running:
+use curl to get openapi documentation
 
 .. code-block:: shell
 
-    daml json-api --config json-api-app.conf
+    curl localhost:8080/docs/asyncapi
 
-where a corresponding minimal config file is
+alternatively open the web broswer and navigate to address:
 
 .. code-block:: none
 
-    {
-      server {
-        address = "localhost"
-        port = 7575
-      }
-      ledger-api {
-        address = "localhost"
-        port = 6865
-      }
-    }
+    http:://localhost:8080/docs/asyncapi
 
-This will start the JSON API on port 7575 and connect it to a ledger running on ``localhost:6865``.
+(TODO put link)
+
+.. _start-http-service:
 
 .. note:: Your JSON API service should never be exposed to the internet. When running in production the JSON API should be behind a `reverse proxy, such as via NGINX <https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/>`_.
+(TODO ???)
 
 The full set of configurable options that can be specified via config file is listed below
 
@@ -177,59 +188,19 @@ The full set of configurable options that can be specified via config file is li
     }
 
 
-.. note:: You can also start JSON API using CLI args (example below) however this is now deprecated
-
-.. code-block:: shell
-
-    daml json-api --ledger-host localhost --ledger-port 6865 --http-port 7575
-
-
-Standalone JAR
---------------
-
-The ``daml json-api`` command is great during development since it is
-included with the SDK and integrates with ``daml start`` and other
-commands. Once you are ready to deploy your application, you can
-download the standalone JAR from
-`Github releases <https://github.com/digital-asset/daml/releases>`_. It is much smaller
-than the whole SDK and easier to deploy since it only requires a JVM
-but no other dependencies and no installation process. The JAR accepts
-exactly the same command line parameters as ``daml json-api``, so to
-start the standalone JAR, you can use the following command:
-
-.. code-block:: shell
-
-    java -jar http-json-2.0.0.jar --config json-api-app.conf
-
-Replace the version number ``2.0.0`` by the version of the SDK you are
-using.
-
-With Query Store
-----------------
-
-In production setups, you should configure the HTTP JSON API service to use a PostgreSQL backend as a :doc:`production-setup/query-store`.
-The in-memory backend will call the
-ledger to fetch the entire active contract set for the templates in
-your query every time so it is generally not recommended to rely on
-this in production.
-Note that the query store is a redundant copy of on-ledger data.
-It is safe to reinitialize the database at any time.
-
-To enable the PostgreSQL backend you can add the ``query-store`` config block :doc:`as described <production-setup/query-store>`.
-
-
 .. _json-api-access-tokens:
 
 Access Tokens
 =============
 
-Each request to the HTTP JSON API Service *must* come with an access token, regardless of whether the underlying ledger
-requires it or not. This also includes development setups using an unsecured sandbox. The HTTP JSON API Service *does not*
+(TODO - probably not verify) Each request to the HTTP JSON API Service *must* come with an access token, regardless of whether the underlying ledger
+requires it or not. This also includes development setups using an unsecured sandbox.
+The HTTP JSON API Service *does not*
 hold on to the access token, which will be only used to fulfill the request it came along with. The same token will be used
 to issue the request to the Ledger API.
 
 The HTTP JSON API Service does not validate the token but may need to decode it to extract information that can be used
-to fill in request fields for party-specific request. How this happens depends partially on the token format you are using.
+to fill in or validate request fields for party-specific request. How this happens depends partially on the token format you are using.
 
 Party-specific Requests
 -----------------------
