@@ -30,6 +30,8 @@ The html files are in `workdir/build/gen`. Rerun the script to view any edits to
 
 :warning: If you do make a change to the TOCs in this repo, you then have to duplicate the change in the relevant satellite repo (except for the daml repo, which does not have a local ToC).
 
+Note that the `live-preview` script takes a few shortcuts. This is fine most of the time, but sometimes the final result can be a bit different.
+
 ### Theme
 
 Live preview doesn't reflect changes to the theme. That's because it would
