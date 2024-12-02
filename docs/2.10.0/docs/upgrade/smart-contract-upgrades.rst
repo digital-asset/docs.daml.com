@@ -339,14 +339,6 @@ unsafe way. Note however that this validation cannot be complete, as
 upgrade validity depends on a participant’s package store. The
 participant’s DAR upload checks have the final say on upgrade validity.
 
-Daml Studio
-~~~~~~~~~~~
-
-Basic Upgrades support has also been added to Daml Studio’s "Script
-Results" tab, allowing you to test your upgrades quickly and easily
-within VSCode. There are some limitations here which are listed in 
-`Daml Studio support <#daml-studio-support>`__ below.
-
 Limitations
 -----------
 
