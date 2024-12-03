@@ -339,14 +339,6 @@ unsafe way. Note however that this validation cannot be complete, as
 upgrade validity depends on a participant’s package store. The
 participant’s DAR upload checks have the final say on upgrade validity.
 
-Daml Studio
-~~~~~~~~~~~
-
-Basic Upgrades support has also been added to Daml Studio’s "Script
-Results" tab, allowing you to test your upgrades quickly and easily
-within VSCode. There are some limitations here which are listed in 
-`Daml Studio support <#daml-studio-support>`__ below.
-
 Limitations
 -----------
 
@@ -408,7 +400,7 @@ of our package:
 
 Running ``daml version`` should print a line showing that 2.10.0 or higher is the "project SDK version from daml.yaml".
 
-Add ``daml-script`` to the list of dependencies in ``v1/my-pkg/daml.yaml``,
+Add ``daml-script-beta`` to the list of dependencies in ``v1/my-pkg/daml.yaml``,
 as well as ``--target=1.17`` to the ``build-options``:
 
 .. code:: yaml
@@ -417,7 +409,7 @@ as well as ``--target=1.17`` to the ``build-options``:
   dependencies:
   - daml-prim
   - daml-stdlib
-  - daml-script
+  - daml-script-beta
   build-options:
   - --target=1.17
 
@@ -473,7 +465,7 @@ field pointing to v1:
   dependencies:
   - daml-prim
   - daml-stdlib
-  - daml-script
+  - daml-script-beta
   upgrades: ../../v1/my-pkg/.daml/dist/my-pkg-1.0.0.dar
   build-options:
   - --target=1.17
@@ -601,12 +593,8 @@ script and place the resulting party for Alice into an output file
       --ledger-host localhost --ledger-port 6865 \
       --dar .daml/dist/my-pkg-1.0.0.dar \
       --script-name Main:mkIOU \
-      --output-file alice-v1 \
-      --enable-contract-upgrading
+      --output-file alice-v1
   ...
-
-.. note::
-  All invocations of Daml Script using SCU requires the ``--enable-contract-upgrading`` flag.
 
 From inside ``v2/my-pkg``, upload and run the ``getIOU`` script, passing in the
 ``alice-v1`` file as the script’s input:
@@ -620,8 +608,7 @@ From inside ``v2/my-pkg``, upload and run the ``getIOU`` script, passing in the
       --dar .daml/dist/my-pkg-1.1.0.dar \
       --script-name Main:getIOU \
       --output-file /dev/stdout \
-      --input-file ../../v1/my-pkg/alice-v1 \
-      --enable-contract-upgrading
+      --input-file ../../v1/my-pkg/alice-v1
   ...
   {
     "_1": "...",
@@ -645,8 +632,7 @@ running the ``getIOU`` script from v1, this field does not appear.
       --dar .daml/dist/my-pkg-1.0.0.dar \
       --script-name Main:getIOU \
       --output-file /dev/stdout \
-      --input-file alice-v1 \
-      --enable-contract-upgrading
+      --input-file alice-v1
   ...
   {
     "_1": "...",
@@ -687,8 +673,7 @@ Query it from a v1 script in the ``v1/my-pkg`` directory:
       --dar .daml/dist/my-pkg-1.0.0.dar \
       --script-name Main:getIOU \
       --output-file /dev/stdout \
-      --input-file ../../v2/my-pkg/alice-v2 \
-      --enable-contract-upgrading
+      --input-file ../../v2/my-pkg/alice-v2
   ...
   Exception in thread "main" com.daml.lf.engine.script.Script$FailedCmd: Command QueryContractKey failed: Failed to translate create argument:
   ...
@@ -723,8 +708,7 @@ And then query it from v1:
   	--dar .daml/dist/my-pkg-1.0.0.dar \
   	--script-name Main:getIOU \
   	--output-file /dev/stdout \
-  	--input-file ../../v2/my-pkg/alice-v2 \
-  	--enable-contract-upgrading
+  	--input-file ../../v2/my-pkg/alice-v2
   ...
     "issuer": "party-...",
   	"owner": "party-...",
@@ -749,6 +733,23 @@ the current contract and produces a new one with twice the value.
           controller issuer
           do create this with value = value * 2
   ...
+
+Along with a script to call it.
+
+.. code:: daml
+
+  import DA.Optional (fromSome)
+
+  ...
+
+  doubleIOU : Party -> Script IOU
+  doubleIOU alice = do
+    oIOU <- getIOU alice
+    case oIOU of
+      Some (cid, _) -> do
+        newCid <- alice `submit` exerciseCmd cid Double
+        fromSome <$> queryContractId alice newCid
+      None -> fail "Failed to find IOU"
 
 Compiled changes are checked against the previous version and pass:
 
@@ -782,8 +783,7 @@ Restart the sandbox and re-upload both v1 and v2:
       --dar .daml/dist/my-pkg-1.1.0.dar \
       --script-name Main:doubleIOU \
       --output-file /dev/stdout \
-      --input-file ../../v1/my-pkg/alice-v1 \
-      --enable-contract-upgrading
+      --input-file ../../v1/my-pkg/alice-v1
   ...
   	"issuer": "party-...",
   	"owner": "party-...",
@@ -826,8 +826,7 @@ V2 via ``mkIOUWithoutCurrency``, then run ``doubleIOU`` on it from V1:
   	--dar .daml/dist/my-pkg-1.0.0.dar \
   	--script-name Main:doubleIOU \
   	--output-file /dev/stdout \
-  	--input-file ../../v2/my-pkg/alice-v2 \
-  	--enable-contract-upgrading
+  	--input-file ../../v2/my-pkg/alice-v2
   ...
   	"issuer": "party-...",
   	"owner": "party-...",
@@ -1228,8 +1227,7 @@ via v2’s ``getIOU`` script:
       --ledger-host localhost --ledger-port 6865 \
       --dar .daml/dist/my-pkg-1.0.0.dar \
       --script-name Main:mkIOU \
-      --output-file alice-v1 \
-      --enable-contract-upgrading
+      --output-file alice-v1
   ...
   > cd ../../v2/my-pkg
   > daml script
@@ -1237,8 +1235,7 @@ via v2’s ``getIOU`` script:
       --dar .daml/dist/my-pkg-1.1.0.dar \
       --script-name Main:getIOU \
       --output-file /dev/stdout \
-      --input-file ../../v1/my-pkg/alice-v1 \
-      --enable-contract-upgrading
+      --input-file ../../v1/my-pkg/alice-v1
   ...
       "issuer": "party-...",
       "owner": "party-...",
@@ -1263,8 +1260,7 @@ with a lookup error for the CHF variant.
       --ledger-host localhost --ledger-port 6865 \
       --dar .daml/dist/my-pkg-1.1.0.dar \
       --script-name Main:mkIOU \
-      --output-file alice-v2 \
-      --enable-contract-upgrading
+      --output-file alice-v2
   ...
   > cd ../../v1/my-pkg
   > daml script
@@ -1272,8 +1268,7 @@ with a lookup error for the CHF variant.
       --dar .daml/dist/my-pkg-1.0.0.dar \
       --script-name Main:getIOU \
       --output-file /dev/stdout \
-      --input-file ../../v2/my-pkg/alice-v2 \
-      --enable-contract-upgrading
+      --input-file ../../v2/my-pkg/alice-v2
   ...
   Failed to translate create argument: Lookup(NotFound(DataVariantConstructor(c1543a5c2b7ff03650162e68e03e469d1ecf9f546565d3809cdec2e0255ed902:Main:Currency,CHF),DataEnumConstructor(c1543a5c2b7ff03650162e68e03e469d1ecf9f546565d3809cdec2e0255ed902:Main:Currency,CHF)))
   ...
@@ -1981,7 +1976,7 @@ Daml-Script
 -----------
 
 Daml 2.10 introduces a new version of Daml Script, which can be used by
-depending on ``daml-script`` in your ``daml.yaml``, as you will have seen
+depending on ``daml-script-beta`` in your ``daml.yaml``, as you will have seen
 in `Writing your first upgrade <#writing-your-first-upgrade>`__. This version of Daml Script
 supports upgrades over the Ledger API.
 
@@ -2005,22 +2000,9 @@ submission.
 Daml Studio support
 -------------------
 
-Daml Studio runs a reference model of Canton called the IDE Ledger, this
-ledger has been updated to support most of the functionality of upgrades
-in Daml Script. The behavior that this ledger does not implement is the
-following:
-
--  Upgrades type checking
-   The Upgrades type errors you get when running daml build are not
-   currently shown as code intelligence in Daml Studio.
-
--  Contract ID verification
-   This may allow some contract metadata changes to take effect that
-   Canton otherwise would not.
-
--  Per-submission package preference
-   Any submission to the IDE Ledger mimics a Canton participants
-   default package preference of the most recent package version.
+Daml Studio runs a reference model of Canton called the IDE Ledger. This
+ledger has been updated to support the relevant parts of the Smart Contract
+Upgrades feature.
 
 Testing
 =======
