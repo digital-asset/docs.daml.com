@@ -2000,7 +2000,7 @@ submission.
 Daml Studio support
 -------------------
 
-Daml Studio runs a reference model of Canton called the IDE Ledger, this
+Daml Studio runs a reference model of Canton called the IDE Ledger. This
 ledger has been updated to support the relevant parts of the Smart Contract
 Upgrades feature.
 
