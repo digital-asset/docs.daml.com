@@ -58,5 +58,6 @@ pkgs.mkShell {
     ruby
     sass
     texlive
+    vale
   ];
 }
