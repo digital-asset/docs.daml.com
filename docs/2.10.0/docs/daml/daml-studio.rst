@@ -433,8 +433,16 @@ you will need a VSCode extension that sets this up for other extensions.
 In the case of ``direnv`` specifically (i.e. you have a ``.envrc`` file), we
 recommend using `this direnv extension by Martin Kühl <https://marketplace.visualstudio.com/items?itemName=mkhl.direnv>`__, which we have verified is compatible.
 Other direnv extensions may not correctly pass environment information to the Daml Studio extension.
-If the Daml extension detects a ``.envrc`` file, it will recommend this extension within the IDE,
-providing a link to the extension on the VS Code extension marketplace.
+
+If the Daml extension detects a ``.envrc`` file, it will recommend this extension within the IDE with the
+following message:
+
+..code::
+
+  Found an .envrc file but the recommended direnv VSCode extension is not installed. Daml IDE may fail to start due to missing environment variables.
+  Would you like to install the recommended direnv extension or attempt to continue without it?
+
+It will also provide a link to the extension on the VS Code extension marketplace.
 
 Limitations in 2.10.0-rc
 ========================
