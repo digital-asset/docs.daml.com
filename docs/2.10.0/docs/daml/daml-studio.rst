@@ -443,7 +443,8 @@ These limtations are for the Release Candidate only, and will be fixed for 2.10 
 - Jumping to non-local dependencies does not currently retain the build-options and module-prefixes
 for that package. This means that if you jump to a dependency that requires either of these to build,
 the editor will show errors on the source code.
-- Some links in the Script Results tab may not resolve correctly cross-package
+- Some links in the Script Results tab may not resolve correctly cross-package.
+- Packages with symlinks between the daml.yaml and source files may not give correct intelligence.
 
 Setting Multi-IDE SDK Version
 =============================
