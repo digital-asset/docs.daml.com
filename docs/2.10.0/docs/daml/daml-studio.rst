@@ -420,7 +420,7 @@ Adding DAR paths to this field will have no effect on building, serving only for
 Multiple Daml SDK Versions
 ==========================
 Separate package environments can run in different Daml SDK versions (though some features may
-not work correctly in versions older than 2.9). When opening a file, or jumping to a location
+not work correctly in versions <= 2.8). When opening a file, or jumping to a location
 in a package running a Daml version that is not currently installed, Daml Studio will prompt
 you to install the missing Daml SDK, and handle the installation, progress reporting and
 cancellation within a notification.
@@ -439,11 +439,12 @@ providing a link to the extension on the VS Code extension marketplace.
 Limitations in 2.10.0-rc
 ========================
 These limtations are for the Release Candidate only, and will be fixed for 2.10 full release.
-- Jumping to non-local dependencies does not currently retain the build-options and module-prefixes
-for that package. This means that if you jump to a dependency that requires either of these to build,
-the editor will show errors on the source code.
-- Some links in the Script Results tab may not resolve correctly cross-package.
-- Packages with symlinks between the daml.yaml and source files may not give correct intelligence.
+
+* Jumping to non-local dependencies does not currently retain the build-options and module-prefixes
+  for that package. This means that if you jump to a dependency that requires either of these to build,
+  the editor will show errors on the source code.
+* Some links in the Script Results tab may not resolve correctly cross-package.
+* Packages with symlinks between the daml.yaml and source files may not give correct intelligence.
 
 Setting Multi-IDE SDK Version
 =============================
