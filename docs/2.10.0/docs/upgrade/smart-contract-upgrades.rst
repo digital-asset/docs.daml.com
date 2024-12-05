@@ -2010,8 +2010,10 @@ as a list of package IDs, as follows.
 
   (actAs alice <> packagePreference [myPackageId]) `submitWithOptions` createCmd ...
 
-Note here the use of ``submitWithOptions : SubmitOptions -> Commands a -> Script a``,
-where we build ``SubmitOptions`` using the following commands, and combine them with ``<>``.
+Note here the use of ``submitWithOptions : SubmitOptions -> Commands a -> Script a``.
+We build ``SubmitOptions`` by combining the ``actAs`` and ``packagePreference`` functions with ``<>``.
+
+The full list of builders for ``SubmitOptions`` is as follows:
 
 .. code:: daml
 
@@ -2025,7 +2027,7 @@ where we build ``SubmitOptions`` using the following commands, and combine them 
   newtype PackageId = PackageId Text
   packagePreference : [PackageId] -> SubmitOptions
 
-A ``PackageId`` can be hard-coded in your script, which will require recompilation on change, or
+A ``PackageId`` can be hard-coded in your script, which will need to updated whenever the given package changes. Otherwise,
 it can be provided using the ``--input-file`` flag of the ``daml script`` command line tool.
 
 Following is an example on reading the package ID from a dar and passing it to a script.
