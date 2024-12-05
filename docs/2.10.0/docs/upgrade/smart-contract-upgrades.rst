@@ -2055,8 +2055,9 @@ Following this, your script would look like
   main rawPkgId = do
     let pkgId = PackageId rawPkgId
     alice <- allocateParty "alice"
-    -- Commands emitted for brevity
-    (actAs alice <> packagePreference [pkgId]) `submitWithOptions` createCmd ...
+    -- Commands omitted for brevity
+    let submitOptions = actAs alice <> packagePreference [pkgId]
+    submitOptions `submitWithOptions` createCmd ...
 
 Daml Studio support
 -------------------
