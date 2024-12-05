@@ -372,7 +372,7 @@ Multi-Package Support
 
 Following the Multi-Package support added to ``daml build`` (:ref:`see here <multi-package-build>`),
 Daml Studio also supports projects that utilise the ``multi-package.yaml`` file.
-It is recommended that you are familiar with the Multi-Package build support
+It is recommended that you are familiar with multi-package builds
 before continuing in this section.
 The Daml Studio Multi-IDE feature will run separate package environments for
 each package in your project, and allows cross-package jump-to-definition for
@@ -381,29 +381,28 @@ any packages listed in a top level ``multi-package.yaml`` file.
 Multi-package.yaml Location
 ===========================
 The ``multi-package.yaml`` file will only be used by Daml Studio if it sits at the
-Workspace Root, i.e. in the root directory that Daml Studio was opened in.
+VS Code Workspace Root, i.e. in the root directory that Daml Studio was opened in.
 If no ``multi-package.yaml`` is found, the cross-package jump-to-definition feature
 will not jump to the real on-disk source code, however other Multi-IDE features will
 still work as normal.
 
 Package Environments and Hot-Loading
 ====================================
-The Multi-IDE runs separate package environments for each package in the project,
+The Multi-IDE runs a separate package environment for each package in the project,
 allowing the IDE to replicate properties such as dependencies, module-prefixes and build-options
 of each package individually, without clashing with other packages in the project.
-These enrivonments will automatically reload if the relevant ``daml.yaml`` file changes,
+A package's environment will automatically reload if its ``daml.yaml`` file changes,
 or any of the dependency DAR files change.  
 
 Note, however, that the Multi-IDE does not hold "live" copies of DARs, therefore any changes
-to a package that affects another package will not be visible in that second package until
+to a package that is a dependency of another package will not be visible in that second package until
 running ``daml build``.  
 You can run ``daml build --all`` to rebuild all relevant DARs, and the IDE will account for this
 and reload environments as necessary.  
 
 Jumping to definition on non-local dependencies (i.e. those not listed in ``multi-package.yaml``)
 will also use the correct environment, giving correct diagnostics for that package, and allowing
-further jumps down the stack. This can only jump to package to which the source code is available
-though, i.e. packages to which the DAR can be found in any of the following places:
+further jumps down the stack. However, this can only jump to a package for which the source code is available, i.e. packages to which the DAR can be found in any of the following places:
 - The ``data-dependencies`` field of the current package or any other packages known to the ``multi-package.yaml``
 - Under the added ``dars`` field in the ``multi-package.yaml``, which is shown below:
 
@@ -428,14 +427,14 @@ cancellation within a notification.
 
 Directory Envrionment Tools (direnv)
 ====================================
-It is common to use tools like ``direnv`` to setup dependencies and import enrivonment variables
-for use with :ref:`enrivonment variable interpolation support <environment-variable-interpolation>`. In order to have this working in Daml Studio,
+It is common to use tools like ``direnv`` to set up dependencies and import environment variables
+for use with :ref:`environment variable interpolation support <environment-variable-interpolation>`. In order to have this working in Daml Studio,
 you will need a VSCode extension that sets this up for other extensions.
 In the case of ``direnv`` specifically (i.e. you have a ``.envrc`` file), we
 recommend using `this direnv extension by Martin Kühl <https://marketplace.visualstudio.com/items?itemName=mkhl.direnv>`__, which we have verified is compatible.
 Other direnv extensions may not correctly pass environment information to the Daml Studio extension.
 If the Daml extension detects a ``.envrc`` file, it will recommend this extension within the IDE,
-providing a link to the marketplace.
+providing a link to the extension on the VS Code extension marketplace.
 
 Limitations in 2.10.0-rc
 ========================
@@ -448,8 +447,8 @@ the editor will show errors on the source code.
 
 Setting Multi-IDE SDK Version
 =============================
-The Multi-IDE will select the correct SDK Version for each package you interact with, however the
-Multi-IDE itself will run from your most recent installed SDK Version. You can override this using
+The Multi-IDE will select the correct SDK version for each package you interact with, however the
+Multi-IDE itself will run from your most recent installed SDK version. You can override this using
 an additional ``daml.yaml`` file at the root of your project (next to the ``multi-package.yaml``)
 containing only an SDK Version, as follows:
 
