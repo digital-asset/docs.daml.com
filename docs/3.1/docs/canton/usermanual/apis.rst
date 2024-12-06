@@ -185,7 +185,7 @@ In order to enable JWT authorization checks, your safe configuration options are
   Both PEM-encoded certificates (text files starting with ``-----BEGIN CERTIFICATE-----``)
   and DER-encoded certificates (binary files) are supported.
 
-Instead of specifying the path to a certificate, you can also a
+Instead of specifying the path to a certificate, you can also specify a
 `JWKS <https://tools.ietf.org/html/rfc7517>`__ URL. In that case, the
 participant will expect all tokens to be signed with RS256 (RSA Signature
 with SHA-256) with the public key loaded from the given JWKS URL.
@@ -242,6 +242,17 @@ Other scopes can be configured explicitly using the custom target scope configur
 
 Target scope can be any case-sensitive string containing alphanumeric characters, hyphens, slashes, colons and underscores.
 Either the ``target-scope`` or the ``target-audience`` parameter can be configured individually, but not both at the same time.
+
+Configuring Privileged Tokens
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Support for privileged tokens can be configured for the Ledger API exposed by the participant node as well as the Admin API exposed
+by the participant, the sequencer, and the mediator nodes. The configuration follows the same pattern as for the configuration of
+normal user tokens but with an addition of a key called ``privileged`` set to true.
+
+Additionally, you can determine if the use of privileged tokens should result in granting of the ``participant_admin``
+or the ``wildcard`` access levels by adding a definition of the ``access-level`` key and setting it to
+``Admin`` or ``Wildcard`` respectively. The ``Admin`` is the default.
 
 Ledger API Caches
 ^^^^^^^^^^^^^^^^^
