@@ -4,7 +4,7 @@
 Overview
 ########
 
-**High Availability** (HA) is the elimination of single points of failure to ensure that applications continue to operate when a component they depend on, such as a server, fails. 
+**High Availability** (HA) is the elimination of single points of failure to ensure that applications continue to operate when a component they depend on, such as a server, fails.
 
 In Daml solutions, HA focuses on the following components running in separate processes:
 
@@ -31,7 +31,7 @@ Participant Nodes
 
 The availability of a participant node shouldn't affect the availability of another participant node, except for the following workflows:
 
-  1. Where they are both involved. 
+  1. Where they are both involved.
   2. When they have distinct visibility configurations, i.e. they manage different parties involved in the workflow.
 
 For example, if they both host the same party, transactions involving the party can continue as long as either of them is available.
@@ -61,4 +61,4 @@ Transactions that involve these components may time out if the failover takes to
 Health Check
 ~~~~~~~~~~~~
 
-Canton components expose a :ref:`health endpoint <health-check>`, for checking the health of the components and their subcomponents.
+Canton components expose a health endpoint, for checking the health of the components and their subcomponents.

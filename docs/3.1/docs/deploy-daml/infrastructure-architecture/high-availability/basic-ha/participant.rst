@@ -1,21 +1,21 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-.. enterprise-only::
+.. enterprise-only TODO move this back into the canton repo
 
 .. _ha_participant_arch:
 
 Active-Passive Participant Node Configuration
 ---------------------------------------------
 
-Participant nodes are configured in an active-passive configuration with a shared database. 
+Participant nodes are configured in an active-passive configuration with a shared database.
 
 The active node services requests while a passive node waits in warm-standby mode, ready to take over if the active node fails.
 
 High-Level System Design
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-A logical participant node - shown below - contains an active and passive physical participant node with a shared database. 
+A logical participant node - shown below - contains an active and passive physical participant node with a shared database.
 
 Each participant node exposes its own Ledger API although these can be hidden by a single Ledger API endpoint running on a highly available load balancer.
 
@@ -45,9 +45,9 @@ The nodes require a shared database for the following reasons:
 Leader Election
 ~~~~~~~~~~~~~~~
 
-A leader election establishes the active node. The participant node sets the chosen active node as the single writer to the shared database. 
+A leader election establishes the active node. The participant node sets the chosen active node as the single writer to the shared database.
 
-Exclusive, application-level database locks - tied to the database connection lifetime - enforce the leader election and set the chosen node as the single writer. 
+Exclusive, application-level database locks - tied to the database connection lifetime - enforce the leader election and set the chosen node as the single writer.
 
 .. NOTE::
   Alternative approaches for leader election, such as Raft, are unsuitable because the leader status can be lost between the leader check and the use of the shared resource, i.e. writing to the database. Therefore, we cannot guarantee a single writer.
@@ -63,20 +63,20 @@ A participant node uses a write connection pool that is tied to an exclusive loc
 Lock ID Allocation
 """"""""""""""""""
 
-Exclusive application-level locks are identified by a 30-bit integer lock ID which is allocated based on a scope name and counter. 
+Exclusive application-level locks are identified by a 30-bit integer lock ID which is allocated based on a scope name and counter.
 
 The lock counter differentiates locks used in Canton from each other, depending on their usage. The scope name ensures the uniqueness of the lock ID for a given lock counter. The allocation process generates a unique lock ID by hashing and truncating the scope and counter to 30 bits.
 
 .. NOTE::
-  On Oracle, the lock scope is the schema name, i.e. user name. On PostgreSQL, it is the name of the database. 
-  
+  On Oracle, the lock scope is the schema name, i.e. user name. On PostgreSQL, it is the name of the database.
+
 Participant nodes must allocate lock IDs and counters consistently. It is, therefore, crucial that nodes are configured with the same storage configuration, e.g. for Oracle using the correct username to allocate the lock IDs within the correct scope.
 
 Prevent Passive Node Replica Activity
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. IMPORTANT::
-  A passive node replica does not hold the exclusive lock and cannot write to the shared database. 
+  A passive node replica does not hold the exclusive lock and cannot write to the shared database.
 
 To avoid passive node replicas attempting to write to the database - any such attempt fails and produces an error - we use a coarse-grained guard on sync domain connectivity and API services.
 
@@ -87,7 +87,7 @@ Lock Loss and Failover
 
 If the active node crashes or loses connection to the database, the lock is released and a passive node can claim the lock and become active. Any pending writes in the formerly active node fail due to losing the underlying connection and the corresponding lock.
 
-The active node has a grace period in which it may rebuild the connection and reclaim the lock, due to the higher frequency of health checks on the lock in the active node vs. the passive node trying to acquire the lock at a lower frequency. 
+The active node has a grace period in which it may rebuild the connection and reclaim the lock, due to the higher frequency of health checks on the lock in the active node vs. the passive node trying to acquire the lock at a lower frequency.
 
 The passive node continuously attempts to acquire the lock within a configurable interval. Once the lock is acquired, the participant node's replication manager sets the state of the successful node to active.
 

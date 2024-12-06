@@ -25,7 +25,7 @@ Unless otherwise stated, all Daml runtime components require the following:
 
 In terms of hardware requirements for development, a simple Daml application
 can run with a laptop using 2 GB of memory and a couple of CPU cores.
-However, :ref:`a much larger environment <hardware-resources>`  is recommended for testing or production
+However, a much larger environment (see Install Canton / Hardware Resources)  is recommended for testing or production
 use.
 
 Feature/Component System Requirements

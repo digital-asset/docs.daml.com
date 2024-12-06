@@ -115,7 +115,7 @@ internal processes. Note that the identity of the application
 will not be proven by using this method, i.e. the `application_id` field in the request
 is not necessarily correlated with the CN (Common Name) in the certificate.
 Below, you can see an example config. For more details on TLS, refer to
-:ref:`Canton’s documentation on TLS <tls-configuration>`.
+Canton’s documentation on TLS configuration.
 
 
 .. code-block:: none
@@ -173,7 +173,7 @@ You can enable metrics reporting via Prometheus using the following configuratio
      port = 9000 // default
    }]
 
-For other options and more details refer to the :ref:`Canton documentation <canton-metrics>`.
+For other options and more details refer to the Canton Monitoring documentation.
 
 Types of Metrics
 ================

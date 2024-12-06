@@ -381,7 +381,7 @@ Where:
 
 See the following blog post for more details about error handling best practices: `REST API Error Codes 101 <https://blog.restcase.com/rest-api-error-codes-101/>`_.
 
-See :doc:`The Ledger API error codes </canton/reference/error_codes>` for more details about error codes from Ledger API.
+See The Ledger API error codes (Canton Error Codes Reference) for more details about error codes from Ledger API.
 
 Successful Response, HTTP Status: 200 OK
 ========================================
@@ -508,19 +508,19 @@ Where:
 
 - ``templateId`` is the contract template identifier which has the following
   two formats: ``#<package name>:<module>:<entity>`` or ``<package
-  ID>:<module>:<entity>``. 
-  
+  ID>:<module>:<entity>``.
+
   The package name format works with the smart contract upgrading feature so
   that contracts with different package IDs but the same package name can be
-  used in a uniform manner. 
-  
-  Using the package ID format refers to a single package. 
-  
+  used in a uniform manner.
+
+  Using the package ID format refers to a single package.
+
   Previously JSON API had supported partially qualified template IDs, (i.e.
   simply ``<module>:<entity>``) as an interactive convenience which fails if
   there is more than one package with matching template names. **Since this
   format was not supported for production use and will not work with smart
-  contract upgrades, it is now unavailable.**  
+  contract upgrades, it is now unavailable.**
 
 - ``payload`` field contains contract fields as defined in the Daml template and formatted according to :doc:`lf-value-specification`.
 
