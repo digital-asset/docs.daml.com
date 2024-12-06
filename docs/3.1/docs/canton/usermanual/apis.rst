@@ -247,11 +247,11 @@ Configuring Privileged Tokens
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Support for privileged tokens can be configured for the Ledger API exposed by the participant node as well as the Admin API exposed
-by the participant, the sequencer and the mediator nodes. The configuration follows the same pattern as for the configuration of
+by the participant, the sequencer, and the mediator nodes. The configuration follows the same pattern as for the configuration of
 normal user tokens but with an addition of a key called ``privileged`` set to true.
 
-Additionally, it is possible to determine if the use of privileged tokens should result in granting of the ``participant_admin``
-or the ``wildcard`` access levels. This can be achieved by adding a definition of the ``access-level`` key and setting it to
+Additionally, you can determine if the use of privileged tokens should result in granting of the ``participant_admin``
+or the ``wildcard`` access levels by adding a definition of the ``access-level`` key and setting it to
 ``Admin`` or ``Wildcard`` respectively. The ``Admin`` is the default.
 
 Ledger API Caches

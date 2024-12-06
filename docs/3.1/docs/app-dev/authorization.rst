@@ -246,13 +246,13 @@ In case of the default identity provider configuration, the ``iss`` field can be
 Privileged Tokens
 =================
 
-A Privileged Token allows the caller to gain either ``wildcard-`` or ``participant-admin-`` level access. A ``wildcard-``level access combines
+A privileged token allows the caller to gain either ``wildcard-`` or ``participant-admin-`` level access. A ``wildcard-``level access combines
 the capabilities of the ``participant-admin`` with the right to ``act-as`` and ``read-as`` any party. Privileged tokens look like and are
-parsed as any other token. They can follow both the audience-based and the scope-based format. Unlike for the User Tokens, the entry specified
-in the ``sub`` field need not represent a user existing in the participant's database. In fact this field is not validated nor checked at all.
+parsed as any other token. They can follow both the audience-based and the scope-based format. Unlike with user tokens, the entry specified
+in the ``sub`` field is not validated or checked and need not represent a user existing in the participant's database. 
 
-The use of Privileged Tokens is disabled by default and has to be explicitly enabled in the Canton configuration. Unlike normal
-User Tokens, the Privileged Tokens can be configured also for the Admin APIs exposed by the participant, the sequencer and
+Use of privileged tokens is inactive by default and must be explicitly enabled in the Canton configuration. Unlike normal
+user tokens, privileged tokens can also be configured for the Admin APIs exposed by the participant, the sequencer, and
 the mediator nodes.
 
 Encoding and Signature
