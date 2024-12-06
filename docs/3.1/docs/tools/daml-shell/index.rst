@@ -1,9 +1,11 @@
 .. Copyright (c) 2024 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-.. enterprise-only::
+.. enterprise-only // TODO This directive does not exist anymore, it originated from Canton
 
 .. _daml-shell-header:
+
+Note: This is an Enterprise Only feature.
 
 Daml Shell (``daml-shell``)
 ###########################
@@ -81,7 +83,7 @@ the screen suggests possible command options.
 
    DESCRIPTION
        CLI to interact with a PQS database.
-       
+
        Available commands:
          * active - active contracts
          * archives - archived contracts
@@ -98,14 +100,14 @@ the screen suggests possible command options.
          * quit - quit the shell
          * set - configure application settings
          * transaction - transaction details
-       
+
        Available filters:
          * csv - transform table data to csv format
          * export - write output to local file
          * grep - filter output by pattern
          * head - take first n lines
          * tail - take last n lines
-       
+
        In addition to above built-in filters, any of the available system binaries
        can be used as filters and will receive the command output as stdin
 
@@ -199,7 +201,7 @@ Example:
 
 ::
 
-   > set identifier-hash-length full 
+   > set identifier-hash-length full
    Disabled identifier shortening
 
 Type ``help set`` or ``help set <setting>`` to learn more about specific
@@ -260,7 +262,7 @@ compare between (see ``help net-changes``).
 
 ::
 
-   > net-changes 
+   > net-changes
    +6 myproject:PingPong:Cash
    -6 myproject:PingPong:CashTransferProposal
    +6 myproject:PingPong:IAsset
@@ -497,7 +499,7 @@ For example, you can look up exercise counts by FQN:
 
 ::
 
-   > exercises 
+   > exercises
    ┌─────────────────────────────────────────────────┬───────────────┬───────┐
    │ Identifier                                      │ Type          │ Count │
    ╞═════════════════════════════════════════════════╪═══════════════╪═══════╡
@@ -512,7 +514,7 @@ You can look up exercises for a specific choice:
 
 ::
 
-   > exercises PingPong:AcceptIAssetTransferProposal 
+   > exercises PingPong:AcceptIAssetTransferProposal
    ┌────────┬───────────────────────┬──────────┬────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
    │ Offset │ Contract ID           │ Argument │ Result                                                                                                                                     │
    ╞════════╪═══════════════════════╪══════════╪════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╡

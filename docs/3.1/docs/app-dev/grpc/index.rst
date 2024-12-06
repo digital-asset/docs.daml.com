@@ -94,4 +94,4 @@ INTERNAL, UNKNOWN (when returned by the Command Service)
 
 Aside from the standard gRPC status codes, the failures returned by the Ledger API are enriched with details meant to help the application
 or the application developer to handle the error autonomously (e.g. by retrying on a retryable error).
-For more details on the rich error details see the :doc:`/canton/reference/error_codes`
+For more details on the rich error details see the Canton Error Codes.

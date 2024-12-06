@@ -27,7 +27,7 @@ The PQS is intended for high throughput and complex queries, for which the Canto
 
 There are many other uses.
 
-:ref:`daml-shell-header` is a command-line tool that leverages PQS to inspect a Daml ledger.
+Daml Shell is a command-line tool that leverages PQS to inspect a Daml ledger.
 
 Docker Image
 ************

@@ -9,7 +9,7 @@ Open Tracing in Ledger API Client Applications
 Introduction
 ============
 
-Distributed tracing is a technique used for troubleshooting performance issues in a microservices environment like Daml Enterprise. Tracing in Canton has been described in a :ref:`page dedicated to monitoring <tracing>`. This guide describes how to write **Ledger API** client applications so that distributed traces and spans can seamlessly continue between the client and Canton software components.
+Distributed tracing is a technique used for troubleshooting performance issues in a microservices environment like Daml Enterprise. Tracing in Canton has been described in a page dedicated to monitoring (Canton Monitoring / Tracing). This guide describes how to write **Ledger API** client applications so that distributed traces and spans can seamlessly continue between the client and Canton software components.
 
 To study a **Ledger API** client application with OpenTelemetry support in detail, see this `example on GitHub <https://github.com/digital-asset/ex-java-bindings-with-opentelemetry>`__.
 

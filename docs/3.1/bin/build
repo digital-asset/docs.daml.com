@@ -39,7 +39,7 @@ done
 tar xf $SOURCE_DIR/pdf-fonts-$RELEASE_TAG.tar.gz -C $BUILD_DIR/sphinx-target/pdf
 cd $BUILD_DIR/sphinx-target/pdf
 
-# At the moment, we need to run lualatex 2 times, otherwise there's no table of contents 
+# At the moment, we need to run lualatex 2 times, otherwise there's no table of contents
 lualatex -halt-on-error -interaction=batchmode --shell-escape *.tex
 lualatex -halt-on-error -interaction=batchmode --shell-escape *.tex
 cd -
@@ -49,7 +49,7 @@ mv $BUILD_DIR/sphinx-target/pdf/DigitalAssetSDK.pdf $TARGET_DIR/pdf-docs-$RELEAS
 tar xf $SOURCE_DIR/non-sphinx-html-docs-$RELEASE_TAG.tar.gz -C $BUILD_DIR/sphinx-target/html --strip-components=1
 DATE=$(date --rfc-3339=date)
 cp $TARGET_DIR/pdf-docs-$RELEASE_TAG.pdf $BUILD_DIR/sphinx-target/html/_downloads/DamlEnterprise${prefix}.pdf
-mkdir $BUILD_DIR/sphinx-target/html/canton/scaladoc
+mkdir -p  $BUILD_DIR/sphinx-target/html/canton/scaladoc
 tar xf $SOURCE_DIR/canton-scaladoc-$CANTON_RELEASE_TAG.tar.gz  -C $BUILD_DIR/sphinx-target/html/canton/scaladoc  --strip-components=1
 rm -r $BUILD_DIR/sphinx-target/html/.buildinfo $BUILD_DIR/sphinx-target/html/.doctrees $BUILD_DIR/sphinx-target/html/objects.inv
 (

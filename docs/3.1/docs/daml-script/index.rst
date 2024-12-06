@@ -344,8 +344,8 @@ are hosted on different participant nodes. To do so, pass the
 ``--participant-config participant-config.json`` file to ``daml script``
 instead of ``--ledger-host`` and ``ledger-port``.
 You can generate this file by calling
-:ref:`utils.generate_daml_script_participants_conf(defaultParticipant = Some(one)) <utils.generate_daml_script_participants_conf>`
-in the canton console or in :ref:`the bootstrap scripts <automation-using-bootstrap-scripts>`.
+``utils.generate_daml_script_participants_conf(defaultParticipant = Some(one))``
+in the canton console or in the bootstrap scripts in Canton Getting Started / Automation Using Bootstrap Scripts.
 
 The generated file will look similar to the one shown below:
 

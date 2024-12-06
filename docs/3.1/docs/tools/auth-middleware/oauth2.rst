@@ -264,7 +264,7 @@ You can pass the command-line flag ``--cookie-secure no`` for testing and develo
 Metrics
 *******
 
-You may configure the oauth2-middleware to expose the :doc:`common HTTP metrics </canton/usermanual/monitoring>` via a Prometheus
+You may configure the oauth2-middleware to expose the common HTTP metrics (see Canton User Manual / Monitoring) via a Prometheus
 reporter by adding the below section to the application config:
 
 .. code-block:: none

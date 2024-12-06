@@ -72,7 +72,7 @@ A timer records the time necessary to execute a given operation (in fractional m
 Metrics Reference
 *****************
 
-The HTTP JSON API Service supports :doc:`common HTTP metrics </canton/usermanual/monitoring>`.
+The HTTP JSON API Service supports common HTTP metrics in Canton Monitoring.
 In addition, see the following list of important metrics:
 
 ``daml.http_json_api.incoming_json_parsing_and_validation_timing``

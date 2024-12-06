@@ -1158,36 +1158,6 @@ subtrees:
 
   - file: deploy-daml/intro/index
     title: "Canton"
-    subtrees:
-    - hidden: False
-      titlesonly: True
-      entries:
-      - file: canton/about
-        title: "Introduction to Canton"
-      - file: canton/architecture/overview
-        title: "Overview and Assumptions"
-      - file: canton/tutorials/demo
-        title: "Canton Demo"
-      - file: canton/tutorials/getting_started
-        title: "Getting Started"
-      - file: canton/tutorials/use_daml_sdk
-        title: "Daml SDK and Canton"
-      - file: canton/tutorials/composability
-        title: "Composability"
-      - file: canton/usermanual/versioning
-        title: "Versioning"
-  - file: canton/usermanual/downloading
-    title: "Download and Install Canton"
-    subtrees:
-    - hidden: True
-      titlesonly: True
-      entries:
-      - file: canton/usermanual/installation
-        title: "Install Canton"
-      - file: canton/usermanual/docker
-        title: "Work With the Docker Containers"
-      - file: canton/usermanual/static_conf
-        title: "Set Configuration Options"
   - file: deploy-daml/infrastructure-architecture/high-availability/main-menu
     subtrees:
     - hidden: False
@@ -1212,125 +1182,31 @@ subtrees:
           - file: deploy-daml/infrastructure-architecture/high-availability/ha-and-scaling/implementing-ha
           - file: deploy-daml/infrastructure-architecture/high-availability/ha-and-scaling/deployment-solution
           - file: deploy-daml/infrastructure-architecture/high-availability/ha-and-scaling/ha-in-the-cloud
-      - file: canton/usermanual/ha
   - file: deploy-daml/infrastructure-architecture/disaster-recovery
-
-  - file: canton/usermanual/persistence
-    title: "Persistence"
 
 - caption: "Operate a Daml Ledger"
   entries:
 
   - file: operate-a-daml-ledger/canton-administration-quickstart/index
     title: "Canton Administration Quick Start"
-    subtrees:
-    - hidden: False
-      titlesonly: True
-      entries:
-      - file: canton/usermanual/command_line
-        title: "Use the Canton Command Line"
-      - file: canton/usermanual/console
-        title: "Canton Console"
-      - file: canton/reference/console
-        title: "Console Commands"
-  - file: canton/usermanual/monitoring
-    title: "Monitoring Best Practices"
-    entries:
-    - file: canton/usermanual/example_monitoring_setup
-      title: "Example Monitoring Setup"
-    - file: canton/usermanual/monitoring_glossary
-      title: "Glossary"
   - file: query/pqs-user-guide
     title: "Participant Query Store User Guide"
-  - file: canton/usermanual/identity_management
-    title: "Identity Management"
   - file: operate-a-daml-ledger/common-tasks/index
     title: "Common Operational Tasks"
-    subtrees:
-    - hidden: False
-      titlesonly: True
-      entries:
-      - file: canton/usermanual/packagemanagement
-        title: "Manage DARs and Packages"
-      - file: canton/usermanual/upgrading
-        title: "Upgrade To a New Release"
-      - file: canton/usermanual/security
-        title: "Security & Key Management"
-      - file: canton/usermanual/kms/kms
-        title: "Key Management Service (KMS) Setup"
-        subtrees:
-        - hidden: False
-          titlesonly: True
-          entries:
-            - file: canton/usermanual/kms/kms_setup
-              title: "Canton Configuration of a KMS"
-              subtrees:
-                - hidden: False
-                  titlesonly: True
-                  entries:
-                    - file: canton/usermanual/kms/kms_aws_setup
-                      title: "Configure Amazon Web Services (AWS) KMS"
-                    - file: canton/usermanual/kms/kms_gcp_setup
-                      title: "Configure Google Cloud Provider (GCP) KMS"
-            - file: canton/usermanual/kms/encrypted_private_key_storage/encrypted_private_key_storage
-              title: "Configure Encrypted Private Key Storage with a Key Management Service (KMS)"
-              subtrees:
-                - hidden: False
-                  titlesonly: True
-                  entries:
-                    - file: canton/usermanual/kms/encrypted_private_key_storage/encrypted_private_key_storage_aws
-                      title: "Configure Encrypted Private Key Storage with AWS KMS"
-                    - file: canton/usermanual/kms/encrypted_private_key_storage/encrypted_private_key_storage_gcp
-                      title: "Configure Encrypted Private Key Storage with GCP KMS"
-            - file: canton/usermanual/kms/external_key_storage/external_key_storage
-              title: "Configure External Key Storage with a Key Management Service (KMS)"
-              subtrees:
-                - hidden: False
-                  titlesonly: True
-                  entries:
-                    - file: canton/usermanual/kms/external_key_storage/external_key_storage_aws
-                      title: "Configure External Key Storage with AWS KMS"
-                    - file: canton/usermanual/kms/external_key_storage/external_key_storage_gcp
-                      title: "Configure External Key Storage with GCP KMS"
-                    - file: canton/usermanual/kms/external_key_storage/interoperability
-                      title: "Interoperability with other nodes"
-                    - file: canton/usermanual/kms/external_key_storage/participant_kms_migration
-                      title: "Participant Node Migration to KMS"
-                    - file: canton/usermanual/kms/external_key_storage/manual_kms_key_rotation
-                      title: "Manual KMS key rotation"
-
-  - file: canton/usermanual/performance
-    title: "Scaling and Performance"
   - file: operate-a-daml-ledger/advanced-operations/index
     title: "Advanced Ledger Operations"
     subtrees:
     - hidden: False
       titlesonly: True
       entries:
-      - file: canton/usermanual/manage_domains
-        title: "Manage Domains"
-      - file: canton/usermanual/manage_domain_entities
-        title: "Manage Domain Entities"
-      - file: canton/usermanual/pruning
-        title: "Ledger Pruning"
       - file: ops/pruning
         title: "Participant Pruning"
       - file: ops/metering
         title: "Participant Metering"
-      - file: canton/usermanual/apis
-        title: "Api Configuration"
-      - file: canton/usermanual/connectivity
-        title: "Sequencer Connections"
-      - file: canton/usermanual/repairing
-        title: "Repair Nodes"
-  - file: canton/usermanual/troubleshooting_guide
-  - file: canton/usermanual/support_checklist
 
 - caption: "Help"
   entries:
 
-  - file: canton/reference/error_codes
-    title: "Error Codes"
   - file: daml/troubleshooting
     title: "Troubleshooting"
   - file: support/support
@@ -1516,22 +1392,8 @@ subtrees:
       - file: reference/canton-advanced-architecture
         title: "Canton Advanced Architecture"
         entries:
-        - file: canton/usermanual/contract_keys
-          title: "Contract Keys in Canton"
-        - file: canton/architecture/domains/domains
-          title: "Domain Architecture and Integrations"
-        - file: canton/architecture/identity
-          title: "Identity Management"
-        - file: canton/architecture/requirements/requirements
-          title: "Canton High-Level Requirements"
-        - file: canton/architecture/research
-          title: "Research Publications"
-        - file: canton/architecture/security
-          title: "Security Architecture"
         - file: ops/system_architecture_faq
           title: "System Architecture FAQ"
-      - file: canton/usermanual/FAQ
-        title: "Canton Frequently Asked Questions"
   - file: concepts/test-evidence
     title: "Test Evidence"
 
