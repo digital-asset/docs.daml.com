@@ -6,22 +6,17 @@
 HTTP JSON API Service
 #####################
 
-This section describes new JSON API Service that is a part of Canton 3.x(TODO). If you are looking for legacy JSON API please navigate to (TODO)
+This section describes new JSON API Service that is a part of Canton 3.2. If you are looking for legacy JSON API please navigate to (TODO)
 
 The **JSON API** provides a way to interact with a ledger using http/json protocol instead of gRPC
 :doc:`the Ledger API </app-dev/ledger-api>`.
 JSON API provides almost all functionalities available by gRPC API, although there are some minor limitations  imposed by the http protocol, and some functions and services are not available (TODO link).
 
+The goal of this guide is to show how to use JSON API, for more details and advanced features refer to
+- OpenApi specification(TODO)
+- AsyncApi specification (TODO LINK)
+-  :doc:`the Ledger API </app-dev/ledger-api>`.
 
-
-The goal of this document(???) is to get your distributed ledger application up and running quickly, so we have deliberately excluded
-complicating concerns including, but not limited to
-
-- inspecting transactions,
-- asynchronous submit/completion workflows,
-- temporal queries (e.g. active contracts *as of a certain time*), and (TODO temporal?)
-
-For these and other features, use published OpenApi specification(TODO)  and  :doc:`the Ledger API </app-dev/ledger-api>`.
 While gRPC remains a primary API, almost every function should be mirrored via JSON API.
 
 If you are using this API from JavaScript or TypeScript, we strongly recommend using `the JavaScript bindings and code generator </app-dev/bindings-ts/index.html>`_(TODO ) rather than invoking these endpoints directly.
@@ -75,26 +70,32 @@ You can run the JSON API alongside any ledger exposing the gRPC Ledger API you w
 Ensure that the canton console is started. Please refer to (TODO link)
 
 Check that json api is running:
-use curl to get openapi documentation
+in terminal use curl to get openapi documentation
 
 .. code-block:: shell
 
-    curl localhost:8080/docs/asyncapi
+    curl localhost:8080/docs/openapi
 
-alternatively open the web broswer and navigate to address:
+alternatively open the web browser and navigate to address:
+
+    `<http:://localhost:8080/docs/openapi>`_
+
+If you see yaml file that starts with:
 
 .. code-block:: none
 
-    http:://localhost:8080/docs/asyncapi
+    openapi: 3.1.0
+    info:
+      title: JSON Ledger API HTTP endpoints
 
-(TODO put link)
+
+You have successfully started  JSON API.
 
 .. _start-http-service:
 
 .. note:: Your JSON API service should never be exposed to the internet. When running in production the JSON API should be behind a `reverse proxy, such as via NGINX <https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/>`_.
-(TODO ???)
 
-The full set of configurable options that can be specified via config file is listed below
+The full set of configurable options that can be specified via config file is listed below (TODO - extend)
 
 .. code-block:: none
 
@@ -120,53 +121,6 @@ The full set of configurable options that can be specified via config file is li
         }
       }
 
-      query-store {
-        base-config {
-          user = "postgres"
-          password = "password"
-          driver = "org.postgresql.Driver"
-          url = "jdbc:postgresql://localhost:5432/test?&ssl=true"
-
-          // prefix for table names to avoid collisions, empty by default
-          table-prefix = "foo"
-
-          // max pool size for the database connection pool
-          pool-size = 12
-          //specifies the min idle connections for database connection pool.
-          min-idle = 4
-          //specifies the idle timeout for the database connection pool.
-          idle-timeout = 12s
-          //specifies the connection timeout for database connection pool.
-          connection-timeout = 90s
-        }
-        // option setting how the schema should be handled.
-        // Valid options are start-only, create-only, create-if-needed-and-start and create-and-start
-        start-mode = "start-only"
-      }
-
-
-
-      // Optional interval to poll for package updates. Examples: 500ms, 5s, 10min, 1h, 1d. Defaults to 5 seconds
-      package-reload-interval = 5s
-      //Optional max inbound message size in bytes. Defaults to 4194304.
-      max-inbound-message-size = 4194304
-      //Optional max inbound message size in bytes used for uploading and downloading package updates. Defaults to the `max-inbound-message-size` setting.
-      package-max-inbound-message-size = 4194304
-      //Optional max cache size in entries for storing surrogate template id mappings. Defaults to None
-      max-template-id-cache-entries = 1000
-      //health check timeout in seconds
-      health-timeout-seconds = 5
-
-      //Optional websocket configuration parameters
-      websocket-config {
-        //Maximum websocket session duration
-        max-duration = 120m
-        //Server-side heartbeat interval duration
-        heartbeat-period = 5s
-        //akka stream throttle-mode one of either `shaping` or `enforcing`
-        mode = "shaping"
-      }
-
       metrics {
         //Start a metrics reporter. Must be one of "console", "csv:///PATH", "graphite://HOST[:PORT][/METRIC_PREFIX]", or "prometheus://HOST[:PORT]".
         reporter = "console"
@@ -177,14 +131,6 @@ The full set of configurable options that can be specified via config file is li
       // DEV MODE ONLY (not recommended for production)
       // Allow connections without a reverse proxy providing HTTPS.
       allow-insecure-tokens = false
-      // Optional static content configuration string. Contains comma-separated key-value pairs, where:
-      // prefix -- URL prefix,
-      // directory -- local directory that will be mapped to the URL prefix.
-      // Example: "prefix=static,directory=./static-content"
-      static-content {
-        prefix = "static"
-        directory = "static-content-dir"
-      }
     }
 
 
@@ -193,11 +139,11 @@ The full set of configurable options that can be specified via config file is li
 Access Tokens
 =============
 
-(TODO - probably not verify) Each request to the HTTP JSON API Service *must* come with an access token, regardless of whether the underlying ledger
-requires it or not. This also includes development setups using an unsecured sandbox.
+Each request to the HTTP JSON API Service *must* come with an access token. This also includes development setups using an unsecured sandbox.
 The HTTP JSON API Service *does not*
 hold on to the access token, which will be only used to fulfill the request it came along with. The same token will be used
 to issue the request to the Ledger API.
+The only exceptions are documentation endpoints which do not strictly require tokens.
 
 The HTTP JSON API Service does not validate the token but may need to decode it to extract information that can be used
 to fill in or validate request fields for party-specific request. How this happens depends partially on the token format you are using.
@@ -239,23 +185,18 @@ token.  You can use an arbitrary secret here. The default "header" is fine.  Und
 .. code-block:: json
 
     {
-      "https://daml.com/ledger-api": {
-        "ledgerId": "sandbox",
-        "applicationId": "foobar",
-        "actAs": ["Alice"]
-      }
+      "aud": [],
+      "exp": null,
+      "iss": null,
+      "scope": "ExpectedTargetScope",
+      "sub": "actAs-randomParty-a77b4fb9-8852-4b7e-8cb1-1c1f09321447"
     }
 
-The value of the ``ledgerId`` field has to match the ``ledgerId`` of your underlying Daml Ledger.
-For the Sandbox this corresponds to the participant id which by default is just `sandbox`.
-
-.. note:: The value of ``applicationId`` will be used for commands submitted using that token.
-
-The value for ``actAs`` is specified as a list and you provide it with the party that you want to use,
+The value after``actAs`` is specified as a list and you provide it with the party that you want to use,
 such as in the example above which uses ``Alice`` for a party. ``actAs`` may include more than just one party
 as the JSON API supports multi-party submissions.
 
-The party should reference an already allocated party.
+The party should reference an already allocated party. (TODO --- check)
 
 
 .. note:: As mentioned above the JSON API does not validate tokens so if your ledger runs without authorization you can use an arbitrary secret.
@@ -263,20 +204,20 @@ The party should reference an already allocated party.
 Then the "Encoded" box should have your **token**, ready for passing to
 the service as described in the following sections.
 
-Alternatively, here are two tokens you can use for testing:
+Alternatively, here is a token you can use for testing: (TODO - will not work probably)
 
-``{"https://daml.com/ledger-api": {"ledgerId": "sandbox", "applicationId": "HTTP-JSON-API-Gateway", "actAs": ["Alice"]}}``:
+``{
+    "aud": [],
+    "exp": null,
+    "iss": null,
+    "scope": "ExpectedTargetScope",
+    "sub": "participant_admin"
+  }``:
 
 .. code-block:: none
 
-    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6IkhUVFAtSlNPTi1BUEktR2F0ZXdheSIsImFjdEFzIjpbIkFsaWNlIl19fQ.FIjS4ao9yu1XYnv1ZL3t7ooPNIyQYAHY3pmzej4EMCM
+    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOltdLCJleHAiOm51bGwsImlzcyI6bnVsbCwic2NvcGUiOiJFeHBlY3RlZFRhcmdldFNjb3BlIiwic3ViIjoicGFydGljaXBhbnRfYWRtaW4ifQ.8bABNm1t718TuJXwRQOF2gXOclrL38t0uCmWkIT7Pcg
 
-
-``{"https://daml.com/ledger-api": {"ledgerId": "sandbox", "applicationId": "HTTP-JSON-API-Gateway", "actAs": ["Bob"]}}``:
-
-.. code-block:: none
-
-    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6IkhUVFAtSlNPTi1BUEktR2F0ZXdheSIsImFjdEFzIjpbIkJvYiJdfX0.y6iwpnYt-ObtNo_FyLVxMtNTwpJF8uxzNfPELQUVKVg
 
 Auth via HTTP
 ^^^^^^^^^^^^^
