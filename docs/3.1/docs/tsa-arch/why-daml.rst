@@ -3,7 +3,7 @@ Why Daml
 
 Why Daml: Maximizing Value Through Architectural Alignment
 **********************************************************
-To maximize the value of Daml and Canton, it is essential to align architectural decisions with the organization’s business goals. This alignment begins with a clear understanding of “why Daml,” focusing on the unique value it provides. This documentation outlines the core value drivers of a Daml application, providing guidance for architectural decisions impacting the two primary stakeholders: app providers and app users.
+To maximize the value of Daml and Canton, it is essential to align architectural decisions with the organization’s business goals. This alignment begins with a clear understanding of “why Daml,” focusing on the unique value it provides. This documentation outlines the core value drivers of a Daml application, providing guidance for architectural decisions impacting the two primary stakeholders: :ref:`app providers <app-provider>` and :ref:`app users <app-user>`.
 
 Core Value Drivers
 ******************
@@ -29,11 +29,15 @@ Stakeholder Perspectives
 ************************
 These values apply differently from the perspectives of app providers and app users.
 
+.. _app-provider:
+
 From the App Provider’s Perspective
 ===================================
 An app provider is an organization that builds and operates a Daml application, offering enhanced services to its app users.
 
 App providers can offer real-time synchronization and connectivity between app-users and applications while preserving stakeholders’ sovereignty and privacy. For example, a bond registry application could synchronize the records of bond ownership between bond issuers and holders. This is a multi-organization business process as issuers and holders are typically different organizations.
+
+.. _app-user:
 
 From the App User’s Perspective
 ===============================
