@@ -2004,14 +2004,14 @@ submission.
 **Package Preference**
 
 A submission can specify a `package preference <#dynamic-package-resolution-in-ledger-api-queries>`__,
-as a list of package IDs, as follows.
+as a list of package IDs:
 
 .. code:: daml
 
   (actAs alice <> packagePreference [myPackageId]) `submitWithOptions` createCmd ...
 
-Note here the use of ``submitWithOptions : SubmitOptions -> Commands a -> Script a``.
-We build ``SubmitOptions`` by combining the ``actAs`` and ``packagePreference`` functions with ``<>``.
+Note the use of ``submitWithOptions : SubmitOptions -> Commands a -> Script a``.
+You can build ``SubmitOptions`` by combining the ``actAs`` and ``packagePreference`` functions with ``<>``.
 
 The full list of builders for ``SubmitOptions`` is as follows:
 
@@ -2027,17 +2027,17 @@ The full list of builders for ``SubmitOptions`` is as follows:
   newtype PackageId = PackageId Text
   packagePreference : [PackageId] -> SubmitOptions
 
-A ``PackageId`` can be hard-coded in your script, which will need to updated whenever the given package changes. Otherwise,
+A ``PackageId`` can be hard-coded in your script, which must be updated whenever the package changes. Otherwise,
 it can be provided using the ``--input-file`` flag of the ``daml script`` command line tool.
 
-Following is an example on reading the package ID from a dar and passing it to a script.
+The following example demonstrates reading the package ID from a dar and passing it to a script.
 
 .. code:: bash
 
   # Path to the dar you want to pass as package preference. We will extract the package-id of its
   # main package
   PACKAGE_DAR=path/to/main/dar.dar
-  # Path to the dar containing your daml-script, for which you want to pass the package-id
+  # Path to the dar containing the Daml script for which you want to pass the package-id
   SCRIPT_DAR=path/to/script/dar.dar
   daml damlc inspect-dar ${PACKAGE_DAR} --json | jq '.main_package_id' > ./package-id-script-input.json
   # replace --ide-ledger with --ledger-host and --ledger-port for deployed Canton
