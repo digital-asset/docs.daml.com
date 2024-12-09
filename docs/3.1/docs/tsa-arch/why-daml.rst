@@ -30,6 +30,7 @@ Stakeholder Perspectives
 These values apply differently from the perspectives of app providers and app users.
 
 .. _app-provider:
+
 From the App Provider’s Perspective
 ===================================
 An app provider is an organization that builds and operates a Daml application, offering enhanced services to its app users.
@@ -37,6 +38,7 @@ An app provider is an organization that builds and operates a Daml application, 
 App providers can offer real-time synchronization and connectivity between app-users and applications while preserving stakeholders’ sovereignty and privacy. For example, a bond registry application could synchronize the records of bond ownership between bond issuers and holders. This is a multi-organization business process as issuers and holders are typically different organizations.
 
 .. _app-user:
+
 From the App User’s Perspective
 ===============================
 An app user is an organization that subscribes to the Daml application to use the services provided by the app provider.

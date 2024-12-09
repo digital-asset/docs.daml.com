@@ -338,6 +338,7 @@ Application, Ledger Client, Integration
 There's a lot of information available about application development, starting with the :doc:`/app-dev/app-arch` page.
 
 .. _ledger-api:
+
 Ledger API
 ==========
 
@@ -425,9 +426,8 @@ A **command** is an instruction to add a transaction to the `ledger <#daml-ledge
 
 .. TODO.
 
-.. _daml-lf:
-
 .. _participant-node:
+
 Participant Node
 ================
 
@@ -439,6 +439,8 @@ Sub-transaction Privacy
 
 Sub-transaction privacy is where participants in a transaction only `learn about the subset of the transaction <https://docs.daml.com/concepts/ledger-model/ledger-privacy.html>`__ they are
 directly involved in, but not about any other part of the transaction. This applies to both the content of the transaction as well as other involved participants.
+
+.. _daml-lf:
 
 Daml-LF
 =======
@@ -482,6 +484,7 @@ The `sequencer service <#sequencer>`__ of the sync domain orders these messages 
 The other services of the sync domain are the `mediator <#mediator>`__ and the `sync domain identity manager <#domain-identity-manager>`__.
 
 .. _private-contract-store:
+
 Private Contract Store
 ======================
 
