@@ -396,8 +396,8 @@ or any of the dependency DAR files change.
 Note, however, that the Multi-IDE does not hold "live" copies of DARs, therefore any changes
 to a package that is a dependency of another package are not visible in that second package until
 you run ``daml build``.  
-You can run ``daml build --all`` to rebuild all relevant DARs, and the IDE will account for this
-and reload environments as necessary.  
+You can run ``daml build --all`` to rebuild all relevant DARs. The IDE accounts for this
+and reloads environments as necessary.  
 
 Jumping to definition on non-local dependencies (those not listed in ``multi-package.yaml``)
 also uses the correct environment, giving correct diagnostics for that package, and allowing
