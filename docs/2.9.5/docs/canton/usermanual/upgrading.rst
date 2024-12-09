@@ -41,7 +41,14 @@ differ and will be covered separately if necessary.
 
     Upgrading requires care and preparation.
       * **Please back up your data before any upgrade.**
+
+        Note that :ref:`order of the backups <order-of-backups>` is important
+
       * **Please test your upgrade thoroughly before attempting to upgrade your production system.**
+
+      * **Once a migration has started it cannot be aborted or rolled back.**
+
+        In case of issue, you need to restore the old version using the backups.
 
 .. _upgrade_canton_binary:
 
