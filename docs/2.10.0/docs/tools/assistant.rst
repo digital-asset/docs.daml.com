@@ -148,7 +148,7 @@ Here is what each field means:
   say ``daml start --start-navigator=true``, the CLI argument takes precedence over
   the value in ``daml.yaml``.
 
-The ``daml.yaml`` file supports `Environment Variable Interpolation <#environment-variable-interpolation>`__.
+The ``daml.yaml`` file supports :ref:`Environment Variable Interpolation <environment-variable-interpolation>`.
 
 Recommended ``build-options``
 =============================
@@ -205,7 +205,9 @@ Here is what each field means:
 - ``projects``: an optional list of directories containing ``multi-package.yaml`` config files, which will extend the above package set for resolving
   the build order. These exist to allow separation of your project into sub-projects which can still be built when removed from the surrounding environment.
 
-The ``multi-package.yaml`` file supports `Environment Variable Interpolation <#environment-variable-interpolation>`__.
+The ``multi-package.yaml`` file supports :ref:`Environment Variable Interpolation <environment-variable-interpolation>`.
+
+.. _environment-variable-interpolation:
 
 Environment Variable Interpolation
 ==================================

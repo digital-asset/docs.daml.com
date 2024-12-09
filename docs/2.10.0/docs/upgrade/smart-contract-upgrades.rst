@@ -308,7 +308,7 @@ PQS & Daml Shell
 ~~~~~~~~~~~~~~~~
 
 As of 2.9, PQS only supports querying contracts via package-name, 
-dropping support for direct pacakge-id queries. See
+dropping support for direct package-id queries. See
 `Limitations <#limitations>`__ for more information and a work-around.
 
 Daml Shell builds on top of PQS, so inherits this behavior.
