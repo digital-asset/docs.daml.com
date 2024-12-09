@@ -3,6 +3,7 @@ Daml Application Architecture and Design Considerations
 
 1. Daml Application Components
 ==============================
+
 .. image:: images/tsa-master-arch-with-user-backend.png
    :alt: Daml application architecture diagram as described below.
    :align: center
@@ -99,6 +100,7 @@ There are various integration options:
 
 1. Choose Tech Stack for Backend
 ================================
+
 2.1 Use a standard stack for building an enterprise application
 ---------------------------------------------------------------
 * To interact with the Ledger API, use any library considered standard for interacting with gRPC services.
@@ -160,8 +162,10 @@ The disadvantages of this highly flexible architecture include:
 
 3.4 Properties Summary
 ----------------------
+
 3.4.1 Properties of the Architectures
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 .. image:: images/properties-of-arch.png
    :alt: Properties of the architectures as described below.
    :align: center
@@ -170,6 +174,7 @@ This table summarizes the properties of each of the three architectures under co
 
 3.4.2 Properties of the Architectures from a Cost Perspective
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 .. image:: images/properties-of-arch-from-cost-perspective.png
    :alt: Properties of the architectures from a cost perspective as described below.
    :align: center
