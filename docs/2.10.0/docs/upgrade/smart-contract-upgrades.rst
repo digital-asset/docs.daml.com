@@ -1833,6 +1833,8 @@ package-name to a package-id:
    be explicitly used when resolving package-name *ambiguities* in
    either command template-id or interface resolution.
 
+   - See :ref:`here <daml-script-package-preference>` for how to provide this in Daml-Script
+
    -  **Note:** The Command’s
       :ref:`package_id_selection_preference <com.daml.ledger.api.v1.Commands.package_id_selection_preference>`
       must not lead to ambiguous resolutions for package-names,
@@ -1996,6 +1998,66 @@ use the exact version of the package that your script uses, this is most
 useful when you want to be absolutely certain of the choice code you are
 calling. Note that exact and non-exact commands can be mixed in the same
 submission.
+
+.. _daml-script-package-preference:
+
+**Package Preference**
+
+A submission can specify a `package preference <#dynamic-package-resolution-in-ledger-api-queries>`__,
+as a list of package IDs:
+
+.. code:: daml
+
+  (actAs alice <> packagePreference [myPackageId]) `submitWithOptions` createCmd ...
+
+Note the use of ``submitWithOptions : SubmitOptions -> Commands a -> Script a``.
+You can build ``SubmitOptions`` by combining the ``actAs`` and ``packagePreference`` functions with ``<>``.
+
+The full list of builders for ``SubmitOptions`` is as follows:
+
+.. code:: daml
+
+  -- `p` can be `Party`, `[Party]`, etc.
+  actAs : IsParties p => p -> SubmiOptions
+  readAs : IsParties p => p -> SubmitOptions
+
+  disclose : Disclosure -> SubmitOptions
+  discloseMany : [Disclosure] -> SubmitOptions
+
+  newtype PackageId = PackageId Text
+  packagePreference : [PackageId] -> SubmitOptions
+
+A ``PackageId`` can be hard-coded in your script, which must be updated whenever the package changes. Otherwise,
+it can be provided using the ``--input-file`` flag of the ``daml script`` command line tool.
+
+The following example demonstrates reading the package ID from a dar and passing it to a script.
+
+.. code:: bash
+
+  # Path to the dar you want to pass as package preference.
+  PACKAGE_DAR=path/to/main/dar.dar
+  # Path to the dar containing the Daml script for which you want to pass the package-id
+  SCRIPT_DAR=path/to/script/dar.dar
+  # Extract the package-id of PACKAGE_DAR's main package.
+  daml damlc inspect-dar ${PACKAGE_DAR} --json | jq '.main_package_id' > ./package-id-script-input.json
+  # replace --ide-ledger with --ledger-host and --ledger-port for deployed Canton
+  daml script --dar ${SCRIPT_DAR} --script-name Main:main --ide-ledger --input-file ./package-id-script-input.json
+
+Following this, your script would look like
+
+.. code:: daml
+
+  module Main where
+
+  import Daml.Script
+
+  main : Text -> Script ()
+  main rawPkgId = do
+    let pkgId = PackageId rawPkgId
+    alice <- allocateParty "alice"
+    -- Commands omitted for brevity
+    let submitOptions = actAs alice <> packagePreference [pkgId]
+    submitOptions `submitWithOptions` createCmd ...
 
 Daml Studio support
 -------------------
