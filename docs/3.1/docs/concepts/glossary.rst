@@ -337,6 +337,7 @@ Application, Ledger Client, Integration
 
 There's a lot of information available about application development, starting with the :doc:`/app-dev/app-arch` page.
 
+.. _ledger-api:
 Ledger API
 ==========
 
@@ -426,6 +427,7 @@ A **command** is an instruction to add a transaction to the `ledger <#daml-ledge
 
 .. _daml-lf:
 
+.. _participant-node:
 Participant Node
 ================
 
@@ -479,6 +481,7 @@ The `sequencer service <#sequencer>`__ of the sync domain orders these messages 
 
 The other services of the sync domain are the `mediator <#mediator>`__ and the `sync domain identity manager <#domain-identity-manager>`__.
 
+.. _private-contract-store:
 Private Contract Store
 ======================
 

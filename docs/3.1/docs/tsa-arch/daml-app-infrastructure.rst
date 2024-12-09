@@ -55,6 +55,7 @@ Benefits of Each Organization Operating a Participant Node
 **********************************************************
 When each organization operates its own participant node, all changes made by the app provider or any app user to the application data are signed and submitted by the participant node under that entity’s control. This provides two crucial benefits:
 
+.. _non-repudiation:
 Non-repudiation
 ===============
 The ledger records cryptographic evidence of the workflow steps taken by both the app provider and the app users. Therefore, none of them can effectively repudiate or deny their steps in shared workflows. For example:
