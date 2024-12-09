@@ -272,28 +272,38 @@ The **JSON API** can return one of the following HTTP status codes:
 
 When the Ledger API returns an error code, the JSON API maps it to one of the above codes according to `the official gRPC to HTTP code mapping <https://cloud.google.com/apis/design/errors#generating_errors>`_.
 
-If a client's HTTP GET or POST request reaches an API endpoint, the corresponding response will always contain a JSON object with a ``status`` field, and either an ``errors`` or ``result`` field. It may also contain an optional ``warnings`` and/or an optional ``ledgerApiError`` :
+If a client's HTTP GET or POST request reaches an API endpoint, the corresponding response will always contain a JSON object  either an expected message (coresponding to endpoint) or an  ``error`` object as int the example below:
 
 .. code-block:: none
 
     {
-        "status": <400 | 401 | 403 | 404 | 409 | 500 | 503 | 504>,
-        "errors": <JSON array of strings>, | "result": <JSON object or array>,
-        ["warnings": <JSON object> ],
-        ["ledgerApiError": <JSON object> ]
+    "cause" : "The submitted request has invalid arguments: Cannot unassign contract `ContractId(00a7feb291fe1be6289c4d77f3a432b623083ed3f49bf8535f8571aa8bdf68b647ca10122006207a71ac6ed62dae27429b43e456dfbbc411a49d67b7e0067bef4c914c6e8a)`: source and target domains are the same",
+    "code" : "INVALID_ARGUMENT",
+    "context" : {
+    "category" : "8",
+    "definite_answer" : "false",
+    "participant" : "participant1",
+    "test" : "JsonV2Tests",
+    "tid" : "99e67812af315256ef9a02a9fdb94646"
+    },
+    "correlationId" : null,
+    "definiteAnswer" : null,
+    "errorCategory" : 8,
+    "grpcCodeValue" : 3,
+    "resources" : [ ],
+    "retryInfo" : null,
+    "traceId" : "99e67812af315256ef9a02a9fdb94646"
     }
 
 Where:
 
-- ``status`` -- a JSON number which matches the HTTP response status code returned in the HTTP header,
-- ``errors`` -- a JSON array of strings, each string represents one error,
-- ``result`` -- a JSON object or JSON array, representing one or many results,
-- ``warnings`` -- an optional field with a JSON object, representing one or many warnings.
-- ``ledgerApiError`` -- an optional field with a JSON object, representing detail of an error if it was originated from Ledger API.
-
-See the following blog post for more details about error handling best practices: `REST API Error Codes 101 <https://blog.restcase.com/rest-api-error-codes-101/>`_.
+- ``cause`` --  a textual message containing readable error reason,
+- ``code`` -- a LedgerAPI error code,
+- ``context`` -- a Ledger API context of an error,
+(TODO)
 
 See :doc:`The Ledger API error codes </canton/reference/error_codes>` for more details about error codes from Ledger API.
+
 
 Successful Response, HTTP Status: 200 OK
 ========================================
@@ -303,42 +313,12 @@ Successful Response, HTTP Status: 200 OK
 
 .. code-block:: none
 
-    {
-        "status": 200,
-        "result": <JSON object>
+    { //json object with properties - see endpoints for
     }
 
-Successful Response with a Warning, HTTP Status: 200 OK
-=======================================================
 
-- Content-Type: ``application/json``
-- Content:
 
-.. code-block:: none
-
-    {
-        "status": 200,
-        "result": <JSON object>,
-        "warnings": <JSON object>
-    }
-
-.. _error-format:
-
-Failure, HTTP Status: 400 | 401 | 404 | 500
-===========================================
-
-- Content-Type: ``application/json``
-- Content:
-
-.. code-block:: none
-
-    {
-        "status": <400 | 401 | 404 | 500>,
-        "errors": <JSON array of strings>,
-        ["ledgerApiError": <JSON object> ]
-    }
-
-Examples
+Examples (TODO)
 ========
 
 **Result with JSON Object without Warnings:**
@@ -398,7 +378,10 @@ To create an ``Iou`` contract from the :doc:`Quickstart guide </app-dev/bindings
 HTTP Request
 ============
 
-- URL: ``/v1/create``
+- URL,  one of:
+    - ``/v2/commands/submit-and-wait-for-transaction-tree``
+    - ``/v2/commands/submit-and-wait-for-transaction``
+    -  ``/v2/commands/submit-and-wait``
 - Method: ``POST``
 - Content-Type: ``application/json``
 - Content:
@@ -406,14 +389,32 @@ HTTP Request
 .. code-block:: json
 
     {
-      "templateId": "a3b788b4dc18dc060bfb82366ae6dc055b1e361d646d5cfdb1b729607e344336:Iou:IouTransfer",
-      "payload": {
-        "issuer": "Alice",
-        "owner": "Alice",
-        "currency": "USD",
-        "amount": "999.99",
-        "observers": []
-      }
+      "commands" : [ {
+        "CreateCommand" : {
+          "template_id" : "cbed714ed61c4a30b0038ea72c9ff13de51be99aac065f61e6ae9e954375e171:Iou:Iou",
+          "create_arguments" : {
+            "observers" : [ ],
+            "issuer" : "Alice_2820c3a4-d1bd-49ef-9b90-17b142c55d30::1220df15d08ac34527e46492a6ee48a723e3d02ed3ec20a05ebf64be47173f24407f",
+            "amount" : "999.99",
+            "currency" : "USD",
+            "owner" : "Alice_2820c3a4-d1bd-49ef-9b90-17b142c55d30::1220df15d08ac34527e46492a6ee48a723e3d02ed3ec20a05ebf64be47173f24407f"
+          }
+        }
+      } ],
+      "workflow_id" : "",
+      "application_id" : "defaultapp1",
+      "command_id" : "somecommandid",
+      "deduplication_period" : {
+        "Empty" : { }
+      },
+      "min_ledger_time_abs" : null,
+      "min_ledger_time_rel" : null,
+      "act_as" : [ "Alice_2820c3a4-d1bd-49ef-9b90-17b142c55d30::1220df15d08ac34527e46492a6ee48a723e3d02ed3ec20a05ebf64be47173f24407f" ],
+      "read_as" : [ "Alice_2820c3a4-d1bd-49ef-9b90-17b142c55d30::1220df15d08ac34527e46492a6ee48a723e3d02ed3ec20a05ebf64be47173f24407f" ],
+      "submission_id" : "somesubmissionid1",
+      "disclosed_contracts" : [ ],
+      "domain_id" : "",
+      "package_id_selection_preference" : [ ]
     }
 
 Where:
@@ -434,9 +435,14 @@ Where:
   format was not supported for production use and will not work with smart
   contract upgrades, it is now unavailable.**  
 
-- ``payload`` field contains contract fields as defined in the Daml template and formatted according to :doc:`lf-value-specification`.
+- ``create_arguments`` field contains contract fields as defined in the Daml template and formatted according to :doc:`lf-value-specification`.
+- ``commandId`` -- optional field, a unique string identifying the command.
+- ``actAs`` -- a non-empty list of parties, overriding the set from the JWT user; must be a subset of the JWT user's set.
+- ``readAs`` -- a list of parties, overriding the set from the JWT user; must be a subset of the JWT user's set.
+- ``submissionId`` -- a string, used for :doc:`deduplicating retried requests </app-dev/command-deduplication>`.  If you do not set it, a random one will be chosen, effectively treating the request as unique and disabling deduplication.
+- ``deduplicationPeriod`` -- either a ``Duration`` as above, which is how far back in time prior commands will be searched for this submission, or an ``Offset`` as follows, which is the earliest ledger offset after which to search for the submission.
 
-.. _create-response:
+.. _example_response: (in case of 1/v2/commands/submit-and-wait-for-transaction-tree)
 
 HTTP Response
 =============
@@ -447,77 +453,59 @@ HTTP Response
 .. code-block:: json
 
     {
-        "status": 200,
-        "result": {
-            "observers": [],
-            "agreementText": "",
-            "payload": {
+      "transaction_tree": {
+        "command_id": "somecommandid",
+        "domain_id": "domain1::122002d4368a8ad29623839f1c4976889124cf9f6c336b5fbf833e643f38e9e8a498",
+        "effective_at": "1970-01-01T00:00:00Z",
+        "events_by_id": {
+          "#1220ef7fb20517c48dc07c55743ea4712968d7fe51b32c212ab268176d240b582d12:0": {
+            "CreatedTreeEvent": {
+              "value": {
+                "contract_id": "00d814ef389459b8fa8b1b67765637c6490e92819c7aae0a0d199ced2efec7ef25ca101220640e21ca6220bcb2a476d2b5be3beddd7da1f71f4f3af3a001ef3c38522211c4",
+                "contract_key": null,
+                "create_argument": {
+                  "amount": "999.9900000000",
+                  "currency": "USD",
+                  "issuer": "Alice_6c4715ab-147d-4918-acfe-fdc85a745de7::1220844878a78a09732545ce29e5b48bd4038dd936224b3c844e17d621a3065a542a",
+                  "observers": [],
+                  "owner": "Alice_6c4715ab-147d-4918-acfe-fdc85a745de7::1220844878a78a09732545ce29e5b48bd4038dd936224b3c844e17d621a3065a542a"
+                },
+                "created_at": "1970-01-01T00:00:00Z",
+                "created_event_blob": "",
+                "event_id": "#1220ef7fb20517c48dc07c55743ea4712968d7fe51b32c212ab268176d240b582d12:0",
+                "interface_views": [],
                 "observers": [],
-                "issuer": "Alice",
-                "amount": "999.99",
-                "currency": "USD",
-                "owner": "Alice"
-            },
-            "signatories": [
-                "Alice"
-            ],
-            "contractId": "#124:0",
-            "templateId": "11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Iou:Iou",
-            "completionOffset":"0000000000000084"
-        }
-    }
-
-Where:
-
-- ``status`` field matches the HTTP response status code returned in the HTTP header,
-- ``result`` field contains created contract details. Keep in mind that ``templateId`` in the **JSON API** response is always fully qualified (always contains package ID).
-
-.. _create-request-with-meta:
-
-Create a Contract with a Command ID
-***********************************
-
-When creating a new contract or exercising a choice you may specify an optional ``meta`` field. This allows you to control various extra settings used when submitting a command to the ledger.  Each of these ``meta`` fields is optional.
-
-.. note:: You cannot currently use ``commandIds`` anywhere else in the JSON API, but you can use it for observing the results of its commands outside the JSON API in logs or via the Ledger API's :doc:`Command Services </app-dev/services>`
-
-.. code-block:: json
-
-    {
-      "templateId": "a3b788b4dc18dc060bfb82366ae6dc055b1e361d646d5cfdb1b729607e344336:Iou:IouTransfer",
-      "payload": {
-        "observers": [],
-        "issuer": "Alice",
-        "amount": "999.99",
-        "currency": "USD",
-        "owner": "Alice"
-      },
-      "meta": {
-        "commandId": "a unique ID",
-        "actAs": ["Alice"],
-        "readAs": ["PublicParty"],
-        "deduplicationPeriod": {
-          "durationInMillis": 10000,
-          "type": "Duration"
+                "package_name": "model-tests",
+                "signatories": [
+                  "Alice_6c4715ab-147d-4918-acfe-fdc85a745de7::1220844878a78a09732545ce29e5b48bd4038dd936224b3c844e17d621a3065a542a"
+                ],
+                "template_id": "cbed714ed61c4a30b0038ea72c9ff13de51be99aac065f61e6ae9e954375e171:Iou:Iou",
+                "witness_parties": [
+                  "Alice_6c4715ab-147d-4918-acfe-fdc85a745de7::1220844878a78a09732545ce29e5b48bd4038dd936224b3c844e17d621a3065a542a"
+                ]
+              }
+            }
+          }
         },
-        "submissionId": "d2f941b1-ee5c-4634-9a51-1335ce6902fa"
+        "offset": 8,
+        "record_time": "1970-01-01T00:00:00.000036Z",
+        "root_event_ids": [
+          "#1220ef7fb20517c48dc07c55743ea4712968d7fe51b32c212ab268176d240b582d12:0"
+        ],
+        "trace_context": {
+          "traceparent": "00-16fd492d478a8e3bef67bf4ecb1f4e22-7d4374f93195fa1c-01",
+          "tracestate": null
+        },
+        "update_id": "1220ef7fb20517c48dc07c55743ea4712968d7fe51b32c212ab268176d240b582d12",
+        "workflow_id": ""
       }
     }
 
 Where:
 
-- ``commandId`` -- optional field, a unique string identifying the command.
-- ``actAs`` -- a non-empty list of parties, overriding the set from the JWT user; must be a subset of the JWT user's set.
-- ``readAs`` -- a list of parties, overriding the set from the JWT user; must be a subset of the JWT user's set.
-- ``submissionId`` -- a string, used for :doc:`deduplicating retried requests </app-dev/command-deduplication>`.  If you do not set it, a random one will be chosen, effectively treating the request as unique and disabling deduplication.
-- ``deduplicationPeriod`` -- either a ``Duration`` as above, which is how far back in time prior commands will be searched for this submission, or an ``Offset`` as follows, which is the earliest ledger offset after which to search for the submission.
+- ``events_by_id`` contains ledger events with details of created contract(s),
 
-.. code-block:: json
 
-        "deduplicationPeriod": {
-          "offset": "0000000000000083",
-          "type": "Offset"
-        }
 
 Exercise by Contract ID
 ***********************
@@ -532,7 +520,10 @@ The JSON command below, demonstrates how to exercise an ``Iou_Transfer`` choice 
 HTTP Request
 ============
 
-- URL: ``/v1/exercise``
+- URL,  one of:
+    - ``/v2/commands/submit-and-wait-for-transaction-tree``
+    - ``/v2/commands/submit-and-wait-for-transaction``
+    -  ``/v2/commands/submit-and-wait``
 - Method: ``POST``
 - Content-Type: ``application/json``
 - Content:
@@ -540,13 +531,30 @@ HTTP Request
 .. code-block:: json
 
     {
-        "templateId": "a3b788b4dc18dc060bfb82366ae6dc055b1e361d646d5cfdb1b729607e344336:Iou:IouTransfer",
-        "choiceInterfaceId": "a3b788b4dc18dc060bfb82366ae6dc055b1e361d646d5cfdb1b729607e344336:Iou:IouTransferInterface",
-        "contractId": "#124:0",
-        "choice": "Iou_Transfer",
-        "argument": {
-            "newOwner": "Alice"
+      "act_as" : [ "Alice_f410fcbe-e03f-47ef-bad0-f7a8a08e7338::1220870d67dba562b868d0256cb2968dbc59a7a6bdbc4b82ee623ff96c8cda3afb9a" ],
+      "application_id" : "defaultapp2",
+      "command_id" : "somecommandid",
+      "commands" : [ {
+        "ExerciseCommand" : {
+          "choice" : "Iou_Transfer",
+          "choice_argument" : {
+            "newOwner" : "Alice_f410fcbe-e03f-47ef-bad0-f7a8a08e7338::1220870d67dba562b868d0256cb2968dbc59a7a6bdbc4b82ee623ff96c8cda3afb9a"
+          },
+          "contract_id" : "00fd14e85d36ac5f1568d7276f33a1d7bf461cd77fd6042af16455a06613e8afabca101220b6a0730c7765991946af0f5d9d32be551d12ac2c7c14eb5f45ba706b05548923",
+          "template_id" : "cbed714ed61c4a30b0038ea72c9ff13de51be99aac065f61e6ae9e954375e171:Iou:Iou"
         }
+      } ],
+      "deduplication_period" : {
+        "Empty" : { }
+      },
+      "disclosed_contracts" : [ ],
+      "domain_id" : "",
+      "min_ledger_time_abs" : null,
+      "min_ledger_time_rel" : null,
+      "package_id_selection_preference" : [ ],
+      "read_as" : [ "Alice_f410fcbe-e03f-47ef-bad0-f7a8a08e7338::1220870d67dba562b868d0256cb2968dbc59a7a6bdbc4b82ee623ff96c8cda3afb9a" ],
+      "submission_id" : "somesubmissionid2",
+      "workflow_id" : ""
     }
 
 Where:
@@ -561,7 +569,7 @@ Where:
 However, because ``contractId`` is always unambiguous, you may alternatively simply specify the interface ID as the ``templateId`` argument, and ignore ``choiceInterfaceId`` entirely.
 This isn't true of exercise-by-key or create-and-exercise, so we suggest treating this request as if this alternative isn't available.
 
-.. _exercise-response:
+.. _exercise-response: ( (in case of ``/v2/commands/submit-and-wait``)
 
 HTTP Response
 =============
