@@ -98,7 +98,7 @@ There are various integration options:
 * Data can be pushed from the ledger to off-ledger systems by the backend using webhooks or by writing to message queues. A pull-based consumption is also possible, leveraging the offset-based access to events provided by both PQS and the Ledger API. An example of this kind of dataflow is replicating securities registration data from an on-ledger registry to order book matching services. Other examples include feeding accounting systems or populating reporting databases.
 * These options are non-exhaustive. There are other ways to exchange data between the ledger and off-ledger systems. Use whatever technology makes development and deployment of the app easier for the app provider and app users. Regardless of the technology used, it is recommended to keep the read and write paths separate and to implement integration between off-ledger systems and the ledger via a backend service, rather than allowing off-ledger systems to use the Ledger API directly.
 
-1. Choose Tech Stack for Backend
+2. Choose Tech Stack for Backend
 ================================
 
 2.1 Use a standard stack for building an enterprise application
@@ -184,8 +184,9 @@ This table summarizes the properties of the same three architectures from the pe
 Note that an “X” indicates an issue with an item, while “XX” signifies that the issue is more severe. For example, the challenge of cross-organizational coordination becomes significantly more pronounced when each organization builds its own backend, compared to situations where app users operate a backend provided by the app provider.
 
 4. Key Takeaways
-* A Daml app typically requires three components: an app frontend, Daml models, and app backends. Daml models need to be deployed on the app provider’s and each app user’s participant node.
-* A Daml application backend serves three primary purposes: provisioning higher-level APIs for communication with the ledger, automating on-ledger workflows, and integrating with off-ledger systems.
-* When implementing a higher-level API, use PQS to read from the ledger. On the write path to the ledger, reliability is the most important consideration, which includes two related factors: retry behavior on command failure and idempotency of command submission.
-* The functions served by a Daml app backend are not unusual, and the tech stack required to implement it is standard. Use the standard enterprise application stack for building the Daml app backend.
-* There are various options for developing and operating the app backends and frontends, and the app architecture can evolve over time. Initially favoring an architecture that minimizes software engineering and operational effort for app users while meeting their requirements is recommended. This approach helps minimize delivery risk and maximize the total addressable market for the app.
+================
+1. A Daml app typically requires three components: an app frontend, Daml models, and app backends. Daml models need to be deployed on the app provider’s and each app user’s participant node.
+2. A Daml application backend serves three primary purposes: provisioning higher-level APIs for communication with the ledger, automating on-ledger workflows, and integrating with off-ledger systems.
+3. When implementing a higher-level API, use PQS to read from the ledger. On the write path to the ledger, reliability is the most important consideration, which includes two related factors: retry behavior on command failure and idempotency of command submission.
+4. The functions served by a Daml app backend are not unusual, and the tech stack required to implement it is standard. Use the standard enterprise application stack for building the Daml app backend.
+5. There are various options for developing and operating the app backends and frontends, and the app architecture can evolve over time. Initially favoring an architecture that minimizes software engineering and operational effort for app users while meeting their requirements is recommended. This approach helps minimize delivery risk and maximize the total addressable market for the app.
