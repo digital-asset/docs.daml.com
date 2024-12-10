@@ -634,6 +634,8 @@ as long as the sync domain's backup is more recent than that of the participant'
 .. todo::
   #. `Ability to recover from partial data loss on a sync domain <https://github.com/DACH-NY/canton/issues/4839>`_.
 
+.. _order-of-backups:
+
 Order of Backups
 ~~~~~~~~~~~~~~~~
 
