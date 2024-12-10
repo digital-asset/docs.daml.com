@@ -2091,6 +2091,147 @@ transformations themselves. You can use Daml Script (with Canton) to test some
 isolated simple cases, but for thorough tests of you system using SCU, you should
 prefer full workflow testing, as below.
 
+Multi-package builds for upgrades
+--------------------------------------
+.. _multi_package_upgrades:
+
+When you are developing upgrades, you may have multiple DARs in scope that need
+to be built together. Tracking these DARs and building them in the right order
+can be complicated, especially as you develop live and as the project grows.
+
+:ref:`Multi-package builds <multi-package-build>` help
+with projects containing multiple DARs, for example, a project using upgrades.
+
+To understand how multi-package builds simplify the
+development of a project using upgrades, begin by creating a new Daml project
+with the ``upgrades-example`` template.
+
+.. code:: bash
+
+   > daml new upgraded-iou --template upgrades-example
+   > cd upgraded-iou
+   > tree
+   .
+   ├── multi-package.yaml
+   ├── run-test.sh
+   ├── interfaces
+   │   ├── daml/...
+   │   └── daml.yaml
+   ├── main-v1
+   │   ├── daml/...
+   │   └── daml.yaml
+   ├── main-v2
+   │   ├── daml/...
+   │   └── daml.yaml
+   └── test
+       ├── daml/...
+       └── daml.yaml
+
+The example template contains:
+
+- A package ``upgraded-iou-interfaces``, which defines an interface ``Asset``
+  and a viewtype ``Asset.View``.
+- The first version (1.0.0) of a package ``upgraded-iou-main``, which defines a
+  template ``IOU`` with instance of ``upgraded-iou-interfaces:Main.Asset``.
+- The second version (2.0.0) of ``upgraded-iou-main`` which upgrades
+  the first. It adds a new ``description`` field to ``IOU``, and uses it (when
+  the field is defined) in an upgraded implementation of ``Asset``.
+- A testing package ``upgraded-iou-test``, which depends on both
+  ``upgraded-iou-main-1.0.0`` and ``upgraded-iou-main-2.0.0``. It defines a
+  script which exercises v1.0.0 and v2.0.0 ``IOU``s via their ``Asset``
+  interface.
+- A script ``run-test.sh``, which runs the main test in ``upgraded-iou-test``.
+- A ``multi-package.yaml`` file which lists our four packages.
+
+Without multi-package builds you would test your program like this:
+
+.. code:: bash
+
+   > # Run sandbox in the background, wait until the three lines below are shown
+   > daml sandbox &
+   Starting Canton sandbox.
+   Listening at port 6865
+   Canton sandbox is ready.
+   > # Build all, run test
+   > cd interfaces/; daml build --enable-multi-package=no
+   > cd ../main-v1/; daml build --enable-multi-package=no
+   > cd ../main-v2/; daml build --enable-multi-package=no
+   > cd ../test/; daml build --enable-multi-package=no
+   > cd ..
+   > ./run-test.sh
+   > # Modify v2, run test
+   > cd main-v2/
+   > ... modify main-v2 ...
+   > daml build --enable-multi-package=no
+   > cd ../test/; daml build --enable-multi-package=no
+   > cd ..
+   > # Modify test, run test
+   > cd test/
+   > daml build --enable-multi-package=no
+   > cd ..
+   > ./run-test.sh
+   ...
+   Test output:
+   ...
+   > kill %1 # Kill backgrounded sandbox process
+
+Forgetting to rebuild packages after changing their source would not cause a
+failure - for example, if you modified the source from ``main-v2`` in an
+incompatible way but did not recompile it, the ``test`` package would still compile
+successfully against the previous DAR for ``main-v2``.
+
+.. code:: bash
+
+   > # Modify main-v2 in an incompatible way
+   > cd main-v2/
+   > ... add a non-optional field `currency: Text` to template T in main-v2 ...
+   > cd ../test/
+   > daml build --enable-multi-package=no
+   ...
+   Created .daml/dist/upgraded-iou-upgrades-template-test-1.0.0.dar
+   > # Compiling `test` succeeded even though main-v2 was changed incorrectly
+
+With Daml multi-package builds, all builds automatically rebuild
+dependencies if their source has changed:
+
+.. code:: bash
+
+   > cd test/
+   > daml build # --enable-multi-package is set to true by default
+   ...
+   Building /home/dylanthinnes/ex-upgrades-template/main-v2
+   ...
+   Severity: DsError
+   Message: 
+   error type checking template Main.IOU :
+     The upgraded template IOU has added new fields, but the following new fields are not Optional:
+       Field 'currency' with type Text
+   ...
+   > # Compiling `test` failed as expected because main-v2 was changed incorrectly
+
+The ``./run-test.sh`` script automatically rebuilds all DARs in the package that
+need to be rebuilt:
+
+.. code:: bash
+
+   > daml sandbox & # Start sandbox in background
+   Starting Canton sandbox.
+   Listening at port 6865
+   Canton sandbox is ready.
+   > ... Fix main-v2 by dropping non-optional `currency` field ...
+   > # Re-run test
+   > ./run-test.sh
+   ...
+   Building /home/dylanthinnes/ex-upgrades-template/main-v2
+   ...
+   > # Modify test, run test
+   > ... modify test ...
+   > daml build --all
+   > ./run-test.sh
+
+Multi-package builds invoked by ``daml build --all`` always recompile stale dependencies and DARs in order. This ensures a
+fully up-to-date package environment before running ``./run-test.sh``.
+
 Workflow Testing
 ----------------
 

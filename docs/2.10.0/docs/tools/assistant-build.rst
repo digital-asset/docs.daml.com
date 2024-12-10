@@ -519,3 +519,9 @@ To clear out project build artifacts you no longer need, use ``daml clean``:
 When a ``multi-package.yaml`` file is in place, the ``--all``
 flag clears the build artifacts of all packages in the
 project.
+
+Multi-Package Builds and Upgrades
+=================================
+
+Multi-package builds can make testing and developing upgrades much easier. For
+more on this, consult the the documentation for :ref:`multi-package builds in upgrades <multi_package_upgrades>`.
