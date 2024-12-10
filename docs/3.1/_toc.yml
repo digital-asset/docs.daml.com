@@ -13,6 +13,8 @@ subtrees:
     title: "Why Daml"
   - file: tsa-arch/daml-app-infrastructure
     title: "Daml Application Infrastructure"
+  - file: tsa-arch/daml-app-arch-design
+    title: "Daml Application Architecture and Design Considerations"
 
 - caption: "Set Up Your Developer Environment"
   entries:
