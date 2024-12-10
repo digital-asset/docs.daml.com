@@ -2033,14 +2033,14 @@ Multi-package builds for upgrades
 --------------------------------------
 .. _multi_package_upgrades:
 
-When developing upgrades, you will likely have multiple DARs in scope that need
-to be built together - tracking these DARs and building them in the right order
+When you are developing upgrades, you may have multiple DARs in scope that need
+to be built together. Tracking these DARs and building them in the right order
 can be complicated, especially as you develop live and as the project grows.
 
-:ref:`Multi-package builds <multi-package-build>` are a new feature that has exited beta in 2.10 which helps
-with projects containing multiple DARs, for example a project using upgrades.
+:ref:`Multi-package builds <multi-package-build>` help
+with projects containing multiple DARs, for example, a project using upgrades.
 
-To get started understanding how the multi-package builds simplify the
+To understand how multi-package builds simplify the
 development of a project using upgrades, begin by creating a new Daml project
 with the ``upgrades-example`` template.
 
@@ -2081,7 +2081,7 @@ The example template contains:
 - A script ``run-test.sh``, which runs the main test in ``upgraded-iou-test``.
 - A ``multi-package.yaml`` file which lists our four packages.
 
-Normally, without multi-package builds, you would test your program the following way:
+Without multi-package builds you would test your program like this:
 
 .. code:: bash
 
@@ -2113,9 +2113,9 @@ Normally, without multi-package builds, you would test your program the followin
    ...
    > kill %1 # Kill backgrounded sandbox process
 
-Forgetting to rebuild packages after changing their source will not cause a
-failure - for example, if you modify the source from ``main-v2`` in an
-incompatible way but don't recompile it, the ``test`` package will still compile
+Forgetting to rebuild packages after changing their source would not cause a
+failure - for example, if you modified the source from ``main-v2`` in an
+incompatible way but did not recompile it, the ``test`` package would still compile
 successfully against the previous DAR for ``main-v2``.
 
 .. code:: bash
@@ -2129,7 +2129,7 @@ successfully against the previous DAR for ``main-v2``.
    Created .daml/dist/upgraded-iou-upgrades-template-test-1.0.0.dar
    > # Compiling `test` succeeded even though main-v2 was changed incorrectly
 
-With daml multi-package builds, all builds will automatically rebuild
+With Daml multi-package builds, all builds automatically rebuild
 dependencies if their source has changed:
 
 .. code:: bash
@@ -2167,8 +2167,7 @@ need to be rebuilt:
    > daml build --all
    > ./run-test.sh
 
-Multi-package builds invoked by ``daml build --all`` will always make sure to
-recompile stale dependencies and DARs in order. This way, we can ensure a
+Multi-package builds invoked by ``daml build --all`` always recompile stale dependencies and DARs in order. This ensures a
 fully up-to-date package environment before running ``./run-test.sh``.
 
 Workflow Testing
