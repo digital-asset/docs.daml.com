@@ -42,7 +42,7 @@ differ and will be covered separately if necessary.
     Upgrading requires care and preparation.
       * **Please back up your data before any upgrade.**
 
-        Note that the :ref:`order of the backups <order-of-backups>` is important
+        Note that the :ref:`order of the backups <order-of-backups>` is important.
 
       * **Please test your upgrade thoroughly before attempting to upgrade your production system.**
 
