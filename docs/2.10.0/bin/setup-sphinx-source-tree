@@ -50,6 +50,7 @@ sed -i 's|\^|*|g' $SPHINX_DIR/source/canton/reference/error_codes.rst
 declare -A sphinx_targets=( [html]=html [pdf]=latex )
 
 sed -i "s/'sphinx.ext.extlinks',$/'sphinx.ext.extlinks','canton_enterprise_only','sphinx.ext.todo','sphinx_external_toc','sphinxext.remoteliteralinclude',/g" $SPHINX_DIR/configs/html/conf.py
+sed -i "s/html4_writer/#html4_writer/" $SPHINX_DIR/configs/html/conf.py
 sed -i "s/'sphinx.ext.extlinks'$/'sphinx.ext.extlinks','canton_enterprise_only','sphinx.ext.todo','sphinx_external_toc','sphinxext.remoteliteralinclude'/g" $SPHINX_DIR/configs/pdf/conf.py
 
 # We rename the PDF so need to update the link.

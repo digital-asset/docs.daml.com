@@ -12,9 +12,9 @@ fi
 python3 -m venv .python-env
 source .python-env/bin/activate
 python -m pip install -r requirements.txt
-git clone https://github.com/bame-da/sphinx-external-toc.git
-cd sphinx-external-toc
-git checkout 8a33082711c7ccf3472a9381f9c9eee474f71a2d
-flit install
-cd ..
-rm -rf sphinx-external-toc
+#git clone https://github.com/bame-da/sphinx-external-toc.git
+#cd sphinx-external-toc
+#git checkout 8a33082711c7ccf3472a9381f9c9eee474f71a2d
+#flit install
+#cd ..
+#rm -rf sphinx-external-toc
