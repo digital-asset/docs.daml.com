@@ -174,6 +174,10 @@ The full set of configurable options that can be specified via config file is li
         prefix = "static"
         directory = "static-content-dir"
       }
+
+      auth-config {
+        target-scope = "scope-must-be-the-same-as-in-the-participant"
+      }
     }
 
 
@@ -230,6 +234,15 @@ to issue the request to the Ledger API.
 
 The HTTP JSON API Service does not validate the token but may need to decode it to extract information that can be used
 to fill in request fields for party-specific request. How this happens depends partially on the token format you are using.
+
+To connect to a Canton participant that uses target-scopes, the JSON API must also include target-scopes in its configuration
+as follows:
+
+.. code-block:: none
+
+    auth-config {
+        target-scope = "scope-must-be-the-same-as-in-the-participant"
+    }
 
 Party-specific Requests
 -----------------------
