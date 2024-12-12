@@ -58,8 +58,8 @@ You'll notice two things. Firstly, a lot of the dependencies have lost their nam
 
 That's why over the Ledger API, all types, like templates and records are identified by the triple ``(entity name, module name, package hash)`` which refers to the version of the package that was used to create them. Your client application should know the package hashes it wants to interact with. To aid that, ``inspect-dar`` also provides a machine-readable format for the information it emits: ``daml damlc inspect-dar --json assets_ledger.dar``. The ``main_package_id`` field in the resulting JSON payload is the package hash of our project.
 
-Starting with 2.10, additional a so called package name is available, which is a human readable name for the package. Your client application can now also be based off the package names it wants to interact with. The participant guarantees that all packages referring
-to the same package-name are backward and forward compatible, such that an application does not have to be upgraded if the package is upgraded. How smart contracts can be upgraded starting with 2.10 is covered in the :ref:`smart contract upgrading section <smart-contract-upgrades>`.
+Starting with 2.10, client application can interact with packages via their package name, a humand readable name defined in the `daml.yaml`.
+The participant guarantees that all packages referring to the same package-name are backward and forward compatible, such that an application does not have to be upgraded if the package is upgraded. This functionality is only available when :ref:`smart contract upgrading (SCU) <smart-contract-upgrades>` is enabled.
 
 After inspecting the downloaded data, you'll notice that all the ``*.daml``, ``*.hi`` and ``*.hie`` files are gone. This leads us to data dependencies.
 
