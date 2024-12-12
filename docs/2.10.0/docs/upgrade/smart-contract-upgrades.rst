@@ -307,7 +307,7 @@ package-name queries and command submission.
 PQS & Daml Shell
 ~~~~~~~~~~~~~~~~
 
-As of 2.9, PQS only supports querying contracts via package-name, 
+As of 2.10, PQS only supports querying contracts via package-name, 
 dropping support for direct package-id queries. See
 `Limitations <#limitations>`__ for more information and a work-around.
 
@@ -316,7 +316,7 @@ Daml Shell builds on top of PQS, so inherits this behavior.
 Daml Script
 ~~~~~~~~~~~
 
-Support for SCU is available in the opt-in beta version of Daml Script.
+Support for SCU is available in the opt-in LTS version of Daml Script.
 
 This version acts as a drop-in replacement for the previous
 Daml Script, and enables support for upgrades on all queries and
@@ -368,7 +368,7 @@ been implemented, but may be implemented in future releases.
    We do not expect to ever add this compatibility, as SCU supersedes retroactive
    interface instances
 
--  Daml Script does not support SCU, you must use Daml Script Beta.
+-  Daml Script does not support SCU or LF1.17, you must use Daml Script LTS.
 
 -  Contract keys in upgradable packages can only include types defined
    within the same package, or types from the Daml Standard Library.
@@ -400,7 +400,7 @@ of our package:
 
 Running ``daml version`` should print a line showing that 2.10.0 or higher is the "project SDK version from daml.yaml".
 
-Add ``daml-script-beta`` to the list of dependencies in ``v1/my-pkg/daml.yaml``,
+Add ``daml-script-lts`` to the list of dependencies in ``v1/my-pkg/daml.yaml``,
 as well as ``--target=1.17`` to the ``build-options``:
 
 .. code:: yaml
@@ -409,7 +409,7 @@ as well as ``--target=1.17`` to the ``build-options``:
   dependencies:
   - daml-prim
   - daml-stdlib
-  - daml-script-beta
+  - daml-script-lts
   build-options:
   - --target=1.17
 
@@ -465,7 +465,7 @@ field pointing to v1:
   dependencies:
   - daml-prim
   - daml-stdlib
-  - daml-script-beta
+  - daml-script-lts
   upgrades: ../../v1/my-pkg/.daml/dist/my-pkg-1.0.0.dar
   build-options:
   - --target=1.17
@@ -842,8 +842,7 @@ Deploying Your First Upgrade
 Configuring Canton to Support Smart Upgrading
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When using the feature one must
-temporarily configure Canton nodes to :ref:`enable beta version support <how-do-i-enable-beta-features>`.
+When using the feature one must be using Protocol Version 7.
 
 Using Smart Contract Upgrading Enabled Packages
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -876,7 +875,7 @@ without modifications and is immediately available for use.
 Validate the DAR Against a Running Participant Node
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Starting with 2.9 you can validate your DAR against the current
+Starting with 2.10 you can validate your DAR against the current
 participant node state without uploading it to the participant via the
 ``PackageManagementService.validateDar`` Ledger API endpoint. This allows
 participant node operators to first check the DAR before uploading it.
@@ -1978,7 +1977,7 @@ Daml-Script
 -----------
 
 Daml 2.10 introduces a new version of Daml Script, which can be used by
-depending on ``daml-script-beta`` in your ``daml.yaml``, as you will have seen
+depending on ``daml-script-lts`` in your ``daml.yaml``, as you will have seen
 in `Writing your first upgrade <#writing-your-first-upgrade>`__. This version of Daml Script
 supports upgrades over the Ledger API.
 
