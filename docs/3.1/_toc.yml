@@ -1155,37 +1155,6 @@ subtrees:
           - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Util-Lockable
             title: "Daml.Finance.Util.Lockable"
 
-- caption: "Deploy Daml"
-  entries:
-
-  - file: deploy-daml/intro/index
-    title: "Canton"
-  - file: deploy-daml/infrastructure-architecture/high-availability/main-menu
-    subtrees:
-    - hidden: False
-      titlesonly: True
-      entries:
-      - file: deploy-daml/infrastructure-architecture/high-availability/basic-ha/intro
-        subtrees:
-        - hidden: False
-          titlesonly: True
-          entries:
-          - file: deploy-daml/infrastructure-architecture/high-availability/basic-ha/overview
-          - file: deploy-daml/infrastructure-architecture/high-availability/basic-ha/participant
-          - file: deploy-daml/infrastructure-architecture/high-availability/basic-ha/domain
-      - file: deploy-daml/infrastructure-architecture/high-availability/production
-        subtrees:
-        - hidden: False
-          titlesonly: True
-          entries:
-          - file: deploy-daml/infrastructure-architecture/high-availability/ha-and-scaling/introduction
-          - file: deploy-daml/infrastructure-architecture/high-availability/ha-and-scaling/understanding-ha
-          - file: deploy-daml/infrastructure-architecture/high-availability/ha-and-scaling/use-cases
-          - file: deploy-daml/infrastructure-architecture/high-availability/ha-and-scaling/implementing-ha
-          - file: deploy-daml/infrastructure-architecture/high-availability/ha-and-scaling/deployment-solution
-          - file: deploy-daml/infrastructure-architecture/high-availability/ha-and-scaling/ha-in-the-cloud
-  - file: deploy-daml/infrastructure-architecture/disaster-recovery
-
 - caption: "Operate a Daml Ledger"
   entries:
 
