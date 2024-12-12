@@ -235,8 +235,8 @@ to issue the request to the Ledger API.
 The HTTP JSON API Service does not validate the token but may need to decode it to extract information that can be used
 to fill in request fields for party-specific request. How this happens depends partially on the token format you are using.
 
-If the Canton participant to which the JSON API is connected uses target-scopes, the configuration has to reflect that
-through the following setting:
+To connect to a Canton participant that uses target-scopes, the JSON API must also include target-scopes in its configuration
+as follows:
 
 .. code-block:: none
 
