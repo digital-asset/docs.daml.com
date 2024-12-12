@@ -1087,10 +1087,12 @@ Other definitions can be changed, but warnings are emitted to remind the
 developer that the changes can be unsafe and need to be made with care
 to preserve necessary invariants.
 
-Signatories and observers are one expression that can be changed.
-Importantly, SCU assumes that the new definition does not alter the
-computed values of the signatories, observers, and key for existing contracts.
-Otherwise, dynamic contract upgrades will fail at runtime.
+Signatories and observers are one expression that can be changed. Importantly,
+SCU assumes that the new definition does not alter the computed values of the
+signatories. The computed value of the observers is allowed to change in one
+specific way: observers that are also signatories can be removed. Any other
+change to the computed value of the observers (losing a non-signatory observer,
+adding an observer) is not allowed.
 
 For example, add a new field of "outside observers" to the v2 IOU
 template, and add them to the observer definition.
@@ -1112,8 +1114,9 @@ contracts default to ``None`` for the ``outsideObservers`` field, so all
 existing contracts have the same observer list as before: the
 single owner.
 
-In the case where a contract's signatories or observers change during an upgrade/downgrade,
-the upgrade, and thus full transaction, fails at runtime.
+In the case where a contract's signatories or observers change in during an 
+upgrade/downgrade in a way that doesn't meet the constraints above, the upgrade,
+and thus full transaction, fails at runtime.
 
 Modifying Key Expressions
 ~~~~~~~~~~~~~~~~~~~~~~~~~
