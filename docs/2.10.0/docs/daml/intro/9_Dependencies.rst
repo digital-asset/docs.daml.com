@@ -56,12 +56,12 @@ We can see this in action. When a DAR file gets deployed to a ledger, not all me
 
 You'll notice two things. Firstly, a lot of the dependencies have lost their names, they are now only identifiable by hash. We could of course also create a second project ``intro7-1.0.0`` with completely different contents so even when name and version are available, package hash is the only safe identifier.
 
-That's why over the Ledger API, all types, like templates and records are identified by the triple ``(entity name, module name, package hash)`` which refers to the version of the package that was used to create them. Your client application should know the package hashes it wants to interact with. To aid that, ``inspect-dar`` also provides a machine-readable format for the information it emits: ``daml damlc inspect-dar --json assets_ledger.dar``. The ``main_package_id`` field in the resulting JSON payload is the package hash of our project.
+That is why over the Ledger API, all types, like templates and records are identified by the triple ``(entity name, module name, package hash)`` which refers to the version of the package that was used to create them. Your client application should know the package hashes it wants to interact with. To aid that, ``inspect-dar`` also provides a machine-readable format for the information it emits: ``daml damlc inspect-dar --json assets_ledger.dar``. The ``main_package_id`` field in the resulting JSON payload is the package hash of our project.
 
-Starting with 2.10, client application can interact with packages via their package name, a humand readable name defined in the `daml.yaml`.
-The participant guarantees that all packages referring to the same package-name are backward and forward compatible, such that an application does not have to be upgraded if the package is upgraded. This functionality is only available when :ref:`smart contract upgrading (SCU) <smart-contract-upgrades>` is enabled.
+Starting with 2.10, client applications can interact with packages via their package name, a human-readable name defined in the `daml.yaml`.
+The participant guarantees that all packages referring to the same package name are backward- and forward-compatible, such that an application does not have to be upgraded every time if the package is upgraded. This functionality is only available when :ref:`smart contract upgrading (SCU) <smart-contract-upgrades>` is enabled.
 
-After inspecting the downloaded data, you'll notice that all the ``*.daml``, ``*.hi`` and ``*.hie`` files are gone. This leads us to data dependencies.
+In the downloaded data, observe that all the ``*.daml``, ``*.hi`` and ``*.hie`` files are gone. This brings us to data dependencies.
 
 Dependencies and Data Dependencies
 ----------------------------------
@@ -91,14 +91,14 @@ Similarly, we included ``Trade`` in the same project as ``Asset`` in :doc:`7_Com
 Building Multiple Packages
 --------------------------
 
-It is often advised to split a project into multiple independent packages, one per audience. A daml package represents an interface 
-to a multi-party workflow, which often has different concerns for different parties, and generally, smaller interfaces are easier to use, maintain and upgrade. An example setup would be to split an application into `onboarding.dar`, `asset.dar`,
-`trading.dar` and `internal-worfklows.dar`, and only share the DARs with the clients on a need to know basis. This allows to evolve 
-quickly on the internal workflows, without having to coordinate upgrades with the clients.
+Splitting a project into multiple independent packages, one per audience, is a common and recommended strategy. A Daml package represents an interface to a multi-party workflow, which often has different concerns for different parties.More generally, smaller interfaces are easier to use, maintain and upgrade, and can also be beneficial to improve the build times of a project. An example setup would be to split an application into `onboarding.dar`, `asset.dar`,
+`trading.dar` and `internal-worfklows.dar`, and only share the DARs with the clients on a need-to-know basis. This allows to  
+evolve the internal workflows quickly, without having to coordinate upgrades with the clients, who has to upload and vet any new package that you
+release.
 
 Therefore, projects can be broken up into multiple packages, each with its own concerns, but managed together in a single project,
-which compiles the dependencies whenever necessary. This can also be beneficial to improve the build times of a project and is covered
-in the separate section :ref:`on how to build multiple packages <build-multiple-packages>`.
+which compiles the dependencies whenever necessary. This covered
+in the separate section :ref:`on how to build multiple packages <multi-package-build>`.
 
 Next Up
 -------
