@@ -82,7 +82,7 @@ You can run the JSON API alongside any ledger exposing the gRPC Ledger API you w
 
 #. Check that json api is running:
 
-    in terminal use curl to get openapi documentation
+    In terminal use curl to get openapi documentation
 
 .. code-block:: shell
 
@@ -101,18 +101,18 @@ You should see yaml file contents that starts with:
       title: JSON Ledger API HTTP endpoints
 
 
-Congratulation, You have successfully started  JSON API.
+Congratulations, You have successfully started  JSON API.
 
 
 .. _start-http-service:
 
-.. note:: Your JSON API service should never be exposed to the internet. When running in production the JSON API should be behind a `reverse proxy, such as via NGINX <https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/>`_.
+.. note:: Your JSON API service should never be exposed to the Internet. When running in production the JSON API should be behind a `reverse proxy, such as via NGINX <https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/>`_.
 
 
 HTTP API Advanced configuration
 ===================
 
-The full set of configurable options that can be specified via config file is listed below
+The full set of configurable options that can be specified via config file is listed below:
 
 .. code-block:: none
 
@@ -160,9 +160,9 @@ Each request to the HTTP JSON API Service *must* come with an access token (``JW
 The HTTP JSON API Service *does not*
 hold on to the access token, which will be only used to fulfill the request it came along with. The same token will be used
 to issue the request to the Ledger API.
-The only exceptions are documentation endpoints which do not strictly require tokens.
+The only exceptions are documentation endpoints, which do not strictly require tokens.
 
-For  a reference on JWT Tokens we use please read:
+For  a reference on the JWT Tokens we use, please read:
  :ref:`Authorization <authorization>` and
  :ref:`JWT Authorization configuration <ledger-api-jwt-configuration>` documentation.
 
@@ -248,7 +248,7 @@ Auth via WebSockets
 
 WebSocket clients support a "subprotocols" argument (sometimes simply
 called "protocols"); this is usually in a list form but occasionally in
-comma-separated form.  Check documentation for your WebSocket library of
+comma-separated form.  Check the documentation for your WebSocket library of
 choice for details.
 
 For HTTP JSON requests, you must pass two subprotocols:
@@ -299,7 +299,7 @@ HTTP JSON API Errors
 
 When the Ledger API returns an error code, the JSON API maps it to one of the above codes according to `the official gRPC to HTTP code mapping <https://cloud.google.com/apis/design/errors#generating_errors>`_.
 
-If a client's HTTP GET or POST request reaches an API endpoint, the corresponding response will always contain a JSON object  either an expected message (corresponding to endpoint) or an  ``error`` object as in  the example below:
+If a client's HTTP GET or POST request reaches an API endpoint, the corresponding response will always contain a JSON object. Either an expected message (corresponding to endpoint) or an  ``error`` object specified as in the example below:
 
 .. code-block:: none
 
@@ -337,7 +337,7 @@ See The Ledger API error codes (Canton Error Codes Reference) for more details a
 WebSockets Errors
 ========================================
 
-In case of websockets an error might be delivered as frame. Each incoming frame can either be a correct response ( see the endpoint definition) or an error frame in the format above.
+In case of websockets an error might be delivered as frame. Each incoming frame can either be a correct response (corresponding to the endpoint definition) or an error frame in the format above.
 
 
 
@@ -441,6 +441,8 @@ Where:
 
 HTTP Response
 =============
+
+ The response will differ according to endpoint URL chosen to send transaction. Example below assumes ``/v2/commands/submit-and-wait-for-transaction-tree``.
 
 - Content-Type: ``application/json``
 - Content:
@@ -581,7 +583,7 @@ HTTP Response
 
 Where:
 
-    + ``update_id``  TODO
+    + ``update_id``  the id of the transaction that resulted from the submitted command.
     + ``completionOffset`` is the ledger offset of the transaction containing the exercise's ledger changes.
 
 Create and Exercise in the Same Transaction
@@ -659,9 +661,9 @@ Please note that the response below is for a consuming choice, so it contains:
 .. code-block:: json
 
     {
-    //TODO
+      "completion_offset" : 12,
+      "update_id" : "12209f2336e32583d0f9dfded70cc78df140e940198b1a58370d2188ec799f3ea69d"
     }
-
 
 Get All Active Contracts
 ************************
