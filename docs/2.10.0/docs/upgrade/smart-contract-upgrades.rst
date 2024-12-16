@@ -1524,7 +1524,7 @@ module ``my-iface/daml/MyIface.daml``:
 
 .. code:: yaml
 
-  sdk-version: 0.0.0
+  sdk-version: 2.10.0
   name: my-iface
   version: 1.0.0
   source: daml/MyIface.daml
