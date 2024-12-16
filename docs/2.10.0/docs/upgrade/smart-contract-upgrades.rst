@@ -1836,6 +1836,38 @@ upgrade, and thus the full transaction, fails. Contracts in this
 state can then only be used by explicitly choosing the older version of
 the contract in your transaction.
 
+Breaking Changes via Explicit Package Version
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In the event that you would like to make a breaking change to your package that
+is not upgrade compatible, you can change the name of your package to indicate a
+breaking version bump. In order to enable this, we recommend that your package
+name contains a version marker for when a breaking change does happen.
+
+For example, for your first iteration of a package, you would name it
+``main-v1``, starting with package version ``1.0.0``. In this case, the ``v1``
+is part of the *package name*, not the package version. You could publish
+upgrade-compatible versions by changing the ``version:`` field from ``1.0.0`` to
+``2.0.0`` to ``3.0.0``. These versions would all be upgrade-compatible with
+one another:
+
+.. code:: text
+
+  main-v1-1.0.0
+  main-v1-2.0.0
+  main-v1-3.0.0
+
+Note how the ``v1`` in all three packages remains stable - this means the
+package name has not changed, and ensures that these three packages and their
+datatypes are considered by the runtime and the type checker to be upgradeable.
+
+When you want to make a breaking change, you would publish a new version of the
+package with package name ``main-v2``. Because this package would have a
+different package name from those with ``main-v1``, it would not be typechecked
+against those packages and its datatypes would not automatically be converted.
+You would need to manually convert values from ``main-v1`` packages to be
+consumed by ``main-v2``, and vice versa.
+
 Migration
 ---------
 
