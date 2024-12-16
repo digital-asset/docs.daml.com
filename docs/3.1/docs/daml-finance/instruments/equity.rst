@@ -27,7 +27,7 @@ The Equity Interface
 
 The equity instrument supports different lifecycle events, such as dividends, stock
 splits and mergers. These are modeled using the choices on the
-:ref:`Equity interface <module-daml-finance-interface-instrument-equity-instrument-13224>`,
+:ref:`Equity interface <module-daml-finance-interface-instrument-equity-v1-instrument-10480>`,
 namely ``DeclareDistribution``, ``DeclareReplacement`` and ``DeclareStockSplit``. We will now
 demonstrate each one with a concrete lifecycle event.
 
@@ -37,11 +37,11 @@ Dividend
 The most common lifecycle event of an equity is probably dividends. This normally means that
 the holder of a stock receives a given amount of cash for each stock held. This is modeled using
 the ``DeclareDistribution`` choice. It creates a
-:ref:`Distribution Event <module-daml-finance-lifecycle-event-distribution-17302>`,
+:ref:`Distribution Event <module-daml-finance-lifecycle-v4-event-distribution-38493>`,
 which allows you to specify distribution per share. In the case of a cash dividend, this would be a
 cash instrument. However, the company can also choose to distribute additional stock or even stock
 options. Since the
-:ref:`Distribution Event <module-daml-finance-lifecycle-event-distribution-17302>`
+:ref:`Distribution Event <module-daml-finance-lifecycle-v4-event-distribution-38493>`
 supports an arbitrary ``perUnitDistribution`` instrument, it can be used to model those use cases as
 well.
 
@@ -122,7 +122,7 @@ The preferred way is to model this using the following two components:
 
 - A dividend option instrument, which describes the economic terms of the rights a shareholder
   receives. The page on the :doc:`Option Instrument package <option>` describes how to
-  create a physically settled :ref:`Dividend <module-daml-finance-instrument-option-dividend-instrument-7333>`
+  create a physically settled :ref:`Dividend <module-daml-finance-instrument-option-v1-dividend-instrument-35111>`
   option.
 - The ``DeclareDistribution`` choice to distribute the above option instrument in the correct
   proportion (e.g. 1 option contract for each share held). This can be done in the same way as the
@@ -214,7 +214,7 @@ means that a shareholder will have two shares after the split for every share he
 This is modeled using the ``DeclareStockSplit`` choice, which has an ``adjustmentFactor`` argument.
 
 The ``DeclareStockSplit`` choice creates a
-:ref:`Replacement Event <module-daml-finance-lifecycle-event-replacement-51859>`,
+:ref:`Replacement Event <module-daml-finance-lifecycle-v4-event-replacement-94706>`,
 which allows you to replace units of an instrument with another instrument (or a basket of other
 instruments). Consequently, this interface can also be used for other types of corporate actions
 (for example, see the *merger* scenario below).
@@ -265,7 +265,7 @@ Merger
 
 The merger scenario models the case when one company acquires another company and pays for it using
 its own shares. This is modeled using the ``DeclareReplacement`` choice, which also uses the
-:ref:`Replacement Event <module-daml-finance-lifecycle-event-replacement-51859>`
+:ref:`Replacement Event <module-daml-finance-lifecycle-v4-event-replacement-94706>`
 (like the *stock split* scenario above).
 This is a mandatory exchange offer: no election is required (or possible) by the shareholder.
 

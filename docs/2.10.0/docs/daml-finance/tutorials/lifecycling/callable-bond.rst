@@ -32,9 +32,9 @@ Instrument and Holding
 ======================
 
 In order to demonstrate the
-:ref:`Election <module-daml-finance-interface-lifecycle-election-24570>` concept, we need a suitable
+:ref:`Election <module-daml-finance-interface-lifecycle-v4-election-15483>` concept, we need a suitable
 sample instrument.
-:ref:`Callable bonds <module-daml-finance-instrument-bond-callable-instrument-83330>` pay coupons as
+:ref:`Callable bonds <module-daml-finance-instrument-bond-v3-callable-instrument-35206>` pay coupons as
 long as the bond has not been called by the issuer.
 The :doc:`Bond Instrument packages <../../instruments/bond>` page describes this
 instrument in more detail. Here, we briefly show how to create the bond instrument using a factory:
@@ -67,7 +67,7 @@ We start by creating an Election factory, which can be used to create elections:
   :start-after: -- CREATE_ELECTION_FACTORY_BEGIN
   :end-before: -- CREATE_ELECTION_FACTORY_END
 
-An :ref:`Election <module-daml-finance-interface-lifecycle-election-24570>` contains three main
+An :ref:`Election <module-daml-finance-interface-lifecycle-v4-election-15483>` contains three main
 pieces of information:
 
 - the election tag (e.g. "CALLED")
@@ -101,7 +101,7 @@ In order to lifecycle the coupon payment above, we need a lifecycle rule that de
 all election events. The lifecycle rule from the previous tutorial can be reused for this, if we
 first convert it to an ``Election.Exercisable``, as described above.
 
-A :ref:`Claim Rule <module-daml-finance-lifecycle-rule-claim-99318>` allows the elector to claim the
+A :ref:`Claim Rule <module-daml-finance-lifecycle-v4-rule-claim-11721>` allows the elector to claim the
 effect resulting from the election event:
 
 .. literalinclude:: ../../finance-lifecycling/daml/Scripts/CallableBond.daml

@@ -17,7 +17,7 @@ has to do with application decoupling / upgradeability of your application.
 
 For example, suppose that you are writing Daml code to issue equity instruments. Your workflow
 references the version ``0.2.1`` of the
-:ref:`Equity implementation package <module-daml-finance-instrument-equity-instrument-69265>`
+:ref:`Equity implementation package <module-daml-finance-instrument-equity-v1-instrument-56047>`
 and at some point creates an instrument as follows.
 
 .. code-block:: daml
@@ -33,15 +33,15 @@ Daml code in order to use the new feature and will have to deal with upgrading m
 on the ledger.
 
 A safer approach is for your Daml code to only reference the
-:ref:`Equity interface package <module-daml-finance-interface-instrument-equity-instrument-13224>`,
+:ref:`Equity interface package <module-daml-finance-interface-instrument-equity-v1-instrument-10480>`,
 which contains interface definitions and is updated less frequently.
 
 However, you would now need a way to create equity instruments without referencing
 ``Daml.Finance.Instrument.Equity.V1`` in your main Daml workflow. To do this, you can setup a Script
 to run during ledger initialisation that will create a
-:ref:`factory contract <module-daml-finance-instrument-equity-factory-96899>`
+:ref:`factory contract <module-daml-finance-instrument-equity-v1-factory-43861>`
 and cast it to the corresponding
-:ref:`interface <module-daml-finance-interface-instrument-equity-factory-97140>`.
+:ref:`interface <module-daml-finance-interface-instrument-equity-v1-factory-86676>`.
 You can then use the factory in your main workflow code to create the instruments.
 
 When an upgraded instrument comes along, you would need to write code to archive the old factory and
@@ -61,7 +61,7 @@ when working with interfaces. This is required as there is currently no built-in
 language level for interface keys.
 
 We want for instance to use an
-:ref:`InstrumentKey <constr-daml-finance-interface-types-common-types-instrumentkey-32970>` to
+:ref:`InstrumentKey <constr-daml-finance-interface-types-common-v3-types-instrumentkey-49116>` to
 identify instruments across a number of implementing templates.
 
 To do that, we define a `Reference` template that
@@ -96,14 +96,14 @@ There are different ways to access the data of a contract, for example the terms
    submitting party to be a stakeholder of the contract). It is then possible to use the ``view``
    built-in method to get the interface view.
 #. ``GetView``: by calling this choice on the interface, for example on a
-   :ref:`callable bond <module-daml-finance-interface-instrument-bond-callable-instrument-70617>`,
+   :ref:`callable bond <module-daml-finance-interface-instrument-bond-v3-callable-instrument-14719>`,
    a party can get the view of a contract, without necessarily being a stakeholder of the contract.
    This can be useful in situations where someone needs access to reference data, but should not be
    a stakeholder of the contract. Specifically, if *publicParty* is an observer of an instrumentCid,
    a party would only require readAs rights of *publicParty* in order to exercise ``GetView``. In
    the Daml Finance library, this choice has been implemented not only for instruments but also for
    other types of contracts, e.g.
-   :ref:`Holdings <module-daml-finance-interface-holding-fungible-63712>` and lifecycle related
+   :ref:`Holdings <module-daml-finance-interface-holding-v4-fungible-55495>` and lifecycle related
    contracts like
-   :ref:`Rule <module-daml-finance-interface-lifecycle-rule-lifecycle-50431>` and
-   :ref:`Effect <module-daml-finance-interface-lifecycle-effect-16050>`.
+   :ref:`Rule <module-daml-finance-interface-lifecycle-v4-rule-lifecycle-8270>` and
+   :ref:`Effect <module-daml-finance-interface-lifecycle-v4-effect-48507>`.

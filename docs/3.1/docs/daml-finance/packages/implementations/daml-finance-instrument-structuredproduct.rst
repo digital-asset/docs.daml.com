@@ -7,9 +7,9 @@ Daml.Finance.Instrument.StructuredProduct.V1
 This package contains the *implementation* of different structured product types, defined in the
 following modules:
 
-- :ref:`BarrierReverseConvertible.Instrument <module-daml-finance-instrument-structuredproduct-barrierreverseconvertible-instrument-95793>`:
+- :ref:`BarrierReverseConvertible.Instrument <module-daml-finance-instrument-structuredproduct-v1-barrierreverseconvertible-instrument-16231>`:
   Instrument implementation for Barrier Reverse Convertibles
-- :ref:`BarrierReverseConvertible.Factory <module-daml-finance-instrument-structuredproduct-barrierreverseconvertible-factory-6075>`:
+- :ref:`BarrierReverseConvertible.Factory <module-daml-finance-instrument-structuredproduct-v1-barrierreverseconvertible-factory-25753>`:
   Factory implementation to instantiate Barrier Reverse Convertibles
 
 Check out the page on

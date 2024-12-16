@@ -37,7 +37,7 @@ How to lifecycle a Token Instrument
 ***********************************
 
 Generic corporate actions, such as
-:ref:`Distribution events <module-daml-finance-lifecycle-event-distribution-17302>`, can be
+:ref:`Distribution events <module-daml-finance-lifecycle-v4-event-distribution-38493>`, can be
 applied to Token Instruments.
 The :doc:`Lifecycling <../tutorials/getting-started/lifecycling>`
 section of the Getting Started tutorial shows how this is done in detail.

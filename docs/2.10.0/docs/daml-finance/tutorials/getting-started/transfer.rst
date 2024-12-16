@@ -45,16 +45,16 @@ If you look at the implementation of the ``Transfer`` workflow, you will notice 
   :end-before: -- DO_TRANSFER_END
 
 The first line converts the holding contract id (of type
-:ref:`ContractId Holding.I <module-daml-finance-interface-holding-holding-64126>`) to the
-:ref:`Transferable.I <module-daml-finance-interface-holding-transferable-88121>`
+:ref:`ContractId Holding.I <module-daml-finance-interface-holding-v4-holding-20535>`) to the
+:ref:`Transferable.I <module-daml-finance-interface-holding-v4-transferable-93054>`
 interface using ``coerceInterfaceContractId``.
 
 Then, the ``Transfer`` choice, defined as part of the
-:ref:`Transferable <module-daml-finance-interface-holding-transferable-88121>`
+:ref:`Transferable <module-daml-finance-interface-holding-v4-transferable-93054>`
 interface, is exercised.
 
 Finally, the new holding is converted back to a
-:ref:`Holding.I <module-daml-finance-interface-holding-holding-64126>`
+:ref:`Holding.I <module-daml-finance-interface-holding-v4-holding-20535>`
 before it is returned. This is done using ``toInterfaceContractId``.
 
 In order to fully understand these instructions, we need to keep in mind the interface hierarchy
@@ -67,17 +67,17 @@ used by our holding implementation.
         "requires".
 
 We use ``coerceInterfaceContractId`` to convert the
-:ref:`Holding.I <module-daml-finance-interface-holding-holding-64126>`
-to a :ref:`Transferable <module-daml-finance-interface-holding-transferable-88121>`.
+:ref:`Holding.I <module-daml-finance-interface-holding-v4-holding-20535>`
+to a :ref:`Transferable <module-daml-finance-interface-holding-v4-transferable-93054>`.
 The success of this operation is not guaranteed and will result in a run-time error if the holding
 implementation at hand does not implement
-:ref:`Transferable <module-daml-finance-interface-holding-transferable-88121>`.
+:ref:`Transferable <module-daml-finance-interface-holding-v4-transferable-93054>`.
 
 We use ``toInterfaceContractId`` to convert back to a
-:ref:`Holding <module-daml-finance-interface-holding-holding-64126>`.
+:ref:`Holding <module-daml-finance-interface-holding-v4-holding-20535>`.
 This is because all
-:ref:`Transferable <module-daml-finance-interface-holding-transferable-88121>`\ s
-implement the :ref:`Holding.I <module-daml-finance-interface-holding-holding-64126>`
+:ref:`Transferable <module-daml-finance-interface-holding-v4-transferable-93054>`\ s
+implement the :ref:`Holding.I <module-daml-finance-interface-holding-v4-holding-20535>`
 interface, so the validity of this operation is guaranteed at compile-time.
 
 Why is Alice an observer on Bob’s account?
@@ -106,18 +106,18 @@ right amount, because the transfer would otherwise fail. We want the transfer to
 if Alice allocates a holding for a larger amount e.g., ``USD 1500``.
 
 We can leverage the fact that the holding implements the
-:ref:`Fungible <module-daml-finance-interface-holding-fungible-63712>`
+:ref:`Fungible <module-daml-finance-interface-holding-v4-fungible-55495>`
 interface, which makes it possible to ``Split`` it into a holding of ``USD 1000`` and one of
 ``USD 500``. In the implementation of the ``CashTransferRequest_Accept`` choice:
 
 - cast the allocated holding to the :ref:`Fungible
-  <module-daml-finance-interface-holding-fungible-63712>` interface
+  <module-daml-finance-interface-holding-v4-fungible-55495>` interface
 - use the ``Split`` choice to split the larger holding into two holdings
 - execute the transfer, allocating the holding with the correct amount
 
 In the last step, you will need to cast the
-:ref:`Fungible <module-daml-finance-interface-holding-fungible-63712>` to a
-:ref:`Transferable <module-daml-finance-interface-holding-transferable-88121>`
+:ref:`Fungible <module-daml-finance-interface-holding-v4-fungible-55495>` to a
+:ref:`Transferable <module-daml-finance-interface-holding-v4-transferable-93054>`
 using ``toInterfaceContractId``.
 
 Temporary Account Disclosure
@@ -132,13 +132,13 @@ Modify the original code, such that:
 - When the Transfer is executed, Alice removes herself from the account observers
 
 In order to do that, you can leverage the fact that
-:ref:`Account <module-daml-finance-account-account-19369>`
+:ref:`Account <module-daml-finance-account-v4-account-5834>`
 implements the
-:ref:`Disclosure <module-daml-finance-interface-util-disclosure-87755>`
+:ref:`Disclosure <module-daml-finance-interface-util-v3-disclosure-50779>`
 interface. This interface exposes the ``AddObservers`` and ``RemoveObservers`` choices, which can be
 used to disclose / undisclose Bob's account contract to Alice. In order to exercise these choices,
 you can use the :ref:`Account.exerciseInterfaceByKey
-<function-daml-finance-interface-account-account-exerciseinterfacebykey-13671>` utility function.
+<function-daml-finance-interface-account-v4-account-exerciseinterfacebykey-87310>` utility function.
 
 Summary
 *******

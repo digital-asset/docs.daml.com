@@ -21,15 +21,15 @@ Understanding Internal Settlement with Examples
 
 To start, let us briefly revisit the settlement process which was explained in the
 :doc:`Settlement <../../concepts/settlement>` section.
-A :ref:`Batch <module-daml-finance-interface-settlement-batch-39188>` consists of one or
-more :ref:`Instructions <module-daml-finance-interface-settlement-instruction-10970>`.
+A :ref:`Batch <module-daml-finance-interface-settlement-v4-batch-88127>` consists of one or
+more :ref:`Instructions <module-daml-finance-interface-settlement-v4-instruction-71097>`.
 Each instruction signifies a
-:ref:`RoutedStep <type-daml-finance-interface-settlement-types-routedstep-10086>`, delineating the
+:ref:`RoutedStep <type-daml-finance-interface-settlement-v4-types-routedstep-26293>`, delineating the
 quantity of an instrument to be transferred from a sender to a receiver at a specific custodian. For
 an instruction to be prepared for settlement (or execution), the sender-side must furnish an
-:ref:`Allocation <type-daml-finance-interface-settlement-types-allocation-46483>`, and the
+:ref:`Allocation <type-daml-finance-interface-settlement-v4-types-allocation-41200>`, and the
 receiver-side must provide an
-:ref:`Approval <type-daml-finance-interface-settlement-types-approval-84286>`.
+:ref:`Approval <type-daml-finance-interface-settlement-v4-types-approval-77821>`.
 
 This tutorial will walk you through three example scripts for settling instructions at a single
 custodian: ``runWrappedTransferSettlement``, ``runCreditDebitSettlement``, and

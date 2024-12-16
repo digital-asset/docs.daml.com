@@ -7,9 +7,9 @@ Daml.Finance.Instrument.Token.V4
 This package contains the *implementation* of simple token instruments which do not define any
 lifecycling logic. It contains the following modules:
 
-- :ref:`Instrument <module-daml-finance-instrument-token-instrument-10682>`:
+- :ref:`Instrument <module-daml-finance-instrument-token-v4-instrument-53415>`:
   Instrument implementation for simple tokens
-- :ref:`Factory <module-daml-finance-instrument-token-factory-62942>`:
+- :ref:`Factory <module-daml-finance-instrument-token-v4-factory-92377>`:
   Factory implementation to instantiate simple tokens
 
 Check out the :doc:`Transfer tutorial <../../tutorials/getting-started/transfer>` for an example on

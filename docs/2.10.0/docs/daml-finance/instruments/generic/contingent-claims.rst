@@ -8,7 +8,7 @@ Introduction
 ************
 
 Contingent Claims is a library for modeling financial instruments in Daml. An instrument is
-represented by a tree of :ref:`Claims <type-contingentclaims-core-internal-claim-claim-35538>`,
+represented by a tree of :ref:`Claims <type-contingentclaims-core-v3-internal-claim-claim-83050>`,
 which describe future contractual events (cashflows and other `effects <#lifecycling-effect>`__)
 between two parties as well as the conditions under which these contractual events occur.
 
@@ -40,7 +40,7 @@ intervals (the small arrows), and a single repayment of the loan at maturity (th
 right). So how do we go about modelling this?
 
 We use the following data type, slightly simplified from
-:ref:`Claim <type-contingentclaims-core-internal-claim-claim-35538>`:
+:ref:`Claim <type-contingentclaims-core-v3-internal-claim-claim-83050>`:
 
 .. code-block:: daml
 
@@ -113,7 +113,7 @@ wish to avoid repeating ourselves. Hence, we could write functions to re-use sub
 tree. But which parts should we factor out? It turns out that Finance 101 comes to the rescue
 again. Fixed income practitioners will typically model a fixed-rate bond as a sum of zero-coupon
 bonds. That’s how we model them in :ref:`Claims.Util.Builders
-<module-daml-finance-claims-util-builders-48637>`. Below are slightly simplified versions:
+<module-daml-finance-claims-v3-util-builders-30825>`. Below are slightly simplified versions:
 
 .. code:: daml
 
@@ -225,7 +225,7 @@ a different use case: the lifecycling (aka safekeeping, processing corporate act
 instruments.
 
 Let’s go back to our fixed-rate bond example, above. We want to process the coupon payments. There
-is a function in the :ref:`Lifecycle module <module-contingentclaims-lifecycle-lifecycle-72039>`
+is a function in the :ref:`Lifecycle module <module-contingentclaims-lifecycle-v3-lifecycle-61551>`
 for doing exactly this:
 
 .. literalinclude:: ../../src/main/daml/ContingentClaims/Lifecycle/V3/Lifecycle.daml
@@ -268,7 +268,7 @@ Pricing (Experimental)
 
 This is an *experimental* feature. Expect breaking changes.
 
-The :ref:`ContigentClaims.Valuation.Stochastic <module-contingentclaims-valuation-stochastic-37844>`
+The :ref:`ContigentClaims.Valuation.Stochastic <module-contingentclaims-valuation-v1-stochastic-86240>`
 module can be used for valuation. There is a ``fapf``
 function which is used to derive a *fundamental asset pricing formula* for an arbitrary ``Claim``
 tree. The resulting AST is represented by ``Expr``, but can be rendered as XML/MathML with the

@@ -23,16 +23,16 @@ Daml Finance provides default holding implementations for the following holding 
 4. neither fungible nor transferable (i.e., the `BaseHolding` holding standard)
 
 The transferability of transferable holdings can be flexibly controlled through the
-:ref:`controllers <type-daml-finance-interface-account-account-controllers-36430>`
-property on an :ref:`Account <module-daml-finance-account-account-19369>`.
+:ref:`controllers <type-daml-finance-interface-account-v4-account-controllers-59817>`
+property on an :ref:`Account <module-daml-finance-account-v4-account-5834>`.
 Some use cases, however, might require additional functionality on holding contracts:
 
 - *Restricted transferability*: a custom implementation of the
-  :ref:`Transferable interface <module-daml-finance-interface-holding-transferable-88121>`
+  :ref:`Transferable interface <module-daml-finance-interface-holding-v4-transferable-93054>`
   can enforce additional conditions (e.g. the presence of some contract) required to transfer a
   holding.
 - *Fixed divisibility*: a custom implementation of the
-  :ref:`Fungible interface <module-daml-finance-interface-holding-fungible-63712>` can enforce
+  :ref:`Fungible interface <module-daml-finance-interface-holding-v4-fungible-55495>` can enforce
   specific requirements regarding the divisibility of a holding.
 - *Additional information*: a custom implementation of a holding can provide additional information,
   for example, the timestamp of when the holding was obtained. This can be used to implement
@@ -42,7 +42,7 @@ Some use cases, however, might require additional functionality on holding contr
 Note that any custom holding implementation will still allow you to leverage other parts of the
 library (e.g. lifecycling or settlement) as those are implemented against the respective interfaces.
 You will need to provide an implementation of the
-:ref:`Holding Factory <module-daml-finance-interface-holding-factory-6211>` interface for
+:ref:`Holding Factory <module-daml-finance-interface-holding-v4-factory-49942>` interface for
 your implementation to be usable throughout the library.
 
 Custom Account Implementations
@@ -50,19 +50,19 @@ Custom Account Implementations
 
 The default account implementation in Daml Finance allows you to define authorization requirements
 for incoming and outgoing transfers through the
-:ref:`controllers <type-daml-finance-interface-account-account-controllers-36430>` property.
+:ref:`controllers <type-daml-finance-interface-account-v4-account-controllers-59817>` property.
 For some cases, however, a custom account implementation may be warranted:
 
 - Restricted credit and debit: a custom implementation of the ``Credit`` and / or
   ``Debit`` choices on the
-  :ref:`Account interface <module-daml-finance-interface-account-account-92922>` can place
+  :ref:`Account interface <module-daml-finance-interface-account-v4-account-30007>` can place
   additional restrictions on those actions that can depend, for example, on the presence of a
   separate know-your-customer (KYC) contract.
 - Additional information: a custom account implementation can serve to represent different concepts
   of accounts. For example, a shelf in a vault for gold bars or a specific location within a
   warehouse can be represented by providing additional information on an account implementation.
 - Account Freezing: an account can optionally implement
-  the :ref:`Lockable <module-daml-finance-interface-util-lockable-80915>` interface, allowing it to
+  the :ref:`Lockable <module-daml-finance-interface-util-v3-lockable-20339>` interface, allowing it to
   be frozen, i.e., temporarily disabling credits and debits.
 
 Custom Instrument Implementations
@@ -74,7 +74,7 @@ entirely new instrument types. The following are typical examples of when a cust
 implementation is required:
 
 - Additional information: a custom instrument implementation might, for example, build upon the
-  :ref:`Equity interface <module-daml-finance-interface-instrument-equity-instrument-13224>` to
+  :ref:`Equity interface <module-daml-finance-interface-instrument-equity-v1-instrument-10480>` to
   provide additional information pertinent to private equity (like share class, or liquidation
   preference).
 - New instrument types: if Daml Finance does not provide an implementation for a given instrument
@@ -83,20 +83,20 @@ implementation is required:
   described in
   :doc:`this tutorial <../tutorials/advanced-topics/instrument-modeling/contingent-claims-instrument>`,
   or be implemented through standard interfaces, as seen in the implementation of the
-  :ref:`Equity instrument <module-daml-finance-instrument-equity-instrument-69265>`.
+  :ref:`Equity instrument <module-daml-finance-instrument-equity-v1-instrument-56047>`.
 
 Custom Lifecycle Implementations
 ********************************
 
 Daml Finance provides a default set of lifecycle rules that can be used to evolve instruments.
 Examples are the implementation of
-:ref:`Distributions <module-daml-finance-lifecycle-rule-distribution-35531>`,
-:ref:`Replacements <module-daml-finance-lifecycle-rule-replacement-6984>`, or the
-:ref:`time-based evolution <module-daml-finance-interface-lifecycle-event-time-4252>`
+:ref:`Distributions <module-daml-finance-lifecycle-v4-rule-distribution-2662>`,
+:ref:`Replacements <module-daml-finance-lifecycle-v4-rule-replacement-25183>`, or the
+:ref:`time-based evolution <module-daml-finance-interface-lifecycle-v4-event-time-69757>`
 of contingent-claims based instruments. There are many more lifecycle events and rules
 that can be implemented using the provided interfaces. Typically, implementations of the
-:ref:`Event <module-daml-finance-interface-lifecycle-event-43586>` and
-:ref:`Rule <module-daml-finance-interface-lifecycle-rule-lifecycle-50431>` interface are required to
+:ref:`Event <module-daml-finance-interface-lifecycle-v4-event-91777>` and
+:ref:`Rule <module-daml-finance-interface-lifecycle-v4-rule-lifecycle-8270>` interface are required to
 handle new lifecycle events. Examples of events where a library extension might be warranted
 include:
 

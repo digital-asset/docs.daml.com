@@ -7,15 +7,15 @@ Daml.Finance.Holding.V4
 This package contains the *implementation* of holdings, including utility functions. It has the
 following modules:
 
-- :ref:`Fungible <module-daml-finance-holding-fungible-7201>`: Implementation of a holding which is
+- :ref:`Fungible <module-daml-finance-holding-v4-fungible-60188>`: Implementation of a holding which is
   fungible only, i.e., include split and merge functionality
-- :ref:`Transferable <module-daml-finance-holding-transferable-43388>`: Implementation of a holding
+- :ref:`Transferable <module-daml-finance-holding-v4-transferable-38649>`: Implementation of a holding
   which is transferable only
-- :ref:`TransferableFungible <module-daml-finance-holding-transferablefungible-77726>`:
+- :ref:`TransferableFungible <module-daml-finance-holding-v4-transferablefungible-66907>`:
   Implementation of a holding which is both transferable and fungible
-- :ref:`BaseHolding <module-daml-finance-holding-baseholding-57062>`: Implementation of
+- :ref:`BaseHolding <module-daml-finance-holding-v4-baseholding-28133>`: Implementation of
   a holding which is neither transferable nor fungible
-- :ref:`Util <module-daml-finance-holding-util-87323>`: Utility functions related to holdings, e.g.,
+- :ref:`Util <module-daml-finance-holding-v4-util-71966>`: Utility functions related to holdings, e.g.,
   to transfer or split/merge a holding
 
 The :doc:`Asset Model <../../concepts/asset-model>` page explains the relationship between

@@ -87,7 +87,7 @@ step.
 
 Now, the issuer creates a lifecycle event defining the terms of dividend. In our example we can
 use the ``DistributeDividend`` choice on the
-:ref:`Equity <module-daml-finance-interface-instrument-equity-instrument-13224>` instrument
+:ref:`Equity <module-daml-finance-interface-instrument-equity-v1-instrument-10480>` instrument
 to create such an event. This is merely a convenience choice available for equities, any workflow
 can be used to create new instrument versions and associated lifecycle events.
 
@@ -102,8 +102,8 @@ Processing the event
 =====================
 
 The event is now passed into a
-:ref:`Distribution Rule <module-daml-finance-lifecycle-rule-distribution-35531>`, which
-generates the :ref:`Lifecycle Effect <module-daml-finance-interface-lifecycle-effect-16050>`
+:ref:`Distribution Rule <module-daml-finance-lifecycle-v4-rule-distribution-2662>`, which
+generates the :ref:`Lifecycle Effect <module-daml-finance-interface-lifecycle-v4-effect-48507>`
 describing the distribution of assets per unit of ``ACME`` stock. The effect refers to a
 ``targetInstrument``, which is the version of the instrument that can be used by stock holders to
 claim the cash dividend according to the number of stocks held. By being tied to a specific version
@@ -122,8 +122,8 @@ Claiming the effect
 ===================
 
 The investor can now present its holding of ``ACME`` stock along with the corresponding
-:ref:`Effect <module-daml-finance-interface-lifecycle-effect-16050>` to a
-:ref:`Claim Rule <module-daml-finance-interface-lifecycle-rule-claim-6739>`. This will
+:ref:`Effect <module-daml-finance-interface-lifecycle-v4-effect-48507>` to a
+:ref:`Claim Rule <module-daml-finance-interface-lifecycle-v4-rule-claim-89954>`. This will
 instruct settlement for:
 
 - The exchange of ``ACME`` stock versions held: the investor sends back the old version, and
@@ -131,7 +131,7 @@ instruct settlement for:
 - The payment of the cash dividend amount corresponding to the number of stocks held
 
 Both legs of this settlement are grouped in a
-:ref:`Batch <module-daml-finance-interface-settlement-batch-39188>` to provide atomicity. The
+:ref:`Batch <module-daml-finance-interface-settlement-v4-batch-88127>` to provide atomicity. The
 goal of the batch is to exchange a holding on the v1 instrument for a holding on the v2 instrument
 + $10 (for each share held). This ensures that the investor can never claim a dividend twice, as
 after settlement they only hold the new version of the stock, which is not entitled to the dividend
@@ -142,7 +142,7 @@ anymore.
          holding. This produces a batch and settlement instructions.
 
 Note that the party responsible for claiming an effect can be specified flexibly in the
-:ref:`Claim Rule <module-daml-finance-interface-lifecycle-rule-claim-6739>` contract. Through
+:ref:`Claim Rule <module-daml-finance-interface-lifecycle-v4-rule-claim-89954>` contract. Through
 this contract, custodians can be given the authority to push a given corporate action to the asset
 holder as is common in current operating procedures.
 
@@ -180,7 +180,7 @@ An event contract is used to indicate that a certain action has occurred, which 
 the lifecycling of certain instruments. In the context of the dividend example above, this is the
 Issuer declaring a "Cash Dividend" to be paid on a specific stock.
 
-Events implement the :ref:`Event <module-daml-finance-interface-lifecycle-event-43586>`
+Events implement the :ref:`Event <module-daml-finance-interface-lifecycle-v4-event-91777>`
 interface, which describes basic properties of a lifecycle event:
 
 - The event providers
@@ -189,10 +189,10 @@ interface, which describes basic properties of a lifecycle event:
 
 Different implementations exist to cover typical corporate actions:
 
-- The :ref:`Distribution <module-daml-finance-lifecycle-event-distribution-17302>` event can be
+- The :ref:`Distribution <module-daml-finance-lifecycle-v4-event-distribution-38493>` event can be
   used to distribute assets to holders of an instrument. This covers cash-, share-, and mixed
   dividends, rights issues, or the distribution of voting rights.
-- The :ref:`Replacement <module-daml-finance-lifecycle-event-replacement-51859>` event handles
+- The :ref:`Replacement <module-daml-finance-lifecycle-v4-event-replacement-94706>` event handles
   replacements of one instrument for another with support for a factor. This covers corporate
   actions like (reverse) stock splits, mergers, and spin-offs.
 
@@ -201,17 +201,17 @@ A single event can be used as a trigger to lifecycle multiple instruments.
 Lifecycle Rule
 ==============
 
-A :ref:`Lifecycle Rule <module-daml-finance-interface-lifecycle-rule-lifecycle-50431>` is
+A :ref:`Lifecycle Rule <module-daml-finance-interface-lifecycle-v4-rule-lifecycle-8270>` is
 used to process an event for a certain instrument and calculate the resulting lifecycle effects.
 
 A lifecycle rule can either
 assume that a new version of the instrument has already been created (as is the case for the
-:ref:`Distribution <module-daml-finance-lifecycle-rule-distribution-35531>` and
-:ref:`Replacement <module-daml-finance-lifecycle-rule-replacement-6984>` rules), or it can create
+:ref:`Distribution <module-daml-finance-lifecycle-v4-rule-distribution-2662>` and
+:ref:`Replacement <module-daml-finance-lifecycle-v4-rule-replacement-25183>` rules), or it can create
 the new version of the instrument as part of its implementation. The latter can be useful if
 information required to create the new version is only available upon processing of the event, as is
 the case for the evolution of the
-:ref:`Generic Instrument <module-daml-finance-interface-instrument-generic-instrument-53275>`, as
+:ref:`Generic Instrument <module-daml-finance-interface-instrument-generic-v4-instrument-7928>`, as
 well as other :doc:`Contingent Claims <../instruments/generic/contingent-claims>` based instruments.
 
 .. _time-vs-election-lifecycling:
@@ -241,7 +241,7 @@ bond that is callable only on some of the coupon dates.
 Effects
 =======
 
-An :ref:`Effect <module-daml-finance-interface-lifecycle-effect-16050>` describes the asset
+An :ref:`Effect <module-daml-finance-interface-lifecycle-v4-effect-48507>` describes the asset
 movements resulting from a particular event. It specifies these movements per unit of a target
 instrument and version.
 
@@ -257,7 +257,7 @@ effect, which results in the required asset movements to be instructed.
 Claim Rule
 ==========
 
-The :ref:`Claim Rule <module-daml-finance-interface-lifecycle-rule-claim-6739>` is used by
+The :ref:`Claim Rule <module-daml-finance-interface-lifecycle-v4-rule-claim-89954>` is used by
 instrument holders to claim lifecycle effects and instruct settlement of the resulting asset
 movements.
 
@@ -269,8 +269,8 @@ serves as proof of ownership such that there is no need for an issuer to take a 
 of holdings as of a specific date.
 
 The output of the claim rule is a
-:ref:`Settlement Batch <module-daml-finance-interface-settlement-batch-39188>` and a set of
-:ref:`Instruction <module-daml-finance-interface-settlement-instruction-10970>` s that
+:ref:`Settlement Batch <module-daml-finance-interface-settlement-v4-batch-88127>` and a set of
+:ref:`Instruction <module-daml-finance-interface-settlement-v4-instruction-71097>` s that
 settle the asset movements atomically.
 
 Note that multiple holdings can be passed into the claim rule in order to instruct intermediated

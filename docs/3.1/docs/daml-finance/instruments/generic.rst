@@ -56,7 +56,7 @@ Alternatively, if you want to model a European Option instead, you can define th
   :start-after: -- CREATE_CC_OPTION_INSTRUMENT_VARIABLES_BEGIN
   :end-before: -- CREATE_CC_OPTION_INSTRUMENT_VARIABLES_END
 
-This uses the :ref:`european <function-contingentclaims-core-builders-european-99265>` builder
+This uses the :ref:`european <function-contingentclaims-core-v3-builders-european-38509>` builder
 function, which is included in :doc:`Contingent Claims <generic/contingent-claims>`.
 
 Compared to the bond, where the passage of time results in a coupon payment being due, the
@@ -134,7 +134,7 @@ Daml Finance library. There can be different processes to create the Election, s
 application specific. Still, in order to showcase one way how this could be done, this workflow is
 included here for convenience.
 
-The :ref:`Election <module-daml-finance-interface-lifecycle-election-24570>`
+The :ref:`Election <module-daml-finance-interface-lifecycle-v4-election-15483>`
 has a flag *electorIsOwner*, which indicates whether the election is on behalf of the owner of the
 holding. This is typically the case for options, where the option holder has the right, but not the
 obligation, to exercise the option. On the other hand, for callable bonds it is not the holding
