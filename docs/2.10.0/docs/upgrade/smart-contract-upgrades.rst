@@ -2192,13 +2192,62 @@ Upgrades feature.
 Testing
 =======
 
-Upgrade Validity Checking
--------------------------
+Standalone Upgradeability Checks
+--------------------------------
 
-We recommend that as a further check for the validity of your upgraded
-package, you perform a dry-run upload of your package to a testing environment,
-using the ``--dry-run`` flag of the ``daml ledger upload-dar`` command.
-This runs the upgrade type-checking, but does not persist your package to the ledger.
+We recommend that as a further check for the validity of your upgraded packages,
+you perform a standalone check that all of the DARs typecheck against one
+another correctly via the ``upgrade-check`` tool.
+
+This tool takes a list of DARs and runs Canton's participant-side upgrade
+typechecking, without spinning up an instance of Canton. You should pass the
+tool the list of DARs constituting your previous model and the list of DARs for
+your new model.
+
+For example, assume you have a helper package ``helper`` that does not change,
+and two packages ``main`` and ``dep``.
+
+.. code:: text
+
+  main-1.0.0.dar
+  dep-1.0.0.dar
+  helper-1.0.0.dar
+
+After upgrading your model, you would a new DAR ``main-2.0.0.dar`` for ``main``
+and a new DAR ``dep-2.0.0.dar`` for ``dep``. We would then recommend running the
+upgrade-check tool as follows:
+
+.. code:: bash
+
+  > daml upgrade-check --participant helper-1.0.0.dar dep-1.0.0.dar main-1.0.0.dar dep-2.0.0.dar main-2.0.0.dar
+  ...
+
+This will run the same upload validation over these DARs that would be run in
+the event of an upload to the ledger, and will print out the same messages and
+errors. Because it will not require a ledger to be spun up, the command runs
+much more quickly.
+
+We can also check that all of the DARs pass compiler-side checks, but this is
+much less likely to indicate an issue because the DARs are typechecked during
+compilation anyways.
+
+.. code:: bash
+
+  > daml upgrade-check --compiler helper-1.0.0.dar dep-1.0.0.dar main-1.0.0.dar dep-2.0.0.dar main-2.0.0.dar
+  ...
+
+Dry Run Uploading to a Test Environment
+---------------------------------------
+
+If you have a test environment with DARs that are not available to you, you may
+not be able to supply a complete list of DARs for your previous model to the
+standalone ``upgrade-check`` tool.
+
+In this case, we recommend that as a further check for the validity of your
+upgraded package, you perform a dry-run upload of your package to a testing
+environment, using the ``--dry-run`` flag of the ``daml ledger upload-dar``
+command. This also runs the upgrade type-checking, but does not persist your
+package to the ledger.
 
 For workflows involving multiple DARs, we recommend more robust testing by
 running a Canton sandbox with the same version and environment as your
