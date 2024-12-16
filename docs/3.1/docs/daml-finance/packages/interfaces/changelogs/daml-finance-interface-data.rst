@@ -1,12 +1,19 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Daml.Finance.Interface.Data.V4 - Changelog
-##########################################
+Changelog
+#########
 
-- Update of SDK version and dependencies.
+Daml.Finance.Interface.Data.V4
+==============================
 
-- Added new day-count conventions: Act365NL, Basis30365, and Basis30E2360.
+Version 4.0.0
+*************
+
+- Update of SDK version and dependencies. LF protocol update.
+
+Daml.Finance.Interface.Data
+===========================
 
 Version 3.1.0
 *************

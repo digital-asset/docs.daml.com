@@ -4,10 +4,6 @@
 Daml.Finance.Interface.Data - Changelog
 #######################################
 
-- Update of SDK version and dependencies.
-
-- Added new day-count conventions: Act365NL, Basis30365, and Basis30E2360.
-
 Version 3.1.0
 *************
 

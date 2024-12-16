@@ -1,8 +1,21 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Daml.Finance.Util.V4 - Changelog
-################################
+Changelog
+#########
+
+Daml.Finance.Util.V4
+====================
+
+Version 4.0.0
+*************
+
+- Update of SDK version and dependencies. LF protocol update.
+
+- Only release a Semaphore lock if the provided context is recognized (patch).
+
+Daml.Finance.Util
+=================
 
 Version 3.1.0
 *************

@@ -1,8 +1,19 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Daml.Finance.Interface.Holding.V4 - Changelog
-#############################################
+Changelog
+#########
+
+Daml.Finance.Interface.Holding.V4
+=================================
+
+Version 4.0.0
+*************
+
+- Update of SDK version and dependencies. LF protocol update.
+
+Daml.Finance.Interface.Holding
+==============================
 
 Version 3.0.0
 *************

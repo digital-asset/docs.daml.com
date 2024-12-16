@@ -1,8 +1,21 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-ContingentClaims.Core.V3 - Changelog
-####################################
+Changelog
+#########
+
+ContingentClaims.Core.V3
+========================
+
+Version 3.0.0
+*************
+
+- Update of SDK version and dependencies. LF protocol update.
+
+- Bumps `daml-ctl` to `2.4.1`.
+
+ContingentClaims.Core
+=====================
 
 Version 2.0.1
 *************
