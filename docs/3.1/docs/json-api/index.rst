@@ -652,17 +652,52 @@ HTTP Response
 
 Please note that the response below is for a consuming choice, so it contains:
 
-- ``created`` and ``archived`` events for the initial contract (``"contractId": "#1:0"``), which was created and archived right away when a consuming choice was exercised on it,
-- a ``created`` event for the contract that is the result of exercising the choice (``"contractId": "#1:2"``).
-
 - Content-Type: ``application/json``
 - Content:
 
 .. code-block:: json
 
     {
-      "completion_offset" : 12,
-      "update_id" : "12209f2336e32583d0f9dfded70cc78df140e940198b1a58370d2188ec799f3ea69d"
+      "transaction" : {
+        "command_id" : "somecommandid",
+        "domain_id" : "domain1::12208f22808f6fe77f8689d0d565488e34e9a3abb2eaf37270f6e5b2b2073894db9f",
+        "effective_at" : "1970-01-01T00:00:00Z",
+        "events" : [ {
+          "CreatedEvent" : {
+            "contract_id" : "00811e868ffe78638ecf14b8d69a5df6eafd8b16f13a431117ee26981cc39f40e1ca101220c15b891d2cac1287d5067594c81f60b722141204f63f2a27c3328a70467c5018",
+            "contract_key" : null,
+            "create_argument" : {
+              "iou" : {
+                "amount" : "999.9900000000",
+                "currency" : "USD",
+                "issuer" : "Alice_ffe0d699-2978-42d7-a315-b7faec7ba95a::1220d7b8bc76f04500216f07e1576da75db0e811ea1e01d5688140816823615a34bf",
+                "observers" : [ ],
+                "owner" : "Alice_ffe0d699-2978-42d7-a315-b7faec7ba95a::1220d7b8bc76f04500216f07e1576da75db0e811ea1e01d5688140816823615a34bf"
+              },
+              "newOwner" : "Alice_ffe0d699-2978-42d7-a315-b7faec7ba95a::1220d7b8bc76f04500216f07e1576da75db0e811ea1e01d5688140816823615a34bf"
+            },
+            "created_at" : "1970-01-01T00:00:00Z",
+            "created_event_blob" : "",
+            "event_id" : "#1220ad3e6509fa8977478aa49cf3261b376dd55b06f6409e3ec59553272c89d3616c:2",
+            "interface_views" : [ ],
+            "node_id" : 2,
+            "observers" : [ ],
+            "offset" : 12,
+            "package_name" : "model-tests",
+            "signatories" : [ "Alice_ffe0d699-2978-42d7-a315-b7faec7ba95a::1220d7b8bc76f04500216f07e1576da75db0e811ea1e01d5688140816823615a34bf" ],
+            "template_id" : "a36cfff1da2f15da3d760c872860bf03140aa699f73b57b639fd40dfe8156cfe:Iou:IouTransfer",
+            "witness_parties" : [ "Alice_ffe0d699-2978-42d7-a315-b7faec7ba95a::1220d7b8bc76f04500216f07e1576da75db0e811ea1e01d5688140816823615a34bf" ]
+          }
+        } ],
+        "offset" : 12,
+        "record_time" : "1970-01-01T00:00:00.000042Z",
+        "trace_context" : {
+          "traceparent" : "00-d84d23ff01031adbcf76f19525fa62fb-003327aa6c8ede2d-01",
+          "tracestate" : null
+        },
+        "update_id" : "1220ad3e6509fa8977478aa49cf3261b376dd55b06f6409e3ec59553272c89d3616c",
+        "workflow_id" : ""
+      }
     }
 
 Get All Active Contracts
