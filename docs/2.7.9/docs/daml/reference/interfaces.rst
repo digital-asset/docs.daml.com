@@ -17,8 +17,8 @@ interface instead of the concrete template.
 Configuration
 *************
 
-In order to use this feature, your Daml project needs to target
-Daml-LF version ``1.15`` or higher which is the current default.
+To use this feature your Daml project must target
+Daml-LF version ``1.15`` or higher, which is the current default.
 
 If using Canton, the protocol version of the domain should be `4` or
 higher, see :ref:`Canton protocol version <protocol_version>` for more
