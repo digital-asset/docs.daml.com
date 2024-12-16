@@ -85,7 +85,21 @@ TLS and Authorization
 ^^^^^^^^^^^^^^^^^^^^^
 
 For production use cases, in particular if the Admin API is not just bound to localhost, we recommend to enable
-:ref:`TLS <tls-configuration>` with mutual authentication.
+:ref:`TLS <tls-configuration>` with mutual authentication. Note that for remote `domain` or `sequencer` nodes
+for `public-api` configuration uses different TLS settings than the `admin-api` configuration, i.e.:
+
+.. code-block:: none
+
+        canton.remote-sequencers.mysequencer {
+            public-api {
+                // TLS configuration options for the public API, when it is secured with TLS
+                transport-security = true
+                custom-trust-certificates.pem-file = "path/to/trust-root.pem"
+            }
+            admin-api {
+                tls = ... // Configuration as described in the TLS configuration documentation
+            }
+        }
 
 The remote console can be used in installations that utilize authorization, so long as it has a valid access token. This can be achieved by modifying the configuration or by adding
 an option to the remote console's launch command as in the following snippet:
