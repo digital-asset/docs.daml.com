@@ -32,7 +32,7 @@ Template Definition
 We start by defining a new template for the instrument. Here are the fields used for the fixed
 rate instrument:
 
-.. literalinclude:: ../../../src/main/daml/Daml/Finance/Instrument/Bond/FixedRate/Instrument.daml
+.. literalinclude:: ../../../src/main/daml/Daml/Finance/Instrument/Bond/V3/FixedRate/Instrument.daml
   :language: daml
   :start-after: -- FIXED_RATE_BOND_TEMPLATE_BEGIN
   :end-before: -- FIXED_RATE_BOND_TEMPLATE_END
@@ -57,7 +57,7 @@ economic terms.
 Here is a high level implementation of the
 :ref:`Claims interface <module-daml-finance-interface-claims-claim-82866>`:
 
-.. literalinclude:: ../../../src/main/daml/Daml/Finance/Instrument/Bond/FixedRate/Instrument.daml
+.. literalinclude:: ../../../src/main/daml/Daml/Finance/Instrument/Bond/V3/FixedRate/Instrument.daml
   :language: daml
   :start-after: -- FIXED_RATE_BOND_CLAIMS_BEGIN
   :end-before: -- FIXED_RATE_BOND_CLAIMS_END
@@ -78,7 +78,7 @@ How to define the redemption claim
 
 The redemption claim depends on the currency and the maturity date of the bond.
 
-.. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/Util/Builders.daml
+.. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/V3/Util/Builders.daml
   :language: daml
   :start-after: -- FIXED_RATE_BOND_REDEMPTION_CLAIM_BEGIN
   :end-before: -- FIXED_RATE_BOND_REDEMPTION_CLAIM_END
@@ -102,7 +102,7 @@ How to define the coupon claims
 The coupon claims are a bit more complicated to define.
 We need to take a schedule of adjusted coupon dates and the day count convention into account.
 
-.. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/Util/Builders.daml
+.. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/V3/Util/Builders.daml
   :language: daml
   :start-after: -- FIXED_RATE_BOND_COUPON_CLAIMS_BEGIN
   :end-before: -- FIXED_RATE_BOND_COUPON_CLAIMS_END
@@ -122,7 +122,7 @@ payment.
 Evolution of the instrument over time (and calculation of the corresponding lifecycle effects) can
 be performed using the :ref:`Lifecycle.Rule <module-daml-finance-claims-lifecycle-rule-53980>`
 template provided in the
-:doc:`Daml.Finance.Claims <../../../packages/implementations/daml-finance-claims>` package. This
+:doc:`Daml.Finance.Claims.V3 <../../../packages/implementations/daml-finance-claims>` package. This
 rule is very generic and can be used for all instruments that implement the
 :ref:`Claims interface <module-daml-finance-interface-claims-claim-82866>`.
 
@@ -131,7 +131,7 @@ Let us break its implementation apart to describe what happens in more detail:
 * First, we retrieve the claim tree corresponding to the initial state of the instrument. We do so
   by fetching the ``Claims`` interface we defined for the template.
 
-  .. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/Lifecycle/Rule.daml
+  .. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/V3/Lifecycle/Rule.daml
     :language: daml
     :start-after: -- BOND_PROCESS_CLOCK_UPDATE_INITAL_CLAIMS_BEGIN
     :end-before: -- BOND_PROCESS_CLOCK_UPDATE_INITAL_CLAIMS_END
@@ -139,7 +139,7 @@ Let us break its implementation apart to describe what happens in more detail:
 * By using the ``lastEventTimestamp`` (in our case: the last time a coupon was paid), we can now
   "fast forward" the claim tree to the current instrument state.
 
-  .. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/Lifecycle/Rule.daml
+  .. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/V3/Lifecycle/Rule.daml
     :language: daml
     :start-after: -- BOND_PROCESS_CLOCK_UPDATE_LIFECYCLE_FASTFORWARD_BEGIN
     :end-before: -- BOND_PROCESS_CLOCK_UPDATE_LIFECYCLE_FASTFORWARD_END
@@ -149,7 +149,7 @@ Let us break its implementation apart to describe what happens in more detail:
   due), we create a :ref:`Lifecycle Effect <module-daml-finance-lifecycle-effect-1975>` for it,
   which can then be claimed and settled.
 
-  .. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/Lifecycle/Rule.daml
+  .. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/V3/Lifecycle/Rule.daml
     :language: daml
     :start-after: -- BOND_PROCESS_CLOCK_UPDATE_LIFECYCLE_BEGIN
     :end-before: -- BOND_PROCESS_CLOCK_UPDATE_LIFECYCLE_END
@@ -164,7 +164,7 @@ done by exercising the
 choice of the
 :ref:`Dynamic.Instrument interface <module-daml-finance-interface-claims-claim-82866>`:
 
-  .. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/Lifecycle/Rule.daml
+  .. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/V3/Lifecycle/Rule.daml
     :language: daml
     :start-after: -- CREATE_NEW_DYNAMIC_INSTRUMENT_VERSION_BEGIN
     :end-before: -- CREATE_NEW_DYNAMIC_INSTRUMENT_VERSION_END
@@ -186,7 +186,7 @@ define the coupon based on a future observation of the reference rate.
 
 In the instrument definition, we need an identifier for the reference rate:
 
-.. literalinclude:: ../../../src/main/daml/Daml/Finance/Instrument/Bond/FloatingRate/Instrument.daml
+.. literalinclude:: ../../../src/main/daml/Daml/Finance/Instrument/Bond/V3/FloatingRate/Instrument.daml
   :language: daml
   :start-after: -- FLOATING_RATE_BOND_TEMPLATE_UNTIL_REFRATE_BEGIN
   :end-before: -- FLOATING_RATE_BOND_TEMPLATE_UNTIL_REFRATE_END
@@ -195,7 +195,7 @@ When we create the claims for the coupon payments, we can then use
 :ref:`ObserveAt <constr-contingentclaims-core-observation-observeat-8418>` to refer to the value of
 the reference rate:
 
-.. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/Util/Builders.daml
+.. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/V3/Util/Builders.daml
   :language: daml
   :start-after: -- FLOATING_RATE_BOND_COUPON_CLAIMS_BEGIN
   :end-before: -- FLOATING_RATE_BOND_COUPON_CLAIMS_END

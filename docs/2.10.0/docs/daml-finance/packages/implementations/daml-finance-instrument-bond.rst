@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Daml.Finance.Instrument.Bond
-############################
+Daml.Finance.Instrument.Bond.V3
+###############################
 
 This package contains the *implementation* of different bond types, defined in the following
 modules:

@@ -136,7 +136,7 @@ You might be wondering why we use account factories and holding factories instea
 :ref:`Account <module-daml-finance-account-account-19369>` or
 :ref:`Holding <module-daml-finance-holding-transferablefungible-77726>` directly.
 
-This is done to avoid having to reference the ``Daml.Finance.Holding`` package directly in the
+This is done to avoid having to reference the ``Daml.Finance.Holding.V4`` package directly in the
 user workflows (and hence simplify upgrading procedures).
 
 This pattern is described in detail in the :ref:`Daml Finance Patterns <factory-pattern>` page and

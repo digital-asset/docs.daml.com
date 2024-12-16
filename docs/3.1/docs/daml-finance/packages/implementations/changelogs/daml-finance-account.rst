@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Daml.Finance.Account - Changelog
-################################
+Daml.Finance.Account.V4 - Changelog
+###################################
 
 Version 3.0.0
 *************
@@ -10,7 +10,7 @@ Version 3.0.0
 - Update of SDK version and dependencies.
 
 - The Account now uses a key (specifically, a `HoldingFactoryKey`)
-  to reference its `Daml.Finance.Interface.Holding.Factory`, rather than a `ContractId`.
+  to reference its `Daml.Finance.Interface.Holding.V4.Factory`, rather than a `ContractId`.
 
 - The `Remove` implementation was removed from the `Factory` (it is newly part of the `Account`
   interface).

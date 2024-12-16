@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-ContingentClaims.Core
-#####################
+ContingentClaims.Core.V3
+########################
 
 This package contains the *interface* to represent
 :doc:`Contingent Claims <../../instruments/generic/contingent-claims>` trees. It contains data types

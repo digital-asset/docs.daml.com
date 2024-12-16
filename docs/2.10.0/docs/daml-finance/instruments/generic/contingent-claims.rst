@@ -228,7 +228,7 @@ Let’s go back to our fixed-rate bond example, above. We want to process the co
 is a function in the :ref:`Lifecycle module <module-contingentclaims-lifecycle-lifecycle-72039>`
 for doing exactly this:
 
-.. literalinclude:: ../../src/main/daml/ContingentClaims/Lifecycle/Lifecycle.daml
+.. literalinclude:: ../../src/main/daml/ContingentClaims/Lifecycle/V3/Lifecycle.daml
   :language: daml
   :start-after: -- CLAIMS_LIFECYCLE_BEGIN
   :end-before: -- CLAIMS_LIFECYCLE_END

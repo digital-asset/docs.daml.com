@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-ContingentClaims.Valuation
-##########################
+ContingentClaims.Valuation.V1
+#############################
 
 This package contains the *implementation* of utility functions to map a
 :doc:`Contingent Claims <../../instruments/generic/contingent-claims>` tree into a mathematical

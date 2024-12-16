@@ -37,7 +37,7 @@ A safer approach is for your Daml code to only reference the
 which contains interface definitions and is updated less frequently.
 
 However, you would now need a way to create equity instruments without referencing
-``Daml.Finance.Instrument.Equity`` in your main Daml workflow. To do this, you can setup a Script
+``Daml.Finance.Instrument.Equity.V1`` in your main Daml workflow. To do this, you can setup a Script
 to run during ledger initialisation that will create a
 :ref:`factory contract <module-daml-finance-instrument-equity-factory-96899>`
 and cast it to the corresponding

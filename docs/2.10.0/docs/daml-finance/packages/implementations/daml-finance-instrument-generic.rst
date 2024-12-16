@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Daml.Finance.Instrument.Generic
-###############################
+Daml.Finance.Instrument.Generic.V4
+##################################
 
 This package contains the *implementation* of generic,
 :doc:`Contingent Claims <../../instruments/generic/contingent-claims>` based instruments, defined

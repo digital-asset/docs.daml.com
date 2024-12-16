@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Daml.Finance.Interface.Settlement
-#################################
+Daml.Finance.Interface.Settlement.V4
+####################################
 
 This package contains the *interface* for settlement. It has the following modules:
 

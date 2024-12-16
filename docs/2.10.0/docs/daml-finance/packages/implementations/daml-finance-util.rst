@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Daml.Finance.Util
-#################
+Daml.Finance.Util.V4
+####################
 
 This package primarily contains utility functions related to dates (see the
 :doc:`interface docs <../interfaces/daml-finance-interface-types-date>` for an introduction), lists,

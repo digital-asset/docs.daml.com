@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Daml.Finance.Interface.Types.Date
-#################################
+Daml.Finance.Interface.Types.Date.V3
+####################################
 
 Financial instruments, especially those related to interest rates, often depend on periodic
 schedules. For example, consider a fixed rate bond with a coupon that should be paid every three

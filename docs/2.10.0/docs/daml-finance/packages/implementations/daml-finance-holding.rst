@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Daml.Finance.Holding
-####################
+Daml.Finance.Holding.V4
+#######################
 
 This package contains the *implementation* of holdings, including utility functions. It has the
 following modules:

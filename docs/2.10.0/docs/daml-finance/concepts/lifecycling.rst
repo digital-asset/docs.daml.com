@@ -10,8 +10,8 @@ cashflows, as well as discretionary events, like dividends and other corporate a
 provides a standard mechanism for processing such events across different instruments. The output is
 not limited to cash but can also include the distribution of other asset types.
 
-The interfaces for lifecycling are defined in the ``Daml.Finance.Interface.Lifecycle`` package, and
-several default implementations are provided in the ``Daml.Finance.Lifecycle`` package.
+The interfaces for lifecycling are defined in the ``Daml.Finance.Interface.Lifecycle.V4`` package, and
+several default implementations are provided in the ``Daml.Finance.Lifecycle.V4`` package.
 
 In this section, we first motivate the particular approach to lifecycling in Daml Finance. We then
 explain the process in detail using the example of a cash dividend event. Finally, we describe each
@@ -179,7 +179,6 @@ Events
 An event contract is used to indicate that a certain action has occurred, which might trigger
 the lifecycling of certain instruments. In the context of the dividend example above, this is the
 Issuer declaring a "Cash Dividend" to be paid on a specific stock.
-
 
 Events implement the :ref:`Event <module-daml-finance-interface-lifecycle-event-43586>`
 interface, which describes basic properties of a lifecycle event:

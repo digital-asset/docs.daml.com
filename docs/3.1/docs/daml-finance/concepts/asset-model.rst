@@ -142,7 +142,7 @@ the interfaces :ref:`holding <module-daml-finance-interface-holding-holding-6412
 Implementations
 ===============
 
-``Daml.Finance.Holding`` provides implementations for each holding standard:
+``Daml.Finance.Holding.V4`` provides implementations for each holding standard:
 
 - :ref:`fungible only <module-daml-finance-holding-fungible-7201>`
 - :ref:`transferable only <module-daml-finance-holding-transferable-43388>`

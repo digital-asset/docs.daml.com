@@ -1,8 +1,8 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Daml.Finance.Data
-#################
+Daml.Finance.Data.V4
+####################
 
 This package implements templates containing reference data. It includes the following modules:
 

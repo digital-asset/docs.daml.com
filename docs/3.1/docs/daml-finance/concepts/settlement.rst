@@ -8,8 +8,8 @@ Settlement
 financial transaction.
 
 Daml Finance provides facilities to execute these transfers atomically (i.e., within the same Daml
-transaction). Interfaces are defined in the ``Daml.Finance.Interface.Settlement`` package, whereas
-implementations are provided in the ``Daml.Finance.Settlement`` package.
+transaction). Interfaces are defined in the ``Daml.Finance.Interface.Settlement.V4`` package, whereas
+implementations are provided in the ``Daml.Finance.Settlement.V4`` package.
 
 In this section, we first illustrate the settlement workflow with the help of an example FX
 transaction, where Alice transfers a EUR-denominated holding to Bob, in exchange for a

@@ -88,7 +88,7 @@ Enhanced Upgradeability, Extensibility, and Interoperability
 The core asset model (``Account``, ``Holding``, and ``Instrument`` interfaces) has been enhanced to
 streamline upgrade processes, enhance extensibility, and improve interoperability:
 
-#. The ``Account`` now links to its ``Daml.Finance.Interface.Holding.Factory`` by key, a
+#. The ``Account`` now links to its ``Daml.Finance.Interface.Holding.V4.Factory`` by key, a
    ``HoldingFactoryKey``, instead of a ``ContractId``. This facilitates the upgrading of a
    ``HoldingFactory`` without the need to modify existing ``Account`` contract instances. It also
    enables a "lazy" upgrade approach for holdings, as detailed the
@@ -121,7 +121,7 @@ single-maintainer contract keys:
 #. For ``Batch`` and ``Instruction``, the `requestors : Parties` field has been divided into a
    single-maintainer `instructor : Party` for the ``Instruction`` key, alongside additional
    signatories `consenters : Parties`. Corresponding changes have been made to the ``Batch`` and
-   ``Instruction`` views. In the ``Daml.Finance.Lifecycle.Rule.Claim`` implementation,
+   ``Instruction`` views. In the ``Daml.Finance.Lifecycle.V4.Rule.Claim`` implementation,
    `providers : Parties` has been replaced with a single `provider : Party` (to facilitate assigning
    the `provider` as a settlement `instructor : Party`).
 
@@ -170,132 +170,132 @@ of a ``ContractId Holding``. This change enhances privacy by minimizing unnecess
 Stable Packages
 ---------------
 
-+-------------------------------------------+---------+--------+
-| Package                                   | Version | Status |
-+===========================================+=========+========+
-| ContingentClaims.Core                     | 2.0.1   | Stable |
-+-------------------------------------------+---------+--------+
-| ContingentClaims.Lifecycle                | 2.0.1   | Stable |
-+-------------------------------------------+---------+--------+
-| Daml.Finance.Account                      | 3.0.0   | Stable |
-+-------------------------------------------+---------+--------+
-| Daml.Finance.Claims                       | 2.1.0   | Stable |
-+-------------------------------------------+---------+--------+
-| Daml.Finance.Data                         | 3.0.0   | Stable |
-+-------------------------------------------+---------+--------+
-| Daml.Finance.Holding                      | 3.0.1   | Stable |
-+-------------------------------------------+---------+--------+
-| Daml.Finance.Instrument.Bond              | 2.0.0   | Stable |
-+-------------------------------------------+---------+--------+
-| Daml.Finance.Instrument.Generic           | 3.0.0   | Stable |
-+-------------------------------------------+---------+--------+
-| Daml.Finance.Instrument.Token             | 3.0.0   | Stable |
-+-------------------------------------------+---------+--------+
-| Daml.Finance.Interface.Account            | 3.0.0   | Stable |
-+-------------------------------------------+---------+--------+
-| Daml.Finance.Interface.Claims             | 3.0.0   | Stable |
-+-------------------------------------------+---------+--------+
-| Daml.Finance.Interface.Data               | 3.1.0   | Stable |
-+-------------------------------------------+---------+--------+
-| Daml.Finance.Interface.Holding            | 3.0.0   | Stable |
-+-------------------------------------------+---------+--------+
-| Daml.Finance.Interface.Instrument.Base    | 3.0.0   | Stable |
-+-------------------------------------------+---------+--------+
-| Daml.Finance.Interface.Instrument.Bond    | 2.0.0   | Stable |
-+-------------------------------------------+---------+--------+
-| Daml.Finance.Interface.Instrument.Generic | 3.0.0   | Stable |
-+-------------------------------------------+---------+--------+
-| Daml.Finance.Interface.Instrument.Token   | 3.0.0   | Stable |
-+-------------------------------------------+---------+--------+
-| Daml.Finance.Interface.Instrument.Types   | 1.0.0   | Stable |
-+-------------------------------------------+---------+--------+
-| Daml.Finance.Interface.Lifecycle          | 3.0.0   | Stable |
-+-------------------------------------------+---------+--------+
-| Daml.Finance.Interface.Settlement         | 3.0.0   | Stable |
-+-------------------------------------------+---------+--------+
-| Daml.Finance.Interface.Types.Common       | 2.0.0   | Stable |
-+-------------------------------------------+---------+--------+
-| Daml.Finance.Interface.Types.Date         | 2.1.0   | Stable |
-+-------------------------------------------+---------+--------+
-| Daml.Finance.Interface.Util               | 2.1.0   | Stable |
-+-------------------------------------------+---------+--------+
-| Daml.Finance.Lifecycle                    | 3.0.0   | Stable |
-+-------------------------------------------+---------+--------+
-| Daml.Finance.Settlement                   | 3.0.0   | Stable |
-+-------------------------------------------+---------+--------+
-| Daml.Finance.Util                         | 3.1.0   | Stable |
-+-------------------------------------------+---------+--------+
++----------------------------------------------+---------+--------+
+| Package                                      | Version | Status |
++==============================================+=========+========+
+| ContingentClaims.Core.V3                     | 2.0.1   | Stable |
++----------------------------------------------+---------+--------+
+| ContingentClaims.Lifecycle.V3                | 2.0.1   | Stable |
++----------------------------------------------+---------+--------+
+| Daml.Finance.Account.V4                      | 3.0.0   | Stable |
++----------------------------------------------+---------+--------+
+| Daml.Finance.Claims.V3                       | 2.1.0   | Stable |
++----------------------------------------------+---------+--------+
+| Daml.Finance.Data.V4                         | 3.0.0   | Stable |
++----------------------------------------------+---------+--------+
+| Daml.Finance.Holding.V4                      | 3.0.1   | Stable |
++----------------------------------------------+---------+--------+
+| Daml.Finance.Instrument.Bond.V3              | 2.0.0   | Stable |
++----------------------------------------------+---------+--------+
+| Daml.Finance.Instrument.Generic.V4           | 3.0.0   | Stable |
++----------------------------------------------+---------+--------+
+| Daml.Finance.Instrument.Token.V4             | 3.0.0   | Stable |
++----------------------------------------------+---------+--------+
+| Daml.Finance.Interface.Account.V4            | 3.0.0   | Stable |
++----------------------------------------------+---------+--------+
+| Daml.Finance.Interface.Claims.V4             | 3.0.0   | Stable |
++----------------------------------------------+---------+--------+
+| Daml.Finance.Interface.Data.V4               | 3.1.0   | Stable |
++----------------------------------------------+---------+--------+
+| Daml.Finance.Interface.Holding.V4            | 3.0.0   | Stable |
++----------------------------------------------+---------+--------+
+| Daml.Finance.Interface.Instrument.Base.V4    | 3.0.0   | Stable |
++----------------------------------------------+---------+--------+
+| Daml.Finance.Interface.Instrument.Bond.V3    | 2.0.0   | Stable |
++----------------------------------------------+---------+--------+
+| Daml.Finance.Interface.Instrument.Generic.V4 | 3.0.0   | Stable |
++----------------------------------------------+---------+--------+
+| Daml.Finance.Interface.Instrument.Token.V4   | 3.0.0   | Stable |
++----------------------------------------------+---------+--------+
+| Daml.Finance.Interface.Instrument.Types.V2   | 1.0.0   | Stable |
++----------------------------------------------+---------+--------+
+| Daml.Finance.Interface.Lifecycle.V4          | 3.0.0   | Stable |
++----------------------------------------------+---------+--------+
+| Daml.Finance.Interface.Settlement.V4         | 3.0.0   | Stable |
++----------------------------------------------+---------+--------+
+| Daml.Finance.Interface.Types.Common.V3       | 2.0.0   | Stable |
++----------------------------------------------+---------+--------+
+| Daml.Finance.Interface.Types.Date.V3         | 2.1.0   | Stable |
++----------------------------------------------+---------+--------+
+| Daml.Finance.Interface.Util.V3               | 2.1.0   | Stable |
++----------------------------------------------+---------+--------+
+| Daml.Finance.Lifecycle.V4                    | 3.0.0   | Stable |
++----------------------------------------------+---------+--------+
+| Daml.Finance.Settlement.V4                   | 3.0.0   | Stable |
++----------------------------------------------+---------+--------+
+| Daml.Finance.Util.V4                         | 3.1.0   | Stable |
++----------------------------------------------+---------+--------+
 
 Early Access Packages
 ---------------------
 
-+-----------------------------------------------------+---------+--------+
-| Package                                             | Version | Status |
-+=====================================================+=========+========+
-| ContingentClaims.Valuation                          | 0.2.2   | Labs   |
-+-----------------------------------------------------+---------+--------+
-| Daml.Finance.Instrument.Equity                      | 0.4.0   | Alpha  |
-+-----------------------------------------------------+---------+--------+
-| Daml.Finance.Instrument.Option                      | 0.3.0   | Alpha  |
-+-----------------------------------------------------+---------+--------+
-| Daml.Finance.Instrument.StructuredProduct           | 0.1.0   | Alpha  |
-+-----------------------------------------------------+---------+--------+
-| Daml.Finance.Instrument.Swap                        | 0.4.0   | Alpha  |
-+-----------------------------------------------------+---------+--------+
-| Daml.Finance.Interface.Instrument.Equity            | 0.4.0   | Alpha  |
-+-----------------------------------------------------+---------+--------+
-| Daml.Finance.Interface.Instrument.Option            | 0.3.0   | Alpha  |
-+-----------------------------------------------------+---------+--------+
-| Daml.Finance.Interface.Instrument.StructuredProduct | 0.1.0   | Alpha  |
-+-----------------------------------------------------+---------+--------+
-| Daml.Finance.Interface.Instrument.Swap              | 0.4.0   | Alpha  |
-+-----------------------------------------------------+---------+--------+
++--------------------------------------------------------+---------+--------+
+| Package                                                | Version | Status |
++========================================================+=========+========+
+| ContingentClaims.Valuation.V1                          | 0.2.2   | Labs   |
++--------------------------------------------------------+---------+--------+
+| Daml.Finance.Instrument.Equity.V1                      | 0.4.0   | Alpha  |
++--------------------------------------------------------+---------+--------+
+| Daml.Finance.Instrument.Option.V1                      | 0.3.0   | Alpha  |
++--------------------------------------------------------+---------+--------+
+| Daml.Finance.Instrument.StructuredProduct.V1           | 0.1.0   | Alpha  |
++--------------------------------------------------------+---------+--------+
+| Daml.Finance.Instrument.Swap.V1                        | 0.4.0   | Alpha  |
++--------------------------------------------------------+---------+--------+
+| Daml.Finance.Interface.Instrument.Equity.V1            | 0.4.0   | Alpha  |
++--------------------------------------------------------+---------+--------+
+| Daml.Finance.Interface.Instrument.Option.V1            | 0.3.0   | Alpha  |
++--------------------------------------------------------+---------+--------+
+| Daml.Finance.Interface.Instrument.StructuredProduct.V1 | 0.1.0   | Alpha  |
++--------------------------------------------------------+---------+--------+
+| Daml.Finance.Interface.Instrument.Swap.V1              | 0.4.0   | Alpha  |
++--------------------------------------------------------+---------+--------+
 
 Deprecated Packages
 -------------------
 
-+--------------------------------------------+--------------------+--------+
-| Package                                    | Version            | Status |
-+============================================+====================+========+
-| ContingentClaims.Core                      | 1.*                | Depr.  |
-+--------------------------------------------+--------------------+--------+
-| ContingentClaims.Lifecycle                 | 1.*                | Depr.  |
-+--------------------------------------------+--------------------+--------+
-| Daml.Finance.Account                       | 2.*                | Depr.  |
-+--------------------------------------------+--------------------+--------+
-| Daml.Finance.Claims                        | 1.*                | Depr.  |
-+--------------------------------------------+--------------------+--------+
-| Daml.Finance.Data                          | 2.*                | Depr.  |
-+--------------------------------------------+--------------------+--------+
-| Daml.Finance.Holding                       | 2.*                | Depr.  |
-+--------------------------------------------+--------------------+--------+
-| Daml.Finance.Instrument.Generic            | 2.*                | Depr.  |
-+--------------------------------------------+--------------------+--------+
-| Daml.Finance.Instrument.Token              | 2.*                | Depr.  |
-+--------------------------------------------+--------------------+--------+
-| Daml.Finance.Interface.Account             | 2.*                | Depr.  |
-+--------------------------------------------+--------------------+--------+
-| Daml.Finance.Interface.Claims              | 2.*                | Depr.  |
-+--------------------------------------------+--------------------+--------+
-| Daml.Finance.Interface.Data                | 2.*                | Depr.  |
-+--------------------------------------------+--------------------+--------+
-| Daml.Finance.Interface.Holding             | 2.*                | Depr.  |
-+--------------------------------------------+--------------------+--------+
-| Daml.Finance.Interface.Instrument.Base     | 2.*                | Depr.  |
-+--------------------------------------------+--------------------+--------+
-| Daml.Finance.Interface.Instrument.Generic  | 2.*                | Depr.  |
-+--------------------------------------------+--------------------+--------+
-| Daml.Finance.Interface.Instrument.Token    | 2.*                | Depr.  |
-+--------------------------------------------+--------------------+--------+
-| Daml.Finance.Interface.Lifecycle           | 2.*                | Depr.  |
-+--------------------------------------------+--------------------+--------+
-| Daml.Finance.Interface.Settlement          | 2.*                | Depr.  |
-+--------------------------------------------+--------------------+--------+
-| Daml.Finance.Interface.Util                | 1.*                | Depr.  |
-+--------------------------------------------+--------------------+--------+
-| Daml.Finance.Lifecycle                     | 2.*                | Depr.  |
-+--------------------------------------------+--------------------+--------+
-| Daml.Finance.Settlement                    | 2.*                | Depr.  |
-+--------------------------------------------+--------------------+--------+
-| Daml.Finance.Util                          | 2.*                | Depr.  |
-+--------------------------------------------+--------------------+--------+
++-----------------------------------------------+--------------------+--------+
+| Package                                       | Version            | Status |
++===============================================+====================+========+
+| ContingentClaims.Core.V3                      | 1.*                | Depr.  |
++-----------------------------------------------+--------------------+--------+
+| ContingentClaims.Lifecycle.V3                 | 1.*                | Depr.  |
++-----------------------------------------------+--------------------+--------+
+| Daml.Finance.Account.V4                       | 2.*                | Depr.  |
++-----------------------------------------------+--------------------+--------+
+| Daml.Finance.Claims.V3                        | 1.*                | Depr.  |
++-----------------------------------------------+--------------------+--------+
+| Daml.Finance.Data.V4                          | 2.*                | Depr.  |
++-----------------------------------------------+--------------------+--------+
+| Daml.Finance.Holding.V4                       | 2.*                | Depr.  |
++-----------------------------------------------+--------------------+--------+
+| Daml.Finance.Instrument.Generic.V4            | 2.*                | Depr.  |
++-----------------------------------------------+--------------------+--------+
+| Daml.Finance.Instrument.Token.V4              | 2.*                | Depr.  |
++-----------------------------------------------+--------------------+--------+
+| Daml.Finance.Interface.Account.V4             | 2.*                | Depr.  |
++-----------------------------------------------+--------------------+--------+
+| Daml.Finance.Interface.Claims.V4              | 2.*                | Depr.  |
++-----------------------------------------------+--------------------+--------+
+| Daml.Finance.Interface.Data.V4                | 2.*                | Depr.  |
++-----------------------------------------------+--------------------+--------+
+| Daml.Finance.Interface.Holding.V4             | 2.*                | Depr.  |
++-----------------------------------------------+--------------------+--------+
+| Daml.Finance.Interface.Instrument.Base.V4     | 2.*                | Depr.  |
++-----------------------------------------------+--------------------+--------+
+| Daml.Finance.Interface.Instrument.Generic.V4  | 2.*                | Depr.  |
++-----------------------------------------------+--------------------+--------+
+| Daml.Finance.Interface.Instrument.Token.V4    | 2.*                | Depr.  |
++-----------------------------------------------+--------------------+--------+
+| Daml.Finance.Interface.Lifecycle.V4           | 2.*                | Depr.  |
++-----------------------------------------------+--------------------+--------+
+| Daml.Finance.Interface.Settlement.V4          | 2.*                | Depr.  |
++-----------------------------------------------+--------------------+--------+
+| Daml.Finance.Interface.Util.V3                | 1.*                | Depr.  |
++-----------------------------------------------+--------------------+--------+
+| Daml.Finance.Lifecycle.V4                     | 2.*                | Depr.  |
++-----------------------------------------------+--------------------+--------+
+| Daml.Finance.Settlement.V4                    | 2.*                | Depr.  |
++-----------------------------------------------+--------------------+--------+
+| Daml.Finance.Util.V4                          | 2.*                | Depr.  |
++-----------------------------------------------+--------------------+--------+

@@ -67,7 +67,6 @@ We start by creating an Election factory, which can be used to create elections:
   :start-after: -- CREATE_ELECTION_FACTORY_BEGIN
   :end-before: -- CREATE_ELECTION_FACTORY_END
 
-
 An :ref:`Election <module-daml-finance-interface-lifecycle-election-24570>` contains three main
 pieces of information:
 
