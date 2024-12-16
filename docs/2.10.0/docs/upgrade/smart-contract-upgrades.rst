@@ -1433,39 +1433,32 @@ Dependencies
 Package authors may upgrade the dependencies of a package as well as the
 package itself. A new version of a package may add new dependencies, and
 must have all the (non-:ref:`utility-package <upgrades-utility-package>`)
-dependencies of the old version. Each of these existing dependency
-must either be unchanged from the old dar, or an upgrade of its previous
-version.
+dependencies of the old version. When using these dependencies in ways that are
+checked for upgrades, each of these existing dependencies must either be
+unchanged from the old dar, or an upgrade of its previous version.
 
-For example, given a dependencies folder, containing v1 and v2
-of two dependency packages ``depA`` and ``depB``
+For example, given a dependencies folder, containing v1, v2, and v3
+of a dependency package ``dep``:
 
 .. code:: bash
 
   > ls ./dependencies
-  depA-1.0.0.dar
-  depA-1.1.0.dar
-  depB-1.0.0.dar
-  depB-1.1.0.dar
+  dep-1.0.0.dar
+  dep-2.0.0.dar
+  dep-3.0.0.dar
 
-Change v1 of the IOU package so that it depends on ``depA-1.0.0`` and
-``depB-1.1.0``. Its ``v1/my-pkg/daml.yaml`` would look something like this:
+Then assume a version ``1.0.0`` of a package ``main`` that depends on a datatype
+from version ``2.0.0`` of ``dep``:
 
-.. code:: yaml
+.. code:: daml
 
-  ...
-  dependencies:
-  - daml-prim
-  - daml-stdlib
-  - daml3-script
-  - ../../dependencies/depA-1.0.0.dar
-  - ../../dependencies/depB-1.1.0.dar
-  ...
+  module Main where
 
-A package with a newer version may upgrade any dependency to a newer
-version (or keep the version the same). For example, v2 of the IOU
-package may keep its dependencies the same, or it may upgrade ``depA`` to
-``1.1.0``:
+  import qualified Dep
+
+  data MyData = MyData
+    { depData : Dep.AdditionalData
+    }
 
 .. code:: yaml
 
@@ -1474,13 +1467,14 @@ package may keep its dependencies the same, or it may upgrade ``depA`` to
   - daml-prim
   - daml-stdlib
   - daml3-script
-  - ../../dependencies/depA-1.1.0.dar
-  - ../../dependencies/depB-1.1.0.dar
+  data-dependencies:
+  - dependencies/dep-2.0.0.dar
   ...
 
-Downgrading a dependency is not permitted. For example, IOU may not
-downgrade ``depB`` to version ``1.0.0``. The following ``daml.yaml`` would be
-invalid:
+Because a package with a newer version may upgrade any dependency to a newer
+version (or keep the version the same), version ``2.0.0`` of the ``main``
+package may keep its dependencies the same, or it may upgrade ``dep`` to
+``3.0.0``:
 
 .. code:: yaml
 
@@ -1489,26 +1483,37 @@ invalid:
   - daml-prim
   - daml-stdlib
   - daml3-script
-  - ../../dependencies/depA-1.0.0.dar
-  - ../../dependencies/depB-1.0.0.dar
+  data-dependencies:
+  - dependencies/dep-3.0.0.dar # Can upgrade dep-2.0.0 to dep-3.0.0, or leave it unchanged
   ...
 
-At the moment, ``daml build`` does not check for valid dependencies - checks
-are instead performed at upload time to a participant.
+Downgrading a dependency when using that dependency's datatypes is not
+permitted. For example, ``main`` may not downgrade ``dep`` to version ``1.0.0``.
+The following ``daml.yaml`` would be invalid:
+
+.. code:: yaml
+
+  ...
+  dependencies:
+  - daml-prim
+  - daml-stdlib
+  - daml3-script
+  data-dependencies:
+  - dependencies/dep-1.0.0.dar # Cannot downgrade dep-2.0.0 to dep-1.0.0
+  ...
+
+If you try to build this package, the typechecker will error on a package ID
+mismatch for the Dep:AdditionalData field, because the Dep:AdditionalData
+reference in this case has changed to a package that is not a legitimate upgrade
+of the original.
 
 .. code:: bash
 
-  > cd v1/my-pkg
-  > daml ledger upload-dar --port 6865
+  > daml build
   ...
-  Uploading .daml/dist/my-pkg-1.0.0.dar to localhost:6865
-  DAR upload succeeded.
-  > cd ../../v2/my-pkg
-  > daml ledger upload-dar --port 6865
-  ...
-  Uploading .daml/dist/my-pkg-1.1.0.dar to localhost:6865
-  upload-dar did not succeed: DAR_NOT_VALID_UPGRADE(...): The DAR contains a package which claims to upgrade another package, but basic checks indicate the package is not a valid upgrade
-  ...
+  error type checking data type Main.MyData:
+  The upgraded data type MyData has changed the types of some of its original fields:
+    Field 'depData' changed type from <dep-2.0.0 package ID>:Dep:AdditionalData to <dep-1.0.0 package ID>:Dep:AdditionalData
 
 Upgrading Interface Instances
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
