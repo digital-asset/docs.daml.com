@@ -10,9 +10,9 @@ Daml.Finance.Util.V4
 Version 4.0.0
 *************
 
-- Update of SDK version and dependencies. LF protocol update.
+- Update of SDK version and dependencies. LF protocol update to support SCU.
 
-- Only release a Semaphore lock if the provided context is recognized (patch).
+- Only release a Semaphore lock if the provided context is recognized.
 
 Daml.Finance.Util
 =================

@@ -10,7 +10,7 @@ ContingentClaims.Core.V3
 Version 3.0.0
 *************
 
-- Update of SDK version and dependencies. LF protocol update.
+- Update of SDK version and dependencies. LF protocol update to support SCU.
 
 - Bumps `daml-ctl` to `2.4.1`.
 

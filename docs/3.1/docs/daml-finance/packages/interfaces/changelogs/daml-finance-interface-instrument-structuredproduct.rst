@@ -10,9 +10,9 @@ Daml.Finance.Interface.Instrument.StructuredProduct.V1
 Version 1.0.0
 *************
 
-- Update of SDK version and dependencies. LF protocol update.
+- Update of SDK version and dependencies. LF protocol update to support SCU.
 
-- Add new AutoCallable instrument.
+- New AutoCallable instrument.
 
 Daml.Finance.Interface.Instrument.StructuredProduct
 ===================================================

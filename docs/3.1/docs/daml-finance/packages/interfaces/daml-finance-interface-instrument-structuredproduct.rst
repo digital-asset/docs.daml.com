@@ -7,6 +7,12 @@ Daml.Finance.Interface.Instrument.StructuredProduct.V1
 This package contains the *interface* definitions for various structured product instruments. It
 contains the following modules:
 
+- :ref:`AutoCallable.Instrument <module-daml-finance-interface-instrument-structuredproduct-v1-autocallable-instrument-15420>`:
+  Instrument interface for Barrier Reverse Convertibles
+- :ref:`AutoCallable.Factory <module-daml-finance-interface-instrument-structuredproduct-v1-autocallable-factory-27792>`:
+  Factory interface to instantiate Barrier Reverse Convertibles
+- :ref:`AutoCallable.Types <module-daml-finance-interface-instrument-structuredproduct-v1-autocallable-types-17541>`:
+  Type definitions to support Auto Callable
 - :ref:`BarrierReverseConvertible.Instrument <module-daml-finance-interface-instrument-structuredproduct-v1-barrierreverseconvertible-instrument-63394>`:
   Instrument interface for Barrier Reverse Convertibles
 - :ref:`BarrierReverseConvertible.Factory <module-daml-finance-interface-instrument-structuredproduct-v1-barrierreverseconvertible-factory-71934>`:

@@ -10,7 +10,7 @@ Daml.Finance.Claims.V3
 Version 3.0.0
 *************
 
-- Update of SDK version and dependencies. LF protocol update.
+- Update of SDK version and dependencies. LF protocol update to support SCU.
 
 Daml.Finance.Claims
 ===================
