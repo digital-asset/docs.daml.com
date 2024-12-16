@@ -192,7 +192,7 @@ as the JSON API supports multi-party submissions.
 The party should reference an already allocated party.
 In canton console a party can be allocated using:
 
-.. code-bloc: textual
+.. code-block:: shell
 
     val alice = participant1.parties.enable("Alice")
     alice.toProtoPrimitive //this will display a full party Id
