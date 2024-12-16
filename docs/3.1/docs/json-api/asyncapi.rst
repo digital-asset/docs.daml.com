@@ -1,6 +1,6 @@
 
 JSON API V2 Asyncapi definition
-#####################
+######################
 
 Below there is copy of asyncapi/openapi specification.
 
