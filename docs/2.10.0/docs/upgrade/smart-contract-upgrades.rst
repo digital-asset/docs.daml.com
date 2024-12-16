@@ -1691,14 +1691,16 @@ Because interfaces definitions may not be defined in subsequent versions, any
 package that uses an interface definition from a dependency package can never
 upgrade that dependency to a new version.
 
-For this reason, it is strongly recommend that interfaces always be defined
-in their own packages separately from templates.
+For this reason, it is :ref:`strongly recommended that interfaces always be defined
+in their own packages separately from templates <separate_interfaces_and_exceptions>`.
 
 Best Practices
 --------------
 
 To ensure that future upgrades and DAR lifecycling go smoothly, we
 recommend the following practices:
+
+.. _separate_interfaces_and_exceptions:
 
 Separate Interfaces/Exceptions from Templates
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1709,12 +1711,97 @@ unchanged, the package does not type check. Removing an interface from the
 version 2 package also causes issues, especially if the interface has
 choices.
 
-Instead, move interface and exception definitions out into a separate package
-from the start, such that subsequent versions of your package with templates all
-depend on the same version of the package with interfaces/exceptions. The SCU
-type checker warns about this, but you should see this warning as an error - it
-is very strongly recommended that you do not compile interfaces or exceptions in
-a package alongside templates.
+This means that template definitions that exist in the same package as
+interfaces and exception definitions will not be upgradeable. To avoid this
+issue, move interface and exception definitions out into a separate package in
+your model, such that subsequent versions of your package with templates all
+depend on the same version of the package with interfaces/exceptions.
+
+For example, a single package ``main`` defined as follows would not be able to
+upgrade, leaving the template ``T`` non-upgradeable.
+
+.. code:: daml
+
+  module Main where
+
+  interface I where
+    ...
+
+  template T with
+    ...
+
+.. code:: yaml
+
+  sdk-version: 2.10.0
+  name: main
+  version: 1.0.0
+  source: Main.daml
+  dependencies:
+  - daml-prim
+  - daml-stdlib
+  build-options:
+  - --target=1.dev
+
+The SCU type checker will emit an error and refuse to compile this module:
+
+.. code:: text
+
+  error type checking <none>:
+    This package defines both interfaces and templates. This may make this package and its dependents not upgradeable.
+    
+    It is recommended that interfaces are defined in their own package separate from their implementations.
+    Downgrade this error to a warning with -Wupgrade-interfaces
+    Disable this error entirely with -Wno-upgrade-interfaces
+
+**Note:** It is very strongly recommended that you do not compile interfaces or
+exceptions in a package alongside templates. However, you can downgrade this
+error to a warning by passing the ``-Wupgrade-interfaces`` flag, or ignore this
+error entirely with the ``-Wno-upgrade-interfaces`` flag.
+
+The recommended way to fix this is to split the ``main`` package by redefining
+it as two packages, ``helper`` and ``main``:
+
+.. code:: daml
+
+  module Helper where
+
+  interface I where
+    ...
+
+.. code:: yaml
+
+  sdk-version: 2.10.0
+  name: helper
+  version: 1.0.0
+  source: Helper.daml
+  dependencies:
+  - daml-prim
+  - daml-stdlib
+  build-options:
+  - --target=1.dev
+
+.. code:: daml
+
+  module Main where
+
+  import qualified Helper
+
+  template T with
+    ...
+
+.. code:: yaml
+
+  sdk-version: 2.10.0
+  name: main
+  version: 1.0.0
+  source: Main.daml
+  dependencies:
+  - daml-prim
+  - daml-stdlib
+  data-dependencies:
+  - <path to helper DAR>
+  build-options:
+  - --target=1.dev
 
 Remove Retroactive Instances
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
