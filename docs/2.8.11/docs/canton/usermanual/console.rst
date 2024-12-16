@@ -86,7 +86,7 @@ TLS and Authorization
 
 For production use cases, in particular if the Admin Api is not just bound to localhost, we recommend to enable
 :ref:`TLS <tls-configuration>` with mutual authentication. Note that for remote `domain` or `sequencer` nodes
-for `public-api` configuration uses different TLS settings than the `admin-api` configuration, i.e.:
+the `public-api` configuration uses different TLS settings than the `admin-api` configuration:
 
 .. code-block:: none
 
