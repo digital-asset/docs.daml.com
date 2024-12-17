@@ -2198,12 +2198,11 @@ no ``"def345"`` contract, you might specify:
          "contractIdAtOffset": null}
     ]
 
-If every ``contractIdAtOffset`` is specified, as is so in the example
-above, you will not receive any ``archived`` events for contracts
+If every ``contractIdAtOffset`` is specified, as in the example
+above, you do not receive any ``archived`` events for contracts
 created before the offset *unless* those contracts are identified in a
 ``contractIdAtOffset``.  By contrast, if any ``contractIdAtOffset`` is
-missing, ``archived`` event filtering will be disabled, and you will
-receive "phantom archives" as with query streams.
+missing, ``archived`` event filtering is turned off, and you receive "phantom archives" as with query streams.
 
 Healthcheck Endpoints
 *********************
