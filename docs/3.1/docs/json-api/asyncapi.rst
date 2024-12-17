@@ -2,7 +2,7 @@
 JSON API V2 Asyncapi definition
 ######################
 
-Below there is copy of asyncapi/openapi specification.
+This section contains a copy of the asyncapi/openapi specification.
 
 If the canton is started with the http api enabled, this specification is available under http://YOUSERVER_HOST:PORT/docs/asyncapi
 
