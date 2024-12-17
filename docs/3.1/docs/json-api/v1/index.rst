@@ -2150,7 +2150,7 @@ Simpler use-cases that search for only a single key and do not require
 continuous updates should use the simpler
 `/v1/fetch <#fetch-contract-by-key>`__ endpoint instead.
 
-``application/json`` body must be sent first, formatted according to the following rule:
+The ``application/json`` body must be sent first, formatted according to the following rule:
 
 .. code-block:: none
 
