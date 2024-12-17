@@ -222,18 +222,17 @@ Upgrade to Release 2.10
 
 Protocol Versions
 """""""""""""""""
-2.10 is a Long Term Support (LTS) release. This release introduces a new Canton protocol version 7, which is the
+2.10 is a Long Term Support (LTS) release and introduces a new Canton protocol version 7, which is the
 recommended protocol version for this release.
 
-2.10 also supports protocol version 5, but certain new features in this release (e.g., Smart Contract Upgrading)
-are only available in protocol version 7. `Please note that protocol version 6 has been marked as
-deleted and should not be used`. Protocol version 7 has been introduced as its stable replacement
-(see :ref:`here <protocol_version>` for more information about protocol versions).
+2.10 also supports protocol version 5, but certain new features introduced in this release
+(e.g., Smart Contract Upgrading) are only available in protocol version 7. `Please note that protocol
+version 6 has been marked as deleted and should not be used`. Protocol version 7 has been introduced as
+its stable replacement (see :ref:`here <protocol_version>` for more information about protocol versions).
 
 Protocol version should be set explicitly
 """""""""""""""""""""""""""""""""""""""""
-Recall that since the 2.9 release, you must set the protocol version explicitly. In prior releases, the domain
-protocol version was set to the latest protocol version by default.
+Recall that since the 2.9 release, you must set the protocol version explicitly.
 
 To specify the protocol version for your sync domain:
 
