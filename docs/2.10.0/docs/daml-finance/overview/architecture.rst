@@ -23,21 +23,21 @@ These packages can in principle be used independently of each other.
 
 The interface layer consists of the following packages:
 
-- ``Daml.Finance.Interface.Holding`` defines interfaces for holdings and related properties such
+- ``Daml.Finance.Interface.Holding.V4`` defines interfaces for holdings and related properties such
   as :ref:`transferability <transferability>` or :ref:`fungibility <fungibility>`.
-- ``Daml.Finance.Interface.Account`` defines interfaces for accounts
-- ``Daml.Finance.Interface.Settlement`` defines interfaces for settlement route providers,
+- ``Daml.Finance.Interface.Account.V4`` defines interfaces for accounts
+- ``Daml.Finance.Interface.Settlement.V4`` defines interfaces for settlement route providers,
   settlement instructions, and batched settlements
-- ``Daml.Finance.Interface.Lifecycle`` defines interfaces used for instrument lifecycling
+- ``Daml.Finance.Interface.Lifecycle.V4`` defines interfaces used for instrument lifecycling
 - ``Daml.Finance.Interface.Instrument.*`` contains interfaces used for different instrument types
-- ``Daml.Finance.Interface.Claims`` contains interfaces used for
+- ``Daml.Finance.Interface.Claims.V4`` contains interfaces used for
   :doc:`Contingent Claims <../instruments/generic/contingent-claims>` based instrument types
-- ``Daml.Finance.Interface.Data`` defines interfaces related to reference data
-- ``Daml.Finance.Interface.Types.Common`` provides common types
-- ``Daml.Finance.Interface.Types.Date`` provides types related to dates
-- ``Daml.Finance.Interface.Util`` defines utilities and interfaces used by other interface
+- ``Daml.Finance.Interface.Data.V4`` defines interfaces related to reference data
+- ``Daml.Finance.Interface.Types.Common.V3`` provides common types
+- ``Daml.Finance.Interface.Types.Date.V3`` provides types related to dates
+- ``Daml.Finance.Interface.Util.V3`` defines utilities and interfaces used by other interface
   packages.
-- ``ContingentClaims.Core`` contains types for representing
+- ``ContingentClaims.Core.V3`` contains types for representing
   :doc:`Contingent Claims <../instruments/generic/contingent-claims>` tree structures.
 
 Implementation Layer
@@ -46,28 +46,28 @@ Implementation Layer
 The implementation layer contains concrete template definitions implementing the interfaces defined
 in the interface layer. These represent the contracts that are ultimately stored on the ledger.
 
-For instance, ``Daml.Finance.Holding`` contains a concrete implementation of a
-:ref:`Transferable <module-daml-finance-interface-holding-transferable-88121>` and
-:ref:`Fungible <module-daml-finance-interface-holding-fungible-63712>` holding. These
-interfaces are defined in ``Daml.Finance.Interface.Holding``.
+For instance, ``Daml.Finance.Holding.V4`` contains a concrete implementation of a
+:ref:`Transferable <module-daml-finance-interface-holding-v4-transferable-93054>` and
+:ref:`Fungible <module-daml-finance-interface-holding-v4-fungible-55495>` holding. These
+interfaces are defined in ``Daml.Finance.Interface.Holding.V4``.
 
 The implementation layer consists of the following packages:
 
-- ``Daml.Finance.Holding`` defines default implementations for holdings
-- ``Daml.Finance.Account`` defines default implementations for accounts
-- ``Daml.Finance.Settlement`` defines templates for settlement route providers, settlement
+- ``Daml.Finance.Holding.V4`` defines default implementations for holdings
+- ``Daml.Finance.Account.V4`` defines default implementations for accounts
+- ``Daml.Finance.Settlement.V4`` defines templates for settlement route providers, settlement
   instructions, and batched settlements
-- ``Daml.Finance.Lifecycle`` defines an implementation of lifecycle effects and a rule template to
+- ``Daml.Finance.Lifecycle.V4`` defines an implementation of lifecycle effects and a rule template to
   facilitate their settlement
 - ``Daml.Finance.Instrument.*`` contains implementations for various instrument types
-- ``Daml.Finance.Data`` includes templates used to store reference data on the ledger
-- ``Daml.Finance.Claims`` contains utility functions relating to
+- ``Daml.Finance.Data.V4`` includes templates used to store reference data on the ledger
+- ``Daml.Finance.Claims.V3`` contains utility functions relating to
   :doc:`Contingent Claims <../instruments/generic/contingent-claims>` based instruments and
   lifecycling
-- ``Daml.Finance.Util`` provides a set of pure utility functions mainly for date manipulation
-- ``ContingentClaims.Lifecycle`` provides lifecycle utility functions for
+- ``Daml.Finance.Util.V4`` provides a set of pure utility functions mainly for date manipulation
+- ``ContingentClaims.Lifecycle.V3`` provides lifecycle utility functions for
   :doc:`Contingent Claims <../instruments/generic/contingent-claims>` based instruments
-- ``ContingentClaims.Valuation`` contains experimental functions to transform
+- ``ContingentClaims.Valuation.V1`` contains experimental functions to transform
   :doc:`Contingent Claims <../instruments/generic/contingent-claims>` instrument trees into a
   mathematical representation suitable for integration with pricing and risk frameworks
 

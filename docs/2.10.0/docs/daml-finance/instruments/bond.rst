@@ -35,7 +35,7 @@ currently supports the following bond types:
 Fixed Rate
 ==========
 
-:ref:`Fixed rate bonds <module-daml-finance-instrument-bond-fixedrate-instrument-67993>`
+:ref:`Fixed rate bonds <module-daml-finance-instrument-bond-v3-fixedrate-instrument-89221>`
 pay a constant coupon rate at the end of each coupon period. The coupon is quoted on a yearly basis
 (per annum, p.a.), but it could be paid more frequently (e.g. quarterly). For example, a bond could
 have a 2% p.a. coupon and a 6M coupon period. That would mean a 1% coupon is paid twice a year.
@@ -52,17 +52,17 @@ We start by defining the terms:
   :start-after: -- CREATE_FIXED_RATE_BOND_VARIABLES_BEGIN
   :end-before: -- CREATE_FIXED_RATE_BOND_VARIABLES_END
 
-The :ref:`day count convention <type-daml-finance-interface-types-date-daycount-daycountconventionenum-67281>`
+The :ref:`day count convention <type-daml-finance-interface-types-date-v3-daycount-daycountconventionenum-31>`
 is used to determine how many days, i.e., what fraction of a full year, each coupon period has. This
 will determine the exact coupon amount that will be paid each period.
 
-The :ref:`business day convention <type-daml-finance-interface-types-date-calendar-businessdayconventionenum-88986>`
+The :ref:`business day convention <type-daml-finance-interface-types-date-v3-calendar-businessdayconventionenum-14112>`
 determines *how* a coupon date is adjusted if it falls on a non-business day.
 
 We also need holiday calendars, which determine *when* to adjust dates.
 
 We can use these variables to create a
-:ref:`PeriodicSchedule <constr-daml-finance-interface-types-date-schedule-periodicschedule-99705>`:
+:ref:`PeriodicSchedule <constr-daml-finance-interface-types-date-v3-schedule-periodicschedule-24577>`:
 
 .. literalinclude:: ../src/test/daml/Daml/Finance/Test/Util/Time.daml
   :language: daml
@@ -72,10 +72,10 @@ We can use these variables to create a
 This is used to determine the periods that are used to calculate the coupon. There are a few things
 to note here:
 
-- The :ref:`RollConventionEnum <type-daml-finance-interface-types-date-rollconvention-rollconventionenum-73360>`
+- The :ref:`RollConventionEnum <type-daml-finance-interface-types-date-v3-rollconvention-rollconventionenum-89490>`
   defines whether dates are rolled at the end of the month or on a given date of the month. In our
   example above, we went for the latter option.
-- The :ref:`StubPeriodTypeEnum <type-daml-finance-interface-types-date-schedule-stubperiodtypeenum-69372>`
+- The :ref:`StubPeriodTypeEnum <type-daml-finance-interface-types-date-v3-schedule-stubperiodtypeenum-99734>`
   allows you to explicitly specify what kind of stub period the bond should have. This is optional
   and not used in the example above. Instead, we defined the stub implicitly by specifying a
   ``firstRegularPeriodStartDate``: since the time between the issue date and the first regular
@@ -93,12 +93,12 @@ Now that we have defined the terms we can create the bond instrument:
   :end-before: -- CREATE_FIXED_RATE_BOND_INSTRUMENT_END
 
 Once this is done, you can create a holding on it using
-:ref:`Account.Credit <module-daml-finance-interface-account-account-92922>`.
+:ref:`Account.Credit <module-daml-finance-interface-account-v4-account-30007>`.
 
 Floating Rate
 =============
 
-:ref:`Floating rate bonds <module-daml-finance-instrument-bond-floatingrate-instrument-98586>`
+:ref:`Floating rate bonds <module-daml-finance-instrument-bond-v3-floatingrate-instrument-82370>`
 pay a coupon which is determined by a reference rate.
 There is also a rate spread, which is paid in addition to the reference rate.
 
@@ -110,7 +110,7 @@ Here is an example of a bond paying Euribor 3M + 1.1% p.a. with a 3M coupon peri
   :end-before: -- CREATE_FLOATING_RATE_BOND_VARIABLES_END
 
 The instrument supports two types of reference rates, which are configurable using the
-:ref:`ReferenceRateTypeEnum <type-daml-finance-interface-instrument-types-floatingrate-referenceratetypeenum-97197>`:
+:ref:`ReferenceRateTypeEnum <type-daml-finance-interface-instrument-types-v2-floatingrate-referenceratetypeenum-15522>`:
 
 - Libor/Euribor style rates with a single fixing
 - SOFR style reference rates (using a compounded index)
@@ -128,7 +128,7 @@ for the coupon payment at the end of that period.
 Callable
 ========
 
-:ref:`Callable bonds <module-daml-finance-instrument-bond-callable-instrument-83330>` are similar to
+:ref:`Callable bonds <module-daml-finance-instrument-bond-v3-callable-instrument-35206>` are similar to
 the bonds above, but in addition they can be redeemed by the issuer before maturity. The callability
 is restricted to some (or all) of the coupon dates. In other words, these bonds have a *Bermudan*
 style embedded call option.
@@ -147,7 +147,7 @@ The coupon rate in this example also has a 0% floor and a 1.5% cap. This is conf
 the cap or floor to *None* if it does not apply.
 
 The fixed rate is fairly simple to define, but the floating rate requires more inputs. A
-:ref:`FloatingRate <type-daml-finance-interface-instrument-types-floatingrate-floatingrate-77836>`
+:ref:`FloatingRate <type-daml-finance-interface-instrument-types-v2-floatingrate-floatingrate-56149>`
 data type is used to specify which reference rate should be used and on which date the reference
 rate is fixed for each coupon period.
 
@@ -166,7 +166,7 @@ amount).
 In addition to the Libor/Euribor style reference rates, compounded SOFR and similar reference rates
 are also supported. In order to optimize performance, these compounded rates are calculated via a
 (pre-computed) continuously compounded index, as described in the
-:ref:`ReferenceRateTypeEnum <type-daml-finance-interface-instrument-types-floatingrate-referenceratetypeenum-97197>`.
+:ref:`ReferenceRateTypeEnum <type-daml-finance-interface-instrument-types-v2-floatingrate-referenceratetypeenum-15522>`.
 For example, here is how *daily compounded SOFR* can be specified using the *SOFR Index*:
 
 .. literalinclude:: ../src/test/daml/Daml/Finance/Instrument/Bond/Test/Callable.daml
@@ -216,7 +216,7 @@ Inflation-Linked
 ================
 
 There are different types of inflation-linked bonds in the marketplace. The
-:ref:`Inflation-linked bonds <module-daml-finance-instrument-bond-inflationlinked-instrument-30250>`
+:ref:`Inflation-linked bonds <module-daml-finance-instrument-bond-v3-inflationlinked-instrument-99606>`
 currently supported in Daml Finance pay a fixed coupon rate at the end of every coupon period. This
 corresponds to the payoff of e.g. Treasury Inflation-Protected Securities (TIPS) that are issued by
 the U.S. Treasury. The coupon is calculated based on a principal that is adjusted according to an
@@ -244,7 +244,7 @@ specified coupon rate but the original principal would still be redeemed at matu
 Zero Coupon
 ===========
 
-A :ref:`zero coupon bond <module-daml-finance-instrument-bond-zerocoupon-instrument-52804>`
+A :ref:`zero coupon bond <module-daml-finance-instrument-bond-v3-zerocoupon-instrument-96672>`
 does not pay any coupons at all. It only pays the redemption amount at maturity.
 
 Here is an example of a zero coupon bond:

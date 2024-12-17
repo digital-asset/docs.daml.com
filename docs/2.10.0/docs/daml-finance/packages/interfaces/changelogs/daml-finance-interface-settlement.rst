@@ -1,8 +1,19 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Daml.Finance.Interface.Settlement - Changelog
-#############################################
+Changelog
+#########
+
+Daml.Finance.Interface.Settlement.V4
+====================================
+
+Version 4.0.0
+*************
+
+- Update of SDK version and dependencies. LF protocol update to support SCU.
+
+Daml.Finance.Interface.Settlement
+=================================
 
 Version 3.0.0
 *************

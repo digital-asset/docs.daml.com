@@ -29,7 +29,7 @@ currently supports the following types of swaps:
 Interest Rate
 =============
 
-:ref:`Interest rate swap <module-daml-finance-instrument-swap-interestrate-instrument-86260>`
+:ref:`Interest rate swap <module-daml-finance-instrument-swap-v1-interestrate-instrument-25554>`
 is the type of swap that shares most similarities with a bond. It has two legs:
 one which pays a fix rate and another one which pays a floating rate. These rates are paid at the
 end of every payment period.
@@ -47,9 +47,9 @@ We start by defining the terms:
   :end-before: -- CREATE_INTEREST_RATE_SWAP_VARIABLES_END
 
 The floating leg depends on a reference rate, which is specified in the
-:ref:`FloatingRate <type-daml-finance-interface-instrument-types-floatingrate-floatingrate-77836>`
+:ref:`FloatingRate <type-daml-finance-interface-instrument-types-v2-floatingrate-floatingrate-56149>`
 data structure. It supports two types of reference rates, which are configurable using the
-:ref:`ReferenceRateTypeEnum <type-daml-finance-interface-instrument-types-floatingrate-referenceratetypeenum-97197>`:
+:ref:`ReferenceRateTypeEnum <type-daml-finance-interface-instrument-types-v2-floatingrate-referenceratetypeenum-15522>`:
 
 - Libor/Euribor style rates with a single fixing
 - SOFR style reference rates (using a compounded index)
@@ -62,7 +62,7 @@ issuer to the holder). However, in the case of a swap with two counterparties A 
 the holding owner receives the floating leg.
 
 Just as for bonds, we can use these variables to create a
-:ref:`PeriodicSchedule <constr-daml-finance-interface-types-date-schedule-periodicschedule-99705>`:
+:ref:`PeriodicSchedule <constr-daml-finance-interface-types-date-v3-schedule-periodicschedule-24577>`:
 
 .. literalinclude:: ../src/test/daml/Daml/Finance/Test/Util/Time.daml
   :language: daml
@@ -89,13 +89,13 @@ Now that we have defined the terms we can create the swap instrument:
   :end-before: -- CREATE_INTEREST_RATE_SWAP_INSTRUMENT_END
 
 Once this is done, you can create a holding on it using
-:ref:`Account.Credit <module-daml-finance-interface-account-account-92922>`.
+:ref:`Account.Credit <module-daml-finance-interface-account-v4-account-30007>`.
 The owner of the holding receives the floating leg (and pays the fix leg).
 
 Currency
 ========
 
-:ref:`Currency swaps <module-daml-finance-instrument-swap-currency-instrument-67721>`
+:ref:`Currency swaps <module-daml-finance-instrument-swap-v1-currency-instrument-73211>`
 are quite similar to interest rate swaps, except that the two legs are in different
 currencies. Consequently, we need to create two cash instruments:
 
@@ -138,7 +138,7 @@ Foreign Exchange
 ================
 
 Despite the similarities in name,
-:ref:`foreign exchange swaps <module-daml-finance-instrument-swap-foreignexchange-instrument-43394>`
+:ref:`foreign exchange swaps <module-daml-finance-instrument-swap-v1-foreignexchange-instrument-82256>`
 (or FX swaps) are quite different from currency swaps.
 An FX swap does not pay or receive interest. Instead, the two legs define an initial
 FX transaction and a final FX transaction. Each transaction requires an FX rate and a transaction
@@ -178,7 +178,7 @@ the foreign currency in the initial transaction. In the final transaction the si
 Credit Default
 ==============
 
-A :ref:`credit default swap <module-daml-finance-instrument-swap-creditdefault-instrument-88725>`
+A :ref:`credit default swap <module-daml-finance-instrument-swap-v1-creditdefault-instrument-52131>`
 (CDS) pays a protection amount in case of a credit default event, in exchange
 for a fix rate at the end of every payment period. The protection amount is defined as
 *1-recoveryRate*. The *recoveryRate* is defined as the amount recovered when a borrower defaults,
@@ -218,7 +218,7 @@ holding receives the protection leg (and pays the fix leg).
 Asset
 =====
 
-An :ref:`asset swap <module-daml-finance-instrument-swap-asset-instrument-28127>`
+An :ref:`asset swap <module-daml-finance-instrument-swap-v1-asset-instrument-35945>`
 is a general type of swap with two legs: one which pays an interest rate and another one
 which pays the performance of an asset (or a basket of assets). It can be used to model:
 
@@ -268,7 +268,7 @@ FpML
 ====
 
 Unlike the other swap types above, the
-:ref:`FpML swap <module-daml-finance-instrument-swap-fpml-instrument-17241>` template is
+:ref:`FpML swap <module-daml-finance-instrument-swap-v1-fpml-instrument-78235>` template is
 not a new type of payoff. Instead, it allows you to input other types of swaps using the
 `FpML schema <https://www.fpml.org/spec/fpml-5-11-3-lcwd-1/html/confirmation/schemaDocumentation/schemas/fpml-ird-5-11_xsd/complexTypes/Swap.html>`_.
 Currently, interest rate swaps and currency swaps are supported.
@@ -298,7 +298,7 @@ schema:
   :end-before: -- CREATE_FPML_SWAP_FIX_LEG_END
 
 As you can see, the
-:ref:`Daml SwapStream data type <type-daml-finance-interface-instrument-swap-fpml-fpmltypes-swapstream-38811>`
+:ref:`Daml SwapStream data type <type-daml-finance-interface-instrument-swap-v1-fpml-fpmltypes-swapstream-11715>`
 matches the `swapStream FpML schema <https://www.fpml.org/spec/fpml-5-11-3-lcwd-1/html/confirmation/schemaDocumentation/schemas/fpml-ird-5-11_xsd/complexTypes/Swap/swapStream.html>`_.
 Please note that the actual parsing from FpML to Daml is not done by this template. It has to be
 implemented on the client side.
@@ -313,11 +313,11 @@ Similarly, the floating leg of the swap is defined like this:
 There are three main ways to define which interest rate should be used for a stub period. They are
 all included in the fix or floating leg above, either in the inital or in the final stub period. In
 short, it depends on the content of
-:ref:`StubCalculationPeriodAmount <type-daml-finance-interface-instrument-swap-fpml-fpmltypes-stubcalculationperiodamount-23577>`:
+:ref:`StubCalculationPeriodAmount <type-daml-finance-interface-instrument-swap-v1-fpml-fpmltypes-stubcalculationperiodamount-90721>`:
 
 #. *None*: No special stub rate is provided. Instead, use the same rate as was specified in the
    corresponding
-   :ref:`Calculation <type-daml-finance-interface-instrument-swap-fpml-fpmltypes-calculation-37694>`.
+   :ref:`Calculation <type-daml-finance-interface-instrument-swap-v1-fpml-fpmltypes-calculation-72470>`.
 #. Specific *stubRate*: Use this specific fix rate.
 #. Specific *floatingRate*: Use this specific floating rate (if one rate is provided). If two rates
    are provided: use linear interpolation between the two rates.

@@ -22,7 +22,7 @@ Barrier Reverse Convertible
 ===========================
 
 The
-:ref:`BarrierReverseConvertible <module-daml-finance-instrument-structuredproduct-barrierreverseconvertible-instrument-95793>`
+:ref:`BarrierReverseConvertible <module-daml-finance-instrument-structuredproduct-v1-barrierreverseconvertible-instrument-16231>`
 instrument models cash-settled, auto-exercising barrier reverse convertible (BRC) instruments. It
 can be seen as a long fixed coupon bond and a short Down-And-In put option.
 
@@ -49,7 +49,7 @@ Now that the terms have been defined, you can create the BRC instrument:
   :end-before: -- CREATE_BARRIER_REVERSE_CONVERTIBLE_INSTRUMENT_END
 
 Once this is done, you can create a holding on it using
-:ref:`Account.Credit <module-daml-finance-interface-account-account-92922>`.
+:ref:`Account.Credit <module-daml-finance-interface-account-v4-account-30007>`.
 
 This BRC instrument is automatically exercised. This means that the decision whether or not to
 exercise the embedded option is done automatically by comparing observations of the underlying to
@@ -68,7 +68,7 @@ Auto-Callable
 =============
 
 The
-:ref:`AutoCallable <module-daml-finance-interface-instrument-structuredproduct-autocallable-instrument-66988>`
+:ref:`AutoCallable <module-daml-finance-interface-instrument-structuredproduct-v1-autocallable-instrument-15420>`
 instrument models a single-underlying auto-callable note that pays a conditional coupon.
 
 Coupon payment
@@ -118,7 +118,7 @@ Now that the terms have been defined, you can create the AutoCallable instrument
   :end-before: -- CREATE_AUTO_CALLABLE_INSTRUMENT_END
 
 Then you can create a holding on it using
-:ref:`Account.Credit <module-daml-finance-interface-account-account-92922>`.
+:ref:`Account.Credit <module-daml-finance-interface-account-v4-account-30007>`.
 
 This instrument is automatically called. This means that the decision whether or not to exercise the
 embedded option is done automatically using the observations of the underlying asset.

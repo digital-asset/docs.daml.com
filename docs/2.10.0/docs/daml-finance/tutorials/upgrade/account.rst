@@ -5,24 +5,24 @@ Account Upgrade
 ###############
 
 This tutorial presents a scenario where a custodian offers its clients the option to *voluntarily*
-upgrade their "old" :ref:`Account <module-daml-finance-account-account-19369>` contracts to a
+upgrade their "old" :ref:`Account <module-daml-finance-account-v4-account-5834>` contracts to a
 "new" version. The focus is on demonstrating the process of such a voluntary upgrade.
 
 We are going to:
 
 #. Introduce ``MyAccount``, a custom account implementation for the custodian. It differs from
-   the standard Daml Finance :ref:`Account <module-daml-finance-account-account-19369>`
+   the standard Daml Finance :ref:`Account <module-daml-finance-account-v4-account-5834>`
    implementation in that it does not implement the
-   :ref:`Lockable <module-daml-finance-interface-util-lockable-80915>`
+   :ref:`Lockable <module-daml-finance-interface-util-v3-lockable-20339>`
    interface, making it a non-freezable account.
 #. Prevent the custodian from creating old
-   :ref:`Account <module-daml-finance-account-account-19369>` instances, by archiving its
+   :ref:`Account <module-daml-finance-account-v4-account-5834>` instances, by archiving its
    existing
-   :ref:`AccountFactory <module-daml-finance-account-account-19369>`.
+   :ref:`AccountFactory <module-daml-finance-account-v4-account-5834>`.
 #. Instantiate a new account factory, ``MyAccountFactory``, which can create ``MyAccount``
    instances.
 #. Provide a ``MyAccountUpgradeRule`` instance for clients, permitting them to upgrade their
-   existing :ref:`Account <module-daml-finance-account-account-19369>` instances to new
+   existing :ref:`Account <module-daml-finance-account-v4-account-5834>` instances to new
    ``MyAccount`` instances.
 #. Upgrade the accounts for the clients.
 

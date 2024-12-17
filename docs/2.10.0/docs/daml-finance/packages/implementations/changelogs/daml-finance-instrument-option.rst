@@ -1,8 +1,19 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Daml.Finance.Instrument.Option - Changelog
-##########################################
+Changelog
+#########
+
+Daml.Finance.Instrument.Option.V1
+=================================
+
+Version 1.0.0
+*************
+
+- Update of SDK version and dependencies. LF protocol update to support SCU.
+
+Daml.Finance.Instrument.Option
+==============================
 
 Version 0.3.0
 *************

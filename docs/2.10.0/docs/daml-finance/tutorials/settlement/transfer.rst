@@ -25,7 +25,7 @@ transfers (credits) and outgoing transfers (debits) of holdings to an account.
 Configuring Account Controllers
 *******************************
 
-The :ref:`Controllers <type-daml-finance-interface-account-account-controllers-36430>` data type
+The :ref:`Controllers <type-daml-finance-interface-account-v4-account-controllers-59817>` data type
 specifies the parties that need to authorize incoming and outgoing transfers to an account.
 
 For this tutorial, we provide four example scripts illustrating various incoming and outgoing

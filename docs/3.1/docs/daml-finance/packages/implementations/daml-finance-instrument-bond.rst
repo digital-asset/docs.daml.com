@@ -1,33 +1,33 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Daml.Finance.Instrument.Bond
-############################
+Daml.Finance.Instrument.Bond.V3
+###############################
 
 This package contains the *implementation* of different bond types, defined in the following
 modules:
 
-- :ref:`Callable.Instrument <module-daml-finance-instrument-bond-callable-instrument-83330>`:
+- :ref:`Callable.Instrument <module-daml-finance-instrument-bond-v3-callable-instrument-35206>`:
   Instrument implementation for callable bonds
-- :ref:`Callable.Factory <module-daml-finance-instrument-bond-callable-factory-52054>`:
+- :ref:`Callable.Factory <module-daml-finance-instrument-bond-v3-callable-factory-64026>`:
   Factory implementation to instantiate callable bonds
-- :ref:`FixedRate.Instrument <module-daml-finance-instrument-bond-fixedrate-instrument-67993>`:
+- :ref:`FixedRate.Instrument <module-daml-finance-instrument-bond-v3-fixedrate-instrument-89221>`:
   Instrument implementation for fixed-rate bonds
-- :ref:`FixedRate.Factory <module-daml-finance-instrument-bond-fixedrate-factory-46203>`:
+- :ref:`FixedRate.Factory <module-daml-finance-instrument-bond-v3-fixedrate-factory-55391>`:
   Factory implementation to instantiate fixed-rate bonds
-- :ref:`FloatingRate.Instrument <module-daml-finance-instrument-bond-floatingrate-instrument-98586>`:
+- :ref:`FloatingRate.Instrument <module-daml-finance-instrument-bond-v3-floatingrate-instrument-82370>`:
   Instrument implementation for floating-rate bonds
-- :ref:`FloatingRate.Factory <module-daml-finance-instrument-bond-floatingrate-factory-64782>`:
+- :ref:`FloatingRate.Factory <module-daml-finance-instrument-bond-v3-floatingrate-factory-96062>`:
   Factory implementation to instantiate floating-rate bonds
-- :ref:`InflationLinked.Instrument <module-daml-finance-instrument-bond-inflationlinked-instrument-30250>`:
+- :ref:`InflationLinked.Instrument <module-daml-finance-instrument-bond-v3-inflationlinked-instrument-99606>`:
   Instrument implementation for inflation-linked bonds
-- :ref:`InflationLinked.Factory <module-daml-finance-instrument-bond-inflationlinked-factory-70614>`:
+- :ref:`InflationLinked.Factory <module-daml-finance-instrument-bond-v3-inflationlinked-factory-84934>`:
   Factory implementation to instantiate inflation-linked bonds
-- :ref:`ZeroCoupon.Instrument <module-daml-finance-instrument-bond-zerocoupon-instrument-52804>`:
+- :ref:`ZeroCoupon.Instrument <module-daml-finance-instrument-bond-v3-zerocoupon-instrument-96672>`:
   Instrument implementation for zero-coupon bonds
-- :ref:`ZeroCoupon.Factory <module-daml-finance-instrument-bond-zerocoupon-factory-51640>`:
+- :ref:`ZeroCoupon.Factory <module-daml-finance-instrument-bond-v3-zerocoupon-factory-47672>`:
   Factory implementation to instantiate zero-coupon bonds
-- :ref:`Util <module-daml-finance-instrument-bond-util-70458>`:
+- :ref:`Util <module-daml-finance-instrument-bond-v3-util-25042>`:
   Bond-specific utility functions
 
 Check out the page on

@@ -43,7 +43,7 @@ Instrument and Holding
 ======================
 
 For the purpose of showcasing time-based lifecycling, we need a suitable sample instrument.
-:ref:`Fixed rate bonds <module-daml-finance-instrument-bond-fixedrate-instrument-67993>`
+:ref:`Fixed rate bonds <module-daml-finance-instrument-bond-v3-fixedrate-instrument-89221>`
 pay a constant coupon rate at the end of each coupon period. The
 :doc:`Bond Instrument packages <../../instruments/bond>` page describes this instrument
 in more detail. Here, we briefly show how to create the bond instrument using a factory:
@@ -87,9 +87,9 @@ first coupon:
   :end-before: -- CREATE_CLOCK_UPDATE_EVENT_END
 
 Note that it is the bank that actively creates a
-:ref:`DateClockUpdateEvent <module-daml-finance-data-time-dateclockupdate-48859>`.
+:ref:`DateClockUpdateEvent <module-daml-finance-data-v4-time-dateclockupdate-59678>`.
 This results in more control when to actually process the coupon payment. One could also use
-:ref:`LedgerTime <module-daml-finance-data-time-ledgertime-84639>`,
+:ref:`LedgerTime <module-daml-finance-data-v4-time-ledgertime-80144>`,
 but that could cause problems in some scenarios, for example:
 
 - The system is down when the coupon should be processed. Processing it the next day is difficult if
@@ -108,16 +108,16 @@ rule is exercised to process the time event:
   :start-after: -- LIFECYCLE_BOND_BEGIN
   :end-before: -- LIFECYCLE_BOND_END
 
-Both the :ref:`LedgerTime <module-daml-finance-data-time-ledgertime-84639>` and the
-:ref:`DateClock <module-daml-finance-data-time-dateclock-65212>` implement the
-:ref:`TimeObservable <module-daml-finance-interface-lifecycle-observable-timeobservable-45971>`
+Both the :ref:`LedgerTime <module-daml-finance-data-v4-time-ledgertime-80144>` and the
+:ref:`DateClock <module-daml-finance-data-v4-time-dateclock-1389>` implement the
+:ref:`TimeObservable <module-daml-finance-interface-lifecycle-v4-observable-timeobservable-64296>`
 interface, which is used by ``Evolve`` to specify the current time for the lifecycling.
 
 The result of this is an effect describing the per-unit asset movements to be executed for bond
 holders. Each holder can now present their holding to *claim* the effect and instruct settlement of
 the associated entitlements.
 
-A :ref:`Claim Rule <module-daml-finance-lifecycle-rule-claim-99318>` allows a holder of the
+A :ref:`Claim Rule <module-daml-finance-lifecycle-v4-rule-claim-11721>` allows a holder of the
 target instrument to claim the effect resulting from the time event:
 
 .. literalinclude:: ../../finance-lifecycling/daml/Scripts/FixedRateBond.daml

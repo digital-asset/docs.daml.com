@@ -13,7 +13,7 @@ implementations. The :doc:`Bond <../../../instruments/bond>` and
 behind the scenes to calculate pending coupon payments.
 
 Let us explore in detail how the
-:ref:`fixed rate bond instrument <module-daml-finance-instrument-bond-fixedrate-instrument-67993>`
+:ref:`fixed rate bond instrument <module-daml-finance-instrument-bond-v3-fixedrate-instrument-89221>`
 is implemented in Daml Finance. The goal is for you to learn how to implement and lifecycle your own
 instrument template, should you need an instrument type that is not already implemented in the
 library.
@@ -21,7 +21,7 @@ library.
 To follow the code snippets used in this tutorial in Daml Studio, you can clone the
 `Daml Finance repository <https://github.com/digital-asset/daml-finance>`_ and take a look at how
 the
-:ref:`Bond Instrument template <module-daml-finance-instrument-bond-fixedrate-instrument-67993>`
+:ref:`Bond Instrument template <module-daml-finance-instrument-bond-v3-fixedrate-instrument-89221>`
 is implemented. In order to see how lifecycling is performed, you can run the script in the
 `Instrument/Bond/Test/FixedRate.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Bond/Test/FixedRate.daml>`_
 file.
@@ -32,7 +32,7 @@ Template Definition
 We start by defining a new template for the instrument. Here are the fields used for the fixed
 rate instrument:
 
-.. literalinclude:: ../../../src/main/daml/Daml/Finance/Instrument/Bond/FixedRate/Instrument.daml
+.. literalinclude:: ../../../src/main/daml/Daml/Finance/Instrument/Bond/V3/FixedRate/Instrument.daml
   :language: daml
   :start-after: -- FIXED_RATE_BOND_TEMPLATE_BEGIN
   :end-before: -- FIXED_RATE_BOND_TEMPLATE_END
@@ -49,15 +49,15 @@ Note that the Contingent Claims tree is not a part of the template above, instea
 dynamically upon request.
 
 In order do that, we implement the
-:ref:`Claims interface <module-daml-finance-interface-claims-claim-82866>`.
+:ref:`Claims interface <module-daml-finance-interface-claims-v4-claim-38573>`.
 This interface provides access to a generic mechanism to process coupon payments and redemptions.
 It will work in a similar way for the majority of instrument types, regardless of their specific
 economic terms.
 
 Here is a high level implementation of the
-:ref:`Claims interface <module-daml-finance-interface-claims-claim-82866>`:
+:ref:`Claims interface <module-daml-finance-interface-claims-v4-claim-38573>`:
 
-.. literalinclude:: ../../../src/main/daml/Daml/Finance/Instrument/Bond/FixedRate/Instrument.daml
+.. literalinclude:: ../../../src/main/daml/Daml/Finance/Instrument/Bond/V3/FixedRate/Instrument.daml
   :language: daml
   :start-after: -- FIXED_RATE_BOND_CLAIMS_BEGIN
   :end-before: -- FIXED_RATE_BOND_CLAIMS_END
@@ -78,19 +78,19 @@ How to define the redemption claim
 
 The redemption claim depends on the currency and the maturity date of the bond.
 
-.. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/Util/Builders.daml
+.. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/V3/Util/Builders.daml
   :language: daml
   :start-after: -- FIXED_RATE_BOND_REDEMPTION_CLAIM_BEGIN
   :end-before: -- FIXED_RATE_BOND_REDEMPTION_CLAIM_END
 
 Keywords like
-:ref:`when <function-contingentclaims-core-claim-when-17123>`,
-:ref:`scale <function-contingentclaims-core-claim-scale-79608>`,
-:ref:`one <function-contingentclaims-core-claim-one-13168>` and
-:ref:`give <function-contingentclaims-core-claim-give-6964>` should be familiar from the
+:ref:`when <function-contingentclaims-core-v3-claim-when-40851>`,
+:ref:`scale <function-contingentclaims-core-v3-claim-scale-39304>`,
+:ref:`one <function-contingentclaims-core-v3-claim-one-90688>` and
+:ref:`give <function-contingentclaims-core-v3-claim-give-33092>` should be familiar from the
 :doc:`Payoff Modeling tutorial <../../payoff-modeling/intro>`.
-:ref:`TimeGte <constr-contingentclaims-core-internal-claim-timegte-91610>` is just a synonym for
-:ref:`at <function-contingentclaims-core-claim-at-6466>`.
+:ref:`TimeGte <constr-contingentclaims-core-v3-internal-claim-timegte-43192>` is just a synonym for
+:ref:`at <function-contingentclaims-core-v3-claim-at-41106>`.
 
 The ``ownerReceives`` flag is used to indicate whether the owner of a holding on the bond is meant
 to receive the redemption payment. When this is set to ``false``, the holding custodian will be
@@ -102,7 +102,7 @@ How to define the coupon claims
 The coupon claims are a bit more complicated to define.
 We need to take a schedule of adjusted coupon dates and the day count convention into account.
 
-.. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/Util/Builders.daml
+.. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/V3/Util/Builders.daml
   :language: daml
   :start-after: -- FIXED_RATE_BOND_COUPON_CLAIMS_BEGIN
   :end-before: -- FIXED_RATE_BOND_COUPON_CLAIMS_END
@@ -120,18 +120,18 @@ The ``lastEventTimestamp`` field in our template is used to keep track of the la
 payment.
 
 Evolution of the instrument over time (and calculation of the corresponding lifecycle effects) can
-be performed using the :ref:`Lifecycle.Rule <module-daml-finance-claims-lifecycle-rule-53980>`
+be performed using the :ref:`Lifecycle.Rule <module-daml-finance-claims-v3-lifecycle-rule-196>`
 template provided in the
-:doc:`Daml.Finance.Claims <../../../packages/implementations/daml-finance-claims>` package. This
+:doc:`Daml.Finance.Claims.V3 <../../../packages/implementations/daml-finance-claims>` package. This
 rule is very generic and can be used for all instruments that implement the
-:ref:`Claims interface <module-daml-finance-interface-claims-claim-82866>`.
+:ref:`Claims interface <module-daml-finance-interface-claims-v4-claim-38573>`.
 
 Let us break its implementation apart to describe what happens in more detail:
 
 * First, we retrieve the claim tree corresponding to the initial state of the instrument. We do so
   by fetching the ``Claims`` interface we defined for the template.
 
-  .. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/Lifecycle/Rule.daml
+  .. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/V3/Lifecycle/Rule.daml
     :language: daml
     :start-after: -- BOND_PROCESS_CLOCK_UPDATE_INITAL_CLAIMS_BEGIN
     :end-before: -- BOND_PROCESS_CLOCK_UPDATE_INITAL_CLAIMS_END
@@ -139,17 +139,17 @@ Let us break its implementation apart to describe what happens in more detail:
 * By using the ``lastEventTimestamp`` (in our case: the last time a coupon was paid), we can now
   "fast forward" the claim tree to the current instrument state.
 
-  .. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/Lifecycle/Rule.daml
+  .. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/V3/Lifecycle/Rule.daml
     :language: daml
     :start-after: -- BOND_PROCESS_CLOCK_UPDATE_LIFECYCLE_FASTFORWARD_BEGIN
     :end-before: -- BOND_PROCESS_CLOCK_UPDATE_LIFECYCLE_FASTFORWARD_END
 
 * Finally, we lifecycle the current instrument state to calculate pending
   `effects <#lifecycling-effect>`__. If there are such effects (for example when a coupon payment is
-  due), we create a :ref:`Lifecycle Effect <module-daml-finance-lifecycle-effect-1975>` for it,
+  due), we create a :ref:`Lifecycle Effect <module-daml-finance-lifecycle-v4-effect-31424>` for it,
   which can then be claimed and settled.
 
-  .. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/Lifecycle/Rule.daml
+  .. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/V3/Lifecycle/Rule.daml
     :language: daml
     :start-after: -- BOND_PROCESS_CLOCK_UPDATE_LIFECYCLE_BEGIN
     :end-before: -- BOND_PROCESS_CLOCK_UPDATE_LIFECYCLE_END
@@ -160,11 +160,11 @@ The ``Dynamic.Instrument`` Interface
 In the ``tryCreateNewInstrument`` part above, we create a new version of the instrument containing
 the updated ``lastEventTimestamp`` (and also including all previous events up until now). This is
 done by exercising the
-:ref:`CreateNewVersion <type-daml-finance-interface-claims-dynamic-instrument-createnewversion-36931>`
+:ref:`CreateNewVersion <type-daml-finance-interface-claims-v4-dynamic-instrument-createnewversion-58950>`
 choice of the
-:ref:`Dynamic.Instrument interface <module-daml-finance-interface-claims-claim-82866>`:
+:ref:`Dynamic.Instrument interface <module-daml-finance-interface-claims-v4-claim-38573>`:
 
-  .. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/Lifecycle/Rule.daml
+  .. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/V3/Lifecycle/Rule.daml
     :language: daml
     :start-after: -- CREATE_NEW_DYNAMIC_INSTRUMENT_VERSION_BEGIN
     :end-before: -- CREATE_NEW_DYNAMIC_INSTRUMENT_VERSION_END
@@ -186,16 +186,16 @@ define the coupon based on a future observation of the reference rate.
 
 In the instrument definition, we need an identifier for the reference rate:
 
-.. literalinclude:: ../../../src/main/daml/Daml/Finance/Instrument/Bond/FloatingRate/Instrument.daml
+.. literalinclude:: ../../../src/main/daml/Daml/Finance/Instrument/Bond/V3/FloatingRate/Instrument.daml
   :language: daml
   :start-after: -- FLOATING_RATE_BOND_TEMPLATE_UNTIL_REFRATE_BEGIN
   :end-before: -- FLOATING_RATE_BOND_TEMPLATE_UNTIL_REFRATE_END
 
 When we create the claims for the coupon payments, we can then use
-:ref:`ObserveAt <constr-contingentclaims-core-observation-observeat-8418>` to refer to the value of
+:ref:`ObserveAt <constr-contingentclaims-core-v3-observation-observeat-93788>` to refer to the value of
 the reference rate:
 
-.. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/Util/Builders.daml
+.. literalinclude:: ../../../src/main/daml/Daml/Finance/Claims/V3/Util/Builders.daml
   :language: daml
   :start-after: -- FLOATING_RATE_BOND_COUPON_CLAIMS_BEGIN
   :end-before: -- FLOATING_RATE_BOND_COUPON_CLAIMS_END
