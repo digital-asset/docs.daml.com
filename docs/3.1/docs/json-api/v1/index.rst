@@ -2181,9 +2181,9 @@ appearing on the stream there has been a matching ``created`` event
 earlier in the stream, except in the case of missing
 ``contractIdAtOffset`` fields in the case described below.
 
-You may supply optional ``offset`` s for the stream, exactly as with
-query streams.  However, you should supply with each ``{templateId,
-key}`` pair a ``contractIdAtOffset``, which is the contract ID currently
+You may supply optional ``offset`` s for the stream, as with
+query streams. However, you should supply a ``contractIdAtOffset`` with each ``{templateId,
+key}`` pair. A ``contractIdAtOffset`` is the contract ID currently
 associated with that pair at the point of the given offset, or ``null``
 if no contract ID was associated with the pair at that offset.  For
 example, with the above keys, if you had one ``"abc123"`` contract but
