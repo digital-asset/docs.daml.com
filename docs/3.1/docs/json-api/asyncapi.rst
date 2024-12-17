@@ -8,7 +8,7 @@ If you start Canton with the HTTP API enabled, this specification is available u
 
 The sources below can be copied to `Editor swagger IO <https://editor-next.swagger.io>`_ . The editor displays a preview of the specification and generates example inputs and outputs.
 
-The specification below covers streaming (websockets) endpoints - for regular endpoints (http) please navigate to :doc:`openapi`
+The specification covers streaming (websockets) endpoints - for regular endpoints (HTTP) please see :doc:`openapi`
 
 Properties of type: `{}` (any JSON) are DAML record fields as defined in the Daml template and formatted according to :doc:`lf-value-specification`.
 
