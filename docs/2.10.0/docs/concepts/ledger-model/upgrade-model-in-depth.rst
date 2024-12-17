@@ -1435,7 +1435,7 @@ converted to a template value, according to a set
 of rules detailed below. We call this template the target template.
 
 The contract is then transformed into a value that fits the type of
-the target template. Then, its metadata (signatories, observers, key,
+the target template. Then, its metadata (signatories, stakeholders, key,
 maintainers) is recomputed using the code of the target template and compared
 against the existing metadata stored on the ledger: it is not allowed to change.
 The ensure clause of the contract is also re-evaluated: it must evaluate to
@@ -1990,7 +1990,7 @@ parameters that is stored on the ledger for this contract. Namely:
 
 - The contract ID;
 - The contract signatories;
-- The contract observers;
+- The contract stakeholders (the union of signatories and observers);
 - The contract key;
 - The maintainers of the contract key.
 
