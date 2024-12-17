@@ -404,7 +404,9 @@ Add ``daml-script-lts`` to the list of dependencies in ``v1/my-pkg/daml.yaml``,
 as well as ``--target=1.17`` to the ``build-options``:
 
 .. code:: yaml
-  
+
+  ...
+  name: my-pkg
   ...
   dependencies:
   - daml-prim
@@ -412,6 +414,11 @@ as well as ``--target=1.17`` to the ``build-options``:
   - daml-script-lts
   build-options:
   - --target=1.17
+
+**Note:** Normally a package undergoing SCU should contain a version identifier
+in its name as well, but we leave this out for simplicity's sake - consult the
+section on :ref:`package naming best practices <upgrade_package_naming>` to
+learn more about this.
 
 Then create ``v1/my-pkg/daml/Main.daml``:
 
@@ -1832,6 +1839,8 @@ values, be aware that if their runtime value changes in any way, the
 upgrade, and thus the full transaction, fails. Contracts in this
 state can then only be used by explicitly choosing the older version of
 the contract in your transaction.
+
+.. _upgrade_package_naming:
 
 Breaking Changes via Explicit Package Version
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
