@@ -134,17 +134,21 @@ to match your case.
 If Canton starts and shows the command prompt of the console, then the configuration was
 parsed successfully.
 
-The command line option ``--manual-start`` prevents the node from starting up automatically,
-as we first need to migrate the database.
+.. note::
+
+    The command line option ``--manual-start`` prevents the node from starting up automatically,
+    as we first need to migrate the database.
 
 .. _migrating_the_database:
 
 Migrating the Database
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Canton does not perform a database migration automatically. Migrations
-need to be forced. If you start a node that requires a database migration, you will
-observe the following Flyway error:
+Canton does not perform a database migration automatically. Migrations need to be forced. Therefore, it is
+recommended to start Canton using the command line option ``--manual-start`` (see :ref:`above <test-your-config>`)
+when upgrading to a new Canton binary version that requires a database migration.
+
+If you start a node that requires a database migration, you will observe the following Flyway error:
 
 .. snippet:: migrating_participant
     .. failure:: participant.start()
@@ -210,6 +214,61 @@ The ping command creates two contracts between the admin parties, then exercises
 
 Version Specific Notes
 ~~~~~~~~~~~~~~~~~~~~~~
+
+.. _upgrade_to_2.10:
+
+Upgrade to Release 2.10
+^^^^^^^^^^^^^^^^^^^^^^^
+
+Protocol Versions
+"""""""""""""""""
+2.10 is a Long Term Support (LTS) release. This release introduces a new Canton protocol version 7, which is the
+recommended protocol version for this release.
+
+2.10 also supports protocol version 5, but certain new features in this release (e.g., Smart Contract Upgrading)
+are only available in protocol version 7. `Please note that protocol version 6 has been marked as
+deleted and should not be used`. Protocol version 7 has been introduced as its stable replacement
+(see :ref:`here <protocol_version>` for more information about protocol versions).
+
+Protocol version should be set explicitly
+"""""""""""""""""""""""""""""""""""""""""
+Recall that since the 2.9 release, you must set the protocol version explicitly. In prior releases, the domain
+protocol version was set to the latest protocol version by default.
+
+To specify the protocol version for your sync domain:
+
+.. code:: text
+
+    myDomain {
+        init.domain-parameters.protocol-version = 7
+    }
+
+For a domain manager:
+
+.. code:: text
+
+    domainManager {
+        init.domain-parameters.protocol-version = 7
+    }
+
+Please ensure all your environments use the same protocol version: you should not use one protocol version in
+your test environment and another one in production.
+
+If a protocol version is not provided, then an error message like this will be generated:
+
+.. code:: text
+
+    ERROR c.d.c.CantonEnterpriseApp$ - CONFIG_VALIDATION_ERROR(8,0): Failed to validate the configuration due to:
+    Protocol version is not defined for domain `mydomain`. Define protocol version at key `init.domain-parameters.protocol-version`...
+
+Enabling Smart Contract Upgrades
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This feature is currently Beta and is not enabled by default. As mentioned above, the protocol version must be
+set to 7 in order to enable this feature. For existing systems, this requires a domain migration to protocol
+version 7 when rolling out the 2.10 Canton binary.
+
+Beyond configuring the protocol version, there are additional Daml compilation and build steps described
+`elsewhere <https://docs.daml.com/upgrade/upgrade.html>`_.
 
 .. _upgrade_to_2.9:
 
