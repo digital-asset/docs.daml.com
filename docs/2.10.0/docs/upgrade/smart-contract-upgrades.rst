@@ -2078,7 +2078,24 @@ Daml Script has been used for demonstrative purposes in this document, however
 usually the complexities of live upgrades comes with your workflows, not the data
 transformations themselves. You can use Daml Script (with Canton) to test some
 isolated simple cases, but for thorough tests of you system using SCU, you should
-prefer full workflow testing, as below.
+prefer full `Workflow Testing <#workflow-testing>`__.
+
+When testing your upgrades with Daml Script, we recommend you place your Daml Script tests
+in a separate package which depends on all versions of your business logic. This testing
+package should not be uploaded to the ledger if possible, as it cannot be dropped in an upgrade.
+Depending on multiple versions of the same package will however face ambiguity issues with
+imports, you can resolve this using :ref:`module prefixes <module_prefixes>`:
+
+.. code:: yaml
+
+  name: my-testing-package
+  ...
+  data-dependencies:
+    - my/v1/main-package.dar
+    - my/v2/main-package.dar
+  module-prefixes:
+    main-1.0.0.dar: V11
+    main-1.1.0.dar: V12
 
 Multi-package builds for upgrades
 --------------------------------------
