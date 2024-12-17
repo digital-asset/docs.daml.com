@@ -2176,7 +2176,7 @@ Example:
     ]
 
 The output stream has the same format as the output from the
-`Contracts Query Stream`_. We further guarantee that for every ``archived`` event
+`Contracts Query Stream`_. For every ``archived`` event
 appearing on the stream there has been a matching ``created`` event
 earlier in the stream, except in the case of missing
 ``contractIdAtOffset`` fields in the case described below.
