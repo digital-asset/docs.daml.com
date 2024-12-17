@@ -309,7 +309,7 @@ PQS & Daml Shell
 
 As of 2.10, PQS only supports querying contracts via package-name, 
 dropping support for direct package-id queries. See
-`Limitations <#limitations>`__ for more information and a work-around.
+`the PQS section <#pqs>`__ for more information and a work-around.
 
 Daml Shell builds on top of PQS, so inherits this behavior.
 
@@ -365,17 +365,14 @@ In this version of SCU, the following functionality has not yet
 been implemented, but may be implemented in future releases.
 
 -  Retroactive interface instances are not compatible with SCU upgrades.
-   We do not expect to ever add this compatibility, as SCU supersedes retroactive
-   interface instances
+   SCU partially covers this behaviour, allowing instances to be changed in an upgrade,
+   however a new interface instance cannot be added to a template in an upgrade.
+   An offline migration would be needed in this case.
 
 -  Daml Script does not support SCU or LF1.17, you must use Daml Script LTS.
 
 -  Contract keys in upgradable packages can only include types defined
    within the same package, or types from the Daml Standard Library.
-
--  Upgrade compatibility checks currently run on all data types, even those which are
-   not `serializable <https://github.com/digital-asset/daml/blob/main-2.x/sdk/daml-lf/spec/daml-lf-1.rst#serializable-types>`__.
-   This check will be loosened in a future version.
 
 The Programming Model by Example
 ================================
@@ -1948,10 +1945,8 @@ it as two packages, ``helper`` and ``main``:
 Remove Retroactive Instances
 ----------------------------
 
-SCU eliminates the need for retroactive instances and is not
-compatible with them. Retroactive interface instances should be moved to newer
-versions of templates, such that changes to the instance warrant a new
-version of the template, to ensure that the correct package is selected for interface choices.
+SCU is not compatible with retroactive instances, so these will need to be removed.
+See `Limitations <#limitations>`__ for more information.
 
 Explicit Template Versions
 --------------------------
