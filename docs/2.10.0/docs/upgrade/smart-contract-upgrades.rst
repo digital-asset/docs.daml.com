@@ -404,7 +404,9 @@ Add ``daml-script-lts`` to the list of dependencies in ``v1/my-pkg/daml.yaml``,
 as well as ``--target=1.17`` to the ``build-options``:
 
 .. code:: yaml
-  
+
+  ...
+  name: my-pkg
   ...
   dependencies:
   - daml-prim
@@ -412,6 +414,11 @@ as well as ``--target=1.17`` to the ``build-options``:
   - daml-script-lts
   build-options:
   - --target=1.17
+
+**Note:** Normally a package undergoing SCU should contain a version identifier
+in its name as well, but we leave this out for simplicity's sake - consult the
+section on :ref:`package naming best practices <upgrade_package_naming>` to
+learn more about this.
 
 Then create ``v1/my-pkg/daml/Main.daml``:
 
@@ -1436,39 +1443,32 @@ Dependencies
 Package authors may upgrade the dependencies of a package as well as the
 package itself. A new version of a package may add new dependencies, and
 must have all the (non-:ref:`utility-package <upgrades-utility-package>`)
-dependencies of the old version. Each of these existing dependency
-must either be unchanged from the old dar, or an upgrade of its previous
-version.
+dependencies of the old version. If these dependencies are used in ways that are
+checked for upgrades, each existing dependency must be either
+unchanged from the old DAR or an upgrade of its previous version.
 
-For example, given a dependencies folder, containing v1 and v2
-of two dependency packages ``depA`` and ``depB``
+For example, given a dependencies folder containing v1, v2, and v3
+of a dependency package ``dep``:
 
 .. code:: bash
 
   > ls ./dependencies
-  depA-1.0.0.dar
-  depA-1.1.0.dar
-  depB-1.0.0.dar
-  depB-1.1.0.dar
+  dep-1.0.0.dar
+  dep-2.0.0.dar
+  dep-3.0.0.dar
 
-Change v1 of the IOU package so that it depends on ``depA-1.0.0`` and
-``depB-1.1.0``. Its ``v1/my-pkg/daml.yaml`` would look something like this:
+Then assume a version ``1.0.0`` of a package ``main`` that depends on a datatype
+from version ``2.0.0`` of ``dep``:
 
-.. code:: yaml
+.. code:: daml
 
-  ...
-  dependencies:
-  - daml-prim
-  - daml-stdlib
-  - daml3-script
-  - ../../dependencies/depA-1.0.0.dar
-  - ../../dependencies/depB-1.1.0.dar
-  ...
+  module Main where
 
-A package with a newer version may upgrade any dependency to a newer
-version (or keep the version the same). For example, v2 of the IOU
-package may keep its dependencies the same, or it may upgrade ``depA`` to
-``1.1.0``:
+  import qualified Dep
+
+  data MyData = MyData
+    { depData : Dep.AdditionalData
+    }
 
 .. code:: yaml
 
@@ -1477,13 +1477,14 @@ package may keep its dependencies the same, or it may upgrade ``depA`` to
   - daml-prim
   - daml-stdlib
   - daml3-script
-  - ../../dependencies/depA-1.1.0.dar
-  - ../../dependencies/depB-1.1.0.dar
+  data-dependencies:
+  - dependencies/dep-2.0.0.dar
   ...
 
-Downgrading a dependency is not permitted. For example, IOU may not
-downgrade ``depB`` to version ``1.0.0``. The following ``daml.yaml`` would be
-invalid:
+Because a package with a newer version may upgrade any dependency to a newer
+version (or keep the version the same), version ``2.0.0`` of the ``main``
+package may keep its dependencies the same, or it may upgrade ``dep`` to
+``3.0.0``:
 
 .. code:: yaml
 
@@ -1492,26 +1493,36 @@ invalid:
   - daml-prim
   - daml-stdlib
   - daml3-script
-  - ../../dependencies/depA-1.0.0.dar
-  - ../../dependencies/depB-1.0.0.dar
+  data-dependencies:
+  - dependencies/dep-3.0.0.dar # Can upgrade dep-2.0.0 to dep-3.0.0, or leave it unchanged
   ...
 
-At the moment, ``daml build`` does not check for valid dependencies - checks
-are instead performed at upload time to a participant.
+You cannot downgrade a dependency when using that dependency's datatypes. For example, ``main`` may not downgrade ``dep`` to version ``1.0.0``.
+The following ``daml.yaml`` would be invalid:
+
+.. code:: yaml
+
+  ...
+  dependencies:
+  - daml-prim
+  - daml-stdlib
+  - daml3-script
+  data-dependencies:
+  - dependencies/dep-1.0.0.dar # Cannot downgrade dep-2.0.0 to dep-1.0.0
+  ...
+
+If you try to build this package, the typechecker returns an error on a package ID
+mismatch for the Dep:AdditionalData field, because the Dep:AdditionalData
+reference in this case has changed to a package that is not a legitimate upgrade
+of the original.
 
 .. code:: bash
 
-  > cd v1/my-pkg
-  > daml ledger upload-dar --port 6865
+  > daml build
   ...
-  Uploading .daml/dist/my-pkg-1.0.0.dar to localhost:6865
-  DAR upload succeeded.
-  > cd ../../v2/my-pkg
-  > daml ledger upload-dar --port 6865
-  ...
-  Uploading .daml/dist/my-pkg-1.1.0.dar to localhost:6865
-  upload-dar did not succeed: DAR_NOT_VALID_UPGRADE(...): The DAR contains a package which claims to upgrade another package, but basic checks indicate the package is not a valid upgrade
-  ...
+  error type checking data type Main.MyData:
+  The upgraded data type MyData has changed the types of some of its original fields:
+    Field 'depData' changed type from <dep-2.0.0 package ID>:Dep:AdditionalData to <dep-1.0.0 package ID>:Dep:AdditionalData
 
 Upgrading Interface Instances
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1522,7 +1533,7 @@ module ``my-iface/daml/MyIface.daml``:
 
 .. code:: yaml
 
-  sdk-version: 0.0.0
+  sdk-version: 2.10.0
   name: my-iface
   version: 1.0.0
   source: daml/MyIface.daml
@@ -1689,14 +1700,16 @@ Because interfaces definitions may not be defined in subsequent versions, any
 package that uses an interface definition from a dependency package can never
 upgrade that dependency to a new version.
 
-For this reason, it is strongly recommend that interfaces always be defined
-in their own packages separately from templates.
+For this reason, it is :ref:`strongly recommended that interfaces always be defined
+in their own packages separately from templates <separate_interfaces_and_exceptions>`.
 
 Best Practices
 --------------
 
 To ensure that future upgrades and DAR lifecycling go smoothly, we
 recommend the following practices:
+
+.. _separate_interfaces_and_exceptions:
 
 Separate Interfaces/Exceptions from Templates
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1707,12 +1720,95 @@ unchanged, the package does not type check. Removing an interface from the
 version 2 package also causes issues, especially if the interface has
 choices.
 
-Instead, move interface and exception definitions out into a separate package
-from the start, such that subsequent versions of your package with templates all
-depend on the same version of the package with interfaces/exceptions. The SCU
-type checker warns about this, but you should see this warning as an error - it
-is very strongly recommended that you do not compile interfaces or exceptions in
-a package alongside templates.
+This means that template definitions that exist in the same package as
+interfaces and exception definitions are not upgradeable. To avoid this
+issue, move interface and exception definitions into a separate package such that subsequent versions of your template package all depend on the same version of the package with interfaces/exceptions.
+
+For example, a single package ``main`` defined as follows would not be able to
+upgrade, leaving the template ``T`` non-upgradeable.
+
+.. code:: daml
+
+  module Main where
+
+  interface I where
+    ...
+
+  template T with
+    ...
+
+.. code:: yaml
+
+  sdk-version: 2.10.0
+  name: main
+  version: 1.0.0
+  source: Main.daml
+  dependencies:
+  - daml-prim
+  - daml-stdlib
+  build-options:
+  - --target=1.17
+
+The SCU type checker emits an error and refuses to compile this module:
+
+.. code:: text
+
+  error type checking <none>:
+    This package defines both interfaces and templates. This may make this package and its dependents not upgradeable.
+    
+    It is recommended that interfaces are defined in their own package separate from their implementations.
+    Downgrade this error to a warning with -Wupgrade-interfaces
+    Disable this error entirely with -Wno-upgrade-interfaces
+
+**Note:** It is very strongly recommended that you do not compile interfaces or
+exceptions in a package alongside templates. However, you can downgrade this
+error to a warning by passing the ``-Wupgrade-interfaces`` flag, or ignore this
+error entirely with the ``-Wno-upgrade-interfaces`` flag.
+
+The recommended way to fix this is to split the ``main`` package by redefining
+it as two packages, ``helper`` and ``main``:
+
+.. code:: daml
+
+  module Helper where
+
+  interface I where
+    ...
+
+.. code:: yaml
+
+  sdk-version: 2.10.0
+  name: helper
+  version: 1.0.0
+  source: Helper.daml
+  dependencies:
+  - daml-prim
+  - daml-stdlib
+  build-options:
+  - --target=1.17
+
+.. code:: daml
+
+  module Main where
+
+  import qualified Helper
+
+  template T with
+    ...
+
+.. code:: yaml
+
+  sdk-version: 2.10.0
+  name: main
+  version: 1.0.0
+  source: Main.daml
+  dependencies:
+  - daml-prim
+  - daml-stdlib
+  data-dependencies:
+  - <path to helper DAR>
+  build-options:
+  - --target=1.17
 
 Remove Retroactive Instances
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1746,6 +1842,40 @@ values, be aware that if their runtime value changes in any way, the
 upgrade, and thus the full transaction, fails. Contracts in this
 state can then only be used by explicitly choosing the older version of
 the contract in your transaction.
+
+.. _upgrade_package_naming:
+
+Breaking Changes via Explicit Package Version
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To make a breaking change to your package that
+is not upgrade compatible, you can change the name of your package to indicate a
+breaking version bump. To enable this, we recommend that your package
+name contains a version marker for when a breaking change occurs.
+
+For example, for your first iteration of a package, you would name it
+``main-v1``, starting with package version ``1.0.0``. In this case, the ``v1``
+is part of the *package name*, not the package version. You could publish
+upgrade-compatible versions by changing the ``version:`` field from ``1.0.0`` to
+``2.0.0`` to ``3.0.0``. These versions would all be upgrade-compatible with
+one another:
+
+.. code:: text
+
+  main-v1-1.0.0
+  main-v1-2.0.0
+  main-v1-3.0.0
+
+Note how the ``v1`` in all three packages remains stable - this means the
+package name has not changed, and ensures that these three packages and their
+datatypes are considered by the runtime and the type checker to be upgradeable.
+
+When you want to make a breaking change, you would publish a new version of the
+package with package name ``main-v2``. Because this package would have a
+different package name from those with ``main-v1``, it would not be typechecked
+against those packages and its datatypes would not automatically be converted.
+You would need to manually migrate values from ``main-v1`` packages to
+``main-v2`` -- existing downtime upgrade techniques are listed :ref:`here <upgrades-index>`.
 
 Migration
 ---------
@@ -2071,13 +2201,60 @@ Upgrades feature.
 Testing
 =======
 
-Upgrade Validity Checking
--------------------------
+Standalone Upgradeability Checks
+--------------------------------
 
-We recommend that as a further check for the validity of your upgraded
-package, you perform a dry-run upload of your package to a testing environment,
-using the ``--dry-run`` flag of the ``daml ledger upload-dar`` command.
-This runs the upgrade type-checking, but does not persist your package to the ledger.
+We recommend using the ``upgrade-check`` tool to perform a standalone check that all of the DARs typecheck against one another correctly as further validation of your upgraded packages.
+
+This tool takes a list of DARs and runs Canton's participant-side upgrade
+typechecking without spinning up an instance of Canton. You should pass the
+tool the list of DARs constituting your previous model and the list of DARs for
+your new model.
+
+For example, assume you have a helper package ``helper`` that does not change,
+and two packages ``main`` and ``dep``.
+
+.. code:: text
+
+  main-1.0.0.dar
+  dep-1.0.0.dar
+  helper-1.0.0.dar
+
+After upgrading your model, you would publish a new DAR ``main-2.0.0.dar`` for ``main``
+and a new DAR ``dep-2.0.0.dar`` for ``dep``. We would then recommend running the
+upgrade-check tool as follows:
+
+.. code:: bash
+
+  > daml upgrade-check --participant helper-1.0.0.dar dep-1.0.0.dar main-1.0.0.dar dep-2.0.0.dar main-2.0.0.dar
+  ...
+
+This runs the same upload validation over these DARs that would be run in
+the event of an upload to the ledger, and prints out the same messages and
+errors. Because it does not require a ledger to be spun up, the command runs
+much more quickly.
+
+We can also check that all of the DARs pass compiler-side checks, but this is
+much less likely to indicate an issue because the DARs are typechecked during
+compilation.
+
+.. code:: bash
+
+  > daml upgrade-check --compiler helper-1.0.0.dar dep-1.0.0.dar main-1.0.0.dar dep-2.0.0.dar main-2.0.0.dar
+  ...
+
+Dry Run Uploading to a Test Environment
+---------------------------------------
+
+If you have a test environment with DARs that are not available to you, you may
+not be able to supply a complete list of DARs for your previous model to the
+standalone ``upgrade-check`` tool.
+
+In this case, we recommend that as a further check for the validity of your
+upgraded package, you perform a dry-run upload of your package to a testing
+environment, using the ``--dry-run`` flag of the ``daml ledger upload-dar``
+command. This also runs the upgrade typechecking, but does not persist your
+package to the ledger.
 
 For workflows involving multiple DARs, we recommend more robust testing by
 running a Canton sandbox with the same version and environment as your
