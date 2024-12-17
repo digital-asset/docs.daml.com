@@ -1740,7 +1740,7 @@ upgrade, leaving the template ``T`` non-upgradeable.
   - daml-prim
   - daml-stdlib
   build-options:
-  - --target=1.dev
+  - --target=1.17
 
 The SCU type checker will emit an error and refuse to compile this module:
 
@@ -1778,7 +1778,7 @@ it as two packages, ``helper`` and ``main``:
   - daml-prim
   - daml-stdlib
   build-options:
-  - --target=1.dev
+  - --target=1.17
 
 .. code:: daml
 
@@ -1801,7 +1801,7 @@ it as two packages, ``helper`` and ``main``:
   data-dependencies:
   - <path to helper DAR>
   build-options:
-  - --target=1.dev
+  - --target=1.17
 
 Remove Retroactive Instances
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1865,8 +1865,8 @@ When you want to make a breaking change, you would publish a new version of the
 package with package name ``main-v2``. Because this package would have a
 different package name from those with ``main-v1``, it would not be typechecked
 against those packages and its datatypes would not automatically be converted.
-You would need to manually convert values from ``main-v1`` packages to be
-consumed by ``main-v2``, and vice versa.
+You would need to manually migrate values from ``main-v1`` packages to
+``main-v2`` -- existing downtime upgrade techniques are listed :ref:`here <upgrades-index>`.
 
 Migration
 ---------
@@ -2229,7 +2229,7 @@ much more quickly.
 
 We can also check that all of the DARs pass compiler-side checks, but this is
 much less likely to indicate an issue because the DARs are typechecked during
-compilation anyways.
+compilation.
 
 .. code:: bash
 
