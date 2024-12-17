@@ -1433,11 +1433,11 @@ Dependencies
 Package authors may upgrade the dependencies of a package as well as the
 package itself. A new version of a package may add new dependencies, and
 must have all the (non-:ref:`utility-package <upgrades-utility-package>`)
-dependencies of the old version. When using these dependencies in ways that are
-checked for upgrades, each of these existing dependencies must either be
-unchanged from the old dar, or an upgrade of its previous version.
+dependencies of the old version. If these dependencies are used in ways that are
+checked for upgrades, each existing dependency must be either
+unchanged from the old DAR or an upgrade of its previous version.
 
-For example, given a dependencies folder, containing v1, v2, and v3
+For example, given a dependencies folder containing v1, v2, and v3
 of a dependency package ``dep``:
 
 .. code:: bash
@@ -1487,8 +1487,7 @@ package may keep its dependencies the same, or it may upgrade ``dep`` to
   - dependencies/dep-3.0.0.dar # Can upgrade dep-2.0.0 to dep-3.0.0, or leave it unchanged
   ...
 
-Downgrading a dependency when using that dependency's datatypes is not
-permitted. For example, ``main`` may not downgrade ``dep`` to version ``1.0.0``.
+You cannot downgrade a dependency when using that dependency's datatypes. For example, ``main`` may not downgrade ``dep`` to version ``1.0.0``.
 The following ``daml.yaml`` would be invalid:
 
 .. code:: yaml
@@ -1502,7 +1501,7 @@ The following ``daml.yaml`` would be invalid:
   - dependencies/dep-1.0.0.dar # Cannot downgrade dep-2.0.0 to dep-1.0.0
   ...
 
-If you try to build this package, the typechecker will error on a package ID
+If you try to build this package, the typechecker returns an error on a package ID
 mismatch for the Dep:AdditionalData field, because the Dep:AdditionalData
 reference in this case has changed to a package that is not a legitimate upgrade
 of the original.
@@ -1712,10 +1711,8 @@ version 2 package also causes issues, especially if the interface has
 choices.
 
 This means that template definitions that exist in the same package as
-interfaces and exception definitions will not be upgradeable. To avoid this
-issue, move interface and exception definitions out into a separate package in
-your model, such that subsequent versions of your package with templates all
-depend on the same version of the package with interfaces/exceptions.
+interfaces and exception definitions are not upgradeable. To avoid this
+issue, move interface and exception definitions into a separate package such that subsequent versions of your template package all depend on the same version of the package with interfaces/exceptions.
 
 For example, a single package ``main`` defined as follows would not be able to
 upgrade, leaving the template ``T`` non-upgradeable.
@@ -1742,7 +1739,7 @@ upgrade, leaving the template ``T`` non-upgradeable.
   build-options:
   - --target=1.17
 
-The SCU type checker will emit an error and refuse to compile this module:
+The SCU type checker emits an error and refuses to compile this module:
 
 .. code:: text
 
@@ -1839,10 +1836,10 @@ the contract in your transaction.
 Breaking Changes via Explicit Package Version
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In the event that you would like to make a breaking change to your package that
+To make a breaking change to your package that
 is not upgrade compatible, you can change the name of your package to indicate a
-breaking version bump. In order to enable this, we recommend that your package
-name contains a version marker for when a breaking change does happen.
+breaking version bump. To enable this, we recommend that your package
+name contains a version marker for when a breaking change occurs.
 
 For example, for your first iteration of a package, you would name it
 ``main-v1``, starting with package version ``1.0.0``. In this case, the ``v1``
@@ -2195,12 +2192,10 @@ Testing
 Standalone Upgradeability Checks
 --------------------------------
 
-We recommend that as a further check for the validity of your upgraded packages,
-you perform a standalone check that all of the DARs typecheck against one
-another correctly via the ``upgrade-check`` tool.
+We recommend using the ``upgrade-check`` tool to perform a standalone check that all of the DARs typecheck against one another correctly as further validation of your upgraded packages.
 
 This tool takes a list of DARs and runs Canton's participant-side upgrade
-typechecking, without spinning up an instance of Canton. You should pass the
+typechecking without spinning up an instance of Canton. You should pass the
 tool the list of DARs constituting your previous model and the list of DARs for
 your new model.
 
@@ -2213,7 +2208,7 @@ and two packages ``main`` and ``dep``.
   dep-1.0.0.dar
   helper-1.0.0.dar
 
-After upgrading your model, you would a new DAR ``main-2.0.0.dar`` for ``main``
+After upgrading your model, you would publish a new DAR ``main-2.0.0.dar`` for ``main``
 and a new DAR ``dep-2.0.0.dar`` for ``dep``. We would then recommend running the
 upgrade-check tool as follows:
 
@@ -2222,9 +2217,9 @@ upgrade-check tool as follows:
   > daml upgrade-check --participant helper-1.0.0.dar dep-1.0.0.dar main-1.0.0.dar dep-2.0.0.dar main-2.0.0.dar
   ...
 
-This will run the same upload validation over these DARs that would be run in
-the event of an upload to the ledger, and will print out the same messages and
-errors. Because it will not require a ledger to be spun up, the command runs
+This runs the same upload validation over these DARs that would be run in
+the event of an upload to the ledger, and prints out the same messages and
+errors. Because it does not require a ledger to be spun up, the command runs
 much more quickly.
 
 We can also check that all of the DARs pass compiler-side checks, but this is
@@ -2246,7 +2241,7 @@ standalone ``upgrade-check`` tool.
 In this case, we recommend that as a further check for the validity of your
 upgraded package, you perform a dry-run upload of your package to a testing
 environment, using the ``--dry-run`` flag of the ``daml ledger upload-dar``
-command. This also runs the upgrade type-checking, but does not persist your
+command. This also runs the upgrade typechecking, but does not persist your
 package to the ledger.
 
 For workflows involving multiple DARs, we recommend more robust testing by
