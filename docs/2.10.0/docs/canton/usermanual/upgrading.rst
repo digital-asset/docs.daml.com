@@ -250,8 +250,8 @@ For a domain manager:
         init.domain-parameters.protocol-version = 7
     }
 
-Please ensure all your environments use the same protocol version: you should not use one protocol version in
-your test environment and another one in production.
+Please ensure all environments use the same protocol version: you should not use one protocol version in
+a test environment and another one in production.
 
 If a protocol version is not provided, then an error message like this will be generated:
 
