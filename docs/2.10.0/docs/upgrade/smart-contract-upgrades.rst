@@ -1819,13 +1819,13 @@ exceptions, as failure to do so could lead to packages which are
 incompatible with SCU and require the use of a separate tool (and
 downtime).
 
-Next, you need to be aware of the new package-name scoping rules, and
-ensure that your package set does not violate this. In short, LF1.17 packages
-with the same package-name are unified under SCU, so you should ensure that
-all of your packages that aren't intended to be direct upgrades of each-other
-have unique package-names.
-Note also that within a given package-name, only one package for each version
-can exist.
+Next, be aware of the new package-name scoping rules, and
+ensure that your package set does not violate them. In short, LF1.17 packages
+with the same package name are unified under SCU, so you should ensure that
+all of your packages that are not intended to be direct upgrades of each other
+have unique package names.
+Note also that only one package for each version
+can exist within a given package name.
 LF1.15 packages are not subject to this restriction, and can exist alongside LF1.17
 packages.
 
@@ -1949,33 +1949,30 @@ Remove Retroactive Instances
 ----------------------------
 
 SCU eliminates the need for retroactive instances and is not
-compatible with them. To ensure package selection for interface choices
-acts correctly, retroactive interface instances should be moved to newer
-versions of templates, such that changes to the instance warrants a new
-version of the template.
+compatible with them. Retroactive interface instances should be moved to newer
+versions of templates, such that changes to the instance warrant a new
+version of the template, to ensure that the correct package is selected for interface choices.
 
 Explicit Template Versions
 --------------------------
 
-If you need package version specific behavior that cannot just depend on
-the presence or absence of new fields, then one workaround would be to
+If you need package version-specific behavior that does not depend on
+the presence or absence of new fields, you can
 tag your contracts in their payload with an explicit version field.
-This allows for less fragile behavior in the event of
+This makes
 "partial upgrades" (where a user may only upgrade part of the payload of
-a package, intentionally), and allows you to model rollbacks as upgrades
+a package, intentionally) less fragile, and allows you to model rollbacks as upgrades
 in a principled manner.
 
 Avoid Contract Metadata Changes
 -------------------------------
 
-The signatories, observers, contract key and ensure clauses of a
+The signatories, observers, contract key, and ensure clauses of a
 contract should be fixed at runtime for a given contract. Changing their
-definitions in your Daml code triggers a warning from the SCU
-typechecker, and is discouraged. Note that for contract keys, the type
-cannot change at all, only its value. Should you need to change these
-values, be aware that if their runtime value changes in any way, the
+definitions in your Daml code is discouraged and triggers a warning from the SCU
+typechecker. Note that contract keys cannot change type, only value. In addition, if their runtime value changes in any way, the
 upgrade, and thus the full transaction, fails. Contracts in this
-state can then only be used by explicitly choosing the older version of
+state can only be used if you explicitly choose the older version of
 the contract in your transaction.
 
 .. _upgrade_package_naming:
@@ -2005,10 +2002,9 @@ Note how the ``v1`` in all three packages remains stable - this means the
 package name has not changed, and ensures that these three packages and their
 datatypes are considered by the runtime and the type checker to be upgradeable.
 
-When you want to make a breaking change, you would publish a new version of the
-package with package name ``main-v2``. Because this package would have a
-different package name from those with ``main-v1``, it would not be typechecked
-against those packages and its datatypes would not automatically be converted.
+To make a breaking change, publish a new package version with package name ``main-v2``. Because this package has a
+different package name from those with ``main-v1``, it is not typechecked
+against those packages and its datatypes are not automatically converted.
 You would need to manually migrate values from ``main-v1`` packages to
 ``main-v2`` -- existing downtime upgrade techniques are listed :ref:`here <upgrades-index>`.
 
@@ -2244,7 +2240,7 @@ Codegen
 -------
 
 For packages that support SCU (i.e. LF1.17), generated code uses
-package-names in place of package-ids in template IDs. Retrieved data
+package names in place of package IDs in template IDs. Retrieved data
 from the ledger is subject to the upgrade transformations described
 in previous sections.
 
@@ -2257,21 +2253,21 @@ The classes that are generated for each template and interface contain a
 ``TEMPLATE_ID`` field, which, for upgradable packages, now use a
 package name rather than a package ID. To help you determine
 the package ID of these packages, we have added a new ``PACKAGE_ID`` field to all
-such classes. Upgradable packages also cause ``PACKAGE_NAME`` and
-``PACKAGE_VERSION`` fields to be present.
+such classes. Upgradable packages also have ``PACKAGE_NAME`` and
+``PACKAGE_VERSION`` fields.
 
 TypeScript
 ~~~~~~~~~~
 
 The ``templateId`` field on generated template classes has been updated to
-use the package-name as the package qualifier for upgrade compatible
+use the package name as the package qualifier for upgrade-compatible
 packages. This is used for command submission and queries. However,
-note that the package qualifier given back in queries contains the
-package-id, rather than the package-name. Generated modules now also
-give the package "reference", which is the package-name for upgrade-compatible packages; for other packages it is the package-id.
+note that queries return the package qualifier with the
+package ID rather than the package name. Generated modules now also
+give the package "reference", which is the package name for upgrade-compatible packages; for other packages it is the package ID.
 
-To perform package-id qualified commands/queries in an upgrade
-compatible package, a copy of the template object can be created using
+To perform package ID-qualified commands/queries in an upgrade
+compatible package, create a copy of the template object using
 the following:
 
 .. code:: typescript
@@ -2286,17 +2282,17 @@ the following:
 JSON API Server
 ----------------
 
-Template IDs may still be used with a package ID, however,
+Template IDs may still be used with a package ID; however,
 for packages built as LF 1.17 or greater, the package may also be
 identified by name. That is to say, for upgradable packages a template ID can have
 the form ``#<package-name>:<module-name>:<template-name>``, and this is
 resolved to corresponding templates from all packages which share this
-name, and are built at 1.17 or above. For packages built at LF 1.15,
+name and are built at 1.17 or above. For packages built at LF 1.15,
 the templates are not identifiable via a package name, and a
 package ID must be used.
 
 Note: template IDs in query results always use a package ID. This
-allows us to distinguish the source of a particular contract. This means
+allows you to distinguish the source of a particular contract. This means
 that if you use a template with a package name in the request, you can
 no longer expect the template IDs in the result to exactly match the
 input template ID.
@@ -2309,15 +2305,15 @@ PQS
 
 To match the package-name changes to the Ledger API, PQS has changed how packages
 are selected for queries. All queries that take a Daml identity in the form 
-``<package-id>:<module-name>:<template-name>`` now take a package-name in place 
-of package-id. Note that this differs from the Ledger API in that the `#` prefix
-is not required for PQS, as PQS has dropped direct package-id queries.
-Queries for package-names will return all versions of a given contract, alongside the
-package-version and package-id for each contract.
+``<package-id>:<module-name>:<template-name>`` now take a package name in place 
+of package ID. Note that this differs from the Ledger API in that the `#` prefix
+is not required for PQS, as PQS has dropped direct package ID queries.
+Queries for package names return all versions of a given contract, alongside the
+package version and package ID for each contract.
 
 .. note::
-  If you still need to perform a query with an explicit package-id, you can either use
-  a previous version of PQS, or add the following filter predicate to your query:
+  If you still need to perform a query with an explicit package ID, you can either use
+  a previous version of PQS or add the following filter predicate to your query:
   ``SELECT \* FROM active('my_package:My.App:MyTemplate') WHERE package_id = 'my_package_id'``
 
 Given that PQS uses a document-oriented model for ledger content
@@ -2328,31 +2324,28 @@ Daml Shell
 ----------
 
 Daml Shell builds on PQS by providing a shell interface to inspect the
-ledger using package-name to view all versions of contracts, in an
-integrated way.
+ledger using package name to create an integrated view of all versions of contracts.
 
 Daml-Script
 -----------
 
-Daml 2.10 introduces a new version of Daml Script, which can be used by
-depending on ``daml-script-lts`` in your ``daml.yaml``, as you will have seen
+Daml 2.10 introduces a new version of Daml Script which can be used by
+depending on ``daml-script-lts`` in your ``daml.yaml``, as described
 in `Writing your first upgrade <#writing-your-first-upgrade>`__. This version of Daml Script
 supports upgrades over the Ledger API.
 
 All commands and queries in this version of Daml Script now use
-upgrades/downgrades automatically, to ensure that the correct versions
-of choices are exercises, and correct payloads are returned.
+upgrades/downgrades automatically to ensure that they exercise the correct versions
+of choices and return correct payloads.
 
 The following additional functionality is available for more advanced
 uses of SCU.
 
 **Exact commands**
 
-Each of the four submission commands now has an "exact" variant, of the
-forms ``createExactCmd``, ``exerciseExactCmd``, ``exerciseByKeyExactCmd`` and
+Each of the four submission commands now has an "exact" variant: ``createExactCmd``, ``exerciseExactCmd``, ``exerciseByKeyExactCmd``, and
 ``createAndExerciseExactCmd``. These commands force the participant to
-use the exact version of the package that your script uses, this is most
-useful when you want to be absolutely certain of the choice code you are
+use the exact version of the package that your script uses, so you can be certain of the choice code you are
 calling. Note that exact and non-exact commands can be mixed in the same
 submission.
 
@@ -2384,10 +2377,10 @@ The full list of builders for ``SubmitOptions`` is as follows:
   newtype PackageId = PackageId Text
   packagePreference : [PackageId] -> SubmitOptions
 
-A ``PackageId`` can be hard-coded in your script, which must be updated whenever the package changes. Otherwise,
+A ``PackageId`` can be hard-coded in your script, in which case it must be updated whenever the package changes. Otherwise,
 it can be provided using the ``--input-file`` flag of the ``daml script`` command line tool.
 
-The following example demonstrates reading the package ID from a dar and passing it to a script.
+The following example demonstrates reading the package ID from a DAR and passing it to a script:
 
 .. code:: bash
 
@@ -2400,7 +2393,7 @@ The following example demonstrates reading the package ID from a dar and passing
   # replace --ide-ledger with --ledger-host and --ledger-port for deployed Canton
   daml script --dar ${SCRIPT_DAR} --script-name Main:main --ide-ledger --input-file ./package-id-script-input.json
 
-Following this, your script would look like
+Following this, your script would look like:
 
 .. code:: daml
 
