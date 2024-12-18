@@ -281,6 +281,8 @@ This will alias the ``X`` in ``foo-1.0.0`` as ``Foo1.X``, and alias the ``X`` in
   import qualified Foo1.X
   import qualified Foo2.X
 
+.. _module_prefixes:
+
 It is also possible to add a prefix to all modules in a package using
 the ``module-prefixes`` field in your ``daml.yaml``. This is
 particularly useful for upgrades where you can map all modules of

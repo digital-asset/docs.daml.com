@@ -106,7 +106,7 @@ feature by:
 -  Allowing use of an optional ``packageIdSelectionPreference`` field to
    specify a preferred package ID to use;
 
--  Requiring either a package id or package name to be present to disambiguate
+-  Requiring either a package ID or package name to be present to disambiguate
    the partially-qualified form of template/interface IDs.
 
 Previously JSON API had supported partially qualified template IDs,
@@ -309,7 +309,7 @@ PQS & Daml Shell
 
 As of 2.10, PQS only supports querying contracts via package-name, 
 dropping support for direct package-id queries. See
-`Limitations <#limitations>`__ for more information and a work-around.
+`the PQS section <#pqs>`__ for more information and a work-around.
 
 Daml Shell builds on top of PQS, so inherits this behavior.
 
@@ -355,6 +355,8 @@ data transformations that cannot be made using SCU upgrades:
 
 -  Upgrading interface and exception definitions
 
+-  Adding/removing an interface instance on a template
+
 These restrictions are required to give a simple model of runtime
 upgrades, avoiding ambiguity and non-obvious side effects. If you
 require any of these types of changes, you may need to consider a
@@ -365,17 +367,13 @@ In this version of SCU, the following functionality has not yet
 been implemented, but may be implemented in future releases.
 
 -  Retroactive interface instances are not compatible with SCU upgrades.
-   We do not expect to ever add this compatibility, as SCU supersedes retroactive
-   interface instances
+   SCU allows instances to be changed in an upgrade. However, a new interface
+   instance cannot be added to a template in an upgrade; it requires an offline migration.
 
 -  Daml Script does not support SCU or LF1.17, you must use Daml Script LTS.
 
 -  Contract keys in upgradable packages can only include types defined
    within the same package, or types from the Daml Standard Library.
-
--  Upgrade compatibility checks currently run on all data types, even those which are
-   not `serializable <https://github.com/digital-asset/daml/blob/main-2.x/sdk/daml-lf/spec/daml-lf-1.rst#serializable-types>`__.
-   This check will be loosened in a future version.
 
 The Programming Model by Example
 ================================
@@ -1950,10 +1948,10 @@ it as two packages, ``helper`` and ``main``:
 Remove Retroactive Instances
 ----------------------------
 
-SCU eliminates the need for retroactive instances and is not
-compatible with them. Retroactive interface instances should be moved to newer
-versions of templates, such that changes to the instance warrant a new
-version of the template, to ensure that the correct package is selected for interface choices.
+SCU is not compatible with retroactive interface instances, so if you are migrating to SCU from an LF1.15
+project that uses retroactive instances, you must move the instances to their respective templates
+during the migration.
+See `Limitations <#limitations>`__ for more information.
 
 Explicit Template Versions
 --------------------------
@@ -2231,7 +2229,62 @@ Daml Script has been used for demonstrative purposes in this document, however
 usually the complexities of live upgrades comes with your workflows, not the data
 transformations themselves. You can use Daml Script (with Canton) to test some
 isolated simple cases, but for thorough tests of you system using SCU, you should
-prefer full workflow testing, as below.
+prefer full `Workflow Testing <#workflow-testing>`__.
+
+We recommend placing your Daml Script tests
+in a separate package which depends on all versions of your business logic when testing your upgrades with Daml Script. This testing
+package should not be uploaded to the ledger if possible, as it depends on the ``daml-script-lts`` package.
+This package emits a warning on the participant when uploaded, as it serves no purpose on a participant,
+cannot be fully removed (as with any package), and may not be uploadable to the ledger in future versions (Daml 3).
+Depending on multiple versions of the same package does however face ambiguity issues with
+imports. You can resolve these issues using :ref:`module prefixes <module_prefixes>`:
+
+.. code:: yaml
+
+  name: my-testing-package
+  ...
+  data-dependencies:
+    - my/v1/main-package.dar
+    - my/v2/main-package.dar
+  module-prefixes:
+    main-1.0.0.dar: V11
+    main-1.1.0.dar: V12
+
+It is important to verify old workflows are still functional under
+new data and new implementation when writing your tests. You also need to verify that any new workflows intended
+to be backward compatible can consume old data. You should build your testing structure to
+cover this how you see fit, but we give the following recommendation as a starting point:
+
+If your new version only includes choice body or interface instance changes (that is, it is a patch release)
+
+-  | Run your existing test suite for V1 but updated to call V2 choices. This can be
+     done with a rewrite, or by passing down a :ref:`package preference <daml-script-package-preference>`
+     and calling the test with both the V1 and V2 package ID.
+
+If your new version includes data changes, be that to contract payloads or choices (that is, it is a minor release)
+
+-  | Assuming your data change affects a template payload, write separate setup code for V1 and V2, populating new fields
+   | ``setupV1 : Script V1TestData``
+   | ``setupV2 : Script V2TestData``
+   | These new data types should mostly just hold Contract IDs
+
+-  | Update your existing test suite from V1 to take a :ref:`package preference <daml-script-package-preference>`,
+     allowing the V2 implementation without additional fields to choices to be called.
+   | ``testV1 : [PackageId] -> V1TestData -> Script ()``
+
+-  | Run the above test suite against V1 data, passing a V1 preference, then a V2 preference.
+   | This ensures your changes haven't broken any existing workflows.
+
+-  | Next write tests for your new/modified workflows, using the V2 choice implementations. This does not need a package preference.
+   | ``testV2 : V2TestData -> Script ()``
+
+-  | Run these tests against both the V1 setup and the V2 setup, to ensure your new workflows support existing/old templates.
+   | In order to do this, you'll need some way to upcast your ``V1TestData``, i.e.
+   | ``upcastTestData : V1TestData -> V2TestData``
+   | This function should mostly just call ``coerceContractId`` on any contract IDs, and fill in any ``None`` values if needed.
+
+-  | Finally, you can cover any workflows that require the contract data to already be upgraded (new fields populated), these are
+     written entirely in V2 without any special considerations.
 
 Multi-package builds for upgrades
 --------------------------------------
