@@ -367,9 +367,8 @@ In this version of SCU, the following functionality has not yet
 been implemented, but may be implemented in future releases.
 
 -  Retroactive interface instances are not compatible with SCU upgrades.
-   SCU allows instances to be changed in an upgrade, however a new interface
-   instance cannot be added to a template in an upgrade.
-   An offline migration would be needed in this case.
+   SCU allows instances to be changed in an upgrade. However, a new interface
+   instance cannot be added to a template in an upgrade; it requires an offline migration.
 
 -  Daml Script does not support SCU or LF1.17, you must use Daml Script LTS.
 
@@ -1948,7 +1947,7 @@ Remove Retroactive Instances
 ----------------------------
 
 SCU is not compatible with retroactive interface instances, so if you are migrating to SCU from an LF1.15
-project that uses retroactive instances, you'll need to move the instances to their respective templates
+project that uses retroactive instances, you must move the instances to their respective templates
 during the migration.
 See `Limitations <#limitations>`__ for more information.
 
@@ -2079,13 +2078,13 @@ transformations themselves. You can use Daml Script (with Canton) to test some
 isolated simple cases, but for thorough tests of you system using SCU, you should
 prefer full `Workflow Testing <#workflow-testing>`__.
 
-When testing your upgrades with Daml Script, we recommend you place your Daml Script tests
-in a separate package which depends on all versions of your business logic. This testing
+We recommend placing your Daml Script tests
+in a separate package which depends on all versions of your business logic when testing your upgrades with Daml Script. This testing
 package should not be uploaded to the ledger if possible, as it depends on the ``daml-script-lts`` package.
 This package emits a warning on the participant when uploaded, as it serves no purpose on a participant,
 cannot be fully removed (as with any package), and may not be uploadable to the ledger in future versions (Daml 3).
-Depending on multiple versions of the same package will however face ambiguity issues with
-imports, you can resolve this using :ref:`module prefixes <module_prefixes>`:
+Depending on multiple versions of the same package does however face ambiguity issues with
+imports. You can resolve these issues using :ref:`module prefixes <module_prefixes>`:
 
 .. code:: yaml
 
@@ -2098,18 +2097,18 @@ imports, you can resolve this using :ref:`module prefixes <module_prefixes>`:
     main-1.0.0.dar: V11
     main-1.1.0.dar: V12
 
-For writing your tests, it is important that you verify old workflows are still functional under
-new data, and new implementation. You'll also need to verify that new workflows (that are intended
-to be backwards compatible) are able to consume old data. You should build your testing structure to
+It is important to verify old workflows are still functional under
+new data and new implementation when writing your tests. You also need to verify that any new workflows intended
+to be backward compatible can consume old data. You should build your testing structure to
 cover this how you see fit, but we give the following recommendation as a starting point:
 
-If your new version only includes choice body or interface instance changes (i.e. it is a patch release)
+If your new version only includes choice body or interface instance changes (that is, it is a patch release)
 
--  | Simply run your existing test suite written for V1 but updated to call V2 choices. This can be
+-  | Run your existing test suite for V1 but updated to call V2 choices. This can be
      done with a rewrite, or by passing down a :ref:`package preference <daml-script-package-preference>`
      and calling the test with both the V1 and V2 package ID.
 
-If your new version includes data changes, be that to contract payloads or choices (i.e. it is a minor release)
+If your new version includes data changes, be that to contract payloads or choices (that is, it is a minor release)
 
 -  | Assuming your data change affects a template payload, write separate setup code for V1 and V2, populating new fields
    | ``setupV1 : Script V1TestData``
