@@ -2111,6 +2111,10 @@ validly upgraded. If SDK 2.10.X were to introduce a change to
 SDK 2.10.0, then ``field1`` will not be upgradeable to the next version of the
 SDK, nor can the field be dropped because the field is used in SCU checks.
 
+**Note**: While it is unlikely that an SDK update will break ``daml-script-lts``
+for upgrades, we still strongly recommend against it. In Daml 3.x, Canton may
+disallow uploading ``daml-script-lts`` entirely.
+
 At that point, all future development on ``main``, including future upgrades,
 would be locked to SDK 2.10.0. To bump the SDK version, ``main`` would have to
 be migrated via a manual upgrade tool with downtime -- existing downtime upgrade
@@ -2156,6 +2160,9 @@ In this case, when changing SDK from 2.10.0 to 2.10.X, the typechecker will
 ignore the change of ``Daml.Script.PartyIdHint`` in ``myFunction``, because it
 is not in a serializable position. This means ``daml-script-lts`` can be kept
 even though when it is not a valid upgrade from one version to the next.
+
+**Note:** We still recommend against depending on Daml Script for
+ledger-uploaded packages, even in this case with non-serializable positions.
 
 Testing
 =======
