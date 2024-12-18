@@ -106,7 +106,7 @@ feature by:
 -  Allowing use of an optional ``packageIdSelectionPreference`` field to
    specify a preferred package ID to use;
 
--  Requiring either a package id or package name to be present to disambiguate
+-  Requiring either a package ID or package name to be present to disambiguate
    the partially-qualified form of template/interface IDs.
 
 Previously JSON API had supported partially qualified template IDs,
@@ -2091,6 +2091,42 @@ imports, you can resolve this using :ref:`module prefixes <module_prefixes>`:
   module-prefixes:
     main-1.0.0.dar: V11
     main-1.1.0.dar: V12
+
+For writing your tests, it is important that you verify old workflows are still functional under
+new data, and new implementation. You'll also need to verify that new workflows (that are intended
+to be backwards compatible) are able to consume old data. You should build your testing structure to
+cover this how you see fit, but we give the following recommendation as a starting point:
+
+If your new version only includes choice body or interface instance changes (i.e. it is a patch release)
+
+-  | Simply run your existing test suite written for V1 but updated to call V2 choices. This can be
+     done with a rewrite, or by passing down a :ref:`package preference <daml-script-package-preference>`
+     and calling the test with both the V1 and V2 package ID.
+
+If your new version includes data changes, be that to contract payloads or choices (i.e. it is a minor release)
+
+-  | Assuming your data change affects a template payload, write separate setup code for V1 and V2, populating new fields
+   | ``setupV1 : Script V1TestData``
+   | ``setupV2 : Script V2TestData``
+   | These new data types should mostly just hold Contract IDs
+
+-  | Update your existing test suite from V1 to take a :ref:`package preference <daml-script-package-preference>`,
+     allowing the V2 implementation without additional fields to choices to be called.
+   | ``testV1 : [PackageId] -> V1TestData -> Script ()``
+
+-  | Run the above test suite against V1 data, passing a V1 preference, then a V2 preference.
+   | This ensures your changes haven't broken any existing workflows.
+
+-  | Next write tests for your new/modified workflows, using the V2 choice implementations. This doesn't not need a package preference.
+   | ``testV2 : TestData -> Script ()``
+
+-  | Run these tests against both the V1 setup and the V2 setup, to ensure your new workflows support existing/old templates.
+   | In order to do this, you'll need some way to upcast your ``V1TestData``, i.e.
+   | ``upcastTestData : V1TestData -> V2TestData``
+   | This function should mostly just call ``coerceContractId`` on any contract IDs, and fill in any ``None`` values if needed.
+
+-  | Finally, you can cover any workflows that require the contract data to already be upgraded (new fields populated), these are
+     written entirely in V2 without any special considerations.
 
 Multi-package builds for upgrades
 --------------------------------------
