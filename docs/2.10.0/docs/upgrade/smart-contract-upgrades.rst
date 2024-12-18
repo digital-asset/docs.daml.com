@@ -9,8 +9,8 @@ Smart Contract Upgrade
 .. .. toctree::
    :hidden:
 
-Theory of Operation
-===================
+Overview
+========
 
 What is Smart Contract Upgrade (SCU)?
 -------------------------------------
@@ -1703,8 +1703,143 @@ upgrade that dependency to a new version.
 For this reason, it is :ref:`strongly recommended that interfaces always be defined
 in their own packages separately from templates <separate_interfaces_and_exceptions>`.
 
+The Upgrade Model in Depth - Reference
+--------------------------------------
+
+You can find the in-depth upgrading model, which can be used as a reference
+for valid upgrades, :ref:`here <upgrade-model-reference>`.
+
+Package Selection in the Ledger API
+===================================
+
+Until the introduction of SCU, templates in requests on the Ledger API
+could only be referenced by the template-id, with the template fully
+qualified name of format ``<package-id>:<module-name>:<template-name>``.
+
+With SCU, we introduce a more generic template reference of the format
+``#<package-name>:<module-name>:<template-name>``. This format is only a
+Ledger API concept and is meant to suggest to the Ledger API to perform
+a dynamic runtime resolution of packages in the Daml engine when
+generating the Daml transaction before command interpretation. This
+dynamic resolution is based on the existing upgradable (LF >= 1.17)
+package-ids pertaining to a specific ``package-name`` and is possible on the
+write path (command submission) and read path (Ledger API queries) as
+presented below.
+
+.. _dynamic-package-resolution-in-command-submission:
+
+Dynamic Package Resolution in Command Submission
+------------------------------------------------
+
+Dynamic package resolution can happen in two cases during command
+submission:
+
+-  For command submissions that use the package-name selector
+   (``#<package-name>``) in the command’s templateId field (e.g. in a
+   create command :ref:`here <com.daml.ledger.api.v1.CreateCommand>`)
+
+-  For command submissions leading to Daml transactions that contain
+   actions exercised on interfaces. In this situation there may be
+   many versions of a template that implement the interface being
+   exercised.
+
+In these situations the following rules are followed to resolve the
+package-name to a package-id:
+
+-  By default, the participant resolves a package-name to the package-id
+   pertaining to the highest package version uploaded
+
+-  The command submitter can override the above-mentioned default
+   participant resolution by pinning package-ids in the Command’s
+   :ref:`package_id_selection_preference <com.daml.ledger.api.v1.Commands.package_id_selection_preference>`.
+   More specifically, this field is a list of package-ids that must
+   be explicitly used when resolving package-name *ambiguities* in
+   either command template-id or interface resolution.
+
+   - See :ref:`here <daml-script-package-preference>` for how to provide this in Daml-Script
+
+   -  **Note:** The Command’s
+      :ref:`package_id_selection_preference <com.daml.ledger.api.v1.Commands.package_id_selection_preference>`
+      must not lead to ambiguous resolutions for package-names,
+      meaning that it must not contain two package-ids pointing to
+      packages with the same package-name, as otherwise the submission will fail with
+      an ``INVALID_ARGUMENT`` error
+
+Dynamic Package Resolution in Ledger API Queries
+------------------------------------------------
+
+When subscribing for
+:ref:`transaction <transaction-trees>`
+or :ref:`active contract streams <active-contract-service>`,
+users can now use the ``#<package-name>`` selector in the template-id format
+to specify that they’re interested in fetching events for all templates
+pertaining to the specified package-name. This template selection set is
+dynamic and it widens with each uploaded template/package.
+
+**Note:** The by-package-name query mechanism described here does not
+apply to events sourced from non-upgradable templates (coming from
+packages with LF < 1.17)
+
+Example
+~~~~~~~
+
+Given the following packages with LF 1.17 existing on the participant
+node:
+
+-  Package AppV1
+
+   -  package-name: ``app1``
+
+   -  package-version: ``1.0.0``
+
+   -  template-ids: ``pkgId1:mod:T``
+
+-  Package AppV2
+
+   -  package-name: ``app1``
+
+   -  package-version: ``1.1.0``
+
+   -  template-ids: ``pkgId2:mod:T``
+
+If a transaction query is created with a templateId specified as
+``#app1:mod:T``, then the events stream will include events from both
+template-ids: ``pkgId1:mod:T`` and ``pkgId2:mod:T``
+
+Migrating to SCU
+================
+
+SCU is only supported on LF1.17, which in turn is only supported on
+Canton Protocol Version 7. This means that existing deployed contracts require migration and redeployment to utilize this feature.
+
+First you must migrate your Daml model to be compatible with
+upgrades; see `Best Practices <#best-practices>`__ for what to
+change here. Pay particular attention to the case of interfaces and
+exceptions, as failure to do so could lead to packages which are
+incompatible with SCU and require the use of a separate tool (and
+downtime).
+
+Next, be aware of the new package-name scoping rules, and
+ensure that your package set does not violate them. In short, LF1.17 packages
+with the same package name are unified under SCU, so you should ensure that
+all of your packages that are not intended to be direct upgrades of each other
+have unique package names.
+Note also that only one package for each version
+can exist within a given package name.
+LF1.15 packages are not subject to this restriction, and can exist alongside LF1.17
+packages.
+
+Once you have your new DARs, you need to upgrade your Canton and
+protocol version together, since 2.10 introduces a new protocol version.
+The steps to achieve this are given in the :ref:`Canton Upgrading
+manual <one_step_migration>`.
+
+Finally, you can migrate your live data from your previous DARs to the
+new LF1.17 DARs, using one of the existing downtime upgrade techniques
+listed :ref:`here <upgrades-index>`.
+
 Best Practices
---------------
+==============
 
 To ensure that future upgrades and DAR lifecycling go smoothly, we
 recommend the following practices:
@@ -1712,7 +1847,7 @@ recommend the following practices:
 .. _separate_interfaces_and_exceptions:
 
 Separate Interfaces/Exceptions from Templates
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------------------------
 
 Interface and exception definitions are not upgradable. As such, if you attempt
 to redefine an interface or exception in version 2 of a package, even if it is
@@ -1811,42 +1946,39 @@ it as two packages, ``helper`` and ``main``:
   - --target=1.17
 
 Remove Retroactive Instances
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------
 
 SCU eliminates the need for retroactive instances and is not
-compatible with them. To ensure package selection for interface choices
-acts correctly, retroactive interface instances should be moved to newer
-versions of templates, such that changes to the instance warrants a new
-version of the template.
+compatible with them. Retroactive interface instances should be moved to newer
+versions of templates, such that changes to the instance warrant a new
+version of the template, to ensure that the correct package is selected for interface choices.
 
 Explicit Template Versions
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------
 
-If you need package version specific behavior that cannot just depend on
-the presence or absence of new fields, then one workaround would be to
+If you need package version-specific behavior that does not depend on
+the presence or absence of new fields, you can
 tag your contracts in their payload with an explicit version field.
-This allows for less fragile behavior in the event of
+This makes
 "partial upgrades" (where a user may only upgrade part of the payload of
-a package, intentionally), and allows you to model rollbacks as upgrades
+a package, intentionally) less fragile, and allows you to model rollbacks as upgrades
 in a principled manner.
 
 Avoid Contract Metadata Changes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------------
 
-The signatories, observers, contract key and ensure clauses of a
+The signatories, observers, contract key, and ensure clauses of a
 contract should be fixed at runtime for a given contract. Changing their
-definitions in your Daml code triggers a warning from the SCU
-typechecker, and is discouraged. Note that for contract keys, the type
-cannot change at all, only its value. Should you need to change these
-values, be aware that if their runtime value changes in any way, the
+definitions in your Daml code is discouraged and triggers a warning from the SCU
+typechecker. Note that contract keys cannot change type, only value. In addition, if their runtime value changes in any way, the
 upgrade, and thus the full transaction, fails. Contracts in this
-state can then only be used by explicitly choosing the older version of
+state can only be used if you explicitly choose the older version of
 the contract in your transaction.
 
 .. _upgrade_package_naming:
 
 Breaking Changes via Explicit Package Version
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------------------------
 
 To make a breaking change to your package that
 is not upgrade compatible, you can change the name of your package to indicate a
@@ -1870,333 +2002,11 @@ Note how the ``v1`` in all three packages remains stable - this means the
 package name has not changed, and ensures that these three packages and their
 datatypes are considered by the runtime and the type checker to be upgradeable.
 
-When you want to make a breaking change, you would publish a new version of the
-package with package name ``main-v2``. Because this package would have a
-different package name from those with ``main-v1``, it would not be typechecked
-against those packages and its datatypes would not automatically be converted.
+To make a breaking change, publish a new package version with package name ``main-v2``. Because this package has a
+different package name from those with ``main-v1``, it is not typechecked
+against those packages and its datatypes are not automatically converted.
 You would need to manually migrate values from ``main-v1`` packages to
 ``main-v2`` -- existing downtime upgrade techniques are listed :ref:`here <upgrades-index>`.
-
-Migration
----------
-
-SCU is only supported on LF1.17, which in turn is only supported on
-Canton Protocol Version 7. This means that existing deployed contracts require migration and redeployment to utilize this feature.
-
-First you must migrate your Daml model to be compatible with
-upgrades; see `Best Practices <#best-practices>`__ for what to
-change here. Pay particular attention to the case of interfaces and
-exceptions, as failure to do so could lead to packages which are
-incompatible with SCU and require the use of a separate tool (and
-downtime).
-
-Next, you need to be aware of the new package-name scoping rules, and
-ensure that your package set does not violate this. In short, LF1.17 packages
-with the same package-name are unified under SCU, so you should ensure that
-all of your packages that aren't intended to be direct upgrades of each-other
-have unique package-names.
-Note also that within a given package-name, only one package for each version
-can exist.
-LF1.15 packages are not subject to this restriction, and can exist alongside LF1.17
-packages.
-
-Once you have your new DARs, you need to upgrade your Canton and
-protocol version together, since 2.10 introduces a new protocol version.
-The steps to achieve this are given in the :ref:`Canton Upgrading
-manual <one_step_migration>`.
-
-Finally, you can migrate your live data from your previous DARs to the
-new LF1.17 DARs, using one of the existing downtime upgrade techniques
-listed :ref:`here <upgrades-index>`.
-
-The Upgrade Model in Depth - Reference
---------------------------------------
-
-You can find the in-depth upgrading model, which can be used as a reference
-for valid upgrades, :ref:`here <upgrade-model-reference>`.
-
-Components
-==========
-
-Ledger API
-----------
-
-Until the introduction of SCU, templates in requests on the Ledger API
-could only be referenced by the template-id, with the template fully
-qualified name of format ``<package-id>:<module-name>:<template-name>``.
-
-With SCU, we introduce a more generic template reference of the format
-``#<package-name>:<module-name>:<template-name>``. This format is only a
-Ledger API concept and is meant to suggest to the Ledger API to perform
-a dynamic runtime resolution of packages in the Daml engine when
-generating the Daml transaction before command interpretation. This
-dynamic resolution is based on the existing upgradable (LF >= 1.17)
-package-ids pertaining to a specific ``package-name`` and is possible on the
-write path (command submission) and read path (Ledger API queries) as
-presented below.
-
-.. _dynamic-package-resolution-in-command-submission:
-
-Dynamic Package Resolution in Command Submission
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Dynamic package resolution can happen in two cases during command
-submission:
-
--  For command submissions that use the package-name selector
-   (``#<package-name>``) in the command’s templateId field (e.g. in a
-   create command :ref:`here <com.daml.ledger.api.v1.CreateCommand>`)
-
--  For command submissions leading to Daml transactions that contain
-   actions exercised on interfaces. In this situation there may be
-   many versions of a template that implement the interface being
-   exercised.
-
-In these situations the following rules are followed to resolve the
-package-name to a package-id:
-
--  By default, the participant resolves a package-name to the package-id
-   pertaining to the highest package version uploaded
-
--  The command submitter can override the above-mentioned default
-   participant resolution by pinning package-ids in the Command’s
-   :ref:`package_id_selection_preference <com.daml.ledger.api.v1.Commands.package_id_selection_preference>`.
-   More specifically, this field is a list of package-ids that must
-   be explicitly used when resolving package-name *ambiguities* in
-   either command template-id or interface resolution.
-
-   - See :ref:`here <daml-script-package-preference>` for how to provide this in Daml-Script
-
-   -  **Note:** The Command’s
-      :ref:`package_id_selection_preference <com.daml.ledger.api.v1.Commands.package_id_selection_preference>`
-      must not lead to ambiguous resolutions for package-names,
-      meaning that it must not contain two package-ids pointing to
-      packages with the same package-name, as otherwise the submission will fail with
-      an ``INVALID_ARGUMENT`` error
-
-Dynamic Package Resolution in Ledger API Queries
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-When subscribing for
-:ref:`transaction <transaction-trees>`
-or :ref:`active contract streams <active-contract-service>`,
-users can now use the ``#<package-name>`` selector in the template-id format
-to specify that they’re interested in fetching events for all templates
-pertaining to the specified package-name. This template selection set is
-dynamic and it widens with each uploaded template/package.
-
-**Note:** The by-package-name query mechanism described here does not
-apply to events sourced from non-upgradable templates (coming from
-packages with LF < 1.17)
-
-Example
-^^^^^^^
-
-Given the following packages with LF 1.17 existing on the participant
-node:
-
--  Package AppV1
-
-   -  package-name: ``app1``
-
-   -  package-version: ``1.0.0``
-
-   -  template-ids: ``pkgId1:mod:T``
-
--  Package AppV2
-
-   -  package-name: ``app1``
-
-   -  package-version: ``1.1.0``
-
-   -  template-ids: ``pkgId2:mod:T``
-
-If a transaction query is created with a templateId specified as
-``#app1:mod:T``, then the events stream will include events from both
-template-ids: ``pkgId1:mod:T`` and ``pkgId2:mod:T``
-
-Codegen
--------
-
-For packages that support SCU (i.e. LF1.17), generated code uses
-package-names in place of package-ids in template IDs. Retrieved data
-from the ledger is subject to the upgrade transformations described
-in previous sections.
-
-Concretely, this is implemented as follows:
-
-Java
-~~~~
-
-The classes that are generated for each template and interface contain a
-``TEMPLATE_ID`` field, which, for upgradable packages, now use a
-package name rather than a package ID. To help you determine
-the package ID of these packages, we have added a new ``PACKAGE_ID`` field to all
-such classes. Upgradable packages also cause ``PACKAGE_NAME`` and
-``PACKAGE_VERSION`` fields to be present.
-
-TypeScript
-~~~~~~~~~~
-
-The ``templateId`` field on generated template classes has been updated to
-use the package-name as the package qualifier for upgrade compatible
-packages. This is used for command submission and queries. However,
-note that the package qualifier given back in queries contains the
-package-id, rather than the package-name. Generated modules now also
-give the package "reference", which is the package-name for upgrade-compatible packages; for other packages it is the package-id.
-
-To perform package-id qualified commands/queries in an upgrade
-compatible package, a copy of the template object can be created using
-the following:
-
-.. code:: typescript
-
-  const MyTemplateWithPackageId = { 
-    ...pkg.Mod.MyTemplate,
-    templateId: `${pkg.packageId}:Mod:MyTemplate`,
-  }
-
-.. _json-api-server-1:
-
-JSON API Server
-----------------
-
-Template IDs may still be used with a package ID, however,
-for packages built as LF 1.17 or greater, the package may also be
-identified by name. That is to say, for upgradable packages a template ID can have
-the form ``#<package-name>:<module-name>:<template-name>``, and this is
-resolved to corresponding templates from all packages which share this
-name, and are built at 1.17 or above. For packages built at LF 1.15,
-the templates are not identifiable via a package name, and a
-package ID must be used.
-
-Note: template IDs in query results always use a package ID. This
-allows us to distinguish the source of a particular contract. This means
-that if you use a template with a package name in the request, you can
-no longer expect the template IDs in the result to exactly match the
-input template ID.
-
-Package ID selection preference: preferences apply to JSON API where you
-can specify your preferred selection of package versions.
-
-PQS
----
-
-To match the package-name changes to the Ledger API, PQS has changed how packages
-are selected for queries. All queries that take a Daml identity in the form 
-``<package-id>:<module-name>:<template-name>`` now take a package-name in place 
-of package-id. Note that this differs from the Ledger API in that the `#` prefix
-is not required for PQS, as PQS has dropped direct package-id queries.
-Queries for package-names will return all versions of a given contract, alongside the
-package-version and package-id for each contract.
-
-.. note::
-  If you still need to perform a query with an explicit package-id, you can either use
-  a previous version of PQS, or add the following filter predicate to your query:
-  ``SELECT \* FROM active('my_package:My.App:MyTemplate') WHERE package_id = 'my_package_id'``
-
-Given that PQS uses a document-oriented model for ledger content
-(JSONB), extensions to contract payloads are handled simply by returning
-the additional data in the blob.
-
-Daml Shell
-----------
-
-Daml Shell builds on PQS by providing a shell interface to inspect the
-ledger using package-name to view all versions of contracts, in an
-integrated way.
-
-Daml-Script
------------
-
-Daml 2.10 introduces a new version of Daml Script, which can be used by
-depending on ``daml-script-lts`` in your ``daml.yaml``, as you will have seen
-in `Writing your first upgrade <#writing-your-first-upgrade>`__. This version of Daml Script
-supports upgrades over the Ledger API.
-
-All commands and queries in this version of Daml Script now use
-upgrades/downgrades automatically, to ensure that the correct versions
-of choices are exercises, and correct payloads are returned.
-
-The following additional functionality is available for more advanced
-uses of SCU.
-
-**Exact commands**
-
-Each of the four submission commands now has an "exact" variant, of the
-forms ``createExactCmd``, ``exerciseExactCmd``, ``exerciseByKeyExactCmd`` and
-``createAndExerciseExactCmd``. These commands force the participant to
-use the exact version of the package that your script uses, this is most
-useful when you want to be absolutely certain of the choice code you are
-calling. Note that exact and non-exact commands can be mixed in the same
-submission.
-
-.. _daml-script-package-preference:
-
-**Package Preference**
-
-A submission can specify a `package preference <#dynamic-package-resolution-in-ledger-api-queries>`__,
-as a list of package IDs:
-
-.. code:: daml
-
-  (actAs alice <> packagePreference [myPackageId]) `submitWithOptions` createCmd ...
-
-Note the use of ``submitWithOptions : SubmitOptions -> Commands a -> Script a``.
-You can build ``SubmitOptions`` by combining the ``actAs`` and ``packagePreference`` functions with ``<>``.
-
-The full list of builders for ``SubmitOptions`` is as follows:
-
-.. code:: daml
-
-  -- `p` can be `Party`, `[Party]`, etc.
-  actAs : IsParties p => p -> SubmiOptions
-  readAs : IsParties p => p -> SubmitOptions
-
-  disclose : Disclosure -> SubmitOptions
-  discloseMany : [Disclosure] -> SubmitOptions
-
-  newtype PackageId = PackageId Text
-  packagePreference : [PackageId] -> SubmitOptions
-
-A ``PackageId`` can be hard-coded in your script, which must be updated whenever the package changes. Otherwise,
-it can be provided using the ``--input-file`` flag of the ``daml script`` command line tool.
-
-The following example demonstrates reading the package ID from a dar and passing it to a script.
-
-.. code:: bash
-
-  # Path to the dar you want to pass as package preference.
-  PACKAGE_DAR=path/to/main/dar.dar
-  # Path to the dar containing the Daml script for which you want to pass the package-id
-  SCRIPT_DAR=path/to/script/dar.dar
-  # Extract the package-id of PACKAGE_DAR's main package.
-  daml damlc inspect-dar ${PACKAGE_DAR} --json | jq '.main_package_id' > ./package-id-script-input.json
-  # replace --ide-ledger with --ledger-host and --ledger-port for deployed Canton
-  daml script --dar ${SCRIPT_DAR} --script-name Main:main --ide-ledger --input-file ./package-id-script-input.json
-
-Following this, your script would look like
-
-.. code:: daml
-
-  module Main where
-
-  import Daml.Script
-
-  main : Text -> Script ()
-  main rawPkgId = do
-    let pkgId = PackageId rawPkgId
-    alice <- allocateParty "alice"
-    -- Commands omitted for brevity
-    let submitOptions = actAs alice <> packagePreference [pkgId]
-    submitOptions `submitWithOptions` createCmd ...
-
-Daml Studio support
--------------------
-
-Daml Studio runs a reference model of Canton called the IDE Ledger. This
-ledger has been updated to support the relevant parts of the Smart Contract
-Upgrades feature.
 
 Testing
 =======
@@ -2422,3 +2232,186 @@ recommend at least one test for your core workflows that follows this pattern:
 3. Upload version 2.0 of your DAR.
 4. Switch your backends to start using version 2.0, ideally this should be a flag.
 5. Validate that the core workflows are in the same state and advance them to check that they are not stuck.
+
+SCU Support in Daml Tooling
+===========================
+
+Codegen
+-------
+
+For packages that support SCU (i.e. LF1.17), generated code uses
+package names in place of package IDs in template IDs. Retrieved data
+from the ledger is subject to the upgrade transformations described
+in previous sections.
+
+Concretely, this is implemented as follows:
+
+Java
+~~~~
+
+The classes that are generated for each template and interface contain a
+``TEMPLATE_ID`` field, which, for upgradable packages, now use a
+package name rather than a package ID. To help you determine
+the package ID of these packages, we have added a new ``PACKAGE_ID`` field to all
+such classes. Upgradable packages also have ``PACKAGE_NAME`` and
+``PACKAGE_VERSION`` fields.
+
+TypeScript
+~~~~~~~~~~
+
+The ``templateId`` field on generated template classes has been updated to
+use the package name as the package qualifier for upgrade-compatible
+packages. This is used for command submission and queries. However,
+note that queries return the package qualifier with the
+package ID rather than the package name. Generated modules now also
+give the package "reference", which is the package name for upgrade-compatible packages; for other packages it is the package ID.
+
+To perform package ID-qualified commands/queries in an upgrade
+compatible package, create a copy of the template object using
+the following:
+
+.. code:: typescript
+
+  const MyTemplateWithPackageId = { 
+    ...pkg.Mod.MyTemplate,
+    templateId: `${pkg.packageId}:Mod:MyTemplate`,
+  }
+
+.. _json-api-server-1:
+
+JSON API Server
+----------------
+
+Template IDs may still be used with a package ID; however,
+for packages built as LF 1.17 or greater, the package may also be
+identified by name. That is to say, for upgradable packages a template ID can have
+the form ``#<package-name>:<module-name>:<template-name>``, and this is
+resolved to corresponding templates from all packages which share this
+name and are built at 1.17 or above. For packages built at LF 1.15,
+the templates are not identifiable via a package name, and a
+package ID must be used.
+
+Note: template IDs in query results always use a package ID. This
+allows you to distinguish the source of a particular contract. This means
+that if you use a template with a package name in the request, you can
+no longer expect the template IDs in the result to exactly match the
+input template ID.
+
+Package ID selection preference: preferences apply to JSON API where you
+can specify your preferred selection of package versions.
+
+PQS
+---
+
+To match the package-name changes to the Ledger API, PQS has changed how packages
+are selected for queries. All queries that take a Daml identity in the form 
+``<package-id>:<module-name>:<template-name>`` now take a package name in place 
+of package ID. Note that this differs from the Ledger API in that the `#` prefix
+is not required for PQS, as PQS has dropped direct package ID queries.
+Queries for package names return all versions of a given contract, alongside the
+package version and package ID for each contract.
+
+.. note::
+  If you still need to perform a query with an explicit package ID, you can either use
+  a previous version of PQS or add the following filter predicate to your query:
+  ``SELECT \* FROM active('my_package:My.App:MyTemplate') WHERE package_id = 'my_package_id'``
+
+Given that PQS uses a document-oriented model for ledger content
+(JSONB), extensions to contract payloads are handled simply by returning
+the additional data in the blob.
+
+Daml Shell
+----------
+
+Daml Shell builds on PQS by providing a shell interface to inspect the
+ledger using package name to create an integrated view of all versions of contracts.
+
+Daml-Script
+-----------
+
+Daml 2.10 introduces a new version of Daml Script which can be used by
+depending on ``daml-script-lts`` in your ``daml.yaml``, as described
+in `Writing your first upgrade <#writing-your-first-upgrade>`__. This version of Daml Script
+supports upgrades over the Ledger API.
+
+All commands and queries in this version of Daml Script now use
+upgrades/downgrades automatically to ensure that they exercise the correct versions
+of choices and return correct payloads.
+
+The following additional functionality is available for more advanced
+uses of SCU.
+
+**Exact commands**
+
+Each of the four submission commands now has an "exact" variant: ``createExactCmd``, ``exerciseExactCmd``, ``exerciseByKeyExactCmd``, and
+``createAndExerciseExactCmd``. These commands force the participant to
+use the exact version of the package that your script uses, so you can be certain of the choice code you are
+calling. Note that exact and non-exact commands can be mixed in the same
+submission.
+
+.. _daml-script-package-preference:
+
+**Package Preference**
+
+A submission can specify a `package preference <#dynamic-package-resolution-in-ledger-api-queries>`__,
+as a list of package IDs:
+
+.. code:: daml
+
+  (actAs alice <> packagePreference [myPackageId]) `submitWithOptions` createCmd ...
+
+Note the use of ``submitWithOptions : SubmitOptions -> Commands a -> Script a``.
+You can build ``SubmitOptions`` by combining the ``actAs`` and ``packagePreference`` functions with ``<>``.
+
+The full list of builders for ``SubmitOptions`` is as follows:
+
+.. code:: daml
+
+  -- `p` can be `Party`, `[Party]`, etc.
+  actAs : IsParties p => p -> SubmiOptions
+  readAs : IsParties p => p -> SubmitOptions
+
+  disclose : Disclosure -> SubmitOptions
+  discloseMany : [Disclosure] -> SubmitOptions
+
+  newtype PackageId = PackageId Text
+  packagePreference : [PackageId] -> SubmitOptions
+
+A ``PackageId`` can be hard-coded in your script, in which case it must be updated whenever the package changes. Otherwise,
+it can be provided using the ``--input-file`` flag of the ``daml script`` command line tool.
+
+The following example demonstrates reading the package ID from a DAR and passing it to a script:
+
+.. code:: bash
+
+  # Path to the dar you want to pass as package preference.
+  PACKAGE_DAR=path/to/main/dar.dar
+  # Path to the dar containing the Daml script for which you want to pass the package-id
+  SCRIPT_DAR=path/to/script/dar.dar
+  # Extract the package-id of PACKAGE_DAR's main package.
+  daml damlc inspect-dar ${PACKAGE_DAR} --json | jq '.main_package_id' > ./package-id-script-input.json
+  # replace --ide-ledger with --ledger-host and --ledger-port for deployed Canton
+  daml script --dar ${SCRIPT_DAR} --script-name Main:main --ide-ledger --input-file ./package-id-script-input.json
+
+Following this, your script would look like:
+
+.. code:: daml
+
+  module Main where
+
+  import Daml.Script
+
+  main : Text -> Script ()
+  main rawPkgId = do
+    let pkgId = PackageId rawPkgId
+    alice <- allocateParty "alice"
+    -- Commands omitted for brevity
+    let submitOptions = actAs alice <> packagePreference [pkgId]
+    submitOptions `submitWithOptions` createCmd ...
+
+Daml Studio support
+-------------------
+
+Daml Studio runs a reference model of Canton called the IDE Ledger. This
+ledger has been updated to support the relevant parts of the Smart Contract
+Upgrades feature.
