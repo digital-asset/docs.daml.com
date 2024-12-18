@@ -367,8 +367,8 @@ In this version of SCU, the following functionality has not yet
 been implemented, but may be implemented in future releases.
 
 -  Retroactive interface instances are not compatible with SCU upgrades.
-   SCU partially covers this behaviour, allowing instances to be changed in an upgrade,
-   however a new interface instance cannot be added to a template in an upgrade.
+   SCU allows instances to be changed in an upgrade, however a new interface
+   instance cannot be added to a template in an upgrade.
    An offline migration would be needed in this case.
 
 -  Daml Script does not support SCU or LF1.17, you must use Daml Script LTS.
@@ -1947,7 +1947,9 @@ it as two packages, ``helper`` and ``main``:
 Remove Retroactive Instances
 ----------------------------
 
-SCU is not compatible with retroactive instances, so these will need to be removed.
+SCU is not compatible with retroactive instances, so if you are migrating from an LF1.15
+project that uses this, you'll need to move the instances to their respective templates
+during the migration.
 See `Limitations <#limitations>`__ for more information.
 
 Explicit Template Versions
@@ -2079,7 +2081,9 @@ prefer full `Workflow Testing <#workflow-testing>`__.
 
 When testing your upgrades with Daml Script, we recommend you place your Daml Script tests
 in a separate package which depends on all versions of your business logic. This testing
-package should not be uploaded to the ledger if possible, as it cannot be dropped in an upgrade.
+package should not be uploaded to the ledger if possible, as it depends on the ``daml-script-lts`` package.
+This package emits a warning on the participant when uploaded, as it serves no purpose on a participant,
+cannot be fully removed (as with any package), and may not be uploadable to the ledger in future versions (Daml 3).
 Depending on multiple versions of the same package will however face ambiguity issues with
 imports, you can resolve this using :ref:`module prefixes <module_prefixes>`:
 
@@ -2119,8 +2123,8 @@ If your new version includes data changes, be that to contract payloads or choic
 -  | Run the above test suite against V1 data, passing a V1 preference, then a V2 preference.
    | This ensures your changes haven't broken any existing workflows.
 
--  | Next write tests for your new/modified workflows, using the V2 choice implementations. This doesn't not need a package preference.
-   | ``testV2 : TestData -> Script ()``
+-  | Next write tests for your new/modified workflows, using the V2 choice implementations. This does not need a package preference.
+   | ``testV2 : V2TestData -> Script ()``
 
 -  | Run these tests against both the V1 setup and the V2 setup, to ensure your new workflows support existing/old templates.
    | In order to do this, you'll need some way to upcast your ``V1TestData``, i.e.
