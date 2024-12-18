@@ -355,6 +355,8 @@ data transformations that cannot be made using SCU upgrades:
 
 -  Upgrading interface and exception definitions
 
+-  Adding/removing an interface instance on a template
+
 These restrictions are required to give a simple model of runtime
 upgrades, avoiding ambiguity and non-obvious side effects. If you
 require any of these types of changes, you may need to consider a
