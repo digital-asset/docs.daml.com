@@ -17,14 +17,8 @@ interface instead of the concrete template.
 Configuration
 *************
 
-In order to use this new feature, your Daml project needs to
-explicitly target Daml-LF version ``1.15`` or higher which is
-specified by adding the following line to the project's ``daml.yaml``
-file:
-
-.. code-block:: yaml
-
-  build-options: [--target=1.15]
+To use this feature your Daml project must target
+Daml-LF version ``1.15`` or higher, which is the current default.
 
 If using Canton, the protocol version of the domain should be `4` or
 higher, see :ref:`Canton protocol version <protocol_version>` for more
