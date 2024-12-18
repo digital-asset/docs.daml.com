@@ -98,6 +98,16 @@ error-prone migrations, without downtime, without requiring any
 additional network traffic, and without any extensive communication with
 downstream users.
 
+With SCU, different versions of the _same_ package are now grouped under a common package-name.
+This allows identifiers to now be unambiguously referenced using either:
+
+-  the package ID
+
+-  or by using the package-name (which is resolved by a Canton participant to a unambiguous package ID).
+
+When defining a Daml project, the project-name field of the project's `daml.yaml` is now used to
+specify the SCU project-name.
+
 The JSON API server is compatible with the smart contract upgrade
 feature by:
 
