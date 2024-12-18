@@ -36,7 +36,7 @@ Keys and Versioning
 ===================
 
 Instruments are keyed by an
-:ref:`InstrumentKey <constr-daml-finance-interface-types-common-types-instrumentkey-32970>`,
+:ref:`InstrumentKey <constr-daml-finance-interface-types-common-v3-types-instrumentkey-49116>`,
 which comprises:
 
 - the instrument ``issuer``
@@ -55,21 +55,21 @@ Interfaces
 Instrument interfaces are defined in the ``Daml.Finance.Interface.Instrument.*`` packages.
 
 All instruments must implement the base interface, defined in
-:ref:`Daml.Finance.Interface.Instrument.Base <module-daml-finance-interface-instrument-base-instrument-57320>`.
+:ref:`Daml.Finance.Interface.Instrument.Base.V4 <module-daml-finance-interface-instrument-base-v4-instrument-47185>`.
 
 Implementations
 ===============
 
 A base implementation is provided in
-:ref:`Daml.Finance.Instrument.Token <module-daml-finance-instrument-token-instrument-10682>`.
+:ref:`Daml.Finance.Instrument.Token.V4 <module-daml-finance-instrument-token-v4-instrument-53415>`.
 
 This template does not define any lifecycling logic and is suitable to model contracts that are
 likely to stay stable, such as currency instruments.
 
 The extension packages provide additional business-specific implementations, such as an
-:ref:`Equity <module-daml-finance-instrument-equity-instrument-69265>`
+:ref:`Equity <module-daml-finance-instrument-equity-v1-instrument-56047>`
 instrument (where the issuer can pay dividends) or a
-:ref:`Bond <module-daml-finance-instrument-bond-fixedrate-instrument-67993>`
+:ref:`Bond <module-daml-finance-instrument-bond-v3-fixedrate-instrument-89221>`
 instrument (which includes coupon payments).
 
 The expectation is that customers define their own instruments suiting the use-case they are
@@ -117,12 +117,12 @@ When, for instance, a holding is transferable, the ownership can be transferred 
 at the same custodian.
 
 These properties are exposed by letting a holding template implement the corresponding interfaces
-(:ref:`Fungible <module-daml-finance-interface-holding-fungible-63712>` and
-:ref:`Transferable <module-daml-finance-interface-holding-transferable-88121>`,
+(:ref:`Fungible <module-daml-finance-interface-holding-v4-fungible-55495>` and
+:ref:`Transferable <module-daml-finance-interface-holding-v4-transferable-93054>`,
 respectively).
 
 The library distinguishes four types of holdings, referred to as :ref:`Holding Standard
-<type-daml-finance-interface-types-common-types-holdingstandard-38061>`\s, namely:
+<type-daml-finance-interface-types-common-v3-types-holdingstandard-63293>`\s, namely:
 
 1. `Fungible`: Holdings that are fungible only.
 2. `Transferable`: Holdings that are transferable only.
@@ -132,22 +132,22 @@ The library distinguishes four types of holdings, referred to as :ref:`Holding S
 Interfaces
 ==========
 
-Holding interfaces are defined in the ``Daml.Finance.Interface.Holding`` package. It consists of
-the interfaces :ref:`holding <module-daml-finance-interface-holding-holding-64126>`,
-:ref:`transferable <module-daml-finance-interface-holding-transferable-88121>`, and
-:ref:`fungible <module-daml-finance-interface-holding-fungible-63712>`.
+Holding interfaces are defined in the ``Daml.Finance.Interface.Holding.V4`` package. It consists of
+the interfaces :ref:`holding <module-daml-finance-interface-holding-v4-holding-20535>`,
+:ref:`transferable <module-daml-finance-interface-holding-v4-transferable-93054>`, and
+:ref:`fungible <module-daml-finance-interface-holding-v4-fungible-55495>`.
 
 .. _implementations-1:
 
 Implementations
 ===============
 
-``Daml.Finance.Holding`` provides implementations for each holding standard:
+``Daml.Finance.Holding.V4`` provides implementations for each holding standard:
 
-- :ref:`fungible only <module-daml-finance-holding-fungible-7201>`
-- :ref:`transferable only <module-daml-finance-holding-transferable-43388>`
-- :ref:`both transferable and fungible <module-daml-finance-holding-transferablefungible-77726>`
-- :ref:`neither transferable nor fungible <module-daml-finance-holding-baseholding-57062>`
+- :ref:`fungible only <module-daml-finance-holding-v4-fungible-60188>`
+- :ref:`transferable only <module-daml-finance-holding-v4-transferable-38649>`
+- :ref:`both transferable and fungible <module-daml-finance-holding-v4-transferablefungible-66907>`
+- :ref:`neither transferable nor fungible <module-daml-finance-holding-v4-baseholding-28133>`
 
 Account
 *******
@@ -162,7 +162,7 @@ bank’s services.
 
 The account contract also controls which parties are authorized to transfer holdings in and out of
 the account. To be more precise, the
-:ref:`controllers <type-daml-finance-interface-account-account-controllers-36430>`
+:ref:`controllers <type-daml-finance-interface-account-v4-account-controllers-59817>`
 field of the account contains:
 
 - ``outgoing``: a set of parties authorizing outgoing transfers
@@ -195,7 +195,7 @@ Keys
 ====
 
 Accounts are keyed by an
-:ref:`AccountKey <type-daml-finance-interface-types-common-types-accountkey-41482>`, which
+:ref:`AccountKey <type-daml-finance-interface-types-common-v3-types-accountkey-55962>`, which
 comprises:
 
 - the account ``owner``
@@ -208,22 +208,22 @@ Interfaces
 ==========
 
 The account interface is defined in the
-:ref:`Daml.Finance.Interface.Account <module-daml-finance-interface-account-account-92922>`
+:ref:`Daml.Finance.Interface.Account.V4 <module-daml-finance-interface-account-v4-account-30007>`
 package.
 
 Implementations
 ===============
 
 A base account implementation is provided in
-:ref:`Daml.Finance.Account <module-daml-finance-account-account-19369>`.
+:ref:`Daml.Finance.Account.V4 <module-daml-finance-account-v4-account-5834>`.
 
 The account can be created with arbitrary
-:ref:`controllers <type-daml-finance-interface-account-account-controllers-36430>`
+:ref:`controllers <type-daml-finance-interface-account-v4-account-controllers-59817>`
 (for incoming and outgoing transfers). Our examples typically let accounts be owners-controlled,
 i.e., both the current owner and the new owner must authorize transfers.
 
 The account also implements
-the :ref:`Lockable <module-daml-finance-interface-util-lockable-80915>` interface, enabling the
+the :ref:`Lockable <module-daml-finance-interface-util-v3-lockable-20339>` interface, enabling the
 freezing of an account, thus disabling credits and debits.
 
 Example setups
@@ -241,15 +241,15 @@ a Commercial Bank, and a Retail Client.
 The Central Bank defines the economic terms of the currency asset and is generally a highly trusted
 entity, therefore it acts as ``issuer`` as well as ``depository`` of the corresponding instrument.
 
-We can use the :ref:`Token <module-daml-finance-instrument-token-instrument-10682>`
+We can use the :ref:`Token <module-daml-finance-instrument-token-v4-instrument-53415>`
 instrument implementation for a currency asset, as we do not need any lifecycling logic.
 
 The Retail Client has an
-:ref:`Account <module-daml-finance-interface-account-account-92922>` at the Commercial Bank, with
+:ref:`Account <module-daml-finance-interface-account-v4-account-30007>` at the Commercial Bank, with
 the former acting as ``owner`` and the latter as ``custodian``.
 
 Finally, the Retail Client is ``owner`` of a
-:ref:`transferable and fungible holding <module-daml-finance-holding-transferablefungible-77726>` at
+:ref:`transferable and fungible holding <module-daml-finance-holding-v4-transferablefungible-66907>` at
 the Commercial Bank (i.e., the ``custodian`` in the contract). The holding references the currency
 instrument and the account.
 
@@ -268,7 +268,7 @@ We now model units of shares held by an investor. There are three parties involv
 Entity, a Securities Depository, and an Investor.
 
 The Issuing Entity acts as ``issuer`` of the :ref:`Equity Instrument
-<module-daml-finance-instrument-equity-instrument-69265>`. The Securities Depository acts
+<module-daml-finance-instrument-equity-v1-instrument-56047>`. The Securities Depository acts
 as ``depository`` of the instrument, thus preventing the Issuing Entity from single-handedly
 modifying details of the instrument (such as the share's nominal value).
 
@@ -289,7 +289,7 @@ OTC Swap
 
 Finally, we model an OTC (over-the-counter) fixed vs. floating interest rate swap agreement between
 two parties, namely Party A and Party B. We can use the :ref:`Interest Rate Swap
-<module-daml-finance-instrument-swap-interestrate-instrument-86260>` instrument template
+<module-daml-finance-instrument-swap-v1-interestrate-instrument-25554>` instrument template
 for this purpose.
 
 In this case, all contracts are agreed and co-signed by both parties. In the instrument contract,

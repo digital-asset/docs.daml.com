@@ -353,7 +353,7 @@ subtrees:
           maxdepth: 1
           entries:
           - file: daml-finance/packages/interfaces/daml-finance-interface-holding
-            title: "Daml.Finance.Interface.Holding"
+            title: "Daml.Finance.Interface.Holding.V4"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -362,7 +362,7 @@ subtrees:
               - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-holding.rst
                 title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-account
-            title: "Daml.Finance.Interface.Account"
+            title: "Daml.Finance.Interface.Account.V4"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -371,7 +371,7 @@ subtrees:
               - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-account.rst
                 title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-settlement
-            title: "Daml.Finance.Interface.Settlement"
+            title: "Daml.Finance.Interface.Settlement.V4"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -380,7 +380,7 @@ subtrees:
               - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-settlement.rst
                 title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-lifecycle
-            title: "Daml.Finance.Interface.Lifecycle"
+            title: "Daml.Finance.Interface.Lifecycle.V4"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -389,7 +389,7 @@ subtrees:
               - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-lifecycle.rst
                 title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-base
-            title: "Daml.Finance.Interface.Instrument.Base"
+            title: "Daml.Finance.Interface.Instrument.Base.V4"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -398,7 +398,7 @@ subtrees:
               - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-instrument-base.rst
                 title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-claims
-            title: "Daml.Finance.Interface.Claims"
+            title: "Daml.Finance.Interface.Claims.V4"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -407,7 +407,7 @@ subtrees:
               - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-claims.rst
                 title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-data
-            title: "Daml.Finance.Interface.Data"
+            title: "Daml.Finance.Interface.Data.V4"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -416,7 +416,7 @@ subtrees:
               - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-data.rst
                 title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-types-common
-            title: "Daml.Finance.Interface.Types.Common"
+            title: "Daml.Finance.Interface.Types.Common.V3"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -425,7 +425,7 @@ subtrees:
               - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-types-common.rst
                 title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-types-date
-            title: "Daml.Finance.Interface.Types.Date"
+            title: "Daml.Finance.Interface.Types.Date.V3"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -434,7 +434,7 @@ subtrees:
               - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-types-date.rst
                 title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-util
-            title: "Daml.Finance.Interface.Util"
+            title: "Daml.Finance.Interface.Util.V3"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -443,7 +443,7 @@ subtrees:
               - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-util.rst
                 title: "Changelog"
           - file: daml-finance/packages/interfaces/contingent-claims-core
-            title: "ContingentClaims.Core"
+            title: "ContingentClaims.Core.V3"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -452,7 +452,7 @@ subtrees:
               - file: daml-finance/packages/interfaces/changelogs/contingent-claims-core.rst
                 title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-bond
-            title: "Daml.Finance.Interface.Instrument.Bond"
+            title: "Daml.Finance.Interface.Instrument.Bond.V3"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -461,7 +461,7 @@ subtrees:
               - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-instrument-bond.rst
                 title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-equity
-            title: "Daml.Finance.Interface.Instrument.Equity"
+            title: "Daml.Finance.Interface.Instrument.Equity.V1"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -470,7 +470,7 @@ subtrees:
               - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-instrument-equity.rst
                 title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-generic
-            title: "Daml.Finance.Interface.Instrument.Generic"
+            title: "Daml.Finance.Interface.Instrument.Generic.V4"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -479,7 +479,7 @@ subtrees:
               - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-instrument-generic.rst
                 title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-option
-            title: "Daml.Finance.Interface.Instrument.Option"
+            title: "Daml.Finance.Interface.Instrument.Option.V1"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -488,7 +488,7 @@ subtrees:
               - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-instrument-option.rst
                 title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-structuredproduct
-            title: "Daml.Finance.Interface.Instrument.StructuredProduct"
+            title: "Daml.Finance.Interface.Instrument.StructuredProduct.V1"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -497,7 +497,7 @@ subtrees:
               - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-instrument-structuredproduct.rst
                 title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-swap
-            title: "Daml.Finance.Interface.Instrument.Swap"
+            title: "Daml.Finance.Interface.Instrument.Swap.V1"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -506,7 +506,7 @@ subtrees:
               - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-instrument-swap.rst
                 title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-token
-            title: "Daml.Finance.Interface.Instrument.Token"
+            title: "Daml.Finance.Interface.Instrument.Token.V4"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -515,7 +515,7 @@ subtrees:
               - file: daml-finance/packages/interfaces/changelogs/daml-finance-interface-instrument-token.rst
                 title: "Changelog"
           - file: daml-finance/packages/interfaces/daml-finance-interface-instrument-types
-            title: "Daml.Finance.Interface.Instrument.Types"
+            title: "Daml.Finance.Interface.Instrument.Types.V2"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -531,7 +531,7 @@ subtrees:
           maxdepth: 1
           entries:
           - file: daml-finance/packages/implementations/daml-finance-holding
-            title: "Daml.Finance.Holding"
+            title: "Daml.Finance.Holding.V4"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -540,7 +540,7 @@ subtrees:
               - file: daml-finance/packages/implementations/changelogs/daml-finance-holding.rst
                 title: "Changelog"
           - file: daml-finance/packages/implementations/daml-finance-account
-            title: "Daml.Finance.Account"
+            title: "Daml.Finance.Account.V4"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -549,7 +549,7 @@ subtrees:
               - file: daml-finance/packages/implementations/changelogs/daml-finance-account.rst
                 title: "Changelog"
           - file: daml-finance/packages/implementations/daml-finance-settlement
-            title: "Daml.Finance.Settlement"
+            title: "Daml.Finance.Settlement.V4"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -558,7 +558,7 @@ subtrees:
               - file: daml-finance/packages/implementations/changelogs/daml-finance-settlement.rst
                 title: "Changelog"
           - file: daml-finance/packages/implementations/daml-finance-lifecycle
-            title: "Daml.Finance.Lifecycle"
+            title: "Daml.Finance.Lifecycle.V4"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -567,7 +567,7 @@ subtrees:
               - file: daml-finance/packages/implementations/changelogs/daml-finance-lifecycle.rst
                 title: "Changelog"
           - file: daml-finance/packages/implementations/daml-finance-data
-            title: "Daml.Finance.Data"
+            title: "Daml.Finance.Data.V4"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -576,7 +576,7 @@ subtrees:
               - file: daml-finance/packages/implementations/changelogs/daml-finance-data.rst
                 title: "Changelog"
           - file: daml-finance/packages/implementations/daml-finance-claims
-            title: "Daml.Finance.Claims"
+            title: "Daml.Finance.Claims.V3"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -585,7 +585,7 @@ subtrees:
               - file: daml-finance/packages/implementations/changelogs/daml-finance-claims.rst
                 title: "Changelog"
           - file: daml-finance/packages/implementations/daml-finance-util
-            title: "Daml.Finance.Util"
+            title: "Daml.Finance.Util.V4"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -594,7 +594,7 @@ subtrees:
               - file: daml-finance/packages/implementations/changelogs/daml-finance-util.rst
                 title: "Changelog"
           - file: daml-finance/packages/implementations/contingent-claims-lifecycle
-            title: "ContingentClaims.Lifecycle"
+            title: "ContingentClaims.Lifecycle.V3"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -603,7 +603,7 @@ subtrees:
               - file: daml-finance/packages/implementations/changelogs/contingent-claims-lifecycle.rst
                 title: "Changelog"
           - file: daml-finance/packages/implementations/contingent-claims-valuation
-            title: "ContingentClaims.Valuation"
+            title: "ContingentClaims.Valuation.V1"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -612,7 +612,7 @@ subtrees:
               - file: daml-finance/packages/implementations/changelogs/contingent-claims-valuation.rst
                 title: "Changelog"
           - file: daml-finance/packages/implementations/daml-finance-instrument-bond
-            title: "Daml.Finance.Instrument.Bond"
+            title: "Daml.Finance.Instrument.Bond.V3"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -621,7 +621,7 @@ subtrees:
               - file: daml-finance/packages/implementations/changelogs/daml-finance-instrument-bond.rst
                 title: "Changelog"
           - file: daml-finance/packages/implementations/daml-finance-instrument-equity
-            title: "Daml.Finance.Instrument.Equity"
+            title: "Daml.Finance.Instrument.Equity.V1"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -630,7 +630,7 @@ subtrees:
               - file: daml-finance/packages/implementations/changelogs/daml-finance-instrument-equity.rst
                 title: "Changelog"
           - file: daml-finance/packages/implementations/daml-finance-instrument-generic
-            title: "Daml.Finance.Instrument.Generic"
+            title: "Daml.Finance.Instrument.Generic.V4"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -639,7 +639,7 @@ subtrees:
               - file: daml-finance/packages/implementations/changelogs/daml-finance-instrument-generic.rst
                 title: "Changelog"
           - file: daml-finance/packages/implementations/daml-finance-instrument-option
-            title: "Daml.Finance.Instrument.Option"
+            title: "Daml.Finance.Instrument.Option.V1"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -648,7 +648,7 @@ subtrees:
               - file: daml-finance/packages/implementations/changelogs/daml-finance-instrument-option.rst
                 title: "Changelog"
           - file: daml-finance/packages/implementations/daml-finance-instrument-structuredproduct
-            title: "Daml.Finance.Instrument.StructuredProduct"
+            title: "Daml.Finance.Instrument.StructuredProduct.V1"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -657,7 +657,7 @@ subtrees:
               - file: daml-finance/packages/implementations/changelogs/daml-finance-instrument-structuredproduct.rst
                 title: "Changelog"
           - file: daml-finance/packages/implementations/daml-finance-instrument-swap
-            title: "Daml.Finance.Instrument.Swap"
+            title: "Daml.Finance.Instrument.Swap.V1"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -666,7 +666,7 @@ subtrees:
               - file: daml-finance/packages/implementations/changelogs/daml-finance-instrument-swap.rst
                 title: "Changelog"
           - file: daml-finance/packages/implementations/daml-finance-instrument-token
-            title: "Daml.Finance.Instrument.Token"
+            title: "Daml.Finance.Instrument.Token.V4"
             subtrees:
             - hidden: False
               titlesonly: True
@@ -750,410 +750,410 @@ subtrees:
           titlesonly: True
           maxdepth: 3
           entries:
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/ContingentClaims-Core-Builders
-            title: "ContingentClaims.Core.Builders"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/ContingentClaims-Core-Claim
-            title: "ContingentClaims.Core.Claim"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/ContingentClaims-Core-Internal-Claim
-            title: "ContingentClaims.Core.Internal.Claim"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/ContingentClaims-Core-Observation
-            title: "ContingentClaims.Core.Observation"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/ContingentClaims-Core-Util-Recursion
-            title: "ContingentClaims.Core.Util.Recursion"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/ContingentClaims-Lifecycle-Lifecycle
-            title: "ContingentClaims.Lifecycle.Lifecycle"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/ContingentClaims-Lifecycle-Util
-            title: "ContingentClaims.Lifecycle.Util"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/ContingentClaims-Valuation-MathML
-            title: "ContingentClaims.Valuation.MathML"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/ContingentClaims-Valuation-Stochastic
-            title: "ContingentClaims.Valuation.Stochastic"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Account-Account
-            title: "Daml.Finance.Account.Account"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Claims-Lifecycle-Rule
-            title: "Daml.Finance.Claims.Lifecycle.Rule"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Claims-Util
-            title: "Daml.Finance.Claims.Util"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Claims-Util-Builders
-            title: "Daml.Finance.Claims.Util.Builders"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Claims-Util-Date
-            title: "Daml.Finance.Claims.Util.Date"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Claims-Util-Lifecycle
-            title: "Daml.Finance.Claims.Util.Lifecycle"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-Numeric-Observation
-            title: "Daml.Finance.Data.Numeric.Observation"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-Reference-HolidayCalendar
-            title: "Daml.Finance.Data.Reference.HolidayCalendar"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-Time-DateClock
-            title: "Daml.Finance.Data.Time.DateClock"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-Time-DateClock-Types
-            title: "Daml.Finance.Data.Time.DateClock.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-Time-DateClockUpdate
-            title: "Daml.Finance.Data.Time.DateClockUpdate"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-Time-LedgerTime
-            title: "Daml.Finance.Data.Time.LedgerTime"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Holding-BaseHolding
-            title: "Daml.Finance.Holding.BaseHolding"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Holding-Factory
-            title: "Daml.Finance.Holding.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Holding-Fungible
-            title: "Daml.Finance.Holding.Fungible"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Holding-Transferable
-            title: "Daml.Finance.Holding.Transferable"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Holding-TransferableFungible
-            title: "Daml.Finance.Holding.TransferableFungible"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Holding-Util
-            title: "Daml.Finance.Holding.Util"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-Callable-Factory
-            title: "Daml.Finance.Instrument.Bond.Callable.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-Callable-Instrument
-            title: "Daml.Finance.Instrument.Bond.Callable.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-FixedRate-Factory
-            title: "Daml.Finance.Instrument.Bond.FixedRate.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-FixedRate-Instrument
-            title: "Daml.Finance.Instrument.Bond.FixedRate.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-FloatingRate-Factory
-            title: "Daml.Finance.Instrument.Bond.FloatingRate.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-FloatingRate-Instrument
-            title: "Daml.Finance.Instrument.Bond.FloatingRate.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-InflationLinked-Factory
-            title: "Daml.Finance.Instrument.Bond.InflationLinked.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-InflationLinked-Instrument
-            title: "Daml.Finance.Instrument.Bond.InflationLinked.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-Util
-            title: "Daml.Finance.Instrument.Bond.Util"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-ZeroCoupon-Factory
-            title: "Daml.Finance.Instrument.Bond.ZeroCoupon.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-ZeroCoupon-Instrument
-            title: "Daml.Finance.Instrument.Bond.ZeroCoupon.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Equity-Factory
-            title: "Daml.Finance.Instrument.Equity.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Equity-Instrument
-            title: "Daml.Finance.Instrument.Equity.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Generic-Factory
-            title: "Daml.Finance.Instrument.Generic.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Generic-Instrument
-            title: "Daml.Finance.Instrument.Generic.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Generic-Lifecycle-Rule
-            title: "Daml.Finance.Instrument.Generic.Lifecycle.Rule"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-BarrierEuropeanCash-Factory
-            title: "Daml.Finance.Instrument.Option.BarrierEuropeanCash.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-BarrierEuropeanCash-Instrument
-            title: "Daml.Finance.Instrument.Option.BarrierEuropeanCash.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-Dividend-Factory
-            title: "Daml.Finance.Instrument.Option.Dividend.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-Dividend-Instrument
-            title: "Daml.Finance.Instrument.Option.Dividend.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-Dividend-Election
-            title: "Daml.Finance.Instrument.Option.Dividend.Election"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-EuropeanCash-Factory
-            title: "Daml.Finance.Instrument.Option.EuropeanCash.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-EuropeanCash-Instrument
-            title: "Daml.Finance.Instrument.Option.EuropeanCash.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-EuropeanPhysical-Factory
-            title: "Daml.Finance.Instrument.Option.EuropeanPhysical.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-EuropeanPhysical-Instrument
-            title: "Daml.Finance.Instrument.Option.EuropeanPhysical.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-StructuredProduct-AutoCallable-Factory
-            title: "Daml.Finance.Instrument.StructuredProduct.AutoCallable.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-StructuredProduct-AutoCallable-Instrument
-            title: "Daml.Finance.Instrument.StructuredProduct.AutoCallable.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-StructuredProduct-BarrierReverseConvertible-Factory
-            title: "Daml.Finance.Instrument.StructuredProduct.BarrierReverseConvertible.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-StructuredProduct-BarrierReverseConvertible-Instrument
-            title: "Daml.Finance.Instrument.StructuredProduct.BarrierReverseConvertible.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-StructuredProduct-Util
-            title: "Daml.Finance.Instrument.StructuredProduct.Util"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Asset-Factory
-            title: "Daml.Finance.Instrument.Swap.Asset.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Asset-Instrument
-            title: "Daml.Finance.Instrument.Swap.Asset.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Asset-DistributionRule
-            title: "Daml.Finance.Instrument.Swap.Asset.DistributionRule"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-CreditDefault-Factory
-            title: "Daml.Finance.Instrument.Swap.CreditDefault.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-CreditDefault-Instrument
-            title: "Daml.Finance.Instrument.Swap.CreditDefault.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Currency-Factory
-            title: "Daml.Finance.Instrument.Swap.Currency.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Currency-Instrument
-            title: "Daml.Finance.Instrument.Swap.Currency.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-ForeignExchange-Factory
-            title: "Daml.Finance.Instrument.Swap.ForeignExchange.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-ForeignExchange-Instrument
-            title: "Daml.Finance.Instrument.Swap.ForeignExchange.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Fpml-Factory
-            title: "Daml.Finance.Instrument.Swap.Fpml.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Fpml-Instrument
-            title: "Daml.Finance.Instrument.Swap.Fpml.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-Fpml-Util
-            title: "Daml.Finance.Instrument.Swap.Fpml.Util"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-InterestRate-Factory
-            title: "Daml.Finance.Instrument.Swap.InterestRate.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-InterestRate-Instrument
-            title: "Daml.Finance.Instrument.Swap.InterestRate.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Token-Factory
-            title: "Daml.Finance.Instrument.Token.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Token-Instrument
-            title: "Daml.Finance.Instrument.Token.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Account-Account
-            title: "Daml.Finance.Interface.Account.Account"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Account-Factory
-            title: "Daml.Finance.Interface.Account.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Account-Util
-            title: "Daml.Finance.Interface.Account.Util"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Claims-Claim
-            title: "Daml.Finance.Interface.Claims.Claim"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Claims-Dynamic-Instrument
-            title: "Daml.Finance.Interface.Claims.Dynamic.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Claims-Types
-            title: "Daml.Finance.Interface.Claims.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Data-Numeric-Observation
-            title: "Daml.Finance.Interface.Data.Numeric.Observation"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Data-Numeric-Observation-Factory
-            title: "Daml.Finance.Interface.Data.Numeric.Observation.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Data-Reference-HolidayCalendar
-            title: "Daml.Finance.Interface.Data.Reference.HolidayCalendar"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Data-Reference-HolidayCalendar-Factory
-            title: "Daml.Finance.Interface.Data.Reference.HolidayCalendar.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Data-Reference-Time
-            title: "Daml.Finance.Interface.Data.Reference.Time"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Holding-Factory
-            title: "Daml.Finance.Interface.Holding.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Holding-Fungible
-            title: "Daml.Finance.Interface.Holding.Fungible"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Holding-Holding
-            title: "Daml.Finance.Interface.Holding.Holding"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Holding-Transferable
-            title: "Daml.Finance.Interface.Holding.Transferable"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Holding-Util
-            title: "Daml.Finance.Interface.Holding.Util"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Base-Instrument
-            title: "Daml.Finance.Interface.Instrument.Base.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-Callable-Factory
-            title: "Daml.Finance.Interface.Instrument.Bond.Callable.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-Callable-Instrument
-            title: "Daml.Finance.Interface.Instrument.Bond.Callable.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-Callable-Types
-            title: "Daml.Finance.Interface.Instrument.Bond.Callable.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-FixedRate-Factory
-            title: "Daml.Finance.Interface.Instrument.Bond.FixedRate.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-FixedRate-Instrument
-            title: "Daml.Finance.Interface.Instrument.Bond.FixedRate.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-FixedRate-Types
-            title: "Daml.Finance.Interface.Instrument.Bond.FixedRate.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-FloatingRate-Factory
-            title: "Daml.Finance.Interface.Instrument.Bond.FloatingRate.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-FloatingRate-Instrument
-            title: "Daml.Finance.Interface.Instrument.Bond.FloatingRate.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-FloatingRate-Types
-            title: "Daml.Finance.Interface.Instrument.Bond.FloatingRate.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-InflationLinked-Factory
-            title: "Daml.Finance.Interface.Instrument.Bond.InflationLinked.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-InflationLinked-Instrument
-            title: "Daml.Finance.Interface.Instrument.Bond.InflationLinked.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-InflationLinked-Types
-            title: "Daml.Finance.Interface.Instrument.Bond.InflationLinked.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-ZeroCoupon-Factory
-            title: "Daml.Finance.Interface.Instrument.Bond.ZeroCoupon.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-ZeroCoupon-Instrument
-            title: "Daml.Finance.Interface.Instrument.Bond.ZeroCoupon.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-ZeroCoupon-Types
-            title: "Daml.Finance.Interface.Instrument.Bond.ZeroCoupon.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Equity-Factory
-            title: "Daml.Finance.Interface.Instrument.Equity.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Equity-Instrument
-            title: "Daml.Finance.Interface.Instrument.Equity.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Generic-Factory
-            title: "Daml.Finance.Interface.Instrument.Generic.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Generic-Instrument
-            title: "Daml.Finance.Interface.Instrument.Generic.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-BarrierEuropeanCash-Factory
-            title: "Daml.Finance.Interface.Instrument.Option.BarrierEuropeanCash.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-BarrierEuropeanCash-Instrument
-            title: "Daml.Finance.Interface.Instrument.Option.BarrierEuropeanCash.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-BarrierEuropeanCash-Types
-            title: "Daml.Finance.Interface.Instrument.Option.BarrierEuropeanCash.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Dividend-Factory
-            title: "Daml.Finance.Interface.Instrument.Option.Dividend.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Dividend-Instrument
-            title: "Daml.Finance.Interface.Instrument.Option.Dividend.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Dividend-Types
-            title: "Daml.Finance.Interface.Instrument.Option.Dividend.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Dividend-Election-Factory
-            title: "Daml.Finance.Interface.Instrument.Option.Dividend.Election.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-EuropeanCash-Factory
-            title: "Daml.Finance.Interface.Instrument.Option.EuropeanCash.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-EuropeanCash-Instrument
-            title: "Daml.Finance.Interface.Instrument.Option.EuropeanCash.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-EuropeanCash-Types
-            title: "Daml.Finance.Interface.Instrument.Option.EuropeanCash.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-EuropeanPhysical-Factory
-            title: "Daml.Finance.Interface.Instrument.Option.EuropeanPhysical.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-EuropeanPhysical-Instrument
-            title: "Daml.Finance.Interface.Instrument.Option.EuropeanPhysical.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-EuropeanPhysical-Types
-            title: "Daml.Finance.Interface.Instrument.Option.EuropeanPhysical.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-Types
-            title: "Daml.Finance.Interface.Instrument.Option.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduct-AutoCallable-Factory
-            title: "Daml.Finance.Interface.Instrument.StructuredProduct.AutoCallable.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduct-AutoCallable-Instrument
-            title: "Daml.Finance.Interface.Instrument.StructuredProduct.AutoCallable.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduct-AutoCallable-Types
-            title: "Daml.Finance.Interface.Instrument.StructuredProduct.AutoCallable.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduct-BarrierReverseConvertible-Factory
-            title: "Daml.Finance.Interface.Instrument.StructuredProduct.BarrierReverseConvertible.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduct-BarrierReverseConvertible-Instrument
-            title: "Daml.Finance.Interface.Instrument.StructuredProduct.BarrierReverseConvertible.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduct-BarrierReverseConvertible-Types
-            title: "Daml.Finance.Interface.Instrument.StructuredProduct.BarrierReverseConvertible.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduct-Types
-            title: "Daml.Finance.Interface.Instrument.StructuredProduct.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Asset-Factory
-            title: "Daml.Finance.Interface.Instrument.Swap.Asset.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Asset-Instrument
-            title: "Daml.Finance.Interface.Instrument.Swap.Asset.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Asset-Types
-            title: "Daml.Finance.Interface.Instrument.Swap.Asset.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-CreditDefault-Factory
-            title: "Daml.Finance.Interface.Instrument.Swap.CreditDefault.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-CreditDefault-Instrument
-            title: "Daml.Finance.Interface.Instrument.Swap.CreditDefault.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-CreditDefault-Types
-            title: "Daml.Finance.Interface.Instrument.Swap.CreditDefault.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Currency-Factory
-            title: "Daml.Finance.Interface.Instrument.Swap.Currency.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Currency-Instrument
-            title: "Daml.Finance.Interface.Instrument.Swap.Currency.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Currency-Types
-            title: "Daml.Finance.Interface.Instrument.Swap.Currency.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-ForeignExchange-Factory
-            title: "Daml.Finance.Interface.Instrument.Swap.ForeignExchange.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-ForeignExchange-Instrument
-            title: "Daml.Finance.Interface.Instrument.Swap.ForeignExchange.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-ForeignExchange-Types
-            title: "Daml.Finance.Interface.Instrument.Swap.ForeignExchange.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Fpml-Factory
-            title: "Daml.Finance.Interface.Instrument.Swap.Fpml.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Fpml-FpmlTypes
-            title: "Daml.Finance.Interface.Instrument.Swap.Fpml.FpmlTypes"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Fpml-Instrument
-            title: "Daml.Finance.Interface.Instrument.Swap.Fpml.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-Fpml-Types
-            title: "Daml.Finance.Interface.Instrument.Swap.Fpml.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-InterestRate-Factory
-            title: "Daml.Finance.Interface.Instrument.Swap.InterestRate.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-InterestRate-Instrument
-            title: "Daml.Finance.Interface.Instrument.Swap.InterestRate.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-InterestRate-Types
-            title: "Daml.Finance.Interface.Instrument.Swap.InterestRate.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Token-Factory
-            title: "Daml.Finance.Interface.Instrument.Token.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Token-Instrument
-            title: "Daml.Finance.Interface.Instrument.Token.Instrument"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Token-Types
-            title: "Daml.Finance.Interface.Instrument.Token.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Types-FloatingRate
-            title: "Daml.Finance.Interface.Instrument.Types.FloatingRate"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Effect
-            title: "Daml.Finance.Interface.Lifecycle.Effect"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Election
-            title: "Daml.Finance.Interface.Lifecycle.Election"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Election-Factory
-            title: "Daml.Finance.Interface.Lifecycle.Election.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Event
-            title: "Daml.Finance.Interface.Lifecycle.Event"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Event-Distribution
-            title: "Daml.Finance.Interface.Lifecycle.Event.Distribution"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Event-Replacement
-            title: "Daml.Finance.Interface.Lifecycle.Event.Replacement"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Event-Time
-            title: "Daml.Finance.Interface.Lifecycle.Event.Time"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Observable-NumericObservable
-            title: "Daml.Finance.Interface.Lifecycle.Observable.NumericObservable"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Observable-TimeObservable
-            title: "Daml.Finance.Interface.Lifecycle.Observable.TimeObservable"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Rule-Claim
-            title: "Daml.Finance.Interface.Lifecycle.Rule.Claim"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-Rule-Lifecycle
-            title: "Daml.Finance.Interface.Lifecycle.Rule.Lifecycle"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Settlement-Batch
-            title: "Daml.Finance.Interface.Settlement.Batch"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Settlement-Factory
-            title: "Daml.Finance.Interface.Settlement.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Settlement-Instruction
-            title: "Daml.Finance.Interface.Settlement.Instruction"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Settlement-RouteProvider
-            title: "Daml.Finance.Interface.Settlement.RouteProvider"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Settlement-Types
-            title: "Daml.Finance.Interface.Settlement.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Common-Types
-            title: "Daml.Finance.Interface.Types.Common.Types"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Date-Calendar
-            title: "Daml.Finance.Interface.Types.Date.Calendar"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Date-Classes
-            title: "Daml.Finance.Interface.Types.Date.Classes"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Date-DateOffset
-            title: "Daml.Finance.Interface.Types.Date.DateOffset"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Date-DayCount
-            title: "Daml.Finance.Interface.Types.Date.DayCount"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Date-RollConvention
-            title: "Daml.Finance.Interface.Types.Date.RollConvention"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Date-Schedule
-            title: "Daml.Finance.Interface.Types.Date.Schedule"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Util-Common
-            title: "Daml.Finance.Interface.Util.Common"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Util-Disclosure
-            title: "Daml.Finance.Interface.Util.Disclosure"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Util-InterfaceKey
-            title: "Daml.Finance.Interface.Util.InterfaceKey"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Util-Lockable
-            title: "Daml.Finance.Interface.Util.Lockable"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Effect
-            title: "Daml.Finance.Lifecycle.Effect"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Election
-            title: "Daml.Finance.Lifecycle.Election"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-ElectionEffect
-            title: "Daml.Finance.Lifecycle.ElectionEffect"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Event-Distribution
-            title: "Daml.Finance.Lifecycle.Event.Distribution"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Event-Replacement
-            title: "Daml.Finance.Lifecycle.Event.Replacement"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Rule-Claim
-            title: "Daml.Finance.Lifecycle.Rule.Claim"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Rule-Distribution
-            title: "Daml.Finance.Lifecycle.Rule.Distribution"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Rule-Replacement
-            title: "Daml.Finance.Lifecycle.Rule.Replacement"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-Rule-Util
-            title: "Daml.Finance.Lifecycle.Rule.Util"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Settlement-Batch
-            title: "Daml.Finance.Settlement.Batch"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Settlement-Factory
-            title: "Daml.Finance.Settlement.Factory"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Settlement-Hierarchy
-            title: "Daml.Finance.Settlement.Hierarchy"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Settlement-Instruction
-            title: "Daml.Finance.Settlement.Instruction"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Settlement-RouteProvider-IntermediatedStatic
-            title: "Daml.Finance.Settlement.RouteProvider.IntermediatedStatic"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Settlement-RouteProvider-SingleCustodian
-            title: "Daml.Finance.Settlement.RouteProvider.SingleCustodian"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Util-Common
-            title: "Daml.Finance.Util.Common"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Util-Date-Calendar
-            title: "Daml.Finance.Util.Date.Calendar"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Util-Date-DayCount
-            title: "Daml.Finance.Util.Date.DayCount"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Util-Date-RollConvention
-            title: "Daml.Finance.Util.Date.RollConvention"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Util-Date-Schedule
-            title: "Daml.Finance.Util.Date.Schedule"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Util-Disclosure
-            title: "Daml.Finance.Util.Disclosure"
-          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Util-Lockable
-            title: "Daml.Finance.Util.Lockable"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/ContingentClaims-Core-V3-Builders
+            title: "ContingentClaims.Core.V3.Builders"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/ContingentClaims-Core-V3-Claim
+            title: "ContingentClaims.Core.V3.Claim"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/ContingentClaims-Core-V3-Internal-Claim
+            title: "ContingentClaims.Core.V3.Internal.Claim"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/ContingentClaims-Core-V3-Observation
+            title: "ContingentClaims.Core.V3.Observation"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/ContingentClaims-Core-V3-Util-Recursion
+            title: "ContingentClaims.Core.V3.Util.Recursion"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/ContingentClaims-Lifecycle-V3-Lifecycle
+            title: "ContingentClaims.Lifecycle.V3.Lifecycle"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/ContingentClaims-Lifecycle-V3-Util
+            title: "ContingentClaims.Lifecycle.V3.Util"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/ContingentClaims-Valuation-V1-MathML
+            title: "ContingentClaims.Valuation.V1.MathML"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/ContingentClaims-Valuation-V1-Stochastic
+            title: "ContingentClaims.Valuation.V1.Stochastic"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Account-V4-Account
+            title: "Daml.Finance.Account.V4.Account"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Claims-V3-Lifecycle-Rule
+            title: "Daml.Finance.Claims.V3.Lifecycle.Rule"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Claims-V3-Util
+            title: "Daml.Finance.Claims.V3.Util"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Claims-V3-Util-Builders
+            title: "Daml.Finance.Claims.V3.Util.Builders"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Claims-V3-Util-Date
+            title: "Daml.Finance.Claims.V3.Util.Date"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Claims-V3-Util-Lifecycle
+            title: "Daml.Finance.Claims.V3.Util.Lifecycle"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-V4-Numeric-Observation
+            title: "Daml.Finance.Data.V4.Numeric.Observation"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-V4-Reference-HolidayCalendar
+            title: "Daml.Finance.Data.V4.Reference.HolidayCalendar"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-V4-Time-DateClock
+            title: "Daml.Finance.Data.V4.Time.DateClock"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-V4-Time-DateClock-Types
+            title: "Daml.Finance.Data.V4.Time.DateClock.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-V4-Time-DateClockUpdate
+            title: "Daml.Finance.Data.V4.Time.DateClockUpdate"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Data-V4-Time-LedgerTime
+            title: "Daml.Finance.Data.V4.Time.LedgerTime"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Holding-V4-BaseHolding
+            title: "Daml.Finance.Holding.V4.BaseHolding"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Holding-V4-Factory
+            title: "Daml.Finance.Holding.V4.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Holding-V4-Fungible
+            title: "Daml.Finance.Holding.V4.Fungible"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Holding-V4-Transferable
+            title: "Daml.Finance.Holding.V4.Transferable"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Holding-V4-TransferableFungible
+            title: "Daml.Finance.Holding.V4.TransferableFungible"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Holding-V4-Util
+            title: "Daml.Finance.Holding.V4.Util"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-V3-Callable-Factory
+            title: "Daml.Finance.Instrument.Bond.V3.Callable.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-V3-Callable-Instrument
+            title: "Daml.Finance.Instrument.Bond.V3.Callable.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-V3-FixedRate-Factory
+            title: "Daml.Finance.Instrument.Bond.V3.FixedRate.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-V3-FixedRate-Instrument
+            title: "Daml.Finance.Instrument.Bond.V3.FixedRate.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-V3-FloatingRate-Factory
+            title: "Daml.Finance.Instrument.Bond.V3.FloatingRate.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-V3-FloatingRate-Instrument
+            title: "Daml.Finance.Instrument.Bond.V3.FloatingRate.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-V3-InflationLinked-Factory
+            title: "Daml.Finance.Instrument.Bond.V3.InflationLinked.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-V3-InflationLinked-Instrument
+            title: "Daml.Finance.Instrument.Bond.V3.InflationLinked.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-V3-Util
+            title: "Daml.Finance.Instrument.Bond.V3.Util"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-V3-ZeroCoupon-Factory
+            title: "Daml.Finance.Instrument.Bond.V3.ZeroCoupon.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Bond-V3-ZeroCoupon-Instrument
+            title: "Daml.Finance.Instrument.Bond.V3.ZeroCoupon.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Equity-V1-Factory
+            title: "Daml.Finance.Instrument.Equity.V1.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Equity-V1-Instrument
+            title: "Daml.Finance.Instrument.Equity.V1.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Generic-V4-Factory
+            title: "Daml.Finance.Instrument.Generic.V4.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Generic-V4-Instrument
+            title: "Daml.Finance.Instrument.Generic.V4.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Generic-V4-Lifecycle-Rule
+            title: "Daml.Finance.Instrument.Generic.V4.Lifecycle.Rule"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-V1-BarrierEuropeanCash-Factory
+            title: "Daml.Finance.Instrument.Option.V1.BarrierEuropeanCash.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-V1-BarrierEuropeanCash-Instrument
+            title: "Daml.Finance.Instrument.Option.V1.BarrierEuropeanCash.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-V1-Dividend-Factory
+            title: "Daml.Finance.Instrument.Option.V1.Dividend.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-V1-Dividend-Instrument
+            title: "Daml.Finance.Instrument.Option.V1.Dividend.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-V1-Dividend-Election
+            title: "Daml.Finance.Instrument.Option.V1.Dividend.Election"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-V1-EuropeanCash-Factory
+            title: "Daml.Finance.Instrument.Option.V1.EuropeanCash.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-V1-EuropeanCash-Instrument
+            title: "Daml.Finance.Instrument.Option.V1.EuropeanCash.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-V1-EuropeanPhysical-Factory
+            title: "Daml.Finance.Instrument.Option.V1.EuropeanPhysical.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Option-V1-EuropeanPhysical-Instrument
+            title: "Daml.Finance.Instrument.Option.V1.EuropeanPhysical.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-StructuredProduct-V1-AutoCallable-Factory
+            title: "Daml.Finance.Instrument.StructuredProduct.V1.AutoCallable.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-StructuredProduct-V1-AutoCallable-Instrument
+            title: "Daml.Finance.Instrument.StructuredProduct.V1.AutoCallable.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-StructuredProduct-V1-BarrierReverseConvertible-Factory
+            title: "Daml.Finance.Instrument.StructuredProduct.V1.BarrierReverseConvertible.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-StructuredProduct-V1-BarrierReverseConvertible-Instrument
+            title: "Daml.Finance.Instrument.StructuredProduct.V1.BarrierReverseConvertible.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-StructuredProduct-V1-Util
+            title: "Daml.Finance.Instrument.StructuredProduct.V1.Util"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-V1-Asset-Factory
+            title: "Daml.Finance.Instrument.Swap.V1.Asset.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-V1-Asset-Instrument
+            title: "Daml.Finance.Instrument.Swap.V1.Asset.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-V1-Asset-DistributionRule
+            title: "Daml.Finance.Instrument.Swap.V1.Asset.DistributionRule"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-V1-CreditDefault-Factory
+            title: "Daml.Finance.Instrument.Swap.V1.CreditDefault.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-V1-CreditDefault-Instrument
+            title: "Daml.Finance.Instrument.Swap.V1.CreditDefault.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-V1-Currency-Factory
+            title: "Daml.Finance.Instrument.Swap.V1.Currency.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-V1-Currency-Instrument
+            title: "Daml.Finance.Instrument.Swap.V1.Currency.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-V1-ForeignExchange-Factory
+            title: "Daml.Finance.Instrument.Swap.V1.ForeignExchange.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-V1-ForeignExchange-Instrument
+            title: "Daml.Finance.Instrument.Swap.V1.ForeignExchange.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-V1-Fpml-Factory
+            title: "Daml.Finance.Instrument.Swap.V1.Fpml.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-V1-Fpml-Instrument
+            title: "Daml.Finance.Instrument.Swap.V1.Fpml.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-V1-Fpml-Util
+            title: "Daml.Finance.Instrument.Swap.V1.Fpml.Util"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-V1-InterestRate-Factory
+            title: "Daml.Finance.Instrument.Swap.V1.InterestRate.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Swap-V1-InterestRate-Instrument
+            title: "Daml.Finance.Instrument.Swap.V1.InterestRate.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Token-V4-Factory
+            title: "Daml.Finance.Instrument.Token.V4.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Instrument-Token-V4-Instrument
+            title: "Daml.Finance.Instrument.Token.V4.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Account-V4-Account
+            title: "Daml.Finance.Interface.Account.V4.Account"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Account-V4-Factory
+            title: "Daml.Finance.Interface.Account.V4.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Account-V4-Util
+            title: "Daml.Finance.Interface.Account.V4.Util"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Claims-V4-Claim
+            title: "Daml.Finance.Interface.Claims.V4.Claim"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Claims-V4-Dynamic-Instrument
+            title: "Daml.Finance.Interface.Claims.V4.Dynamic.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Claims-V4-Types
+            title: "Daml.Finance.Interface.Claims.V4.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Data-V4-Numeric-Observation
+            title: "Daml.Finance.Interface.Data.V4.Numeric.Observation"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Data-V4-Numeric-Observation-Factory
+            title: "Daml.Finance.Interface.Data.V4.Numeric.Observation.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Data-V4-Reference-HolidayCalendar
+            title: "Daml.Finance.Interface.Data.V4.Reference.HolidayCalendar"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Data-V4-Reference-HolidayCalendar-Factory
+            title: "Daml.Finance.Interface.Data.V4.Reference.HolidayCalendar.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Data-V4-Reference-Time
+            title: "Daml.Finance.Interface.Data.V4.Reference.Time"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Holding-V4-Factory
+            title: "Daml.Finance.Interface.Holding.V4.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Holding-V4-Fungible
+            title: "Daml.Finance.Interface.Holding.V4.Fungible"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Holding-V4-Holding
+            title: "Daml.Finance.Interface.Holding.V4.Holding"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Holding-V4-Transferable
+            title: "Daml.Finance.Interface.Holding.V4.Transferable"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Holding-V4-Util
+            title: "Daml.Finance.Interface.Holding.V4.Util"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Base-V4-Instrument
+            title: "Daml.Finance.Interface.Instrument.Base.V4.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-V3-Callable-Factory
+            title: "Daml.Finance.Interface.Instrument.Bond.V3.Callable.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-V3-Callable-Instrument
+            title: "Daml.Finance.Interface.Instrument.Bond.V3.Callable.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-V3-Callable-Types
+            title: "Daml.Finance.Interface.Instrument.Bond.V3.Callable.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-V3-FixedRate-Factory
+            title: "Daml.Finance.Interface.Instrument.Bond.V3.FixedRate.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-V3-FixedRate-Instrument
+            title: "Daml.Finance.Interface.Instrument.Bond.V3.FixedRate.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-V3-FixedRate-Types
+            title: "Daml.Finance.Interface.Instrument.Bond.V3.FixedRate.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-V3-FloatingRate-Factory
+            title: "Daml.Finance.Interface.Instrument.Bond.V3.FloatingRate.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-V3-FloatingRate-Instrument
+            title: "Daml.Finance.Interface.Instrument.Bond.V3.FloatingRate.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-V3-FloatingRate-Types
+            title: "Daml.Finance.Interface.Instrument.Bond.V3.FloatingRate.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-V3-InflationLinked-Factory
+            title: "Daml.Finance.Interface.Instrument.Bond.V3.InflationLinked.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-V3-InflationLinked-Instrument
+            title: "Daml.Finance.Interface.Instrument.Bond.V3.InflationLinked.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-V3-InflationLinked-Types
+            title: "Daml.Finance.Interface.Instrument.Bond.V3.InflationLinked.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-V3-ZeroCoupon-Factory
+            title: "Daml.Finance.Interface.Instrument.Bond.V3.ZeroCoupon.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-V3-ZeroCoupon-Instrument
+            title: "Daml.Finance.Interface.Instrument.Bond.V3.ZeroCoupon.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Bond-V3-ZeroCoupon-Types
+            title: "Daml.Finance.Interface.Instrument.Bond.V3.ZeroCoupon.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Equity-V1-Factory
+            title: "Daml.Finance.Interface.Instrument.Equity.V1.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Equity-V1-Instrument
+            title: "Daml.Finance.Interface.Instrument.Equity.V1.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Generic-V4-Factory
+            title: "Daml.Finance.Interface.Instrument.Generic.V4.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Generic-V4-Instrument
+            title: "Daml.Finance.Interface.Instrument.Generic.V4.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-V1-BarrierEuropeanCash-Factory
+            title: "Daml.Finance.Interface.Instrument.Option.V1.BarrierEuropeanCash.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-V1-BarrierEuropeanCash-Instrument
+            title: "Daml.Finance.Interface.Instrument.Option.V1.BarrierEuropeanCash.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-V1-BarrierEuropeanCash-Types
+            title: "Daml.Finance.Interface.Instrument.Option.V1.BarrierEuropeanCash.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-V1-Dividend-Factory
+            title: "Daml.Finance.Interface.Instrument.Option.V1.Dividend.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-V1-Dividend-Instrument
+            title: "Daml.Finance.Interface.Instrument.Option.V1.Dividend.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-V1-Dividend-Types
+            title: "Daml.Finance.Interface.Instrument.Option.V1.Dividend.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-V1-Dividend-Election-Factory
+            title: "Daml.Finance.Interface.Instrument.Option.V1.Dividend.Election.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-V1-EuropeanCash-Factory
+            title: "Daml.Finance.Interface.Instrument.Option.V1.EuropeanCash.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-V1-EuropeanCash-Instrument
+            title: "Daml.Finance.Interface.Instrument.Option.V1.EuropeanCash.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-V1-EuropeanCash-Types
+            title: "Daml.Finance.Interface.Instrument.Option.V1.EuropeanCash.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-V1-EuropeanPhysical-Factory
+            title: "Daml.Finance.Interface.Instrument.Option.V1.EuropeanPhysical.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-V1-EuropeanPhysical-Instrument
+            title: "Daml.Finance.Interface.Instrument.Option.V1.EuropeanPhysical.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-V1-EuropeanPhysical-Types
+            title: "Daml.Finance.Interface.Instrument.Option.V1.EuropeanPhysical.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Option-V1-Types
+            title: "Daml.Finance.Interface.Instrument.Option.V1.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduct-V1-AutoCallable-Factory
+            title: "Daml.Finance.Interface.Instrument.StructuredProduct.V1.AutoCallable.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduct-V1-AutoCallable-Instrument
+            title: "Daml.Finance.Interface.Instrument.StructuredProduct.V1.AutoCallable.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduct-V1-AutoCallable-Types
+            title: "Daml.Finance.Interface.Instrument.StructuredProduct.V1.AutoCallable.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduct-V1-BarrierReverseConvertible-Factory
+            title: "Daml.Finance.Interface.Instrument.StructuredProduct.V1.BarrierReverseConvertible.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduct-V1-BarrierReverseConvertible-Instrument
+            title: "Daml.Finance.Interface.Instrument.StructuredProduct.V1.BarrierReverseConvertible.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduct-V1-BarrierReverseConvertible-Types
+            title: "Daml.Finance.Interface.Instrument.StructuredProduct.V1.BarrierReverseConvertible.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-StructuredProduct-V1-Types
+            title: "Daml.Finance.Interface.Instrument.StructuredProduct.V1.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-V1-Asset-Factory
+            title: "Daml.Finance.Interface.Instrument.Swap.V1.Asset.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-V1-Asset-Instrument
+            title: "Daml.Finance.Interface.Instrument.Swap.V1.Asset.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-V1-Asset-Types
+            title: "Daml.Finance.Interface.Instrument.Swap.V1.Asset.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-V1-CreditDefault-Factory
+            title: "Daml.Finance.Interface.Instrument.Swap.V1.CreditDefault.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-V1-CreditDefault-Instrument
+            title: "Daml.Finance.Interface.Instrument.Swap.V1.CreditDefault.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-V1-CreditDefault-Types
+            title: "Daml.Finance.Interface.Instrument.Swap.V1.CreditDefault.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-V1-Currency-Factory
+            title: "Daml.Finance.Interface.Instrument.Swap.V1.Currency.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-V1-Currency-Instrument
+            title: "Daml.Finance.Interface.Instrument.Swap.V1.Currency.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-V1-Currency-Types
+            title: "Daml.Finance.Interface.Instrument.Swap.V1.Currency.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-V1-ForeignExchange-Factory
+            title: "Daml.Finance.Interface.Instrument.Swap.V1.ForeignExchange.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-V1-ForeignExchange-Instrument
+            title: "Daml.Finance.Interface.Instrument.Swap.V1.ForeignExchange.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-V1-ForeignExchange-Types
+            title: "Daml.Finance.Interface.Instrument.Swap.V1.ForeignExchange.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-V1-Fpml-Factory
+            title: "Daml.Finance.Interface.Instrument.Swap.V1.Fpml.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-V1-Fpml-FpmlTypes
+            title: "Daml.Finance.Interface.Instrument.Swap.V1.Fpml.FpmlTypes"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-V1-Fpml-Instrument
+            title: "Daml.Finance.Interface.Instrument.Swap.V1.Fpml.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-V1-Fpml-Types
+            title: "Daml.Finance.Interface.Instrument.Swap.V1.Fpml.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-V1-InterestRate-Factory
+            title: "Daml.Finance.Interface.Instrument.Swap.V1.InterestRate.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-V1-InterestRate-Instrument
+            title: "Daml.Finance.Interface.Instrument.Swap.V1.InterestRate.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Swap-V1-InterestRate-Types
+            title: "Daml.Finance.Interface.Instrument.Swap.V1.InterestRate.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Token-V4-Factory
+            title: "Daml.Finance.Interface.Instrument.Token.V4.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Token-V4-Instrument
+            title: "Daml.Finance.Interface.Instrument.Token.V4.Instrument"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Token-V4-Types
+            title: "Daml.Finance.Interface.Instrument.Token.V4.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Instrument-Types-V2-FloatingRate
+            title: "Daml.Finance.Interface.Instrument.Types.V2.FloatingRate"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-V4-Effect
+            title: "Daml.Finance.Interface.Lifecycle.V4.Effect"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-V4-Election
+            title: "Daml.Finance.Interface.Lifecycle.V4.Election"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-V4-Election-Factory
+            title: "Daml.Finance.Interface.Lifecycle.V4.Election.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-V4-Event
+            title: "Daml.Finance.Interface.Lifecycle.V4.Event"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-V4-Event-Distribution
+            title: "Daml.Finance.Interface.Lifecycle.V4.Event.Distribution"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-V4-Event-Replacement
+            title: "Daml.Finance.Interface.Lifecycle.V4.Event.Replacement"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-V4-Event-Time
+            title: "Daml.Finance.Interface.Lifecycle.V4.Event.Time"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-V4-Observable-NumericObservable
+            title: "Daml.Finance.Interface.Lifecycle.V4.Observable.NumericObservable"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-V4-Observable-TimeObservable
+            title: "Daml.Finance.Interface.Lifecycle.V4.Observable.TimeObservable"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-V4-Rule-Claim
+            title: "Daml.Finance.Interface.Lifecycle.V4.Rule.Claim"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Lifecycle-V4-Rule-Lifecycle
+            title: "Daml.Finance.Interface.Lifecycle.V4.Rule.Lifecycle"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Settlement-V4-Batch
+            title: "Daml.Finance.Interface.Settlement.V4.Batch"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Settlement-V4-Factory
+            title: "Daml.Finance.Interface.Settlement.V4.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Settlement-V4-Instruction
+            title: "Daml.Finance.Interface.Settlement.V4.Instruction"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Settlement-V4-RouteProvider
+            title: "Daml.Finance.Interface.Settlement.V4.RouteProvider"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Settlement-V4-Types
+            title: "Daml.Finance.Interface.Settlement.V4.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Common-V3-Types
+            title: "Daml.Finance.Interface.Types.Common.V3.Types"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Date-V3-Calendar
+            title: "Daml.Finance.Interface.Types.Date.V3.Calendar"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Date-V3-Classes
+            title: "Daml.Finance.Interface.Types.Date.V3.Classes"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Date-V3-DateOffset
+            title: "Daml.Finance.Interface.Types.Date.V3.DateOffset"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Date-V3-DayCount
+            title: "Daml.Finance.Interface.Types.Date.V3.DayCount"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Date-V3-RollConvention
+            title: "Daml.Finance.Interface.Types.Date.V3.RollConvention"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Types-Date-V3-Schedule
+            title: "Daml.Finance.Interface.Types.Date.V3.Schedule"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Util-V3-Common
+            title: "Daml.Finance.Interface.Util.V3.Common"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Util-V3-Disclosure
+            title: "Daml.Finance.Interface.Util.V3.Disclosure"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Util-V3-InterfaceKey
+            title: "Daml.Finance.Interface.Util.V3.InterfaceKey"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Interface-Util-V3-Lockable
+            title: "Daml.Finance.Interface.Util.V3.Lockable"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-V4-Effect
+            title: "Daml.Finance.Lifecycle.V4.Effect"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-V4-Election
+            title: "Daml.Finance.Lifecycle.V4.Election"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-V4-ElectionEffect
+            title: "Daml.Finance.Lifecycle.V4.ElectionEffect"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-V4-Event-Distribution
+            title: "Daml.Finance.Lifecycle.V4.Event.Distribution"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-V4-Event-Replacement
+            title: "Daml.Finance.Lifecycle.V4.Event.Replacement"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-V4-Rule-Claim
+            title: "Daml.Finance.Lifecycle.V4.Rule.Claim"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-V4-Rule-Distribution
+            title: "Daml.Finance.Lifecycle.V4.Rule.Distribution"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-V4-Rule-Replacement
+            title: "Daml.Finance.Lifecycle.V4.Rule.Replacement"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Lifecycle-V4-Rule-Util
+            title: "Daml.Finance.Lifecycle.V4.Rule.Util"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Settlement-V4-Batch
+            title: "Daml.Finance.Settlement.V4.Batch"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Settlement-V4-Factory
+            title: "Daml.Finance.Settlement.V4.Factory"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Settlement-V4-Hierarchy
+            title: "Daml.Finance.Settlement.V4.Hierarchy"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Settlement-V4-Instruction
+            title: "Daml.Finance.Settlement.V4.Instruction"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Settlement-V4-RouteProvider-IntermediatedStatic
+            title: "Daml.Finance.Settlement.V4.RouteProvider.IntermediatedStatic"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Settlement-V4-RouteProvider-SingleCustodian
+            title: "Daml.Finance.Settlement.V4.RouteProvider.SingleCustodian"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Util-V4-Common
+            title: "Daml.Finance.Util.V4.Common"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Util-V4-Date-Calendar
+            title: "Daml.Finance.Util.V4.Date.Calendar"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Util-V4-Date-DayCount
+            title: "Daml.Finance.Util.V4.Date.DayCount"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Util-V4-Date-RollConvention
+            title: "Daml.Finance.Util.V4.Date.RollConvention"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Util-V4-Date-Schedule
+            title: "Daml.Finance.Util.V4.Date.Schedule"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Util-V4-Disclosure
+            title: "Daml.Finance.Util.V4.Disclosure"
+          - file: daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Util-V4-Lockable
+            title: "Daml.Finance.Util.V4.Lockable"
 
 - caption: "Operate a Daml Ledger"
   entries:

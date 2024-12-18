@@ -71,10 +71,10 @@ Next, we create two lifecycle rules:
   :start-after: -- LIFECYCLE_RULES_BEGIN
   :end-before: -- LIFECYCLE_RULES_END
 
-* The :ref:`Distribution Rule <module-daml-finance-lifecycle-rule-distribution-35531>` defines the
+* The :ref:`Distribution Rule <module-daml-finance-lifecycle-v4-rule-distribution-2662>` defines the
   business logic to calculate the resulting lifecycle effect from a given distribution event. It is
   signed by the `Bank` as a provider.
-* The :ref:`Claim Rule <module-daml-finance-lifecycle-rule-claim-99318>` allows a holder of the
+* The :ref:`Claim Rule <module-daml-finance-lifecycle-v4-rule-claim-11721>` allows a holder of the
   target instrument to claim the effect resulting from the distribution event. By presenting their
   holding they can instruct the settlement of the holding transfers described in the effect.
 

@@ -1,8 +1,19 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Daml.Finance.Interface.Account - Changelog
-##########################################
+Changelog
+#########
+
+Daml.Finance.Interface.Account.V4
+=================================
+
+Version 4.0.0
+*************
+
+- Update of SDK version and dependencies. LF protocol update to support SCU.
+
+Daml.Finance.Interface.Account
+==============================
 
 Version 3.0.0
 *************
@@ -15,7 +26,7 @@ Version 3.0.0
   the `Account`.
 
 - The `Create` choice of the account's `Factory` has been adapted; it now takes a
-  `HoldingFactoryKey` instead of the `ContractId Daml.Finance.Interface.Holding.Factory` as input
+  `HoldingFactoryKey` instead of the `ContractId Daml.Finance.Interface.Holding.V4.Factory` as input
 
 - Renamed the `F` type synonym to `I` .
 

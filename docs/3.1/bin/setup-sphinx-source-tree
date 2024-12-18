@@ -63,7 +63,3 @@ done
 # Copy ToC
 rm -f $SPHINX_DIR/source/_toc.yml
 ln $DIR/../_toc.yml $SPHINX_DIR/source/_toc.yml
-
-
-# Process canton snippet directives
-python $DIR/canton/snippet_directive.py $SPHINX_DIR/source/canton/includes/snippet_data $SPHINX_DIR/source/canton

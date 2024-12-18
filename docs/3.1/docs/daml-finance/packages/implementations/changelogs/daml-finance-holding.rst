@@ -1,14 +1,25 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Daml.Finance.Holding - Changelog
-################################
+Changelog
+#########
+
+Daml.Finance.Holding.V4
+=======================
+
+Version 4.0.0
+*************
+
+- Update of SDK version and dependencies. LF protocol update to support SCU.
+
+Daml.Finance.Holding
+====================
 
 Version 3.0.1
 *************
 
-- Resolved an issue in the `Daml.Finance.Holding` package affecting the `Disclosure.I`
-  implementation of the `Factory` template within the `Daml.Finance.Holding.Factory` module. This
+- Resolved an issue in the `Daml.Finance.Holding.V4` package affecting the `Disclosure.I`
+  implementation of the `Factory` template within the `Daml.Finance.Holding.V4.Factory` module. This
   patch ensures that observers are now correctly updated for the associated `Reference` template.
 
 Version 3.0.0
@@ -32,8 +43,8 @@ Version 3.0.0
 - The holding implementations newly `ensure` that the desired `HoldingStandard` is met.
 
 - The locking logic was factored out to a separate `Lockable` interface (within the
-  `Daml.Finance.Interface.Util` package), and the `acquireImpl` and `releaseImpl` utility functions
-  moved to the `Lockable` module in the `Daml.Finance.Util` implementation package.
+  `Daml.Finance.Interface.Util.V3` package), and the `acquireImpl` and `releaseImpl` utility functions
+  moved to the `Lockable` module in the `Daml.Finance.Util.V4` implementation package.
 
 - The `Transfer`, `Split`, `Merge`, and `Debit` actions on holdings are prohibited in a locked
   state, requiring them to be unlocked first. Notably, the type signatures for `splitImpl` and

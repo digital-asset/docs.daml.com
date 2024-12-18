@@ -69,7 +69,7 @@ has been reached:
 Lifecycle the Bond Instrument
 *****************************
 
-Using the :ref:`Lifecycle <module-daml-finance-interface-lifecycle-rule-lifecycle-50431>` interface,
+Using the :ref:`Lifecycle <module-daml-finance-interface-lifecycle-v4-rule-lifecycle-8270>` interface,
 the CSD creates a lifecycle rule contract:
 
 .. literalinclude:: ../../../src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml
@@ -85,12 +85,12 @@ exercising the ``Evolve`` choice on the coupon date:
   :start-after: -- LIFECYCLE_BOND_BEGIN
   :end-before: -- LIFECYCLE_BOND_END
 
-This internally uses the :ref:`Event <module-daml-finance-interface-lifecycle-event-43586>`
+This internally uses the :ref:`Event <module-daml-finance-interface-lifecycle-v4-event-91777>`
 interface. In our case, the event is a clock update event, since the coupon payment is triggered by
 the passage of time.
 
 The return type of ``effectCid`` is an
-:ref:`Effect <module-daml-finance-interface-lifecycle-effect-16050>` interface.
+:ref:`Effect <module-daml-finance-interface-lifecycle-v4-effect-48507>` interface.
 It will contain the effect(s) of the lifecycling, in this case a coupon payment. If
 there is nothing to lifecycle, for example because there is no coupon to be paid today,
 this would be empty.
@@ -119,7 +119,7 @@ factory:
   :end-before: -- LIFECYCLE_BOND_SETTLEMENT_FACTORY_END
 
 Settlement instructions are created
-by using the :ref:`Claim <module-daml-finance-interface-lifecycle-rule-claim-6739>` interface and
+by using the :ref:`Claim <module-daml-finance-interface-lifecycle-v4-rule-claim-89954>` interface and
 exercising the ``ClaimEffect`` choice:
 
 .. literalinclude:: ../../../src/test/daml/Daml/Finance/Instrument/Generic/Test/Intermediated/BondCoupon.daml
@@ -175,10 +175,10 @@ What if one party wants to cancel the settlement?
 =================================================
 
 The parties who sign the
-:ref:`Batch <module-daml-finance-interface-settlement-batch-39188>` contract (the instructor
+:ref:`Batch <module-daml-finance-interface-settlement-v4-batch-88127>` contract (the instructor
 and consenters) can exercise the ``Cancel`` choice of the
-:ref:`Batch <module-daml-finance-interface-settlement-batch-39188>` to cancel all associated
-:ref:`Instructions <module-daml-finance-interface-settlement-instruction-10970>`
+:ref:`Batch <module-daml-finance-interface-settlement-v4-batch-88127>` to cancel all associated
+:ref:`Instructions <module-daml-finance-interface-settlement-v4-instruction-71097>`
 atomically.
 
 Settlement can also be obstructed if the responsible parties do not fully allocate

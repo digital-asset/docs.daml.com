@@ -9,8 +9,8 @@ Smart Contract Upgrade
 .. .. toctree::
    :hidden:
 
-Theory of Operation
-===================
+Overview
+========
 
 What is Smart Contract Upgrade (SCU)?
 -------------------------------------
@@ -414,7 +414,9 @@ Add ``daml-script-lts`` to the list of dependencies in ``v1/my-pkg/daml.yaml``,
 as well as ``--target=1.17`` to the ``build-options``:
 
 .. code:: yaml
-  
+
+  ...
+  name: my-pkg
   ...
   dependencies:
   - daml-prim
@@ -422,6 +424,11 @@ as well as ``--target=1.17`` to the ``build-options``:
   - daml-script-lts
   build-options:
   - --target=1.17
+
+**Note:** Normally a package undergoing SCU should contain a version identifier
+in its name as well, but we leave this out for simplicity's sake - consult the
+section on :ref:`package naming best practices <upgrade_package_naming>` to
+learn more about this.
 
 Then create ``v1/my-pkg/daml/Main.daml``:
 
@@ -1097,10 +1104,12 @@ Other definitions can be changed, but warnings are emitted to remind the
 developer that the changes can be unsafe and need to be made with care
 to preserve necessary invariants.
 
-Signatories and observers are one expression that can be changed.
-Importantly, SCU assumes that the new definition does not alter the
-computed values of the signatories, observers, and key for existing contracts.
-Otherwise, dynamic contract upgrades will fail at runtime.
+Signatories and observers are one expression that can be changed. Importantly,
+SCU assumes that the new definition does not alter the computed values of the
+signatories. The computed value of the observers is allowed to change in one
+specific way: observers that are also signatories can be removed. Any other
+change to the computed value of the observers (losing a non-signatory observer,
+adding an observer) is not allowed.
 
 For example, add a new field of "outside observers" to the v2 IOU
 template, and add them to the observer definition.
@@ -1122,8 +1131,9 @@ contracts default to ``None`` for the ``outsideObservers`` field, so all
 existing contracts have the same observer list as before: the
 single owner.
 
-In the case where a contract's signatories or observers change during an upgrade/downgrade,
-the upgrade, and thus full transaction, fails at runtime.
+In the case where a contract's signatories or observers change in during an 
+upgrade/downgrade in a way that doesn't meet the constraints above, the upgrade,
+and thus full transaction, fails at runtime.
 
 Modifying Key Expressions
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1443,39 +1453,32 @@ Dependencies
 Package authors may upgrade the dependencies of a package as well as the
 package itself. A new version of a package may add new dependencies, and
 must have all the (non-:ref:`utility-package <upgrades-utility-package>`)
-dependencies of the old version. Each of these existing dependency
-must either be unchanged from the old dar, or an upgrade of its previous
-version.
+dependencies of the old version. If these dependencies are used in ways that are
+checked for upgrades, each existing dependency must be either
+unchanged from the old DAR or an upgrade of its previous version.
 
-For example, given a dependencies folder, containing v1 and v2
-of two dependency packages ``depA`` and ``depB``
+For example, given a dependencies folder containing v1, v2, and v3
+of a dependency package ``dep``:
 
 .. code:: bash
 
   > ls ./dependencies
-  depA-1.0.0.dar
-  depA-1.1.0.dar
-  depB-1.0.0.dar
-  depB-1.1.0.dar
+  dep-1.0.0.dar
+  dep-2.0.0.dar
+  dep-3.0.0.dar
 
-Change v1 of the IOU package so that it depends on ``depA-1.0.0`` and
-``depB-1.1.0``. Its ``v1/my-pkg/daml.yaml`` would look something like this:
+Then assume a version ``1.0.0`` of a package ``main`` that depends on a datatype
+from version ``2.0.0`` of ``dep``:
 
-.. code:: yaml
+.. code:: daml
 
-  ...
-  dependencies:
-  - daml-prim
-  - daml-stdlib
-  - daml3-script
-  - ../../dependencies/depA-1.0.0.dar
-  - ../../dependencies/depB-1.1.0.dar
-  ...
+  module Main where
 
-A package with a newer version may upgrade any dependency to a newer
-version (or keep the version the same). For example, v2 of the IOU
-package may keep its dependencies the same, or it may upgrade ``depA`` to
-``1.1.0``:
+  import qualified Dep
+
+  data MyData = MyData
+    { depData : Dep.AdditionalData
+    }
 
 .. code:: yaml
 
@@ -1484,13 +1487,14 @@ package may keep its dependencies the same, or it may upgrade ``depA`` to
   - daml-prim
   - daml-stdlib
   - daml3-script
-  - ../../dependencies/depA-1.1.0.dar
-  - ../../dependencies/depB-1.1.0.dar
+  data-dependencies:
+  - dependencies/dep-2.0.0.dar
   ...
 
-Downgrading a dependency is not permitted. For example, IOU may not
-downgrade ``depB`` to version ``1.0.0``. The following ``daml.yaml`` would be
-invalid:
+Because a package with a newer version may upgrade any dependency to a newer
+version (or keep the version the same), version ``2.0.0`` of the ``main``
+package may keep its dependencies the same, or it may upgrade ``dep`` to
+``3.0.0``:
 
 .. code:: yaml
 
@@ -1499,26 +1503,36 @@ invalid:
   - daml-prim
   - daml-stdlib
   - daml3-script
-  - ../../dependencies/depA-1.0.0.dar
-  - ../../dependencies/depB-1.0.0.dar
+  data-dependencies:
+  - dependencies/dep-3.0.0.dar # Can upgrade dep-2.0.0 to dep-3.0.0, or leave it unchanged
   ...
 
-At the moment, ``daml build`` does not check for valid dependencies - checks
-are instead performed at upload time to a participant.
+You cannot downgrade a dependency when using that dependency's datatypes. For example, ``main`` may not downgrade ``dep`` to version ``1.0.0``.
+The following ``daml.yaml`` would be invalid:
+
+.. code:: yaml
+
+  ...
+  dependencies:
+  - daml-prim
+  - daml-stdlib
+  - daml3-script
+  data-dependencies:
+  - dependencies/dep-1.0.0.dar # Cannot downgrade dep-2.0.0 to dep-1.0.0
+  ...
+
+If you try to build this package, the typechecker returns an error on a package ID
+mismatch for the Dep:AdditionalData field, because the Dep:AdditionalData
+reference in this case has changed to a package that is not a legitimate upgrade
+of the original.
 
 .. code:: bash
 
-  > cd v1/my-pkg
-  > daml ledger upload-dar --port 6865
+  > daml build
   ...
-  Uploading .daml/dist/my-pkg-1.0.0.dar to localhost:6865
-  DAR upload succeeded.
-  > cd ../../v2/my-pkg
-  > daml ledger upload-dar --port 6865
-  ...
-  Uploading .daml/dist/my-pkg-1.1.0.dar to localhost:6865
-  upload-dar did not succeed: DAR_NOT_VALID_UPGRADE(...): The DAR contains a package which claims to upgrade another package, but basic checks indicate the package is not a valid upgrade
-  ...
+  error type checking data type Main.MyData:
+  The upgraded data type MyData has changed the types of some of its original fields:
+    Field 'depData' changed type from <dep-2.0.0 package ID>:Dep:AdditionalData to <dep-1.0.0 package ID>:Dep:AdditionalData
 
 Upgrading Interface Instances
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1529,7 +1543,7 @@ module ``my-iface/daml/MyIface.daml``:
 
 .. code:: yaml
 
-  sdk-version: 0.0.0
+  sdk-version: 2.10.0
   name: my-iface
   version: 1.0.0
   source: daml/MyIface.daml
@@ -1696,95 +1710,8 @@ Because interfaces definitions may not be defined in subsequent versions, any
 package that uses an interface definition from a dependency package can never
 upgrade that dependency to a new version.
 
-For this reason, it is strongly recommend that interfaces always be defined
-in their own packages separately from templates.
-
-Best Practices
---------------
-
-To ensure that future upgrades and DAR lifecycling go smoothly, we
-recommend the following practices:
-
-Separate Interfaces/Exceptions from Templates
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Interface and exception definitions are not upgradable. As such, if you attempt
-to redefine an interface or exception in version 2 of a package, even if it is
-unchanged, the package does not type check. Removing an interface from the
-version 2 package also causes issues, especially if the interface has
-choices.
-
-Instead, move interface and exception definitions out into a separate package
-from the start, such that subsequent versions of your package with templates all
-depend on the same version of the package with interfaces/exceptions. The SCU
-type checker warns about this, but you should see this warning as an error - it
-is very strongly recommended that you do not compile interfaces or exceptions in
-a package alongside templates.
-
-Remove Retroactive Instances
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-SCU eliminates the need for retroactive instances and is not
-compatible with them. To ensure package selection for interface choices
-acts correctly, retroactive interface instances should be moved to newer
-versions of templates, such that changes to the instance warrants a new
-version of the template.
-
-Explicit Template Versions
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-If you need package version specific behavior that cannot just depend on
-the presence or absence of new fields, then one workaround would be to
-tag your contracts in their payload with an explicit version field.
-This allows for less fragile behavior in the event of
-"partial upgrades" (where a user may only upgrade part of the payload of
-a package, intentionally), and allows you to model rollbacks as upgrades
-in a principled manner.
-
-Avoid Contract Metadata Changes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The signatories, observers, contract key and ensure clauses of a
-contract should be fixed at runtime for a given contract. Changing their
-definitions in your Daml code triggers a warning from the SCU
-typechecker, and is discouraged. Note that for contract keys, the type
-cannot change at all, only its value. Should you need to change these
-values, be aware that if their runtime value changes in any way, the
-upgrade, and thus the full transaction, fails. Contracts in this
-state can then only be used by explicitly choosing the older version of
-the contract in your transaction.
-
-Migration
----------
-
-SCU is only supported on LF1.17, which in turn is only supported on
-Canton Protocol Version 7. This means that existing deployed contracts require migration and redeployment to utilize this feature.
-
-First you must migrate your Daml model to be compatible with
-upgrades; see `Best Practices <#best-practices>`__ for what to
-change here. Pay particular attention to the case of interfaces and
-exceptions, as failure to do so could lead to packages which are
-incompatible with SCU and require the use of a separate tool (and
-downtime).
-
-Next, you need to be aware of the new package-name scoping rules, and
-ensure that your package set does not violate this. In short, LF1.17 packages
-with the same package-name are unified under SCU, so you should ensure that
-all of your packages that aren't intended to be direct upgrades of each-other
-have unique package-names.
-Note also that within a given package-name, only one package for each version
-can exist.
-LF1.15 packages are not subject to this restriction, and can exist alongside LF1.17
-packages.
-
-Once you have your new DARs, you need to upgrade your Canton and
-protocol version together, since 2.10 introduces a new protocol version.
-The steps to achieve this are given in the :ref:`Canton Upgrading
-manual <one_step_migration>`.
-
-Finally, you can migrate your live data from your previous DARs to the
-new LF1.17 DARs, using one of the existing downtime upgrade techniques
-listed :ref:`here <upgrades-index>`.
+For this reason, it is :ref:`strongly recommended that interfaces always be defined
+in their own packages separately from templates <separate_interfaces_and_exceptions>`.
 
 The Upgrade Model in Depth - Reference
 --------------------------------------
@@ -1792,11 +1719,8 @@ The Upgrade Model in Depth - Reference
 You can find the in-depth upgrading model, which can be used as a reference
 for valid upgrades, :ref:`here <upgrade-model-reference>`.
 
-Components
-==========
-
-Ledger API
-----------
+Package Selection in the Ledger API
+===================================
 
 Until the introduction of SCU, templates in requests on the Ledger API
 could only be referenced by the template-id, with the template fully
@@ -1815,7 +1739,7 @@ presented below.
 .. _dynamic-package-resolution-in-command-submission:
 
 Dynamic Package Resolution in Command Submission
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------------------------
 
 Dynamic package resolution can happen in two cases during command
 submission:
@@ -1852,7 +1776,7 @@ package-name to a package-id:
       an ``INVALID_ARGUMENT`` error
 
 Dynamic Package Resolution in Ledger API Queries
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------------------------
 
 When subscribing for
 :ref:`transaction <transaction-trees>`
@@ -1867,7 +1791,7 @@ apply to events sourced from non-upgradable templates (coming from
 packages with LF < 1.17)
 
 Example
-^^^^^^^
+~~~~~~~
 
 Given the following packages with LF 1.17 existing on the participant
 node:
@@ -1891,6 +1815,440 @@ node:
 If a transaction query is created with a templateId specified as
 ``#app1:mod:T``, then the events stream will include events from both
 template-ids: ``pkgId1:mod:T`` and ``pkgId2:mod:T``
+
+Migrating to SCU
+================
+
+SCU is only supported on LF1.17, which in turn is only supported on
+Canton Protocol Version 7. This means that existing deployed contracts require migration and redeployment to utilize this feature.
+
+First you must migrate your Daml model to be compatible with
+upgrades; see `Best Practices <#best-practices>`__ for what to
+change here. Pay particular attention to the case of interfaces and
+exceptions, as failure to do so could lead to packages which are
+incompatible with SCU and require the use of a separate tool (and
+downtime).
+
+Next, you need to be aware of the new package-name scoping rules, and
+ensure that your package set does not violate this. In short, LF1.17 packages
+with the same package-name are unified under SCU, so you should ensure that
+all of your packages that aren't intended to be direct upgrades of each-other
+have unique package-names.
+Note also that within a given package-name, only one package for each version
+can exist.
+LF1.15 packages are not subject to this restriction, and can exist alongside LF1.17
+packages.
+
+Once you have your new DARs, you need to upgrade your Canton and
+protocol version together, since 2.10 introduces a new protocol version.
+The steps to achieve this are given in the :ref:`Canton Upgrading
+manual <one_step_migration>`.
+
+Finally, you can migrate your live data from your previous DARs to the
+new LF1.17 DARs, using one of the existing downtime upgrade techniques
+listed :ref:`here <upgrades-index>`.
+
+Best Practices
+==============
+
+To ensure that future upgrades and DAR lifecycling go smoothly, we
+recommend the following practices:
+
+.. _separate_interfaces_and_exceptions:
+
+Separate Interfaces/Exceptions from Templates
+---------------------------------------------
+
+Interface and exception definitions are not upgradable. As such, if you attempt
+to redefine an interface or exception in version 2 of a package, even if it is
+unchanged, the package does not type check. Removing an interface from the
+version 2 package also causes issues, especially if the interface has
+choices.
+
+This means that template definitions that exist in the same package as
+interfaces and exception definitions are not upgradeable. To avoid this
+issue, move interface and exception definitions into a separate package such that subsequent versions of your template package all depend on the same version of the package with interfaces/exceptions.
+
+For example, a single package ``main`` defined as follows would not be able to
+upgrade, leaving the template ``T`` non-upgradeable.
+
+.. code:: daml
+
+  module Main where
+
+  interface I where
+    ...
+
+  template T with
+    ...
+
+.. code:: yaml
+
+  sdk-version: 2.10.0
+  name: main
+  version: 1.0.0
+  source: Main.daml
+  dependencies:
+  - daml-prim
+  - daml-stdlib
+  build-options:
+  - --target=1.17
+
+The SCU type checker emits an error and refuses to compile this module:
+
+.. code:: text
+
+  error type checking <none>:
+    This package defines both interfaces and templates. This may make this package and its dependents not upgradeable.
+    
+    It is recommended that interfaces are defined in their own package separate from their implementations.
+    Downgrade this error to a warning with -Wupgrade-interfaces
+    Disable this error entirely with -Wno-upgrade-interfaces
+
+**Note:** It is very strongly recommended that you do not compile interfaces or
+exceptions in a package alongside templates. However, you can downgrade this
+error to a warning by passing the ``-Wupgrade-interfaces`` flag, or ignore this
+error entirely with the ``-Wno-upgrade-interfaces`` flag.
+
+The recommended way to fix this is to split the ``main`` package by redefining
+it as two packages, ``helper`` and ``main``:
+
+.. code:: daml
+
+  module Helper where
+
+  interface I where
+    ...
+
+.. code:: yaml
+
+  sdk-version: 2.10.0
+  name: helper
+  version: 1.0.0
+  source: Helper.daml
+  dependencies:
+  - daml-prim
+  - daml-stdlib
+  build-options:
+  - --target=1.17
+
+.. code:: daml
+
+  module Main where
+
+  import qualified Helper
+
+  template T with
+    ...
+
+.. code:: yaml
+
+  sdk-version: 2.10.0
+  name: main
+  version: 1.0.0
+  source: Main.daml
+  dependencies:
+  - daml-prim
+  - daml-stdlib
+  data-dependencies:
+  - <path to helper DAR>
+  build-options:
+  - --target=1.17
+
+Remove Retroactive Instances
+----------------------------
+
+SCU eliminates the need for retroactive instances and is not
+compatible with them. To ensure package selection for interface choices
+acts correctly, retroactive interface instances should be moved to newer
+versions of templates, such that changes to the instance warrants a new
+version of the template.
+
+Explicit Template Versions
+--------------------------
+
+If you need package version specific behavior that cannot just depend on
+the presence or absence of new fields, then one workaround would be to
+tag your contracts in their payload with an explicit version field.
+This allows for less fragile behavior in the event of
+"partial upgrades" (where a user may only upgrade part of the payload of
+a package, intentionally), and allows you to model rollbacks as upgrades
+in a principled manner.
+
+Avoid Contract Metadata Changes
+-------------------------------
+
+The signatories, observers, contract key and ensure clauses of a
+contract should be fixed at runtime for a given contract. Changing their
+definitions in your Daml code triggers a warning from the SCU
+typechecker, and is discouraged. Note that for contract keys, the type
+cannot change at all, only its value. Should you need to change these
+values, be aware that if their runtime value changes in any way, the
+upgrade, and thus the full transaction, fails. Contracts in this
+state can then only be used by explicitly choosing the older version of
+the contract in your transaction.
+
+.. _upgrade_package_naming:
+
+Breaking Changes via Explicit Package Version
+---------------------------------------------
+
+To make a breaking change to your package that
+is not upgrade compatible, you can change the name of your package to indicate a
+breaking version bump. To enable this, we recommend that your package
+name contains a version marker for when a breaking change occurs.
+
+For example, for your first iteration of a package, you would name it
+``main-v1``, starting with package version ``1.0.0``. In this case, the ``v1``
+is part of the *package name*, not the package version. You could publish
+upgrade-compatible versions by changing the ``version:`` field from ``1.0.0`` to
+``2.0.0`` to ``3.0.0``. These versions would all be upgrade-compatible with
+one another:
+
+.. code:: text
+
+  main-v1-1.0.0
+  main-v1-2.0.0
+  main-v1-3.0.0
+
+Note how the ``v1`` in all three packages remains stable - this means the
+package name has not changed, and ensures that these three packages and their
+datatypes are considered by the runtime and the type checker to be upgradeable.
+
+When you want to make a breaking change, you would publish a new version of the
+package with package name ``main-v2``. Because this package would have a
+different package name from those with ``main-v1``, it would not be typechecked
+against those packages and its datatypes would not automatically be converted.
+You would need to manually migrate values from ``main-v1`` packages to
+``main-v2`` -- existing downtime upgrade techniques are listed :ref:`here <upgrades-index>`.
+
+Testing
+=======
+
+Standalone Upgradeability Checks
+--------------------------------
+
+We recommend using the ``upgrade-check`` tool to perform a standalone check that all of the DARs typecheck against one another correctly as further validation of your upgraded packages.
+
+This tool takes a list of DARs and runs Canton's participant-side upgrade
+typechecking without spinning up an instance of Canton. You should pass the
+tool the list of DARs constituting your previous model and the list of DARs for
+your new model.
+
+For example, assume you have a helper package ``helper`` that does not change,
+and two packages ``main`` and ``dep``.
+
+.. code:: text
+
+  main-1.0.0.dar
+  dep-1.0.0.dar
+  helper-1.0.0.dar
+
+After upgrading your model, you would publish a new DAR ``main-2.0.0.dar`` for ``main``
+and a new DAR ``dep-2.0.0.dar`` for ``dep``. We would then recommend running the
+upgrade-check tool as follows:
+
+.. code:: bash
+
+  > daml upgrade-check --participant helper-1.0.0.dar dep-1.0.0.dar main-1.0.0.dar dep-2.0.0.dar main-2.0.0.dar
+  ...
+
+This runs the same upload validation over these DARs that would be run in
+the event of an upload to the ledger, and prints out the same messages and
+errors. Because it does not require a ledger to be spun up, the command runs
+much more quickly.
+
+We can also check that all of the DARs pass compiler-side checks, but this is
+much less likely to indicate an issue because the DARs are typechecked during
+compilation.
+
+.. code:: bash
+
+  > daml upgrade-check --compiler helper-1.0.0.dar dep-1.0.0.dar main-1.0.0.dar dep-2.0.0.dar main-2.0.0.dar
+  ...
+
+Dry Run Uploading to a Test Environment
+---------------------------------------
+
+If you have a test environment with DARs that are not available to you, you may
+not be able to supply a complete list of DARs for your previous model to the
+standalone ``upgrade-check`` tool.
+
+In this case, we recommend that as a further check for the validity of your
+upgraded package, you perform a dry-run upload of your package to a testing
+environment, using the ``--dry-run`` flag of the ``daml ledger upload-dar``
+command. This also runs the upgrade typechecking, but does not persist your
+package to the ledger.
+
+For workflows involving multiple DARs, we recommend more robust testing by
+running a Canton sandbox with the same version and environment as your
+in-production participant and uploading all the old and new packages that
+constitute your Daml app.
+
+Daml Script Testing
+-------------------
+
+Daml Script has been used for demonstrative purposes in this document, however
+usually the complexities of live upgrades comes with your workflows, not the data
+transformations themselves. You can use Daml Script (with Canton) to test some
+isolated simple cases, but for thorough tests of you system using SCU, you should
+prefer full workflow testing, as below.
+
+Multi-package builds for upgrades
+--------------------------------------
+.. _multi_package_upgrades:
+
+When you are developing upgrades, you may have multiple DARs in scope that need
+to be built together. Tracking these DARs and building them in the right order
+can be complicated, especially as you develop live and as the project grows.
+
+:ref:`Multi-package builds <multi-package-build>` help
+with projects containing multiple DARs, for example, a project using upgrades.
+
+To understand how multi-package builds simplify the
+development of a project using upgrades, begin by creating a new Daml project
+with the ``upgrades-example`` template.
+
+.. code:: bash
+
+   > daml new upgraded-iou --template upgrades-example
+   > cd upgraded-iou
+   > tree
+   .
+   ├── multi-package.yaml
+   ├── run-test.sh
+   ├── interfaces
+   │   ├── daml/...
+   │   └── daml.yaml
+   ├── main-v1
+   │   ├── daml/...
+   │   └── daml.yaml
+   ├── main-v2
+   │   ├── daml/...
+   │   └── daml.yaml
+   └── test
+       ├── daml/...
+       └── daml.yaml
+
+The example template contains:
+
+- A package ``upgraded-iou-interfaces``, which defines an interface ``Asset``
+  and a viewtype ``Asset.View``.
+- The first version (1.0.0) of a package ``upgraded-iou-main``, which defines a
+  template ``IOU`` with instance of ``upgraded-iou-interfaces:Main.Asset``.
+- The second version (2.0.0) of ``upgraded-iou-main`` which upgrades
+  the first. It adds a new ``description`` field to ``IOU``, and uses it (when
+  the field is defined) in an upgraded implementation of ``Asset``.
+- A testing package ``upgraded-iou-test``, which depends on both
+  ``upgraded-iou-main-1.0.0`` and ``upgraded-iou-main-2.0.0``. It defines a
+  script which exercises v1.0.0 and v2.0.0 ``IOU``s via their ``Asset``
+  interface.
+- A script ``run-test.sh``, which runs the main test in ``upgraded-iou-test``.
+- A ``multi-package.yaml`` file which lists our four packages.
+
+Without multi-package builds you would test your program like this:
+
+.. code:: bash
+
+   > # Run sandbox in the background, wait until the three lines below are shown
+   > daml sandbox &
+   Starting Canton sandbox.
+   Listening at port 6865
+   Canton sandbox is ready.
+   > # Build all, run test
+   > cd interfaces/; daml build --enable-multi-package=no
+   > cd ../main-v1/; daml build --enable-multi-package=no
+   > cd ../main-v2/; daml build --enable-multi-package=no
+   > cd ../test/; daml build --enable-multi-package=no
+   > cd ..
+   > ./run-test.sh
+   > # Modify v2, run test
+   > cd main-v2/
+   > ... modify main-v2 ...
+   > daml build --enable-multi-package=no
+   > cd ../test/; daml build --enable-multi-package=no
+   > cd ..
+   > # Modify test, run test
+   > cd test/
+   > daml build --enable-multi-package=no
+   > cd ..
+   > ./run-test.sh
+   ...
+   Test output:
+   ...
+   > kill %1 # Kill backgrounded sandbox process
+
+Forgetting to rebuild packages after changing their source would not cause a
+failure - for example, if you modified the source from ``main-v2`` in an
+incompatible way but did not recompile it, the ``test`` package would still compile
+successfully against the previous DAR for ``main-v2``.
+
+.. code:: bash
+
+   > # Modify main-v2 in an incompatible way
+   > cd main-v2/
+   > ... add a non-optional field `currency: Text` to template T in main-v2 ...
+   > cd ../test/
+   > daml build --enable-multi-package=no
+   ...
+   Created .daml/dist/upgraded-iou-upgrades-template-test-1.0.0.dar
+   > # Compiling `test` succeeded even though main-v2 was changed incorrectly
+
+With Daml multi-package builds, all builds automatically rebuild
+dependencies if their source has changed:
+
+.. code:: bash
+
+   > cd test/
+   > daml build # --enable-multi-package is set to true by default
+   ...
+   Building /home/dylanthinnes/ex-upgrades-template/main-v2
+   ...
+   Severity: DsError
+   Message: 
+   error type checking template Main.IOU :
+     The upgraded template IOU has added new fields, but the following new fields are not Optional:
+       Field 'currency' with type Text
+   ...
+   > # Compiling `test` failed as expected because main-v2 was changed incorrectly
+
+The ``./run-test.sh`` script automatically rebuilds all DARs in the package that
+need to be rebuilt:
+
+.. code:: bash
+
+   > daml sandbox & # Start sandbox in background
+   Starting Canton sandbox.
+   Listening at port 6865
+   Canton sandbox is ready.
+   > ... Fix main-v2 by dropping non-optional `currency` field ...
+   > # Re-run test
+   > ./run-test.sh
+   ...
+   Building /home/dylanthinnes/ex-upgrades-template/main-v2
+   ...
+   > # Modify test, run test
+   > ... modify test ...
+   > daml build --all
+   > ./run-test.sh
+
+Multi-package builds invoked by ``daml build --all`` always recompile stale dependencies and DARs in order. This ensures a
+fully up-to-date package environment before running ``./run-test.sh``.
+
+Workflow Testing
+----------------
+
+While testing your workflows is application-specific, we still
+recommend at least one test for your core workflows that follows this pattern:
+
+1. Start your app using version 2.0 of your DAR, but only upload version 1.0.
+2. Initialize the app and start one instance of every core workflow.
+3. Upload version 2.0 of your DAR.
+4. Switch your backends to start using version 2.0, ideally this should be a flag.
+5. Validate that the core workflows are in the same state and advance them to check that they are not stuck.
+
+SCU Support in Daml Tooling
+===========================
 
 Codegen
 -------
@@ -2074,181 +2432,3 @@ Daml Studio support
 Daml Studio runs a reference model of Canton called the IDE Ledger. This
 ledger has been updated to support the relevant parts of the Smart Contract
 Upgrades feature.
-
-Testing
-=======
-
-Upgrade Validity Checking
--------------------------
-
-We recommend that as a further check for the validity of your upgraded
-package, you perform a dry-run upload of your package to a testing environment,
-using the ``--dry-run`` flag of the ``daml ledger upload-dar`` command.
-This runs the upgrade type-checking, but does not persist your package to the ledger.
-
-For workflows involving multiple DARs, we recommend more robust testing by
-running a Canton sandbox with the same version and environment as your
-in-production participant and uploading all the old and new packages that
-constitute your Daml app.
-
-Daml Script Testing
--------------------
-
-Daml Script has been used for demonstrative purposes in this document, however
-usually the complexities of live upgrades comes with your workflows, not the data
-transformations themselves. You can use Daml Script (with Canton) to test some
-isolated simple cases, but for thorough tests of you system using SCU, you should
-prefer full workflow testing, as below.
-
-Multi-package builds for upgrades
---------------------------------------
-.. _multi_package_upgrades:
-
-When you are developing upgrades, you may have multiple DARs in scope that need
-to be built together. Tracking these DARs and building them in the right order
-can be complicated, especially as you develop live and as the project grows.
-
-:ref:`Multi-package builds <multi-package-build>` help
-with projects containing multiple DARs, for example, a project using upgrades.
-
-To understand how multi-package builds simplify the
-development of a project using upgrades, begin by creating a new Daml project
-with the ``upgrades-example`` template.
-
-.. code:: bash
-
-   > daml new upgraded-iou --template upgrades-example
-   > cd upgraded-iou
-   > tree
-   .
-   ├── multi-package.yaml
-   ├── run-test.sh
-   ├── interfaces
-   │   ├── daml/...
-   │   └── daml.yaml
-   ├── main-v1
-   │   ├── daml/...
-   │   └── daml.yaml
-   ├── main-v2
-   │   ├── daml/...
-   │   └── daml.yaml
-   └── test
-       ├── daml/...
-       └── daml.yaml
-
-The example template contains:
-
-- A package ``upgraded-iou-interfaces``, which defines an interface ``Asset``
-  and a viewtype ``Asset.View``.
-- The first version (1.0.0) of a package ``upgraded-iou-main``, which defines a
-  template ``IOU`` with instance of ``upgraded-iou-interfaces:Main.Asset``.
-- The second version (2.0.0) of ``upgraded-iou-main`` which upgrades
-  the first. It adds a new ``description`` field to ``IOU``, and uses it (when
-  the field is defined) in an upgraded implementation of ``Asset``.
-- A testing package ``upgraded-iou-test``, which depends on both
-  ``upgraded-iou-main-1.0.0`` and ``upgraded-iou-main-2.0.0``. It defines a
-  script which exercises v1.0.0 and v2.0.0 ``IOU``s via their ``Asset``
-  interface.
-- A script ``run-test.sh``, which runs the main test in ``upgraded-iou-test``.
-- A ``multi-package.yaml`` file which lists our four packages.
-
-Without multi-package builds you would test your program like this:
-
-.. code:: bash
-
-   > # Run sandbox in the background, wait until the three lines below are shown
-   > daml sandbox &
-   Starting Canton sandbox.
-   Listening at port 6865
-   Canton sandbox is ready.
-   > # Build all, run test
-   > cd interfaces/; daml build --enable-multi-package=no
-   > cd ../main-v1/; daml build --enable-multi-package=no
-   > cd ../main-v2/; daml build --enable-multi-package=no
-   > cd ../test/; daml build --enable-multi-package=no
-   > cd ..
-   > ./run-test.sh
-   > # Modify v2, run test
-   > cd main-v2/
-   > ... modify main-v2 ...
-   > daml build --enable-multi-package=no
-   > cd ../test/; daml build --enable-multi-package=no
-   > cd ..
-   > # Modify test, run test
-   > cd test/
-   > daml build --enable-multi-package=no
-   > cd ..
-   > ./run-test.sh
-   ...
-   Test output:
-   ...
-   > kill %1 # Kill backgrounded sandbox process
-
-Forgetting to rebuild packages after changing their source would not cause a
-failure - for example, if you modified the source from ``main-v2`` in an
-incompatible way but did not recompile it, the ``test`` package would still compile
-successfully against the previous DAR for ``main-v2``.
-
-.. code:: bash
-
-   > # Modify main-v2 in an incompatible way
-   > cd main-v2/
-   > ... add a non-optional field `currency: Text` to template T in main-v2 ...
-   > cd ../test/
-   > daml build --enable-multi-package=no
-   ...
-   Created .daml/dist/upgraded-iou-upgrades-template-test-1.0.0.dar
-   > # Compiling `test` succeeded even though main-v2 was changed incorrectly
-
-With Daml multi-package builds, all builds automatically rebuild
-dependencies if their source has changed:
-
-.. code:: bash
-
-   > cd test/
-   > daml build # --enable-multi-package is set to true by default
-   ...
-   Building /home/dylanthinnes/ex-upgrades-template/main-v2
-   ...
-   Severity: DsError
-   Message: 
-   error type checking template Main.IOU :
-     The upgraded template IOU has added new fields, but the following new fields are not Optional:
-       Field 'currency' with type Text
-   ...
-   > # Compiling `test` failed as expected because main-v2 was changed incorrectly
-
-The ``./run-test.sh`` script automatically rebuilds all DARs in the package that
-need to be rebuilt:
-
-.. code:: bash
-
-   > daml sandbox & # Start sandbox in background
-   Starting Canton sandbox.
-   Listening at port 6865
-   Canton sandbox is ready.
-   > ... Fix main-v2 by dropping non-optional `currency` field ...
-   > # Re-run test
-   > ./run-test.sh
-   ...
-   Building /home/dylanthinnes/ex-upgrades-template/main-v2
-   ...
-   > # Modify test, run test
-   > ... modify test ...
-   > daml build --all
-   > ./run-test.sh
-
-Multi-package builds invoked by ``daml build --all`` always recompile stale dependencies and DARs in order. This ensures a
-fully up-to-date package environment before running ``./run-test.sh``.
-
-Workflow Testing
-----------------
-
-While testing your workflows is application-specific, we still
-recommend at least one test for your core workflows that follows this pattern:
-
-1. Start your app using version 2.0 of your DAR, but only upload version 1.0.
-2. Initialize the app and start one instance of every core workflow.
-3. Upload version 2.0 of your DAR.
-4. Switch your backends to start using version 2.0, ideally this should be a flag.
-5. Validate that the core workflows are in the same state and advance them to check that they are not stuck.

@@ -11,10 +11,10 @@ manner. Specifically, the upgrade occurs seamlessly during a client's transfer a
 We are going to:
 
 #. Introduce a new holding implementation, ``MyTransferable``, which extends the Daml Finance
-   :ref:`Transferable <module-daml-finance-holding-transferable-43388>` holding
+   :ref:`Transferable <module-daml-finance-holding-v4-transferable-38649>` holding
    implementation. This new implementation differs in that it creates a
    ``MyTransferableTransferEvent`` contract instance with each transfer.
-#. Replace the existing :ref:`HoldingFactory <module-daml-finance-holding-factory-11188>`
+#. Replace the existing :ref:`HoldingFactory <module-daml-finance-holding-v4-factory-50391>`
    instance of the custodian with a new, compatible ``MyHoldingFactory`` for the ``MyTransferable``
    holding implementation.
 #. Demonstrate that an upgrade happens upon a transfer of an old holding.

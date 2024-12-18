@@ -32,7 +32,7 @@ Physically settled European Option
 ----------------------------------
 
 The
-:ref:`EuropeanPhysical <module-daml-finance-instrument-option-europeanphysical-instrument-71708>`
+:ref:`EuropeanPhysical <module-daml-finance-instrument-option-v1-europeanphysical-instrument-98774>`
 instrument models physically settled call or put options.
 
 There are two important characteristics of this instrument:
@@ -65,14 +65,14 @@ Now that the terms have been defined, you can create the option instrument:
   :end-before: -- CREATE_EUROPEAN_PHYSICAL_OPTION_INSTRUMENT_END
 
 Once this is done, you can create a holding on it using
-:ref:`Account.Credit <module-daml-finance-interface-account-account-92922>`.
+:ref:`Account.Credit <module-daml-finance-interface-account-v4-account-30007>`.
 
 Cash-settled European Option
 ----------------------------
 
-The  :ref:`EuropeanCash <module-daml-finance-instrument-option-europeancash-instrument-22074>`
+The  :ref:`EuropeanCash <module-daml-finance-instrument-option-v1-europeancash-instrument-97900>`
 instrument models cash-settled, auto-exercising call or put options. They are similar to the
-:ref:`EuropeanPhysical <module-daml-finance-instrument-option-europeancash-instrument-22074>`
+:ref:`EuropeanPhysical <module-daml-finance-instrument-option-v1-europeancash-instrument-97900>`
 instrument described above, but there are two important differences:
 
 #. *cash settlement*: This means that the underlying asset will not change hands. Instead, a cash
@@ -100,7 +100,7 @@ Now that the terms have been defined, you can create the option instrument:
   :end-before: -- CREATE_EUROPEAN_OPTION_INSTRUMENT_END
 
 Once this is done, you can create a holding on it using
-:ref:`Account.Credit <module-daml-finance-interface-account-account-92922>`.
+:ref:`Account.Credit <module-daml-finance-interface-account-v4-account-30007>`.
 
 If the close price of AAPL on the expiry date is above the *strike* price, the option holder would
 profit from exercising the option and buying the stock at the strike price. The value of the option
@@ -123,18 +123,18 @@ Barrier Option
 ==============
 
 The
-:ref:`BarrierEuropeanCash <module-daml-finance-interface-instrument-option-barriereuropeancash-instrument-61159>`
+:ref:`BarrierEuropeanCash <module-daml-finance-interface-instrument-option-v1-barriereuropeancash-instrument-53071>`
 instrument models barrier options. They are similar to the
-:ref:`EuropeanCash <module-daml-finance-instrument-option-europeancash-instrument-22074>`
+:ref:`EuropeanCash <module-daml-finance-instrument-option-v1-europeancash-instrument-97900>`
 instrument described above, but also contain a barrier that is used to activate (or, alternatively,
 knock out) the option. The
-:ref:`BarrierTypeEnum <type-daml-finance-interface-instrument-option-types-barriertypeenum-80356>`
+:ref:`BarrierTypeEnum <type-daml-finance-interface-instrument-option-v1-types-barriertypeenum-4880>`
 describes which barrier types are supported.
 
 As an example, consider an option instrument that gives the holder the right to buy AAPL stock
 at a given price. However, if AAPL ever trades at or below a given barrier level, the option is
 knocked out (which means that it expires worthless). In other words, this describes a
-:ref:`DownAndOut <constr-daml-finance-interface-instrument-option-types-downandout-16889>` option.
+:ref:`DownAndOut <constr-daml-finance-interface-instrument-option-v1-types-downandout-65367>` option.
 This example is taken from
 `Instrument/Option/Test/BarrierEuropeanCash.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Option/Test/BarrierEuropeanCash.daml>`_
 , where all the details are available.
@@ -154,10 +154,10 @@ Now that the terms have been defined, you can create the option instrument:
   :end-before: -- CREATE_BARRIER_EUROPEAN_OPTION_INSTRUMENT_END
 
 Once this is done, you can create a holding on it using
-:ref:`Account.Credit <module-daml-finance-interface-account-account-92922>`.
+:ref:`Account.Credit <module-daml-finance-interface-account-v4-account-30007>`.
 
 Compared to the
-:ref:`EuropeanCash option <module-daml-finance-instrument-option-europeancash-instrument-22074>`
+:ref:`EuropeanCash option <module-daml-finance-instrument-option-v1-europeancash-instrument-97900>`
 this instrument needs to be lifecycled not only at expiry but also during its lifetime in case of a
 barrier hit. This is done in the same way as lifecycling at maturity, i.e. an *Observation* is
 provided for the reference asset identifier, containing the date and the underlying price.
@@ -165,7 +165,7 @@ provided for the reference asset identifier, containing the date and the underly
 Dividend Option
 ===============
 
-The :ref:`Dividend <module-daml-finance-instrument-option-dividend-instrument-7333>`
+The :ref:`Dividend <module-daml-finance-instrument-option-v1-dividend-instrument-35111>`
 instrument models physically settled, manually exercised dividend options. For reference, a
 dividend option gives the holder the right to choose one out of several dividend payouts, on a
 specific *expiry* date in the future. The following payout types are supported:
@@ -196,7 +196,7 @@ Now that the terms have been defined, you can create the option instrument:
   :end-before: -- CREATE_DIVIDEND_OPTION_INSTRUMENT_END
 
 Once this is done, you can create a holding on it using
-:ref:`Account.Credit <module-daml-finance-interface-account-account-92922>`.
+:ref:`Account.Credit <module-daml-finance-interface-account-v4-account-30007>`.
 
 On the expiry date, the option holder will make an *Election* out of the available choices. The
 lifecycling of this option works in the same way as for

@@ -30,9 +30,9 @@ Instrument and Holding
 ======================
 
 For the purpose of showcasing the
-:ref:`Observation <module-daml-finance-data-numeric-observation-78761>` concept,
+:ref:`Observation <module-daml-finance-data-v4-numeric-observation-19522>` concept,
 we need a suitable sample instrument.
-:ref:`Floating rate bonds <module-daml-finance-instrument-bond-floatingrate-instrument-98586>`
+:ref:`Floating rate bonds <module-daml-finance-instrument-bond-v3-floatingrate-instrument-82370>`
 pay a coupon which is determined by a reference rate, e.g. 3M Libor. The
 :doc:`Bond Instrument packages <../../instruments/bond>` page describes this instrument
 in more detail. Here, we briefly show how to create the bond instrument using a factory:
@@ -58,7 +58,7 @@ Now, we have both an instrument definition and a holding. Let us proceed to life
 Lifecycle Events and Rule
 =========================
 
-An :ref:`Observation <module-daml-finance-data-numeric-observation-78761>` of a reference rate
+An :ref:`Observation <module-daml-finance-data-v4-numeric-observation-19522>` of a reference rate
 contains two pieces of information: the interest rate level and the date to which it applies. The
 rate level can be positive or negative. In our example, we have a negative interest rate:
 
@@ -68,8 +68,8 @@ rate level can be positive or negative. In our example, we have a negative inter
   :end-before: -- CREATE_FLOATING_RATE_OBSERVATIONS_END
 
 In our case, the bank then creates the observation on the ledger.
-The :ref:`Observation <module-daml-finance-data-numeric-observation-78761>` implements the
-:ref:`NumericObservable <module-daml-finance-interface-lifecycle-observable-numericobservable-67288>`
+The :ref:`Observation <module-daml-finance-data-v4-numeric-observation-19522>` implements the
+:ref:`NumericObservable <module-daml-finance-interface-lifecycle-v4-observable-numericobservable-50817>`
 interface, which is used during lifecycling.
 
 In order to lifecycle a coupon payment, we need a lifecycle rule that defines how to process all

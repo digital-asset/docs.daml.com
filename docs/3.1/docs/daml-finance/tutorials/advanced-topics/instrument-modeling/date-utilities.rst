@@ -20,10 +20,10 @@ your own custom use cases. For example, you can use these functions to:
 Calendar
 ========
 
-The :ref:`Calendar <module-daml-finance-util-date-calendar-17588>` module contains various utility
+The :ref:`Calendar <module-daml-finance-util-v4-date-calendar-71711>` module contains various utility
 functions related to business days and date adjustments.
 
-To distinguish business days and non-business days, set a holiday calendar. The :ref:`HolidayCalendarData <type-daml-finance-interface-types-date-calendar-holidaycalendardata-60004>`
+To distinguish business days and non-business days, set a holiday calendar. The :ref:`HolidayCalendarData <type-daml-finance-interface-types-date-v3-calendar-holidaycalendardata-87370>`
 type defines the set of non-business days by specifying the days of the week that belong to the
 weekend, as well as the dates of designated holidays. The following example sets Saturday and Sunday
 as weekend days and specifies some additional holidays:
@@ -76,14 +76,14 @@ You can adjust a date according to a business day convention:
   :end-before: -- TEST_ADJUST_DATE_END
 
 For the full list of available conventions, see the
-:ref:`BusinessDayConventionEnum <type-daml-finance-interface-types-date-calendar-businessdayconventionenum-88986>`
+:ref:`BusinessDayConventionEnum <type-daml-finance-interface-types-date-v3-calendar-businessdayconventionenum-14112>`
 reference. Use them to specify how non-business days are adjusted, including when the next or
 previous business day is around the end of the month.
 
 RollConvention
 ==============
 
-The :ref:`RollConvention <module-daml-finance-util-date-rollconvention-88672>` module provides
+The :ref:`RollConvention <module-daml-finance-util-v4-date-rollconvention-61455>` module provides
 utility functions to add a period to a given date.
 
 For example, you can add a day, week, month, or year to a date:
@@ -110,7 +110,7 @@ To *subtract* a period of time, use a negative offset:
 
 You might need to find the start date of the next period according to a specific market
 convention, as described in the
-:ref:`RollConventionEnum <type-daml-finance-interface-types-date-rollconvention-rollconventionenum-73360>`
+:ref:`RollConventionEnum <type-daml-finance-interface-types-date-v3-rollconvention-rollconventionenum-89490>`
 reference.
 The *Roll convention* specifies when the date is rolled.
 
@@ -149,14 +149,14 @@ The following example shows you how to roll to the *previous* period:
   :start-after: -- TEST_PREVIOUS_DOM_FROM_EOFEB_BEGIN
   :end-before: -- TEST_PREVIOUS_DOM_FROM_EOFEB_END
 
-The :ref:`RollConvention <module-daml-finance-util-date-rollconvention-88672>` functions
+The :ref:`RollConvention <module-daml-finance-util-v4-date-rollconvention-61455>` functions
 are often used in the context of rolling out a schedule, as
 explained in the next section.
 
 Schedule
 ========
 
-The :ref:`Schedule <module-daml-finance-util-date-schedule-32303>` module contains functions for
+The :ref:`Schedule <module-daml-finance-util-v4-date-schedule-63724>` module contains functions for
 creating a series of time periods.
 A schedule can be used to represent different aspects of a financial instrument, for example:
 
@@ -181,7 +181,7 @@ correspond to four periods of 3M each:
 Note the distinction between adjusted and unadjusted dates. The unadjusted date is the result of
 adding a specified time period to the start date of the previous schedule period. This date might
 fall on a non-business day. Apply a
-:ref:`BusinessDayAdjustment <type-daml-finance-interface-types-date-calendar-businessdayadjustment-93933>`,
+:ref:`BusinessDayAdjustment <type-daml-finance-interface-types-date-v3-calendar-businessdayadjustment-71551>`,
 to get an adjusted date that falls on a business day.
 
 Now you can roll out the schedule to get the specific start and end date for each period, and
@@ -214,7 +214,7 @@ schedule:
   :end-before: -- CREATE_EXPECTED_SCHEDULE_RESULT_WITH_STUB_END
 
 To configure different stub types, use the
-:ref:`StubPeriodTypeEnum <type-daml-finance-interface-types-date-schedule-stubperiodtypeenum-69372>`
+:ref:`StubPeriodTypeEnum <type-daml-finance-interface-types-date-v3-schedule-stubperiodtypeenum-99734>`
 data type. You can configure whether the stub period should be at the beginning or end of the
 schedule, as well as whether the stub period should be longer or shorter than a regular period.
 
@@ -231,7 +231,7 @@ DayCount
 
 Many instruments that pay interest (often expressed as an annualized rate) require an exact
 definition of how many days of interest belong to each payment period. The
-:ref:`DayCount <module-daml-finance-util-date-daycount-38239>` module provides functions  to support
+:ref:`DayCount <module-daml-finance-util-v4-date-daycount-38488>` module provides functions  to support
 such requirements.
 In particular, you can calculate a *day count fraction* (*dcf*) between two dates. This indicates
 the fraction of a full year between the dates.
@@ -241,7 +241,7 @@ like the one described in the previous section.
 
 This bond does not have the same number of days in each period, which normally results in different
 coupon amounts for each period. Various market conventions address this and are provided in the
-:ref:`DayCountConventionEnum <type-daml-finance-interface-types-date-daycount-daycountconventionenum-67281>`.
+:ref:`DayCountConventionEnum <type-daml-finance-interface-types-date-v3-daycount-daycountconventionenum-31>`.
 
 Consider the schedule with a short initial stub in the previous section. The following example uses
 the ``Act360`` day count convention:
@@ -268,14 +268,14 @@ correspond to 3M instead of 2M. Note that they differ slightly: they do not cont
 exact same number of days.
 
 In addition to ``Act360``, the
-:ref:`DayCountConventionEnum <type-daml-finance-interface-types-date-daycount-daycountconventionenum-67281>`
+:ref:`DayCountConventionEnum <type-daml-finance-interface-types-date-v3-daycount-daycountconventionenum-31>`
 supports several other day count conventions. You can compute some of them with
-:ref:`calcDcf <function-daml-finance-util-date-daycount-calcdcf-20432>`, using only a start and an
+:ref:`calcDcf <function-daml-finance-util-v4-date-daycount-calcdcf-53229>`, using only a start and an
 end date as an input as shown above.
 Others, such as ``ActActISDA``, are a bit more complicated because they require additional
 information.
 You can calculate them using the
-:ref:`calcPeriodDcf <function-daml-finance-util-date-daycount-calcperioddcf-63067>` function
+:ref:`calcPeriodDcf <function-daml-finance-util-v4-date-daycount-calcperioddcf-52338>` function
 instead. This function takes a schedule period (containing stub information) as input, as well as
 the schedule end date and the payment frequency:
 

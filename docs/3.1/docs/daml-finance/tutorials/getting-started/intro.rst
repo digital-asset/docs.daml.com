@@ -80,6 +80,6 @@ logic in the ``Workflows`` will not need to be modified nor re-compiled to work 
 upgraded (ie., newer versions of) *implementation* packages.
 
 On the other hand, modules in the ``Scripts`` folder depend on both the *interface* packages and
-the *implementation* packages (in this case, ``Daml.Finance.Account``, ``Daml.Finance.Holding``,
-and ``Daml.Finance.Instrument.Token``). This is not problematic as scripts are meant to be run only
+the *implementation* packages (in this case, ``Daml.Finance.Account.V4``, ``Daml.Finance.Holding.V4``,
+and ``Daml.Finance.Instrument.Token.V4``). This is not problematic as scripts are meant to be run only
 once when the application is initialized.

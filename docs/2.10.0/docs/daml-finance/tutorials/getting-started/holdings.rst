@@ -38,7 +38,7 @@ because our workflows, such as ``CreateAccount``, do not have any knowledge of c
 implementations.
 
 Similarly, we instantiate a
-:ref:`holding factory <module-daml-finance-holding-factory-11188>`, which is used within an
+:ref:`holding factory <module-daml-finance-holding-v4-factory-50391>`, which is used within an
 account to create (``Credit``) holdings for any instrument.
 
 .. literalinclude:: ../../quickstart-finance/daml/Scripts/Holding.daml
@@ -47,7 +47,7 @@ account to create (``Credit``) holdings for any instrument.
   :end-before: -- CREATE_HOLDING_FACTORY_END
 
 Finally, we create a factory template which is used to instantiate :ref:`token instruments
-<module-daml-finance-instrument-token-instrument-10682>`.
+<module-daml-finance-instrument-token-v4-instrument-53415>`.
 
 .. literalinclude:: ../../quickstart-finance/daml/Scripts/Holding.daml
   :language: daml
@@ -77,7 +77,7 @@ Create the Cash Instrument
 In order to credit Alice’s account with some cash, we first create a cash instrument. An instrument
 is a representation of what it is that we are holding against the Bank. It can be as simple as just
 a textual label (like the
-:ref:`Token Instrument <module-daml-finance-interface-instrument-token-instrument-24425>`
+:ref:`Token Instrument <module-daml-finance-interface-instrument-token-v4-instrument-40238>`
 used in this case) or it can include complex on-ledger lifecycling logic.
 
 .. literalinclude:: ../../quickstart-finance/daml/Scripts/Holding.daml
@@ -93,7 +93,7 @@ Deposit Cash in Alice’s Account
 
 We can now deposit cash in Alice’s account, using the ``CreditAccount`` workflow.
 Alice creates a request to deposit ``USD 1000`` at the Bank, the Bank then accepts the request and
-a corresponding :ref:`Holding <module-daml-finance-interface-holding-holding-64126>` is created.
+a corresponding :ref:`Holding <module-daml-finance-interface-holding-v4-holding-20535>` is created.
 
 .. literalinclude:: ../../quickstart-finance/daml/Scripts/Holding.daml
   :language: daml
@@ -133,10 +133,10 @@ Why do we need factories?
 =========================
 
 You might be wondering why we use account factories and holding factories instead of creating an
-:ref:`Account <module-daml-finance-account-account-19369>` or
-:ref:`Holding <module-daml-finance-holding-transferablefungible-77726>` directly.
+:ref:`Account <module-daml-finance-account-v4-account-5834>` or
+:ref:`Holding <module-daml-finance-holding-v4-transferablefungible-66907>` directly.
 
-This is done to avoid having to reference the ``Daml.Finance.Holding`` package directly in the
+This is done to avoid having to reference the ``Daml.Finance.Holding.V4`` package directly in the
 user workflows (and hence simplify upgrading procedures).
 
 This pattern is described in detail in the :ref:`Daml Finance Patterns <factory-pattern>` page and

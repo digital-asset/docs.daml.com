@@ -1,8 +1,19 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Daml.Finance.Lifecycle - Changelog
-##################################
+Changelog
+#########
+
+Daml.Finance.Lifecycle.V4
+=========================
+
+Version 4.0.0
+*************
+
+- Update of SDK version and dependencies. LF protocol update to support SCU.
+
+Daml.Finance.Lifecycle
+======================
 
 Version 3.0.0
 *************
@@ -11,7 +22,7 @@ Version 3.0.0
 
 - The `Calculate` choice of the `Effect` and `ElectionEffect` now takes a quantity as argument
   to reflect the change in the `Effect.I` interface. The implementation of the `ClaimEffect` choice
-  body of `Daml.Finance.Lifecycle.Rule.Claim` also changed accordingly.
+  body of `Daml.Finance.Lifecycle.V4.Rule.Claim` also changed accordingly.
 
 - Replaced `lookupByKey` by an `exerciseByKey` in the `Distribution` and `Replacement` rule.
 

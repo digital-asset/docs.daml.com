@@ -1,18 +1,18 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Daml.Finance.Instrument.Generic
-###############################
+Daml.Finance.Instrument.Generic.V4
+##################################
 
 This package contains the *implementation* of generic,
 :doc:`Contingent Claims <../../instruments/generic/contingent-claims>` based instruments, defined
 in the following modules:
 
-- :ref:`Instrument <module-daml-finance-instrument-generic-instrument-67364>`:
+- :ref:`Instrument <module-daml-finance-instrument-generic-v4-instrument-39541>`:
   Instrument implementation for generic instruments
-- :ref:`Factory <module-daml-finance-instrument-generic-factory-42712>`:
+- :ref:`Factory <module-daml-finance-instrument-generic-v4-factory-26927>`:
   Factory implementation to instantiate generic instruments
-- :ref:`Lifecycle.Rule <module-daml-finance-instrument-generic-lifecycle-rule-68537>`:
+- :ref:`Lifecycle.Rule <module-daml-finance-instrument-generic-v4-lifecycle-rule-7812>`:
   Rule to process a lifecycle event for generic instruments
 
 Check out the page on :doc:`How to use the Generic Instrument packages <../../instruments/generic>`
