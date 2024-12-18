@@ -2059,6 +2059,10 @@ package's datatype in the definition of ``MyData``.
     Upgrade this warning to an error -Werror=upgrade-serialized-non-upgradeable-dependency
     Disable this warning entirely with -Wno-upgrade-serialized-non-upgradeable-dependency
 
+**Note:** For added safety, you may upgrade these warnings to errors with
+``-Werror=upgrade-serialized-non-upgradeable-dependency``. We recommend against disabling these
+warnings with ``-Wno-upgrade-serialized-non-upgradeable-dependency``.
+
 .. _upgrade_dont_upload_daml_script:
 
 Avoid Depending on Daml Script Packages
@@ -2126,6 +2130,10 @@ package above, you can expect a warning:
     It is not recommended that >= LF1.17 packages use datatypes from Daml Script, because those datatypes will not be upgradeable.
     Upgrade this warning to an error -Werror=upgrade-serialized-daml-script
     Disable this warning entirely with -Wno-upgrade-serialized-daml-script
+
+**Note:** For added safety, you may upgrade these warnings to errors with
+``-Werror=upgrade-serialized-daml-script``. We recommend against disabling these
+warnings with ``-Wno-upgrade-serialized-daml-script``.
 
 If instead ``main`` depended on a datatype in a non-serializable position such
 as the type signature of a function, ``main`` could still be upgraded without
