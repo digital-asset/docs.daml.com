@@ -1,7 +1,7 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-.. _json-api:
+.. _json-api-v1:
 
 HTTP JSON API Service
 #####################
@@ -207,7 +207,7 @@ using.
 With Query Store
 ----------------
 
-In production setups, you should configure the HTTP JSON API service to use a PostgreSQL backend as a :doc:`production-setup/query-store`.
+In production setups, you should configure the HTTP JSON API service to use a PostgreSQL backend as a :doc:`../production-setup/query-store`.
 The in-memory backend will call the
 ledger to fetch the entire active contract set for the templates in
 your query every time so it is generally not recommended to rely on
@@ -215,10 +215,10 @@ this in production.
 Note that the query store is a redundant copy of on-ledger data.
 It is safe to reinitialize the database at any time.
 
-To enable the PostgreSQL backend you can add the ``query-store`` config block :doc:`as described <production-setup/query-store>`.
+To enable the PostgreSQL backend you can add the ``query-store`` config block :doc:`as described <../production-setup/query-store>`.
 
 
-.. _json-api-access-tokens:
+.. _json-api-access-tokens-v1:
 
 Access Tokens
 =============
@@ -381,7 +381,7 @@ Where:
 
 See the following blog post for more details about error handling best practices: `REST API Error Codes 101 <https://blog.restcase.com/rest-api-error-codes-101/>`_.
 
-See :doc:`The Ledger API error codes </canton/reference/error_codes>` for more details about error codes from Ledger API.
+See The Ledger API error codes (Canton Error Codes Reference) for more details about error codes from Ledger API.
 
 Successful Response, HTTP Status: 200 OK
 ========================================
@@ -476,12 +476,12 @@ Create a New Contract
 
 To create an ``Iou`` contract from the :doc:`Quickstart guide </app-dev/bindings-java/quickstart>`:
 
-.. literalinclude:: ../app-dev/bindings-java/quickstart/template-root/daml/Iou.daml
+.. literalinclude:: ../../app-dev/bindings-java/quickstart/template-root/daml/Iou.daml
   :language: daml
   :start-after: -- BEGIN_IOU_TEMPLATE_DATATYPE
   :end-before: -- END_IOU_TEMPLATE_DATATYPE
 
-.. _create-request:
+.. _create-request-v1:
 
 HTTP Request
 ============
@@ -522,7 +522,7 @@ Where:
   format was not supported for production use and will not work with smart
   contract upgrades, it is now unavailable.**
 
-- ``payload`` field contains contract fields as defined in the Daml template and formatted according to :doc:`lf-value-specification`.
+- ``payload`` field contains contract fields as defined in the Daml template and formatted according to :doc:`../lf-value-specification`.
 
 .. _create-response:
 
@@ -612,7 +612,7 @@ Exercise by Contract ID
 
 The JSON command below, demonstrates how to exercise an ``Iou_Transfer`` choice on an ``Iou`` contract:
 
-.. literalinclude:: ../app-dev/bindings-java/quickstart/template-root/daml/Iou.daml
+.. literalinclude:: ../../app-dev/bindings-java/quickstart/template-root/daml/Iou.daml
   :language: daml
   :start-after: -- BEGIN_IOU_TEMPLATE_TRANSFER
   :end-before: -- END_IOU_TEMPLATE_TRANSFER
@@ -747,8 +747,8 @@ HTTP Request
 
 Where:
 
-- ``templateId`` -- contract template identifier, same as in :ref:`create request <create-request>`,
-- ``key`` -- contract key, formatted according to the :doc:`lf-value-specification`,
+- ``templateId`` -- contract template identifier, same as in :ref:`create request <create-request-v1>`,
+- ``key`` -- contract key, formatted according to the :doc:`../lf-value-specification`,
 - ``choiceInterfaceId`` -- *optional* template or interface that defines the choice, same format as ``templateId``,
 - ``choice`` -- Daml contract choice, that is being exercised,
 - ``argument`` -- contract choice argument(s), empty, because ``Archive`` does not take any.
@@ -799,8 +799,8 @@ HTTP Request
 
 Where:
 
-- ``templateId`` -- the initial contract template identifier, in the same format as in the :ref:`create request <create-request>`,
-- ``payload`` -- the initial contract fields as defined in the Daml template and formatted according to :doc:`lf-value-specification`,
+- ``templateId`` -- the initial contract template identifier, in the same format as in the :ref:`create request <create-request-v1>`,
+- ``payload`` -- the initial contract fields as defined in the Daml template and formatted according to :doc:`../lf-value-specification`,
 - ``choiceInterfaceId`` -- *optional* template or interface that defines the choice, same format as ``templateId``,
 - ``choice`` -- Daml contract choice, that is being exercised,
 - ``argument`` -- contract choice argument(s).
@@ -1123,7 +1123,7 @@ Nonempty HTTP Response
 
 Where
 
-- ``result`` contains an array of contracts, each contract formatted according to :doc:`lf-value-specification`,
+- ``result`` contains an array of contracts, each contract formatted according to :doc:`../lf-value-specification`,
 - ``status`` matches the HTTP status code returned in the HTTP header.
 
 Nonempty HTTP Response With Unknown Template IDs Warning
@@ -1802,7 +1802,7 @@ Metering Report
 ***************
 
 For a description of participant metering, the parameters, and the report format see
-the :doc:`Participant Metering <../ops/metering>`.
+the :doc:`Participant Metering <../../ops/metering>`.
 
 - URL: ``/v1/metering-report``
 - Method: ``POST``
@@ -1984,7 +1984,7 @@ If any offset has been pruned, the websocket will immediately fail with
 code 1011 and message ``internal error``.
 
 The output is a series of JSON documents, each ``payload`` formatted
-according to :doc:`lf-value-specification`::
+according to :doc:`../lf-value-specification`::
 
     {
         "events": [{
@@ -2164,7 +2164,7 @@ The ``application/json`` body must be sent first, formatted according to the fol
 Where:
 
 - ``templateId`` -- contract template identifier, same as in :ref:`create request <create-request>`,
-- ``key`` -- contract key, formatted according to the :doc:`lf-value-specification`,
+- ``key`` -- contract key, formatted according to the :doc:`../lf-value-specification`,
 
 Example:
 

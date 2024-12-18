@@ -4,7 +4,7 @@
 .. _json-api:
 
 HTTP JSON API Service V2
-#####################
+########################
 
 This section describes the new JSON API Service that is a part of Canton 3.2. If you are looking for legacy JSON API, please navigate to :doc:`JSON API V1 </json-api/v1/index>`
 
@@ -41,7 +41,7 @@ Run the JSON API
 ****************
 
 Prepare canton configuration
-===================
+============================
 
 .. code-block:: none
 
@@ -78,7 +78,7 @@ You can run the JSON API alongside any ledger exposing the gRPC Ledger API you w
     bin/canton -c json_enabled.conf
 
 
-#. Ensure that the canton console is started. Please refer to :doc:`Console documentation </canton/usermanual/console>`
+#. Ensure that the canton console is started. Please refer to :doc:`Console documentation </tools/canton-console>`
 
 #. Check that json api is running:
 
@@ -110,7 +110,7 @@ Congratulations, You have successfully started  JSON API.
 
 
 HTTP API Advanced configuration
-===================
+===============================
 
 The full set of configurable options that can be specified via config file is listed below:
 
@@ -163,8 +163,8 @@ to issue the request to the Ledger API.
 The only exceptions are documentation endpoints, which do not strictly require tokens.
 
 For  a reference on the JWT Tokens we use, please read:
- :ref:`Authorization <authorization>` and
- :ref:`JWT Authorization configuration <ledger-api-jwt-configuration>` documentation.
+ :ref:`Authorization <authorization>`.
+
 
 .. note::
 
@@ -295,7 +295,7 @@ Most common HTTP status codes are:
 
 
 HTTP JSON API Errors
-*****************
+********************
 
 When the Ledger API returns an error code, the JSON API maps it to one of the above codes according to `the official gRPC to HTTP code mapping <https://cloud.google.com/apis/design/errors#generating_errors>`_.
 
@@ -328,7 +328,7 @@ Where:
 - ``code`` -- a LedgerAPI error code,
 - ``context`` -- a Ledger API context of an error,
 - ``traceId`` -- telemetry tracing id
-- ``grpcCodeValue`` and ``errorCategory`` as defined in :ref:`error_codes`.
+- ``grpcCodeValue`` and ``errorCategory``  - defined in Canton Error Codes.
 
 
 See The Ledger API error codes (Canton Error Codes Reference) for more details about error codes from Ledger API.
@@ -343,7 +343,7 @@ In case of websockets an error might be delivered as frame. Each incoming frame 
 
 
 Example of successful Response, HTTP Status: 200 OK
-========================================
+===================================================
 
 - Content-Type: ``application/json``
 - Content:
@@ -708,7 +708,7 @@ List all currently active contracts for all known templates.
 .. note:: You can only query active contracts with the ``/v2/state/active-contracts`` endpoint. Archived contracts (those that were archived or consumed during an exercise operation) will not be shown in the results.
 
 HTTP Websocket Request
-============
+======================
 
 - URL: ``/v2/state/active-contracts``
 - Protocol: ``Websocket``
@@ -741,7 +741,7 @@ Send a single query frame:
 .. note:: be careful and do enter a proper value for activeAtOffset
 
 Example Response frames
-=============
+=======================
 
 The response might look like an example below:
 
