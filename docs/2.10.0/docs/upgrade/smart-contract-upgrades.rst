@@ -99,7 +99,7 @@ additional network traffic, and without any extensive communication with
 downstream users.
 
 With SCU, different versions of the _same_ package are now grouped under a common package-name.
-This allows identifiers to now be unambiguously referenced using either:
+This allows template/interface IDs to now be unambiguously referenced using either:
 
 -  the package ID
 
