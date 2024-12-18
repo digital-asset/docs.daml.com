@@ -105,8 +105,8 @@ This allows template/interface IDs to now be unambiguously referenced using eith
 
 -  or by using the package-name (which is resolved by a Canton participant to a unambiguous package ID).
 
-When defining a Daml project, the project-name field of the project's `daml.yaml` is now used to
-specify the SCU project-name.
+When defining a Daml package, the ``name`` field of the package's ``daml.yaml`` is now used to
+specify the SCU package-name.
 
 The JSON API server is compatible with the smart contract upgrade
 feature by:
