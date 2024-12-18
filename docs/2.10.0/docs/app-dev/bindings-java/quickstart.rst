@@ -408,11 +408,11 @@ In the transaction view, transaction ``6`` is of particular interest, as it show
          #6:1
          │   disclosed to (since): 'Alice' (6), 'Bob' (6), 'EUR_Bank' (6)
          └─> 'Alice' and 'EUR_Bank' fetch #4:1 (Iou:Iou)
-         
+
          #6:2
          │   disclosed to (since): 'Alice' (6), 'Bob' (6), 'USD_Bank' (6)
          └─> 'Bob' and 'USD_Bank' fetch #3:1 (Iou:Iou)
-         
+
          #6:3
          │   disclosed to (since): 'Alice' (6), 'Bob' (6), 'USD_Bank' (6)
          └─> 'Bob' exercises Iou_Transfer on #3:1 (Iou:Iou)
@@ -433,7 +433,7 @@ In the transaction view, transaction ``6`` is of particular interest, as it show
                                               amount = 110.0000000000;
                                               observers = []);
                                         newOwner = 'Alice'
-         
+
          #6:5
          │   disclosed to (since): 'Alice' (6), 'Bob' (6), 'USD_Bank' (6)
          └─> 'Alice' exercises IouTransfer_Accept on #6:4 (Iou:IouTransfer)
@@ -447,7 +447,7 @@ In the transaction view, transaction ``6`` is of particular interest, as it show
                                           currency = "USD";
                                           amount = 110.0000000000;
                                           observers = []
-         
+
          #6:7
          │   disclosed to (since): 'Alice' (6), 'Bob' (6), 'EUR_Bank' (6)
          └─> 'Alice' exercises Iou_Transfer on #4:1 (Iou:Iou)
@@ -468,7 +468,7 @@ In the transaction view, transaction ``6`` is of particular interest, as it show
                                              amount = 100.0000000000;
                                              observers = ['Bob']);
                                           newOwner = 'Bob'
-         
+
          #6:9
          │   disclosed to (since): 'Alice' (6), 'Bob' (6), 'EUR_Bank' (6)
          └─> 'Bob' exercises IouTransfer_Accept on #6:8 (Iou:IouTransfer)
@@ -580,21 +580,21 @@ It consists of the application in file ``IouMain.java``. It uses the class ``Iou
 
    .. literalinclude:: quickstart/template-root/src/main/java/com/daml/quickstart/iou/IouMain.java
       :language: java
-      :lines: 46-49
+      :lines: 45-48
       :dedent: 4
 
 #. An in-memory contract store is initialized. This is intended to provide a live view of all active contracts, with mappings between ledger and external Ids.
 
    .. literalinclude:: quickstart/template-root/src/main/java/com/daml/quickstart/iou/IouMain.java
       :language: java
-      :lines: 56-59
+      :lines: 55-58
       :dedent: 4
 
 #. The Active Contracts Service (ACS) is used to quickly build up the contract store to a recent state.
 
    .. literalinclude:: quickstart/template-root/src/main/java/com/daml/quickstart/iou/IouMain.java
       :language: java
-      :lines: 61-73
+      :lines: 60-72
       :dedent: 4
 
    ``blockingForEach`` is used to ensure that the contract store is consistent with the ledger state at the latest offset observed by the client.
@@ -604,14 +604,14 @@ It consists of the application in file ``IouMain.java``. It uses the class ``Iou
 
    .. literalinclude:: quickstart/template-root/src/main/java/com/daml/quickstart/iou/IouMain.java
       :language: java
-      :lines: 76-97
+      :lines: 75-96
       :dedent: 4
 
 #. Commands are submitted via the Command Submission Service.
 
    .. literalinclude:: quickstart/template-root/src/main/java/com/daml/quickstart/iou/IouMain.java
       :language: java
-      :lines: 137-141
+      :lines: 136-138
       :dedent: 2
 
    You can find examples of ``Update`` instantiations for creating contract and exercising a choice in the bodies of the ``transfer`` and ``iou`` endpoints, respectively.
@@ -619,13 +619,13 @@ It consists of the application in file ``IouMain.java``. It uses the class ``Iou
    .. literalinclude:: quickstart/template-root/src/main/java/com/daml/quickstart/iou/IouMain.java
       :caption: Exercise a choice
       :language: java
-      :lines: 119-121
+      :lines: 118-120
       :dedent: 10
 
    .. literalinclude:: quickstart/template-root/src/main/java/com/daml/quickstart/iou/IouMain.java
       :caption: Create a contract
       :language: java
-      :lines: 109-111
+      :lines: 108-110
       :dedent: 10
 
 The rest of the application sets up the REST services using `Spark Java <http://sparkjava.com/>`_, and does dynamic package Id detection using the Package Service. The latter is useful during development when package Ids change frequently.
