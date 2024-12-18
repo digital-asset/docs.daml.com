@@ -1816,7 +1816,7 @@ First you must migrate your Daml model to be compatible with
 upgrades; see `Best Practices <#best-practices>`__ for what to
 change here. Pay particular attention to the case of interfaces and
 exceptions, as failure to do so could lead to packages which are
-incompatible with SCU and require the use of a separate tool (and
+incompatible with SCU and require the use of another full migration (and
 downtime).
 
 Next, be aware of the new package-name scoping rules, and
