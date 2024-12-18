@@ -1947,8 +1947,8 @@ it as two packages, ``helper`` and ``main``:
 Remove Retroactive Instances
 ----------------------------
 
-SCU is not compatible with retroactive instances, so if you are migrating from an LF1.15
-project that uses this, you'll need to move the instances to their respective templates
+SCU is not compatible with retroactive interface instances, so if you are migrating to SCU from an LF1.15
+project that uses retroactive instances, you'll need to move the instances to their respective templates
 during the migration.
 See `Limitations <#limitations>`__ for more information.
 
