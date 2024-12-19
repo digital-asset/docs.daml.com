@@ -279,21 +279,54 @@ template on the left because it changes the type of ``x1`` from ``Int`` to ``Tex
 Template Keys
 ~~~~~~~~~~~~~
 
-The new version of a template cannot modify the key of the prior version of a
-template in any way.
+The key of the new version of a template must be a valid upgrade of the key of
+the prior version of that template.
 
-Adding a key leads to a validation error.
 
-Removing a key leads to a validation error.
-
-Changing the type of a key leads to a validation error.
-
-For Daml 2.9, key types can only use definitions from the current package or 
-from the Daml standard library. 
+Adding a key, removing a key, or changing the type of the key for a non-valid
+upgrade leads to a validation error.
 
 .. _examples-3:
 
 **Examples**
+
+Below, the template on the right is a valid upgrade of the template on the left:
+the type of the key of the template on the right is a valid upgrade of the type
+of the key of the template on the left.
+
+.. list-table::
+   :widths: 50 50
+   :width: 100%
+   :class: diff-block
+
+   * - .. code-block:: daml
+            
+            data MyKey = MyKey
+              with
+                p : Party
+
+            template T
+              with
+                p : Party
+              where
+                signatory p
+                key MyKey p : MyKey
+                maintainer key.p
+
+     - .. code-block:: daml
+
+            data MyKey = MyKey
+              with
+                p : Party
+                i : Optional Int
+
+            template T
+              with
+                p : Party
+              where
+                signatory p
+                key MyKey p None : MyKey
+                maintainer key.p
 
 Below, the template on the right is **not** a valid upgrade of the
 template on the left because it adds a key.
@@ -352,7 +385,8 @@ template on the left because it deletes its key.
                 signatory p
         
 Below, the template on the right is **not** a valid upgrade of the
-template on the left because it changes the type of its key.
+template on the left because it changes the type of its key for a type that
+is not a valid upgrade of ``(Party, Text)``.
 
 .. list-table::
    :widths: 50 50
