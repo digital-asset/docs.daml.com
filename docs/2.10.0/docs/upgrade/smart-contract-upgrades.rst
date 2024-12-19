@@ -2235,7 +2235,9 @@ We recommend placing your Daml Script tests
 in a separate package which depends on all versions of your business logic when testing your upgrades with Daml Script. This testing
 package should not be uploaded to the ledger if possible, as it depends on the ``daml-script-lts`` package.
 This package emits a warning on the participant when uploaded, as it serves no purpose on a participant,
-cannot be fully removed (as with any package), and may not be uploadable to the ledger in future versions (Daml 3).
+cannot be fully removed (as with any package), and may not be uploadable to the
+ledger in future versions (Daml 3). More information about this limitation :ref:`here <upgrade_dont_upload_daml_script>`.
+
 Depending on multiple versions of the same package does however face ambiguity issues with
 imports. You can resolve these issues using :ref:`module prefixes <module_prefixes>`:
 
