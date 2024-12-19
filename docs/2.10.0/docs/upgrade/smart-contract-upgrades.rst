@@ -415,11 +415,10 @@ as well as ``--target=1.17`` to the ``build-options``:
   build-options:
   - --target=1.17
 
-**Note:** Over the course of this tutorial, we will ignore some best practices
-for the sake of simplicity. In particular, we recommend a package undergoing SCU
-should contain a version identifier in its name as well, but we leave this out
-for simplicity's sake - consult the section on :ref:`package naming best
-practices <upgrade_package_naming>` to learn more about this. We also recommend
+**Note:** Throughout this tutorial we ignore some best practices
+in favor of simplicity. In particular, we recommend a package undergoing SCU
+should contain a version identifier in its name as well, but we omit this - consult the section on :ref:`package naming best
+practices <upgrade_package_naming>` to learn more. We also recommend
 that you do not depend on ``daml-script-lts`` in any package that is uploaded to
 the ledger - more on this :ref:`here <upgrade_dont_upload_daml_script>`.
 
@@ -2019,8 +2018,7 @@ of previous LF versions, namely <= LF 1.15, are not upgradeable. By extension,
 their datatypes and templates are not upgradeable.
 
 This means that datatypes in an LF 1.17 package with fields that use datatyps
-from an LF 1.15 dependency cannot ever upgrade those datatypes, so that package
-will remain a dependency forever.
+from an LF 1.15 dependency cannot ever upgrade those datatypes, so that package remains a dependency forever.
 
 As an example, assume we have three packages:
 * ``main``, which uses LF 1.17, with module ``Main``
@@ -2055,12 +2053,12 @@ package's datatype in the definition of ``MyData``.
   warning while type checking data type Main.MyData:
     This package has LF version 1.17, but it depends on a serializable type <dep1 package ID>:Dep1:D from package <dep 1 package ID> (dep1, 1.0.0) which has LF version 1.15.
     
-    It is not recommended that >= LF1.17 packages depend on <= LF1.15 datatypes in places that may be serialized to the ledger, because those datatypes will not be upgradeable.
+    We do not recommend that >= LF1.17 packages depend on <= LF1.15 datatypes in places that may be serialized to the ledger, because those datatypes are not upgradeable.
     Upgrade this warning to an error -Werror=upgrade-serialized-non-upgradeable-dependency
-    Disable this warning entirely with -Wno-upgrade-serialized-non-upgradeable-dependency
+    Remove this warning with -Wno-upgrade-serialized-non-upgradeable-dependency
 
 **Note:** For added safety, you may upgrade these warnings to errors with
-``-Werror=upgrade-serialized-non-upgradeable-dependency``. We recommend against disabling these
+``-Werror=upgrade-serialized-non-upgradeable-dependency``. We recommend against removing these
 warnings with ``-Wno-upgrade-serialized-non-upgradeable-dependency``.
 
 .. _upgrade_dont_upload_daml_script:
@@ -2073,10 +2071,10 @@ in dedicated packages for running tests written in Daml Script. These packages
 should not be part of your model and should not be uploaded to the ledger.
 
 Daml Script packages are not guaranteed to be upgradeable across SDK versions.
-For this reason, if you depend on a Daml Script datatype in a serializable
-position (e.g. the field of a template), you may find your package will rely on
+If you depend on a Daml Script datatype in a serializable
+position (e.g. the field of a template), your package may rely on
 a Daml Script package in a way that can neither be removed nor upgraded to the
-next SDK version. At this point, your package and any of its SCU upgrades would
+next SDK version. Your package and any of its SCU upgrades would
 be stuck on that SDK version.
 
 For example, suppose you have a ``main`` package that depends on
@@ -2105,13 +2103,12 @@ For example, suppose you have a ``main`` package that depends on
     }
 
 Because ``MyData`` is a serializable datatype, any changes to it must be valid
-upgrade changes (e.g. adding a field) for the ``main`` package itself to be
-validly upgraded. If SDK 2.10.X were to introduce a change to
+upgrade changes (e.g. adding a field) for the ``main`` package itself to be upgraded. If SDK 2.10.X introduces a change to
 ``daml-script-lts`` that is not a valid upgrade of the ``daml-script-lts`` in
-SDK 2.10.0, then ``field1`` will not be upgradeable to the next version of the
+SDK 2.10.0, then ``field1`` is not upgradeable to the next version of the
 SDK, nor can the field be dropped because the field is used in SCU checks.
 
-**Note**: While it is unlikely that an SDK update will break ``daml-script-lts``
+**Note**: While it is unlikely that an SDK update breaks ``daml-script-lts``
 for upgrades, we still strongly recommend against it. In Daml 3.x, Canton may
 disallow uploading ``daml-script-lts`` entirely.
 
@@ -2131,16 +2128,16 @@ package above, you can expect a warning:
   warning while type checking data type Main.MyData:
     This package depends on a datatype <package ID>:Daml.Script.Stable:PartyIdHint from <package ID> (daml-script-lts-stable, 0.0.0) with LF version 1.17.
     
-    It is not recommended that >= LF1.17 packages use datatypes from Daml Script, because those datatypes will not be upgradeable.
+    We do not recommend using datatypes from Daml Script in >= LF1.17 packages, because those datatypes are not upgradeable.
     Upgrade this warning to an error -Werror=upgrade-serialized-daml-script
-    Disable this warning entirely with -Wno-upgrade-serialized-daml-script
+    Remove this warning with -Wno-upgrade-serialized-daml-script
 
 **Note:** For added safety, you may upgrade these warnings to errors with
-``-Werror=upgrade-serialized-daml-script``. We recommend against disabling these
+``-Werror=upgrade-serialized-daml-script``. We recommend against removing these
 warnings with ``-Wno-upgrade-serialized-daml-script``.
 
-If instead ``main`` depended on a datatype in a non-serializable position such
-as the type signature of a function, ``main`` could still be upgraded without
+If instead ``main`` depends on a datatype in a non-serializable position such
+as the type signature of a function, ``main`` can still be upgraded without
 breaking any SCU restrictions. For example:
 
 .. code:: daml
@@ -2156,10 +2153,10 @@ breaking any SCU restrictions. For example:
   myFunction : Daml.Script.PartyIdHint -> Bool
   myFunction _ = True
 
-In this case, when changing SDK from 2.10.0 to 2.10.X, the typechecker will
-ignore the change of ``Daml.Script.PartyIdHint`` in ``myFunction``, because it
+In this case, when changing SDK from 2.10.0 to 2.10.X, the typechecker
+ignores the change to ``Daml.Script.PartyIdHint`` in ``myFunction``, because it
 is not in a serializable position. This means ``daml-script-lts`` can be kept
-even though when it is not a valid upgrade from one version to the next.
+even when it is not a valid upgrade from one version to the next.
 
 **Note:** We still recommend against depending on Daml Script for
 ledger-uploaded packages, even in this case with non-serializable positions.
