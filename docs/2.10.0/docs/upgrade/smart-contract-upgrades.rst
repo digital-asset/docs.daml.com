@@ -98,6 +98,16 @@ error-prone migrations, without downtime, without requiring any
 additional network traffic, and without any extensive communication with
 downstream users.
 
+With SCU, different versions of the _same_ package are now grouped under a common package-name.
+This allows template/interface IDs to now be unambiguously referenced using either:
+
+-  the package ID
+
+-  or by using the package-name (which is resolved by a Canton participant to a unambiguous package ID).
+
+When defining a Daml package, the ``name`` field of the package's ``daml.yaml`` is now used to
+specify the SCU package-name.
+
 The JSON API server is compatible with the smart contract upgrade
 feature by:
 
@@ -2480,7 +2490,7 @@ the following:
 
 .. code:: typescript
 
-  const MyTemplateWithPackageId = { 
+  const MyTemplateWithPackageId = {
     ...pkg.Mod.MyTemplate,
     templateId: `${pkg.packageId}:Mod:MyTemplate`,
   }
@@ -2512,8 +2522,8 @@ PQS
 ---
 
 To match the package-name changes to the Ledger API, PQS has changed how packages
-are selected for queries. All queries that take a Daml identity in the form 
-``<package-id>:<module-name>:<template-name>`` now take a package name in place 
+are selected for queries. All queries that take a Daml identity in the form
+``<package-id>:<module-name>:<template-name>`` now take a package name in place
 of package ID. Note that this differs from the Ledger API in that the `#` prefix
 is not required for PQS, as PQS has dropped direct package ID queries.
 Queries for package names return all versions of a given contract, alongside the
