@@ -110,7 +110,7 @@ versions of a package. As such, each package version can only be associated with
 **Note:**
 
 -  When defining a Daml package, the ``name`` field of the package's ``daml.yaml`` is now used to
-specify the SCU package name.
+   specify the SCU package name.
 
 The JSON API server is compatible with the smart contract upgrade
 feature by:
