@@ -222,13 +222,13 @@ Upgrade to Release 2.10
 
 Protocol Versions
 """""""""""""""""
-2.10 is a Long Term Support (LTS) release and introduces a new Canton protocol version 7, which is the
-recommended protocol version for this release.
+The recommended protocol version is 7, which is introduced by the 2.10 release. 2.10 also supports
+protocol version 5, but certain new features (e.g., Smart Contract Upgrading) are only
+available in protocol version 7.
 
-2.10 also supports protocol version 5, but certain new features introduced in this release
-(e.g., Smart Contract Upgrading) are only available in protocol version 7. `Please note that protocol
-version 6 has been marked as deleted and should not be used`. Protocol version 7 has been introduced as
-its stable replacement (see :ref:`here <protocol_version>` for more information about protocol versions).
+`Please note that protocol version 6 has been marked as deleted and should not be used`.
+Protocol version 7 has been introduced as its stable replacement (see :ref:`here <protocol_version>`
+for more information about protocol versions).
 
 Protocol version should be set explicitly
 """""""""""""""""""""""""""""""""""""""""
@@ -262,9 +262,9 @@ If a protocol version is not provided, then an error message like this will be g
 
 Enabling Smart Contract Upgrades
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This feature is currently Beta and is not enabled by default. As mentioned above, the protocol version must be
-set to 7 in order to enable this feature. For existing systems, this requires a domain migration to protocol
-version 7 when rolling out the 2.10 Canton binary.
+As mentioned above, the protocol version must be set to 7 in order to utilize Smart
+Contract Upgrades. For existing systems, this requires a domain migration to protocol version 7
+when rolling out the 2.10 Canton binary.
 
 Beyond configuring the protocol version, there are additional Daml compilation and build steps described
 `elsewhere <https://docs.daml.com/upgrade/upgrade.html>`_.
