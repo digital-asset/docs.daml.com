@@ -85,7 +85,13 @@ TLS and Authorization
 ^^^^^^^^^^^^^^^^^^^^^
 
 For production use cases, in particular if the Admin API is not just bound to localhost, we recommend to enable
-:ref:`TLS <tls-configuration>` with mutual authentication.
+:ref:`TLS <tls-configuration>` with mutual authentication. If an API is secured using certificates that are
+singed by a system-wide trusted CA and TLS configuration is otherwise empty, TLS can be enabled
+for a remote node as following:
+
+.. code-block:: none
+
+    canton.remote-domains.mydomain.<api>.tls.enabled = true
 
 The remote console can be used in installations that utilize authorization, so long as it has a valid access token. This can be achieved by modifying the configuration or by adding
 an option to the remote console's launch command as in the following snippet:
