@@ -261,7 +261,7 @@ If a protocol version is not provided, then an error message like this will be g
     Protocol version is not defined for domain `mydomain`. Define protocol version at key `init.domain-parameters.protocol-version`...
 
 Enabling Smart Contract Upgrades
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""
 As mentioned above, the protocol version must be set to 7 in order to utilize Smart
 Contract Upgrades. For existing systems, this requires a domain migration to protocol version 7
 when rolling out the 2.10 Canton binary.
