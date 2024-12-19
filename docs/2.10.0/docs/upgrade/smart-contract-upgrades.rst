@@ -100,16 +100,16 @@ downstream users.
 
 With SCU, packages may now be referenced by either:
 
-- the package ID
+-  the package ID
 
-- or by using a package name.
+-  or by using a package name.
 
 Package names can be thought of as being a mechanism to partition the space of all possible
 versions of a package. As such, each package version can only be associated with a single package name.
 
 **Note:**
 
-- When defining a Daml package, the ``name`` field of the package's ``daml.yaml`` is now used to
+-  When defining a Daml package, the ``name`` field of the package's ``daml.yaml`` is now used to
 specify the SCU package name.
 
 The JSON API server is compatible with the smart contract upgrade
