@@ -582,7 +582,7 @@ not a valid upgrade of ``Int``.
 Template Choices - Return Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The return type of the new version of a must be a valid upgrade of the
+The return type of the new version of a choice must be a valid upgrade of the
 return type of the prior version of that choice.
 
 Changing the return type of a choice for a non-valid upgrade leads to a
