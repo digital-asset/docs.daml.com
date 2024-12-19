@@ -98,15 +98,19 @@ error-prone migrations, without downtime, without requiring any
 additional network traffic, and without any extensive communication with
 downstream users.
 
-With SCU, different versions of the _same_ package are now grouped under a common package-name.
-This allows template/interface IDs to now be unambiguously referenced using either:
+With SCU, packages may now be referenced by either:
 
--  the package ID
+- the package ID
 
--  or by using the package-name (which is resolved by a Canton participant to a unambiguous package ID).
+- or by using a package name.
 
-When defining a Daml package, the ``name`` field of the package's ``daml.yaml`` is now used to
-specify the SCU package-name.
+Package names can be thought of as being a mechanism to partition the space of all possible
+versions of a package. As such, each package version can only be associated with a single package name.
+
+**Note:**
+
+- When defining a Daml package, the ``name`` field of the package's ``daml.yaml`` is now used to
+specify the SCU package name.
 
 The JSON API server is compatible with the smart contract upgrade
 feature by:
