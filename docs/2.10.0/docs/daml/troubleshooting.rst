@@ -33,6 +33,98 @@ Hovering over the compilation error displays:
 
   [Type checker] Argument expands to non-serializable type Party -> Party.
 
+Error: "Recursion limit overflow in module"
+*******************************************
+
+The error will usually occur when uploading a DAR to a ledger or using a Script
+via the sandbox. It can manifest on upload as
+
+.. code:: text
+
+  upload-dar did not succeed: DAR_PARSE_ERROR(8,b5935497): Failed to parse the dar file content.
+
+or in your logs as
+
+.. code:: text
+
+  Recursion limit overflow in module '<pkgid>:<modulename>'
+
+The cause of this error is having an expression in the DAR whose serialized
+representation exceeds a depth 1000 layers. This can be caused by long Daml
+scripts, since every use of a function call or ``<-`` to bind a variable in a
+``do`` block can incur several layers of recursion in the ``do`` block's
+serialized representation.
+
+Normally, one call inside ``do`` will introduce 4 layers of recursion, meaning
+about 250 binds in Script can cause an overflow. However, other expressions in a
+do block, such as let binds, will also introduce a layer of recursion, so
+functions with fewer binds can also trigger the limit.
+
+One possible workaround to a large script would be to split it into multiple
+scripts, or to separate logic in the script out to helper functions. For
+example, assume you have written the following long script:
+
+.. code:: daml
+
+  data State = State { partA : Text, partB : Text, partC : Text }
+
+  -- MyTemplate defines three choices that update parts A, B, and C of the State
+  myScript : Party -> ContractId MyTemplate -> State -> Script State
+  myScript party cid state0 = do
+    newPartA <- party `submit` exerciseCmd cid (UpdateStatePartA state0)
+    newPartB <- party `submit` exerciseCmd cid (UpdateStatePartB state0)
+    newPartC <- party `submit` exerciseCmd cid (UpdateStatePartC state0)
+    let state1 = State newPartA newPartB newPartC
+
+    newPartA <- party `submit` exerciseCmd cid (UpdateStatePartA state1)
+    newPartB <- party `submit` exerciseCmd cid (UpdateStatePartB state1)
+    newPartC <- party `submit` exerciseCmd cid (UpdateStatePartC state1)
+    let state2 = State newPartA newPartB newPartC
+
+    ...
+    newPartA <- party `submit` exerciseCmd cid (UpdateStatePartA state99)
+    newPartB <- party `submit` exerciseCmd cid (UpdateStatePartB state99)
+    newPartC <- party `submit` exerciseCmd cid (UpdateStatePartC state99)
+    let state100 = State newPartA newPartB newPartC
+
+    pure state100
+
+This script will have 300 binds, well exceeding the tentative limit of 250
+binds. We can refactor this script to instead define and use a helper
+``updateStateOnce``, which runs all three choices together.
+
+**Note:** In many cases, the compiler will optimize your script to produce an
+expression that does not break the recursion limit despite having many binds. In
+this example, we have given an intentionally convoluted example that is
+difficult for the compiler to optimize away.
+
+By using this helper, each block of three exercises is reduced to a single bind,
+such that ``myScript`` now has only 100 binds, well below the recursion limit.
+
+.. code:: daml
+
+  data State = State { partA : Text, partB : Text, partC : Text }
+    deriving (Show, Eq)
+
+  helper : Party -> ContractId MyTemplate -> State -> Script State
+  helper party cid state = do
+    newPartA <- party `submit` exerciseCmd cid (UpdateStatePartA state.partA)
+    newPartB <- party `submit` exerciseCmd cid (UpdateStatePartB state.partB)
+    newPartC <- party `submit` exerciseCmd cid (UpdateStatePartC state.partC)
+    pure (State newPartA newPartB newPartC)
+
+  myScript : Party -> ContractId MyTemplate -> State -> Script State
+  myScript party cid state0 = do
+    state1 <- helper party cid state0
+    state2 <- helper party cid state1
+    ...
+    state100 <- helper party cid state99
+
+    pure state100
+
+In general, it is a good idea to keep your scripts small, by maximizing code
+reuse and splitting logic into maintainable chunks.
+
 Modeling Questions
 ******************
 
