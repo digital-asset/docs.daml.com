@@ -2028,12 +2028,23 @@ parameters that is stored on the ledger for this contract. Namely:
 - The contract key;
 - The maintainers of the contract key.
 
-This information is not allowed to change between two versions of a contract.
+The metadata of two contracts are equivalent if and only if:
+
+- Their contract IDs are equal;
+- Their signatories are equal;
+- Their stakeholders are equal;
+- Their keys, after transformation to the maximum version of the two contracts, are equal.
+- Their maintainers are equal;
+
 Upon retrieval and after conversion, the metadata of a contract is recomputed
 using the code of the target template. It is a runtime error if the recomputed
-metadata does not match that of the original contract.
+metadata is not equivalent to that of the original contract.
 
-**Examples**
+**Note:** A given implementation may choose to perform the equivalence check
+differently from what is described above, as long as the result is semantically
+equivalent.
+
+**Example 1**
 
 Below the template on the right is a valid upgrade of the template on the left.
 
@@ -2072,7 +2083,7 @@ Assume a ledger that contains a contract of type ``T`` written by
 | ``1234``   | ``p-1.0.0:T`` | ``T { sig = ['Alice'] }``               |
 +------------+---------------+-----------------------------------------+
 
-Fetching contract ``1234`` with package preference ``p-2.0.0`` retrieves the
+Fetching contract ``1234`` with target type ``p-2.0.0:T`` retrieves the
 contract and successfully transforms it into a value of type ``p-2.0.0:T``: ``T
 { sig = 'Alice', additionalSig = None }``. The signatories of this transformed
 contract are then computed using the expression ``sig, fromOptional []
@@ -2107,13 +2118,130 @@ of the template on the left.
              where
                signatory sig, sig
     
-Assume the same leger as above. Fetching contract ``1234`` with package
-preference ``p-2.0.0`` retrieves the the contract and again successfully
+Assume the same leger as above. Fetching contract ``1234`` with target type
+``p-2.0.0:T`` retrieves the the contract and again successfully
 transforms it into the value ``T { sig = 'Alice', additionalSig = None }``. The
 signatories of this transformed contract are then computed using the expression
 ``sig, sig``, which evaluate to the list ``['Alice', 'Alice']``. This list is
 then compared to signatories of the original contract stored on the ledger:
 ``['Alice']``. They do not match and thus the upgrade is rejected at runtime.
+
+**Example 2**
+
+Below the module on the right is a valid upgrade of the module on the left.
+
+.. list-table::
+   :widths: 50 50
+   :width: 100%
+   :class: diff-block
+
+   * -  In ``p-1.0.0``:
+     -  In ``p-2.0.0``:
+
+   * - .. code-block:: daml 
+           
+           module M where
+
+           data MyKey = MyKey
+             with
+               p : Party
+
+           template T 
+             with
+               sig : Party
+             where
+               signatory sig
+               key MyKey p : MyKey
+               maintainer key.p
+
+     - .. code-block:: daml
+           
+           module M where
+
+           data MyKey = MyKey
+             with
+               p : Party
+               i : Optional Int
+
+           template T 
+             with
+               sig : Party
+               i : Optional Int
+             where
+               signatory sig
+               key MyKey p i : MyKey
+               maintainer key.p
+    
+Assume a ledger that contains a contract of type ``T`` written by
+``p-1.0.0``.
+
++-------------+---------------+---------------------------+-------------------------+
+| Contract ID | Contract Type | Contract Key              | Contract                |
++=============+===============+===========================+=========================+
+| ``1234``    | ``p-1.0.0:T`` | ``MyKey { p = 'Alice' }`` | ``T { sig = 'Alice' }`` |
++-------------+---------------+---------------------------+-------------------------+
+
+Fetching contract ``1234`` with package preference ``p-2.0.0`` retrieves the
+contract and successfully transforms it into a value of type ``p-2.0.0:T``: ``T
+{ sig = 'Alice', i = None }``. The key of this transformed contract is then
+computed using the expression ``MyKey p i``, which evaluates to the value
+``MyKey { p = 'Alice', i = None }``. This value is then compared against the key
+of the original contract after transformation to a value of type
+``p-2.0.0:MyKey``: ``MyKey { p = 'Alice', i = None }``. The two values match and
+thus the upgrade is valid.
+
+On the other hand, below, the module on the right is **not** a valid upgrade
+of the module on the left.
+
+.. list-table::
+   :widths: 50 50
+   :width: 100%
+   :class: diff-block
+
+   * -  In ``p-1.0.0``:
+     -  In ``p-2.0.0``:
+
+   * - .. code-block:: daml 
+           
+           module M where
+
+           data MyKey = MyKey
+             with
+               p : Party
+
+           template T 
+             with
+               sig : Party
+             where
+               signatory sig
+               key MyKey p : MyKey
+               maintainer key.p
+
+     - .. code-block:: daml
+           
+           module M where
+
+           data MyKey = MyKey
+             with
+               p : Party
+               i : Optional Int
+
+           template T 
+             with
+               sig : Party
+             where
+               signatory sig
+               key MyKey p (Some 0) : MyKey
+               maintainer key.p
+
+Assume the same leger as above. Fetching contract ``1234`` with package
+preference ``p-2.0.0`` retrieves the the contract and again successfully
+transforms it into the value ``T { sig = 'Alice' }``. The key of this
+transformed contract is then computed using the expression ``MyKey p (Some 0)``,
+which evaluates to the value ``MyKey { p = 'Alice', i = Some 0 }``. This value is
+then compared against the key of the original contract after transformation to a
+value of type ``p-2.0.0:MyKey``: ``MyKey { p = 'Alice', i = None }``. The two
+values don't match and thus the upgrade is rejected at runtime.
 
 Ensure Clause
 ~~~~~~~~~~~~~
