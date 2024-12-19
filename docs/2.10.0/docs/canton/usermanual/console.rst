@@ -86,7 +86,7 @@ TLS and Authorization
 
 For production use cases, in particular if the Admin API is not just bound to localhost, we recommend to enable
 :ref:`TLS <tls-configuration>` with mutual authentication. If an API is secured using certificates that are
-singed by a system-wide trusted CA and TLS configuration is otherwise empty, TLS can be enabled
+signed by a system-wide trusted CA and the TLS configuration is otherwise empty, TLS can be enabled
 for a remote node as following:
 
 .. code-block:: none
