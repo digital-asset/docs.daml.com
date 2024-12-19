@@ -1,6 +1,6 @@
 {
-  "daml": "2.10.0-snapshot.20241113.13071.0.vf716891b",
-  "canton": "2.10.0-adhoc.20241120.12348.0.ve0fbd745",
+  "daml": "2.10.0-snapshot.20241217.13156.0.v1da3a35b",
+  "canton": "2.10.0-snapshot.20241217.12411.0.vac57160f",
   "daml_finance": "1.6.0",
-  "canton_drivers": "2.10.0-snapshot.20240708.12144.0.v22fb89b5"
+  "canton_drivers": "2.10.0-snapshot.20241216.12408.0.va87ea9d5"
 }

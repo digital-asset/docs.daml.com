@@ -70,12 +70,11 @@ Dependencies under the ``daml.yaml`` ``dependencies`` group rely on the ``*.hi``
 
 However, as you can see above, this information isn't preserved. Furthermore, preserving this information may not even be desirable. Imagine we had built ``intro7`` with SDK 1.100.0, and are building ``intro9`` with SDK 1.101.0. All the typeclasses and instances on the inbuilt types may have changed and are now present twice -- once from the current SDK and once from the dependency. This gets messy fast, which is why the SDK does not support ``dependencies`` across SDK versions. For dependencies on contract models that were fetched from a ledger, or come from an older SDK version, there is a simpler kind of dependency called ``data-dependencies``. The syntax for ``data-dependencies`` is the same, but they only rely on the "binary" ``*.dalf`` files. The name tries to confer that the main purpose of such dependencies is to handle data: Records, Choices, Templates. The stuff one needs to use contract composability across projects.
 
-For an extension model like this one,``data-dependencies`` are appropriate, so the current project includes :doc:`7_Composing` that way:
+For an extension model like this one, ``data-dependencies`` are appropriate, so the current project includes :doc:`7_Composing` that way:
 
 .. literalinclude:: daml/daml-intro-9/daml.yaml.template
   :language: yaml
-  :start-after:   - daml-stdlib
-  :end-before: sandbox-options:
+  :start-at: data-dependencies
 
 You'll notice a module ``Test.Intro.Asset.TradeSetup``, which is almost a carbon copy of the :doc:`7_Composing` trade setup Scripts. ``data-dependencies`` is designed to use existing contracts and data types. Daml Script is not imported. In practice, we also shouldn't expect that the DAR file we download from the ledger using ``daml ledger fetch-dar`` contains test scripts. For larger projects it's good practice to keep them separate and only deploy templates to the ledger.
 
@@ -92,7 +91,7 @@ Building Multiple Packages
 --------------------------
 
 Splitting a project into multiple independent packages, one per audience, is a common and recommended strategy. A Daml package represents an interface to a multi-party workflow, which often has different concerns for different parties.More generally, smaller interfaces are easier to use, maintain and upgrade, and can also be beneficial to improve the build times of a project. An example setup would be to split an application into `onboarding.dar`, `asset.dar`,
-`trading.dar` and `internal-worfklows.dar`, and only share the DARs with the clients on a need-to-know basis. This allows to  
+`trading.dar` and `internal-worfklows.dar`, and only share the DARs with the clients on a need-to-know basis. This allows to
 evolve the internal workflows quickly, without having to coordinate upgrades with the clients, who has to upload and vet any new package that you
 release.
 
