@@ -1847,7 +1847,9 @@ Migrating to SCU
 ================
 
 SCU is only supported on LF1.17, which in turn is only supported on
-Canton Protocol Version 7. This means that existing deployed contracts require migration and redeployment to utilize this feature.
+Canton Protocol Version 7. This means that existing deployed contracts
+require migration and redeployment to utilize this feature.
+See :ref:`here <upgrade_to_2.10>` for the migration guide to 2.10 and Protocol Version 7
 
 First you must migrate your Daml model to be compatible with
 upgrades; see `Best Practices <#best-practices>`__ for what to
