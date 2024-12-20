@@ -36,8 +36,8 @@ Hovering over the compilation error displays:
 Error: "Recursion limit overflow in module"
 *******************************************
 
-The error will usually occur when uploading a DAR to a ledger or using a Script
-via the sandbox. It can manifest on upload as
+The error usually occurs when uploading a DAR to a ledger or using a Script
+via the sandbox. It can manifest on upload as:
 
 .. code:: text
 
@@ -49,23 +49,23 @@ or in your logs as
 
   Recursion limit overflow in module '<pkgid>:<modulename>'
 
-The cause of this error is usually having an expression in the DAR whose
-serialized representation exceeds a depth 1000 layers. This can be caused by
+This error is usually caused by having an expression in the DAR whose
+serialized representation exceeds a depth of 1000 layers. This can be caused by
 long Daml scripts, since every use of a function call or ``<-`` to bind a
 variable in a ``do`` block can incur several layers of recursion in the ``do``
-block's serialized representation. This can also be caused by large datatypes
-with more than 160 fields with ``deriving`` clauses.
+block's serialized representation. Large datatypes
+with more than 160 fields with ``deriving`` clauses can also cause this.
 
 Solving script recursion limits
 ===============================
 
-Normally, one call inside ``do`` will introduce 4 layers of recursion, meaning
+Normally, one call inside ``do`` introduces 4 layers of recursion, meaning
 about 250 binds in Script can cause an overflow. However, other expressions in a
-do block, such as let binds, will also introduce a layer of recursion, so
+do block, such as let binds, also introduce a layer of recursion, so
 functions with fewer binds can also trigger the limit.
 
-One possible workaround to a large script would be to split it into multiple
-scripts, or to separate logic in the script out to helper functions. For
+Possible workarounds include splitting a large script into multiple
+scripts or separating logic in the script out into helper functions. For
 example, assume you have written the following long script:
 
 .. code:: daml
@@ -93,11 +93,11 @@ example, assume you have written the following long script:
 
     pure state100
 
-This script will have 300 binds, well exceeding the tentative limit of 250
+This script has 300 binds, well exceeding the tentative limit of 250
 binds. We can refactor this script to instead define and use a helper
 ``updateStateOnce``, which runs all three choices together.
 
-**Note:** In many cases, the compiler will optimize your script to produce an
+**Note:** In many cases, the compiler optimizes your script to produce an
 expression that does not break the recursion limit despite having many binds. In
 this example, we have given an intentionally convoluted example that is
 difficult for the compiler to optimize away.
@@ -195,8 +195,8 @@ that within ``MyData``:
     }
     deriving Show
 
-The generated code for ``MyData`` now will have only 100 fields to traverse and
-nest, much fewer than necessary to trigger the recursion depth issue. Similarly
+The generated code for ``MyData`` now has only 100 fields to traverse and
+nest. Similarly
 to scripts, it is a good idea to keep your datatypes small, by maximizing code
 reuse and splitting logic into maintainable chunks.
 
