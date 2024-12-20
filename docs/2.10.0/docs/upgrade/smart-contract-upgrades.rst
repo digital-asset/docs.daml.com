@@ -102,7 +102,7 @@ With SCU, packages may now be referenced by either:
 
 -  the package ID
 
--  or by using a package name.
+-  the package name.
 
 Package names are used to group versions of a package. Any two packages with
 the same package name must have distinct package versions.
