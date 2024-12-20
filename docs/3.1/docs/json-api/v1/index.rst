@@ -639,7 +639,7 @@ HTTP Request
 
 Where:
 
-- ``templateId`` -- contract template or interface identifier, same as in :ref:`create request <create-request>`,
+- ``templateId`` -- contract template or interface identifier, same as in :ref:`create request <create-request-v1>`,
 - ``choiceInterfaceId`` -- *optional* template or interface that defines the choice, same format as ``templateId``,
 - ``contractId`` -- contract identifier, the value from the  :ref:`create response <create-response>`,
 - ``choice`` -- Daml contract choice, that is being exercised,
@@ -1071,7 +1071,7 @@ HTTP Request
 Where:
 
 - ``templateIds`` -- either an array of contract template identifiers in the
-  same format as in the :ref:`create request <create-request>`.  It can also
+  same format as in the :ref:`create request <create-request-v1>`.  It can also
   an array containing a single interface identifier to search through.
   Mixing of template ID's and interface ID's, or specifying more than one
   interface ID is not allowed.
@@ -2163,7 +2163,7 @@ The ``application/json`` body must be sent first, formatted according to the fol
 
 Where:
 
-- ``templateId`` -- contract template identifier, same as in :ref:`create request <create-request>`,
+- ``templateId`` -- contract template identifier, same as in :ref:`create request <create-request-v1>`,
 - ``key`` -- contract key, formatted according to the :doc:`../lf-value-specification`,
 
 Example:

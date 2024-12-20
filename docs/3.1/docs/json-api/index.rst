@@ -229,9 +229,7 @@ Example header:
 
 .. code-block:: none
 
-    Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2\
-    xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJNeUxlZGdlciIsImFwcGxpY2F0aW9uSWQiOiJIVFRQLUpTT04tQVB\
-    JLUdhdGV3YXkiLCJhY3RBcyI6WyJBbGljZSJdfX0.34zzF_fbWv7p60r5s1kKzwndvGdsJDX-W4Xhm4oVdpk
+    Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJNeUxlZGdlciIsImFwcGxpY2F0aW9uSWQiOiJIVFRQLUpTT04tQVBJLUdhdGV3YXkiLCJhY3RBcyI6WyJBbGljZSJdfX0.34zzF_fbWv7p60r5s1kKzwndvGdsJDX-W4Xhm4oVdpk
 
 Example using ``curl``
 
@@ -428,9 +426,9 @@ Where:
 
   The package name format works with the smart contract upgrading feature so
   that contracts with different package IDs but the same package name can be
-  used in a uniform manner. 
-  
-  Using the package ID format refers to a single package. 
+  used in a uniform manner.
+
+  Using the package ID format refers to a single package.
 
 
 - ``create_arguments`` field contains contract fields as defined in the Daml template and formatted according to :doc:`lf-value-specification`.

@@ -13,6 +13,3 @@ The editor displays a preview of the specification and generates example inputs 
 The specification covers regular http endpoints - for streaming endpoints (websockets) please navigate to :doc:`asyncapi`
 
 Properties of type: `{}` (any JSON) are DAML record fields as defined in the Daml template and formatted according to :doc:`lf-value-specification`.
-
-.. literalinclude:: openapi/openapi.yaml
-  :language: yaml
