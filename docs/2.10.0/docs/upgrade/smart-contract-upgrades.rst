@@ -2487,6 +2487,13 @@ the package ID of these packages, we have added a new ``PACKAGE_ID`` field to al
 such classes. Upgradable packages also have ``PACKAGE_NAME`` and
 ``PACKAGE_VERSION`` fields.
 
+If you need to identify a template by the specific package ID of the DAR from
+which the code was generated, you can use the ``TEMPLATE_ID_WITH_PACKAGE_ID`` field,
+which is on all generated classes and their companion objects. When submitting
+commands you may also use the ``packageIdSelectionPreference`` to explicitly specify which package
+ID(s) you want the ledger to use to interpret the commands. Note that using these options
+prevents your application from seamlessly supporting upgrades.
+
 TypeScript
 ~~~~~~~~~~
 
