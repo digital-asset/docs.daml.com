@@ -104,8 +104,8 @@ With SCU, packages may now be referenced by either:
 
 -  or by using a package name.
 
-Package names can be thought of as being a mechanism to partition the space of all possible
-versions of a package. As such, each package version can only be associated with a single package name.
+Package names are used to group versions of a package. Any two packages with
+the same package name must have distinct package versions.
 
 **Note:**
 
