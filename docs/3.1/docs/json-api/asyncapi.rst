@@ -10,7 +10,7 @@ The sources below can be copied to `Editor swagger IO <https://editor-next.swagg
 
 The specification covers streaming (websockets) endpoints - for regular endpoints (HTTP) please see :doc:`openapi`
 
-Properties of type: `{}` (any JSON) are DAML record fields as defined in the Daml template and formatted according to :doc:`lf-value-specification`.
+Properties of type: `{}` (any JSON) are DAML types as defined in the Daml template and formatted according to :doc:`lf-value-specification`.
 
 .. literalinclude:: openapi/asyncapi.yaml
   :language: yaml
