@@ -1772,7 +1772,8 @@ Make sure to also append the variable to the name of the DAR file produced by
   dependencies:
   - daml-prim
   - daml-stdlib
-  - '../my-package/.daml/dist/my-package-${UNIQUE_BUILD_ID}.dar'
+  data-dependencies:
+  - ../my-package/.daml/dist/my-package-${UNIQUE_BUILD_ID}.dar
 
 Then, before invoking ``daml build --all``, increment the ``UNIQUE_BUILD_ID``
 environment variable. This will ensure that the DAR files produced by the build
