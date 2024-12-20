@@ -134,7 +134,7 @@ Or similarly, using Docker:
 Daml Platform Support
 ^^^^^^^^^^^^^^^^^^^^^
 
-From version 0.5.0 PQS is built and tested against multiple Daml SDK targets. Each Daml SDK target generates it's own ``.jar`` file. These binaries are present in the published participant-query-store docker images. The container defaults to the lowest targeted Daml SDK. If an operator wants to run PQS against a newer target, the will need to set the containers ``workdir`` at runtime to the desired Daml SDK target.
+From version 0.5.0 PQS is built and tested against multiple Daml SDK targets. Each Daml SDK target generates its own ``.jar`` file. These binaries are present in the published participant-query-store docker images. The container defaults to the lowest targeted Daml SDK. To run PQS against a newer target, you must set the container's ``workdir`` at runtime to the desired Daml SDK target.
 
 The supported targets are:
 
@@ -1351,7 +1351,7 @@ Custom Daml Claims Tokens
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note::
-   PQS authenticates as a user defined through the `User Identity Management <https://docs.daml.com/canton/usermanual/identity_management.html#user-identity-management>`__ feature. Consequently, `Custom Daml Claims Access Tokens <https://docs.daml.com/app-dev/authorization.html#custom-daml-claims-access-tokens>`__ are not supported. An audience-based or scope-based token must be used instead.
+   PQS authenticates as a user, as defined through the `User Identity Management <https://docs.daml.com/canton/usermanual/identity_management.html#user-identity-management>`__ feature. Consequently, `Custom Daml Claims Access Tokens <https://docs.daml.com/app-dev/authorization.html#custom-daml-claims-access-tokens>`__ are not supported. An audience-based or scope-based token must be used instead.
 
 Static Access Token
 ~~~~~~~~~~~~~~~~~~~
@@ -1368,7 +1368,7 @@ Alternatively, you can configure PQS to use a static access token (meaning it is
 Ledger API Users and Daml Parties
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-PQS connects to a participant (via Ledger API) as a user defined through the `User Identity Management <https://docs.daml.com/canton/usermanual/identity_management.html#user-identity-management>`__ feature. PQS gets its user identity by providing an OAuth token of that user. After authenticating, the participant has the authorization information to know what Daml Party data the user is allowed to access. By default, PQS will subscribe to data for all parties available to PQS's authenticated user. However, this scope can be limited via the ``--pipeline-filter-parties`` filter parameter.
+PQS connects to a participant (via Ledger API) as a user, as defined through the `User Identity Management <https://docs.daml.com/canton/usermanual/identity_management.html#user-identity-management>`__ feature. PQS gets its user identity by providing an OAuth token of that user. After authenticating, the participant has the authorization information to know what Daml Party data the user can access. By default, PQS subscribes to data for all parties available to PQS's authenticated user. However, this scope can be limited via the ``--pipeline-filter-parties`` filter parameter.
 
 Token expiry
 ~~~~~~~~~~~~
@@ -3066,7 +3066,7 @@ The following root spans are emitted by PQS:
 
 All spans are enriched with contextual information through OpenTelemetry's attributes and events where appropriate. It is advisable to get to know this contextual data. Due to the technical nature of asynchronous and parallel execution, PQS heavily employs `span links <https://opentelemetry.io/docs/specs/otel/overview/#links-between-spans>`__ to highlight causal relationships between independent traces. Modern trace visualisation tools leverage this information to provide a usable representation and navigation through the involved traces.
 
-Below is an example of causal trace data that spans receipt of a transaction from the Ledger API all the way to it becoming visible by PQS's `Read API <#read-api>`__ in Postgres.
+Below is an example of causal trace data that spans from the receipt of a transaction from the Ledger API to it becoming visible by PQS's `Read API <#read-api>`__ in Postgres.
 
 .. raw:: html
 
@@ -3362,7 +3362,7 @@ Below is an example of causal trace data that spans receipt of a transaction fro
 Trace Context Propagation
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-PQS is an intermediary between a ledger instance and downstream applications that would prefer to access data through SQL rather than in streaming manner from Ledger API directly. Despite forming a pipeline between two data storage systems (Canton and Postgres), PQS stores the `original ledger transaction's trace context <https://docs.daml.com/app-dev/bindings-java/open-tracing.html#continue-spans-across-different-applications>`__ for the purposes of propagation rather than its own. This allows downstream applications to decide for themselves how they want to connect to the original submission's trace (as a child span or as a new trace connected through `span links <https://opentelemetry.io/docs/specs/otel/overview/#links-between-spans>`__).
+PQS is an intermediary between a ledger instance and downstream applications that access data through SQL rather than by streaming directly from the Ledger API. Despite forming a pipeline between two data storage systems (Canton and Postgres), PQS stores the `original ledger transaction's trace context <https://docs.daml.com/app-dev/bindings-java/open-tracing.html#continue-spans-across-different-applications>`__ for propagation. This allows downstream applications to decide for themselves how they want to connect to the original submission's trace (as a child span or as a new trace connected through `span links <https://opentelemetry.io/docs/specs/otel/overview/#links-between-spans>`__).
 
 .. code:: text
 
