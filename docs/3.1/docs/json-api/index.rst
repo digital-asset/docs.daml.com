@@ -338,7 +338,7 @@ See The Ledger API error codes (Canton Error Codes Reference) for more details a
 WebSockets Errors
 ========================================
 
-In case of websockets an error might be delivered as frame. Each incoming frame can either be a correct response (corresponding to the endpoint definition) or an error frame in the format above.
+In the case of websockets an error might be delivered as a frame. Each incoming frame can either be a correct response (corresponding to the endpoint definition) or an error frame in the format above.
 
 
 
