@@ -1967,7 +1967,7 @@ in a principled manner.
 Avoid Contract Metadata Changes
 -------------------------------
 
-The signatories, observers, contract key, and ensure clauses of a contract
+The signatories, stakeholders, contract key, and ensure clauses of a contract
 should be fixed at runtime for a given contract. Changing their definitions in
 your Daml code is discouraged and triggers a warning from the SCU typechecker. 
 

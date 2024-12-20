@@ -291,7 +291,7 @@ upgrade leads to a validation error.
 **Examples**
 
 Below, the template on the right is a valid upgrade of the template on the left:
-the type of the key of the template on the right is a valid upgrade of the type
+this is because the type of the key of the template on the right is a valid upgrade of the type
 of the key of the template on the left.
 
 .. list-table::
@@ -2028,11 +2028,11 @@ parameters that is stored on the ledger for this contract. Namely:
 
 The metadata of two contracts are equivalent if and only if:
 
-- Their contract IDs are equal;
-- Their signatories are equal;
-- Their stakeholders are equal;
-- Their keys, after transformation to the maximum version of the two contracts, are equal.
-- Their maintainers are equal;
+- their contract IDs are equal;
+- their signatories are equal;
+- their stakeholders are equal;
+- their keys, after transformation to the maximum version of the two contracts, are equal;
+- their maintainers are equal.
 
 Upon retrieval and after conversion, the metadata of a contract is recomputed
 using the code of the target template. It is a runtime error if the recomputed
@@ -2115,8 +2115,8 @@ of the template on the left.
              where
                signatory sig, sig
     
-Assume the same leger as above. Fetching contract ``1234`` with target type
-``p-2.0.0:T`` retrieves the the contract and again successfully
+Assume the same ledger as above. Fetching contract ``1234`` with target type
+``p-2.0.0:T`` retrieves the contract and again successfully
 transforms it into the value ``T { sig = 'Alice', additionalSig = None }``. The
 signatories of this transformed contract are then computed using the expression
 ``sig, sig``, which evaluate to the list ``['Alice', 'Alice']``. This list is
@@ -2231,7 +2231,7 @@ of the module on the left.
                key MyKey p (Some 0) : MyKey
                maintainer key.p
 
-Assume the same leger as above. Fetching contract ``1234`` with package
+Assume the same ledger as above. Fetching contract ``1234`` with package
 preference ``p-2.0.0`` retrieves the the contract and again successfully
 transforms it into the value ``T { sig = 'Alice' }``. The key of this
 transformed contract is then computed using the expression ``MyKey p (Some 0)``,
