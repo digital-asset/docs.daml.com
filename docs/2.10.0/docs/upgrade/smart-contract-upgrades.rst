@@ -439,9 +439,9 @@ as well as ``--target=1.17`` to the ``build-options``:
 **Note:** Throughout this tutorial we ignore some best practices
 in favor of simplicity. In particular, we recommend a package undergoing SCU
 should contain a version identifier in its name as well, but we omit this - consult the section on :ref:`package naming best
-practices <upgrade_package_naming>` to learn more. We also recommend
+practices <upgrade-package-naming>` to learn more. We also recommend
 that you do not depend on ``daml-script-lts`` in any package that is uploaded to
-the ledger - more on this :ref:`here <upgrade_dont_upload_daml_script>`.
+the ledger - more on this :ref:`here <upgrade-dont-upload-daml-script>`.
 
 Then create ``v1/my-pkg/daml/Main.daml``:
 
@@ -936,8 +936,6 @@ SCU allows package authors to change many more aspects of their packages
 - fields can be extended in templates, choices, and data type
 definitions. Choice bodies can be changed, and other expressions such as
 key definitions and signatory lists can be changed with caveats.
-
-.. _setup-1:
 
 Setup
 ~~~~~
@@ -1724,7 +1722,7 @@ package that uses an interface definition from a dependency package can never
 upgrade that dependency to a new version.
 
 For this reason, it is :ref:`strongly recommended that interfaces always be defined
-in their own packages separately from templates <separate_interfaces_and_exceptions>`.
+in their own packages separately from templates <upgrades-separate-interfaces-and-exceptions>`.
 
 Developer Workflow
 ------------------
@@ -1735,14 +1733,14 @@ for SCU will help you iterate more quickly on your projects.
 Multi-Package Builds
 ~~~~~~~~~~~~~~~~~~~~
 
-Following the :ref:`best practices <best_practices>` outlined below in this
-document as well as the :ref:`testing recommendations <testing>` will lead to a
+Following the :ref:`best practices <upgrades-best-practices>` outlined below in this
+document as well as the :ref:`testing recommendations <upgrades-testing>` will lead to a
 proliferation of packages in your project.  Use :ref:`Multi-Package builds
 <multi-package-build>` to reliably rebuild these packages as you iterate on your
 project. Multi-package builds will also enable cross-package navigation in Daml
 Studio.
 
-The :ref:`Multi-package builds for upgrades <multi_package_upgrades>` section
+The :ref:`Multi-package builds for upgrades <upgrades-multi-package>` section
 goes into more detail on how to set up multi-package builds for SCU and how it 
 can help with testing in particular.
 
@@ -1927,7 +1925,7 @@ Finally, you can migrate your live data from your previous DARs to the
 new LF1.17 DARs, using one of the existing downtime upgrade techniques
 listed :ref:`here <upgrades-index>`.
 
-.. _best_practices:
+.. _upgrades-best-practices:
 
 Best Practices
 ==============
@@ -1935,7 +1933,7 @@ Best Practices
 To ensure that future upgrades and DAR lifecycling go smoothly, we
 recommend the following practices:
 
-.. _separate_interfaces_and_exceptions:
+.. _upgrades-separate-interfaces-and-exceptions:
 
 Separate Interfaces/Exceptions from Templates
 ---------------------------------------------
@@ -2069,7 +2067,7 @@ We strongly recommend against altering the type of a key. If changing the type
 of a key cannot be avoided, consider using an off-ledger migration instead of
 SCU.
 
-.. _upgrade_package_naming:
+.. _upgrade-package-naming:
 
 Breaking Changes via Explicit Package Version
 ---------------------------------------------
@@ -2153,7 +2151,7 @@ package's datatype in the definition of ``MyData``.
 ``-Werror=upgrade-serialized-non-upgradeable-dependency``. We recommend against removing these
 warnings with ``-Wno-upgrade-serialized-non-upgradeable-dependency``.
 
-.. _upgrade_dont_upload_daml_script:
+.. _upgrade-dont-upload-daml-script:
 
 Avoid Depending on Daml Script Packages
 ---------------------------------------
@@ -2253,7 +2251,7 @@ even when it is not a valid upgrade from one version to the next.
 **Note:** We still recommend against depending on Daml Script for
 ledger-uploaded packages, even in this case with non-serializable positions.
 
-.. _testing:
+.. _upgrades-testing:
 
 Testing
 =======
@@ -2332,7 +2330,7 @@ in a separate package which depends on all versions of your business logic when 
 package should not be uploaded to the ledger if possible, as it depends on the ``daml-script-lts`` package.
 This package emits a warning on the participant when uploaded, as it serves no purpose on a participant,
 cannot be fully removed (as with any package), and may not be uploadable to the
-ledger in future versions (Daml 3). More information about this limitation :ref:`here <upgrade_dont_upload_daml_script>`.
+ledger in future versions (Daml 3). More information about this limitation :ref:`here <upgrade-dont-upload-daml-script>`.
 
 Depending on multiple versions of the same package does however face ambiguity issues with
 imports. You can resolve these issues using :ref:`module prefixes <module_prefixes>`:
@@ -2386,7 +2384,7 @@ If your new version includes data changes, be that to contract payloads or choic
 
 Multi-package builds for upgrades
 --------------------------------------
-.. _multi_package_upgrades:
+.. _upgrades-multi-package:
 
 When you are developing upgrades, you may have multiple DARs in scope that need
 to be built together. Tracking these DARs and building them in the right order
