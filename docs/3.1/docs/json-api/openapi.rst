@@ -4,7 +4,7 @@ JSON API V2 Openapi definition
 
 Below there is copy of openapi specification.
 
-When the canton is started with http api enabled the same specification is available under http://YOUSERVER_HOST:PORT/docs/openapi
+When the canton is started with http api enabled the same specification is available under http://<host>:<port>/docs/openapi
 
 The sources below can be copied to `Editor swagger IO <https://editor-next.swagger.io>`_
 
