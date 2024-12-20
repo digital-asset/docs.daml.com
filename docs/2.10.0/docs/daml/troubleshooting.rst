@@ -36,14 +36,14 @@ Hovering over the compilation error displays:
 Error: "Recursion limit overflow in module"
 *******************************************
 
-The error usually occurs when uploading a DAR to a ledger or using a Script
+The error usually occurs when uploading a DAR to a ledger or using a script
 via the sandbox. It can manifest on upload as:
 
 .. code:: text
 
   upload-dar did not succeed: DAR_PARSE_ERROR(8,b5935497): Failed to parse the dar file content.
 
-or in your logs as
+or in your logs as:
 
 .. code:: text
 
@@ -60,7 +60,7 @@ Solving script recursion limits
 ===============================
 
 Normally, one call inside ``do`` introduces 4 layers of recursion, meaning
-about 250 binds in Script can cause an overflow. However, other expressions in a
+about 250 binds in a script can cause an overflow. However, other expressions in a
 do block, such as let binds, also introduce a layer of recursion, so
 functions with fewer binds can also trigger the limit.
 
