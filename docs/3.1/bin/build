@@ -2,6 +2,7 @@
 # Copyright (c) 2022 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
 
+set -x
 set -eou pipefail
 
 DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
@@ -98,3 +99,4 @@ rm -r $BUILD_DIR/sphinx-target/html/.buildinfo $BUILD_DIR/sphinx-target/html/.do
 )
 
 tar cfz $TARGET_DIR/html-$prefix.tar.gz -C $BUILD_DIR/sphinx-target html
+echo "finished"
