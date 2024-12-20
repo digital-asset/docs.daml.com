@@ -2396,3 +2396,82 @@ view according to ``p-1.0.0``: ``IView 42``. The contract is then transformed
 into a value of type ``p-2.0.0:T``: ``T { sig = 'Alice', i = 42 }`` and its view
 is computed again, this time according to ``p-2.0.0``: ``IView 43``. Because the
 two views differ, the fetch is rejected at runtime.
+
+Key Transformation in FetchByKey and LookupByKey
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When fetching or looking up a contract by key in the body of a choice, the type
+of the key expression is known at compile time. Let us call it the target type.
+Then the returned contract, if any, verifies the property that its key, after
+transformation to the target type, matches the key used for querying.
+
+**Example**
+
+Below the module on the right is a valid upgrade of the module on the left.
+
+.. list-table::
+   :widths: 50 50
+   :width: 100%
+   :class: diff-block
+
+   * -  In ``p-1.0.0``:
+     -  In ``p-2.0.0``:
+
+   * - .. code-block:: daml 
+           
+           module M where
+
+           data MyKey = MyKey
+             with
+               p : Party
+
+           template T 
+             with
+               sig : Party
+             where
+               signatory sig
+               key MyKey p : MyKey
+               maintainer key.p
+
+     - .. code-block:: daml
+           
+           module M where
+
+           data MyKey = MyKey
+             with
+               p : Party
+               i : Optional Int
+
+           template T 
+             with
+               sig : Party
+               i : Optional Int
+             where
+               signatory sig
+               key MyKey p i : MyKey
+               maintainer key.p
+    
+Assume a ledger that contains a contract of type ``T`` written by
+``p-1.0.0``.
+
++-------------+---------------+---------------------------+-------------------------+
+| Contract ID | Contract Type | Contract Key              | Contract                |
++=============+===============+===========================+=========================+
+| ``1234``    | ``p-1.0.0:T`` | ``MyKey { p = 'Alice' }`` | ``T { sig = 'Alice' }`` |
++-------------+---------------+---------------------------+-------------------------+
+
+Finally, assume a third package which depends on ``p-2.0.0`` and defines a
+choice involving the following lookup by key:
+
+.. code:: daml
+
+  choice C : ()
+    controller ctl
+    do
+      cid <- lookupByKey @T (MyKey alice None)
+      ...
+
+The static type of the key being looked up is thus ``p-2.0.0:MyKey``. The key of
+contract ``1234``, once transformed to a value of type ``p-2.0.0:MyKey``,
+becomes ``MyKey { p = 'Alice', i = None }``. This matches the key being looked
+up, so ``cid`` will be bound to ``Some 1234``.
