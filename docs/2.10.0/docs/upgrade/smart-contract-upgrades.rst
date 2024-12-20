@@ -2464,7 +2464,7 @@ the package ID of these packages, we have added a new ``PACKAGE_ID`` field to al
 such classes. Upgradable packages also have ``PACKAGE_NAME`` and
 ``PACKAGE_VERSION`` fields.
 
-If you need to identify a template via the specific package id of the dar from
+If you need to identify a template by the specific package ID of the DAR from
 which the code was generated, you can use the ``TEMPLATE_ID_WITH_PACKAGE_ID`` field,
 which is on all generated classes and their companion objects. Additionally, when submitting
 commands you may also use the ``packageIdSelectionPreference`` to explicitly specify which package
