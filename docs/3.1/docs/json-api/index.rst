@@ -888,7 +888,7 @@ HTTP Request
     {
       "identityProviderId" : "",
       "localMetadata" : null,
-      "partyIdHint" : "Carol:-_ a9c80151-002c-445e-9fae-3caf111e3ac4"
+      "partyIdHint" : "Carol"
     }
 
 
