@@ -33,6 +33,174 @@ Hovering over the compilation error displays:
 
   [Type checker] Argument expands to non-serializable type Party -> Party.
 
+Error: "Recursion limit overflow in module"
+*******************************************
+
+The error usually occurs when uploading a DAR to a ledger or using a script
+via the sandbox. It can manifest on upload as:
+
+.. code:: text
+
+  upload-dar did not succeed: DAR_PARSE_ERROR(8,b5935497): Failed to parse the dar file content.
+
+or in your logs as:
+
+.. code:: text
+
+  Recursion limit overflow in module '<pkgid>:<modulename>'
+
+This error is usually caused by having an expression in the DAR whose
+serialized representation exceeds a depth of 1000 layers. This can be caused by
+long Daml scripts, since every use of a function call or ``<-`` to bind a
+variable in a ``do`` block can incur several layers of recursion in the ``do``
+block's serialized representation. Large datatypes
+with more than 160 fields with ``deriving`` clauses can also cause this.
+
+Solving script recursion limits
+===============================
+
+Normally, one call inside ``do`` introduces 4 layers of recursion, meaning
+about 250 binds in a script can cause an overflow. However, other expressions in a
+do block, such as let binds, also introduce a layer of recursion, so
+functions with fewer binds can also trigger the limit.
+
+Possible workarounds include splitting a large script into multiple
+scripts or separating logic in the script out into helper functions. For
+example, assume you have written the following long script:
+
+.. code:: daml
+
+  data State = State { partA : Text, partB : Text, partC : Text }
+
+  -- MyTemplate defines three choices that update parts A, B, and C of the State
+  myScript : Party -> ContractId MyTemplate -> State -> Script State
+  myScript party cid state0 = do
+    newPartA <- party `submit` exerciseCmd cid (UpdateStatePartA state0)
+    newPartB <- party `submit` exerciseCmd cid (UpdateStatePartB state0)
+    newPartC <- party `submit` exerciseCmd cid (UpdateStatePartC state0)
+    let state1 = State newPartA newPartB newPartC
+
+    newPartA <- party `submit` exerciseCmd cid (UpdateStatePartA state1)
+    newPartB <- party `submit` exerciseCmd cid (UpdateStatePartB state1)
+    newPartC <- party `submit` exerciseCmd cid (UpdateStatePartC state1)
+    let state2 = State newPartA newPartB newPartC
+
+    ...
+    newPartA <- party `submit` exerciseCmd cid (UpdateStatePartA state99)
+    newPartB <- party `submit` exerciseCmd cid (UpdateStatePartB state99)
+    newPartC <- party `submit` exerciseCmd cid (UpdateStatePartC state99)
+    let state100 = State newPartA newPartB newPartC
+
+    pure state100
+
+This script has 300 binds, well exceeding the tentative limit of 250
+binds. We can refactor this script to instead define and use a helper
+``updateStateOnce``, which runs all three choices together.
+
+**Note:** In many cases, the compiler optimizes your script to produce an
+expression that does not break the recursion limit despite having many binds. In
+this example, we have given an intentionally convoluted example that is
+difficult for the compiler to optimize away.
+
+By using this helper, each block of three exercises is reduced to a single bind,
+such that ``myScript`` now has only 100 binds, well below the recursion limit.
+
+.. code:: daml
+
+  data State = State { partA : Text, partB : Text, partC : Text }
+    deriving (Show, Eq)
+
+  helper : Party -> ContractId MyTemplate -> State -> Script State
+  helper party cid state = do
+    newPartA <- party `submit` exerciseCmd cid (UpdateStatePartA state.partA)
+    newPartB <- party `submit` exerciseCmd cid (UpdateStatePartB state.partB)
+    newPartC <- party `submit` exerciseCmd cid (UpdateStatePartC state.partC)
+    pure (State newPartA newPartB newPartC)
+
+  myScript : Party -> ContractId MyTemplate -> State -> Script State
+  myScript party cid state0 = do
+    state1 <- helper party cid state0
+    state2 <- helper party cid state1
+    ...
+    state100 <- helper party cid state99
+
+    pure state100
+
+In general, it is a good idea to keep your scripts small, by maximizing code
+reuse and splitting logic into maintainable chunks.
+
+Solving datatype recursion limits
+=================================
+
+Large datatypes with ``deriving`` clauses can also cause overflow errors.
+Consider the following case of a datatype with 300 fields and a ``deriving Show``
+instance:
+
+.. code:: daml
+
+  data MyData = MyData
+    { field1A : Text
+    , field1B : Text
+    , field1C : Text
+    , field2A : Text
+    , field2B : Text
+    , field2C : Text
+    ...
+    , field100A : Text
+    , field100B : Text
+    , field100C : Text
+    }
+    deriving Show
+
+In this case, the ``deriving Show`` clause means that instance of ``Show MyData``
+is automatically derived to be something like the following:
+
+.. code:: daml
+
+  -- Something similar to this code is implicitly autogenerated by the `deriving Show` clause
+  instance Show MyData where
+    show MyData {..} =
+      show field1A <> (show field1B <> (show field1C <> (
+        (show field2A <> (show field2B <> (show field2C <> (
+          ...
+          (show field100A <> (show field100B <> (show field100C)))
+        ))))
+      )))
+
+You can see that the implicit, autogenerated definition of ``show`` has an
+expression that becomes more and more deeply nested as you go along. Once the
+number of fields exceeds about 160, this expression has the potential to reach
+the depth necessary to cause an overflow in its serialized representation in the
+DAR.
+
+Similarly to Daml Scripts, the recommended workaround for this issue is to split
+your datatype into many parts. For example, we could create an additional
+datatype ``Helper`` which contains the elements ``a``, ``b``, and ``c``, and use
+that within ``MyData``:
+
+.. code:: daml
+
+  data Helper = Helper
+    { a : Text
+    , b : Text
+    , c : Text
+    }
+    deriving Show
+
+  data MyData = MyData
+    { field1 : Helper
+    , field2 : Helper
+    ...
+    , field100 : Helper
+    }
+    deriving Show
+
+The generated code for ``MyData`` now has only 100 fields to traverse and
+nest. Similarly
+to scripts, it is a good idea to keep your datatypes small, by maximizing code
+reuse and splitting logic into maintainable chunks.
+
+
 Modeling Questions
 ******************
 
