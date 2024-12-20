@@ -279,22 +279,19 @@ template on the left because it changes the type of ``x1`` from ``Int`` to ``Tex
 Template Keys
 ~~~~~~~~~~~~~
 
-The key of the new version of a template must be a valid upgrade of the key of
-the prior version of that template.
+The key of the new version of a template must be a valid upgrade of the prior version's key.
 
 
-Adding a key or removing a key leads to a validation error.
+Adding or removing a key leads to a validation error.
 
-Changing the type of a key for a type that is not a valid upgrade of the
+Changing the key type to one that is not a valid upgrade of the
 original type leads to a validation error.
 
 .. _examples-3:
 
 **Examples**
 
-Below, the template on the right is a valid upgrade of the template on the left:
-this is because the type of the key of the template on the right is a valid upgrade of the type
-of the key of the template on the left.
+Below, the template on the right is a valid upgrade of the template on the left because the key type of the template on the right is a valid upgrade of the key type of the template on the left:
 
 .. list-table::
    :widths: 50 50
@@ -387,7 +384,7 @@ template on the left because it deletes its key.
                 signatory p
         
 Below, the template on the right is **not** a valid upgrade of the
-template on the left because it changes the type of its key for a type that
+template on the left because it changes the key type for a type that
 is not a valid upgrade of ``(Party, Text)``.
 
 .. list-table::
@@ -2125,7 +2122,7 @@ then compared to signatories of the original contract stored on the ledger:
 
 **Example 2**
 
-Below the module on the right is a valid upgrade of the module on the left.
+Below the module on the right is a valid upgrade of the module on the left:
 
 .. list-table::
    :widths: 50 50
@@ -2188,7 +2185,7 @@ of the original contract after transformation to a value of type
 thus the upgrade is valid.
 
 On the other hand, below, the module on the right is **not** a valid upgrade
-of the module on the left.
+of the module on the left:
 
 .. list-table::
    :widths: 50 50
@@ -2236,9 +2233,9 @@ preference ``p-2.0.0`` retrieves the the contract and again successfully
 transforms it into the value ``T { sig = 'Alice' }``. The key of this
 transformed contract is then computed using the expression ``MyKey p (Some 0)``,
 which evaluates to the value ``MyKey { p = 'Alice', i = Some 0 }``. This value is
-then compared against the key of the original contract after transformation to a
+then compared against the original contract's key after transformation to a
 value of type ``p-2.0.0:MyKey``: ``MyKey { p = 'Alice', i = None }``. The two
-values don't match and thus the upgrade is rejected at runtime.
+values do not match and thus the upgrade is rejected at runtime.
 
 Ensure Clause
 ~~~~~~~~~~~~~
@@ -2402,12 +2399,12 @@ Key Transformation in FetchByKey and LookupByKey
 
 When fetching or looking up a contract by key in the body of a choice, the type
 of the key expression is known at compile time. Let us call it the target type.
-Then the returned contract, if any, verifies the property that its key, after
+The returned contract, if any, verifies that its key, after
 transformation to the target type, matches the key used for querying.
 
 **Example**
 
-Below the module on the right is a valid upgrade of the module on the left.
+Below the module on the right is a valid upgrade of the module on the left:
 
 .. list-table::
    :widths: 50 50
@@ -2474,4 +2471,4 @@ choice involving the following lookup by key:
 The static type of the key being looked up is thus ``p-2.0.0:MyKey``. The key of
 contract ``1234``, once transformed to a value of type ``p-2.0.0:MyKey``,
 becomes ``MyKey { p = 'Alice', i = None }``. This matches the key being looked
-up, so ``cid`` will be bound to ``Some 1234``.
+up, so ``cid`` is bound to ``Some 1234``.
