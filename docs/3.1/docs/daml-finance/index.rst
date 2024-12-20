@@ -70,7 +70,10 @@ for each package according to the
 a section is included to highlight and explain the major updates and enhancements introduced since
 the last release.
 
-**Important Note**: The current Daml Finance release requires the use of Daml SDK v2.5 or later.
+**Important Note**: The current Daml Finance release was built with Daml SDK 2.10.0 and Daml LF
+version 1.17 (LF 1.17) to enable Smart Contract Upgrading (SCU). To use this release, ensure your
+project is using Daml SDK 2.10.0 or later and LF 1.17. By default, SDK 2.10.0 uses LF 1.15, but you
+can enable LF 1.17 by adding `--target=1.17` as `build-options` in your daml.yaml file.
 
 Smart Contract Upgradeability (SCU)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -78,10 +81,6 @@ Smart Contract Upgradeability (SCU)
 Daml Finance is now SCU compatible by relying on Daml SDK 2.10.0 and Daml LF 1.17. As part of this
 change, each package incorporates its major version number (Vx) into its path, package name, and
 module name. Consequently, the major version for all Daml Finance packages has been incremented.
-
-.. NOTE::
-   By default, SDK 2.10.0 uses LF 1.15. Enabling SCU support requires building with LF 1.17. To
-   ensure SCU compatibility within Daml Finance, we consistently use LF 1.17.
 
 Context-Aware Semaphore Lock Release
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
