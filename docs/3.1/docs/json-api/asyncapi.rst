@@ -4,7 +4,7 @@ JSON API V2 Asyncapi definition
 
 This section contains a copy of the asyncapi/openapi specification.
 
-If you start Canton with the HTTP API enabled, this specification is available under http://YOUSERVER_HOST:PORT/docs/asyncapi
+If you start Canton with the HTTP API enabled, this specification is available under http://<host>:<port>/docs/asyncapi
 
 The sources below can be copied to `Editor swagger IO <https://editor-next.swagger.io>`_ . The editor displays a preview of the specification and generates example inputs and outputs.
 
