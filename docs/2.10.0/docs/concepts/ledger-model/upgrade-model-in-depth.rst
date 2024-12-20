@@ -279,21 +279,53 @@ template on the left because it changes the type of ``x1`` from ``Int`` to ``Tex
 Template Keys
 ~~~~~~~~~~~~~
 
-The new version of a template cannot modify the key of the prior version of a
-template in any way.
+The key of the new version of a template must be a valid upgrade of the prior version's key.
 
-Adding a key leads to a validation error.
 
-Removing a key leads to a validation error.
+Adding or removing a key leads to a validation error.
 
-Changing the type of a key leads to a validation error.
-
-For Daml 2.9, key types can only use definitions from the current package or 
-from the Daml standard library. 
+Changing the key type to one that is not a valid upgrade of the
+original type leads to a validation error.
 
 .. _examples-3:
 
 **Examples**
+
+Below, the template on the right is a valid upgrade of the template on the left because the key type of the template on the right is a valid upgrade of the key type of the template on the left:
+
+.. list-table::
+   :widths: 50 50
+   :width: 100%
+   :class: diff-block
+
+   * - .. code-block:: daml
+            
+            data MyKey = MyKey
+              with
+                p : Party
+
+            template T
+              with
+                p : Party
+              where
+                signatory p
+                key MyKey p : MyKey
+                maintainer key.p
+
+     - .. code-block:: daml
+
+            data MyKey = MyKey
+              with
+                p : Party
+                i : Optional Int
+
+            template T
+              with
+                p : Party
+              where
+                signatory p
+                key MyKey p None : MyKey
+                maintainer key.p
 
 Below, the template on the right is **not** a valid upgrade of the
 template on the left because it adds a key.
@@ -352,7 +384,8 @@ template on the left because it deletes its key.
                 signatory p
         
 Below, the template on the right is **not** a valid upgrade of the
-template on the left because it changes the type of its key.
+template on the left because it changes the key type for a type that
+is not a valid upgrade of ``(Party, Text)``.
 
 .. list-table::
    :widths: 50 50
@@ -582,7 +615,7 @@ not a valid upgrade of ``Int``.
 Template Choices - Return Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The return type of the new version of a must be a valid upgrade of the
+The return type of the new version of a choice must be a valid upgrade of the
 return type of the prior version of that choice.
 
 Changing the return type of a choice for a non-valid upgrade leads to a
@@ -1675,14 +1708,13 @@ field.
 Also assume a ledger that contains a contract of type ``T`` written by
 ``p-1.0.0``, and another contract of written by ``p-2.0.0``.
 
-+------------+---------------+-----------------------------------------+
-| Contract   | Type          | Contract                                |
-| ID         |               |                                         |
-+============+===============+=========================================+
-| ``1234``   | ``p-1.0.0:T`` | ``T { p = 'Alice' }``                   |
-+------------+---------------+-----------------------------------------+
-| ``5678``   | ``p-2.0.0:T`` | ``T { p = 'Bob', t = Some "Hello" }``   |
-+------------+---------------+-----------------------------------------+
++-------------+---------------+-----------------------------------------+
+| Contract ID | Type          | Contract                                |
++=============+===============+=========================================+
+| ``1234``    | ``p-1.0.0:T`` | ``T { p = 'Alice' }``                   |
++-------------+---------------+-----------------------------------------+
+| ``5678``    | ``p-2.0.0:T`` | ``T { p = 'Bob', t = Some "Hello" }``   |
++-------------+---------------+-----------------------------------------+
 
 Then
 
@@ -1851,12 +1883,11 @@ choice. The return type of the choice is also upgraded.
 Also assume a ledger that contains a contract of type ``V`` written by
 ``r-1.0.0``.
 
-+------------+---------------+-----------------------------------------+
-| Contract   | Type          | Contract                                |
-| ID         |               |                                         |
-+============+===============+=========================================+
-| ``9101``   | ``r-1.0.0:V`` | ``V { p = 'Alice' }``                   |
-+------------+---------------+-----------------------------------------+
++-------------+---------------+-----------------------------------------+
+| Contract ID | Type          | Contract                                |
++=============+===============+=========================================+
+| ``9101``    | ``r-1.0.0:V`` | ``V { p = 'Alice' }``                   |
++-------------+---------------+-----------------------------------------+
 
 Then:
 
@@ -1988,18 +2019,27 @@ Metadata
 For a given contract, metadata is every information outside of the contract
 parameters that is stored on the ledger for this contract. Namely:
 
-- The contract ID;
 - The contract signatories;
 - The contract stakeholders (the union of signatories and observers);
 - The contract key;
 - The maintainers of the contract key.
 
-This information is not allowed to change between two versions of a contract.
+The metadata of two contracts are equivalent if and only if:
+
+- their signatories are equal;
+- their stakeholders are equal;
+- their keys, after transformation to the maximum version of the two contracts, are equal;
+- their maintainers are equal.
+
 Upon retrieval and after conversion, the metadata of a contract is recomputed
 using the code of the target template. It is a runtime error if the recomputed
-metadata does not match that of the original contract.
+metadata is not equivalent to that of the original contract.
 
-**Examples**
+**Note:** A given implementation may choose to perform the equivalence check
+differently from what is described above, as long as the result is semantically
+equivalent.
+
+**Example 1**
 
 Below the template on the right is a valid upgrade of the template on the left.
 
@@ -2031,14 +2071,13 @@ Below the template on the right is a valid upgrade of the template on the left.
 Assume a ledger that contains a contract of type ``T`` written by
 ``p-1.0.0``.
 
-+------------+---------------+-----------------------------------------+
-| Contract   | Type          | Contract                                |
-| ID         |               |                                         |
-+============+===============+=========================================+
-| ``1234``   | ``p-1.0.0:T`` | ``T { sig = ['Alice'] }``               |
-+------------+---------------+-----------------------------------------+
++-------------+---------------+-----------------------------------------+
+| Contract ID | Type          | Contract                                |
++=============+===============+=========================================+
+| ``1234``    | ``p-1.0.0:T`` | ``T { sig = ['Alice'] }``               |
++-------------+---------------+-----------------------------------------+
 
-Fetching contract ``1234`` with package preference ``p-2.0.0`` retrieves the
+Fetching contract ``1234`` with target type ``p-2.0.0:T`` retrieves the
 contract and successfully transforms it into a value of type ``p-2.0.0:T``: ``T
 { sig = 'Alice', additionalSig = None }``. The signatories of this transformed
 contract are then computed using the expression ``sig, fromOptional []
@@ -2073,13 +2112,130 @@ of the template on the left.
              where
                signatory sig, sig
     
-Assume the same leger as above. Fetching contract ``1234`` with package
-preference ``p-2.0.0`` retrieves the the contract and again successfully
+Assume the same ledger as above. Fetching contract ``1234`` with target type
+``p-2.0.0:T`` retrieves the contract and again successfully
 transforms it into the value ``T { sig = 'Alice', additionalSig = None }``. The
 signatories of this transformed contract are then computed using the expression
 ``sig, sig``, which evaluate to the list ``['Alice', 'Alice']``. This list is
 then compared to signatories of the original contract stored on the ledger:
 ``['Alice']``. They do not match and thus the upgrade is rejected at runtime.
+
+**Example 2**
+
+Below the module on the right is a valid upgrade of the module on the left:
+
+.. list-table::
+   :widths: 50 50
+   :width: 100%
+   :class: diff-block
+
+   * -  In ``p-1.0.0``:
+     -  In ``p-2.0.0``:
+
+   * - .. code-block:: daml 
+           
+           module M where
+
+           data MyKey = MyKey
+             with
+               p : Party
+
+           template T 
+             with
+               sig : Party
+             where
+               signatory sig
+               key MyKey p : MyKey
+               maintainer key.p
+
+     - .. code-block:: daml
+           
+           module M where
+
+           data MyKey = MyKey
+             with
+               p : Party
+               i : Optional Int
+
+           template T 
+             with
+               sig : Party
+               i : Optional Int
+             where
+               signatory sig
+               key MyKey p i : MyKey
+               maintainer key.p
+    
+Assume a ledger that contains a contract of type ``T`` written by
+``p-1.0.0``.
+
++-------------+---------------+---------------------------+-------------------------+
+| Contract ID | Contract Type | Contract Key              | Contract                |
++=============+===============+===========================+=========================+
+| ``1234``    | ``p-1.0.0:T`` | ``MyKey { p = 'Alice' }`` | ``T { sig = 'Alice' }`` |
++-------------+---------------+---------------------------+-------------------------+
+
+Fetching contract ``1234`` with package preference ``p-2.0.0`` retrieves the
+contract and successfully transforms it into a value of type ``p-2.0.0:T``: ``T
+{ sig = 'Alice', i = None }``. The key of this transformed contract is then
+computed using the expression ``MyKey p i``, which evaluates to the value
+``MyKey { p = 'Alice', i = None }``. This value is then compared against the key
+of the original contract after transformation to a value of type
+``p-2.0.0:MyKey``: ``MyKey { p = 'Alice', i = None }``. The two values match and
+thus the upgrade is valid.
+
+On the other hand, below, the module on the right is **not** a valid upgrade
+of the module on the left:
+
+.. list-table::
+   :widths: 50 50
+   :width: 100%
+   :class: diff-block
+
+   * -  In ``p-1.0.0``:
+     -  In ``p-2.0.0``:
+
+   * - .. code-block:: daml 
+           
+           module M where
+
+           data MyKey = MyKey
+             with
+               p : Party
+
+           template T 
+             with
+               sig : Party
+             where
+               signatory sig
+               key MyKey p : MyKey
+               maintainer key.p
+
+     - .. code-block:: daml
+           
+           module M where
+
+           data MyKey = MyKey
+             with
+               p : Party
+               i : Optional Int
+
+           template T 
+             with
+               sig : Party
+             where
+               signatory sig
+               key MyKey p (Some 0) : MyKey
+               maintainer key.p
+
+Assume the same ledger as above. Fetching contract ``1234`` with package
+preference ``p-2.0.0`` retrieves the the contract and again successfully
+transforms it into the value ``T { sig = 'Alice' }``. The key of this
+transformed contract is then computed using the expression ``MyKey p (Some 0)``,
+which evaluates to the value ``MyKey { p = 'Alice', i = Some 0 }``. This value is
+then compared against the original contract's key after transformation to a
+value of type ``p-2.0.0:MyKey``: ``MyKey { p = 'Alice', i = None }``. The two
+values do not match and thus the upgrade is rejected at runtime.
 
 Ensure Clause
 ~~~~~~~~~~~~~
@@ -2181,12 +2337,11 @@ left.
 Assume a ledger that contains a contract of type ``T`` written by
 ``p-1.0.0``.
 
-+------------+---------------+-----------------------------------------+
-| Contract   | Type          | Contract                                |
-| ID         |               |                                         |
-+============+===============+=========================================+
-| ``1234``   | ``p-1.0.0:T`` | ``T { p = 'Alice', i = 42 }``           |
-+------------+---------------+-----------------------------------------+
++-------------+---------------+-----------------------------------------+
+| Contract ID | Type          | Contract                                |
++=============+===============+=========================================+
+| ``1234``    | ``p-1.0.0:T`` | ``T { p = 'Alice', i = 42 }``           |
++-------------+---------------+-----------------------------------------+
 
 Fetching contract ``1234`` by interface with package preference ``p-2.0.0``
 retrieves the contract and computes its view according to ``p-1.0.0``: ``IView
@@ -2238,3 +2393,82 @@ view according to ``p-1.0.0``: ``IView 42``. The contract is then transformed
 into a value of type ``p-2.0.0:T``: ``T { sig = 'Alice', i = 42 }`` and its view
 is computed again, this time according to ``p-2.0.0``: ``IView 43``. Because the
 two views differ, the fetch is rejected at runtime.
+
+Key Transformation in FetchByKey and LookupByKey
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When fetching or looking up a contract by key in the body of a choice, the type
+of the key expression is known at compile time. Let us call it the target type.
+The returned contract, if any, verifies that its key, after
+transformation to the target type, matches the key used for querying.
+
+**Example**
+
+Below the module on the right is a valid upgrade of the module on the left:
+
+.. list-table::
+   :widths: 50 50
+   :width: 100%
+   :class: diff-block
+
+   * -  In ``p-1.0.0``:
+     -  In ``p-2.0.0``:
+
+   * - .. code-block:: daml 
+           
+           module M where
+
+           data MyKey = MyKey
+             with
+               p : Party
+
+           template T 
+             with
+               sig : Party
+             where
+               signatory sig
+               key MyKey p : MyKey
+               maintainer key.p
+
+     - .. code-block:: daml
+           
+           module M where
+
+           data MyKey = MyKey
+             with
+               p : Party
+               i : Optional Int
+
+           template T 
+             with
+               sig : Party
+               i : Optional Int
+             where
+               signatory sig
+               key MyKey p i : MyKey
+               maintainer key.p
+    
+Assume a ledger that contains a contract of type ``T`` written by
+``p-1.0.0``.
+
++-------------+---------------+---------------------------+-------------------------+
+| Contract ID | Contract Type | Contract Key              | Contract                |
++=============+===============+===========================+=========================+
+| ``1234``    | ``p-1.0.0:T`` | ``MyKey { p = 'Alice' }`` | ``T { sig = 'Alice' }`` |
++-------------+---------------+---------------------------+-------------------------+
+
+Finally, assume a third package which depends on ``p-2.0.0`` and defines a
+choice involving the following lookup by key:
+
+.. code:: daml
+
+  choice C : ()
+    controller ctl
+    do
+      cid <- lookupByKey @T (MyKey alice None)
+      ...
+
+The static type of the key being looked up is thus ``p-2.0.0:MyKey``. The key of
+contract ``1234``, once transformed to a value of type ``p-2.0.0:MyKey``,
+becomes ``MyKey { p = 'Alice', i = None }``. This matches the key being looked
+up, so ``cid`` is bound to ``Some 1234``.

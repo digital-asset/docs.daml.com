@@ -1990,13 +1990,13 @@ in a principled manner.
 Avoid Contract Metadata Changes
 -------------------------------
 
-The signatories, observers, contract key, and ensure clauses of a
-contract should be fixed at runtime for a given contract. Changing their
-definitions in your Daml code is discouraged and triggers a warning from the SCU
-typechecker. Note that contract keys cannot change type, only value. In addition, if their runtime value changes in any way, the
-upgrade, and thus the full transaction, fails. Contracts in this
-state can only be used if you explicitly choose the older version of
-the contract in your transaction.
+The signatories, stakeholders, contract key, and ensure clauses of a contract
+should be fixed at runtime for a given contract. Changing their definitions in
+your Daml code is discouraged and triggers a warning from the SCU typechecker. 
+
+We strongly recommend against altering the type of a key. If changing the type
+of a key cannot be avoided, consider using an off-ledger migration instead of
+SCU.
 
 .. _upgrade_package_naming:
 
