@@ -6,7 +6,7 @@
 HTTP JSON API Service V2
 ########################
 
-This section describes the new JSON API Service that is a part of Canton 3.2. If you are looking for legacy JSON API, please navigate to :doc:`JSON API V1 </json-api/v1/index>`
+This section describes the new JSON API Service that is a part of Canton 3.2. If you are looking for the legacy JSON API, please navigate to :doc:`JSON API V1 </json-api/v1/index>`
 
 The **JSON API** provides a way to interact with a ledger using http/json protocol instead of gRPC
 :doc:`the Ledger API </app-dev/ledger-api>`.
