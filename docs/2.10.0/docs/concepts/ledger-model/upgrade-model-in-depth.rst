@@ -283,8 +283,10 @@ The key of the new version of a template must be a valid upgrade of the key of
 the prior version of that template.
 
 
-Adding a key, removing a key, or changing the type of the key for a non-valid
-upgrade leads to a validation error.
+Adding a key or removing a key leads to a validation error.
+
+Changing the type of a key for a type that is not a valid upgrade of the
+original type leads to a validation error.
 
 .. _examples-3:
 
@@ -2020,7 +2022,6 @@ Metadata
 For a given contract, metadata is every information outside of the contract
 parameters that is stored on the ledger for this contract. Namely:
 
-- The contract ID;
 - The contract signatories;
 - The contract stakeholders (the union of signatories and observers);
 - The contract key;
@@ -2028,7 +2029,6 @@ parameters that is stored on the ledger for this contract. Namely:
 
 The metadata of two contracts are equivalent if and only if:
 
-- their contract IDs are equal;
 - their signatories are equal;
 - their stakeholders are equal;
 - their keys, after transformation to the maximum version of the two contracts, are equal;
