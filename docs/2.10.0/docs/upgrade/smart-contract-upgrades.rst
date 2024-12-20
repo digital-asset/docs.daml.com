@@ -1727,34 +1727,32 @@ in their own packages separately from templates <upgrades-separate-interfaces-an
 Developer Workflow
 ------------------
 
-The following recommendations about how to set up your development environment
-for SCU will help you iterate more quickly on your projects.
+This section contains suggestions on how to set up your development environment
+for SCU to help you iterate more quickly on your projects.
 
 Multi-Package Builds
 ~~~~~~~~~~~~~~~~~~~~
 
-Following the :ref:`best practices <upgrades-best-practices>` outlined below in this
-document as well as the :ref:`testing recommendations <upgrades-testing>` will lead to a
+Following the :ref:`best practices <upgrades-best-practices>` outlined below and the :ref:`testing recommendations <upgrades-testing>` leads to a
 proliferation of packages in your project.  Use :ref:`Multi-Package builds
 <multi-package-build>` to reliably rebuild these packages as you iterate on your
-project. Multi-package builds will also enable cross-package navigation in Daml
+project. Multi-package builds also enable cross-package navigation in Daml
 Studio.
 
 The :ref:`Multi-package builds for upgrades <upgrades-multi-package>` section
 goes into more detail on how to set up multi-package builds for SCU and how it 
-can help with testing in particular.
+can help with testing.
 
 Working with a Running Canton Instance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 With SCU, it is no longer possible to iterate on a package by
-uploading it to a running participant after each rebuild. This is because
-a participant will reject two packages with the same name and version whose content
+uploading it to a running participant after each rebuild. A participant rejects two packages with the same name and version whose content
 differs.
 
 There are two ways to work around this:
-  - restart the participant after each rebuild;
-  - change the version name of the package before each rebuild.
+  - restart the participant after each rebuild
+  - change the version name of the package before each rebuild
 
 :ref:`Environment variable interpolation <environment-variable-interpolation>`
 in the Daml Assistant can help with the latter. In the ``daml.yaml`` file of each
@@ -1776,8 +1774,7 @@ Make sure to also append the variable to the name of the DAR file produced by
   - ../my-package/.daml/dist/my-package-${UNIQUE_BUILD_ID}.dar
 
 Then, before invoking ``daml build --all``, increment the ``UNIQUE_BUILD_ID``
-environment variable. This will ensure that the DAR files produced by the build
-are unique and can be uploaded to the participant without conflict.
+environment variable. This ensures that the build produces unique DAR files that can be uploaded to the participant without conflict.
 
 Working with the Daml Sandbox
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1786,9 +1783,9 @@ For the same reason, the :ref:`Daml sandbox <sandbox-manual>` does not support
 hot-swapping of SCU-enabled (LF 1.17) packages.
 
 There are two ways to work around this:
-  - restart the sandbox after each rebuild;
+  - restart the sandbox after each rebuild
   - change the version name of your packages after each rebuild, as outlined in
-    the previous section.
+    the previous section
 
 
 The Upgrade Model in Depth - Reference
@@ -2035,8 +2032,7 @@ it as two packages, ``helper`` and ``main``:
   build-options:
   - --target=1.17
 
-In order to manage the complexity of working with multiple packages at once, it
-is recommended to use :ref:`multi-package builds <multi-package-build>`.
+To manage the complexity of working with multiple packages at once, we recommend using :ref:`multi-package builds <multi-package-build>`.
 
 Remove Retroactive Instances
 ----------------------------
