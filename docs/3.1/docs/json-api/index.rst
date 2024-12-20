@@ -185,7 +185,7 @@ token.  You can use an arbitrary secret here. The default "header" is fine.  Und
       "sub": "actAs-Alice::122099e6b7c92e12eb026f483f59a73e48149dc6e630a4f4f8fb95b8d269219b356c"
     }
 
-The value after``actAs`` is specified as a list and you provide it with the party that you want to use,
+The value after ``actAs`` is specified as a list and you provide it with the party that you want to use,
 such as in the example above which uses ``Alice`` for a party. ``actAs`` may include more than just one party
 as the JSON API supports multi-party submissions.
 
