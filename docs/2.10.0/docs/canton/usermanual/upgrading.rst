@@ -137,15 +137,15 @@ parsed successfully.
 .. note::
 
     The command line option ``--manual-start`` prevents the node from starting up automatically,
-    as we first need to migrate the database.
+    allowing you to migrate the database.
 
 .. _migrating_the_database:
 
 Migrating the Database
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Canton does not perform a database migration automatically. Migrations need to be forced. Therefore, it is
-recommended to start Canton using the command line option ``--manual-start`` (see :ref:`above <test-your-config>`)
+Canton does not perform a database migration automatically. Migrations must be forced.
+We recommend that you start Canton using the command line option ``--manual-start`` (see :ref:`above <test-your-config>`)
 when upgrading to a new Canton binary version that requires a database migration.
 
 If you start a node that requires a database migration, you will observe the following Flyway error:
@@ -226,13 +226,13 @@ The recommended protocol version is 7, which is introduced by the 2.10 release. 
 protocol version 5, but certain new features (e.g., Smart Contract Upgrading) are only
 available in protocol version 7.
 
-`Please note that protocol version 6 has been marked as deleted and should not be used`.
+`Note that protocol version 6 has been marked as deleted and should not be used`.
 Protocol version 7 has been introduced as its stable replacement (see :ref:`here <protocol_version>`
 for more information about protocol versions).
 
 Protocol version should be set explicitly
 """""""""""""""""""""""""""""""""""""""""
-Recall that since the 2.9 release, you must set the protocol version explicitly.
+Since the 2.9 release, you must set the protocol version explicitly.
 
 To specify the protocol version for your sync domain:
 
@@ -250,10 +250,10 @@ For a domain manager:
         init.domain-parameters.protocol-version = 7
     }
 
-Please ensure all environments use the same protocol version: you should not use one protocol version in
+Make sure all environments use the same protocol version: you should not use one protocol version in
 a test environment and another one in production.
 
-If a protocol version is not provided, then an error message like this will be generated:
+If a protocol version is not provided, you receive an error message:
 
 .. code:: text
 
@@ -262,9 +262,8 @@ If a protocol version is not provided, then an error message like this will be g
 
 Enabling Smart Contract Upgrades
 """"""""""""""""""""""""""""""""
-As mentioned above, the protocol version must be set to 7 in order to utilize Smart
-Contract Upgrades. For existing systems, this requires a domain migration to protocol version 7
-when rolling out the 2.10 Canton binary.
+As mentioned above, the protocol version must be set to 7 to use Smart Contract Upgrades.
+For existing systems, this requires a domain migration to protocol version 7 when rolling out the 2.10 Canton binary.
 
 Beyond configuring the protocol version, there are additional Daml compilation and build steps described
 `elsewhere <https://docs.daml.com/upgrade/upgrade.html>`_.
