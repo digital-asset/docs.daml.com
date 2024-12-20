@@ -119,7 +119,7 @@ Or similarly, using Docker:
 
 .. code:: text
 
-   $ docker run -it digitalasset-docker.jfrog.io/participant-query-store:0.4.4 --help
+   $ docker run -it digitalasset-docker.jfrog.io/participant-query-store:0.5.0 --help
    Picked up JAVA_TOOL_OPTIONS: -javaagent:/open-telemetry.jar
    Usage: scribe COMMAND
 
@@ -130,6 +130,39 @@ Or similarly, using Docker:
      datastore    Perform operations supporting a certified data store
 
    Run 'scribe COMMAND --help[-verbose]' for more information on a command.
+
+Daml Platform Support
+^^^^^^^^^^^^^^^^^^^^^
+
+From version 0.5.0 PQS is built and tested against multiple Daml SDK targets. Each Daml SDK target generates its own ``.jar`` file. These binaries are present in the published participant-query-store docker images. The container defaults to the lowest targeted Daml SDK. To run PQS against a newer target, you must set the container's ``workdir`` at runtime to the desired Daml SDK target.
+
+The supported targets are:
+
+-  ``/daml2`` << default
+-  ``/daml3.2``
+-  ``/daml3.3``
+
+Please note that the preceeding ``/`` is required as the target is the path to the ``scribe.jar`` file.
+
+An example of the default Daml SDK target:
+
+.. code:: text
+
+   $ docker run -it digitalasset-docker.jfrog.io/participant-query-store:0.5.0 --version
+   Picked up JAVA_TOOL_OPTIONS: -javaagent:/open-telemetry.jar
+   scribe, version: v0.5.0
+   daml-sdk.version: 2.9.5
+   postgres-document.schema: 021
+
+An example of selecting the ``/daml3.2`` target:
+
+.. code:: text
+
+   docker run -it --workdir /daml3.2 digitalasset-docker.jfrog.io/participant-query-store:0.5.0 --version
+   Picked up JAVA_TOOL_OPTIONS: -javaagent:/open-telemetry.jar
+   scribe, version: v0.5.0
+   daml-sdk.version: 3.2.0-snapshot.20241106.13400.0.vad854047
+   postgres-document.schema: 021
 
 Preparing the Database
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -397,6 +430,8 @@ Similarly, the ``--pipeline-filter-parties`` option specifies an inclusion filte
 -  ``Alice::122055fc4b190e3ff438587b699495a4b6388e911e2305f7e013af160f49a76080ab``: just this one party
 -  ``* & !Alice::*``: all parties except those with an ``Alice`` hint
 -  ``Alice* | Bob* | (Charlie* & !(Participant3::*))``: ``Alice`` and ``Bob`` parties, as well as ``Charlie`` except ``Charlie3``
+
+When the ledger requires authentication, this filter applies within the scope of parties for which PQS's Ledger API user has access. Naturally, the ``--pipeline-filter-parties`` cannot be used to access data for parties for which the user is not authorized.
 
 Java Virtual Machine (JVM) Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1312,6 +1347,12 @@ For `Scope-Based Tokens <https://docs.daml.com/app-dev/authorization.html#scope-
 .. note::
    The default value of the ``--pipeline-oauth-scope`` parameter is ``daml_ledger_api``. Ledger API requires ``daml_ledger_api`` in the list of scopes unless `custom target scope <https://docs.daml.com/canton/usermanual/apis.html#configuring-the-target-scope-for-jwt-authorization>`__ is configured.
 
+Custom Daml Claims Tokens
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+   PQS authenticates as a user, as defined through the `User Identity Management <https://docs.daml.com/canton/usermanual/identity_management.html#user-identity-management>`__ feature. Consequently, `Custom Daml Claims Access Tokens <https://docs.daml.com/app-dev/authorization.html#custom-daml-claims-access-tokens>`__ are not supported. An audience-based or scope-based token must be used instead.
+
 Static Access Token
 ~~~~~~~~~~~~~~~~~~~
 
@@ -1327,7 +1368,7 @@ Alternatively, you can configure PQS to use a static access token (meaning it is
 Ledger API Users and Daml Parties
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-PQS connects to a participant (via Ledger API) as a user, defined in the OAuth server. After authenticating, the participant has the authorization information to know what Daml Party data the user is allowed to access. By default, all parties are enabled, but this scope can be further restricted via the ``--pipeline-filter-parties`` filter parameter.
+PQS connects to a participant (via Ledger API) as a user, as defined through the `User Identity Management <https://docs.daml.com/canton/usermanual/identity_management.html#user-identity-management>`__ feature. PQS gets its user identity by providing an OAuth token of that user. After authenticating, the participant has the authorization information to know what Daml Party data the user can access. By default, PQS subscribes to data for all parties available to PQS's authenticated user. However, this scope can be limited via the ``--pipeline-filter-parties`` filter parameter.
 
 Token expiry
 ~~~~~~~~~~~~
@@ -1690,7 +1731,7 @@ Troubleshooting
 Problem 1: An application's Flyway conflicts with PQS's Flyway
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-An application built around data that PQS exports from the ledger may also manage its own database migrations via Flyway (embedded, command-line, or other supported means). An example of such a scenario is the creation of application specific indexes over the ``payload`` column of the ``__contracts_*`` tables.
+An application making use of the PQS datastore may also manage its own database migrations via Flyway - either embedded, command-line, or other supported means. An example of such a scenario is the creation of application specific indexes.
 
 With default settings, the application's Flyway produces an error similar to the one seen below because its view of available/valid migrations is different from PQS's:
 
@@ -2699,7 +2740,7 @@ The table below summarizes the trade-offs against various dimensions across the 
 Observability
 -------------
 
-This describes observability features of PQS, which are designed to help you monitor health and performance of the application.
+This page describes observability features of PQS, which are designed to help you monitor health and performance of the application.
 
 Underlying Mechanism
 ~~~~~~~~~~~~~~~~~~~~
@@ -2985,12 +3026,402 @@ Based on the metrics described above, it is possible to build a comprehensive da
 Health Check
 ~~~~~~~~~~~~
 
-The health of the PQS process can be monitored using the health check endpoint ``/livez``. The health check endpoint is available at the ``--health-port`` specified when launching PQS, which defaults to 8080.
+The health of the PQS process can be monitored using the health check endpoint ``/livez``. The health check endpoint is available on the configured network interface (``--health-host``) and TCP port (``--health-port``). Note the default is ``127.0.0.1:8080``.
 
 .. code:: text
 
    $ curl http://localhost:8080/livez
    {"status":"ok"}
+
+Tracing of Pipeline Execution
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+PQS instruments the most critical parts of its operations with tracing to provide insights into the execution flow and performance. Traces can be exported to various OpenTelemetry backends by providing appropriate configuration, for example:
+
+.. code:: text
+
+   export OTEL_TRACES_EXPORTER=otlp
+   export OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+   export OTEL_EXPORTER_OTLP_ENDPOINT="http://otel-collector:4317"
+   export JDK_JAVA_OPTIONS="-javaagent:path/to/opentelemetry-javaagent.jar"
+   ./scribe.jar pipeline ledger postgres-document ...
+
+The following root spans are emitted by PQS:
+
++----------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------+
+| span name                                                                                                                                          | description                                                                                                                    |
++====================================================================================================================================================+================================================================================================================================+
+| ``process metadata and schema``                                                                                                                    | interactions that happen when PQS starts up and ensures its datastore is ready for operations                                  |
++----------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------+
+| ``initialization routine``                                                                                                                         | interactions that happen when PQS establishes its offset range boundaries (including seeding from ACS if requested) on startup |
++----------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------+
+| ``consume com.daml.ledger.api.v1.TransactionService/GetTransactions``\ \ ``consume com.daml.ledger.api.v1.TransactionService/GetTransactionTrees`` | **[Daml SDK v2.x]** timeline of processing a ledger transaction from delivery over gRPC to its persistence to datastore        |
++----------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------+
+| ``consume com.daml.ledger.api.v2.UpdateService/GetUpdates``\ \ ``consume com.daml.ledger.api.v2.UpdateService/GetUpdateTrees``                     | **[Daml SDK v3.x]** timeline of processing a ledger transaction from delivery over gRPC to its persistence to datastore        |
++----------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------+
+| ``execute datastore transaction``                                                                                                                  | interactions when a batch of transactions is persisted to the datastore                                                        |
++----------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------+
+| ``advance datastore watermark``                                                                                                                    | interactions when the latest consecutive watermark is persisted to the datastore                                               |
++----------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------+
+
+All spans are enriched with contextual information through OpenTelemetry's attributes and events where appropriate. It is advisable to get to know this contextual data. Due to the technical nature of asynchronous and parallel execution, PQS heavily employs `span links <https://opentelemetry.io/docs/specs/otel/overview/#links-between-spans>`__ to highlight causal relationships between independent traces. Modern trace visualisation tools leverage this information to provide a usable representation and navigation through the involved traces.
+
+Below is an example of causal trace data that spans from the receipt of a transaction from the Ledger API to it becoming visible by PQS's `Read API <#read-api>`__ in Postgres.
+
+.. raw:: html
+
+   <details>
+   <summary>consume com.daml.ledger.api.v1.TransactionService/GetTransactionTrees</summary>
+
+|consumer|
+
+.. code:: text
+
+   Span #110
+   Trace ID       : 042ce1ffa24b34b38472933ac8209d54
+   Parent ID      :
+   ID             : d5c0071e1d9bbf76
+   Name           : consume com.daml.ledger.api.v1.TransactionService/GetTransactionTrees
+   Kind           : Consumer
+   Start time     : 2024-11-06 03:16:43.004004 +0000 UTC
+   End time       : 2024-11-06 03:16:43.004193 +0000 UTC
+   Status code    : Unset
+   Status message :
+   Attributes:
+        -> messaging.operation.name: Str(consume)
+        -> messaging.batch.message_count: Int(1)
+        -> messaging.destination.name: Str(com.daml.ledger.api.v1.TransactionService/GetTransactionTrees)
+        -> messaging.system: Str(canton)
+        -> messaging.operation.type: Str(process)
+
+   Span #123
+   Trace ID       : 042ce1ffa24b34b38472933ac8209d54
+   Parent ID      : d5c0071e1d9bbf76
+   ID             : 9d60e1f4c42dce76
+   Name           : export transaction tree
+   Kind           : Internal
+   Start time     : 2024-11-06 03:16:43.004134 +0000 UTC
+   End time       : 2024-11-06 03:16:43.024574 +0000 UTC
+   Status code    : Unset
+   Status message :
+   Attributes:
+        -> daml.effective_at: Str(2024-11-06T03:16:42.827847Z)
+        -> daml.command_id: Str(3563113460)
+        -> daml.events_count: Int(3)
+        -> daml.workflow_id: Empty()
+        -> daml.transaction_id: Str(122056219af2a73f913e1c2f0ce4422c156bc9cfdb5e5d49baaee0053bf3787f4a97)
+        -> daml.offset: Str(000000000000000261)
+   Events:
+   SpanEvent #0
+        -> Name: canonicalizing transaction tree
+        -> Timestamp: 2024-11-06 03:16:43.004809542 +0000 UTC
+   SpanEvent #1
+        -> Name: canonicalized transaction tree
+        -> Timestamp: 2024-11-06 03:16:43.005138375 +0000 UTC
+   SpanEvent #2
+        -> Name: converting canonical transaction to domain model
+        -> Timestamp: 2024-11-06 03:16:43.005690625 +0000 UTC
+   SpanEvent #3
+        -> Name: converted canonical transaction to domain model
+        -> Timestamp: 2024-11-06 03:16:43.006170917 +0000 UTC
+   SpanEvent #4
+        -> Name: released transaction model into batch
+        -> Timestamp: 2024-11-06 03:16:43.015018459 +0000 UTC
+   SpanEvent #5
+        -> Name: prepared SQL statements for transaction model
+        -> Timestamp: 2024-11-06 03:16:43.015437 +0000 UTC
+   SpanEvent #6
+        -> Name: flushed transaction model SQL to datastore
+        -> Timestamp: 2024-11-06 03:16:43.019356042 +0000 UTC
+   SpanEvent #7
+        -> Name: advanced datastore watermark
+        -> Timestamp: 2024-11-06 03:16:43.024570334 +0000 UTC
+        -> Attributes::
+             -> index: Int(384)
+             -> offset: Str(000000000000000261)
+   Links:
+   SpanLink #0
+        -> Trace ID: 839da768a12333920b709410fb73911a
+        -> ID: 276627b6e10f62c5
+        -> TraceState:
+        -> Attributes::
+             -> target: Str(↥ ledger submission)
+   SpanLink #1
+        -> Trace ID: 76c58361d46c08761c37ef5821e8fb78
+        -> ID: 6051f05f10af0399
+        -> TraceState:
+        -> Attributes::
+             -> target: Str(↧ persist to datastore)
+   SpanLink #2
+        -> Trace ID: 71e67e2420deeef36ef3efacea6399dc
+        -> ID: 161b5911e7a0ec18
+        -> TraceState:
+        -> Attributes::
+             -> target: Str(↧ advance watermark)
+
+.. raw:: html
+
+   </details>
+
+.. raw:: html
+
+   <details>
+   <summary>execute datastore transaction</summary>
+
+|export batch|
+
+.. code:: text
+
+   Span #115
+   Trace ID       : 76c58361d46c08761c37ef5821e8fb78
+   Parent ID      :
+   ID             : 81f5f42361aa93ee
+   Name           : execute datastore transaction
+   Kind           : Internal
+   Start time     : 2024-11-06 03:16:43.015931 +0000 UTC
+   End time       : 2024-11-06 03:16:43.020991 +0000 UTC
+   Status code    : Unset
+   Status message :
+
+   Span #111
+   Trace ID       : 76c58361d46c08761c37ef5821e8fb78
+   Parent ID      : 81f5f42361aa93ee
+   ID             : 4bf8484e99999c64
+   Name           : acquire connection
+   Kind           : Internal
+   Start time     : 2024-11-06 03:16:43.016475 +0000 UTC
+   End time       : 2024-11-06 03:16:43.016688 +0000 UTC
+   Status code    : Unset
+   Status message :
+
+   Span #113
+   Trace ID       : 76c58361d46c08761c37ef5821e8fb78
+   Parent ID      : 81f5f42361aa93ee
+   ID             : 6051f05f10af0399
+   Name           : execute batch
+   Kind           : Internal
+   Start time     : 2024-11-06 03:16:43.016828 +0000 UTC
+   End time       : 2024-11-06 03:16:43.019494 +0000 UTC
+   Status code    : Unset
+   Status message :
+   Attributes:
+        -> scribe.batch.models_count: Int(37)
+   Links:
+   SpanLink #0
+        -> Trace ID: 33736b299a690b885c2314b9b17bde05
+        -> ID: aba3d1dd6024ff71
+        -> TraceState:
+        -> Attributes::
+             -> offset: Str(00000000000000025c)
+             -> target: Str(↥ incoming transaction)
+   SpanLink #1
+        -> Trace ID: 17f3edce9565defd379bf3ab8243f86d
+        -> ID: 076afe5b4aac1212
+        -> TraceState:
+        -> Attributes::
+             -> offset: Str(00000000000000025d)
+             -> target: Str(↥ incoming transaction)
+   SpanLink #2
+        -> Trace ID: 646ae61de95731c7726a6caee2d69ee9
+        -> ID: bca9f5c28de74c90
+        -> TraceState:
+        -> Attributes::
+             -> offset: Str(00000000000000025e)
+             -> target: Str(↥ incoming transaction)
+   SpanLink #3
+        -> Trace ID: 9ebd4d4f288b8b338f4192c0d7ea1b8c
+        -> ID: a1d145fa9d76d5b3
+        -> TraceState:
+        -> Attributes::
+             -> offset: Str(00000000000000025f)
+             -> target: Str(↥ incoming transaction)
+   SpanLink #4
+        -> Trace ID: e0716f968b5019a450da04317ea8f776
+        -> ID: a75658ce89441bee
+        -> TraceState:
+        -> Attributes::
+             -> offset: Str(000000000000000260)
+             -> target: Str(↥ incoming transaction)
+   SpanLink #5
+        -> Trace ID: 042ce1ffa24b34b38472933ac8209d54
+        -> ID: 9d60e1f4c42dce76
+        -> TraceState:
+        -> Attributes::
+             -> offset: Str(000000000000000261)
+             -> target: Str(↥ incoming transaction)
+
+   Span #112
+   Trace ID       : 76c58361d46c08761c37ef5821e8fb78
+   Parent ID      : 6051f05f10af0399
+   ID             : 00419239933510fa
+   Name           : execute SQL
+   Kind           : Internal
+   Start time     : 2024-11-06 03:16:43.016855 +0000 UTC
+   End time       : 2024-11-06 03:16:43.019162 +0000 UTC
+   Status code    : Unset
+   Status message :
+   Attributes:
+        -> scribe.__contracts.rows_count: Int(9)
+        -> scribe.__exercises.rows_count: Int(3)
+        -> scribe.__events.rows_count: Int(12)
+        -> scribe.__archives.rows_count: Int(1)
+        -> scribe.__transactions.rows_count: Int(6)
+
+   Span #114
+   Trace ID       : 76c58361d46c08761c37ef5821e8fb78
+   Parent ID      : 81f5f42361aa93ee
+   ID             : 9872ff55adc9e370
+   Name           : commit transaction
+   Kind           : Internal
+   Start time     : 2024-11-06 03:16:43.019916 +0000 UTC
+   End time       : 2024-11-06 03:16:43.020742 +0000 UTC
+   Status code    : Unset
+   Status message :
+
+.. raw:: html
+
+   </details>
+
+.. raw:: html
+
+   <details>
+   <summary>advance datastore watermark</summary>
+
+|advance watermark|
+
+.. code:: text
+
+   Span #124
+   Trace ID       : 71e67e2420deeef36ef3efacea6399dc
+   Parent ID      :
+   ID             : 161b5911e7a0ec18
+   Name           : advance datastore watermark
+   Kind           : Internal
+   Start time     : 2024-11-06 03:16:43.021507 +0000 UTC
+   End time       : 2024-11-06 03:16:43.024872 +0000 UTC
+   Status code    : Unset
+   Status message :
+   Attributes:
+        -> scribe.watermark.offset: Str(000000000000000261)
+        -> scribe.watermark.ix: Int(384)
+   Links:
+   SpanLink #0
+        -> Trace ID: 76c58361d46c08761c37ef5821e8fb78
+        -> ID: 6051f05f10af0399
+        -> TraceState:
+        -> Attributes::
+             -> target: Str(↥ persist to datastore)
+
+   Span #116
+   Trace ID       : 71e67e2420deeef36ef3efacea6399dc
+   Parent ID      : 161b5911e7a0ec18
+   ID             : 33ab3918ebfe138d
+   Name           : acquire connection
+   Kind           : Internal
+   Start time     : 2024-11-06 03:16:43.022009 +0000 UTC
+   End time       : 2024-11-06 03:16:43.022222 +0000 UTC
+   Status code    : Unset
+   Status message :
+
+   Span #6
+   Trace ID       : 71e67e2420deeef36ef3efacea6399dc
+   Parent ID      : 161b5911e7a0ec18
+   ID             : 1a66240dfd597654
+   Name           : UPDATE scribe.__watermark
+   Kind           : Client
+   Start time     : 2024-11-06 03:16:43.022737084 +0000 UTC
+   End time       : 2024-11-06 03:16:43.023134917 +0000 UTC
+   Status code    : Unset
+   Status message :
+   Attributes:
+        -> db.operation: Str(UPDATE)
+        -> db.sql.table: Str(__watermark)
+        -> db.name: Str(scribe)
+        -> db.connection_string: Str(postgresql://postgres-scribe:5432)
+        -> server.address: Str(postgres-scribe)
+        -> server.port: Int(5432)
+        -> db.user: Str(pguser)
+        -> db.statement: Str(update __watermark set "offset" = ?, ix = ?;)
+        -> db.system: Str(postgresql)
+
+   Span #117
+   Trace ID       : 71e67e2420deeef36ef3efacea6399dc
+   Parent ID      : 161b5911e7a0ec18
+   ID             : f0b24fb074fe41f8
+   Name           : commit transaction
+   Kind           : Internal
+   Start time     : 2024-11-06 03:16:43.023629 +0000 UTC
+   End time       : 2024-11-06 03:16:43.024157 +0000 UTC
+   Status code    : Unset
+   Status message :
+
+.. raw:: html
+
+   </details>
+
+Trace Context Propagation
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+PQS is an intermediary between a ledger instance and downstream applications that access data through SQL rather than by streaming directly from the Ledger API. Despite forming a pipeline between two data storage systems (Canton and Postgres), PQS stores the `original ledger transaction's trace context <https://docs.daml.com/app-dev/bindings-java/open-tracing.html#continue-spans-across-different-applications>`__ for propagation. This allows downstream applications to decide for themselves how they want to connect to the original submission's trace (as a child span or as a new trace connected through `span links <https://opentelemetry.io/docs/specs/otel/overview/#links-between-spans>`__).
+
+.. code:: text
+
+   scribe=# select "offset", (trace_context).trace_parent, (trace_context).trace_state from __transactions limit 1;
+          offset       |                      trace_parent                       |   trace_state
+   --------------------+---------------------------------------------------------+-----------------
+    0000000000000000bb | 00-f35923baa38cc520a1fc3aec6771380b-b4cf363cbf5efa6a-01 | foo=bar,baz=qux
+   (3 rows)
+
+.. raw:: html
+
+   <details>
+   <summary>Sample trace data</summary>
+
+.. code:: text
+
+   Span #85
+       Trace ID       : f35923baa38cc520a1fc3aec6771380b
+       Parent ID      : d3300bedd4c64511
+       ID             : b4cf363cbf5efa6a
+       Name           : MessageDispatcher.handle
+       Kind           : Internal
+       Start time     : 2024-11-05 04:01:40.808 +0000 UTC
+       End time       : 2024-11-05 04:01:40.822694083 +0000 UTC
+       Status code    : Unset
+       Status message :
+   Attributes:
+        -> canton.class: Str(com.digitalasset.canton.participant.protocol.EnterpriseMessageDispatcher)
+   ↑↑↑ span context propagated through transaction/tree stream in Ledger API
+
+   ↓↓↓ following parent's links chain leads us to the root span of original submission
+   Span #19
+       Trace ID       : f35923baa38cc520a1fc3aec6771380b
+       Parent ID      :
+       ID             : de3aed62b5fb43ce
+       Name           : com.daml.ledger.api.v1.CommandService/SubmitAndWaitForTransaction
+       Kind           : Server
+       Start time     : 2024-11-05 04:01:40.569 +0000 UTC
+       End time       : 2024-11-05 04:01:40.866904459 +0000 UTC
+       Status code    : Unset
+       Status message :
+   Attributes:
+        -> rpc.method: Str(SubmitAndWaitForTransaction)
+        -> daml.submitter: Str()
+        -> rpc.service: Str(com.daml.ledger.api.v1.CommandService)
+        -> net.peer.port: Int(38640)
+        -> net.transport: Str(ip_tcp)
+        -> daml.workflow_id: Str()
+        -> daml.command_id: Str(3498760027)
+        -> rpc.system: Str(grpc)
+        -> net.peer.ip: Str(172.18.0.15)
+        -> daml.application_id: Str(appid)
+        -> rpc.grpc.status_code: Int(0)
+
+.. raw:: html
+
+   </details>
+
+Accessing data stored in PQS's ``__transactions.trace_context`` column allows any application to re-create the propagated `trace context <https://www.w3.org/TR/trace-context/>`__ and use it with their runtime's instrumentation library.
 
 Redaction
 ---------
@@ -3061,3 +3492,6 @@ The ``redaction_id`` of an exercise event is exposed as a column in the followin
 .. |image9| image:: assets/diagrams/pqs-user-guide-10.svg
 .. |image10| image:: assets/diagrams/pqs-user-guide-11.svg
 .. |Dashboard| image:: assets/images/20240826-scribe-dashboard-grafana.png
+.. |consumer| image:: assets/images/20241106-trace-consumer.png
+.. |export batch| image:: assets/images/20241106-trace-export-tx.png
+.. |advance watermark| image:: assets/images/20241106-trace-advance-watermark.png
