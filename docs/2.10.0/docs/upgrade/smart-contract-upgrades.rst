@@ -375,13 +375,13 @@ been implemented, but may be implemented in future releases.
 -  Contract keys in upgradable packages can only include types defined
    within the same package, or types from the Daml Standard Library.
 
-There are further limitations with respect to managing the packages on a running ledger
+There are further limitations with respect to managing the packages on a running ledger:
 
 - Once a version of a package is uploaded to the ledger, it cannot be replaced or removed.
   If a package is uploaded by mistake it can only be overriden by uploading an even newer version.
 
 - As a consequence of the above, if a record is extended by mistake with an optional field,
-  that field will need to be part of all future versions.
+  that field must be part of all future versions.
 
 - Package versions cannot be deleted, they can only be unvetted. As a good rule of thumb
   the highest version for each package name should be vetted.
