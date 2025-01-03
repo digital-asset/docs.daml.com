@@ -125,9 +125,15 @@ subtrees:
           entries:
           - file: json-api/index
             title: "HTTP JSON API Service"
+          - file: json-api/openapi
+            title: "HTTP JSON API Openapi specification"
+          - file: json-api/asyncapi
+            title: "HTTP JSON API Asyncapi specification"
           - file: json-api/lf-value-specification
+            title: "Legacy HTTP JSON API Service (V1)"
+          - file: json-api/v1/index
             title: "Daml-LF JSON Encoding"
-          - file: json-api/search-query-language
+          - file: json-api/v1/search-query-language
             title: "Query Language"
           - file: app-dev/bindings-ts/index
             title: "Use JavaScript Client Libraries with Daml"

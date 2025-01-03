@@ -98,3 +98,4 @@ rm -r $BUILD_DIR/sphinx-target/html/.buildinfo $BUILD_DIR/sphinx-target/html/.do
 )
 
 tar cfz $TARGET_DIR/html-$prefix.tar.gz -C $BUILD_DIR/sphinx-target html
+echo "finished"
