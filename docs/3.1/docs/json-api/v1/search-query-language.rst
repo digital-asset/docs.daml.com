@@ -19,7 +19,7 @@ Fallback Rule
 *************
 
 Unless otherwise required by one of the other rules below or to follow,
-values are interpreted according to :doc:`lf-value-specification`, and
+values are interpreted according to :doc:`../lf-value-specification`, and
 compared for equality.
 
 All types are supported by this simple equality comparison except:
