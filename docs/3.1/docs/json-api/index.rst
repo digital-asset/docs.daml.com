@@ -392,7 +392,7 @@ HTTP Request
     {
       "commands" : [ {
         "CreateCommand" : {
-          "template_id" : "cbed714ed61c4a30b0038ea72c9ff13de51be99aac065f61e6ae9e954375e171:Iou:Iou",
+          "template_id" : "#model-tests:Iou:Iou",
           "create_arguments" : {
             "observers" : [ ],
             "issuer" : "Alice_2820c3a4-d1bd-49ef-9b90-17b142c55d30::1220df15d08ac34527e46492a6ee48a723e3d02ed3ec20a05ebf64be47173f24407f",
@@ -539,7 +539,7 @@ HTTP Request
             "newOwner" : "Alice_f410fcbe-e03f-47ef-bad0-f7a8a08e7338::1220870d67dba562b868d0256cb2968dbc59a7a6bdbc4b82ee623ff96c8cda3afb9a"
           },
           "contract_id" : "00fd14e85d36ac5f1568d7276f33a1d7bf461cd77fd6042af16455a06613e8afabca101220b6a0730c7765991946af0f5d9d32be551d12ac2c7c14eb5f45ba706b05548923",
-          "template_id" : "cbed714ed61c4a30b0038ea72c9ff13de51be99aac065f61e6ae9e954375e171:Iou:Iou"
+          "template_id" : "#model-tests:Iou:Iou"
         }
       } ],
       "deduplication_period" : {
@@ -622,7 +622,7 @@ HTTP Request
           "choice_argument" : {
             "newOwner" : "Alice_f410fcbe-e03f-47ef-bad0-f7a8a08e7338::1220870d67dba562b868d0256cb2968dbc59a7a6bdbc4b82ee623ff96c8cda3afb9a"
           },
-          "template_id" : "cbed714ed61c4a30b0038ea72c9ff13de51be99aac065f61e6ae9e954375e171:Iou:Iou"
+          "template_id" : "#model-tests:Iou:Iou"
         }
       } ],
       "deduplication_period" : {
