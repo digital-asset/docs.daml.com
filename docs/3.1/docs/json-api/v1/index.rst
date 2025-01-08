@@ -121,7 +121,8 @@ With Query Store
 ----------------
 
 Unlike the previous stand-alone JSON API, the built-in version does not have a query store. If you need persistent
-storage for your JSON API client application, please configure a PQS instance.
+storage for your JSON API client application, please configure a PQS instance. For setup instructions, see the `PQS
+documentation <https://docs.daml.com/query/pqs-user-guide.html>`__.
 
 .. _json-api-access-tokens-v1:
 
@@ -1779,7 +1780,7 @@ different sets of template IDs.::
         {"templateIds": ["11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:OtherIou:OtherIou"]},
     ]
 
-Only one interface ID can be provided in ``templateIds``.
+Only one interface ID can be provided in ``templateIds``.::
 
     [
         {"templateIds": ["11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Ifc:Ifc"]}
