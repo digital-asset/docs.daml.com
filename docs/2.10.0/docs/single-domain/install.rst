@@ -202,6 +202,33 @@ Install the Application
 
 3. Verify installation by entering ``daml version`` in the terminal. This should return the Daml SDK version.
 
+.. note::
+
+   As part of the application front end build process, you may need to change the daml version in the file ``app/frontend/package-lock.json``.  
+
+For example, if the old version was ``2.9.0`` and you want to move to ``2.9.5``, then a code snippet like this:
+   
+   .. code-block:: text
+
+      "generated/daml.js/40f452260bef3f29dede136108fc08a88d5a5250310281067087da6f0baddff7": {
+            "name": "@daml.js/40f452260bef3f29dede136108fc08a88d5a5250310281067087da6f0baddff7",
+            "version": "2.9.0",
+            "version": "2.9.5",
+            "license": "UNLICENSED",
+            "dependencies": {
+
+May need to change to:
+
+   .. code-block:: text
+
+      "generated/daml.js/40f452260bef3f29dede136108fc08a88d5a5250310281067087da6f0baddff7": {
+            "name": "@daml.js/40f452260bef3f29dede136108fc08a88d5a5250310281067087da6f0baddff7",
+            "version": "2.9.5",
+            "license": "UNLICENSED",
+            "dependencies": {
+
+Multiple replacements may be needed.
+
 Build and Test
 ~~~~~~~~~~~~~~
 
