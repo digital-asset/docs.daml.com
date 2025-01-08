@@ -38,8 +38,8 @@ We welcome feedback about the JSON API on
 Run the JSON API
 ****************
 
-Start a Daml Ledger
-===================
+Start a Daml Ledger with the HTTP JSON API Service
+==================================================
 
 You can run the JSON API alongside any ledger exposing the gRPC Ledger API you want. If you don't have an existing ledger, you can start an in-memory sandbox:
 
@@ -48,38 +48,33 @@ You can run the JSON API alongside any ledger exposing the gRPC Ledger API you w
     daml new my-project --template quickstart-java
     cd my-project
     daml build
-    daml sandbox --wall-clock-time --dar ./.daml/dist/quickstart-0.0.1.dar
+    daml sandbox --json-api-port 8080 --wall-clock-time --dar ./.daml/dist/quickstart-0.0.1.dar
 
 .. _start-http-service:
 
-Start the HTTP JSON API Service
-===============================
+Configure the HTTP JSON API Service
+===================================
 
-Basic
------
-
-The most basic way to start the JSON API is with the command:
+You can configure the JSON API through the standard canton config file:
 
 .. code-block:: shell
 
-    daml json-api --config json-api-app.conf
+    daml sandbox -c canton.conf --wall-clock-time --dar ./.daml/dist/quickstart-0.0.1.dar
 
 where a corresponding minimal config file is
 
 .. code-block:: none
 
-    {
-      server {
-        address = "localhost"
-        port = 7575
-      }
-      ledger-api {
-        address = "localhost"
-        port = 6865
+    canton.participants.sandbox {
+      http-ledger-api {
+        server {
+          address=localhost
+          port=7575
+        }
       }
     }
 
-This will start the JSON API on port 7575 and connect it to a ledger running on ``localhost:6865``.
+This will start the JSON API on port 7575.
 
 .. note:: Your JSON API service should never be exposed to the internet. When running in production the JSON API should be behind a `reverse proxy, such as via NGINX <https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/>`_.
 
@@ -87,64 +82,17 @@ The full set of configurable options that can be specified via config file is li
 
 .. code-block:: none
 
-    {
+    canton.participants.sandbox.http-ledger-api {
       server {
         //IP address that HTTP JSON API service listens on. Defaults to 127.0.0.1.
         address = "127.0.0.1"
         //HTTP JSON API service port number. A port number of 0 will let the system pick an ephemeral port.
         port = 7575
+        // A file to which the http port will be written upon start-up
+        port-file = ./port-file.txt
+        // A prefix of all the http json api endpoints
+        path-prefix = "json/v1"
       }
-      ledger-api {
-        address = "127.0.0.1"
-        port = 6865
-        tls {
-            enabled = "true"
-            // the certificate to be used by the server
-            cert-chain-file = "cert-chain.crt"
-            // private key of the server
-            private-key-file = "pvt-key.pem"
-            // trust collection, which means that all client certificates will be verified using the trusted
-            // certificates in this store. if omitted, the JVM default trust store is used.
-            trust-collection-file = "root-ca.crt"
-        }
-      }
-
-      query-store {
-        base-config {
-          user = "postgres"
-          password = "password"
-          driver = "org.postgresql.Driver"
-          url = "jdbc:postgresql://localhost:5432/test?&ssl=true"
-
-          // prefix for table names to avoid collisions, empty by default
-          table-prefix = "foo"
-
-          // max pool size for the database connection pool
-          pool-size = 12
-          //specifies the min idle connections for database connection pool.
-          min-idle = 4
-          //specifies the idle timeout for the database connection pool.
-          idle-timeout = 12s
-          //specifies the connection timeout for database connection pool.
-          connection-timeout = 90s
-        }
-        // option setting how the schema should be handled.
-        // Valid options are start-only, create-only, create-if-needed-and-start and create-and-start
-        start-mode = "start-only"
-      }
-
-
-
-      // Optional interval to poll for package updates. Examples: 500ms, 5s, 10min, 1h, 1d. Defaults to 5 seconds
-      package-reload-interval = 5s
-      //Optional max inbound message size in bytes. Defaults to 4194304.
-      max-inbound-message-size = 4194304
-      //Optional max inbound message size in bytes used for uploading and downloading package updates. Defaults to the `max-inbound-message-size` setting.
-      package-max-inbound-message-size = 4194304
-      //Optional max cache size in entries for storing surrogate template id mappings. Defaults to None
-      max-template-id-cache-entries = 1000
-      //health check timeout in seconds
-      health-timeout-seconds = 5
 
       //Optional websocket configuration parameters
       websocket-config {
@@ -156,67 +104,24 @@ The full set of configurable options that can be specified via config file is li
         mode = "shaping"
       }
 
-      metrics {
-        //Start a metrics reporter. Must be one of "console", "csv:///PATH", "graphite://HOST[:PORT][/METRIC_PREFIX]", or "prometheus://HOST[:PORT]".
-        reporter = "console"
-        //Set metric reporting interval , examples : 1s, 30s, 1m, 1h
-        reporting-interval = 30s
-      }
-
       // DEV MODE ONLY (not recommended for production)
       // Allow connections without a reverse proxy providing HTTPS.
       allow-insecure-tokens = false
-      // Optional static content configuration string. Contains comma-separated key-value pairs, where:
-      // prefix -- URL prefix,
-      // directory -- local directory that will be mapped to the URL prefix.
-      // Example: "prefix=static,directory=./static-content"
-      static-content {
-        prefix = "static"
-        directory = "static-content-dir"
-      }
+
+      // Turn on logging of http requests and responses
+      debug-logging-of-http-bodies = false
+
+      // utilize the user management database (including idp) to convert JWT tokens to parties
+      // that the user is entitled to act and read as even if the authorization is not turned on.
+      user-management-without-authorization = false
     }
 
-
-.. note:: You can also start JSON API using CLI args (example below) however this is now deprecated
-
-.. code-block:: shell
-
-    daml json-api --ledger-host localhost --ledger-port 6865 --http-port 7575
-
-
-Standalone JAR
---------------
-
-The ``daml json-api`` command is great during development since it is
-included with the SDK and integrates with ``daml start`` and other
-commands. Once you are ready to deploy your application, you can
-download the standalone JAR from
-`Github releases <https://github.com/digital-asset/daml/releases>`_. It is much smaller
-than the whole SDK and easier to deploy since it only requires a JVM
-but no other dependencies and no installation process. The JAR accepts
-exactly the same command line parameters as ``daml json-api``, so to
-start the standalone JAR, you can use the following command:
-
-.. code-block:: shell
-
-    java -jar http-json-2.0.0.jar --config json-api-app.conf
-
-Replace the version number ``2.0.0`` by the version of the SDK you are
-using.
 
 With Query Store
 ----------------
 
-In production setups, you should configure the HTTP JSON API service to use a PostgreSQL backend as a :doc:`../production-setup/query-store`.
-The in-memory backend will call the
-ledger to fetch the entire active contract set for the templates in
-your query every time so it is generally not recommended to rely on
-this in production.
-Note that the query store is a redundant copy of on-ledger data.
-It is safe to reinitialize the database at any time.
-
-To enable the PostgreSQL backend you can add the ``query-store`` config block :doc:`as described <../production-setup/query-store>`.
-
+Unlike the previous stand-alone JSON API, the built-in version does not have a query store. If you need persistent
+storage for your JSON API client application, please configure a PQS instance.
 
 .. _json-api-access-tokens-v1:
 
@@ -247,65 +152,6 @@ If the underlying ledger supports :ref:`user management <user-management-service
 recommended to use user tokens. For command submissions, the user of the bearer should have ``actAs`` rights for at
 least one party and ``readAs`` rights for any number of parties. Queries require the bearer's user to have at least
 one ``actAs`` or ``readAs`` user right. The application id of the Ledger API request will be the user id.
-
-Using Claim Tokens
-^^^^^^^^^^^^^^^^^^
-
-These tokens can be used if the underlying ledger does not support :ref:`user management <user-management-service>`. For command
-submissions, ``actAs`` must contain at least one party and ``readAs`` can contain any number of parties. Queries
-require at least one party in either ``actAs`` or ``readAs``. The application id is mandatory.
-
-.. note::
-
-    While the JSON API receives the token it doesn't validate it itself. Upon receiving a token it will pass it,
-    and all data contained within the request, on to the Ledger API's AuthService which will then determine if the
-    token is valid and authorized. However, the JSON API does decode the token to extract the ledger id, application id
-    and party so it requires that you use :ref:`a valid Daml ledger access token format<access-token-formats>`.
-
-For a ledger without authorization, e.g., the default configuration of Daml Sandbox, you can use `https://jwt.io <https://jwt.io/#debugger-io?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImZvb2JhciIsImFjdEFzIjpbIkFsaWNlIl19fQ.1Y9BBFH5uVz1Nhfmx12G_ECJVcMncwm-XLaWM40EHbY>`_ (or the JWT library of your choice) to generate your
-token.  You can use an arbitrary secret here. The default "header" is fine.  Under "Payload", fill in:
-
-.. code-block:: json
-
-    {
-      "https://daml.com/ledger-api": {
-        "ledgerId": "sandbox",
-        "applicationId": "foobar",
-        "actAs": ["Alice"]
-      }
-    }
-
-The value of the ``ledgerId`` field has to match the ``ledgerId`` of your underlying Daml Ledger.
-For the Sandbox this corresponds to the participant id which by default is just `sandbox`.
-
-.. note:: The value of ``applicationId`` will be used for commands submitted using that token.
-
-The value for ``actAs`` is specified as a list and you provide it with the party that you want to use,
-such as in the example above which uses ``Alice`` for a party. ``actAs`` may include more than just one party
-as the JSON API supports multi-party submissions.
-
-The party should reference an already allocated party.
-
-
-.. note:: As mentioned above the JSON API does not validate tokens so if your ledger runs without authorization you can use an arbitrary secret.
-
-Then the "Encoded" box should have your **token**, ready for passing to
-the service as described in the following sections.
-
-Alternatively, here are two tokens you can use for testing:
-
-``{"https://daml.com/ledger-api": {"ledgerId": "sandbox", "applicationId": "HTTP-JSON-API-Gateway", "actAs": ["Alice"]}}``:
-
-.. code-block:: none
-
-    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6IkhUVFAtSlNPTi1BUEktR2F0ZXdheSIsImFjdEFzIjpbIkFsaWNlIl19fQ.FIjS4ao9yu1XYnv1ZL3t7ooPNIyQYAHY3pmzej4EMCM
-
-
-``{"https://daml.com/ledger-api": {"ledgerId": "sandbox", "applicationId": "HTTP-JSON-API-Gateway", "actAs": ["Bob"]}}``:
-
-.. code-block:: none
-
-    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6IkhUVFAtSlNPTi1BUEktR2F0ZXdheSIsImFjdEFzIjpbIkJvYiJdfX0.y6iwpnYt-ObtNo_FyLVxMtNTwpJF8uxzNfPELQUVKVg
 
 Auth via HTTP
 ^^^^^^^^^^^^^
@@ -494,10 +340,10 @@ HTTP Request
 .. code-block:: json
 
     {
-      "templateId": "a3b788b4dc18dc060bfb82366ae6dc055b1e361d646d5cfdb1b729607e344336:Iou:IouTransfer",
+      "templateId": "a3b788b4dc18dc060bfb82366ae6dc055b1e361d646d5cfdb1b729607e344336:Iou:Iou",
       "payload": {
-        "issuer": "Alice",
-        "owner": "Alice",
+        "issuer": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d",
+        "owner": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d",
         "currency": "USD",
         "amount": "999.99",
         "observers": []
@@ -541,13 +387,13 @@ HTTP Response
             "agreementText": "",
             "payload": {
                 "observers": [],
-                "issuer": "Alice",
+                "issuer": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d",
                 "amount": "999.99",
                 "currency": "USD",
-                "owner": "Alice"
+                "owner": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
             },
             "signatories": [
-                "Alice"
+                "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
             ],
             "contractId": "#124:0",
             "templateId": "11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Iou:Iou",
@@ -575,14 +421,14 @@ When creating a new contract or exercising a choice you may specify an optional 
       "templateId": "a3b788b4dc18dc060bfb82366ae6dc055b1e361d646d5cfdb1b729607e344336:Iou:IouTransfer",
       "payload": {
         "observers": [],
-        "issuer": "Alice",
+        "issuer": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d",
         "amount": "999.99",
         "currency": "USD",
-        "owner": "Alice"
+        "owner": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
       },
       "meta": {
         "commandId": "a unique ID",
-        "actAs": ["Alice"],
+        "actAs": ["Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"],
         "readAs": ["PublicParty"],
         "deduplicationPeriod": {
           "durationInMillis": 10000,
@@ -633,7 +479,7 @@ HTTP Request
         "contractId": "#124:0",
         "choice": "Iou_Transfer",
         "argument": {
-            "newOwner": "Alice"
+            "newOwner": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
         }
     }
 
@@ -677,15 +523,15 @@ HTTP Response
                         "payload": {
                             "iou": {
                                 "observers": [],
-                                "issuer": "Alice",
+                                "issuer": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d",
                                 "amount": "999.99",
                                 "currency": "USD",
-                                "owner": "Alice"
+                                "owner": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
                             },
-                            "newOwner": "Alice"
+                            "newOwner": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
                         },
                         "signatories": [
-                            "Alice"
+                            "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
                         ],
                         "contractId": "#201:1",
                         "templateId": "11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Iou:IouTransfer"
@@ -737,7 +583,7 @@ HTTP Request
     {
         "templateId": "11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Account:Account",
         "key": {
-            "_1": "Alice",
+            "_1": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d",
             "_2": "abc123"
         },
         "choiceInterfaceId": "11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Account:AccountInterface",
@@ -785,15 +631,15 @@ HTTP Request
       "templateId": "11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Iou:Iou",
       "payload": {
         "observers": [],
-        "issuer": "Alice",
+        "issuer": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d",
         "amount": "999.99",
         "currency": "USD",
-        "owner": "Alice"
+        "owner": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
       },
       "choiceInterfaceId": "11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Iou:IouInterface",
       "choice": "Iou_Transfer",
       "argument": {
-        "newOwner": "Bob"
+        "newOwner": "Bob::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
       }
     }
 
@@ -830,13 +676,13 @@ Please note that the response below is for a consuming choice, so it contains:
               "agreementText": "",
               "payload": {
                 "observers": [],
-                "issuer": "Alice",
+                "issuer": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d",
                 "amount": "999.99",
                 "currency": "USD",
-                "owner": "Alice"
+                "owner": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
               },
               "signatories": [
-                "Alice"
+                "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
               ],
               "contractId": "#1:0",
               "templateId": "a3b788b4dc18dc060bfb82366ae6dc055b1e361d646d5cfdb1b729607e344336:Iou:Iou"
@@ -851,21 +697,21 @@ Please note that the response below is for a consuming choice, so it contains:
           {
             "created": {
               "observers": [
-                "Bob"
+                "Bob::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
               ],
               "agreementText": "",
               "payload": {
                 "iou": {
                   "observers": [],
-                  "issuer": "Alice",
+                  "issuer": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d",
                   "amount": "999.99",
                   "currency": "USD",
-                  "owner": "Alice"
+                  "owner": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
                 },
-                "newOwner": "Bob"
+                "newOwner": "Bob::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
               },
               "signatories": [
-                "Alice"
+                "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
               ],
               "contractId": "#1:2",
               "templateId": "a3b788b4dc18dc060bfb82366ae6dc055b1e361d646d5cfdb1b729607e344336:Iou:IouTransfer"
@@ -892,7 +738,7 @@ application/json body:
 .. code-block:: json
 
     {
-      "contractId": "#201:1",
+      "contractId": "0031d4987d68ef429ce1288ef1db6f90753e455de13de32b97c5c80cb9eccc01ddca101220b49c913ec64072afcdfc220c31d0e54553fb2bdfe583ee2179be7598aff22bca",
       "templateId": "a3b788b4dc18dc060bfb82366ae6dc055b1e361d646d5cfdb1b729607e344336:Iou:IouTransfer"
     }
 
@@ -929,15 +775,15 @@ Contract Found HTTP Response
             "payload": {
                 "iou": {
                     "observers": [],
-                    "issuer": "Alice",
+                    "issuer": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d",
                     "amount": "999.99",
                     "currency": "USD",
-                    "owner": "Alice"
+                    "owner": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
                 },
-                "newOwner": "Alice"
+                "newOwner": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
             },
             "signatories": [
-                "Alice"
+                "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
             ],
             "contractId": "#201:1",
             "templateId": "11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Iou:IouTransfer"
@@ -966,7 +812,7 @@ HTTP Request
     {
         "templateId": "11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Account:Account",
         "key": {
-            "_1": "Alice",
+            "_1": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d",
             "_2": "abc123"
         }
     }
@@ -1000,7 +846,7 @@ Contract Found HTTP Response
             "observers": [],
             "agreementText": "",
             "payload": {
-                "owner": "Alice",
+                "owner": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d",
                 "number": "abc123",
                 "status": {
                     "tag": "Enabled",
@@ -1008,10 +854,10 @@ Contract Found HTTP Response
                 }
             },
             "signatories": [
-                "Alice"
+                "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
             ],
             "key": {
-                "_1": "Alice",
+                "_1": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d",
                 "_2": "abc123"
             },
             "contractId": "#697:0",
@@ -1064,8 +910,7 @@ HTTP Request
 
     {
         "templateIds": ["11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Iou:Iou"],
-        "query": {"amount": 999.99},
-        "readers": ["Alice"]
+        "readers": ["Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"]
     }
 
 Where:
@@ -1075,7 +920,6 @@ Where:
   an array containing a single interface identifier to search through.
   Mixing of template ID's and interface ID's, or specifying more than one
   interface ID is not allowed.
-- ``query``: search criteria to apply to the specified ``templateIds``, formatted according to the :doc:`search-query-language`.
 - ``readers``: *optional* non-empty list of parties to query as; must be a subset of the actAs and readAs parties in the JWT.
 
 Empty HTTP Response
@@ -1106,13 +950,13 @@ Nonempty HTTP Response
                 "agreementText": "",
                 "payload": {
                     "observers": [],
-                    "issuer": "Alice",
+                    "issuer": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d",
                     "amount": "999.99",
                     "currency": "USD",
-                    "owner": "Alice"
+                    "owner": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
                 },
                 "signatories": [
-                    "Alice"
+                    "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
                 ],
                 "contractId": "#52:0",
                 "templateId": "b10d22d6c2f2fae41b353315cf893ed66996ecb0abe4424ea6a81576918f658a:Iou:Iou"
@@ -1144,13 +988,13 @@ Nonempty HTTP Response With Unknown Template IDs Warning
                 "agreementText": "",
                 "payload": {
                     "observers": [],
-                    "issuer": "Alice",
+                    "issuer": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d",
                     "amount": "999.99",
                     "currency": "USD",
-                    "owner": "Alice"
+                    "owner": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
                 },
                 "signatories": [
-                    "Alice"
+                    "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
                 ],
                 "contractId": "#52:0",
                 "templateId": "b10d22d6c2f2fae41b353315cf893ed66996ecb0abe4424ea6a81576918f658a:Iou:Iou"
@@ -1169,7 +1013,7 @@ Fetch Parties by Identifiers
 
 .. code-block:: json
 
-    ["Alice", "Bob", "Dave"]
+    ["Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d", "Bob::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d", "Dave::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"]
 
 If an empty JSON array is passed: ``[]``, this endpoint returns BadRequest(400) error:
 
@@ -1194,17 +1038,17 @@ HTTP Response
       "status": 200,
       "result": [
         {
-          "identifier": "Alice",
+          "identifier": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d",
           "displayName": "Alice & Co. LLC",
           "isLocal": true
         },
         {
-          "identifier": "Bob",
+          "identifier": "Bob::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d",
           "displayName": "Bob & Co. LLC",
           "isLocal": true
         },
         {
-          "identifier": "Dave",
+          "identifier": "Dave::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d",
           "isLocal": true
         }
       ]
@@ -1229,7 +1073,7 @@ Response With Unknown Parties Warning
     {
       "result": [
         {
-          "identifier": "Alice",
+          "identifier": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d",
           "displayName": "Alice & Co. LLC",
           "isLocal": true
         }
@@ -1289,7 +1133,7 @@ HTTP Response
 
     {
       "result": {
-        "identifier": "Carol",
+        "identifier": "Carol::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d",
         "displayName": "Carol & Co. LLC",
         "isLocal": true
       },
@@ -1314,19 +1158,19 @@ HTTP Request
 
     {
       "userId": "carol",
-      "primaryParty": "Carol",
+      "primaryParty": "Carol::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d",
       "rights": [
         {
           "type": "CanActAs",
-          "party": "Carol"
+          "party": "Carol::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
         },
         {
           "type": "CanReadAs",
-          "party": "Alice"
+          "party": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
         },
         {
           "type": "CanReadAs",
-          "party": "Bob"
+          "party": "Bob::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
         },
         {
           "type": "ParticipantAdmin"
@@ -1370,7 +1214,7 @@ HTTP Response
     {
       "result": {
         "userId": "carol",
-        "primaryParty": "Carol"
+        "primaryParty": "Carol::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
       },
       "status": 200
     }
@@ -1406,7 +1250,7 @@ HTTP Response
     {
       "result": {
         "userId": "carol",
-        "primaryParty": "Carol"
+        "primaryParty": "Carol::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
       },
       "status": 200
     }
@@ -1463,11 +1307,11 @@ HTTP Response
       "result": [
         {
             "userId": "carol",
-            "primaryParty": "Carol"
+            "primaryParty": "Carol::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
         },
         {
             "userId": "bob",
-            "primaryParty": "Bob"
+            "primaryParty": "Bob::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
         }
       ],
       "status": 200
@@ -1493,15 +1337,15 @@ HTTP Request
       "rights": [
         {
           "type": "CanActAs",
-          "party": "Carol"
+          "party": "Carol::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
         },
         {
           "type": "CanReadAs",
-          "party": "Alice"
+          "party": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
         },
         {
           "type": "CanReadAs",
-          "party": "Bob"
+          "party": "Bob::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
         },
         {
           "type": "ParticipantAdmin"
@@ -1520,15 +1364,15 @@ HTTP Response
       "result": [
         {
           "type": "CanActAs",
-          "party": "Carol"
+          "party": "Carol::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
         },
         {
           "type": "CanReadAs",
-          "party": "Alice"
+          "party": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
         },
         {
           "type": "CanReadAs",
-          "party": "Bob"
+          "party": "Bob::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
         },
         {
           "type": "ParticipantAdmin"
@@ -1559,15 +1403,15 @@ HTTP Request
       "rights": [
         {
           "type": "CanActAs",
-          "party": "Carol"
+          "party": "Carol::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
         },
         {
           "type": "CanReadAs",
-          "party": "Alice"
+          "party": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
         },
         {
           "type": "CanReadAs",
-          "party": "Bob"
+          "party": "Bob::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
         },
         {
           "type": "ParticipantAdmin"
@@ -1586,15 +1430,15 @@ HTTP Response
       "result": [
         {
           "type": "CanActAs",
-          "party": "Carol"
+          "party": "Carol::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
         },
         {
           "type": "CanReadAs",
-          "party": "Alice"
+          "party": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
         },
         {
           "type": "CanReadAs",
-          "party": "Bob"
+          "party": "Bob::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
         },
         {
           "type": "ParticipantAdmin"
@@ -1627,15 +1471,15 @@ HTTP Response
       "result": [
         {
           "type": "CanActAs",
-          "party": "Carol"
+          "party": "Carol::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
         },
         {
           "type": "CanReadAs",
-          "party": "Alice"
+          "party": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
         },
         {
           "type": "CanReadAs",
-          "party": "Bob"
+          "party": "Bob::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
         },
         {
           "type": "ParticipantAdmin"
@@ -1674,15 +1518,15 @@ HTTP Response
       "result": [
         {
           "type": "CanActAs",
-          "party": "Carol"
+          "party": "Carol::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
         },
         {
           "type": "CanReadAs",
-          "party": "Alice"
+          "party": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
         },
         {
           "type": "CanReadAs",
-          "party": "Bob"
+          "party": "Bob::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
         },
         {
           "type": "ParticipantAdmin"
@@ -1931,25 +1775,20 @@ Multiple queries may be specified in an array, for overlapping or
 different sets of template IDs.::
 
     [
-        {"templateIds": ["11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Iou:Iou"], "query": {"amount": {"%lte": 50}}},
-        {"templateIds": ["11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:OtherIou:OtherIou"], "query": {"amount": {"%gt": 50}}},
-        {"templateIds": ["11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Iou:Iou"]}
+        {"templateIds": ["11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Iou:Iou"]},
+        {"templateIds": ["11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:OtherIou:OtherIou"]},
     ]
 
 Only one interface ID can be provided in ``templateIds``.
-An interface ID can be used in all queries::
 
     [
-        {"templateIds": ["11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Ifc:Ifc"], "query": {"amount": {"%lte": 50}}},
-        {"templateIds": ["11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Ifc:Ifc"], "query": {"amount": {"%gt": 50}}},
         {"templateIds": ["11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Ifc:Ifc"]}
     ]
 
 Mixing of template ID's and interface ID's or specifying more than one interface ID across queries is not allowed. BadRequest(400) error will be returned.::
 
     [
-        {"templateIds": ["11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Iou:Iou"], "query": {"amount": {"%lte": 50}}},
-        {"templateIds": ["11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Ifc:Ifc"], "query": {"amount": {"%gt": 50}}},
+        {"templateIds": ["11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Iou:Iou"]},
         {"templateIds": ["11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Ifc:Ifc"]}
     ]
 
@@ -1960,8 +1799,7 @@ An ``offset``, a string supplied by an earlier query output message, may
 optionally be specified alongside each query itself::
 
     [
-        {"templateIds": ["11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Iou:Iou"], "query": {"amount": {"%lte": 50}}},
-        {"templateIds": ["11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Iou:Iou"], "query": {"amount": {"%gt": 50}}},
+        {"templateIds": ["11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Iou:IouTransfer"]},
         {"templateIds": ["11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Iou:Iou"], "offset": "5609"}
     ]
 
@@ -1993,12 +1831,12 @@ according to :doc:`../lf-value-specification`::
                 "agreementText": "",
                 "payload": {
                     "observers": [],
-                    "issuer": "Alice",
+                    "issuer": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d",
                     "amount": "999.99",
                     "currency": "USD",
-                    "owner": "Alice"
+                    "owner": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
                 },
-                "signatories": ["Alice"],
+                "signatories": ["Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"],
                 "contractId": "#1:0",
                 "templateId": "eb3b150383a979d6765b8570a17dd24ae8d8b63418ee5fd20df20ad2a1c13976:Iou:Iou"
             },
@@ -2065,12 +1903,12 @@ and archives the one above, the same stream will eventually produce::
                 "agreementText": "",
                 "payload": {
                     "observers": [],
-                    "issuer": "Alice",
+                    "issuer": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d",
                     "amount": "42.42",
                     "currency": "USD",
-                    "owner": "Alice"
+                    "owner": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
                 },
-                "signatories": ["Alice"],
+                "signatories": ["Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"],
                 "contractId": "#2:1",
                 "templateId": "eb3b150383a979d6765b8570a17dd24ae8d8b63418ee5fd20df20ad2a1c13976:Iou:Iou"
             },
@@ -2081,12 +1919,12 @@ and archives the one above, the same stream will eventually produce::
                 "agreementText": "",
                 "payload": {
                     "observers": [],
-                    "issuer": "Alice",
+                    "issuer": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d",
                     "amount": "957.57",
                     "currency": "USD",
-                    "owner": "Alice"
+                    "owner": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"
                 },
-                "signatories": ["Alice"],
+                "signatories": ["Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d"],
                 "contractId": "#2:2",
                 "templateId": "eb3b150383a979d6765b8570a17dd24ae8d8b63418ee5fd20df20ad2a1c13976:Iou:Iou"
             },
@@ -2171,8 +2009,8 @@ Example:
 .. code-block:: json
 
     [
-        {"templateId": "11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Account:Account", "key": {"_1": "Alice", "_2": "abc123"}},
-        {"templateId": "11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Account:Account", "key": {"_1": "Alice", "_2": "def345"}}
+        {"templateId": "11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Account:Account", "key": {"_1": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d", "_2": "abc123"}},
+        {"templateId": "11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Account:Account", "key": {"_1": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d", "_2": "def345"}}
     ]
 
 The output stream has the same format as the output from the
@@ -2192,9 +2030,9 @@ no ``"def345"`` contract, you might specify:
 .. code-block:: json
 
     [
-        {"templateId": "11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Account:Account", "key": {"_1": "Alice", "_2": "abc123"},
+        {"templateId": "11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Account:Account", "key": {"_1": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d", "_2": "abc123"},
          "contractIdAtOffset": "#1:0"},
-        {"templateId": "11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Account:Account", "key": {"_1": "Alice", "_2": "def345"},
+        {"templateId": "11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Account:Account", "key": {"_1": "Alice::12202f0cb99013b0f7fe09cdac189a36f8e3c999c91927093d20c7dabcc2b0c9413d", "_2": "def345"},
          "contractIdAtOffset": null}
     ]
 
