@@ -1,58 +1,42 @@
 {
-  "202" : {
-    "command" : "participant1.topology.check_only_packages.list().exists(_.item.packageIds.contains(mainPackageId))",
-    "output" : "res25: Boolean = true"
-  },
-  "184" : {
-    "command" : "participant1.topology.vetted_packages.list().exists(_.item.packageIds.contains(mainPackageId))",
-    "output" : "res22: Boolean = true"
-  },
   "20" : {
     "command" : "participant2.dars.upload(\"dars/CantonExamples.dar\")",
     "output" : "res1: String = \"12202102be83f3489f0f3df0d42d54280e6769eb173a8fee8eb02b20f82e1ef5d709\""
   },
-  "201" : {
-    "command" : "",
-    "output" : ""
-  },
-  "28" : {
-    "command" : "participant2.dars.list()",
-    "output" : "res2: Seq[com.digitalasset.canton.participant.admin.v0.DarDescription] = Vector(\n  DarDescription(\n    hash = \"12207f38b04c40dd9cf5bc1daa97625427665af959801fc77024dafd5898cb01f01b\",\n    name = \"AdminWorkflowsWithVacuuming\"\n  ),\n  DarDescription(\n    hash = \"12202102be83f3489f0f3df0d42d54280e6769eb173a8fee8eb02b20f82e1ef5d709\",\n    name = \"CantonExamples\"\n  )\n)"
-  },
-  "236" : {
-    "command" : "import com.digitalasset.canton.LfPackageId",
-    "output" : ""
-  },
-  "103" : {
-    "command" : "val darHash = participant1.dars.upload(\"dars/CantonExamples.dar\")",
-    "output" : "darHash : String = \"12202102be83f3489f0f3df0d42d54280e6769eb173a8fee8eb02b20f82e1ef5d709\""
-  },
-  "223" : {
+  "221" : {
     "command" : "participant1.dars.vetting.enable(darHash)",
     "output" : ""
   },
-  "150" : {
+  "229" : {
+    "command" : "val txsContainingMainPackage = participant1.topology.vetted_packages.list(filterStore = \"Authorized\", filterParticipant = participant1.id.filterString).filter(_.item.packageIds.contains(mainPackageId))",
+    "output" : "txsContainingMainPackage : Seq[ListVettedPackagesResult] = Vector(\n  ListVettedPackagesResult(\n    context = BaseResult(\n      domain = \"Authorized\",\n      validFrom = 2025-01-08T09:55:24.957199Z,\n      validUntil = None,\n      operation = Add,\n      serialized = <ByteString@71995ebb size=2450 contents=\"\\n\\217\\023\\n\\275\\020\\n\\270\\020\\n\\265\\020\\022 m3cLchRcVzRkHAXHPA1MwuXxp1EG1j3EJ...\">,\n      signedBy = 1220ffcaad4b...\n    ),\n    item = VettedPackages(\n      participant = participant1::1220ffcaad4b...,\n      packages = Seq(\n        28cf6c194d92...,\n        7e0aa3d819f2...,\n        6851f194e144...,\n.."
+  },
+  "105" : {
+    "command" : "participant1.ledger_api.commands.submit(Seq(participant1.adminParty ), Seq(createIouCmd))",
+    "output" : "res14: com.daml.ledger.api.v1.transaction.TransactionTree = TransactionTree(\n  transactionId = \"1220737bbbe48ada6eb9e1b2e5e1f14aacf37a324317a5cd4524f9fb71b7d963cb75\",\n  commandId = \"0843265a-4e4f-4e69-bbd2-42bc9cd83331\",\n  workflowId = \"\",\n  effectiveAt = Some(\n.."
+  },
+  "148" : {
     "command" : "participant1.dars.vetting.disable(darHash)",
     "output" : ""
   },
-  "127" : {
-    "command" : "participant1.ledger_api.commands.submit(Seq(participant1.adminParty), Seq(createIouCmd))",
-    "output" : "res17: com.daml.ledger.api.v1.transaction.TransactionTree = TransactionTree(\n  transactionId = \"12207d293dd4befb562b30c3d5daa1e11154d8778aa392e501a217658b204ada5a1e\",\n  commandId = \"5de0a322-032f-425e-bd55-1ac5357b0fd8\",\n  workflowId = \"\",\n  effectiveAt = Some(\n.."
+  "143" : {
+    "command" : "participant1.dars.vetting.disable(examplesDependencyDarHash)",
+    "output" : ""
   },
-  "36" : {
-    "command" : "val dars = participant2.dars.list(filterName = \"CantonExamples\")",
-    "output" : "dars : Seq[com.digitalasset.canton.participant.admin.v0.DarDescription] = Vector(\n  DarDescription(\n    hash = \"12202102be83f3489f0f3df0d42d54280e6769eb173a8fee8eb02b20f82e1ef5d709\",\n    name = \"CantonExamples\"\n  )\n)"
+  "55" : {
+    "command" : "participant2.packages.list_contents(darContent.main)",
+    "output" : "res7: Seq[com.digitalasset.canton.participant.admin.v0.ModuleDescription] = Vector(\n  ModuleDescription(name = \"CantonExamples\"),\n  ModuleDescription(name = \"ContractKeys\"),\n  ModuleDescription(name = \"SafePaint\"),\n  ModuleDescription(name = \"LockIou\"),\n  ModuleDescription(name = \"Iou\"),\n  ModuleDescription(name = \"Divulgence\"),\n  ModuleDescription(name = \"Paint\"),\n.."
   },
-  "138" : {
+  "136" : {
     "command" : "val examplesDependencyDarHash = participant1.dars.upload(\"dars/CantonExamplesDependency.dar\")",
     "output" : "examplesDependencyDarHash : String = \"1220ee0bfbe921a7f88b376b9b35c74d9ff18a4aab9ceacf877b8e1880281518ef7a\""
   },
-  "88" : {
-    "command" : "participant2.dars.vetting.enable(hash)",
-    "output" : ""
+  "101" : {
+    "command" : "val darHash = participant1.dars.upload(\"dars/CantonExamples.dar\")",
+    "output" : "darHash : String = \"12202102be83f3489f0f3df0d42d54280e6769eb173a8fee8eb02b20f82e1ef5d709\""
   },
-  "185" : {
-    "command" : "",
+  "234" : {
+    "command" : "import com.digitalasset.canton.LfPackageId",
     "output" : ""
   },
   "42" : {
@@ -63,68 +47,92 @@
     "command" : "val hash = dars.head.hash",
     "output" : "hash : String = \"12202102be83f3489f0f3df0d42d54280e6769eb173a8fee8eb02b20f82e1ef5d709\""
   },
-  "179" : {
-    "command" : "participant1.dars.vetting.enable(darHash)",
-    "output" : ""
-  },
-  "106" : {
-    "command" : "val createIouCmd = ledger_api_utils.create(mainPackageId,\"Iou\",\"Iou\",Map(\"payer\" -> participant1.adminParty,\"owner\" -> participant1.adminParty,\"amount\" -> Map(\"value\" -> 100.0, \"currency\" -> \"EUR\"),\"viewers\" -> List()))",
-    "output" : ".."
-  },
-  "121" : {
-    "command" : "participant1.ledger_api.commands.submit(Seq(participant1.adminParty), Seq(createIouCmd))",
-    "output" : "ERROR com.digitalasset.canton.integration.EnterpriseEnvironmentDefinition$$anon$3 - Request failed for participant1.\n  GrpcRequestRefusedByServer: FAILED_PRECONDITION/NO_DOMAIN_FOR_SUBMISSION(9,c869040d): No valid domain for submission found.\n  Request: SubmitAndWaitTransactionTree(\n  actAs = participant1::1220a22f7006...,\n  readAs = Seq(),\n  commandId = '',\n  workflowId = '',\n  submissionId = '',\n  deduplicationPeriod = None(),\n  applicationId = 'CantonConsole',\n  commands = ...\n)\n  CorrelationId: c869040d8beb473936360cfde8f175d2\n  Context: HashMap(participant -> participant1, test -> PackageDarManagementDocumentationIntegrationTest, domainsNotUsed -> Map(mydomain::1220edc575ff... -> The topology state for some packages does not meet the requirements on domain mydomain::1220edc575ff...: [(Participant PAR::participant1::1220a22f7006... has not vetted 7e0aa3d819f2...)]), tid -> c869040d8beb473936360cfde8f175d2, definite_answer -> false)\n  Command BaseLedgerApiAdministration$ledger_api$commands$.submit invoked from cmd10000038.sc:1"
-  },
-  "237" : {
-    "command" : "txsContainingMainPackage.foreach { tx => participant1.topology.vetted_packages.authorize(TopologyChangeOp.Remove,participant1.id,tx.item.packageIds,force = true); participant1.topology.vetted_packages.authorize(TopologyChangeOp.Add,participant1.id,tx.item.packageIds.filterNot(_ == mainPackageId),force = true)}",
-    "output" : ""
-  },
-  "105" : {
-    "command" : "participant1.domains.connect_local(mydomain)",
-    "output" : ""
-  },
-  "112" : {
+  "110" : {
     "command" : "participant1.dars.vetting.disable(darHash)",
     "output" : ""
   },
-  "145" : {
-    "command" : "participant1.dars.vetting.disable(examplesDependencyDarHash)",
-    "output" : ""
+  "125" : {
+    "command" : "participant1.ledger_api.commands.submit(Seq(participant1.adminParty), Seq(createIouCmd))",
+    "output" : "res17: com.daml.ledger.api.v1.transaction.TransactionTree = TransactionTree(\n  transactionId = \"12200faa549cb6a8834f70344519bf81cbfa20264d8b158bef4a03881c79f9d1e2cb\",\n  commandId = \"211d35d1-b2ca-447d-bcba-8dcbfd448f40\",\n  workflowId = \"\",\n  effectiveAt = Some(\n.."
   },
-  "231" : {
-    "command" : "val txsContainingMainPackage = participant1.topology.vetted_packages.list(filterStore = \"Authorized\", filterParticipant = participant1.id.filterString).filter(_.item.packageIds.contains(mainPackageId))",
-    "output" : "txsContainingMainPackage : Seq[ListVettedPackagesResult] = Vector(\n  ListVettedPackagesResult(\n    context = BaseResult(\n      domain = \"Authorized\",\n      validFrom = 2025-01-07T14:55:47.976708Z,\n      validUntil = None,\n      operation = Add,\n      serialized = <ByteString@7d7437d2 size=2450 contents=\"\\n\\217\\023\\n\\275\\020\\n\\270\\020\\n\\265\\020\\022 oqOD1a9cLZGccHfE5cZWMJd21OnvyrmcJ...\">,\n      signedBy = 1220a22f7006...\n    ),\n    item = VettedPackages(\n      participant = participant1::1220a22f7006...,\n      packages = Seq(\n        28cf6c194d92...,\n        7e0aa3d819f2...,\n        6851f194e144...,\n.."
-  },
-  "203" : {
+  "201" : {
     "command" : "",
     "output" : ""
   },
-  "104" : {
+  "220" : {
+    "command" : "participant1.dars.vetting.enable(examplesDependencyDarHash)",
+    "output" : ""
+  },
+  "102" : {
     "command" : "val mainPackageId = participant1.packages.find(\"Iou\").head.packageId",
     "output" : "mainPackageId : String = \"7e0aa3d819f2dfd20c1ba08ac133130e1f135172e5c0f4cf0c8a70d79d7b5a84\""
   },
-  "55" : {
-    "command" : "participant2.packages.list_contents(darContent.main)",
-    "output" : "res7: Seq[com.digitalasset.canton.participant.admin.v0.ModuleDescription] = Vector(\n  ModuleDescription(name = \"CantonExamples\"),\n  ModuleDescription(name = \"ContractKeys\"),\n  ModuleDescription(name = \"SafePaint\"),\n  ModuleDescription(name = \"LockIou\"),\n  ModuleDescription(name = \"Iou\"),\n  ModuleDescription(name = \"Divulgence\"),\n  ModuleDescription(name = \"Paint\"),\n.."
+  "28" : {
+    "command" : "participant2.dars.list()",
+    "output" : "res2: Seq[com.digitalasset.canton.participant.admin.v0.DarDescription] = Vector(\n  DarDescription(\n    hash = \"12207f38b04c40dd9cf5bc1daa97625427665af959801fc77024dafd5898cb01f01b\",\n    name = \"AdminWorkflowsWithVacuuming\"\n  ),\n  DarDescription(\n    hash = \"12202102be83f3489f0f3df0d42d54280e6769eb173a8fee8eb02b20f82e1ef5d709\",\n    name = \"CantonExamples\"\n  )\n)"
   },
-  "139" : {
+  "137" : {
     "command" : "participant1.dars.vetting.disable(darHash)",
-    "output" : "ERROR com.digitalasset.canton.integration.EnterpriseEnvironmentDefinition$$anon$3 - Request failed for participant1.\n  GrpcRequestRefusedByServer: FAILED_PRECONDITION/MAIN_DAR_PACKAGE_REFERENCED_EXTERNALLY(9,b583d752): Operation DAR disabling for DAR 'CantonExamples' failed due to its main package with packageId=7e0aa3d819f2dfd20c1ba08ac133130e1f135172e5c0f4cf0c8a70d79d7b5a84 being vetted multiple times\n  Request: UnvetDar(12202102be83f3489f0f3df0d42d54280e6769eb173a8fee8eb02b20f82e1ef5d709,true)\n  CorrelationId: b583d75280e593ba9fdce012ebea166b\n  Context: HashMap(participant -> participant1, test -> PackageDarManagementDocumentationIntegrationTest, darDescription -> CantonExamples, operationName -> DAR disabling, mainPackageId -> 7e0aa3d819f2dfd20c1ba08ac133130e1f135172e5c0f4cf0c8a70d79d7b5a84, tid -> b583d75280e593ba9fdce012ebea166b)\n  Command ParticipantAdministration$dars$vetting$.disable invoked from cmd10000046.sc:1"
+    "output" : "ERROR com.digitalasset.canton.integration.EnterpriseEnvironmentDefinition$$anon$3 - Request failed for participant1.\n  GrpcRequestRefusedByServer: FAILED_PRECONDITION/MAIN_DAR_PACKAGE_REFERENCED_EXTERNALLY(9,7a5d6802): Operation DAR disabling for DAR 'CantonExamples' failed due to its main package with packageId=7e0aa3d819f2dfd20c1ba08ac133130e1f135172e5c0f4cf0c8a70d79d7b5a84 being vetted multiple times\n  Request: UnvetDar(12202102be83f3489f0f3df0d42d54280e6769eb173a8fee8eb02b20f82e1ef5d709,true)\n  CorrelationId: 7a5d68026107b5b935e392712a2525a4\n  Context: HashMap(participant -> participant1, test -> PackageDarManagementDocumentationIntegrationTest, darDescription -> CantonExamples, operationName -> DAR disabling, mainPackageId -> 7e0aa3d819f2dfd20c1ba08ac133130e1f135172e5c0f4cf0c8a70d79d7b5a84, tid -> 7a5d68026107b5b935e392712a2525a4)\n  Command ParticipantAdministration$dars$vetting$.disable invoked from cmd10000046.sc:1"
   },
-  "107" : {
-    "command" : "participant1.ledger_api.commands.submit(Seq(participant1.adminParty ), Seq(createIouCmd))",
-    "output" : "res14: com.daml.ledger.api.v1.transaction.TransactionTree = TransactionTree(\n  transactionId = \"12203c1ec2fc1efe30fafca72d0b3267727131fb39937733bb2a58cf0ab24068d4d7\",\n  commandId = \"15fb7888-93cd-47c2-bfd6-aae1547b2970\",\n  workflowId = \"\",\n  effectiveAt = Some(\n.."
-  },
-  "242" : {
-    "command" : "participant1.topology.check_only_packages.authorize(TopologyChangeOp.Add, participant1.id, Seq(LfPackageId.assertFromString(mainPackageId)), force = true)",
-    "output" : ".."
-  },
-  "126" : {
+  "124" : {
     "command" : "participant1.dars.vetting.enable(darHash)",
     "output" : ""
   },
-  "195" : {
+  "193" : {
     "command" : "participant1.dars.vetting.disable(darHash)",
+    "output" : ""
+  },
+  "103" : {
+    "command" : "participant1.domains.connect_local(mydomain)",
+    "output" : ""
+  },
+  "240" : {
+    "command" : "participant1.topology.check_only_packages.authorize(TopologyChangeOp.Add, participant1.id, Seq(LfPackageId.assertFromString(mainPackageId)), force = true)",
+    "output" : ".."
+  },
+  "198" : {
+    "command" : "participant1.topology.vetted_packages.list().exists(_.item.packageIds.contains(mainPackageId))",
+    "output" : "res24: Boolean = false"
+  },
+  "199" : {
+    "command" : "",
+    "output" : ""
+  },
+  "177" : {
+    "command" : "participant1.dars.vetting.enable(darHash)",
+    "output" : ""
+  },
+  "182" : {
+    "command" : "participant1.topology.vetted_packages.list().exists(_.item.packageIds.contains(mainPackageId))",
+    "output" : "res22: Boolean = true"
+  },
+  "87" : {
+    "command" : "participant2.dars.vetting.enable(hash)",
+    "output" : ""
+  },
+  "104" : {
+    "command" : "val createIouCmd = ledger_api_utils.create(mainPackageId,\"Iou\",\"Iou\",Map(\"payer\" -> participant1.adminParty,\"owner\" -> participant1.adminParty,\"amount\" -> Map(\"value\" -> 100.0, \"currency\" -> \"EUR\"),\"viewers\" -> List()))",
+    "output" : ".."
+  },
+  "119" : {
+    "command" : "participant1.ledger_api.commands.submit(Seq(participant1.adminParty), Seq(createIouCmd))",
+    "output" : "ERROR com.digitalasset.canton.integration.EnterpriseEnvironmentDefinition$$anon$3 - Request failed for participant1.\n  GrpcRequestRefusedByServer: FAILED_PRECONDITION/NO_DOMAIN_FOR_SUBMISSION(9,a1fc5ba7): No valid domain for submission found.\n  Request: SubmitAndWaitTransactionTree(\n  actAs = participant1::1220ffcaad4b...,\n  readAs = Seq(),\n  commandId = '',\n  workflowId = '',\n  submissionId = '',\n  deduplicationPeriod = None(),\n  applicationId = 'CantonConsole',\n  commands = ...\n)\n  CorrelationId: a1fc5ba7425689d5d49ee4f420388cca\n  Context: HashMap(participant -> participant1, test -> PackageDarManagementDocumentationIntegrationTest, domainsNotUsed -> Map(mydomain::122031b78160... -> The topology state for some packages does not meet the requirements on domain mydomain::122031b78160...: [(Participant PAR::participant1::1220ffcaad4b... has not vetted 7e0aa3d819f2...)]), tid -> a1fc5ba7425689d5d49ee4f420388cca, definite_answer -> false)\n  Command BaseLedgerApiAdministration$ledger_api$commands$.submit invoked from cmd10000038.sc:1"
+  },
+  "235" : {
+    "command" : "txsContainingMainPackage.foreach { tx => participant1.topology.vetted_packages.authorize(TopologyChangeOp.Remove,participant1.id,tx.item.packageIds,force = true); participant1.topology.vetted_packages.authorize(TopologyChangeOp.Add,participant1.id,tx.item.packageIds.filterNot(_ == mainPackageId),force = true)}",
+    "output" : ""
+  },
+  "82" : {
+    "command" : "participant2.dars.upload(\"dars/CantonExamples.dar\", vetAllPackages = false)",
+    "output" : "res8: String = \"12202102be83f3489f0f3df0d42d54280e6769eb173a8fee8eb02b20f82e1ef5d709\""
+  },
+  "36" : {
+    "command" : "val dars = participant2.dars.list(filterName = \"CantonExamples\")",
+    "output" : "dars : Seq[com.digitalasset.canton.participant.admin.v0.DarDescription] = Vector(\n  DarDescription(\n    hash = \"12202102be83f3489f0f3df0d42d54280e6769eb173a8fee8eb02b20f82e1ef5d709\",\n    name = \"CantonExamples\"\n  )\n)"
+  },
+  "183" : {
+    "command" : "",
     "output" : ""
   },
   "47" : {
@@ -132,15 +140,7 @@
     "output" : "res6: Seq[com.digitalasset.canton.participant.admin.v0.PackageDescription] = Vector(\n  PackageDescription(\n    packageId = \"88cf65277201722eda8564ac04494bed23ac79673722af482c6f3fb37aec83ed\",\n    sourceDescription = \"AdminWorkflowsWithVacuuming\"\n  ),\n  PackageDescription(\n    packageId = \"86828b9843465f419db1ef8a8ee741d1eef645df02375ebf509cdc8c3ddd16cb\",\n    sourceDescription = \"CantonExamples\"\n.."
   },
   "200" : {
-    "command" : "participant1.topology.vetted_packages.list().exists(_.item.packageIds.contains(mainPackageId))",
-    "output" : "res24: Boolean = false"
-  },
-  "83" : {
-    "command" : "participant2.dars.upload(\"dars/CantonExamples.dar\", vetAllPackages = false)",
-    "output" : "res8: String = \"12202102be83f3489f0f3df0d42d54280e6769eb173a8fee8eb02b20f82e1ef5d709\""
-  },
-  "222" : {
-    "command" : "participant1.dars.vetting.enable(examplesDependencyDarHash)",
-    "output" : ""
+    "command" : "participant1.topology.check_only_packages.list().exists(_.item.packageIds.contains(mainPackageId))",
+    "output" : "res25: Boolean = true"
   }
 }

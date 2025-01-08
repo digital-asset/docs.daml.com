@@ -67,13 +67,12 @@ This is done by Canton package state topology transactions which can be seen by 
 Therefore, for two participants to synchronize on a transaction that uses packages contained in a certain DAR, both participant operators
 must upload and vet the same DAR and its contained packages before the transaction is submitted.
 
-If one of the involved participants doesn't know about the packages of a certain DAR, then transaction submission will be rejected with an error
-``NO_DOMAIN_FOR_SUBMISSION`` (with additional metadata listing which package has not been vetted on which participant).
-This can happen if the DAR has not been uploaded to the participant node or it has not been vetted.
+If the DAR has not been uploaded to one of the involved participants or it has not been vetted, then transaction submissions are rejected with a
+``NO_DOMAIN_FOR_SUBMISSION`` error (with additional metadata listing which package has not been vetted on which participant).
 
 .. note::
     The unit of Daml code for which a Canton participant can issue topology transactions is the Daml package.
-    However, in practice, for ensuring that transactions can be successfully submitted using any package of a specific DAR,
+    However, in practice, to ensure that transactions can be successfully submitted using any package of a specific DAR,
     the Canton vetting APIs act at the DAR level (i.e. for all of a DAR's packages, transactionally).
     The APIs in question are the console commands: ``participant.dars.vetting.enable`` and ``participant.dars.vetting.disable`` as well
     as the Admin API calls: ``PackageService.vetDar`` and ``PackageService.unvetDar``.
@@ -95,8 +94,7 @@ Such a transaction would be impossible for the receiver to process, leading to a
 DAR vetting lifecycle
 ~~~~~~~~~~~~~~~~~~~~~
 
-As mentioned above, a participant can start accepting transactions that reference a DAR's packages after the DAR has been uploaded
-and its vetting enabled.
+As mentioned above, a participant can start accepting transactions that reference packages in a DAR after it has been uploaded and vetted.
 
 First, upload a DAR and create a contract referencing a template from the main package of the DAR:
 
@@ -114,9 +112,9 @@ You can unvet a DAR, effectively preventing its use in Daml transactions.
 
 .. note::
     Unvetting a DAR is a supported and safe operation on participants running protocol version 7 and above.
-    Usage of this operation in production environments is not advised on previous protocol version.
+    Usage of this operation in production environments is not advised on previous protocol versions.
 
-Any subsequent commands attempting to create or exercise choices on contracts for the referenced package IDs will now be rejected.
+Any subsequent commands attempting to create or exercise choices on contracts for the referenced package IDs are rejected.
 
 .. snippet:: package_dar_vetting
     .. failure:: participant1.ledger_api.commands.submit(Seq(participant1.adminParty), Seq(createIouCmd))
@@ -155,7 +153,7 @@ Advanced vetting concepts
 
 .. note::
     This section concentrates on lower-level details of package topology state and commands.
-    For most use cases, the high-level vetting APIs mentioned above is sufficient.
+    For most use cases, the high-level vetting APIs mentioned above are sufficient.
     Using lower-level topology APIs can lead to inconsistencies in the participant's topology state;
     it should be used only by experts.
 
@@ -174,7 +172,7 @@ With respect to a participant, a package can be in one of the following states:
 
 For a DAR that is unknown (topology-wise), the vetting operations (``participant.dars.vetting.enable(darHash)`` or ``PackageService.vetDar``) results in a `VettedPackages` topology transaction referencing all the packages in the DAR.
 
-To exemplify, let's vet the examples DAR again:
+To illustrate the point, please vet the example DAR again:
 
 .. snippet:: package_dar_vetting
     .. success:: participant1.dars.vetting.enable(darHash)
@@ -186,16 +184,16 @@ Now, check that the DAR's main package-id appears in a `VettedPackages` topology
     .. assert:: RES
 
 .. note::
-    On enabling the vetting for a DAR, if it exists, the `CheckOnlyPackages` topology transaction is eventually removed,
+    When a DAR is vetted, if it exists, the `CheckOnlyPackages` topology transaction is eventually removed,
     as a `VettedPackages` topology transaction already implies that the referenced packages can be used for validating the
     preexisting ledger contracts. This operation is asynchronous and does not block the vetting API call.
 
-Once we disable the package's DAR vetting,
+Now, unvet the DAR:
 
 .. snippet:: package_dar_vetting
     .. success:: participant1.dars.vetting.disable(darHash)
 
-the package ID appears only in a `CheckOnlyPackages` topology transaction:
+And you can observe that the package ID appears only in a `CheckOnlyPackages` topology transaction:
 
 .. snippet:: package_dar_vetting
     .. success(output=1):: participant1.topology.vetted_packages.list().exists(_.item.packageIds.contains(mainPackageId))
@@ -203,9 +201,9 @@ the package ID appears only in a `CheckOnlyPackages` topology transaction:
     .. success(output=1):: participant1.topology.check_only_packages.list().exists(_.item.packageIds.contains(mainPackageId))
     .. assert:: RES
 
-Commands toggling between the two vetting enabled and disabled states effectively always issue two topology operations:
+Commands toggling between the two vetting states effectively issue two topology operations:
 
-- **On vetting enable**: A `VettedPackages` topology transaction is added and corresponding `CheckOnlyPackages` topology transaction
+- **On vetting enable**: A `VettedPackages` topology transaction addition and the removal of the corresponding `CheckOnlyPackages` topology transaction
 
 - **On vetting disable**: A `CheckOnlyPackages` topology transaction addition and the removal of the `VettedPackages` topology transaction
 
