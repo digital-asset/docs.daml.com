@@ -213,7 +213,6 @@ For example, if the old version was ``2.9.0`` and you want to move to ``2.9.5``,
       "generated/daml.js/40f452260bef3f29dede136108fc08a88d5a5250310281067087da6f0baddff7": {
             "name": "@daml.js/40f452260bef3f29dede136108fc08a88d5a5250310281067087da6f0baddff7",
             "version": "2.9.0",
-            "version": "2.9.5",
             "license": "UNLICENSED",
             "dependencies": {
 
