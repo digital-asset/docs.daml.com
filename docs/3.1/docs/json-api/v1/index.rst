@@ -55,7 +55,7 @@ You can run the JSON API alongside any ledger exposing the gRPC Ledger API you w
 Configure the HTTP JSON API Service
 ===================================
 
-You can configure the JSON API through the standard canton config file:
+You can configure the JSON API through the standard Canton config file:
 
 .. code-block:: shell
 
@@ -74,7 +74,7 @@ where a corresponding minimal config file is
       }
     }
 
-This will start the JSON API on port 7575.
+This starts the JSON API on port 7575.
 
 .. note:: Your JSON API service should never be exposed to the internet. When running in production the JSON API should be behind a `reverse proxy, such as via NGINX <https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/>`_.
 
@@ -121,7 +121,7 @@ With Query Store
 ----------------
 
 Unlike the previous stand-alone JSON API, the built-in version does not have a query store. If you need persistent
-storage for your JSON API client application, please configure a PQS instance. For setup instructions, see the `PQS
+storage for your JSON API client application, configure a PQS instance. For setup instructions, see the `PQS
 documentation <https://docs.daml.com/query/pqs-user-guide.html>`__.
 
 .. _json-api-access-tokens-v1:
