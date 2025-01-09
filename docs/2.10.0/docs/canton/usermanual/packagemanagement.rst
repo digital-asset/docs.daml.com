@@ -48,7 +48,7 @@ You can also directly look at the packages, using:
     .. success(output=8):: participant2.packages.list()
 
 Please note that a DAR can include packages that are already included in other DARs. In particular the Daml standard library
-are shipped with every DAR. Therefore, the ``sourceDescription`` will always contain only one textual reference to a DAR.
+is shipped with every DAR. Therefore, the ``sourceDescription`` will always contain only one textual reference to a DAR.
 
 You can also inspect the content of a package, using:
 
