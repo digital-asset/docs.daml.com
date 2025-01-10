@@ -2058,17 +2058,6 @@ project that uses retroactive instances, you must move the instances to their re
 during the migration.
 See `Limitations <#limitations>`__ for more information.
 
-Explicit Template Versions
---------------------------
-
-If you need package version-specific behavior that does not depend on
-the presence or absence of new fields, you can
-tag your contracts in their payload with an explicit version field.
-This makes
-"partial upgrades" (where a user may only upgrade part of the payload of
-a package, intentionally) less fragile, and allows you to model rollbacks as upgrades
-in a principled manner.
-
 Avoid Contract Metadata Changes
 -------------------------------
 
