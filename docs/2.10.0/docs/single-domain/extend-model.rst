@@ -32,7 +32,7 @@ Templates specify:
 
 - fields and data types that define the contract payload information upon creation
 - `signatory <https://docs.daml.com/concepts/ledger-model/ledger-integrity.html#signatories-agreements-and-maintainers>`_, whose authorization is required for the creation of the contract
-- choices, which are actions that a :doc:`controller </daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Account-Account>` can take on a contract
+- choices, which are actions that a :doc:`controller </daml-finance/reference/code-documentation/daml-finance-rst/Daml-Finance-Account-V4-Account>` can take on a contract
 
 **Create a RejectedTransferOffer Template**
 
