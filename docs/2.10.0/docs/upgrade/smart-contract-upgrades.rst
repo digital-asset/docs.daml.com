@@ -1819,13 +1819,13 @@ With SCU, we introduce a more generic template reference of the format
 ``#<package-name>:<module-name>:<template-name>`` (**by-package-name template ID**)
 that scopes templates by package-name, allowing version-agnostic addressing of templates on the Ledger API.
 It serves as a reference to all template IDs with the qualified name ``<module-name>:<template-name>``
-from all packages with the name ``package-name`` known to the Ledger API.
+from all packages with the name ``package-name`` known to the Ledger API server.
 
 `By-package-name template ID` addressing is supported for all upgradable packages (LF >= 1.17)
 and is possible on both the write path (command submission) and read path (Ledger API queries).
 
-The `by-package-name template ID` is only a Ledger API interface concept.
-Internally, Canton continues to use the fully qualified template ID for all operations.
+The `by-package-name template ID` is an API-level concept of the Ledger API.
+Internally, Canton uses by-package-id template IDs for all operations.
 Therefore, when the new format is used in requests to the Ledger API,
 a dynamic resolution is performed as described in the following sections.
 
@@ -1835,15 +1835,15 @@ Package Preference
 ------------------
 
 On processing a command submission, there are scenarios where the Ledger API server needs
-to disambiguate `by-package-name template IDs` to `by-package-id template IDs` (see :ref:`dynamic-package-resolution-in-command-submission`).
+to resolve `by-package-name template IDs` to `by-package-id template IDs` (see :ref:`dynamic-package-resolution-in-command-submission`).
 For this purpose, the **package preference** concept is introduced
 as the mapping from package-name to package ID for all known package-names on the participant.
 
 The package preference is needed at each command submission time and is assembled from two sources:
 
-- The **default** package preference of the Ledger API to which the command is submitted.
+- The **default** package preference of the Ledger API server to which the command is submitted.
   This is the exhaustive mapping from package-name to package ID for all known package-names on the participant.
-  If multiple package IDs exist for a package-name, the package ID pertaining to the package with the highest
+  If multiple package IDs exist for a package-name, the package ID of the package with the highest
   version is used.
 
 - The Ledger API client **override** as the
@@ -1873,12 +1873,12 @@ Dynamic Package Resolution in Command Submission
 
 Dynamic package resolution can happen in two cases during command submission:
 
--  For command submissions that use `by-package-name template ID`
+-  For command submissions that use a `by-package-name template ID`
    in the command’s templateId field (e.g. in a
    create command :ref:`here <com.daml.ledger.api.v1.CreateCommand>`)
 
--  For command submissions leading to Daml transactions that contain
-   interface exercises or fetches.
+-  For command submissions whose Daml interpretation requires the execution of
+   interface choices or fetch-by-interface actions.
 
 In these situations, the :ref:`package preference <package-preference>` is used for
 selecting the target implementation package for these interface actions.
@@ -2278,11 +2278,11 @@ Operational Design Guideline for Upgrading Daml Apps
 When considering upgrading, we regard each Daml application as composed of:
 
 - **On-ledger components**: The Daml code running the on-ledger logic (i.e. the DARs uploaded
-  on each involved participant node)
+  to all participant nodes interacting with the app)
 
 - **Off-ledger components** interacting with the ledger via the Ledger API or other supported
   Canton Ledger API clients (JSON API or PQS).
-  These are typically Java or TypeScript services performing off-ledger business logic.
+  These are typically Java or TypeScript services implementing off-ledger business logic.
 
 Zero-Downtime Upgrades
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -2292,7 +2292,7 @@ Upgrading an application without operational downtime can be achieved by designi
 - **Asynchronous rollout**: Operators deploy updated software at their own pace,
   similar to established CI/CD practices in micro-service environments.
 
-- **Synchronous switch-over**: All workflows switch to the updated logic at a specific point in time.
+- **Synchronous switch-over**: All components switch to using updated Daml code at the same time.
 
 **Designing for asynchronous upgrade roll-outs**
 
@@ -2303,15 +2303,16 @@ To allow for asynchronous roll-outs, off-ledger components should:
   instead of `by-package-id template IDs` in all their command submissions and queries.
   This allows:
 
-    - Ledger API server-side version selection the package preference for command submissions
+    - Ledger API server-side version selection of the package preference for command submissions.
 
     - reading all versions of the templates in queries, even newer versions
-      than the one the service was developed against
+      than the one the component was developed against.
 
 - **handle missing optional fields**:
   Services reading from the Ledger API or Ledger API clients
   must be prepared to handle missing optional fields in records,
   including those in the initial package.
+  The TypeScript and Java codegens for reading Daml values do so by default.
 
 - **use exhaustive package preference**: on each command submission, the ``package_id_selection_preference`` is set ensuring that:
 
@@ -2338,10 +2339,10 @@ During this window, Canton node and off-leder service operators should:
 
 After the operational window passes, the application can switch-over to the upgraded logic as such:
 
-- A switch-over time is decided and communicated to all client applications in advance,
+- A switch-over time is decided and communicated to all app clients in advance,
   along with the updated package preference pertaining to the application's upgraded DARs.
 
-- As a recommendation, the switch-over time is signalled via some off-ledger workflow/communication channel.
+- For example, you may encode the switch-over time in a config value set on all components; or publish it at a well-known HTTP endpoint from which all components read it.
 
 - After the switch-over time, all Ledger API clients update their package preference
   and use it for subsequent command submissions.
@@ -2358,17 +2359,16 @@ Rolling out backwards-incompatible changes
 Some changes to a Daml workflow cannot be made backwards-compatible,
 such as changing the definition of a template in a breaking way (e.g., extending the observer set).
 
-To handle such changes, replace the existing contract with an upgraded one of the target template
-(even if it is upgrade-incompatible with the source template). Proceed as follows:
+To handle such changes, you can replace the existing contract with an upgraded one of the target template as follows:
 
 - Introduce the target template as a new template following the :ref:`Breaking changes via Explicit Package Version <upgrade-package-naming>`
 
-- Add a consuming ``upgrade`` choice to the existing template by rolling out a new version in a backwards-compatible fashion.
+- Add a consuming ``OriginalTemplate_UpgradeToNewTemplate`` choice to the existing template by rolling out a new version in a backwards-compatible fashion.
 
 - Where required, provide reference data for the ``upgrade`` choice via additional choice arguments.
 
-- Using backend automation or a contract migration tool similar to the one described :ref:`here <upgrade-overview>`
-  to migrate old contracts to the new ones by exercising the ``upgrade`` choice on the existing contracts.
+- Implement backend automation or a contract migration tool similar to the one described :ref:`here <upgrade-overview>`
+  to migrate all old contracts to the new ones by exercising the ``upgrade`` choice on the existing contracts.
 
 .. note::
     Rolling out backwards-incompatible changes as described in this section
