@@ -2337,7 +2337,7 @@ During this window, Canton node and off-ledger app operators should:
 
 - Roll-out the updated off-ledger components
 
-After the operational window passes, the application can switch-over to the upgraded logic as such:
+After the operational window passes, the application can switch over to the upgraded logic as such:
 
 - A switch-over time is decided and communicated to all app clients in advance,
   along with the updated package preference pertaining to the application's upgraded DARs.
@@ -2376,7 +2376,7 @@ To handle such changes, you can replace the existing contract with an upgraded o
     In order to not disrupt business, such rollouts should be executed during maintenance windows.
 
 .. note::
-    Note that this kind of upgrade requires O(#number-of-active-contracts) of transactions to roll out.
+    Note that this kind of upgrade requires O(number-of-active-contracts) of transactions to roll out.
     Depending on the size of your ACS this can take a long time and consume significant compute and storage resources.
     In contrast, the backwards-compatible upgrades can be rolled out with constant cost, independent of the size of your ACS.
 
