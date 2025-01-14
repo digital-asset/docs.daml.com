@@ -23,7 +23,6 @@ the DAR of the fixed package. This feature requires the minimum versions of LF
 the SCU feature, while :ref:`The Smart Contract Upgrade Model in Depth
 <upgrade-model-reference>` is a concise, technical description of the feature.
 
- 
 Smart Contract Upgrade (SCU) is a feature for Daml
 packages which enable authors to publish new versions of their templates
 while maintaining compatibility with prior versions, without any
@@ -258,7 +257,7 @@ recent version of the package that is uploaded on the participant. It
 will also use the most recent implementation of any choices you exercise
 directly through the Ledger API, by automatically upgrading/downgrading the choice argument.
 Choice result upgrading/downgrading is handled by Consuming Clients, as discussed later in this section.
-This behavior can be influenced by `[BROKEN] package preference <#dynamic-package-resolution-in-ledger-api-queries>`__.
+This behavior can be influenced by :ref:`the package preference <package-preference>`.
 
 **Updates in a choice body**
 
@@ -374,8 +373,8 @@ data transformations that cannot be made using SCU upgrades:
 These restrictions are required to give a simple model of runtime
 upgrades, avoiding ambiguity and non-obvious side effects. If you
 require any of these types of changes, you may need to consider a
-redeployment with downtime, using any of the tools listed in 
-`What is Smart Contract Upgrade <#what-are-zero-downtime-smart-contract-upgrades>`__.
+redeployment with downtime, either using the approach suggested in :ref:`Rolling out backwards-incompatible changes <backwards-incompatible-changes>`
+or using the existing upgrade procedure described in :ref:`here <upgrade-overview>`.
 
 In this version of SCU, the following functionality has not yet
 been implemented, but may be implemented in future releases.
@@ -1822,14 +1821,13 @@ that scopes templates by package-name, allowing version-agnostic addressing of t
 It serves as a reference to all template IDs with the qualified name ``<module-name>:<template-name>``
 from all packages with the name ``package-name`` known to the Ledger API.
 
-**By-package name template ID** addressing is supported
-for all upgradable packages (LF >= 1.17) and is possible on the
-write path (command submission) and read path (Ledger API queries) as presented below.
+`By-package-name template ID` addressing is supported for all upgradable packages (LF >= 1.17)
+and is possible on both the write path (command submission) and read path (Ledger API queries).
 
-The **by-package name template ID** is only a Ledger API interface concept.
+The `by-package-name template ID` is only a Ledger API interface concept.
 Internally, Canton continues to use the fully qualified template ID for all operations.
-Therefore, on explicit or implicit uses of the new format in the Ledger API,
-a dynamic resolution is performed as described below.
+Therefore, when the new format is used in requests to the Ledger API,
+a dynamic resolution is performed as described in the following sections.
 
 .. _package-preference:
 
@@ -1837,7 +1835,7 @@ Package Preference
 ------------------
 
 On processing a command submission, there are scenarios where the Ledger API server needs
-to disambiguate by-name template IDs to by-package ID template IDs (see :ref:`dynamic-package-resolution-in-command-submission`).
+to disambiguate `by-package-name template IDs` to `by-package-id template IDs` (see :ref:`dynamic-package-resolution-in-command-submission`).
 For this purpose, the **package preference** concept is introduced
 as the mapping from package-name to package ID for all known package-names on the participant.
 
@@ -1855,8 +1853,7 @@ The package preference is needed at each command submission time and is assemble
 
    - See :ref:`here <daml-script-package-preference>` for how to provide this in Daml-Script
 
-   -  **Note:** The Command’s
-      :ref:`package_id_selection_preference <com.daml.ledger.api.v1.Commands.package_id_selection_preference>`
+   -  **Note:** The :ref:`package_id_selection_preference <com.daml.ledger.api.v1.Commands.package_id_selection_preference>`
       must not lead to ambiguous resolutions for package-names,
       meaning that it must not contain two package-ids pointing to
       packages with the same package-name, as otherwise the submission will fail with
@@ -1876,7 +1873,7 @@ Dynamic Package Resolution in Command Submission
 
 Dynamic package resolution can happen in two cases during command submission:
 
--  For command submissions that use **by-package name template ID**
+-  For command submissions that use `by-package-name template ID`
    in the command’s templateId field (e.g. in a
    create command :ref:`here <com.daml.ledger.api.v1.CreateCommand>`)
 
@@ -1889,10 +1886,10 @@ selecting the target implementation package for these interface actions.
 Dynamic Package Resolution in Ledger API Queries
 ------------------------------------------------
 
-When subscribing for
-:ref:`transaction <transaction-trees>`
+When subscribing for :ref:`transaction <transaction-trees>`
 or :ref:`active contract streams <active-contract-service>`,
-users can now use the ``#<package-name>`` selector in the template-id format
+users can now use the `by-package-name template ID` format
+in the :ref:`template-id request filter field <com.daml.ledger.api.v1.TemplateFilter.template_id>`.
 to specify that they’re interested in fetching events for all templates
 pertaining to the specified package-name. This template selection set is
 dynamic and it widens with each uploaded template/package.
@@ -2274,6 +2271,114 @@ even when it is not a valid upgrade from one version to the next.
 
 **Note:** We still recommend against depending on Daml Script for
 ledger-uploaded packages, even in this case with non-serializable positions.
+
+Operational Design Guideline for Upgrading Daml Apps
+----------------------------------------------------
+
+When considering upgrading, we regard each Daml application as composed of:
+
+- **On-ledger components**: The Daml code running the on-ledger logic (i.e. the DARs uploaded
+  on each involved participant node)
+
+- **Off-ledger components** interacting with the ledger via the Ledger API or other supported
+  Canton Ledger API clients (JSON API or PQS).
+  These are typically Java or TypeScript services performing off-ledger business logic.
+
+Zero-Downtime Upgrades
+~~~~~~~~~~~~~~~~~~~~~~
+
+Upgrading an application without operational downtime can be achieved by designing the above-mentioned components to allow:
+
+- **Asynchronous rollout**: Operators deploy updated software at their own pace,
+  similar to established CI/CD practices in micro-service environments.
+
+- **Synchronous switch-over**: All workflows switch to the updated logic at a specific point in time.
+
+**Designing for asynchronous upgrade roll-outs**
+
+To allow for asynchronous roll-outs, off-ledger components should:
+
+- **use package names in Ledger API requests**:
+  Services interacting with the Ledger API should use `by-package-name template IDs`
+  instead of `by-package-id template IDs` in all their command submissions and queries.
+  This allows:
+
+    - Ledger API server-side version selection the package preference for command submissions
+
+    - reading all versions of the templates in queries, even newer versions
+      than the one the service was developed against
+
+- **handle missing optional fields**:
+  Services reading from the Ledger API or Ledger API clients
+  must be prepared to handle missing optional fields in records,
+  including those in the initial package.
+
+- **use exhaustive package preference**: on each command submission, the ``package_id_selection_preference`` is set ensuring that:
+
+    - For every package used in the command and for every package used for the all possible interface instances,
+      there is an association between the package name and the package ID of a precise package included in the package preference.
+
+    - Within an application, all submissions use the same package preference.
+
+.. note::
+    Following these recommendations decouples the application's behavior from the DAR uploads
+    (see :ref:`the note regarding Package Preference <package-preference>`),
+    as package resolution is fully determined by the explicit
+    and exhaustive package preference provided in command submissions.
+
+**Operational steps for upgrading**
+
+Once a new Daml package version of the application is ready, define an operational window
+for allowing the asynchronous rollout of the updated components.
+During this window, Canton node and off-leder service operators should:
+
+- Upload the upgraded DARs to the participant nodes
+
+- Roll-out the updated off-ledger services
+
+After the operational window passes, the application can switch-over to the upgraded logic as such:
+
+- A switch-over time is decided and communicated to all client applications in advance,
+  along with the updated package preference pertaining to the application's upgraded DARs.
+
+- As a recommendation, the switch-over time is signalled via some off-ledger workflow/communication channel.
+
+- After the switch-over time, all Ledger API clients update their package preference
+  and use it for subsequent command submissions.
+
+.. note::
+    Ledger API clients or participant nodes that do not finish the components rollout before the update switch-over time
+    may not be able to participate in the upgraded workflow.
+
+.. _backwards-incompatible-changes:
+
+Rolling out backwards-incompatible changes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Some changes to a Daml workflow cannot be made backwards-compatible,
+such as changing the definition of a template in a breaking way (e.g., extending the observer set).
+
+To handle such changes, replace the existing contract with an upgraded one of the target template
+(even if it is upgrade-incompatible with the source template). Proceed as follows:
+
+- Introduce the target template as a new template following the :ref:`Breaking changes via Explicit Package Version <upgrade-package-naming>`
+
+- Add a consuming ``upgrade`` choice to the existing template by rolling out a new version in a backwards-compatible fashion.
+
+- Where required, provide reference data for the ``upgrade`` choice via additional choice arguments.
+
+- Using backend automation or a contract migration tool similar to the one described :ref:`here <upgrade-overview>`
+  to migrate old contracts to the new ones by exercising the ``upgrade`` choice on the existing contracts.
+
+.. note::
+    Rolling out backwards-incompatible changes as described in this section
+    incurs downtime on affected workflows until their contracts have been converted by the automation.
+    In order to not disrupt business, such rollouts should be executed during maintenance windows.
+
+.. note::
+    Note that this kind of upgrade requires O(#number-of-active-contracts) of transactions to roll out.
+    Depending on the size of your ACS this can take a long time and consume significant compute and storage resources.
+    In contrast, the backwards-compatible upgrades can be rolled out with constant cost, independent of the size of your ACS.
 
 .. _upgrades-testing:
 
@@ -2684,9 +2789,9 @@ submission.
 
 .. _daml-script-package-preference:
 
-**Package Preference**
+**Daml Script Package Preference**
 
-A submission can specify a `[BROKEN] package preference <#dynamic-package-resolution-in-ledger-api-queries>`__,
+A submission can specify a :ref:`package preference <package-preference>`
 as a list of package IDs:
 
 .. code:: daml
@@ -2748,99 +2853,3 @@ Daml Studio support
 Daml Studio runs a reference model of Canton called the IDE Ledger. This
 ledger has been updated to support the relevant parts of the Smart Contract
 Upgrades feature.
-
-Guidelines for Upgrading Daml Apps
-==================================
-
-This section outlines recommendations for designing and operating Daml applications that are intended to be upgraded over time.
-
-When considering upgrading Daml applications, we regard each Daml application as composed of:
-
-- **On-ledger component**: The Daml code running the on-ledger logic (i.e. the DARs uploaded
-  on each involved participant node)
-
-- **Off-ledger components** interacting with the ledger via the Ledger API.
-  These are typically Java or TypeScript services performing off-ledger business logic automation.
-
-Zero-Downtime Upgrades
-----------------------
-
-Upgrading an application without operational downtime can be achieved by designing the components to allow:
-
-- **Asynchronous rollout**: Operators can deploy updated software at their own pace, similar to established CI/CD practices.
-  This is possible by making components backwards-compatible, allowing old and new versions to coexist.
-
-- **Synchronous switch-over**: All workflows switch to the updated logic at a specific point in time.
-
-Allowing asynchronous roll-outs
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To allow for asynchronous roll-outs, off-ledger application components should:
-
-- **use package names in Ledger API requests**: Ledger API clients should use package names instead of package IDs in all their command submissions and queries.
-
-- **handle missing optional fields**: Ledger API clients must be prepared to handle missing optional fields in records, including those in the initial package.
-
-- **use exhaustive package preference**: on each command submission, the ``package_id_selection_preference`` is set ensuring that:
-
-    - For every package used in the command and for every package used for the all possible interface instances,
-      there is an association between the package name and the ID of a precise package included in the package preference.
-
-    - Within an application, all submissions use the same package preference.
-
-.. note::
-    Following these recommendations makes the behavior independent of package upload,
-    as package resolution is fully determined by an exhaustive package preference.
-
-Recommendation for Upgrade Deployment
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Once the application upgrade is ready, define an operational window for the asynchronous
-rollout of the updated components. During this window, Canton node and service operators should:
-
-- Upload the upgraded DARs to the participant nodes
-
-- Roll-out the updated off-ledger services
-
-After the operational window passes, the application can switch-over to the upgraded logic as such:
-
-- A switch-over time should be decided and communicated to all client applications in advance,
-  along with the updated package preference pertaining to the application's upgraded DARs.
-
-- As a recommendation, the switch-over time is signalled via some off-ledger workflow/communication channel.
-
-- At the switch-over time, all applications update their package preference and use it for subsequent command submissions.
-
-.. note::
-    Ledger API clients or participant nodes that do not finish the components rollout before the update switch-over time
-    will not be able to participate in the upgraded workflow.
-
-Rolling out backwards-incompatible changes
-------------------------------------------
-
-Some changes to a Daml workflow cannot be made backwards-compatible,
-such as changing the definition of a template in a breaking way (e.g., extending the observer set).
-
-To handle such changes, replace the existing contract with an upgraded one of the target template
-(even if it is upgrade-incompatible with the source template). Proceed as follows:
-
-- Introduce the ``upgrade`` template as a new template within a new package-name scope
-  (if necessary, follow the steps described in the section of incrementing the package name version).
-  The new template can be backwards incompatible with the old one.
-
-- Add a consuming ``upgrade`` choice to the existing template by rolling out a new version in a backwards-compatible fashion.
-
-- Where required, provide reference data for the ``upgrade`` choice via additional choice arguments.
-
-- Use backend automation or a contract migration tool like the upgrade runner developed by CX to migrate old contracts to the new ones
-  by exercising the ``upgrade`` choice on the existing contracts.
-
-.. note::
-    Rolling out backwards-incompatible changes as described in this section
-    incurs downtime on affected workflows until their contracts have been converted by the automation.
-    In order to not disrupt business, such rollouts should be executed during maintenance windows.
-
-.. note::
-    Note that in this kind of upgrade requires O(#active-contracts) of transactions to roll out.
-    Depending on the size of your ACS this can take a long time and consume significant compute and storage resources.
-    In contrast, the backwards-compatible upgrades can be rolled out with constant cost, independent of the size of your ACS.
