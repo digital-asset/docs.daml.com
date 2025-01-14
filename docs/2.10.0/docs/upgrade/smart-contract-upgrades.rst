@@ -258,7 +258,7 @@ recent version of the package that is uploaded on the participant. It
 will also use the most recent implementation of any choices you exercise
 directly through the Ledger API, by automatically upgrading/downgrading the choice argument.
 Choice result upgrading/downgrading is handled by Consuming Clients, as discussed later in this section.
-This behavior can be influenced by `package preference <#dynamic-package-resolution-in-ledger-api-queries>`__.
+This behavior can be influenced by `[BROKEN] package preference <#dynamic-package-resolution-in-ledger-api-queries>`__.
 
 **Updates in a choice body**
 
@@ -268,14 +268,14 @@ When Exercising a choice on a contract, the contract payload will be upgraded/do
 to match the version of the choice expected by the calling choice body. This means
 that in a choice body, an exercised choice argument or return type is never upgraded/downgraded.
 
-**Consuming Clients (such as Daml Script, ts/java codegen)**
+**Consuming Clients (such as Daml Script, TypeScript/Java codegen)**
 
 When clients query the Ledger API for contracts, the returned event
 payload format matches the template originally used for generating the
 event (creating a contract/exercising a choice). It is the
 responsibility of these clients to upgrade/downgrade the payloads they
 receive to match what is expected downstream. The same applies to choice
-results. Daml Script, as well as ts/java codegen, does this for you to 
+results. Daml Script, as well as TypeScript/Java codegen, does this for you to
 match the Ledger API response to the package versions they were run/built from.
 
 Upgrading Across the Stack
@@ -1811,49 +1811,47 @@ for valid upgrades, :ref:`here <upgrade-model-reference>`.
 Package Selection in the Ledger API
 ===================================
 
-Until the introduction of SCU, templates in requests on the Ledger API
-could only be referenced by the template-id, with the template fully
+Until the introduction of SCU, template IDs in requests to the Ledger API
+could only be scoped by package-id, with the template fully
 qualified name of format ``<package-id>:<module-name>:<template-name>``.
+For disambiguation, going forward, we refer to this format as **by-package-id template IDs**.
 
 With SCU, we introduce a more generic template reference of the format
-``#<package-name>:<module-name>:<template-name>``. This format is only a
-Ledger API concept and is meant to suggest to the Ledger API to perform
-a dynamic runtime resolution of packages in the Daml engine when
-generating the Daml transaction before command interpretation. This
-dynamic resolution is based on the existing upgradable (LF >= 1.17)
-package-ids pertaining to a specific ``package-name`` and is possible on the
-write path (command submission) and read path (Ledger API queries) as
-presented below.
+``#<package-name>:<module-name>:<template-name>`` (**by-package-name template ID**)
+that scopes templates by package-name, allowing version-agnostic addressing of templates on the Ledger API.
+It serves as a reference to all template IDs with the qualified name ``<module-name>:<template-name>``
+from all packages with the name ``package-name`` known to the Ledger API.
 
-.. _dynamic-package-resolution-in-command-submission:
+**By-package name template ID** addressing is supported
+for all upgradable packages (LF >= 1.17) and is possible on the
+write path (command submission) and read path (Ledger API queries) as presented below.
 
-Dynamic Package Resolution in Command Submission
-------------------------------------------------
+The **by-package name template ID** is only a Ledger API interface concept.
+Internally, Canton continues to use the fully qualified template ID for all operations.
+Therefore, on explicit or implicit uses of the new format in the Ledger API,
+a dynamic resolution is performed as described below.
 
-Dynamic package resolution can happen in two cases during command
-submission:
+.. _package-preference:
 
--  For command submissions that use the package-name selector
-   (``#<package-name>``) in the command’s templateId field (e.g. in a
-   create command :ref:`here <com.daml.ledger.api.v1.CreateCommand>`)
+Package Preference
+------------------
 
--  For command submissions leading to Daml transactions that contain
-   actions exercised on interfaces. In this situation there may be
-   many versions of a template that implement the interface being
-   exercised.
+On processing a command submission, there are scenarios where the Ledger API server needs
+to disambiguate by-name template IDs to by-package ID template IDs (see :ref:`dynamic-package-resolution-in-command-submission`).
+For this purpose, the **package preference** concept is introduced
+as the mapping from package-name to package ID for all known package-names on the participant.
 
-In these situations the following rules are followed to resolve the
-package-name to a package-id:
+The package preference is needed at each command submission time and is assembled from two sources:
 
--  By default, the participant resolves a package-name to the package-id
-   pertaining to the highest package version uploaded
+- The **default** package preference of the Ledger API to which the command is submitted.
+  This is the exhaustive mapping from package-name to package ID for all known package-names on the participant.
+  If multiple package IDs exist for a package-name, the package ID pertaining to the package with the highest
+  version is used.
 
--  The command submitter can override the above-mentioned default
-   participant resolution by pinning package-ids in the Command’s
-   :ref:`package_id_selection_preference <com.daml.ledger.api.v1.Commands.package_id_selection_preference>`.
-   More specifically, this field is a list of package-ids that must
-   be explicitly used when resolving package-name *ambiguities* in
-   either command template-id or interface resolution.
+- The Ledger API client **override** as the
+  :ref:`package_id_selection_preference <com.daml.ledger.api.v1.Commands.package_id_selection_preference>` in a command submission.
+  This is a package-name to package ID resolution list explicitly provided by the client to
+  override the default package preference mentioned above.
 
    - See :ref:`here <daml-script-package-preference>` for how to provide this in Daml-Script
 
@@ -1862,7 +1860,31 @@ package-name to a package-id:
       must not lead to ambiguous resolutions for package-names,
       meaning that it must not contain two package-ids pointing to
       packages with the same package-name, as otherwise the submission will fail with
-      an ``INVALID_ARGUMENT`` error
+      an ``INVALID_ARGUMENT`` error.
+
+.. note::
+    **Important**: DAR uploads change the package preference on the participant.
+    If a new uploaded DAR contains an upgradable (LF >= 1.17) package with a higher version
+    than the existing package preference for the same package name,
+    the preference is updated to the new package ID.
+    Essentially, this affects the Daml code version used in command submissions.
+
+.. _dynamic-package-resolution-in-command-submission:
+
+Dynamic Package Resolution in Command Submission
+------------------------------------------------
+
+Dynamic package resolution can happen in two cases during command submission:
+
+-  For command submissions that use **by-package name template ID**
+   in the command’s templateId field (e.g. in a
+   create command :ref:`here <com.daml.ledger.api.v1.CreateCommand>`)
+
+-  For command submissions leading to Daml transactions that contain
+   interface exercises or fetches.
+
+In these situations, the :ref:`package preference <package-preference>` is used for
+selecting the target implementation package for these interface actions.
 
 Dynamic Package Resolution in Ledger API Queries
 ------------------------------------------------
@@ -2664,7 +2686,7 @@ submission.
 
 **Package Preference**
 
-A submission can specify a `package preference <#dynamic-package-resolution-in-ledger-api-queries>`__,
+A submission can specify a `[BROKEN] package preference <#dynamic-package-resolution-in-ledger-api-queries>`__,
 as a list of package IDs:
 
 .. code:: daml
@@ -2732,7 +2754,7 @@ Guidelines for Upgrading Daml Apps
 
 This section outlines recommendations for designing and operating Daml applications that are intended to be upgraded over time.
 
-Upgrading a Daml application involves rolling out changes to:
+When considering upgrading Daml applications, we regard each Daml application as composed of:
 
 - **On-ledger component**: The Daml code running the on-ledger logic (i.e. the DARs uploaded
   on each involved participant node)
@@ -2743,10 +2765,10 @@ Upgrading a Daml application involves rolling out changes to:
 Zero-Downtime Upgrades
 ----------------------
 
-Upgrades with zero-downtime can be achieved by designing the components to allow:
+Upgrading an application without operational downtime can be achieved by designing the components to allow:
 
-- **Asynchronous rollout**: Each stakeholder or operator deploys the updated software components at their own pace.
-  This can be achieved by designing the components to be backwards-compatible, allowing both old and new versions to coexist.
+- **Asynchronous rollout**: Operators can deploy updated software at their own pace, similar to established CI/CD practices.
+  This is possible by making components backwards-compatible, allowing old and new versions to coexist.
 
 - **Synchronous switch-over**: All workflows switch to the updated logic at a specific point in time.
 
