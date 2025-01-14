@@ -1810,9 +1810,8 @@ for valid upgrades, :ref:`here <upgrade-model-reference>`.
 Package Selection in the Ledger API
 ===================================
 
-Until the introduction of SCU, template IDs in requests to the Ledger API
-could only be scoped by package-id, with the template fully
-qualified name of format ``<package-id>:<module-name>:<template-name>``.
+Until the introduction of SCU, template IDs in requests to the Ledger API were all of the form
+``<package-id>:<module-name>:<template-name>``.
 For disambiguation, going forward, we refer to this format as **by-package-id template IDs**.
 
 With SCU, we introduce a more generic template reference of the format
@@ -1848,7 +1847,7 @@ The package preference is needed at each command submission time and is assemble
 
 - The package-id selection preference list specified in the submitted command's
   :ref:`package_id_selection_preference <com.daml.ledger.api.v1.Commands.package_id_selection_preference>` in a command submission.
-  This is a package-name to package ID resolution list explicitly provided by the client to
+  This is package-id resolution list explicitly provided by the client to
   override the default package preference mentioned above.
 
    - See :ref:`here <daml-script-package-preference>` for how to provide this in Daml-Script
@@ -1863,7 +1862,7 @@ The package preference is needed at each command submission time and is assemble
     **Important**: DAR uploads change the package preference on the participant.
     If a new uploaded DAR contains an upgradable (LF >= 1.17) package with a higher version
     than the existing package preference for the same package name,
-    the preference is updated to the new package ID.
+    the default preference is updated to the new package ID.
     Essentially, this affects the Daml code version used in command submissions.
 
 .. _dynamic-package-resolution-in-command-submission:
@@ -2316,8 +2315,8 @@ To allow for asynchronous roll-outs, off-ledger components should:
 
 - **use exhaustive package preference**: on each command submission, the ``package_id_selection_preference`` is set ensuring that:
 
-    - For every package used in the command and for every package used for the all possible interface instances,
-      there is an association between the package name and the package ID of a precise package included in the package preference.
+    - The package ID of every package used in the command and of every package
+      used by all possible interface instances is included in the package preference.
 
     - Within an application, all submissions use the same package preference.
 
@@ -2341,8 +2340,8 @@ After the operational window passes, the application can switch over to the upgr
 
 - A switch-over time is decided and communicated to all app clients in advance,
   along with the updated package preference pertaining to the application's upgraded DARs.
-
-- For example, you may encode the switch-over time in a config value set on all components; or publish it at a well-known HTTP endpoint from which all components read it.
+  For example, you may encode the switch-over time in a config value set on all components;
+  or publish it at a well-known HTTP endpoint from which all components read it.
 
 - After the switch-over time, all Ledger API clients update their package preference
   and use it for subsequent command submissions.
