@@ -1846,7 +1846,7 @@ The package preference is needed at each command submission time and is assemble
   If multiple package IDs exist for a package-name, the package ID of the package with the highest
   version is used.
 
-- The Ledger API client **override** as the
+- The package-id selection preference list specified in the submitted command's
   :ref:`package_id_selection_preference <com.daml.ledger.api.v1.Commands.package_id_selection_preference>` in a command submission.
   This is a package-name to package ID resolution list explicitly provided by the client to
   override the default package preference mentioned above.
@@ -2299,7 +2299,7 @@ Upgrading an application without operational downtime can be achieved by designi
 To allow for asynchronous roll-outs, off-ledger components should:
 
 - **use package names in Ledger API requests**:
-  Services interacting with the Ledger API should use `by-package-name template IDs`
+  App components interacting with the Ledger API should use `by-package-name template IDs`
   instead of `by-package-id template IDs` in all their command submissions and queries.
   This allows:
 
@@ -2309,7 +2309,7 @@ To allow for asynchronous roll-outs, off-ledger components should:
       than the one the component was developed against.
 
 - **handle missing optional fields**:
-  Services reading from the Ledger API or Ledger API clients
+  App components reading from the Ledger API or Ledger API clients
   must be prepared to handle missing optional fields in records,
   including those in the initial package.
   The TypeScript and Java codegens for reading Daml values do so by default.
@@ -2331,11 +2331,11 @@ To allow for asynchronous roll-outs, off-ledger components should:
 
 Once a new Daml package version of the application is ready, define an operational window
 for allowing the asynchronous rollout of the updated components.
-During this window, Canton node and off-leder service operators should:
+During this window, Canton node and off-ledger app operators should:
 
 - Upload the upgraded DARs to the participant nodes
 
-- Roll-out the updated off-ledger services
+- Roll-out the updated off-ledger components
 
 After the operational window passes, the application can switch-over to the upgraded logic as such:
 
