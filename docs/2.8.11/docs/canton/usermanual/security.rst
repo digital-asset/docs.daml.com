@@ -302,7 +302,7 @@ A fingerprint of a key can be retrieved from the list of public keys:
 
 .. warning::
 
-    Rotating a sequencer key while a participant is disabled prevents the participant from joining the domain in the future again.
+    On domains using protocol version 3 or 4, rotating a sequencer key while a participant is disabled prevents the participant from joining the domain in the future again.
     Make sure that sequencer keys are only rolled when no participant is disabled.
 
 Namespace Intermediate Key Management
