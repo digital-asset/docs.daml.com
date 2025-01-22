@@ -300,6 +300,11 @@ A fingerprint of a key can be retrieved from the list of public keys:
    :end-before: user-manual-entry-end: ListPublicKeys
    :dedent:
 
+.. warning::
+
+    On domains using protocol version 3 or 4, rotating a sequencer key while a participant is disabled prevents that participant from rejoining the domain in the future.
+    Only roll sequencer keys when no participant is disabled.
+
 Namespace Intermediate Key Management
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
