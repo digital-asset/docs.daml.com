@@ -30,6 +30,8 @@ can run with a laptop using 2 GB of memory and a couple of CPU cores.
 However, :ref:`a much larger environment <hardware-resources>`  is recommended for testing or production
 use.
 
+Please note that the deprecated Intel-based MacIntosh binaries are produced on a best effort basis.  At some future point, a lack of Intel Mac machines may preclude building Intel binaries which will result in Intel-based MacIntosh support changing to unsupported and unavailable.
+
 Feature/Component System Requirements
 -------------------------------------
 
