@@ -15,6 +15,8 @@ subtrees:
     title: "Daml Application Infrastructure"
   - file: tsa-arch/daml-app-arch-design
     title: "Daml Application Architecture and Design Considerations"
+  - file: tsa-arch/sdlc
+    title: "Daml Application Lifecycle: Considerations and Best Practices"
 
 - caption: "Set Up Your Developer Environment"
   entries:
