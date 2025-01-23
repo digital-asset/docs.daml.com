@@ -96,17 +96,17 @@ Testing Daml apps is similar to testing other systems: prioritize automation and
    :alt: Testing pyramid as described below.
    :align: center
 
-  1. Unit Tests
-     * Use Daml Script for white-box unit tests.
-     * Mock backends and ledgers for frontend testing.
-  2. Integration Tests
-     * Backend: Use white-box integration tests for internal APIs that are only used by clients under the app provider’s control.
-     * Public APIs: Use black-box behavioral tests interacting at system boundaries.
-     * Test isolation: Use long-running Canton instances to avoid repeatedly paying Canton’s startup cost, and isolate tests using unique participant users and parties for each test run. One approach is appending a test run ID as a suffix to party and user names in your test harness.
-  3. End-to-End Tests
-     * Test workflows between end-users and systems across multiple participant nodes, backends, and frontends.
-     * Use tools like Selenium or Playwright for browser session orchestration.
-     * Test isolation: Either bootstrap the entire system for each test run or use a long-running system instance to specific tests. The latter approach supports faster test execution and quicker iterations.
+* Unit Tests
+  * Use Daml Script for white-box unit tests.
+  * Mock backends and ledgers for frontend testing.
+* Integration Tests
+  * Backend: Use white-box integration tests for internal APIs that are only used by clients under the app provider’s control.
+  * Public APIs: Use black-box behavioral tests interacting at system boundaries.
+  * Test isolation: Use long-running Canton instances to avoid repeatedly paying Canton’s startup cost, and isolate tests using unique participant users and parties for each test run. One approach is appending a test run ID as a suffix to party and user names in your test harness.
+* End-to-End Tests
+  * Test workflows between end-users and systems across multiple participant nodes, backends, and frontends.
+  * Use tools like Selenium or Playwright for browser session orchestration.
+  * Test isolation: Either bootstrap the entire system for each test run or use a long-running system instance to specific tests. The latter approach supports faster test execution and quicker iterations.
 
 3.2 Flaky Tests and Time Dependencies
 -------------------------------------
@@ -122,7 +122,7 @@ Testing Daml apps is similar to testing other systems: prioritize automation and
 * Perform soak testing with long-running deployments to detect bottlenecks.
 * Set up alerting to monitor system failures, tuning it over time for optimal observability. Well-tuned alerts established during development can be reused in operations to detect system health issues.
 
-4. Deploy
+1. Deploy
 =========
 
 4.1 Deployment Topology
