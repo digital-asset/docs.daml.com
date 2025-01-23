@@ -162,7 +162,7 @@ The disadvantages of this highly flexible architecture include:
 * Cross-organization software development: The initial development of the app and future changes necessitate coordination between the app provider and app user organizations. While Daml facilitates specifying APIs for workflows across organizations, the complexities of cross-organization software development should not be underestimated.
 * Restricted app evolution: Apps are expected to evolve over time to address new business requirements. However, app users may lack the willingness or capability to modify their frontend and backend code, complicating efforts to change or decommission existing workflows.
 
-.. _properties_summary:
+.. _properties-summary:
 
 3.4 Properties Summary
 ----------------------
