@@ -8,7 +8,7 @@ System Requirements
 
 Unless otherwise stated, all Daml runtime components require the following:
 
-1. For development, one of
+1. For development, one of:
   1. x86-compatible systems running a modern Linux or Windows operating system.
   2. ARM-based Macintosh systems running MacOS 11 or above.
   3. Deprecated: Intel-based Macintosh systems. 
