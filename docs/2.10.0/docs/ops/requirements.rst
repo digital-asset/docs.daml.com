@@ -9,12 +9,18 @@ System Requirements
 Unless otherwise stated, all Daml runtime components require the following:
 
 1. For development, one of:
+
   * x86-compatible systems running a modern Linux or Windows operating system
+
   * ARM-based Macintosh systems running MacOS 11 or above
+
   * Deprecated: Intel-based Macintosh systems 
+
 2. For production deployment, an x86-compatible system running a modern Linux
    operating system
+
 3. Java 11 or later
+
 4. An RDBMS system, *either*:
 
   * PostgreSQL 11.17-15 (12+ recommended)
