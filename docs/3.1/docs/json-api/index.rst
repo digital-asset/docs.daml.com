@@ -390,39 +390,33 @@ HTTP Request
 .. code-block:: json
 
     {
-      "commands" : [ {
-        "CreateCommand" : {
-          "template_id" : "#model-tests:Iou:Iou",
-          "create_arguments" : {
-            "observers" : [ ],
-            "issuer" : "Alice_2820c3a4-d1bd-49ef-9b90-17b142c55d30::1220df15d08ac34527e46492a6ee48a723e3d02ed3ec20a05ebf64be47173f24407f",
-            "amount" : "999.99",
-            "currency" : "USD",
-            "owner" : "Alice_2820c3a4-d1bd-49ef-9b90-17b142c55d30::1220df15d08ac34527e46492a6ee48a723e3d02ed3ec20a05ebf64be47173f24407f"
-          }
+      "actAs": [
+        "Alice::1220e906aef281d4783dcb90aab61bcccdefd485e18af9797603ec91fb322b9d1e6c"
+      ],
+      "applicationId" : "app1",
+      "commandId": "somecommandid2",
+      "commands": [
+        {
+          "_type": "CreateCommand",
+          "createArguments": {
+            "observers": [],
+            "issuer": "Alice::1220e906aef281d4783dcb90aab61bcccdefd485e18af9797603ec91fb322b9d1e6c",
+            "amount": "999.99",
+            "currency": "USD",
+            "owner": "Alice::1220e906aef281d4783dcb90aab61bcccdefd485e18af9797603ec91fb322b9d1e6c"
+          },
+          "templateId": "#model-tests:Iou:Iou"
         }
-      } ],
-      "workflow_id" : "",
-      "application_id" : "defaultapp1",
-      "command_id" : "somecommandid",
-      "deduplication_period" : {
-        "Empty" : { }
-      },
-      "min_ledger_time_abs" : null,
-      "min_ledger_time_rel" : null,
-      "act_as" : [ "Alice_2820c3a4-d1bd-49ef-9b90-17b142c55d30::1220df15d08ac34527e46492a6ee48a723e3d02ed3ec20a05ebf64be47173f24407f" ],
-      "read_as" : [ "Alice_2820c3a4-d1bd-49ef-9b90-17b142c55d30::1220df15d08ac34527e46492a6ee48a723e3d02ed3ec20a05ebf64be47173f24407f" ],
-      "submission_id" : "somesubmissionid1",
-      "disclosed_contracts" : [ ],
-      "domain_id" : "",
-      "package_id_selection_preference" : [ ]
+      ]
     }
+
 
 Where:
 
 - ``template_id`` is the contract template identifier which has the following
   two formats: ``#<package name>:<module>:<entity>`` or ``<package
   ID>:<module>:<entity>``.
+- ``_type`` is type of command, most common are ``CreateCommand``, ``ExerciseCommand`` and ``CreateAndExerciseCommand`` (see openapi specification for more details)
 
   The package name format works with the smart contract upgrading feature so
   that contracts with different package IDs but the same package name can be
@@ -431,12 +425,12 @@ Where:
   Using the package ID format refers to a single package.
 
 
-- ``create_arguments`` field contains contract fields as defined in the Daml template and formatted according to :doc:`lf-value-specification`.
+
+- ``createArguments`` field contains contract fields as defined in the Daml template and formatted according to :doc:`lf-value-specification`.
 - ``commandId`` -- optional field, a unique string identifying the command.
 - ``actAs`` -- a non-empty list of parties, overriding the set from the JWT user; must be a subset of the JWT user's set.
-- ``readAs`` -- a list of parties, overriding the set from the JWT user; must be a subset of the JWT user's set.
-- ``submissionId`` -- a string, used for :doc:`deduplicating retried requests </app-dev/command-deduplication>`.  If you do not set it, a random one will be chosen, effectively treating the request as unique and disabling deduplication.
-- ``deduplicationPeriod`` -- either a ``Duration`` as above, which is how far back in time prior commands will be searched for this submission, or an ``Offset`` as follows, which is the earliest ledger offset after which to search for the submission.
+
+.. note::  There is only subset of possible fields presented in the example, consult openapi specification for more options.
 
 .. _example_response: (in case of 1/v2/commands/submit-and-wait-for-transaction-tree)
 
