@@ -124,9 +124,9 @@ The full set of configurable options that can be specified via config file is li
         port = 7575
       }
       websocket-config {
-                    //maximum number of elements returned when HTTP POST alternative is used
+                    //Maximum number of elements returned when using the HTTP POST alternative.
                     http-list-max-elements-limit = 1024
-                    //wait time for new elements before the list is returned via HTTP POST alternative
+                    //Wait time for new elements before returning the list via the HTTP POST alternative.
                     http-list-wait-time = "1s"
       }
       ledger-api {
@@ -424,7 +424,6 @@ Where:
 - ``template_id`` is the contract template identifier which has the following
   two formats: ``#<package name>:<module>:<entity>`` or ``<package
   ID>:<module>:<entity>``.
-- ``_type`` is type of command, most common are ``CreateCommand``, ``ExerciseCommand`` and ``CreateAndExerciseCommand`` (see openapi specification for more details)
 
   The package name format works with the smart contract upgrading feature so
   that contracts with different package IDs but the same package name can be
@@ -438,7 +437,7 @@ Where:
 - ``commandId`` -- optional field, a unique string identifying the command.
 - ``actAs`` -- a non-empty list of parties, overriding the set from the JWT user; must be a subset of the JWT user's set.
 
-.. note::  There is only subset of possible fields presented in the example, consult openapi specification for more options.
+.. note::  Only a subset of the possible fields is shown in the example. Refer to the OpenAPI specification for additional options.
 
 .. _example_response: (in case of 1/v2/commands/submit-and-wait-for-transaction-tree)
 
@@ -776,14 +775,15 @@ The response might look like an example below:
 Get All Active Contracts via HTTP
 *********************************
 
-For each of websockets endpoints we define alternative POST endpoint, that returns same results in a synchronous way.
-HTTP POST alternatives are less robust:
-- cause more load on server,
-- the size of results is always limited (refer to configuration),
-- there is small performance penalty and delay when getting results.
+For each WebSocket endpoint, we provide an alternative HTTP POST endpoint that returns the same results synchronously.HTTP POST alternatives are less robust:
+However, HTTP POST alternatives are less efficient because:
 
-We recommend use of websocket for a production use. HTTP alternatives are good enough for prototyping and for a less demanding applications (in terms of load and amount of data).
+- They impose a higher load on the server.
+- The result size is always limited (refer to the configuration).
+- There is a slight performance overhead and delay in retrieving results.
 
+
+We recommend using WebSockets for production environments, as they offer better performance and scalability. HTTP alternatives are suitable for prototyping and less demanding applications with lower data and load requirements.
 
 HTTP Request
 ===============================
@@ -792,8 +792,6 @@ HTTP Request
 - Protocol: ``HTTP``
 - Method: ``POST``
 - Content:
-
-Body:
 
 .. code-block:: json
 
