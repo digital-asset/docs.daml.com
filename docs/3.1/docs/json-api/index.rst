@@ -122,33 +122,14 @@ The full set of configurable options that can be specified via config file is li
         address = "127.0.0.1"
         //HTTP JSON API service port number. A port number of 0 will let the system pick an ephemeral port.
         port = 7575
+        //Prefix added to all JSON endpoints.
+        path-prefix = "example/prefix"
       }
       websocket-config {
                     //Maximum number of elements returned when using the HTTP POST alternative.
                     http-list-max-elements-limit = 1024
                     //Wait time for new elements before returning the list via the HTTP POST alternative.
                     http-list-wait-time = "1s"
-      }
-      ledger-api {
-        address = "127.0.0.1"
-        port = 6865
-        tls {
-            enabled = "true"
-            // the certificate to be used by the server
-            cert-chain-file = "cert-chain.crt"
-            // private key of the server
-            private-key-file = "pvt-key.pem"
-            // trust collection, which means that all client certificates will be verified using the trusted
-            // certificates in this store. if omitted, the JVM default trust store is used.
-            trust-collection-file = "root-ca.crt"
-        }
-      }
-
-      metrics {
-        //Start a metrics reporter. Must be one of "console", "csv:///PATH", "graphite://HOST[:PORT][/METRIC_PREFIX]", or "prometheus://HOST[:PORT]".
-        reporter = "console"
-        //Set metric reporting interval , examples : 1s, 30s, 1m, 1h
-        reporting-interval = 30s
       }
 
       // DEV MODE ONLY (not recommended for production)
