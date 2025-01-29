@@ -123,6 +123,12 @@ The full set of configurable options that can be specified via config file is li
         //HTTP JSON API service port number. A port number of 0 will let the system pick an ephemeral port.
         port = 7575
       }
+      websocket-config {
+                    //maximum number of elements returned when HTTP POST alternative is used
+                    http-list-max-elements-limit = 1024
+                    //wait time for new elements before the list is returned via HTTP POST alternative
+                    http-list-wait-time = "1s"
+      }
       ledger-api {
         address = "127.0.0.1"
         port = 6865
@@ -765,6 +771,96 @@ The response might look like an example below:
         }
       }
     }
+
+
+Get All Active Contracts via HTTP
+*********************************
+
+For each of websockets endpoints we define alternative POST endpoint, that returns same results in a synchronous way.
+HTTP POST alternatives are less robust:
+- cause more load on server,
+- the size of results is always limited (refer to configuration),
+- there is small performance penalty and delay when getting results.
+
+We recommend use of websocket for a production use. HTTP alternatives are good enough for prototyping and for a less demanding applications (in terms of load and amount of data).
+
+
+HTTP Request
+===============================
+
+- URL: ``/v2/state/active-contracts``
+- Protocol: ``HTTP``
+- Method: ``POST``
+- Content:
+
+Body:
+
+.. code-block:: json
+
+    {
+        "filter":
+        {
+            "filtersByParty":{},
+            "filtersForAnyParty":
+                {"cumulative":  [
+                    {"identifierFilter":
+                        {"WildcardFilter":
+                            {"value":
+                                {"includeCreatedEventBlob":true}
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+        "verbose":false,
+        "activeAtOffset":23
+   }
+
+.. note:: be careful and do enter a proper value for activeAtOffset
+
+Example HTTP Response:
+======================
+
+.. code-block:: json
+
+  [
+    {
+      "workflowId": "",
+      "contractEntry": {
+        "JsActiveContract": {
+          "createdEvent": {
+            "offset": 18,
+            "nodeId": 0,
+            "contractId": "0047c4cc5cf2f0bda731a172fd90f5cc592f9d3ad2e5c45450d9de1cc4aa5adb71ca101220a8faa4673f7e9c28319eb57f98aad84d0bf1395fed971f24eb486bc4f48d9828",
+            "templateId": "19b9fc297d4649bab9fd0eeb3ce23da763cb9ed7dfaedeb1281ac7d7f65a7883:Iou:Iou",
+            "contractKey": null,
+            "createArgument": {
+              "issuer": "Alice::1220b6683b7d875557055126f8b8f059d9c070ece95e7784d279a135c8c1285a4f1f",
+              "owner": "Alice::1220b6683b7d875557055126f8b8f059d9c070ece95e7784d279a135c8c1285a4f1f",
+              "currency": "USD",
+              "amount": "999.9900000000",
+              "observers": []
+            },
+            "createdEventBlob": "CgMyLjES7wMKRQBHxMxc8vC9pzGhcv2Q9cxZL5060uXEVFDZ3hzEqlrbccoQEiCo+qRnP36cKDGetX+YqthNC/E5X+2XHyTrSGvE9I2YKBILbW9kZWwtdGVzdHMaTApAMTliOWZjMjk3ZDQ2NDliYWI5ZmQwZWViM2NlMjNkYTc2M2NiOWVkN2RmYWVkZWIxMjgxYWM3ZDdmNjVhNzg4MxIDSW91GgNJb3UiyAFqxQEKTwpNOktBbGljZTo6MTIyMGI2NjgzYjdkODc1NTU3MDU1MTI2ZjhiOGYwNTlkOWMwNzBlY2U5NWU3Nzg0ZDI3OWExMzVjOGMxMjg1YTRmMWYKTwpNOktBbGljZTo6MTIyMGI2NjgzYjdkODc1NTU3MDU1MTI2ZjhiOGYwNTlkOWMwNzBlY2U5NWU3Nzg0ZDI3OWExMzVjOGMxMjg1YTRmMWYKBwoFQgNVU0QKEgoQMg45OTkuOTkwMDAwMDAwMAoECgJaACpLQWxpY2U6OjEyMjBiNjY4M2I3ZDg3NTU1NzA1NTEyNmY4YjhmMDU5ZDljMDcwZWNlOTVlNzc4NGQyNzlhMTM1YzhjMTI4NWE0ZjFmOS/eEk3FLAYAQioKJgokCAESIANCONtfqgCanbAYj1wMaIE3YKLDoH+lM9kT19z2h1F4EB4=",
+            "interfaceViews": [],
+            "witnessParties": [
+              "Alice::1220b6683b7d875557055126f8b8f059d9c070ece95e7784d279a135c8c1285a4f1f"
+            ],
+            "signatories": [
+              "Alice::1220b6683b7d875557055126f8b8f059d9c070ece95e7784d279a135c8c1285a4f1f"
+            ],
+            "observers": [],
+            "createdAt": "2025-01-28T14:49:33.525551Z",
+            "packageName": "model-tests"
+          },
+          "synchronizerId": "da1::1220ff7a4caf08bd4442003c65c2f351ebc15cc3a2063fd876da82e3a64a2348d30b",
+          "reassignmentCounter": 0
+        }
+      }
+    }
+  ]
+
 
 Fetch Parties by Identifiers
 ****************************
