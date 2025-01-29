@@ -114,6 +114,8 @@ There are various integration options:
 * The Daml Codegen is particularly useful for interacting with the payload of Daml contracts, as it generates the mapping between types implemented in Daml models and language types. For example, the codegen utility can generate Java classes corresponding to Daml contract templates in Daml models. These classes include all boilerplate code for encoding and decoding the Ledger API representation of Daml contract arguments and for creating commands to exercise the contracts’ choices.
 * Refer to the :ref:`Ledger API <how-to-access-ledger-api>` documentation for the latest list of languages where higher-level programming tools are readily available. For other languages without existing infrastructure code, gRPC can be used directly. In such cases, consider creating :doc:`ledger bindings <../app-dev/bindings-x-lang/index>`, including a codegen utility or other metaprogramming features, for the language of choice.
 
+.. _arch-options:
+
 3. Architecture Options
 =======================
 There is no one-size-fits-all architecture for Daml apps. Instead, a continuum of possible architectures exists. Each architectural choice involves trade-offs, and selecting the most appropriate option depends on specific business needs. To weigh the trade-offs, consider three distinct architectures:
@@ -159,6 +161,8 @@ The disadvantages of this highly flexible architecture include:
 * App user software development cost: The app provider must always build and operate its own frontend and backend. App users, however, may not necessarily need to. When app users are required to develop their own frontend and backend, significant budget and expertise are needed for development and maintenance. This requirement can greatly reduce the total addressable market for the app.
 * Cross-organization software development: The initial development of the app and future changes necessitate coordination between the app provider and app user organizations. While Daml facilitates specifying APIs for workflows across organizations, the complexities of cross-organization software development should not be underestimated.
 * Restricted app evolution: Apps are expected to evolve over time to address new business requirements. However, app users may lack the willingness or capability to modify their frontend and backend code, complicating efforts to change or decommission existing workflows.
+
+.. _properties-summary:
 
 3.4 Properties Summary
 ----------------------
