@@ -2476,30 +2476,29 @@ up, so ``cid`` is bound to ``Some 1234``.
 LF 1.17 Values in the Ledger API 
 --------------------------------
 
-In commands or queries that involve LF 1.17 templates or interfaces, the
-validation rules of ingested values are relaxed, and returned values are subject
-to normalization, as defined below.
+Commands and queries that involve LF 1.17 templates or interfaces have relaxed
+validation rules for ingested values. Returned values are subject
+to normalization.  
 
 Value Validation in Commands
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In the following we define the *target template* of a command as the template or
+In the following examples, the *target template* of a command is the template or
 interface identified by the ``template_id`` field of the command after
 :ref:`dynamic package
 resolution<dynamic-package-resolution-in-command-submission>`.
 
-We say that a value featured in a command (e.g. ``create_arguments``) has 
+A value featured in a command (e.g. ``create_arguments``) has 
 *expected type* ``T`` if the value needs to type-check against ``T`` in order to
 satisfy the type signatures of the target template of the command. Note that 
 this definition necessarily extends to sub-values.
 
-In a record value of the form ``Constructor { field1 = v1, ..., fieldn = vn }``,
-we say that ``vi`` is a *trailing None* if for all ``j >= i``, ``vj = None``.
+In a record value of the form ``Constructor { field1 = v1, ..., fieldn = vn }``, ``vi`` is a *trailing None* if for all ``j >= i``, ``vj = None``.
 
-Then upon submission of a command whose target template is defined in an LF 1.17
-package, the validation rules for values are relaxed in the following way:
+On submission of a command whose target template is defined in an LF 1.17
+package, the validation rules for values are relaxed as follows:
 
-  - The ``record_id``, ``variant_id`` and ``enum_id`` fields of values, 
+  - The ``record_id``, ``variant_id``, and ``enum_id`` fields of values, 
     if present, are only checked against the module and type name of th
     expected type for that value. The package ID component of these fields is
     ignored.
@@ -2578,12 +2577,12 @@ succeed:
       
     @ sandbox.ledger_api.commands.submit(Seq(sandbox.adminParty), Seq(createCmd))
 
-This is because the module and type names of the type annotation: ``Main`` and
+This is because the module and type names of the type annotation, ``Main`` and
 ``T``, match those of the expected type: ``example1-1.0.0:Main.T``.
 
 Assume now a LF 1.15 package called ``example1-lf115-1.0.0`` with the same contents as
-``example1-1.0.0``. Then trying to submit a create command for ``example1-1.0.0:Main.T``
-whose create argument are annotatedwith type ``other-1.0.0:T:Main.T`` fails:
+``example1-1.0.0``. Trying to submit a Create command for ``example1-1.0.0:Main.T``
+whose create argument are annotated with type ``other-1.0.0:T:Main.T`` fails:
 
 .. code::
 
@@ -2623,7 +2622,7 @@ two optional fields: one in leading position, and one in trailing position.
       where
         signatory p
 
-Then submitting a create command for ``example2-1.0.0:Main.T`` which only
+Then submitting a Create command for ``example2-1.0.0:Main.T`` which only
 provides ``p`` by name and no other field succeeds:
 
 .. code:: scala
@@ -2762,9 +2761,9 @@ However, providing all but the trailing optional field ``j`` suceeds, even witho
       ...
     )
 
-Finally assume a package called ``example2-lf115-1.0.0`` which defines the same
+Finally, assume a package called ``example2-lf115-1.0.0`` which defines the same
 ``Main`` module as ``example2-1.0.0`` but compiles to LF 1.15. Submitting a command
-which misses field ``j`` results in an error:
+that misses the field ``j`` results in an error:
 
 .. code::
 
@@ -2803,10 +2802,10 @@ which misses field ``j`` results in an error:
     )
     ...
                 
-Value Normalization in Ledger API responses
+Value normalization in Ledger API responses
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A ledger API value (e.g. ``create_arguments`` in a ``CreatedEvent``) is said to
+A Ledger API value (e.g. ``create_arguments`` in a ``CreatedEvent``) is said to
 be in normal form if none of its sub-values (itself included) has trailing
 Nones.
 
@@ -2816,7 +2815,7 @@ interface. The normalization extends to all sub-values, including those whose
 type is defined in an LF 1.15 or earlier package.
 
 When no LF 1.17 package is involved in a transaction or when verbose mode is
-requested, then the values in ledger API responses are guaranteed **not** to be
+requested, then the values in Ledger API responses are guaranteed **not** to be
 in normal form.
 
 **Example 1**
@@ -2900,10 +2899,10 @@ following:
       )
     )
 
-Note that not only field ``j`` has been omitted from the response, but also
+Note that not only has field ``j`` been omitted from the response, but also field
 ``rk``. Note also that despite being optional fields of value ``None``, ``i``
 and ``ri`` are present in the response because they are not in trailing
-position.
+positions.
 
 **Example 2**
 
@@ -2934,7 +2933,7 @@ Also assume a LF 1.17 package called ``example2-1.0.0`` which defines a template
 
 .. note:: It is not recommended for LF 1.17 templates to depend on LF 1.15 serializable values.
 
-Finally assume a ledger that contains a contract of type ``T`` written by
+Finally, assume a ledger that contains a contract of type ``T`` written by
 ``example2-1.0.0`` where the trailing optional field of ``r`` is set to ``None``.
 
 .. code:: scala
@@ -3025,7 +3024,7 @@ None.
           controller p
           do pure (LF115.Record { ri = 1, rj = None })
     
-Finally assume a creation event ``createdEvent`` for this template. Exercising 
+Finally, assume a creation event ``createdEvent`` for this template. Exercising 
 choice ``C`` on this contract yields the following response:
     
 .. code:: scala
