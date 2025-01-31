@@ -756,7 +756,7 @@ The response might look like an example below:
 Get All Active Contracts via HTTP
 *********************************
 
-For each WebSocket endpoint, we provide an alternative HTTP POST endpoint that returns the same results synchronously.HTTP POST alternatives are less robust:
+For each WebSocket endpoint, we provide an HTTP POST endpoint that returns the same results synchronously.
 However, HTTP POST alternatives are less efficient because:
 
 - They impose a higher load on the server.
