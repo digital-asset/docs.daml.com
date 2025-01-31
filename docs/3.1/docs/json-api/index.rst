@@ -764,7 +764,7 @@ However, HTTP POST alternatives are less efficient because:
 - There is a slight performance overhead and delay in retrieving results.
 
 
-We recommend using WebSockets for production environments, as they offer better performance and scalability. HTTP alternatives are suitable for prototyping and less demanding applications with lower data and load requirements.
+We recommend using WebSockets for production environments, as they offer better performance and scalability. HTTP alternatives are suitable for prototyping and for applications with lower data and load requirements.
 
 HTTP Request
 ===============================
