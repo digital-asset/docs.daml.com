@@ -2899,10 +2899,12 @@ following:
       )
     )
 
-Note that not only has field ``j`` been omitted from the response, but also field
-``rk``. Note also that despite being optional fields of value ``None``, ``i``
-and ``ri`` are present in the response because they are not in trailing
-positions.
+Note that not only has the third template argument (originally ``j``) been
+omitted from the response, but also the third field of the nested record
+(originally ``rk``). Note also that despite being optional fields of value
+``None``, the second template argument (originally ``i``) and the first nested
+record field (originally ``ri``) are present in the response because they are
+not in trailing positions.
 
 **Example 2**
 
