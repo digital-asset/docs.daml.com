@@ -71,8 +71,6 @@ I received an error saying that the DomainAlias I used was too long. Where I can
 
 Generally speaking, you don't need to worry about too-long Strings as Canton will exit in a safe manner, and return an error message
 specifying the String you gave, its length and the maximum length allowed in the context the error occurred.
-Nonetheless, `the known subclasses of LengthLimitedStringWrapper <https://docs.daml.com/__VERSION__/canton/scaladoc/com/digitalasset/canton/config/RequireTypes$$LengthLimitedStringWrapper.html>`__ and
-`the type aliases defined in the companion object of LengthLimitedString <https://docs.daml.com/__VERSION__/canton/scaladoc/com/digitalasset/canton/config/RequireTypes$$LengthLimitedString$.html>`__ list the limits of String types in Canton.
 
 Bootstrap Scripts
 -----------------
