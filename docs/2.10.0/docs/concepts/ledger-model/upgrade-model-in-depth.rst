@@ -2493,16 +2493,16 @@ A value featured in a command (e.g. ``create_arguments``) has
 satisfy the type signatures of the target template of the command. Note that 
 this definition necessarily extends to sub-values.
 
-In a record value of the form ``Constructor { field1 = v1, ..., fieldn = vn }``, ``vi`` is a *trailing None* if for all ``j >= i``, ``vj = None``.
+In a record value of the form ``Constructor { field1 = v1, ..., fieldn = vn }``, ``vi`` is a *trailing None* if for all ``n >= j >= i``, ``vj = None``.
 
 On submission of a command whose target template is defined in an LF 1.17
 package, the validation rules for values are relaxed as follows:
 
   - The ``record_id``, ``variant_id``, and ``enum_id`` fields of values, 
-    if present, are only checked against the module and type name of th
+    if present, are only checked against the module and type name of the
     expected type for that value. The package ID component of these fields is
     ignored.
-  - In record values where all field names are provided, fields of value None
+  - In record values where all field names are provided, *any* fields of value None
     may be omitted.
   - In record values where not all field names are provided, fields must be
     provided in the same order as that of the record type definition, and 
