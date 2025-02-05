@@ -2472,3 +2472,596 @@ The static type of the key being looked up is thus ``p-2.0.0:MyKey``. The key of
 contract ``1234``, once transformed to a value of type ``p-2.0.0:MyKey``,
 becomes ``MyKey { p = 'Alice', i = None }``. This matches the key being looked
 up, so ``cid`` is bound to ``Some 1234``.
+
+LF 1.17 Values in the Ledger API 
+--------------------------------
+
+Commands and queries that involve LF 1.17 templates or interfaces have relaxed
+validation rules for ingested values. Returned values are subject
+to normalization.  
+
+Value Validation in Commands
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In the following examples, the *target template* of a command is the template or
+interface identified by the ``template_id`` field of the command after
+:ref:`dynamic package
+resolution<dynamic-package-resolution-in-command-submission>`.
+
+A value featured in a command (e.g. ``create_arguments``) has 
+*expected type* ``T`` if the value needs to type-check against ``T`` in order to
+satisfy the type signatures of the target template of the command. Note that 
+this definition necessarily extends to sub-values.
+
+In a record value of the form ``Constructor { field1 = v1, ..., fieldn = vn }``, ``vi`` is a *trailing None* if for all ``n >= j >= i``, ``vj = None``.
+
+On submission of a command whose target template is defined in an LF 1.17
+package, the validation rules for values are relaxed as follows:
+
+  - The ``record_id``, ``variant_id``, and ``enum_id`` fields of values, 
+    if present, are only checked against the module and type name of the
+    expected type for that value. The package ID component of these fields is
+    ignored.
+  - In record values where all field names are provided, *any* fields of value None
+    may be omitted.
+  - In record values where not all field names are provided, fields must be
+    provided in the same order as that of the record type definition, and 
+    trailing Nones may be omitted.
+
+These rules apply for all sub-values, even those whose type is defined in an
+LF 1.15 or earlier package.
+
+**Example 1**
+
+Assume a LF 1.17 package called ``example1-1.0.0`` which defines a template called 
+``T`` in a module called ``Main``.
+
+.. code:: daml
+
+    module Main where
+
+    template T
+      with
+        p : Party
+      where
+        signatory p
+
+Assume another package called ``other-1.0.0`` which defines a different template
+also called ``T`` in a module also called ``Main``.
+
+.. code:: daml
+    
+    module Main where
+
+    template T
+      with
+        s : Party
+        i : Int
+      where
+        signatory s
+
+Then the ledger API will accept Create commands for ``example1-1.0.0:Main.T`` whose
+create arguments are annotated with type ``other-1.0.0:T:Main.T``, even though
+the type annotation is wrong. In other words, the following console commands
+succeed:
+
+.. code:: scala
+
+    @ val createCmd = Command(
+        command = Command.Command.Create(
+          value = CreateCommand(
+            templateId = Some(
+              value = Identifier(packageId = packageIdExample1, moduleName = "Main", entityName = "T")),
+            createArguments = Some(
+              value = Record(
+                recordId = Some(
+                  Identifier(
+                    packageId = packageIdOther,
+                    moduleName = "Main",
+                    entityName = "T"
+                  )
+                ),
+                fields = Seq(
+                  RecordField(
+                    label = "p",
+                    value = Some(
+                      value = Value(sum = Value.Sum.Party(value = sandbox.adminParty.toLf))
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+      
+    @ sandbox.ledger_api.commands.submit(Seq(sandbox.adminParty), Seq(createCmd))
+
+This is because the module and type names of the type annotation, ``Main`` and
+``T``, match those of the expected type: ``example1-1.0.0:Main.T``.
+
+Assume now a LF 1.15 package called ``example1-lf115-1.0.0`` with the same contents as
+``example1-1.0.0``. Trying to submit a Create command for ``example1-1.0.0:Main.T``
+whose create argument are annotated with type ``other-1.0.0:T:Main.T`` fails:
+
+.. code::
+
+    ERROR c.d.c.e.CommunityConsoleEnvironment - Request failed for sandbox.
+      GrpcClientError: INVALID_ARGUMENT/COMMAND_PREPROCESSING_FAILED(8,e448b57c): 
+        Mismatching variant id, the type tells us ba561ce9adfc91b583752a842e72530f10ee0d93e729d19ef3179cd80daf43ca:Main:T,
+        but the value tells us 39fb87e17e104daeaf10fdbc32d282d004a29d5ec14db6579605456c42d5678d:Main:T
+      Request: SubmitAndWaitTransactionTree(
+      actAs = sandbox::12208e04d297...,
+      readAs = Seq(),
+      commandId = '',
+      workflowId = '',
+      submissionId = '',
+      deduplicationPeriod = None(),
+      applicationId = 'CantonConsole',
+      commands = ...
+    )
+    ...
+
+This is because the relaxed validation rules only apply to LF 1.17 templates.
+The behavior for LF 1.15 and earlier remains unchanged.
+
+**Example 2**
+
+Assume a LF 1.17 package called ``example2-1.0.0`` which defines a template with
+two optional fields: one in leading position, and one in trailing position.
+
+.. code:: daml
+
+    module Main where
+
+    template T
+      with
+        i : Optional Int
+        p : Party
+        j : Optional Int
+      where
+        signatory p
+
+Then submitting a Create command for ``example2-1.0.0:Main.T`` which only
+provides ``p`` by name and no other field succeeds:
+
+.. code:: scala
+
+    @ val createCmd = Command(
+        command = Command.Command.Create(
+          value = CreateCommand(
+            templateId = Some(value = Identifier(packageId = packageIdExample2, moduleName = "Main", entityName = "T")),
+            createArguments = Some(
+              value = Record(
+                recordId = None,
+                fields = Seq(
+                  RecordField(
+                    label = "p",
+                    value = Some(value = Value(sum = Value.Sum.Party(value = sandbox.adminParty.toLf)))
+                  )
+                )
+              )
+            )
+          )
+        )
+      ) 
+    
+    @ sandbox.ledger_api.commands.submit(Seq(sandbox.adminParty), Seq(createCmd)) 
+    res13: com.daml.ledger.api.v1.transaction.TransactionTree = TransactionTree(
+      ...
+      eventsById = Map(
+        "#122062d3d0b89f011ac651ea0139f381a73fe080ab215e5970a8c7bf804edeec932c:0" -> TreeEvent(
+          kind = Created(
+            value = CreatedEvent(
+              ...
+              createArguments = Some(
+                value = Record(
+                  recordId = Some(value = Identifier(packageId = "627f4ad4df901b80bae208eded1c03932f38ed9c1f44c50468f27c88ef988e25", moduleName = "Main", entityName = "T")),
+                  fields = Vector(
+                    RecordField(label = "i", value = Some(value = Value(sum = Optional(value = Optional(value = None))))),
+                    RecordField(label = "p", value = Some(value = Value(sum = Party(value = "sandbox::1220077e3366037ffce33cba97d757506fc1c72ad957a9b86c6bf137404637c7fee3")))),
+                    RecordField(label = "j", value = Some(value = Value(sum = Optional(value = Optional(value = None)))))
+                  )
+                )
+              ),
+              ...
+            )
+          )
+        )
+      ),
+      ...
+    )
+
+Submitting the same command but with no label for field ``p`` fails:
+
+.. code::
+
+    @ val createCmd = Command(
+        command = Command.Command.Create(
+          value = CreateCommand(
+            templateId = Some(value = Identifier(packageId = packageIdExample2, moduleName = "Main", entityName = "T")),
+            createArguments = Some(
+              value = Record(
+                recordId = None,
+                fields = Seq(
+                  RecordField(
+                    label = "",
+                    value = Some(value = Value(sum = Value.Sum.Party(value = sandbox.adminParty.toLf)))
+                  )
+                )
+              )
+            )
+          )
+        )
+      ) 
+    
+    @ sandbox.ledger_api.commands.submit(Seq(sandbox.adminParty), Seq(createCmd)) 
+    
+    ERROR c.d.c.e.CommunityConsoleEnvironment - Request failed for sandbox.
+      GrpcClientError: INVALID_ARGUMENT/COMMAND_PREPROCESSING_FAILED(8,b880be91): Missing non-optional field "p", cannot upgrade non-optional fields.
+      Request: SubmitAndWaitTransactionTree(
+      actAs = sandbox::1220077e3366...,
+      readAs = Seq(),
+      commandId = '',
+      workflowId = '',
+      submissionId = '',
+      deduplicationPeriod = None(),
+      applicationId = 'CantonConsole',
+      commands = ...
+    )
+    ...
+
+However, providing all but the trailing optional field ``j`` suceeds, even without labels:
+
+.. code:: scala
+
+    @ val createCmd = Command(
+        command = Command.Command.Create(
+          value = CreateCommand(
+            templateId = Some(value = Identifier(packageId = packageIdExample2, moduleName = "Main", entityName = "T")),
+            createArguments = Some(
+              value = Record(
+                recordId = None,
+                fields = Seq(
+                  RecordField(label = "", value = Some(value = Value(sum = Value.Sum.Optional(value = Optional(value = None))))),
+                  RecordField(
+                    label = "",
+                    value = Some(value = Value(sum = Value.Sum.Party(value = sandbox.adminParty.toLf)))
+                  )
+                )
+              )
+            )
+          )
+        )
+      ) 
+    
+    @ sandbox.ledger_api.commands.submit(Seq(sandbox.adminParty), Seq(createCmd)) 
+    res22: com.daml.ledger.api.v1.transaction.TransactionTree = TransactionTree(
+      ...
+      eventsById = Map(
+        "#12203bb4082d4868c393ca2c969bb639757d21992cbac2a1abad271d688a30dbcae6:0" -> TreeEvent(
+          kind = Created(
+            value = CreatedEvent(
+              ...
+              createArguments = Some(
+                value = Record(
+                  recordId = Some(value = Identifier(packageId = "627f4ad4df901b80bae208eded1c03932f38ed9c1f44c50468f27c88ef988e25", moduleName = "Main", entityName = "T")),
+                  fields = Vector(
+                    RecordField(label = "i", value = Some(value = Value(sum = Optional(value = Optional(value = None))))),
+                    RecordField(label = "p", value = Some(value = Value(sum = Party(value = "sandbox::1220077e3366037ffce33cba97d757506fc1c72ad957a9b86c6bf137404637c7fee3")))),
+                    RecordField(label = "j", value = Some(value = Value(sum = Optional(value = Optional(value = None)))))
+                  )
+                )
+              ),
+              ...
+            )
+          )
+        )
+      ),
+      ...
+    )
+
+Finally, assume a package called ``example2-lf115-1.0.0`` which defines the same
+``Main`` module as ``example2-1.0.0`` but compiles to LF 1.15. Submitting a command
+that misses the field ``j`` results in an error:
+
+.. code::
+
+    @ val createCmd = Command(
+        command = Command.Command.Create(
+          value = CreateCommand(
+            templateId = Some(value = Identifier(packageId = packageIdExample2Lf115, moduleName = "Main", entityName = "T")),
+            createArguments = Some(
+              value = Record(
+                recordId = None,
+                fields = Seq(
+                  RecordField(label = "i", value = Some(value = Value(sum = Value.Sum.Optional(value = Optional(value = None))))),
+                  RecordField(
+                    label = "p",
+                    value = Some(value = Value(sum = Value.Sum.Party(value = sandbox.adminParty.toLf)))
+                  )
+                )
+              )
+            )
+          )
+        )
+      ) 
+    
+    @ sandbox.ledger_api.commands.submit(Seq(sandbox.adminParty), Seq(createCmd)) 
+    ERROR c.d.c.e.CommunityConsoleEnvironment - Request failed for sandbox.
+      GrpcClientError: INVALID_ARGUMENT/COMMAND_PREPROCESSING_FAILED(8,a144d39d): Expecting 3 field for record 6c247f322c1a84610a5a015d5d713f2c8c0f33290d6b154de212fce228aa522b:Main:T, but got 2
+      Request: SubmitAndWaitTransactionTree(
+      actAs = sandbox::12204b23b351...,
+      readAs = Seq(),
+      commandId = '',
+      workflowId = '',
+      submissionId = '',
+      deduplicationPeriod = None(),
+      applicationId = 'CantonConsole',
+      commands = ...
+    )
+    ...
+                
+Value normalization in Ledger API responses
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A Ledger API value (e.g. ``create_arguments`` in a ``CreatedEvent``) is said to
+be in normal form if none of its sub-values (itself included) has trailing
+Nones.
+
+Starting with Daml 2.10, values in Ledger API non-verbose responses are subject
+to normalization whenever the transaction involves an LF 1.17 template or
+interface. The normalization extends to all sub-values, including those whose
+type is defined in an LF 1.15 or earlier package.
+
+When no LF 1.17 package is involved in a transaction or when verbose mode is
+requested, then the values in Ledger API responses are guaranteed **not** to be
+in normal form.
+
+**Example 1**
+
+Assume a LF 1.17 package called ``example1-1.0.0`` which defines a template
+``T`` and a record ``Record`` in a module called ``Main``.
+
+.. code:: daml
+
+    module Main where
+
+    data Record = Record { ri : Optional Int, rj : Int, rk : Optional Int }
+      deriving (Eq, Show)
+    
+    template T
+      with
+        p : Party
+        i : Optional Int
+        r : Record
+        j : Optional Int
+      where
+        signatory p
+        
+Also assume a ledger that contains a contract of type ``T`` written by
+``example1-1.0.0`` where all the optional fields are set to ``None``.
+
+.. code:: scala
+
+    val createCmd = ledger_api_utils.create(
+      packageIdExample1, 
+      "Main",
+      "T", 
+      Map(
+        "p" -> sandbox.adminParty, 
+        "i" -> None,
+        "r" -> Map("ri" -> None, "rj" -> 1, "rk" -> None),
+        "j" -> None))
+    
+    sandbox.ledger_api.commands.submit(Seq(sandbox.adminParty), Seq(createCmd))
+    
+Then querying the ledger's active contract set in non-verbose mode returns the
+following:
+
+.. code:: scala
+
+    @ sandbox.ledger_api.acs.of_party(sandbox.adminParty, verbose=false) 
+    res15: Seq[com.digitalasset.canton.admin.api.client.commands.LedgerApiTypeWrappers.WrappedCreatedEvent] = List(
+      WrappedCreatedEvent(
+        event = CreatedEvent(
+          ... 
+          createArguments = Some(
+            value = Record(
+              recordId = None,
+              fields = Vector(
+                RecordField(
+                  label = "",
+                  value = Some(value = Value(sum = Party(value = "sandbox::122010fdef685011beecd318f03c9d82bf1e2d45950bdb0fceb3497a112ee17f9476")))
+                ),
+                RecordField(label = "", value = Some(value = Value(sum = Optional(value = Optional(value = None))))),
+                RecordField(
+                  label = "",
+                  value = Some(
+                    value = Value(
+                      sum = Record(
+                        value = Record(
+                          recordId = None,
+                          fields = Vector(
+                            RecordField(label = "", value = Some(value = Value(sum = Optional(value = Optional(value = None))))),
+                            RecordField(label = "", value = Some(value = Value(sum = Int64(value = 1L))))
+                          )
+                        )
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          ),
+          ... 
+        )
+      )
+    )
+
+Note that not only has the third template argument (originally ``j``) been
+omitted from the response, but also the third field of the nested record
+(originally ``rk``). Note also that despite being optional fields of value
+``None``, the second template argument (originally ``i``) and the first nested
+record field (originally ``ri``) are present in the response because they are
+not in trailing positions.
+
+**Example 2**
+
+Assume a LF 1.15 package called ``record-lf115-1.0.0`` which defines a
+record ``Record`` with a trailing optional field in a module called ``LF115``.
+
+.. code:: daml
+
+    module LF115 where  
+
+    data Record = Record { ri : Int, rj : Optional Int }
+      deriving (Eq, Show)
+
+Also assume a LF 1.17 package called ``example2-1.0.0`` which defines a template
+``T`` in a module called ``Main``. The template has a field of type
+``record-lf115-1.0.0:LF115.Record``. 
+
+.. code:: daml
+
+    module Main where
+
+    template T
+      with
+        p : Party
+        r : LF115.Record
+      where
+        signatory p
+
+.. note:: It is not recommended for LF 1.17 templates to depend on LF 1.15 serializable values.
+
+Finally, assume a ledger that contains a contract of type ``T`` written by
+``example2-1.0.0`` where the trailing optional field of ``r`` is set to ``None``.
+
+.. code:: scala
+
+    val createCmd = ledger_api_utils.create(
+      packageIdExample2, 
+      "Main",
+      "T", 
+      Map(
+        "p" -> sandbox.adminParty, 
+        "r" -> Map("ri" -> 1, "rj" -> None)))
+    
+    sandbox.ledger_api.commands.submit(Seq(sandbox.adminParty), Seq(createCmd))
+    
+Then querying the ledger's active contract set in non-verbose mode returns the
+following:
+
+.. code:: scala
+
+    sandbox.ledger_api.acs.of_party(sandbox.adminParty, verbose=false)
+    
+    res15: Seq[com.digitalasset.canton.admin.api.client.commands.LedgerApiTypeWrappers.WrappedCreatedEvent] = List(
+      WrappedCreatedEvent(
+        event = CreatedEvent(
+          ...
+          createArguments = Some(
+            value = Record(
+              recordId = None,
+              fields = Vector(
+                RecordField(
+                  label = "",
+                  value = Some(
+                    value = Value(sum = Party(value = "sandbox::1220c70e4430e82758d9377f86a4f87e1d98d8b1f259bb71a0e099e886608844fbf0"))
+                  )
+                ),
+                RecordField(
+                  label = "",
+                  value = Some(
+                    value = Value(
+                      sum = Record(
+                        value = Record(
+                          recordId = None,
+                          fields = Vector(RecordField(label = "", value = Some(value = Value(sum = Int64(value = 1L)))))
+                        )
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          ),
+          ...
+        )
+      )
+    )
+
+Note that the trailing ``None`` field in the nested LF 1.15 record has
+been omitted from the response. This is because the normalization of LF 1.17 
+values extends to all subvalues, including those defined in LF 1.15 packages.
+
+**Example 3**
+
+Assume the same LF 1.15 package ``record-lf115-1.0.0`` as in Example 2.
+
+.. code:: daml
+
+    module LF115 where  
+
+    data Record = Record { ri : Int, rj : Optional Int }
+      deriving (Eq, Show)
+
+Also assume a LF 1.17 package called ``example3-1.0.0`` which defines a template
+``T`` in a module called ``Main``. The template defines a choice ``C`` which
+returns a value of type ``record-lf115-1.0.0:LF115.Record`` with a trailing
+None.
+
+.. code:: daml
+
+    module Main where
+
+    template T
+      with
+        p : Party
+      where
+        signatory p
+    
+        nonconsuming choice C : LF115.Record
+          controller p
+          do pure (LF115.Record { ri = 1, rj = None })
+    
+Finally, assume a creation event ``createdEvent`` for this template. Exercising 
+choice ``C`` on this contract yields the following response:
+    
+.. code:: scala
+
+    val createdEvent = sandbox.ledger_api.acs.of_party(sandbox.adminParty, verbose=false).head.event
+    val exCmd = ledger_api_utils.exercise("C", Map(), createdEvent) 
+    val exercisedEvent = sandbox.ledger_api.commands.submit(Seq(sandbox.adminParty), Seq(exCmd))
+    sandbox.ledger_api.transactions.trees(Set(sandbox.adminParty), 2, verbose=false)(1)
+    
+    res18: com.daml.ledger.api.v1.transaction.TransactionTree = TransactionTree(
+      ...
+      eventsById = Map(
+        "#1220be66a5da4596a4a14fbeec9c3e020760b895040f2478a4d0f43387a5711554d4:0" -> TreeEvent(
+          kind = Exercised(
+            value = ExercisedEvent(
+              ...
+              exerciseResult = Some(
+                value = Value(
+                  sum = Record(
+                    value = Record(
+                      recordId = None,
+                      fields = Vector(RecordField(label = "", value = Some(value = Value(sum = Int64(value = 1L)))))
+                    )
+                  )
+                )
+              ),
+              ...
+            )
+          )
+        )
+      ),
+      ...
+    )
+
+Note that the trailing optional field ``rj`` is omitted from the response. This
+is because the transaction created by the exercise involves a LF 1.17 template.
+All of the transaction's subvalues are therefore normalized. This includes
+values of types defined in LF 1.15 packages.
