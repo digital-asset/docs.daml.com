@@ -32,7 +32,7 @@ declare -A sphinx_flags=( [html]=-W [pdf]=-W )
 
 for name in "${!sphinx_targets[@]}"; do
     target=${sphinx_targets[$name]}
-    sphinx-build ${sphinx_flags[$name]} --color -b $target -c $BUILD_DIR/source/configs/$name $BUILD_DIR/source/source $BUILD_DIR/sphinx-target/$name
+    sphinx-build --color -b $target -c $BUILD_DIR/source/configs/$name $BUILD_DIR/source/source $BUILD_DIR/sphinx-target/$name
 done
 
 # Build PDF docs
