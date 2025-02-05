@@ -15,8 +15,36 @@ SPHINX_DIR=$DIR/../workdir/build/source
 
 prefix=$(basename $(realpath $DIR/..))
 
+# Copyright notice update
+# Depends on Daml SDK sphinx-source-tree content
+html_copyright_conf=$SPHINX_DIR/configs/html/conf.py
+pdf_copyright_conf=$SPHINX_DIR/configs/pdf/conf.py
+current_year=$(date +%Y)
+# Characters /, " need escaping with \
+copyright_notice="Copyright (c) ${current_year} Digital Asset (Switzerland) GmbH and\/or its affiliates. All rights reserved. Any unauthorized use, duplication or distribution is strictly prohibited. \"Digital Asset\" and \"Daml\" are Registered in the U.S. Patent and Trademark Office."
+
+update_copyright_conf_file() {
+  local file="$1"
+  if [ -f "$file" ]; then
+    echo "Processing file: $file"
+    sed -i "s/^copyright = u'[^']*'/copyright = u'${copyright_notice}'/g" "$file"
+    if [[ $? -eq 0 ]]; then
+      echo "Successfully updated copyright in $file"
+    else
+      echo "Error updating copyright in $file"
+    fi
+  else
+    echo "File not found: $file"
+  fi
+}
+
 mkdir -p $SPHINX_DIR/source/canton $SPHINX_DIR/source/daml-finance $SPHINX_DIR/source/canton-drivers
 tar xf $DOWNLOAD_DIR/sphinx-source-tree-$RELEASE_TAG.tar.gz -C $SPHINX_DIR --strip-components=1
+
+# Update copyright notice
+update_copyright_conf_file "$html_copyright_conf"
+update_copyright_conf_file "$pdf_copyright_conf"
+
 if [ -d $SPHINX_DIR/theme ]; then
   rm -rf $SPHINX_DIR/theme
 fi
