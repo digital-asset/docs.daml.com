@@ -138,7 +138,7 @@ Stable Packages
 +----------------------------------------------+---------+--------+
 | Daml.Finance.Interface.Instrument.Token.V4   | 4.0.0   | Stable |
 +----------------------------------------------+---------+--------+
-| Daml.Finance.Interface.Instrument.Types.V2   | 3.0.0   | Stable |
+| Daml.Finance.Interface.Instrument.Types.V2   | 2.0.0   | Stable |
 +----------------------------------------------+---------+--------+
 | Daml.Finance.Interface.Lifecycle.V4          | 4.0.0   | Stable |
 +----------------------------------------------+---------+--------+
