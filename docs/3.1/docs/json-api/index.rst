@@ -122,27 +122,14 @@ The full set of configurable options that can be specified via config file is li
         address = "127.0.0.1"
         //HTTP JSON API service port number. A port number of 0 will let the system pick an ephemeral port.
         port = 7575
+        //Prefix added to all JSON endpoints.
+        path-prefix = "example/prefix"
       }
-      ledger-api {
-        address = "127.0.0.1"
-        port = 6865
-        tls {
-            enabled = "true"
-            // the certificate to be used by the server
-            cert-chain-file = "cert-chain.crt"
-            // private key of the server
-            private-key-file = "pvt-key.pem"
-            // trust collection, which means that all client certificates will be verified using the trusted
-            // certificates in this store. if omitted, the JVM default trust store is used.
-            trust-collection-file = "root-ca.crt"
-        }
-      }
-
-      metrics {
-        //Start a metrics reporter. Must be one of "console", "csv:///PATH", "graphite://HOST[:PORT][/METRIC_PREFIX]", or "prometheus://HOST[:PORT]".
-        reporter = "console"
-        //Set metric reporting interval , examples : 1s, 30s, 1m, 1h
-        reporting-interval = 30s
+      websocket-config {
+                    //Maximum number of elements returned when using the HTTP POST alternative.
+                    http-list-max-elements-limit = 1024
+                    //Wait time for new elements before returning the list via the HTTP POST alternative.
+                    http-list-wait-time = "1s"
       }
 
       // DEV MODE ONLY (not recommended for production)
@@ -390,33 +377,28 @@ HTTP Request
 .. code-block:: json
 
     {
-      "commands" : [ {
-        "CreateCommand" : {
-          "template_id" : "#model-tests:Iou:Iou",
-          "create_arguments" : {
-            "observers" : [ ],
-            "issuer" : "Alice_2820c3a4-d1bd-49ef-9b90-17b142c55d30::1220df15d08ac34527e46492a6ee48a723e3d02ed3ec20a05ebf64be47173f24407f",
-            "amount" : "999.99",
-            "currency" : "USD",
-            "owner" : "Alice_2820c3a4-d1bd-49ef-9b90-17b142c55d30::1220df15d08ac34527e46492a6ee48a723e3d02ed3ec20a05ebf64be47173f24407f"
+      "actAs": [
+        "Alice::1220ceff195fd59bbc357415ce25d7a6edb95475b134b1bbb6d70c8fa3dd3f8f32ad"
+      ],
+      "applicationId": "app1",
+      "commandId": "somecommandid2",
+      "commands": [
+        {
+          "CreateCommand": {
+            "createArguments": {
+              "observers": [],
+              "issuer": "Alice::1220ceff195fd59bbc357415ce25d7a6edb95475b134b1bbb6d70c8fa3dd3f8f32ad",
+              "amount": "999.99",
+              "currency": "USD",
+              "owner": "Alice::1220ceff195fd59bbc357415ce25d7a6edb95475b134b1bbb6d70c8fa3dd3f8f32ad"
+            },
+            "templateId": "#model-tests:Iou:Iou"
           }
         }
-      } ],
-      "workflow_id" : "",
-      "application_id" : "defaultapp1",
-      "command_id" : "somecommandid",
-      "deduplication_period" : {
-        "Empty" : { }
-      },
-      "min_ledger_time_abs" : null,
-      "min_ledger_time_rel" : null,
-      "act_as" : [ "Alice_2820c3a4-d1bd-49ef-9b90-17b142c55d30::1220df15d08ac34527e46492a6ee48a723e3d02ed3ec20a05ebf64be47173f24407f" ],
-      "read_as" : [ "Alice_2820c3a4-d1bd-49ef-9b90-17b142c55d30::1220df15d08ac34527e46492a6ee48a723e3d02ed3ec20a05ebf64be47173f24407f" ],
-      "submission_id" : "somesubmissionid1",
-      "disclosed_contracts" : [ ],
-      "domain_id" : "",
-      "package_id_selection_preference" : [ ]
+      ]
     }
+
+
 
 Where:
 
@@ -431,12 +413,12 @@ Where:
   Using the package ID format refers to a single package.
 
 
-- ``create_arguments`` field contains contract fields as defined in the Daml template and formatted according to :doc:`lf-value-specification`.
+
+- ``createArguments`` field contains contract fields as defined in the Daml template and formatted according to :doc:`lf-value-specification`.
 - ``commandId`` -- optional field, a unique string identifying the command.
 - ``actAs`` -- a non-empty list of parties, overriding the set from the JWT user; must be a subset of the JWT user's set.
-- ``readAs`` -- a list of parties, overriding the set from the JWT user; must be a subset of the JWT user's set.
-- ``submissionId`` -- a string, used for :doc:`deduplicating retried requests </app-dev/command-deduplication>`.  If you do not set it, a random one will be chosen, effectively treating the request as unique and disabling deduplication.
-- ``deduplicationPeriod`` -- either a ``Duration`` as above, which is how far back in time prior commands will be searched for this submission, or an ``Offset`` as follows, which is the earliest ledger offset after which to search for the submission.
+
+.. note::  Only a subset of the possible fields is shown in the example. Refer to the OpenAPI specification for additional options.
 
 .. _example_response: (in case of 1/v2/commands/submit-and-wait-for-transaction-tree)
 
@@ -450,58 +432,59 @@ HTTP Response
 
 .. code-block:: json
 
-    {
-      "transaction_tree": {
-        "command_id": "somecommandid",
-        "domain_id": "domain1::122002d4368a8ad29623839f1c4976889124cf9f6c336b5fbf833e643f38e9e8a498",
-        "effective_at": "1970-01-01T00:00:00Z",
-        "events_by_id": {
-          "#1220ef7fb20517c48dc07c55743ea4712968d7fe51b32c212ab268176d240b582d12:0": {
-            "CreatedTreeEvent": {
-              "value": {
-                "contract_id": "00d814ef389459b8fa8b1b67765637c6490e92819c7aae0a0d199ced2efec7ef25ca101220640e21ca6220bcb2a476d2b5be3beddd7da1f71f4f3af3a001ef3c38522211c4",
-                "contract_key": null,
-                "create_argument": {
-                  "amount": "999.9900000000",
-                  "currency": "USD",
-                  "issuer": "Alice_6c4715ab-147d-4918-acfe-fdc85a745de7::1220844878a78a09732545ce29e5b48bd4038dd936224b3c844e17d621a3065a542a",
-                  "observers": [],
-                  "owner": "Alice_6c4715ab-147d-4918-acfe-fdc85a745de7::1220844878a78a09732545ce29e5b48bd4038dd936224b3c844e17d621a3065a542a"
-                },
-                "created_at": "1970-01-01T00:00:00Z",
-                "created_event_blob": "",
-                "event_id": "#1220ef7fb20517c48dc07c55743ea4712968d7fe51b32c212ab268176d240b582d12:0",
-                "interface_views": [],
-                "observers": [],
-                "package_name": "model-tests",
-                "signatories": [
-                  "Alice_6c4715ab-147d-4918-acfe-fdc85a745de7::1220844878a78a09732545ce29e5b48bd4038dd936224b3c844e17d621a3065a542a"
-                ],
-                "template_id": "cbed714ed61c4a30b0038ea72c9ff13de51be99aac065f61e6ae9e954375e171:Iou:Iou",
-                "witness_parties": [
-                  "Alice_6c4715ab-147d-4918-acfe-fdc85a745de7::1220844878a78a09732545ce29e5b48bd4038dd936224b3c844e17d621a3065a542a"
-                ]
-              }
-            }
-          }
-        },
-        "offset": 8,
-        "record_time": "1970-01-01T00:00:00.000036Z",
-        "root_event_ids": [
-          "#1220ef7fb20517c48dc07c55743ea4712968d7fe51b32c212ab268176d240b582d12:0"
-        ],
-        "trace_context": {
-          "traceparent": "00-16fd492d478a8e3bef67bf4ecb1f4e22-7d4374f93195fa1c-01",
-          "tracestate": null
-        },
-        "update_id": "1220ef7fb20517c48dc07c55743ea4712968d7fe51b32c212ab268176d240b582d12",
-        "workflow_id": ""
-      }
-    }
+     {
+       "transactionTree": {
+         "updateId": "12208230390f6af5a6e85e70af2f0ad3cdb4f2df2f1e41778a58ce888e128d2a1245",
+         "commandId": "somecommandid21",
+         "workflowId": "",
+         "effectiveAt": "2025-01-27T15:30:36.430940Z",
+         "offset": 18,
+         "eventsById": {
+           "0": {
+             "CreatedTreeEvent": {
+               "value": {
+                 "offset": 18,
+                 "nodeId": 0,
+                 "contractId": "005f954f6759aa04b0998676689610fc1d84c5d31a46819f7bfdd7233ecd7e18b3ca1012207866cf05034eddcc7b0619ab06a46514b21732a0da6404f3f2fbb90872ed6289",
+                 "templateId": "19b9fc297d4649bab9fd0eeb3ce23da763cb9ed7dfaedeb1281ac7d7f65a7883:Iou:Iou",
+                 "contractKey": null,
+                 "createArgument": {
+                   "issuer": "Alice::1220743926ada1ba52150596c07712995f4a1d2c43efcc9d9e569bb82b1998a46c55",
+                   "owner": "Alice::1220743926ada1ba52150596c07712995f4a1d2c43efcc9d9e569bb82b1998a46c55",
+                   "currency": "USD",
+                   "amount": "999.9900000000",
+                   "observers": []
+                 },
+                 "createdEventBlob": "",
+                 "interfaceViews": [],
+                 "witnessParties": [
+                   "Alice::1220743926ada1ba52150596c07712995f4a1d2c43efcc9d9e569bb82b1998a46c55"
+                 ],
+                 "signatories": [
+                   "Alice::1220743926ada1ba52150596c07712995f4a1d2c43efcc9d9e569bb82b1998a46c55"
+                 ],
+                 "observers": [],
+                 "createdAt": "2025-01-27T15:30:36.430940Z",
+                 "packageName": "model-tests"
+               }
+             }
+           }
+         },
+         "rootNodeIds": [
+           0
+         ],
+         "synchronizerId": "da1::122002b3938ee8f7f0a757c5db698fc6020352717ee53da9023485f8b9e0dc2ea360",
+         "traceContext": {
+           "traceparent": "00-bfc45078ca09495a4101b227f4c36bef-6471ff18d20230eb-01",
+           "tracestate": null
+         },
+         "recordTime": "2025-01-27T15:30:37.291866Z"
+       }
+     }
 
 Where:
 
-- ``events_by_id`` contains ledger events with details of created contract(s),
+- ``eventsById`` contains ledger events with details of created contract(s),
 
 
 
@@ -528,32 +511,26 @@ HTTP Request
 
 .. code-block:: json
 
-    {
-      "act_as" : [ "Alice_f410fcbe-e03f-47ef-bad0-f7a8a08e7338::1220870d67dba562b868d0256cb2968dbc59a7a6bdbc4b82ee623ff96c8cda3afb9a" ],
-      "application_id" : "defaultapp2",
-      "command_id" : "somecommandid",
-      "commands" : [ {
-        "ExerciseCommand" : {
-          "choice" : "Iou_Transfer",
-          "choice_argument" : {
-            "newOwner" : "Alice_f410fcbe-e03f-47ef-bad0-f7a8a08e7338::1220870d67dba562b868d0256cb2968dbc59a7a6bdbc4b82ee623ff96c8cda3afb9a"
-          },
-          "contract_id" : "00fd14e85d36ac5f1568d7276f33a1d7bf461cd77fd6042af16455a06613e8afabca101220b6a0730c7765991946af0f5d9d32be551d12ac2c7c14eb5f45ba706b05548923",
-          "template_id" : "#model-tests:Iou:Iou"
-        }
-      } ],
-      "deduplication_period" : {
-        "Empty" : { }
-      },
-      "disclosed_contracts" : [ ],
-      "domain_id" : "",
-      "min_ledger_time_abs" : null,
-      "min_ledger_time_rel" : null,
-      "package_id_selection_preference" : [ ],
-      "read_as" : [ "Alice_f410fcbe-e03f-47ef-bad0-f7a8a08e7338::1220870d67dba562b868d0256cb2968dbc59a7a6bdbc4b82ee623ff96c8cda3afb9a" ],
-      "submission_id" : "somesubmissionid2",
-      "workflow_id" : ""
-    }
+     {
+       "actAs": [
+         "Alice::1220743926ada1ba52150596c07712995f4a1d2c43efcc9d9e569bb82b1998a46c55"
+       ],
+       "applicationId": "app1",
+       "commandId": "somecommandid2",
+       "commands": [
+         {
+           "ExerciseCommand": {
+             "choice": "Iou_Transfer",
+             "choiceArgument": {
+               "newOwner": "Alice::1220743926ada1ba52150596c07712995f4a1d2c43efcc9d9e569bb82b1998a46c55"
+             },
+             "contractId": "005f954f6759aa04b0998676689610fc1d84c5d31a46819f7bfdd7233ecd7e18b3ca1012207866cf05034eddcc7b0619ab06a46514b21732a0da6404f3f2fbb90872ed6289",
+             "templateId": "#model-tests:Iou:Iou"
+           }
+         }
+       ]
+     }
+
 
 Where:
 
@@ -578,8 +555,8 @@ HTTP Response
 .. code-block:: json
 
     {
-      "completion_offset" : 11,
-      "update_id" : "12205cec9cccf807dd95df3c0ab270bd286ef1bc9b84aa26f7ecf1180248aaa9d070"
+      "completionOffset" : 11,
+      "updateId" : "12205cec9cccf807dd95df3c0ab270bd286ef1bc9b84aa26f7ecf1180248aaa9d070"
     }
 
 Where:
@@ -606,36 +583,25 @@ HTTP Request
 .. code-block:: json
 
     {
-      "act_as" : [ "Alice_f410fcbe-e03f-47ef-bad0-f7a8a08e7338::1220870d67dba562b868d0256cb2968dbc59a7a6bdbc4b82ee623ff96c8cda3afb9a" ],
-      "application_id" : "defaultapp2",
-      "command_id" : "somecommandid",
+      "actAs" : [ "Alice::1220870d67dba562b868d0256cb2968dbc59a7a6bdbc4b82ee623ff96c8cda3afb9a" ],
+      "applicationId" : "defaultapp2",
+      "commandId" : "somecommandid3",
       "commands" : [ {
         "CreateAndExerciseCommand" : {
           "choice" : "Iou_Transfer",
-          "create_arguments" : {
+          "createArguments" : {
                       "observers" : [ ],
-                      "issuer" : "Alice_2820c3a4-d1bd-49ef-9b90-17b142c55d30::1220df15d08ac34527e46492a6ee48a723e3d02ed3ec20a05ebf64be47173f24407f",
+                      "issuer" : "Alice::1220df15d08ac34527e46492a6ee48a723e3d02ed3ec20a05ebf64be47173f24407f",
                       "amount" : "999.99",
                       "currency" : "USD",
-                      "owner" : "Alice_2820c3a4-d1bd-49ef-9b90-17b142c55d30::1220df15d08ac34527e46492a6ee48a723e3d02ed3ec20a05ebf64be47173f24407f"
+                      "owner" : "Alice::1220df15d08ac34527e46492a6ee48a723e3d02ed3ec20a05ebf64be47173f24407f"
                     },
-          "choice_argument" : {
-            "newOwner" : "Alice_f410fcbe-e03f-47ef-bad0-f7a8a08e7338::1220870d67dba562b868d0256cb2968dbc59a7a6bdbc4b82ee623ff96c8cda3afb9a"
+          "choiceArgument" : {
+            "newOwner" : "Alice::1220870d67dba562b868d0256cb2968dbc59a7a6bdbc4b82ee623ff96c8cda3afb9a"
           },
-          "template_id" : "#model-tests:Iou:Iou"
+          "templateId" : "#model-tests:Iou:Iou"
         }
-      } ],
-      "deduplication_period" : {
-        "Empty" : { }
-      },
-      "disclosed_contracts" : [ ],
-      "domain_id" : "",
-      "min_ledger_time_abs" : null,
-      "min_ledger_time_rel" : null,
-      "package_id_selection_preference" : [ ],
-      "read_as" : [ "Alice_f410fcbe-e03f-47ef-bad0-f7a8a08e7338::1220870d67dba562b868d0256cb2968dbc59a7a6bdbc4b82ee623ff96c8cda3afb9a" ],
-      "submission_id" : "somesubmissionid2",
-      "workflow_id" : ""
+      } ]
     }
 
 Where:
@@ -651,7 +617,7 @@ Where:
 HTTP Response
 =============
 
-Please note that the response below is for a consuming choice, so it contains:
+Please note that the response below is for a consuming choice, it contains:
 
 - Content-Type: ``application/json``
 - Content:
@@ -661,13 +627,13 @@ Please note that the response below is for a consuming choice, so it contains:
     {
       "transaction" : {
         "command_id" : "somecommandid",
-        "domain_id" : "domain1::12208f22808f6fe77f8689d0d565488e34e9a3abb2eaf37270f6e5b2b2073894db9f",
-        "effective_at" : "1970-01-01T00:00:00Z",
+        "domainId" : "domain1::12208f22808f6fe77f8689d0d565488e34e9a3abb2eaf37270f6e5b2b2073894db9f",
+        "effectiveAt" : "1970-01-01T00:00:00Z",
         "events" : [ {
           "CreatedEvent" : {
-            "contract_id" : "00811e868ffe78638ecf14b8d69a5df6eafd8b16f13a431117ee26981cc39f40e1ca101220c15b891d2cac1287d5067594c81f60b722141204f63f2a27c3328a70467c5018",
-            "contract_key" : null,
-            "create_argument" : {
+            "contractId" : "00811e868ffe78638ecf14b8d69a5df6eafd8b16f13a431117ee26981cc39f40e1ca101220c15b891d2cac1287d5067594c81f60b722141204f63f2a27c3328a70467c5018",
+            "contractKey" : null,
+            "createArgument" : {
               "iou" : {
                 "amount" : "999.9900000000",
                 "currency" : "USD",
@@ -677,27 +643,27 @@ Please note that the response below is for a consuming choice, so it contains:
               },
               "newOwner" : "Alice_ffe0d699-2978-42d7-a315-b7faec7ba95a::1220d7b8bc76f04500216f07e1576da75db0e811ea1e01d5688140816823615a34bf"
             },
-            "created_at" : "1970-01-01T00:00:00Z",
-            "created_event_blob" : "",
-            "event_id" : "#1220ad3e6509fa8977478aa49cf3261b376dd55b06f6409e3ec59553272c89d3616c:2",
-            "interface_views" : [ ],
-            "node_id" : 2,
+            "createdAt" : "1970-01-01T00:00:00Z",
+            "createdEventBlob" : "",
+            "eventId" : "#1220ad3e6509fa8977478aa49cf3261b376dd55b06f6409e3ec59553272c89d3616c:2",
+            "interfaceViews" : [ ],
+            "nodeId" : 2,
             "observers" : [ ],
             "offset" : 12,
-            "package_name" : "model-tests",
+            "packageName" : "model-tests",
             "signatories" : [ "Alice_ffe0d699-2978-42d7-a315-b7faec7ba95a::1220d7b8bc76f04500216f07e1576da75db0e811ea1e01d5688140816823615a34bf" ],
-            "template_id" : "a36cfff1da2f15da3d760c872860bf03140aa699f73b57b639fd40dfe8156cfe:Iou:IouTransfer",
-            "witness_parties" : [ "Alice_ffe0d699-2978-42d7-a315-b7faec7ba95a::1220d7b8bc76f04500216f07e1576da75db0e811ea1e01d5688140816823615a34bf" ]
+            "templateId" : "a36cfff1da2f15da3d760c872860bf03140aa699f73b57b639fd40dfe8156cfe:Iou:IouTransfer",
+            "witnessParties" : [ "Alice_ffe0d699-2978-42d7-a315-b7faec7ba95a::1220d7b8bc76f04500216f07e1576da75db0e811ea1e01d5688140816823615a34bf" ]
           }
         } ],
         "offset" : 12,
-        "record_time" : "1970-01-01T00:00:00.000042Z",
-        "trace_context" : {
+        "recordTime" : "1970-01-01T00:00:00.000042Z",
+        "traceContext" : {
           "traceparent" : "00-d84d23ff01031adbcf76f19525fa62fb-003327aa6c8ede2d-01",
           "tracestate" : null
         },
-        "update_id" : "1220ad3e6509fa8977478aa49cf3261b376dd55b06f6409e3ec59553272c89d3616c",
-        "workflow_id" : ""
+        "updateId" : "1220ad3e6509fa8977478aa49cf3261b376dd55b06f6409e3ec59553272c89d3616c",
+        "workflowId" : ""
       }
     }
 
@@ -749,40 +715,131 @@ The response might look like an example below:
 .. code-block:: json
 
     {
-      "workflow_id": "",
-      "contract_entry": {
+      "workflowId": "",
+      "contractEntry": {
         "JsActiveContract": {
-          "created_event": {
-            "event_id": "#1220c9f63cf562c188f3135491a4e74fe08586b2e5bdb65f026d6eb425297cb049fa:0",
+          "createdEvent": {
             "offset": 23,
-            "node_id": 0,
-            "contract_id": "0060bee40875fe4502d115dc602e089b23ad5d9bddf568e9f22c85071028104d3fca1012203a7966db6486e1a12b7e63035b193fd3df7bac94c3a280860bb92ac590ca97d8",
-            "template_id": "a36cfff1da2f15da3d760c872860bf03140aa699f73b57b639fd40dfe8156cfe:Iou:Iou",
-            "contract_key": null,
-            "create_argument": {
-              "issuer": "Alice::122099e6b7c92e12eb026f483f59a73e48149dc6e630a4f4f8fb95b8d269219b356c",
-              "owner": "Alice::122099e6b7c92e12eb026f483f59a73e48149dc6e630a4f4f8fb95b8d269219b356c",
+            "nodeId": 1,
+            "contractId": "00afee8d924751d4677ae7f09ed7c38c84b9e8601bb2c75bc30f832f866896755dca101220b62bec39ca9352f599cc432bbca1969a33d368a0ee4cdad56093226f27103dc2",
+            "templateId": "19b9fc297d4649bab9fd0eeb3ce23da763cb9ed7dfaedeb1281ac7d7f65a7883:Iou:IouTransfer",
+            "contractKey": null,
+            "createArgument": {
+              "iou": {
+                "issuer": "Alice::1220743926ada1ba52150596c07712995f4a1d2c43efcc9d9e569bb82b1998a46c55",
+                "owner": "Alice::1220743926ada1ba52150596c07712995f4a1d2c43efcc9d9e569bb82b1998a46c55",
+                "currency": "USD",
+                "amount": "999.9900000000",
+                "observers": []
+              },
+              "newOwner": "Alice::1220743926ada1ba52150596c07712995f4a1d2c43efcc9d9e569bb82b1998a46c55"
+            },
+            "createdEventBlob": "CgMyLjES0QQKRQCv7o2SR1HUZ3rn8J7Xw4yEuehgG7LHW8MPgy+GaJZ1XcoQEiC2K+w5ypNS9ZnMQyu8oZaaM9NooO5M2tVgkyJvJxA9whILbW9kZWwtdGVzdHMaVApAMTliOWZjMjk3ZDQ2NDliYWI5ZmQwZWViM2NlMjNkYTc2M2NiOWVkN2RmYWVkZWIxMjgxYWM3ZDdmNjVhNzg4MxIDSW91GgtJb3VUcmFuc2ZlciKiAmqfAgrLAQrIAWrFAQpPCk06S0FsaWNlOjoxMjIwNzQzOTI2YWRhMWJhNTIxNTA1OTZjMDc3MTI5OTVmNGExZDJjNDNlZmNjOWQ5ZTU2OWJiODJiMTk5OGE0NmM1NQpPCk06S0FsaWNlOjoxMjIwNzQzOTI2YWRhMWJhNTIxNTA1OTZjMDc3MTI5OTVmNGExZDJjNDNlZmNjOWQ5ZTU2OWJiODJiMTk5OGE0NmM1NQoHCgVCA1VTRAoSChAyDjk5OS45OTAwMDAwMDAwCgQKAloACk8KTTpLQWxpY2U6OjEyMjA3NDM5MjZhZGExYmE1MjE1MDU5NmMwNzcxMjk5NWY0YTFkMmM0M2VmY2M5ZDllNTY5YmI4MmIxOTk4YTQ2YzU1KktBbGljZTo6MTIyMDc0MzkyNmFkYTFiYTUyMTUwNTk2YzA3NzEyOTk1ZjRhMWQyYzQzZWZjYzlkOWU1NjliYjgyYjE5OThhNDZjNTU5Agm71LEsBgBCKgomCiQIARIgyJpshr25uq/bCHZXro6K5Wl3FyO/llMqF2W5DbrzoKAQHg==",
+            "interfaceViews": [],
+            "witnessParties": [
+              "Alice::1220743926ada1ba52150596c07712995f4a1d2c43efcc9d9e569bb82b1998a46c55"
+            ],
+            "signatories": [
+              "Alice::1220743926ada1ba52150596c07712995f4a1d2c43efcc9d9e569bb82b1998a46c55"
+            ],
+            "observers": [],
+            "createdAt": "2025-01-27T15:35:50.124802Z",
+            "packageName": "model-tests"
+          },
+          "synchronizerId": "da1::122002b3938ee8f7f0a757c5db698fc6020352717ee53da9023485f8b9e0dc2ea360",
+          "reassignmentCounter": 0
+        }
+      }
+    }
+
+
+Get All Active Contracts via HTTP
+*********************************
+
+For each WebSocket endpoint, we provide an HTTP POST endpoint that returns the same results synchronously.
+However, HTTP POST alternatives are less efficient because:
+
+- They impose a higher load on the server.
+- The result size is always limited (refer to the configuration).
+- There is a slight performance overhead and delay in retrieving results.
+
+
+We recommend using WebSockets for production environments, as they offer better performance and scalability. HTTP alternatives are suitable for prototyping and for applications with lower data and load requirements.
+
+HTTP Request
+===============================
+
+- URL: ``/v2/state/active-contracts``
+- Protocol: ``HTTP``
+- Method: ``POST``
+- Content:
+
+.. code-block:: json
+
+    {
+        "filter":
+        {
+            "filtersByParty":{},
+            "filtersForAnyParty":
+                {"cumulative":  [
+                    {"identifierFilter":
+                        {"WildcardFilter":
+                            {"value":
+                                {"includeCreatedEventBlob":true}
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+        "verbose":false,
+        "activeAtOffset":23
+   }
+
+.. note:: be careful and do enter a proper value for activeAtOffset
+
+Example HTTP Response:
+======================
+
+.. code-block:: json
+
+  [
+    {
+      "workflowId": "",
+      "contractEntry": {
+        "JsActiveContract": {
+          "createdEvent": {
+            "offset": 18,
+            "nodeId": 0,
+            "contractId": "0047c4cc5cf2f0bda731a172fd90f5cc592f9d3ad2e5c45450d9de1cc4aa5adb71ca101220a8faa4673f7e9c28319eb57f98aad84d0bf1395fed971f24eb486bc4f48d9828",
+            "templateId": "19b9fc297d4649bab9fd0eeb3ce23da763cb9ed7dfaedeb1281ac7d7f65a7883:Iou:Iou",
+            "contractKey": null,
+            "createArgument": {
+              "issuer": "Alice::1220b6683b7d875557055126f8b8f059d9c070ece95e7784d279a135c8c1285a4f1f",
+              "owner": "Alice::1220b6683b7d875557055126f8b8f059d9c070ece95e7784d279a135c8c1285a4f1f",
               "currency": "USD",
               "amount": "999.9900000000",
               "observers": []
             },
-            "created_event_blob": "CgMyLjES7wMKRQBgvuQIdf5FAtEV3GAuCJsjrV2b3fVo6fIshQcQKBBNP8oQEiA6eWbbZIbhoSt+YwNbGT/T33uslMOigIYLuSrFkMqX2BILbW9kZWwtdGVzdHMaTApAYTM2Y2ZmZjFkYTJmMTVkYTNkNzYwYzg3Mjg2MGJmMDMxNDBhYTY5OWY3M2I1N2I2MzlmZDQwZGZlODE1NmNmZRIDSW91GgNJb3UiyAFqxQEKTwpNOktBbGljZTo6MTIyMDk5ZTZiN2M5MmUxMmViMDI2ZjQ4M2Y1OWE3M2U0ODE0OWRjNmU2MzBhNGY0ZjhmYjk1YjhkMjY5MjE5YjM1NmMKTwpNOktBbGljZTo6MTIyMDk5ZTZiN2M5MmUxMmViMDI2ZjQ4M2Y1OWE3M2U0ODE0OWRjNmU2MzBhNGY0ZjhmYjk1YjhkMjY5MjE5YjM1NmMKBwoFQgNVU0QKEgoQMg45OTkuOTkwMDAwMDAwMAoECgJaACpLQWxpY2U6OjEyMjA5OWU2YjdjOTJlMTJlYjAyNmY0ODNmNTlhNzNlNDgxNDlkYzZlNjMwYTRmNGY4ZmI5NWI4ZDI2OTIxOWIzNTZjOc1refENKQYAQioKJgokCAESINYJODbmD6MBtygqr/BXycesGGKTrVwcms/ZsrN6ZTivEB4=",
-            "interface_views": [],
-            "witness_parties": [
-              "Alice::122099e6b7c92e12eb026f483f59a73e48149dc6e630a4f4f8fb95b8d269219b356c"
+            "createdEventBlob": "CgMyLjES7wMKRQBHxMxc8vC9pzGhcv2Q9cxZL5060uXEVFDZ3hzEqlrbccoQEiCo+qRnP36cKDGetX+YqthNC/E5X+2XHyTrSGvE9I2YKBILbW9kZWwtdGVzdHMaTApAMTliOWZjMjk3ZDQ2NDliYWI5ZmQwZWViM2NlMjNkYTc2M2NiOWVkN2RmYWVkZWIxMjgxYWM3ZDdmNjVhNzg4MxIDSW91GgNJb3UiyAFqxQEKTwpNOktBbGljZTo6MTIyMGI2NjgzYjdkODc1NTU3MDU1MTI2ZjhiOGYwNTlkOWMwNzBlY2U5NWU3Nzg0ZDI3OWExMzVjOGMxMjg1YTRmMWYKTwpNOktBbGljZTo6MTIyMGI2NjgzYjdkODc1NTU3MDU1MTI2ZjhiOGYwNTlkOWMwNzBlY2U5NWU3Nzg0ZDI3OWExMzVjOGMxMjg1YTRmMWYKBwoFQgNVU0QKEgoQMg45OTkuOTkwMDAwMDAwMAoECgJaACpLQWxpY2U6OjEyMjBiNjY4M2I3ZDg3NTU1NzA1NTEyNmY4YjhmMDU5ZDljMDcwZWNlOTVlNzc4NGQyNzlhMTM1YzhjMTI4NWE0ZjFmOS/eEk3FLAYAQioKJgokCAESIANCONtfqgCanbAYj1wMaIE3YKLDoH+lM9kT19z2h1F4EB4=",
+            "interfaceViews": [],
+            "witnessParties": [
+              "Alice::1220b6683b7d875557055126f8b8f059d9c070ece95e7784d279a135c8c1285a4f1f"
             ],
             "signatories": [
-              "Alice::122099e6b7c92e12eb026f483f59a73e48149dc6e630a4f4f8fb95b8d269219b356c"
+              "Alice::1220b6683b7d875557055126f8b8f059d9c070ece95e7784d279a135c8c1285a4f1f"
             ],
             "observers": [],
-            "created_at": "2024-12-12T07:48:42.844109Z",
-            "package_name": "model-tests"
+            "createdAt": "2025-01-28T14:49:33.525551Z",
+            "packageName": "model-tests"
           },
-          "domain_id": "da1::12209490832f5a44e5a76cd5c4afc4e44db3d856d3070f8236d5109e28626a48374d",
-          "reassignment_counter": 0
+          "synchronizerId": "da1::1220ff7a4caf08bd4442003c65c2f351ebc15cc3a2063fd876da82e3a64a2348d30b",
+          "reassignmentCounter": 0
         }
       }
     }
+  ]
+
 
 Fetch Parties by Identifiers
 ****************************
