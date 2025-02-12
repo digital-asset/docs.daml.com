@@ -1,5 +1,6 @@
-Daml Application Architecture and Design Considerations
-#######################################################
+Daml Application Architecture Design Considerations
+###################################################
+Building and operating a production-level Daml application requires careful design considerations for each component. This document introduces the fundamental components of a Daml application, with a focus on the core responsibilities of the backend. It also discusses the costs and benefits of viable tech stacks and architectural options from both the app provider's and app user's perspectives. For a concise overview of a recommended architecture, refer to :ref:`Daml Application Architecture <recommended-architecture>`.
 
 1. Daml Application Components
 ==============================
