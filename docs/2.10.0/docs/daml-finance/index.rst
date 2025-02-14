@@ -95,7 +95,7 @@ New AutoCallable Instrument
 A new AutoCallable instrument
 :ref:`AutoCallable <module-daml-finance-instrument-structuredproduct-v1-autocallable-instrument-89951>`
 has been added to the experimental
-Daml.Finance.Instrument.StructuredProduct.V1 package. This addition expands the set of available
+Daml.Finance.Instrument.StructuredProduct.V0 package. This addition expands the set of available
 structured product instruments.
 
 Stable Packages
@@ -163,23 +163,23 @@ Early Access Packages
 +--------------------------------------------------------+---------+--------+
 | Package                                                | Version | Status |
 +========================================================+=========+========+
-| ContingentClaims.Valuation.V1                          | 1.0.0   | Labs   |
+| ContingentClaims.Valuation.V0                          | 0.3.0   | Labs   |
 +--------------------------------------------------------+---------+--------+
-| Daml.Finance.Instrument.Equity.V1                      | 1.0.0   | Alpha  |
+| Daml.Finance.Instrument.Equity.V0                      | 0.5.0   | Alpha  |
 +--------------------------------------------------------+---------+--------+
-| Daml.Finance.Instrument.Option.V1                      | 1.0.0   | Alpha  |
+| Daml.Finance.Instrument.Option.V0                      | 0.4.0   | Alpha  |
 +--------------------------------------------------------+---------+--------+
-| Daml.Finance.Instrument.StructuredProduct.V1           | 1.0.0   | Alpha  |
+| Daml.Finance.Instrument.StructuredProduct.V0           | 0.2.0   | Alpha  |
 +--------------------------------------------------------+---------+--------+
-| Daml.Finance.Instrument.Swap.V1                        | 1.0.0   | Alpha  |
+| Daml.Finance.Instrument.Swap.V0                        | 0.5.0   | Alpha  |
 +--------------------------------------------------------+---------+--------+
-| Daml.Finance.Interface.Instrument.Equity.V1            | 1.0.0   | Alpha  |
+| Daml.Finance.Interface.Instrument.Equity.V0            | 0.5.0   | Alpha  |
 +--------------------------------------------------------+---------+--------+
-| Daml.Finance.Interface.Instrument.Option.V1            | 1.0.0   | Alpha  |
+| Daml.Finance.Interface.Instrument.Option.V0            | 0.4.0   | Alpha  |
 +--------------------------------------------------------+---------+--------+
-| Daml.Finance.Interface.Instrument.StructuredProduct.V1 | 1.0.0   | Alpha  |
+| Daml.Finance.Interface.Instrument.StructuredProduct.V0 | 0.2.0   | Alpha  |
 +--------------------------------------------------------+---------+--------+
-| Daml.Finance.Interface.Instrument.Swap.V1              | 1.0.0   | Alpha  |
+| Daml.Finance.Interface.Instrument.Swap.V0              | 0.5.0   | Alpha  |
 +--------------------------------------------------------+---------+--------+
 
 Deprecated Packages

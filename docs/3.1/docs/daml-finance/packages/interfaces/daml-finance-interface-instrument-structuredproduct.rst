@@ -1,7 +1,7 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Daml.Finance.Interface.Instrument.StructuredProduct.V1
+Daml.Finance.Interface.Instrument.StructuredProduct.V0
 ######################################################
 
 This package contains the *interface* definitions for various structured product instruments. It

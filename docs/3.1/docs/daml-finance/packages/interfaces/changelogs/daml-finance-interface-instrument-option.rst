@@ -4,7 +4,7 @@
 Changelog
 #########
 
-Daml.Finance.Interface.Instrument.Option.V1
+Daml.Finance.Interface.Instrument.Option.V0
 ===========================================
 
 Version 1.0.0
@@ -12,7 +12,7 @@ Version 1.0.0
 
 - Update of SDK version and dependencies. LF protocol update to support SCU.
 
-Daml.Finance.Interface.Instrument.Option.V1
+Daml.Finance.Interface.Instrument.Option.V0
 ===========================================
 
 Version 0.3.0

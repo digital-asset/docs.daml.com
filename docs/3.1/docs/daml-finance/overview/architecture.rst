@@ -67,7 +67,7 @@ The implementation layer consists of the following packages:
 - ``Daml.Finance.Util.V4`` provides a set of pure utility functions mainly for date manipulation
 - ``ContingentClaims.Lifecycle.V3`` provides lifecycle utility functions for
   :doc:`Contingent Claims <../instruments/generic/contingent-claims>` based instruments
-- ``ContingentClaims.Valuation.V1`` contains experimental functions to transform
+- ``ContingentClaims.Valuation.V0`` contains experimental functions to transform
   :doc:`Contingent Claims <../instruments/generic/contingent-claims>` instrument trees into a
   mathematical representation suitable for integration with pricing and risk frameworks
 

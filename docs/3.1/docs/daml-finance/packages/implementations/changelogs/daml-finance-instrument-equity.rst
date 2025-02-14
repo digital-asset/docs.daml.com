@@ -4,7 +4,7 @@
 Changelog
 #########
 
-Daml.Finance.Instrument.Equity.V1
+Daml.Finance.Instrument.Equity.V0
 =================================
 
 Version 1.0.0

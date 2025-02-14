@@ -4,7 +4,7 @@
 Changelog
 #########
 
-Daml.Finance.Instrument.Swap.V1
+Daml.Finance.Instrument.Swap.V0
 ===============================
 
 Version 1.0.0

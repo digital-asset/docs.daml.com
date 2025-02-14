@@ -4,7 +4,7 @@
 Changelog
 #########
 
-Daml.Finance.Instrument.StructuredProduct.V1
+Daml.Finance.Instrument.StructuredProduct.V0
 ============================================
 
 Version 1.0.0

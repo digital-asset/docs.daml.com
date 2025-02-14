@@ -1,7 +1,7 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-Daml.Finance.Instrument.Option.V1
+Daml.Finance.Instrument.Option.V0
 #################################
 
 This package contains the *implementation* of different option types, defined in the

@@ -4,7 +4,7 @@
 Changelog
 #########
 
-ContingentClaims.Valuation.V1
+ContingentClaims.Valuation.V0
 =============================
 
 Version 1.0.0

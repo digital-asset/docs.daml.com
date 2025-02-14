@@ -4,10 +4,10 @@
 Changelog
 #########
 
-Daml.Finance.Instrument.StructuredProduct.V1
+Daml.Finance.Instrument.StructuredProduct.V0
 ============================================
 
-Version 1.0.0
+Version 0.2.0
 *************
 
 - Update of SDK version and dependencies. LF protocol update to support SCU.

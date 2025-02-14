@@ -4,10 +4,10 @@
 Changelog
 #########
 
-ContingentClaims.Valuation.V1
+ContingentClaims.Valuation.V0
 =============================
 
-Version 1.0.0
+Version 0.3.0
 *************
 
 - Update of SDK version and dependencies. LF protocol update to support SCU.
