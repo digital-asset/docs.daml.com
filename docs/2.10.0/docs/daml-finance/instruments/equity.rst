@@ -27,7 +27,7 @@ The Equity Interface
 
 The equity instrument supports different lifecycle events, such as dividends, stock
 splits and mergers. These are modeled using the choices on the
-:ref:`Equity interface <module-daml-finance-interface-instrument-equity-v1-instrument-10480>`,
+:ref:`Equity interface <module-daml-finance-interface-instrument-equity-v0-instrument-90217>`,
 namely ``DeclareDistribution``, ``DeclareReplacement`` and ``DeclareStockSplit``. We will now
 demonstrate each one with a concrete lifecycle event.
 
@@ -122,7 +122,7 @@ The preferred way is to model this using the following two components:
 
 - A dividend option instrument, which describes the economic terms of the rights a shareholder
   receives. The page on the :doc:`Option Instrument package <option>` describes how to
-  create a physically settled :ref:`Dividend <module-daml-finance-instrument-option-v1-dividend-instrument-35111>`
+  create a physically settled :ref:`Dividend <module-daml-finance-instrument-option-v0-dividend-instrument-16416>`
   option.
 - The ``DeclareDistribution`` choice to distribute the above option instrument in the correct
   proportion (e.g. 1 option contract for each share held). This can be done in the same way as the

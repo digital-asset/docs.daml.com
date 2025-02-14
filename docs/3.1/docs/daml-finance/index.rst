@@ -93,7 +93,7 @@ New AutoCallable Instrument
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A new AutoCallable instrument
-:ref:`AutoCallable <module-daml-finance-instrument-structuredproduct-v1-autocallable-instrument-89951>`
+:ref:`AutoCallable <module-daml-finance-instrument-structuredproduct-v0-autocallable-instrument-68544>`
 has been added to the experimental
 Daml.Finance.Instrument.StructuredProduct.V0 package. This addition expands the set of available
 structured product instruments.

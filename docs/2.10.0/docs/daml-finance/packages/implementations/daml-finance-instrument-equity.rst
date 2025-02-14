@@ -6,9 +6,9 @@ Daml.Finance.Instrument.Equity.V0
 
 This package contains the *implementation* of equity instruments, defined in the following modules:
 
-- :ref:`Instrument <module-daml-finance-instrument-equity-v1-instrument-56047>`:
+- :ref:`Instrument <module-daml-finance-instrument-equity-v0-instrument-40246>`:
   Instrument implementation for equities
-- :ref:`Factory <module-daml-finance-instrument-equity-v1-factory-43861>`:
+- :ref:`Factory <module-daml-finance-instrument-equity-v0-factory-49978>`:
   Factory implementation to instantiate equities
 
 For a detailed explanation of this package, check out the page on

@@ -268,7 +268,7 @@ Pricing (Experimental)
 
 This is an *experimental* feature. Expect breaking changes.
 
-The :ref:`ContigentClaims.Valuation.Stochastic <module-contingentclaims-valuation-v1-stochastic-86240>`
+The :ref:`ContigentClaims.Valuation.Stochastic <module-contingentclaims-valuation-v0-stochastic-56833>`
 module can be used for valuation. There is a ``fapf``
 function which is used to derive a *fundamental asset pricing formula* for an arbitrary ``Claim``
 tree. The resulting AST is represented by ``Expr``, but can be rendered as XML/MathML with the

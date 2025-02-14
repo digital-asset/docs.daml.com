@@ -32,7 +32,7 @@ Physically settled European Option
 ----------------------------------
 
 The
-:ref:`EuropeanPhysical <module-daml-finance-instrument-option-v1-europeanphysical-instrument-98774>`
+:ref:`EuropeanPhysical <module-daml-finance-instrument-option-v0-europeanphysical-instrument-57525>`
 instrument models physically settled call or put options.
 
 There are two important characteristics of this instrument:
@@ -70,9 +70,9 @@ Once this is done, you can create a holding on it using
 Cash-settled European Option
 ----------------------------
 
-The  :ref:`EuropeanCash <module-daml-finance-instrument-option-v1-europeancash-instrument-97900>`
+The  :ref:`EuropeanCash <module-daml-finance-instrument-option-v0-europeancash-instrument-35799>`
 instrument models cash-settled, auto-exercising call or put options. They are similar to the
-:ref:`EuropeanPhysical <module-daml-finance-instrument-option-v1-europeancash-instrument-97900>`
+:ref:`EuropeanPhysical <module-daml-finance-instrument-option-v0-europeancash-instrument-35799>`
 instrument described above, but there are two important differences:
 
 #. *cash settlement*: This means that the underlying asset will not change hands. Instead, a cash
@@ -123,18 +123,18 @@ Barrier Option
 ==============
 
 The
-:ref:`BarrierEuropeanCash <module-daml-finance-interface-instrument-option-v1-barriereuropeancash-instrument-53071>`
+:ref:`BarrierEuropeanCash <module-daml-finance-interface-instrument-option-v0-barriereuropeancash-instrument-35570>`
 instrument models barrier options. They are similar to the
-:ref:`EuropeanCash <module-daml-finance-instrument-option-v1-europeancash-instrument-97900>`
+:ref:`EuropeanCash <module-daml-finance-instrument-option-v0-europeancash-instrument-35799>`
 instrument described above, but also contain a barrier that is used to activate (or, alternatively,
 knock out) the option. The
-:ref:`BarrierTypeEnum <type-daml-finance-interface-instrument-option-v1-types-barriertypeenum-4880>`
+:ref:`BarrierTypeEnum <type-daml-finance-interface-instrument-option-v0-types-barriertypeenum-77029>`
 describes which barrier types are supported.
 
 As an example, consider an option instrument that gives the holder the right to buy AAPL stock
 at a given price. However, if AAPL ever trades at or below a given barrier level, the option is
 knocked out (which means that it expires worthless). In other words, this describes a
-:ref:`DownAndOut <constr-daml-finance-interface-instrument-option-v1-types-downandout-65367>` option.
+:ref:`DownAndOut <constr-daml-finance-interface-instrument-option-v0-types-downandout-96532>` option.
 This example is taken from
 `Instrument/Option/Test/BarrierEuropeanCash.daml <https://github.com/digital-asset/daml-finance/blob/main/src/test/daml/Daml/Finance/Instrument/Option/Test/BarrierEuropeanCash.daml>`_
 , where all the details are available.
@@ -157,7 +157,7 @@ Once this is done, you can create a holding on it using
 :ref:`Account.Credit <module-daml-finance-interface-account-v4-account-30007>`.
 
 Compared to the
-:ref:`EuropeanCash option <module-daml-finance-instrument-option-v1-europeancash-instrument-97900>`
+:ref:`EuropeanCash option <module-daml-finance-instrument-option-v0-europeancash-instrument-35799>`
 this instrument needs to be lifecycled not only at expiry but also during its lifetime in case of a
 barrier hit. This is done in the same way as lifecycling at maturity, i.e. an *Observation* is
 provided for the reference asset identifier, containing the date and the underlying price.
@@ -165,7 +165,7 @@ provided for the reference asset identifier, containing the date and the underly
 Dividend Option
 ===============
 
-The :ref:`Dividend <module-daml-finance-instrument-option-v1-dividend-instrument-35111>`
+The :ref:`Dividend <module-daml-finance-instrument-option-v0-dividend-instrument-16416>`
 instrument models physically settled, manually exercised dividend options. For reference, a
 dividend option gives the holder the right to choose one out of several dividend payouts, on a
 specific *expiry* date in the future. The following payout types are supported:

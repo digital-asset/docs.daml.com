@@ -17,7 +17,7 @@ has to do with application decoupling / upgradeability of your application.
 
 For example, suppose that you are writing Daml code to issue equity instruments. Your workflow
 references the version ``0.2.1`` of the
-:ref:`Equity implementation package <module-daml-finance-instrument-equity-v1-instrument-56047>`
+:ref:`Equity implementation package <module-daml-finance-instrument-equity-v0-instrument-40246>`
 and at some point creates an instrument as follows.
 
 .. code-block:: daml
@@ -33,15 +33,15 @@ Daml code in order to use the new feature and will have to deal with upgrading m
 on the ledger.
 
 A safer approach is for your Daml code to only reference the
-:ref:`Equity interface package <module-daml-finance-interface-instrument-equity-v1-instrument-10480>`,
+:ref:`Equity interface package <module-daml-finance-interface-instrument-equity-v0-instrument-90217>`,
 which contains interface definitions and is updated less frequently.
 
 However, you would now need a way to create equity instruments without referencing
 ``Daml.Finance.Instrument.Equity.V0`` in your main Daml workflow. To do this, you can setup a Script
 to run during ledger initialisation that will create a
-:ref:`factory contract <module-daml-finance-instrument-equity-v1-factory-43861>`
+:ref:`factory contract <module-daml-finance-instrument-equity-v0-factory-49978>`
 and cast it to the corresponding
-:ref:`interface <module-daml-finance-interface-instrument-equity-v1-factory-86676>`.
+:ref:`interface <module-daml-finance-interface-instrument-equity-v0-factory-67939>`.
 You can then use the factory in your main workflow code to create the instruments.
 
 When an upgraded instrument comes along, you would need to write code to archive the old factory and
