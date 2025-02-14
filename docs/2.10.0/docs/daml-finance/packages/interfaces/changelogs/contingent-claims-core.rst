@@ -12,7 +12,7 @@ Version 3.0.0
 
 - Update of SDK version and dependencies. LF protocol update to support SCU.
 
-- Bumps `daml-ctl` to `2.4.1`.
+- Bumps `daml-ctl` to `2.5.0`.
 
 ContingentClaims.Core
 =====================

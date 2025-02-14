@@ -22,7 +22,7 @@ Barrier Reverse Convertible
 ===========================
 
 The
-:ref:`BarrierReverseConvertible <module-daml-finance-instrument-structuredproduct-v1-barrierreverseconvertible-instrument-16231>`
+:ref:`BarrierReverseConvertible <module-daml-finance-instrument-structuredproduct-v0-barrierreverseconvertible-instrument-60122>`
 instrument models cash-settled, auto-exercising barrier reverse convertible (BRC) instruments. It
 can be seen as a long fixed coupon bond and a short Down-And-In put option.
 
@@ -68,7 +68,7 @@ Auto-Callable
 =============
 
 The
-:ref:`AutoCallable <module-daml-finance-interface-instrument-structuredproduct-v1-autocallable-instrument-15420>`
+:ref:`AutoCallable <module-daml-finance-interface-instrument-structuredproduct-v0-autocallable-instrument-36015>`
 instrument models a single-underlying auto-callable note that pays a conditional coupon.
 
 Coupon payment

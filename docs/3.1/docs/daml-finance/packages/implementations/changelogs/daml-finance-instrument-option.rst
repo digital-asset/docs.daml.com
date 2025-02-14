@@ -4,7 +4,7 @@
 Changelog
 #########
 
-Daml.Finance.Instrument.Option.V1
+Daml.Finance.Instrument.Option.V0
 =================================
 
 Version 1.0.0

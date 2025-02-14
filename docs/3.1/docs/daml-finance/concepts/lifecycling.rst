@@ -87,7 +87,7 @@ step.
 
 Now, the issuer creates a lifecycle event defining the terms of dividend. In our example we can
 use the ``DistributeDividend`` choice on the
-:ref:`Equity <module-daml-finance-interface-instrument-equity-v1-instrument-10480>` instrument
+:ref:`Equity <module-daml-finance-interface-instrument-equity-v0-instrument-90217>` instrument
 to create such an event. This is merely a convenience choice available for equities, any workflow
 can be used to create new instrument versions and associated lifecycle events.
 

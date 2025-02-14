@@ -67,7 +67,7 @@ This template does not define any lifecycling logic and is suitable to model con
 likely to stay stable, such as currency instruments.
 
 The extension packages provide additional business-specific implementations, such as an
-:ref:`Equity <module-daml-finance-instrument-equity-v1-instrument-56047>`
+:ref:`Equity <module-daml-finance-instrument-equity-v0-instrument-40246>`
 instrument (where the issuer can pay dividends) or a
 :ref:`Bond <module-daml-finance-instrument-bond-v3-fixedrate-instrument-89221>`
 instrument (which includes coupon payments).
@@ -268,7 +268,7 @@ We now model units of shares held by an investor. There are three parties involv
 Entity, a Securities Depository, and an Investor.
 
 The Issuing Entity acts as ``issuer`` of the :ref:`Equity Instrument
-<module-daml-finance-instrument-equity-v1-instrument-56047>`. The Securities Depository acts
+<module-daml-finance-instrument-equity-v0-instrument-40246>`. The Securities Depository acts
 as ``depository`` of the instrument, thus preventing the Issuing Entity from single-handedly
 modifying details of the instrument (such as the share's nominal value).
 
@@ -289,7 +289,7 @@ OTC Swap
 
 Finally, we model an OTC (over-the-counter) fixed vs. floating interest rate swap agreement between
 two parties, namely Party A and Party B. We can use the :ref:`Interest Rate Swap
-<module-daml-finance-instrument-swap-v1-interestrate-instrument-25554>` instrument template
+<module-daml-finance-instrument-swap-v0-interestrate-instrument-37965>` instrument template
 for this purpose.
 
 In this case, all contracts are agreed and co-signed by both parties. In the instrument contract,
