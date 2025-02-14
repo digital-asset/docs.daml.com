@@ -19,7 +19,7 @@ following modules:
   Factory implementation to create an Election for dividend options
 - :ref:`EuropeanCash.Instrument <module-daml-finance-instrument-option-v0-europeancash-instrument-35799>`:
   Instrument implementation for cash-settled European options
-- :ref:`EuropeanCash.Factory <module-daml-finance-instrument-option-v0-europeancash-factory-8330>`:
+- :ref:`EuropeanCash.Factory <module-daml-finance-instrument-option-v0-europeancash-factory-83305>`:
   Factory implementation to instantiate cash-settled European options
 - :ref:`EuropeanPhysical.Instrument <module-daml-finance-instrument-option-v0-europeanphysical-instrument-57525>`:
   Instrument implementation for physically settled European options

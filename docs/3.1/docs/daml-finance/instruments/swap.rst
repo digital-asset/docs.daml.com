@@ -317,7 +317,7 @@ short, it depends on the content of
 
 #. *None*: No special stub rate is provided. Instead, use the same rate as was specified in the
    corresponding
-   :ref:`Calculation <type-daml-finance-interface-instrument-swap-v0-fpml-fpmltypes-calculationperioddates-23760>`.
+   :ref:`Calculation <type-daml-finance-interface-instrument-swap-v0-fpml-fpmltypes-calculation-57533>`.
 #. Specific *stubRate*: Use this specific fix rate.
 #. Specific *floatingRate*: Use this specific floating rate (if one rate is provided). If two rates
    are provided: use linear interpolation between the two rates.
