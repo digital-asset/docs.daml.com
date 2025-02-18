@@ -34,30 +34,6 @@ subtrees:
   - file: getting-started/testing
     title: "Test Your App"
 
-- caption: "Tutorial: Single-Domain Quickstart"
-  entries:
-
-  - file: single-domain/intro
-    title: "Introduction"
-  - file: single-domain/install
-    title: "Install the Application"
-  - file: single-domain/build-backend
-    title: "Build the Backend"
-  - file: single-domain/build-frontend
-    title: "Build the Frontend"
-  - file: single-domain/demo
-    title: "Demo the App"
-  - file: single-domain/extend-overview
-    title: "Extend the Application"
-  - file: single-domain/extend-model
-    title: "Extend the Daml Model"
-  - file: single-domain/extend-backend
-    title: "Extend the Backend"
-  - file: single-domain/extend-frontend
-    title: "Extend the Frontend"
-  - file: single-domain/extend-demo
-    title: "Demo the Extension"
-
 - caption: "Create Daml Apps"
   entries:
 
