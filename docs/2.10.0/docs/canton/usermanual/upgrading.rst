@@ -798,21 +798,30 @@ these prior releases to a protocol version supported by this minor release versi
 
 One-Step Migration Recipe for 2.10
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-General recipe to migrate from a sync domain running on a :ref:`2.3 <upgrade_to_2.3>`,
-:ref:`2.4 <upgrade_to_2.4>`, :ref:`2.5 <upgrade_to_2.5>`, :ref:`2.6 <upgrade_to_2.6>`,
-:ref:`2.7 <upgrade_to_2.7>` or :ref:`2.8 <upgrade_to_2.8>` release and protocol
-version 3 or 4 to a new sync domain running on the 2.10 release and protocol version 5:
+This recipe allows you to upgrade the Canton binary to release version 2.10 and migrate your sync domain to a new sync domain running protocol version 7.
 
 .. note::
 
-    Although version 2.10 supports other protocol versions, protocol version 5 is recommended.
+    Version 2.10 supports protocol versions 5 and 7. Protocol version 7 is recommended and specified in the instructions. However,
+    you can use the same instructions to migrate to a new sync domain running protocol version 5,
+    if so desired.
+
+The outlined recipe steps have been validated through automated tests to migrate from a sync domain running on release
+:ref:`2.3 <upgrade_to_2.3>`, :ref:`2.4 <upgrade_to_2.4>`, :ref:`2.5 <upgrade_to_2.5>`, :ref:`2.6 <upgrade_to_2.6>`,
+:ref:`2.7 <upgrade_to_2.7>`, :ref:`2.8 <upgrade_to_2.8>`, or :ref:`2.9 <upgrade_to_2.9>` and protocol version
+3, 4, or 5 to a new sync domain running on release 2.10 and protocol version 5 or 7.
 
 .. note::
 
-    When upgrading from 2.9 to 2.10, follow the steps for :ref:`upgrading the Canton binary <upgrade_canton_binary>`
-    instead, as both 2.9 and 2.10 support protocol version 5.
+    If you are using a 2.9 release binary and running a sync domain on protocol version 5, you have the option
+    to upgrade the Canton binary to 2.10 without changing the protocol
+    version from 5 to 7. Remaining on protocol version 5 makes sense if you do not want to use the Smart Contract
+    Upgrade (SCU) feature, for example. In this case, follow the steps for :ref:`upgrading the Canton
+    binary <upgrade_canton_binary>` instead.
 
-#. Start a new sync domain running protocol version 5
+General recipe steps:
+
+#. Start a new sync domain running protocol version 7
 #. :ref:`Halt activity on the old sync domain <halt-activity-current-domain>`
 #. Wait for pending transactions to complete or time out
 #. Backup the current sync domain including participants
