@@ -798,27 +798,23 @@ these prior releases to a protocol version supported by this minor release versi
 
 One-Step Migration Recipe for 2.10
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-If you follow this *one-step migration recipe* you're going to:
-
-- upgrade the Canton binary to a 2.10 release version, and
-- migrate your sync domain to a new sync domain running protocol version 7.
+This recipe allows you to upgrade the Canton binary to release version 2.10 and migrate your sync domain to a new sync domain running protocol version 7.
 
 .. note::
 
-    Version 2.10 supports protocol versions 5 and 7, and protocol version 7 is recommended.
-    Therefore, this recipe states to start a new sync domain running protocol version 7. However,
+    Version 2.10 supports protocol versions 5 and 7. Protocol version 7 is recommended and specified in the instructions. However,
     you can use the same instructions to migrate to a new sync domain running protocol version 5,
     if so desired.
 
-The outlined recipe steps have been validated through automated tests to migrate from a sync domain running on a
+The outlined recipe steps have been validated through automated tests to migrate from a sync domain running on release
 :ref:`2.3 <upgrade_to_2.3>`, :ref:`2.4 <upgrade_to_2.4>`, :ref:`2.5 <upgrade_to_2.5>`, :ref:`2.6 <upgrade_to_2.6>`,
-:ref:`2.7 <upgrade_to_2.7>`, :ref:`2.8 <upgrade_to_2.8>` or :ref:`2.9 <upgrade_to_2.9>` release and protocol version
-3, 4 or 5 to a new sync domain running on the 2.10 release and protocol version 5 or 7.
+:ref:`2.7 <upgrade_to_2.7>`, :ref:`2.8 <upgrade_to_2.8>`, or :ref:`2.9 <upgrade_to_2.9>` and protocol version
+3, 4, or 5 to a new sync domain running on release 2.10 and protocol version 5 or 7.
 
 .. note::
 
-    If you're using a 2.9 release binary and running a sync domain on protocol version 5, you've got the option
-    to upgrade the Canton binary to the 2.10 release version without a sync domain migration changing the protocol
+    If you are using a 2.9 release binary and running a sync domain on protocol version 5, you have the option
+    to upgrade the Canton binary to 2.10 without changing the protocol
     version from 5 to 7. Remaining on protocol version 5 makes sense if you do not want to use the Smart Contract
     Upgrade (SCU) feature, for example. In this case, follow the steps for :ref:`upgrading the Canton
     binary <upgrade_canton_binary>` instead.
