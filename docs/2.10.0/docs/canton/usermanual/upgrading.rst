@@ -796,8 +796,8 @@ these prior releases to a protocol version supported by this minor release versi
     tests, and its steps are known to work, additional measures and configuration may be required to
     address the peculiarities of your environment.
 
-One-Step Migration Recipe for 2.10
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Migration Recipe for 2.10
+~~~~~~~~~~~~~~~~~~~~~~~~~
 This recipe allows you to upgrade the Canton binary to release version 2.10 and migrate your sync domain to a new sync domain running protocol version 7.
 
 .. note::
