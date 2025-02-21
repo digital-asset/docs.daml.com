@@ -84,7 +84,15 @@ When a component, such as a Ledger API client, fetches a contract created from a
 
 Example: v1 Contract Created Before the New Field Existed
 
+.. image:: images/optional-1-1.png
+   :alt: v1 Contract Created Before the New Field Existed
+   :align: center
+
 Should v2 introduce an `Optional` field `newlyAddedField`, a contract `fooCid` created using v1 can still be used by a v2 component without an explicit upgrade. When a newer client with v2 components fetches `fooCid`, Daml execution automatically defaults `newlyAddedField` to `None` based on the newer versions of the DAR package. Note that default assignment occurs only within Daml execution and not at the Ledger API level, in PQS, or in client libraries.
+
+.. image:: images/optional-1-2.png
+   :alt: v1 Contract Created Before the New Field Existed
+   :align: center
 
 Since `newlyAddedField` did not exist in v1, Daml execution defaults it to `None`, allowing the v2 component to fetch the contract without breaking.
 
@@ -94,9 +102,21 @@ When Daml code referencing an older version of a Daml template fetches a contrac
 
 Example: v2 Contract Created with a New Optional Field
 
+.. image:: images/optional-2-1.png
+   :alt: v2 Contract Created with a New Optional Field
+   :align: center
+
 Suppose an older client with v1 components tries to fetch `fooCid`. Since `newlyAddedField` exists and has a value `Some 100`, the read fails:
 
+.. image:: images/optional-2-2.png
+   :alt: v2 Contract Created with a New Optional Field
+   :align: center
+
 This failure prevents data loss in workflows like archive-and-recreate:
+
+.. image:: images/optional-2-3.png
+   :alt: v2 Contract Created with a New Optional Field
+   :align: center
 
 Had the read succeeded, `newlyAddedField` would have been defaulted to `None`, causing silent data loss. Instead, the Daml engine fails any transaction that involves such contracts. To advance the workflows, the Daml models on the participant node must be upgraded before the Daml engine can fetch the contract.
 
@@ -177,6 +197,11 @@ Only backward-compatible changes are allowed for existing APIs, that is for the 
 
 3.4 Avoid Package Name Conflicts
 --------------------------------
+
+.. image:: images/package-name.png
+   :alt: Avoid Package Name Conflicts
+   :align: center
+
 Avoid package name conflicts, particularly between packages published by different app providers. Follow the Java ecosystem’s convention of prefixing package names with the reverse Domain Name System (DNS) name of the app provider. For example, for the issuance workflows of the money market fund app provided by Acme Inc., the recommended `daml.yaml` configuration would be: `name: com-acme-money-market-fund-issuance`.
 
 4. Package Vetting, Testing, and Rollback
