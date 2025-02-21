@@ -778,7 +778,7 @@ One-Step Migration
 ------------------
 
 The term *one-step migration* refers to upgrading the Canton binary version
-*and* the protocol version with a unified, well-tested, multi-step recipe.
+*and* the protocol version with a unified multi-step recipe.
 
 *One-step migrations* cover a :ref:`binary upgrade <upgrade_canton_binary>` from Canton version 2.3 and following minor versions
 up to a new minor release version. Additionally, it :ref:`changes the protocol version <change_pv>` supported by
