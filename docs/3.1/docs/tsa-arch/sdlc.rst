@@ -1,6 +1,8 @@
 Daml Application Lifecycle: Considerations and Best Practices
 #############################################################
-The Software Development Lifecycle (SDLC) of a Daml application mirrors that of a Web2 or enterprise service with facets such as:
+This document outlines the Software Development Lifecycle (SDLC) of a Daml application, emphasizing the unique considerations and best practices required for its distributed, multi-party architecture. It also serves as a cross-reference to the *Lifecycle of a Daml Application* lesson in the `Technical Solution Architect certification path <https://daml.talentlms.com/plus/catalog/courses/161>`_.
+
+The SDLC of a Daml application mirrors that of a Web2 or enterprise service with facets such as:
 
 * Design
 * Develop
@@ -29,15 +31,16 @@ Note that the SDLC of a Daml application is not linear. In particular, the desig
 
 1.2.1 Benefits and Functional Characteristics
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  1. Synchronization of Application Workflow State Across Organizational Boundaries
-     Traditional state synchronization relies on messaging, often requiring manual reconciliation. Daml simplifies this with:
-     * A virtual shared ledger.
-     * Built-in atomic transactions across organizations and applications.
-  2. Functional Characteristics
-     Using Daml and Canton to facilitate cross-organization workflows offers several advantages over using a database or other distributed ledger technologies. These include:
-     * Need-to-know privacy: Privacy is preserved by controlling data visibility to authorized parties.
-     * Non-repudiation: All transactions are traceable and cannot be denied by participants.
-     * Data sovereignty: Users retain control over their data, making Daml particularly suited for enterprise applications.
+* Synchronization of Application Workflow State Across Organizational Boundaries: Traditional state synchronization relies on messaging, often requiring manual reconciliation. Daml simplifies this with:
+
+  * A virtual shared ledger.
+  * Built-in atomic transactions across organizations and applications.
+
+* Functional Characteristics: Using Daml and Canton to facilitate cross-organization workflows offers several advantages over using a database or other distributed ledger technologies. These include:
+
+  * Need-to-know privacy: Privacy is preserved by controlling data visibility to authorized parties.
+  * Non-repudiation: All transactions are traceable and cannot be denied by participants.
+  * Data sovereignty: Users retain control over their data, making Daml particularly suited for enterprise applications.
 
 1.2.2 Trade-Offs: Performance Characteristics
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -62,7 +65,7 @@ To realize Daml’s privacy benefits:
 * Identify data needs for each workflow participant.
 * Plan how to share and authorize data access.
 
-1. Develop
+2. Develop
 ==========
 
 2.1 Decomposition and Compatibility
@@ -76,14 +79,14 @@ A Daml app may include :ref:`app user developed frontends and backends <arch-opt
 
 2.3 DAR File Modularization
 ---------------------------
-  1. Stakeholder-Oriented Modules
-     Modularize workflows based on stakeholder interaction to simplify upgrades and maintain privacy, as DAR files only need to be distributed to participant nodes hosting the parties involved in the workflow.
-  2. Public and Private APIs
-     Daml supports backward-compatible changes like adding a choice or a new field to a template. However, some business requirements may require changes to workflow structure and flow. To accommodate these changes:
-     * Minimize public workflows and store internal workflows in separate DAR files to allow more flexibility in adapting to evolving business needs.
-     * Separate interface definitions in their own package for better workflow management.
-  3. Test Code Separation
-     Unit tests for Daml smart contract workflows are written using Daml Script, which is compiled into DAR files. These DAR files are for testing purposes only and should not be deployed to participant nodes. Ensure test code is not mixed with production code by using separate DAR files for Daml Script testing purposes.
+* Stakeholder-Oriented Modules: Modularize workflows based on stakeholder interaction to simplify upgrades and maintain privacy, as DAR files only need to be distributed to participant nodes hosting the parties involved in the workflow.
+
+* Public and Private APIs: Daml supports backward-compatible changes like adding a choice or a new field to a template. However, some business requirements may require changes to workflow structure and flow. To accommodate these changes:
+
+  * Minimize public workflows and store internal workflows in separate DAR files to allow more flexibility in adapting to evolving business needs.
+  * Separate interface definitions in their own package for better workflow management.
+
+* Test Code Separation: Unit tests for Daml smart contract workflows are written using Daml Script, which is compiled into DAR files. These DAR files are for testing purposes only and should not be deployed to participant nodes. Ensure test code is not mixed with production code by using separate DAR files for Daml Script testing purposes.
 
 3. Test
 =======
@@ -96,17 +99,22 @@ Testing Daml apps is similar to testing other systems: prioritize automation and
    :alt: Testing pyramid as described below.
    :align: center
 
-* Unit Tests
-  * Use Daml Script for white-box unit tests.
-  * Mock backends and ledgers for frontend testing.
-* Integration Tests
-  * Backend: Use white-box integration tests for internal APIs that are only used by clients under the app provider’s control.
-  * Public APIs: Use black-box behavioral tests interacting at system boundaries.
-  * Test isolation: Use long-running Canton instances to avoid repeatedly paying Canton’s startup cost, and isolate tests using unique participant users and parties for each test run. One approach is appending a test run ID as a suffix to party and user names in your test harness.
-* End-to-End Tests
-  * Test workflows between end-users and systems across multiple participant nodes, backends, and frontends.
-  * Use tools like `Selenium <https://www.selenium.dev/>`_ or `Playwright <https://playwright.dev/>`_ for browser session orchestration.
-  * Test isolation: Either bootstrap the entire system for each test run or use a long-running system instance to specific tests. The latter approach supports faster test execution and quicker iterations.
+1. Unit Tests
+
+   * Use Daml Script for white-box unit tests.
+   * Mock backends and ledgers for frontend testing.
+
+2. Integration Tests
+
+   * Backend: Use white-box integration tests for internal APIs that are only used by clients under the app provider’s control.
+   * Public APIs: Use black-box behavioral tests interacting at system boundaries.
+   * Test isolation: Use long-running Canton instances to avoid repeatedly paying Canton’s startup cost, and isolate tests using unique participant users and parties for each test run. One approach is appending a test run ID as a suffix to party and user names in your test harness.
+
+3. End-to-End Tests
+
+   * Test workflows between end-users and systems across multiple participant nodes, backends, and frontends.
+   * Use tools like `Selenium <https://www.selenium.dev/>`_ or `Playwright <https://playwright.dev/>`_ for browser session orchestration.
+   * Test isolation: Either bootstrap the entire system for each test run or use a long-running system instance to specific tests. The latter approach supports faster test execution and quicker iterations.
 
 3.2 Flaky Tests and Time Dependencies
 -------------------------------------
@@ -122,7 +130,7 @@ Testing Daml apps is similar to testing other systems: prioritize automation and
 * Perform soak testing with long-running deployments to detect bottlenecks.
 * Set up alerting to monitor system failures, tuning it over time for optimal observability. Well-tuned alerts established during development can be reused in operations to detect system health issues.
 
-1. Deploy
+4. Deploy
 =========
 
 4.1 Deployment Topology
@@ -135,9 +143,12 @@ Testing Daml apps is similar to testing other systems: prioritize automation and
 Some cross-organizational coordination is always required to deploy a Daml application. Each organization must set up the Canton infrastructure components and deploy the application components running within its administrative domain. Additionally, each organization must integrate its Canton participant nodes and the application components it deploys with its Identity and Access Management (IAM).
 
 * :ref:`App provider <app-provider>` should:
+
   * Deploy the backend and the frontend.
   * Configure the frontend to integrate with IAM.
+
 * :ref:`App user <app-user>` should:
+
   * Deploy and configure the frontend to integrate with their own IAM, whether the frontend is developed by the app provider or the user themselves.
   * Deploy the backend if developed in-house.
 
@@ -152,6 +163,7 @@ Some cross-organizational coordination is always required to deploy a Daml appli
 5.1 Logging and Monitoring
 --------------------------
 * Standard operational considerations for Daml apps include logging and monitoring.
+
   * Logging: Regularly review logs during development and testing, such as by capturing logs in CI runs and using them for debugging CI failures.
   * Monitoring: Capture metrics for all components and display the golden signals – latency, traffic, errors, and saturation – on dashboards. Example dashboards for Canton components are available in `the documentation <https://docs.daml.com/canton/usermanual/monitoring.html?_gl=1*qdpp48*_gcl_au*MTQ0ODAwODc0MC4xNzM3NDQzODUw*_ga*NDg1MTgxODM0LjE3MjA2MjEzNDc.*_ga_GVK9ZHZSMR*MTczNzQ0Mzg1MC45OC4xLjE3Mzc0NDM5NjEuNjAuMC4w&_ga=2.19913016.1097062857.1737443850-485181834.1720621347#hands-on-with-the-daml-enterprise-observability-example>`_.
 * Set up alerts on the metrics to monitor the application’s health during testing and development. This ensures operational reuse and integration into the long-running test instance.
@@ -160,10 +172,11 @@ Some cross-organizational coordination is always required to deploy a Daml appli
 -------------
 * Bug fixes and feature rollouts for off-ledger components follow standard design and development practices, similar to Web2 apps and enterprise services.
 * Rolling out changes to Daml code requires additional considerations:
+
   * Daml code represents shared rules, requiring coordination across multiple administrative domains during upgrade.
   * As an API definition for cross-organization workflows, changes to Daml code must be reflected in all components using that code, ideally with backward compatibility to minimize code updates in dependent systems.
 
-1. Key Takeaways
+6. Key Takeaways
 ================
 The SDLC of a Daml application requires different considerations and best practices for each facet compared to Web2 and enterprise service apps, as Daml’s unique architecture necessitates a shift from conventional development approaches. To understand and implement Daml applications, it is crucial to address the challenges inherent in distributed, multi-party systems.
 

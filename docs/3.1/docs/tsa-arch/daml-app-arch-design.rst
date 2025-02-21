@@ -1,6 +1,6 @@
 Daml Application Architecture Design Considerations
 ###################################################
-Building and operating a production-level Daml application requires careful design considerations for each component. This document introduces the fundamental components of a Daml application, with a focus on the core responsibilities of the backend. It also discusses the costs and benefits of viable tech stacks and architectural options from both the app provider's and app user's perspectives. For a concise overview of a recommended architecture, refer to :ref:`Daml Application Architecture <recommended-architecture>`.
+Building and operating a production-level Daml application requires careful design considerations for each component. This document introduces the fundamental components of a Daml application, focusing on the core responsibilities of the backend, and discusses the costs and benefits of viable tech stacks and architectural options from both the app provider's and app user's perspectives. It also serves as a cross-reference to the *Daml Application Architecture* and *Daml Application Backend* lessons in the `Technical Solution Architect certification path <https://daml.talentlms.com/plus/catalog/courses/161>`_. For a concise overview of a recommended architecture, refer to :ref:`Daml Application Architecture <recommended-architecture>`.
 
 1. Daml Application Components
 ==============================
@@ -62,8 +62,10 @@ On the write path, the most important consideration when implementing higher-lev
 
 * Retry behavior: Since retrying failed command submissions is required by every component of the application that needs to send commands to the ledger, it usually makes sense to package this capability in a reusable fashion.
 * Idempotency: Since commands to the ledger may be recomputed and resubmitted due to retries and/or crashes, it is important to ensure that writes to the ledger are idempotent.
-  * A simple way of achieving this is to make the command sent to the ledger consume some of its input. For example, exercising a consuming choice on the contract that led to sending the command.
-  * Another technique is to use command deduplication. Participant nodes provide a mechanism in the Ledger API to ensure that they execute a command at most once. This mechanism is known as command deduplication. It works by the participant node storing the command ID and deduplicating later submissions with the same command ID. For details on the mechanics of command deduplication, see the Ledger API documentation.
+  
+  A simple way of achieving this is to make the command sent to the ledger consume some of its input. For example, exercising a consuming choice on the contract that led to sending the command.
+  
+  Another technique is to use command deduplication. Participant nodes provide a mechanism in the Ledger API to ensure that they execute a command at most once. This mechanism is known as command deduplication. It works by the participant node storing the command ID and deduplicating later submissions with the same command ID. For details on the mechanics of command deduplication, see the Ledger API documentation.
 
 1.3.1.3 Serve reference data contracts
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -145,8 +147,10 @@ The disadvantages of app users operating the backend built by the app provider i
 * App user operating costs: App users must allocate resources for monitoring and maintaining their backend.
 * Multi-version deployments: App users may delay upgrading their backend to a new release, resulting in multiple backend versions running simultaneously. This complicates workflow changes and testing of upgrades.
 * On-prem software challenges for the app provider: App provider developing a backend for app users to operate requires the app provider to function as an on-prem software provider, presenting additional challenges:
-  * App provider support staff: The app provider must maintain a client-facing support team to address backend operation issues during the app user’s business hours.
-  * App provider release management: Releasing software for customer operations on-prem requires additional communication and care compared to managing internal releases, adding complexity to the release process.
+  
+  App provider support staff: The app provider must maintain a client-facing support team to address backend operation issues during the app user’s business hours.
+  
+  App provider release management: Releasing software for customer operations on-prem requires additional communication and care compared to managing internal releases, adding complexity to the release process.
 
 3.3 Each Organization Builds and Operates Its Own Backend
 ---------------------------------------------------------
