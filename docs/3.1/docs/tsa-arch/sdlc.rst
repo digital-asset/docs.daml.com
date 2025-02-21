@@ -1,6 +1,8 @@
 Daml Application Lifecycle: Considerations and Best Practices
 #############################################################
-The Software Development Lifecycle (SDLC) of a Daml application mirrors that of a Web2 or enterprise service with facets such as:
+This document outlines the Software Development Lifecycle (SDLC) of a Daml application, emphasizing the unique considerations and best practices required for its distributed, multi-party architecture. It also serves as a cross-reference to the *Lifecycle of a Daml Application* lesson in the `Technical Solution Architect certification path <https://daml.talentlms.com/plus/catalog/courses/161>`_.
+
+The SDLC of a Daml application mirrors that of a Web2 or enterprise service with facets such as:
 
 * Design
 * Develop
