@@ -2,12 +2,14 @@ Architectural Considerations for Upgrading a Daml Application
 #############################################################
 Upgrading a Daml application involves deploying new versions of its components to modify existing workflows or introduce new workflows. The upgrade process must ensure data continuity, allowing the application state and in-flight workflows to remain accessible and advance without interruption post-upgrade. Note, in this context, “in-flight” refers to incomplete multi-step workflows that are stable on-ledger, rather than transactions being processed.
 
-This document provides a high-level overview of the recommended approach for upgrading a Daml application, the associated challenges, methods to ensure backward compatibility, and strategies for testing and rollback. It also serves as a cross-reference to the Upgrading Daml Applications lesson in the Technical Solution Architect certification path. For a walkthrough of the upgrade process with a specific workflow example, refer to Upgrading and Extending Daml Applications.
+This document provides a high-level overview of the recommended approach for upgrading a Daml application, the associated challenges, methods to ensure backward compatibility, and strategies for testing and rollback. It also serves as a cross-reference to the *Upgrading Daml Applications* lesson in the `Technical Solution Architect certification path <https://daml.talentlms.com/plus/catalog/courses/161>`_. For a walkthrough of the upgrade process with a specific workflow example, refer to :doc:`Upgrading Daml Applications <../upgrade/upgrade>`.
 
 In practice, the frontends, backends, and Daml models of an application evolve at different cadences, with frontends and backends often changing faster than Daml models. For instance, the internal implementation of a server that provides an API often changes more frequently than the API itself, in which case the frontends and backends must specify the minimum version of DAR files required for compatibility. For simplicity, this document refers to:
 
 * v1: Currently deployed components.
 * v2: New components introduced during the upgrade.
+
+.. _recommended-approach:
 
 1. Recommended Approach
 =======================
@@ -53,22 +55,24 @@ The recommended approach is designed to address several key challenges associate
   
   Problem: Due to asynchronous rollouts, the app must temporarily support mixed-version deployments across organizations. 
   
-  Requirement: Ensure backward compatibility between the frontends/backends and the DAR workflows from the previous version, after following the recommended approach.
+  Requirement: Ensure backward compatibility between the frontends/backends and the DAR workflows from the previous version, after following the :ref:`recommended approach <recommended-approach>`.
 
 * Zero-Downtime Upgrades
   
   Problem: Certain workflows may need to progress 24/7 without interruption.
   
-  Requirement: Ensure zero-downtime upgrades by following the recommended approach along with other additional measures. One such measure is Smart Contract Upgrade (SCU), which is introduced in the following Backward Compatibility section. These practices allow workflows to continue uninterrupted during the upgrade process.
+  Requirement: Ensure zero-downtime upgrades by following the :ref:`recommended approach <recommended-approach>` along with other additional measures. One such measure is `Smart Contract Upgrade (SCU) <https://docs.daml.com/upgrade/smart-contract-upgrades.html#what-is-smart-contract-upgrade-scu>`_, which is introduced in the following :ref:`Backward Compatibility <backward-compatibility>` section. These practices allow workflows to continue uninterrupted during the upgrade process.
 
 Given the challenges, upgrades should be planned carefully to minimize disruption. In some cases, it may be more efficient to allow short-lived workflows to complete before switching to the new version, rather than attempting to upgrade them mid-process. Meanwhile, all new instances should start with the new version to ensure consistency.
+
+.. _backward-compatibility:
 
 3. Backward Compatibility
 =========================
 
 3.1 Backward-Compatible Changes to Daml Models
 ----------------------------------------------
-Starting with Daml version 2.9, Smart Contract Upgrade (SCU) supports several backward-compatible changes to facilitate zero-downtime cross-version interactions:
+Starting with `Daml version 2.9 <https://blog.digitalasset.com/developers/release-notes/2.9.1#:~:text=Smart%20Contract%20Upgrading%20(Beta)>`_, `Smart Contract Upgrade (SCU) <https://docs.daml.com/upgrade/smart-contract-upgrades.html#what-is-smart-contract-upgrade-scu>`_ supports several backward-compatible changes to facilitate zero-downtime cross-version interactions:
 
 3.1.1 Adding `Optional` Fields
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -153,7 +157,7 @@ The incremental migration in case 3, can be handled in various ways, including b
 * On-Ledger Dual-Version Handling: Daml logic explicitly and entirely manages both v1 and v2 contracts with the support of zero-downtime upgrades.
 * Off-Ledger Service/Automation: Use external systems to transform v1 into v2. Some "helper contracts" may still exist on-ledger to facilitate the transition, but the actual logic of migrating v1 to v2 occurs outside Daml.
 
-The preferred approach is to handle versioning and upgrades directly in Daml rather than relying on external automation. However, in some cases, a valid v2 can only be generated from a v1 in consultation with either off-ledger systems or ACS/PQS queries that require off-ledger support.
+The preferred approach is to handle versioning and upgrades directly in Daml rather than relying on external automation. However, in some cases, a valid v2 can only be generated from a v1 in consultation with either off-ledger systems or Active Contract Set (ACS)/Participant Query Store (PQS) queries that require off-ledger support.
 
 3.2 Backward Compatibility in Backend Code
 ------------------------------------------

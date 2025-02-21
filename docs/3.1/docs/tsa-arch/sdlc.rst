@@ -29,15 +29,14 @@ Note that the SDLC of a Daml application is not linear. In particular, the desig
 
 1.2.1 Benefits and Functional Characteristics
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  1. Synchronization of Application Workflow State Across Organizational Boundaries
-     Traditional state synchronization relies on messaging, often requiring manual reconciliation. Daml simplifies this with:
-     * A virtual shared ledger.
-     * Built-in atomic transactions across organizations and applications.
-  2. Functional Characteristics
-     Using Daml and Canton to facilitate cross-organization workflows offers several advantages over using a database or other distributed ledger technologies. These include:
-     * Need-to-know privacy: Privacy is preserved by controlling data visibility to authorized parties.
-     * Non-repudiation: All transactions are traceable and cannot be denied by participants.
-     * Data sovereignty: Users retain control over their data, making Daml particularly suited for enterprise applications.
+1. Synchronization of Application Workflow State Across Organizational Boundaries: Traditional state synchronization relies on messaging, often requiring manual reconciliation. Daml simplifies this with:
+* A virtual shared ledger.
+* Built-in atomic transactions across organizations and applications.
+
+2. Functional Characteristics: Using Daml and Canton to facilitate cross-organization workflows offers several advantages over using a database or other distributed ledger technologies. These include:
+* Need-to-know privacy: Privacy is preserved by controlling data visibility to authorized parties.
+* Non-repudiation: All transactions are traceable and cannot be denied by participants.
+* Data sovereignty: Users retain control over their data, making Daml particularly suited for enterprise applications.
 
 1.2.2 Trade-Offs: Performance Characteristics
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -62,7 +61,7 @@ To realize Daml’s privacy benefits:
 * Identify data needs for each workflow participant.
 * Plan how to share and authorize data access.
 
-1. Develop
+2. Develop
 ==========
 
 2.1 Decomposition and Compatibility
@@ -76,14 +75,13 @@ A Daml app may include :ref:`app user developed frontends and backends <arch-opt
 
 2.3 DAR File Modularization
 ---------------------------
-  1. Stakeholder-Oriented Modules
-     Modularize workflows based on stakeholder interaction to simplify upgrades and maintain privacy, as DAR files only need to be distributed to participant nodes hosting the parties involved in the workflow.
-  2. Public and Private APIs
-     Daml supports backward-compatible changes like adding a choice or a new field to a template. However, some business requirements may require changes to workflow structure and flow. To accommodate these changes:
-     * Minimize public workflows and store internal workflows in separate DAR files to allow more flexibility in adapting to evolving business needs.
-     * Separate interface definitions in their own package for better workflow management.
-  3. Test Code Separation
-     Unit tests for Daml smart contract workflows are written using Daml Script, which is compiled into DAR files. These DAR files are for testing purposes only and should not be deployed to participant nodes. Ensure test code is not mixed with production code by using separate DAR files for Daml Script testing purposes.
+1. Stakeholder-Oriented Modules: Modularize workflows based on stakeholder interaction to simplify upgrades and maintain privacy, as DAR files only need to be distributed to participant nodes hosting the parties involved in the workflow.
+
+2. Public and Private APIs: Daml supports backward-compatible changes like adding a choice or a new field to a template. However, some business requirements may require changes to workflow structure and flow. To accommodate these changes:
+* Minimize public workflows and store internal workflows in separate DAR files to allow more flexibility in adapting to evolving business needs.
+* Separate interface definitions in their own package for better workflow management.
+
+3. Test Code Separation: Unit tests for Daml smart contract workflows are written using Daml Script, which is compiled into DAR files. These DAR files are for testing purposes only and should not be deployed to participant nodes. Ensure test code is not mixed with production code by using separate DAR files for Daml Script testing purposes.
 
 3. Test
 =======
@@ -122,7 +120,7 @@ Testing Daml apps is similar to testing other systems: prioritize automation and
 * Perform soak testing with long-running deployments to detect bottlenecks.
 * Set up alerting to monitor system failures, tuning it over time for optimal observability. Well-tuned alerts established during development can be reused in operations to detect system health issues.
 
-1. Deploy
+4. Deploy
 =========
 
 4.1 Deployment Topology
@@ -163,7 +161,7 @@ Some cross-organizational coordination is always required to deploy a Daml appli
   * Daml code represents shared rules, requiring coordination across multiple administrative domains during upgrade.
   * As an API definition for cross-organization workflows, changes to Daml code must be reflected in all components using that code, ideally with backward compatibility to minimize code updates in dependent systems.
 
-1. Key Takeaways
+6. Key Takeaways
 ================
 The SDLC of a Daml application requires different considerations and best practices for each facet compared to Web2 and enterprise service apps, as Daml’s unique architecture necessitates a shift from conventional development approaches. To understand and implement Daml applications, it is crucial to address the challenges inherent in distributed, multi-party systems.
 
