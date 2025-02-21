@@ -19,17 +19,19 @@ In practice, the frontends, backends, and Daml models of an application evolve a
 The recommended high-level approach combines an asynchronous rollout with a synchronous switch-over:
 
 1. Asynchronous Rollout:
-* The app provider implements and tests v2 app components.
-* The app provider makes the v2 components available to app users.
-* The app provider and users asynchronously roll out the upgraded backends and frontends, and audit the upgraded DAR packages.
+
+   * The app provider implements and tests v2 app components.
+   * The app provider makes the v2 components available to app users.
+   * The app provider and users asynchronously roll out the upgraded backends and frontends, and audit the upgraded DAR packages.
 
 The frontends and backends should support both v1 and v2 workflows, allowing the app provider and app users to deploy their updates independently on their own schedules. Mixed-version deployments are expected until all users switch to v2 workflows. 
 
 Switching to v2 workflows may require more than deploying and using v2 components; it may also involve migrating contracts on the ledger from v1 to v2. Mixed-version deployments may be necessary until all contracts that need to be migrated have been successfully migrated.
 
 2. Synchronous Switch-Over:
-* The app provider publishes a target date for app users to complete the upgrade and decommission v1.
-* Shortly before the target upgrade date, the app provider and users coordinate to deploy the v2 DAR files to their Canton participant nodes.
+
+   * The app provider publishes a target date for app users to complete the upgrade and decommission v1.
+   * Shortly before the target upgrade date, the app provider and users coordinate to deploy the v2 DAR files to their Canton participant nodes.
 
 The switch-over ensures that the new workflows are synchronized on-ledger as of the target date.
 
@@ -46,22 +48,19 @@ Uncoordinated transitions to v2 workflows can cause command submission failures,
 The recommended approach is designed to address several key challenges associated with upgrading a Daml application. These challenges arise due to the distributed nature of Daml applications and their deployment across organizational boundaries. 
 
 * Asynchronous Rollouts
-  
-  Problem: The app provider and app users often cannot upgrade simultaneously.
-  
-  Requirement: Ensure upgrades allow for asynchronous rollouts so that users and providers can independently determine their deployment schedules for upgraded components.
+
+  * Problem: The app provider and app users often cannot upgrade simultaneously.
+  * Requirement: Ensure upgrades allow for asynchronous rollouts so that users and providers can independently determine their deployment schedules for upgraded components.
 
 * Mixed-Version Deployments
   
-  Problem: Due to asynchronous rollouts, the app must temporarily support mixed-version deployments across organizations. 
-  
-  Requirement: Ensure backward compatibility between the frontends/backends and the DAR workflows from the previous version, after following the :ref:`recommended approach <recommended-approach>`.
+  * Problem: Due to asynchronous rollouts, the app must temporarily support mixed-version deployments across organizations. 
+  * Requirement: Ensure backward compatibility between the frontends/backends and the DAR workflows from the previous version, after following the :ref:`recommended approach <recommended-approach>`.
 
 * Zero-Downtime Upgrades
   
-  Problem: Certain workflows may need to progress 24/7 without interruption.
-  
-  Requirement: Ensure zero-downtime upgrades by following the :ref:`recommended approach <recommended-approach>` along with other additional measures. One such measure is `Smart Contract Upgrade (SCU) <https://docs.daml.com/upgrade/smart-contract-upgrades.html#what-is-smart-contract-upgrade-scu>`_, which is introduced in the following :ref:`Backward Compatibility <backward-compatibility>` section. These practices allow workflows to continue uninterrupted during the upgrade process.
+  * Problem: Certain workflows may need to progress 24/7 without interruption.
+  * Requirement: Ensure zero-downtime upgrades by following the :ref:`recommended approach <recommended-approach>` along with other additional measures. One such measure is `Smart Contract Upgrade (SCU) <https://docs.daml.com/upgrade/smart-contract-upgrades.html#what-is-smart-contract-upgrade-scu>`_, which is introduced in the following :ref:`Backward Compatibility <backward-compatibility>` section. These practices allow workflows to continue uninterrupted during the upgrade process.
 
 Given the challenges, upgrades should be planned carefully to minimize disruption. In some cases, it may be more efficient to allow short-lived workflows to complete before switching to the new version, rather than attempting to upgrade them mid-process. Meanwhile, all new instances should start with the new version to ensure consistency.
 
@@ -228,11 +227,11 @@ Once the Daml packages are vetted, it is essential to ensure that the new versio
 
 * A workflow-level compatibility test verifies that core business processes (workflows) continue to function correctly after an upgrade. At a minimum, it is recommended to include one integration test. A basic integration test should follow these steps:
 
-1. Start the application with v2 software, but upload only the v1 DAR file to test backward compatibility.
-2. Initialize the application and start one instance of every core workflow.
-3. Upload the v2 DAR.
-4. Update the configuration to instruct the backends to start using the v2 DAR.
-5. Verify that the workflows remain in the correct state and can continue without issues. 
+  1. Start the application with v2 software, but upload only the v1 DAR file to test backward compatibility.
+  2. Initialize the application and start one instance of every core workflow.
+  3. Upload the v2 DAR.
+  4. Update the configuration to instruct the backends to start using the v2 DAR.
+  5. Verify that the workflows remain in the correct state and can continue without issues. 
 
 For more complex upgrades, additional tests may be needed. 
 
@@ -260,7 +259,7 @@ To avoid complex "roll-forward" rollbacks, consider breaking an upgrade that int
 ================
 To successfully upgrade Daml applications, it is crucial to ensure data continuity, minimize downtime, and maintain compatibility across distributed deployments. Follow the best practices to mitigate challenges and employ strategic approaches to support backward compatibility, testing, and rollback.
 
-* Recommended approach: Adopt an approach that integrates an asynchronous rollout with a synchronous switch-over and avoid the risks of uncoordinated switch-overs.
+* Recommended Approach: Adopt an approach that integrates an asynchronous rollout with a synchronous switch-over and avoid the risks of uncoordinated switch-overs.
 * Challenges: Comply with the requirements to mitigate challenges associated with asynchronous rollouts, mixed-version deployments, and zero-downtime upgrades.
-* Backward compatibility: Follow the backward-compatible practices specified for Daml models and backend code, managing backward-incompatible changes and avoiding package name conflicts.
-* Testing and rollback: Thoroughly test v2, validate mixed-version compatibility, and ensure a seamless rollback to v1 if needed by either unvetting or rolling forward.
+* Backward Compatibility: Follow the backward-compatible practices specified for Daml models and backend code, managing backward-incompatible changes and avoiding package name conflicts.
+* Testing and Rollback: Thoroughly test v2, validate mixed-version compatibility, and ensure a seamless rollback to v1 if needed by either unvetting or rolling forward.
