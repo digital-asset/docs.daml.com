@@ -62,8 +62,10 @@ On the write path, the most important consideration when implementing higher-lev
 
 * Retry behavior: Since retrying failed command submissions is required by every component of the application that needs to send commands to the ledger, it usually makes sense to package this capability in a reusable fashion.
 * Idempotency: Since commands to the ledger may be recomputed and resubmitted due to retries and/or crashes, it is important to ensure that writes to the ledger are idempotent.
-  * A simple way of achieving this is to make the command sent to the ledger consume some of its input. For example, exercising a consuming choice on the contract that led to sending the command.
-  * Another technique is to use command deduplication. Participant nodes provide a mechanism in the Ledger API to ensure that they execute a command at most once. This mechanism is known as command deduplication. It works by the participant node storing the command ID and deduplicating later submissions with the same command ID. For details on the mechanics of command deduplication, see the Ledger API documentation.
+  
+  A simple way of achieving this is to make the command sent to the ledger consume some of its input. For example, exercising a consuming choice on the contract that led to sending the command.
+  
+  Another technique is to use command deduplication. Participant nodes provide a mechanism in the Ledger API to ensure that they execute a command at most once. This mechanism is known as command deduplication. It works by the participant node storing the command ID and deduplicating later submissions with the same command ID. For details on the mechanics of command deduplication, see the Ledger API documentation.
 
 1.3.1.3 Serve reference data contracts
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -99,7 +101,7 @@ There are various integration options:
 * Data can be pushed from the ledger to off-ledger systems by the backend using webhooks or by writing to message queues. A pull-based consumption is also possible, leveraging the offset-based access to events provided by both PQS and the Ledger API. An example of this kind of dataflow is replicating securities registration data from an on-ledger registry to order book matching services. Other examples include feeding accounting systems or populating reporting databases.
 * These options are non-exhaustive. There are other ways to exchange data between the ledger and off-ledger systems. Use whatever technology makes development and deployment of the app easier for the app provider and app users. Regardless of the technology used, it is recommended to keep the read and write paths separate and to implement integration between off-ledger systems and the ledger via a backend service, rather than allowing off-ledger systems to use the Ledger API directly.
 
-2. Choose Tech Stack for Backend
+1. Choose Tech Stack for Backend
 ================================
 
 2.1 Use a standard stack for building an enterprise application
@@ -145,8 +147,10 @@ The disadvantages of app users operating the backend built by the app provider i
 * App user operating costs: App users must allocate resources for monitoring and maintaining their backend.
 * Multi-version deployments: App users may delay upgrading their backend to a new release, resulting in multiple backend versions running simultaneously. This complicates workflow changes and testing of upgrades.
 * On-prem software challenges for the app provider: App provider developing a backend for app users to operate requires the app provider to function as an on-prem software provider, presenting additional challenges:
-  * App provider support staff: The app provider must maintain a client-facing support team to address backend operation issues during the app user’s business hours.
-  * App provider release management: Releasing software for customer operations on-prem requires additional communication and care compared to managing internal releases, adding complexity to the release process.
+  
+  App provider support staff: The app provider must maintain a client-facing support team to address backend operation issues during the app user’s business hours.
+  
+  App provider release management: Releasing software for customer operations on-prem requires additional communication and care compared to managing internal releases, adding complexity to the release process.
 
 3.3 Each Organization Builds and Operates Its Own Backend
 ---------------------------------------------------------
@@ -188,7 +192,7 @@ This table summarizes the properties of the same three architectures from the pe
 
 Note that an “X” indicates an issue with an item, while “XX” signifies that the issue is more severe. For example, the challenge of cross-organizational coordination becomes significantly more pronounced when each organization builds its own backend, compared to situations where app users operate a backend provided by the app provider.
 
-4. Key Takeaways
+1. Key Takeaways
 ================
 1. A Daml app typically requires three components: an app frontend, Daml models, and app backends. Daml models need to be deployed on the app provider’s and each app user’s participant node.
 2. A Daml application backend serves three primary purposes: provisioning higher-level APIs for communication with the ledger, automating on-ledger workflows, and integrating with off-ledger systems.

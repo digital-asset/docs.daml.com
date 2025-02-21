@@ -17,6 +17,8 @@ subtrees:
     title: "Daml Application Architecture and Design Considerations"
   - file: tsa-arch/sdlc
     title: "Daml Application Lifecycle: Considerations and Best Practices"
+  - file: tsa-arch/arch-considerations-upgrading
+    title: "Architectural Considerations for Upgrading a Daml Application"
 
 - caption: "Set Up Your Developer Environment"
   entries:
