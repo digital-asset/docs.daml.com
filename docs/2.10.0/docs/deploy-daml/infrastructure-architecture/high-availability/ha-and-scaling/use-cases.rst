@@ -105,7 +105,7 @@ This setup is extendable. For example, the distributed application user may be i
    :align: center
    :width: 80%
 
-The simple configuration shown above, like that of the sync domain owner, can expand into a more capable deployment such as shown below by adding the HTTP JSON API server, trigger services, and OAuth2 middleware. 
+The simple configuration shown above, like that of the sync domain owner, can expand into a more capable deployment such as shown below by adding the HTTP JSON API server, trigger services (deprecated), and OAuth2 middleware. 
 
 .. https://lucid.app/lucidchart/d3a7916c-acaa-419d-b7ef-9fcaaa040447/edit?invitationId=inv_b7a43920-f4af-4da9-88fc-5985f8083c95&page=0_0#
 .. image:: use-cases-7.png

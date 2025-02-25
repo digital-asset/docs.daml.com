@@ -579,7 +579,7 @@ This is just a simple example, but should be sufficient to illustrate the issue 
 How To Find Contention
 ~~~~~~~~~~~~~~~~~~~~~~
 
-In a distributed application, where different systems such as Triggers, Nanobots, Ingestion Application etc submit transactions, it is often not easy to understand where the contention is coming from. Here is a recipe that can be used on the Canton level:
+In a distributed application, where different systems such as ledger clients, Triggers, Nanobots, Ingestion Application etc submit transactions, it is often not easy to understand where the contention is coming from. Here is a recipe that can be used on the Canton level:
 
      #. Ensure that you have turned on Detailed API Logging with Debug logs.
 

@@ -8,7 +8,7 @@ Automating the Upgrade Process
 
 In this section, we are going to automate the upgrade of our carbon certificate
 process using :doc:`Daml Script</daml-script/index>` and
-:doc:`Daml Triggers </triggers/index>`. Note that automation for upgrades is
+Daml Triggers `(deprecated) <https://docs.daml.com/triggers/index.html>`__. Note that automation for upgrades is
 specific to an individual application, just like the upgrade models.
 Nevertheless, we have found that the pattern shown here
 occurs frequently.

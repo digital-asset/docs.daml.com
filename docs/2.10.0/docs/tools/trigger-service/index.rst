@@ -3,8 +3,10 @@
 
 .. _trigger-service:
 
-Trigger Service
-###############
+Trigger Service (Deprecated)
+############################
+
+CURTIS TODO:
 
 The :ref:`running-a-no-op-trigger` section shows a simple method using the ``daml trigger`` command to arrange for the execution of a single trigger. Using this method, a dedicated process is launched to host the trigger.
 

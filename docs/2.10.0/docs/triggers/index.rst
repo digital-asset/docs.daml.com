@@ -1,13 +1,15 @@
 .. Copyright (c) 2023 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 .. SPDX-License-Identifier: Apache-2.0
 
-React to On-Ledger Events: Daml Triggers
-########################################
+React to On-Ledger Events: Daml Triggers (Deprecated)
+#####################################################
 
 .. .. toctree::
    :hidden:
 
    api/index
+
+.. note:: Daml Triggers are deprecated and are not  supported in the next major release of Daml Enterprise.  So, it is recommended that new applications do not implement Daml Triggers.
 
 In addition to the actual Daml logic which is uploaded to the Ledger
 and the UI, Daml applications often need to automate certain
