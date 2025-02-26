@@ -542,13 +542,13 @@ Your Development Choices
 While the ``ledger_api`` functions in the Console can be handy for educational purposes, the Daml SDK provides you with much more
 convenient tools to inspect and manipulate the ledger content:
 
+- `Daml script <https://docs.daml.com/daml-script>`__ for scripting
+- `Json API <https://docs.daml.com/json-api>`__ for browser based UIs
+- `Bindings in a variety of languages <https://docs.daml.com/app-dev/ledger-api.html>`__ to build your own applications or automation
 - The browser based `Navigator (Deprecated) <https://docs.daml.com/tools/navigator/index.html>`__
 - The console version  `Navigator (Deprecated) <https://docs.daml.com/tools/navigator/console.html>`__
-- `Daml script <https://docs.daml.com/daml-script>`__ for scripting
-- `Daml triggers <https://docs.daml.com/triggers>`__ for reactive operations
+- `Daml triggers (Deprecated) <https://docs.daml.com/triggers>`__ for reactive operations
 - `Daml REPL (Deprecated) <https://docs.daml.com/daml-repl>`__ for interactive manipulations
-- `Json API <https://docs.daml.com/json-api>`__ for browser based UIs
-- `Bindings in a variety of languages <https://docs.daml.com/app-dev/ledger-api.html>`__ to build your own applications
 
 All these tools work against the Ledger API.
 

@@ -23,9 +23,14 @@ There are two tools that allow you to use Daml as an off-ledger language:
   by any off-ledger condition, such as the availability of a file in a folder, a message
   coming from a broker or a user interacting with the system directly.
 
-- :doc:`Daml Triggers</triggers/index>` allow a similar approach but
-  triggered by on-ledger events, such as the creation of a contract.
+- Ledger Client allows a ledger client to be developed in `Java using ledger bindings <https://docs.daml.com/app-dev/bindings-java/index.html>`__ and `code generation <https://docs.daml.com/app-dev/bindings-java/codegen.html>`__.  The client is 
+  triggered by on-ledger events, such as the creation of a contract.  
 
-In their interactions with a traditional database system Daml Scripts and Daml
-Triggers are analogous to SQL scripts and SQL triggers.
+- Daml Triggers `(deprecated) <https://docs.daml.com/triggers/index.html>`__  allow a similar approach but
+  triggered by on-ledger events, such as the creation of a contract.  
+
+In their interactions with a traditional database system, Daml Scripts are analogous to SQL scripts.  Daml
+Triggers or ledger clients are analogous to  SQL triggers.
+
+
 

@@ -46,7 +46,7 @@ A typical Daml deployment has additional components which are shown in the figur
 The diagram shows the following components:
 
 * An HTTP **JSON API server** which supplements the gRPC API endpoints of the participant node by providing an HTTP REST (HTTP JSON API) endpoint. It also has an internal cache so that it can be more responsive to queries.
-* **Trigger services** that listen to the ledger event stream for events that trigger business logic.
+* **Trigger services** (deprecated) that listen to the ledger event stream for events that trigger business logic.
 * **OAuth2 middleware** that supports a refresh of the Trigger services JWT token and manages the background requests for a refresh token for the Trigger services.
 * The *Identity Provider (IDP)* is the authentication entity that provides the JWT token. The IDP is outside of the Daml solution but nevertheless a necessary component. Different organizations may use different IDPs for their participant nodes.
 
@@ -212,8 +212,8 @@ The sync domain manager service also has no client-facing ingest point. Like the
 
 As of `v2.5.0 <https://blog.digitalasset.com/developers/release-notes/2.5.0>`__, the syncrhonizer manager uses PostgreSQL in an HA configuration for HA support.
 
-Trigger Service
-***************
+Trigger Service (Deprecated)
+****************************
 
 The trigger service includes the OAuth 2.0 middleware and trigger service nodes. As shown below, it does not operate in an HA configuration that supports a single failure. Instead, it requires a monitoring system to detect if the trigger service node or OAuth 2.0 middleware is unhealthy and mitigate any issues by doing one of the following: 
 

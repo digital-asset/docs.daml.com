@@ -72,7 +72,7 @@ The following annotations are highlighted in the diagram:
 
 1. The customer application should be split into an implementation and an interface (API) layer.
    This ensures that implementations can be upgraded without affecting client-side applications,
-   like the UI, integrations, or Daml Triggers.
+   like the UI, integrations, or Daml Triggers `(deprecated) <https://docs.daml.com/triggers/index.html>`__.
 2. The customer application (both the interface and implementation layer) should only depend on the
    interface layer (API) of Daml Finance. This ensures that upgrades to the implementation layer of
    Daml Finance do not affect the Customer Application.
