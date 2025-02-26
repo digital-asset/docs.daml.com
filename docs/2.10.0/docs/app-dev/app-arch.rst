@@ -17,7 +17,7 @@ In the recommended architecture, the Daml model determines the DAR files that un
 
 From the client point of view, the Daml application backend consists of the JSON API and a participant node. The backend uses a Canton sync domain (not shown) to distribute changes to the ledger made by the application, as well as changes made by other applications, to all sync domain-connected participants.
 
-Integrations with a Daml application are done via Java bindings. Automation can be done with Daml Script, Daml Triggers `(deprecated) <https://docs.daml.com/triggers/index.html>`__ or a Java client. Daml Scripts allows you to write automations that can be triggered by any off-ledger condition, such as the availability of a file in a folder or a message coming from a broker or a user interacting with the system directly. Daml Triggers allow a similar approach but are triggered by on-ledger events, such as the creation of a contract.
+Integrations with a Daml application are done via Java bindings. Automation can be done with Daml Script, Daml Triggers `(deprecated) <https://docs.daml.com/triggers/index.html>`__ or a Java client. Daml Scripts allows you to write automations triggered by any off-ledger condition, such as the availability of a file in a folder, a message from a broker, or a user interacting with the system directly. Daml Triggers allow a similar approach but are triggered by on-ledger events, such as contract creation.
 
 Daml application uses JWT tokens for access authorization, checking if the party submitting the request has the necessary rights for it. How an application acquires access tokens depends on the participant node it talks to and is ultimately set up by the participant node operator.
 
