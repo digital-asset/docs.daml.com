@@ -1182,7 +1182,7 @@ All old contracts will default to using the ``issuer``, and new contracts
 will use the ``alternativeKey`` field.
 Note also that key expressions in upgrabable packages cannot include types
 from other packages, with the exception of the Daml Standard Library.
-See `Limitations <#limitatiions>`__ for more information.
+See `Limitations <#limitations>`__ for more information.
 
 Upgrading Enums
 ~~~~~~~~~~~~~~~
