@@ -29,7 +29,7 @@ There are two tools that allow you to use Daml as an off-ledger language:
 - Daml Triggers `(deprecated) <https://docs.daml.com/triggers/index.html>`__  allow a similar approach but
   triggered by on-ledger events, such as the creation of a contract.  
 
-In their interactions with a traditional database system Daml Scripts are analogous to SQL scripts.  Daml
+In their interactions with a traditional database system, Daml Scripts are analogous to SQL scripts.  Daml
 Triggers or ledger clients are analogous to  SQL triggers.
 
 
