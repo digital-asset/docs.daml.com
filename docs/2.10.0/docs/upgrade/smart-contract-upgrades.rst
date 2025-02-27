@@ -385,9 +385,6 @@ been implemented, but may be implemented in future releases.
 
 -  Daml Script does not support SCU or LF1.17, you must use Daml Script LTS.
 
--  Contract keys in upgradable packages can only include types defined
-   within the same package, or types from the Daml Standard Library.
-
 There are further limitations with respect to managing the packages on a running ledger:
 
 - Once a version of a package is uploaded to the ledger, it cannot be replaced or removed.
