@@ -2,7 +2,14 @@ Architectural Considerations for Upgrading a Daml Application
 #############################################################
 Upgrading a Daml application involves deploying new versions of its components to modify existing workflows or introduce new workflows. The upgrade process must ensure data continuity, allowing the application state and in-flight workflows to remain accessible and advance without interruption post-upgrade. Note, in this context, “in-flight” refers to incomplete multi-step workflows that are stable on-ledger, rather than transactions being processed.
 
-This document provides a high-level overview of the recommended approach for upgrading a Daml application, the associated challenges, methods to ensure backward compatibility, and strategies for testing and rollback. It also serves as a cross-reference to the *Upgrading Daml Applications* lesson in the `Technical Solution Architect certification path <https://daml.talentlms.com/plus/catalog/courses/161>`_. For a walkthrough of the upgrade process with a specific workflow example, refer to :doc:`Upgrading Daml Applications <../upgrade/upgrade>`.
+This document provides:
+
+* A high-level overview of the recommended approach for upgrading a Daml application
+* Key upgrading challenges
+* Methods to ensure backward compatibility
+* Strategies for testing and rollback
+
+It also serves as a cross-reference to the *Upgrading Daml Applications* lesson in the `Technical Solution Architect certification path <https://daml.talentlms.com/plus/catalog/courses/161>`_. For a walkthrough of the upgrade process with a specific workflow example, refer to :doc:`Upgrading Daml Applications <../upgrade/upgrade>`.
 
 In practice, the frontends, backends, and Daml models of an application evolve at different cadences, with frontends and backends often changing faster than Daml models. For instance, the internal implementation of a server that provides an API often changes more frequently than the API itself, in which case the frontends and backends must specify the minimum version of DAR files required for compatibility. For simplicity, this document refers to:
 
@@ -20,9 +27,9 @@ The recommended high-level approach combines an asynchronous rollout with a sync
 
 1. Asynchronous Rollout:
 
-   * The app provider implements and tests v2 app components.
-   * The app provider makes the v2 components available to app users.
-   * The app provider and users asynchronously roll out the upgraded backends and frontends, and audit the upgraded DAR packages.
+   #. The app provider implements and tests v2 app components.
+   #. The app provider makes the v2 components available to app users.
+   #. The app provider and users asynchronously roll out the upgraded backends and frontends and audit the upgraded DAR packages.
 
 The frontends and backends should support both v1 and v2 workflows, allowing the app provider and app users to deploy their updates independently on their own schedules. Mixed-version deployments are expected until all users switch to v2 workflows. 
 
@@ -30,8 +37,8 @@ Switching to v2 workflows may require more than deploying and using v2 component
 
 2. Synchronous Switch-Over:
 
-   * The app provider publishes a target date for app users to complete the upgrade and decommission v1.
-   * Shortly before the target upgrade date, the app provider and users coordinate to deploy the v2 DAR files to their Canton participant nodes.
+   #. The app provider publishes a target date for app users to complete the upgrade and decommission v1.
+   #. Shortly before the target upgrade date, the app provider and users coordinate to deploy the v2 DAR files to their Canton participant nodes.
 
 The switch-over ensures that the new workflows are synchronized on-ledger as of the target date.
 
@@ -45,11 +52,11 @@ Uncoordinated transitions to v2 workflows can cause command submission failures,
 
 2. Challenges
 =============
-The recommended approach is designed to address several key challenges associated with upgrading a Daml application. These challenges arise due to the distributed nature of Daml applications and their deployment across organizational boundaries. 
+The recommended approach is designed to address several key challenges that arise due to the distributed nature of Daml applications and their deployment across organizational boundaries. 
 
 * Asynchronous Rollouts
 
-  * Problem: The app provider and app users often cannot upgrade simultaneously.
+  * Problem: App provider and app users often cannot upgrade simultaneously.
   * Requirement: Ensure upgrades allow for asynchronous rollouts so that users and providers can independently determine their deployment schedules for upgraded components.
 
 * Mixed-Version Deployments
@@ -75,7 +82,7 @@ Starting with `Daml version 2.9 <https://blog.digitalasset.com/developers/releas
 
 3.1.1 Adding `Optional` Fields
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-`Optional` fields can be added to contracts, choice arguments, and choice return types, with the following default component behaviors.
+`Optional` fields can be added to contracts, choice arguments, and choice return types, with the following default component behaviors:
 
 * Scenario 1: Reading Daml Values from an Older Version for Backward Compatibility
 
@@ -131,7 +138,7 @@ Had the read succeeded, `newlyAddedField` would have been defaulted to `None`, c
 
 3.1.4 Adding New Choices
 ~~~~~~~~~~~~~~~~~~~~~~~~
-* New choices in v2 are available on active contracts created with v1 once all stakeholders’ participant nodes have uploaded the v2 DAR files.
+* New choices in v2 become available on active contracts created with v1 once all stakeholders’ participant nodes have uploaded the v2 DAR files.
 
 3.1.5 Modifying Existing Choices
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -150,7 +157,7 @@ Had the read succeeded, `newlyAddedField` would have been defaulted to `None`, c
 
 3.1.8 Adding and Deprecating Templates
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-New templates can be added, while existing templates cannot be removed but can be deprecated by:
+New templates can be added. Existing templates cannot be removed but can be deprecated by:
 
 * Removing references to them from other Daml code.
 * Adding `ensure False` to make them non-operational. This prevents new contract creation using the template and choice exercises, including the implicit `Archive` choice, on existing contracts created using the template. 
@@ -161,15 +168,15 @@ Note that the latter approach may result in a large number of active contracts s
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 At a purely technical level, "archived" means a consuming choice has been exercised on the contract. However, there are meaningful distinctions between the various business and operational contexts in which an archive may occur.
 
+While all of these cases result in an "archive" ledger event, they represent different business operations with varying levels of impact. The ordering (1 → 4) reflects a general preference for minimal impact, with natural expiration being the least disruptive and explicit upgrades requiring more intervention.
+
 1. Natural End of Lifecycle: The contract represents a business entity whose lifecycle has naturally ended. For example, a loan contract might be archived when the loan is fully repaid.
 
 2. State No Longer Holds True: The contract attested to a certain business state, but that state is no longer valid. For instance, an agreement that was conditional on certain criteria might be archived when those criteria are no longer met.
 
 3. Modification of the Underlying Entity/State: The business entity or state represented by the contract itself is still relevant; however, because Daml contracts are immutable, the update requires archiving the outdated contract. If the updated contract is written using v2, this results in an organic and incremental migration away from v1.
 
-4. Explicit Upgrade: The contract is archived as part of an upgrade process, preferably by an upgrade runner. This can be done during planned downtime, but in most cases, it can be done incrementally via a throttled background process. As a business operation, this is distinct from the previous three.
-
-While all of these cases result in an "archive" ledger event, they represent different business operations with varying levels of impact. The ordering (1 → 4) reflects a general preference for minimal impact, with natural expiration being the least disruptive and explicit upgrades requiring more intervention.
+4. Explicit Upgrade: The contract is archived as part of an upgrade process, ideally by an upgrade runner to automate the task. This can be done during planned downtime, but in most cases, it can be done incrementally via a throttled background process. As a business operation, this is distinct from the previous three.
 
 The incremental migration in case 3, can be handled in various ways, including but not limited to:
 
@@ -186,7 +193,7 @@ Since newer versions of a template may introduce fields of type `Optional` that 
 
 3.3 Manage Backward-Incompatible Changes
 ----------------------------------------
-Not all changes can maintain backward compatibility. The strategy used for updating Daml models follows similar principles of how APIs evolve in a service-based architecture. 
+Not all changes can maintain backward compatibility. The strategy for updating Daml models follows principles similar to how APIs evolve in a service-based architecture. 
 
 Only backward-compatible changes are allowed for existing APIs, that is for the current Daml code. Introduce backward-incompatible changes by creating new APIs, such as new templates and choices for new workflows. To implement backwards-incompatible upgrades:
 
@@ -225,7 +232,7 @@ Once the Daml packages are vetted, it is essential to ensure that the new versio
 
 * A type-level compatibility test checks whether the old and new versions of a package with the same name can coexist without breaking. The easiest way to test this is by uploading both old and new versions to a fresh participant node as part of CI. To do this, access the DAR files used in production. Ideally, these should be stored in a dedicated artifact repository, but given their small sizes (typically under 1 MB), they may also be checked into source control.
 
-* A workflow-level compatibility test verifies that core business processes (workflows) continue to function correctly after an upgrade. At a minimum, it is recommended to include one integration test. A basic integration test should follow these steps:
+* A workflow-level compatibility test verifies that core business processes (workflows) continue to function correctly after an upgrade. It is recommended to include at least one integration test. A basic integration test should follow these steps:
 
   1. Start the application with v2 software, but upload only the v1 DAR file to test backward compatibility.
   2. Initialize the application and start one instance of every core workflow.
@@ -244,7 +251,7 @@ To roll back upgrades that do not modify the types of existing templates and cho
 
 4.3.2 Rollback by Roll-Forward
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-For upgrades that add new fields to existing templates, rollback becomes more complex. In such cases, the rollback must be performed in a “roll-forward” fashion by publishing a new upgrade. This is necessary because if at least one contract has been created using the new fields, those contracts cannot be read with the previous version of the Daml code. Simply unvetting v2 is not an option unless it is acceptable for contracts using the new fields to no longer be referenced. Instead, follow these steps:
+Rollback is more complex for upgrades that add new fields to existing templates. In such cases, the rollback must be performed in a “roll-forward” fashion by publishing a new upgrade. This is necessary because if at least one contract has been created using the new fields, those contracts cannot be read with the previous version of the Daml code. Simply unvetting v2 is not an option unless it is acceptable for contracts using the new fields to no longer be referenced. Instead, follow these steps:
 
 1. Publish a new version of the DARs that disregards the newly added fields.
 2. Introduce a `Downgrade` choice in the new version that resets the newly added fields to `None`, making the contracts compatible with the original version.
@@ -252,7 +259,7 @@ For upgrades that add new fields to existing templates, rollback becomes more co
 
 To avoid complex "roll-forward" rollbacks, consider breaking an upgrade that introduces new fields into two steps:
 
-1. Introduce an upgrade that adds the new fields but does not use them. Since no changes are made to the choices, this upgrade will not require a rollback in case of a bug.
+1. Introduce an upgrade that adds the new fields but does not use them. Since no changes are made to the choices, this upgrade does not require a rollback in case of a bug.
 2. Build a separate upgrade that modifies the choice implementations to utilize the new fields. If an issue arises, this upgrade can be rolled back by simply unvetting it.
 
 5. Key Takeaways
