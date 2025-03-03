@@ -45,8 +45,8 @@ These considerations differ for the read path (reading data from the ledger) and
 ^^^^^^^^^^^^
 On the read path, the most important consideration is to read ledger data using the :doc:`Participant Query Store (PQS) <../query/pqs-user-guide>`. Leveraging application-specific indices ensures that queries are implemented in a way that scales to the application’s needs. PQS extends and compliments capabilities available through Ledger API. 
 
-* Ledger API is optimized for exposing the current state of the ledger and the changes to it without filtering. Daml apps typically have application-specific query needs, which often include retrieval of individual contracts.
-* PQS is designed to serve as an operational datastore, providing flexible and efficient query capabilities for ledger data on the participant node. With PQS, you can retrieve ledger data using SQL over a JDBC connection, for example. This makes implementing the read path as simple and standard as implementing any other web service backed by an SQL database.
+* :ref:`Ledger API <ledger-api>` is optimized for exposing the current state of the ledger and the changes to it without filtering. Daml apps typically have application-specific query needs, which often include retrieval of individual contracts.
+* :doc:`PQS <../query/pqs-user-guide>` is designed to serve as an operational datastore, providing flexible and efficient query capabilities for ledger data on the participant node. With PQS, you can retrieve ledger data using SQL over a JDBC connection, for example. This makes implementing the read path as simple and standard as implementing any other web service backed by an SQL database.
 
 PQS has access to all data it is configured and allowed to ingest from the :ref:`Private Contract Store (PCS) <private-contract-store>` but does not implement any additional access control for PQS clients. However, when presenting the retrieved data to upstream components, it is necessary to ensure that appropriate end-user authentication and access controls are enforced by the API service. Delegating the implementation of end-user access controls to the developers of the Daml app backend, rather than including them in PQS, allows access controls to be implemented at any level of granularity. Crucially, it allows access controls to be based on intra-organizational business requirements. This enables different users within the same organization to access different datasets, as opposed to constraining access control to the schemas encoded in the Daml model, which focus on inter-organizational access control.
 
@@ -65,7 +65,7 @@ On the write path, the most important consideration when implementing higher-lev
   
   A simple way of achieving this is to make the command sent to the ledger consume some of its input. For example, exercising a consuming choice on the contract that led to sending the command.
   
-  Another technique is to use command deduplication. Participant nodes provide a mechanism in the Ledger API to ensure that they execute a command at most once. This mechanism is known as command deduplication. It works by the participant node storing the command ID and deduplicating later submissions with the same command ID. For details on the mechanics of command deduplication, see the Ledger API documentation.
+  Another technique is to use command deduplication. Participant nodes provide a mechanism known as command deduplication in the :ref:`Ledger API <ledger-api>` to ensure that they execute a command at most once. The participant node stores the command ID and deduplicates later submissions with the same command ID. For details on the mechanics of command deduplication, see the Ledger API documentation.
 
 1.3.1.3 Serve reference data contracts
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
