@@ -4,7 +4,7 @@
 Authorization
 #############
 
-The trigger service issues commands to the ledger that may require authorization through an access token.
+The trigger service (deprecated) issues commands to the ledger that may require authorization through an access token.
 See :doc:`Ledger Authorization </app-dev/authorization>` for a description of authentication and authorization on Daml ledgers.
 How to obtain an access token is defined by the ledger operator.
 The trigger service interfaces with an :doc:`Auth Middleware </tools/auth-middleware/index>`
@@ -78,7 +78,7 @@ i.e. the login URL should be opened in a web browser.
 Example
 *******
 
-This section describes how a web frontend can interact with the trigger service when authorization is required.
+This section describes how a web frontend can interact with the trigger service (deprecated) when authorization is required.
 Note, to avoid cross-origin requests and to enable sharing of cookies
 the web application and auth middleware should be exposed under the same domain,
 e.g. behind a shared reverse proxy.

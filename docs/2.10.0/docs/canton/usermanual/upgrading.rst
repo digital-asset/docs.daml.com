@@ -777,9 +777,12 @@ a while for large numbers of contracts.
 One-Step Migration
 ------------------
 
-The *one-step migration* covers a :ref:`binary upgrade <upgrade_canton_binary>` from Canton version 2.3 and following minor versions
-up to this minor release version. Additionally, it :ref:`changes the protocol version <change_pv>` supported by
-these prior releases to a protocol version supported by this minor release version
+The term *one-step migration* refers to upgrading the Canton binary version
+*and* the protocol version with a unified multi-step recipe.
+
+*One-step migration* covers a :ref:`binary upgrade <upgrade_canton_binary>` from Canton version 2.3 and following minor versions
+up to a new minor release version. Additionally, it :ref:`changes the protocol version <change_pv>` supported by
+these prior releases to a protocol version supported by this new minor release version
 (see also the :ref:`protocol version table <release-version-to-protocol-version-table>`).
 
 .. note::
