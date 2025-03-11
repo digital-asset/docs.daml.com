@@ -1160,8 +1160,7 @@ Modifying Key Expressions
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Similarly, key expressions can be changed as long as they evaluate to
-the same value for existing contracts. This means that the type of the key
-cannot change.
+the same value for existing contracts.
 
 For example, v2 can add a new field "alternative key" to the v2 IOU
 template, and use it instead of the default key when present.
@@ -1177,9 +1176,6 @@ template, and use it instead of the default key when present.
 
 All old contracts will default to using the ``issuer``, and new contracts
 will use the ``alternativeKey`` field.
-Note also that key expressions in upgrabable packages cannot include types
-from other packages, with the exception of the Daml Standard Library.
-See `Limitations <#limitatiions>`__ for more information.
 
 Upgrading Enums
 ~~~~~~~~~~~~~~~
