@@ -385,9 +385,6 @@ been implemented, but may be implemented in future releases.
 
 -  Daml Script does not support SCU or LF1.17, you must use Daml Script LTS.
 
--  Contract keys in upgradable packages can only include types defined
-   within the same package, or types from the Daml Standard Library.
-
 There are further limitations with respect to managing the packages on a running ledger:
 
 - Once a version of a package is uploaded to the ledger, it cannot be replaced or removed.
@@ -1163,8 +1160,7 @@ Modifying Key Expressions
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Similarly, key expressions can be changed as long as they evaluate to
-the same value for existing contracts. This means that the type of the key
-cannot change.
+the same value for existing contracts.
 
 For example, v2 can add a new field "alternative key" to the v2 IOU
 template, and use it instead of the default key when present.
@@ -1180,9 +1176,6 @@ template, and use it instead of the default key when present.
 
 All old contracts will default to using the ``issuer``, and new contracts
 will use the ``alternativeKey`` field.
-Note also that key expressions in upgrabable packages cannot include types
-from other packages, with the exception of the Daml Standard Library.
-See `Limitations <#limitations>`__ for more information.
 
 Upgrading Enums
 ~~~~~~~~~~~~~~~
