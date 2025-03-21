@@ -6,8 +6,6 @@
 Trigger Service (Deprecated)
 ############################
 
-CURTIS TODO:
-
 The :ref:`running-a-no-op-trigger` section shows a simple method using the ``daml trigger`` command to arrange for the execution of a single trigger. Using this method, a dedicated process is launched to host the trigger.
 
 Complex workflows can require running many triggers for many parties and at a certain point, use of ``daml trigger`` with its process-per-trigger model becomes unwieldy. The Trigger Service provides the means to host multiple triggers for multiple parties running against a common ledger in a single process and provides a convenient interface for starting, stopping and monitoring them.
