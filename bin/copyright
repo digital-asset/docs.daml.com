@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+current_year=$(date +%Y)
+echo "Copyright (c) ${current_year} Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. Any unauthorized use, duplication or distribution is strictly prohibited. \"Digital Asset\" and \"Daml\" are Registered in the U.S. Patent and Trademark Office."
