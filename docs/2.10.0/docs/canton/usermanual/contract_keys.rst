@@ -278,8 +278,8 @@ Caveats to keep in mind are:
   However, this is easy to change.
 - This approach relies on a particular internal behavior of Canton (as discussed below).
   While we don't expect the behavior to change, we do not currently make strong guarantees that it will not change.
-- If the participant is connected to multiple sync domains, the approach may fail in future versions of Canton.
-  To be future-proof, you should only use it in the settings when your participant is connected to a single sync domain.
+- If the participant is connected to multiple sync domains, the approach will fail in future versions of Canton.
+  To be future-proof, you should only use it in settings when your participant is connected to a single sync domain.
 
 A usage example script is below.
 
@@ -298,7 +298,24 @@ Setting: Single Maintainer, Multiple Participants
 
 Ensuring uniqueness with multiple participants is more complicated, and adds more restrictions on how you operate on the contract.
 
-The main approach is to track all "allocations" and "deallocations" of a key through a helper contract.
+When there is a single maintainer hosted on multiple participant nodes,
+the ``Generator`` approach works only under the following additional restrictions:
+
+- The ``Generator`` contract is never used with explicit disclosure.
+
+The correctness argument is more complicated than in the single-participant setting:
+Since the ``Generate`` choice is consuming and there is at most one ``Generator`` contract at any time,
+the ``Generator`` contract evolves sequentially, where the order is determined by the single sync domain that orders the ``Generate`` commands.
+However, the ``lookupByKey`` operation is evaluated locally on the participant nodes in a possibly different order.
+Without explicit disclosure, the command can successfully exercise a choice on a ``Generator`` contract only after the submitting participant has processed the transaction that created the ``Generator`` contract.
+So if the ``Generator`` contract is still active when the command is ordered on the sync domain,
+this means that no other ``Keyed`` contract was created in the meantime.
+Together with atomic database updates for transaction processing, uniqueness is guaranteed.
+Note how this argument breaks when the ``Generator`` contract is explicitly disclosed: then the partipant node can exercise a choice on a ``Generator`` contract before it has processed the transaction that creates it.
+
+In the single-participant setting, explicit disclosure is not a problem because the explicit disclosure can only be obtained via the Ledger API of the single participant that also submits the next command. The participant thus has processed the creating transaction already and sees the created ``Keyed`` contracts.
+
+Another approach is to track all "allocations" and "deallocations" of a key through a helper contract.
 
 .. literalinclude:: /canton/includes/mirrored/community/common/src/main/daml/CantonExamples/ContractKeys.daml
    :language: daml
@@ -313,7 +330,7 @@ Caveats:
 - ``Keyed`` contracts must never be created or archived directly,
   as this would break the synchronization with the corresponding ``KeyState`` contract.
   Instead, you must use the ``Allocate`` and ``Deallocate`` choices on the ``KeyState`` contract.
-  The only exception are the following:
+  The only exceptions are the following:
   
   * A consuming choices on the ``Keyed`` contract that immediately recreate a ``Keyed`` contract with the same key.
     
@@ -322,8 +339,8 @@ Caveats:
 - Do not delegate consuming choices on the ``Keyed`` contract other than those that immediately recreate a ``Keyed`` contract with the same key.
   Instead, delegate appropriate adaptations of ``Deallocate`` on the corresponding ``KeyState`` contract.
   This ensures the above restriction that ``Keyed`` contracts are created and archived only through the ``KeyState`` contract choices.
-  Non-consuming choices on ``Keyed`` contracts can be delegated without restrictions.
-  And so can all the choices on ``KeyState``.
+  Non-consuming choices on ``Keyed`` contracts can be delegated without restrictions,
+  and so can all the choices on ``KeyState``.
   
 A usage example script is below.
 
@@ -331,6 +348,8 @@ A usage example script is below.
    :language: daml
    :start-after: BEGIN_EX_STATE
    :end-before: END_EX_STATE
+
+The ``KeyState`` approach also works in the singe maintainer, single participant setting.
 
 An alternative to this approach, if you want to use a consuming choice ``ch`` on the ``Keyed`` template that doesn't recreate key, is to record the contract ID of the ``KeyState`` contract in the ``Keyed`` contract.
 You can then call ``Deallocate`` from ``ch``, but you must first modify ``Deallocate`` to not perform a ``lookupByKey``.
