@@ -299,21 +299,24 @@ Setting: Single Maintainer, Multiple Participants
 Ensuring uniqueness with multiple participants is more complicated, and adds more restrictions on how you operate on the contract.
 
 When there is a single maintainer hosted on multiple participant nodes,
-the ``Generator`` approach works only under the following additional restrictions:
+the ``Generator`` approach works only under the following additional restriction:
 
 - The ``Generator`` contract is never used with explicit disclosure.
 
-The correctness argument is more complicated than in the single-participant setting:
+The correctness argument is now more complicated than in the single-participant setting:
 Since the ``Generate`` choice is consuming and there is at most one ``Generator`` contract at any time,
 the ``Generator`` contract evolves sequentially, where the order is determined by the single sync domain that orders the ``Generate`` commands.
-However, the ``lookupByKey`` operation is evaluated locally on the participant nodes in a possibly different order.
-Without explicit disclosure, the command can successfully exercise a choice on a ``Generator`` contract only after the submitting participant has processed the transaction that created the ``Generator`` contract.
+However, the ``lookupByKey`` operation is evaluated locally on the participant nodes possibly in a different order.
+Without explicit disclosure, a command can successfully exercise a choice on a ``Generator`` contract only after the submitting participant has processed the transaction that created the ``Generator`` contract, because the partipant must fetch the ``Generator`` contract from its database.
 So if the ``Generator`` contract is still active when the command is ordered on the sync domain,
-this means that no other ``Keyed`` contract was created in the meantime.
-Together with atomic database updates for transaction processing, uniqueness is guaranteed.
-Note how this argument breaks when the ``Generator`` contract is explicitly disclosed: then the partipant node can exercise a choice on a ``Generator`` contract before it has processed the transaction that creates it.
+no other ``Keyed`` contract was created in the meantime and a negative ``lookupByKey`` is correct.
+Together with atomic database updates for transaction processing, uniqueness is therefore guaranteed.
+This argument breaks when the ``Generator`` contract is explicitly disclosed:
+then the partipant node can exercise a choice on a ``Generator`` contract before it has processed the transaction that creates it.
 
-In the single-participant setting, explicit disclosure is not a problem because the explicit disclosure can only be obtained via the Ledger API of the single participant that also submits the next command. The participant thus has processed the creating transaction already and sees the created ``Keyed`` contracts.
+In the single-participant setting, explicit disclosure is not a problem
+because the explicit disclosure can only be obtained via the Ledger API of the single participant that also submits the next command.
+The participant thus has processed the creating transaction already and sees the created ``Keyed`` contracts.
 
 Another approach is to track all "allocations" and "deallocations" of a key through a helper contract.
 
