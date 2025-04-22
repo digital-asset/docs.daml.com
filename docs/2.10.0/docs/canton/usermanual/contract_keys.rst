@@ -323,6 +323,7 @@ Caveats:
   Instead, delegate appropriate adaptations of ``Deallocate`` on the corresponding ``KeyState`` contract.
   This ensures the above restriction that ``Keyed`` contracts are created and archived only through the ``KeyState`` contract choices.
   Non-consuming choices on ``Keyed`` contracts can be delegated without restrictions.
+  And so can all the choices on ``KeyState``.
   
 A usage example script is below.
 
