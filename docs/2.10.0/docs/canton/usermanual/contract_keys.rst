@@ -309,13 +309,21 @@ Caveats:
 
 - Before creating a contract with the key ``k`` for the first time, your application must create the matching ``KeyState`` contract with ``allocated`` set to ``False``.
   Such a contract must be created at most once.
-  Most likely, you will want to choose a "master" participant on which you create such contracts.
-- Do not delegate choices on the ``Keyed`` contract to parties other than the maintainers.
-- You must never send a command that creates or archives the ``Keyed`` contract directly.
+  Most likely, you will want to choose a "primary" participant on which you create such contracts.
+- ``Keyed`` contracts must never be created or archived directly,
+  as this would break the synchronization with the corresponding ``KeyState`` contract.
   Instead, you must use the ``Allocate`` and ``Deallocate`` choices on the ``KeyState`` contract.
-  The only exception are consuming choices on the ``Keyed`` contract that immediately recreate a ``Keyed`` contract with the same key.
-  These choices may also be delegated.
-
+  The only exception are the following:
+  
+  * A consuming choices on the ``Keyed`` contract that immediately recreate a ``Keyed`` contract with the same key.
+    
+  * Ledger API commands that archive a ``Keyed`` contract and recreate a ``Keyed`` contract with the same key.
+    
+- Do not delegate consuming choices on the ``Keyed`` contract other than those that immediately recreate a ``Keyed`` contract with the same key.
+  Instead, delegate appropriate adaptations of ``Deallocate`` on the corresponding ``KeyState`` contract.
+  This ensures the above restriction that ``Keyed`` contracts are created and archived only through the ``KeyState`` contract choices.
+  Non-consuming choices on ``Keyed`` contracts can be delegated without restrictions.
+  
 A usage example script is below.
 
 .. literalinclude:: /canton/includes/mirrored/community/common/src/main/daml/CantonExamples/ContractKeys.daml
