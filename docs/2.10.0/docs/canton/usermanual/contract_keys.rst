@@ -272,14 +272,14 @@ The main difference from the ``Orchestrator`` contract is that the ``Generate`` 
 Caveats to keep in mind are:
 
 - Your application must ensure that you only ever create one ``Generator`` contract (e.g., by creating one when initializing the application for the first time).
-- All commands that create the ``Keyed`` contract must be issued by the maintainer (in particular, do not delegate choices on the ``Generator`` contract to other parties).
+- All commands that create the ``Keyed`` contract must be issued by the maintainer. In particular, do not delegate choices on the ``Generator`` contract to other parties, because those parties may not have full visibility into all the ``Keyed`` contracts and ``lookupByKey`` may therefore wrongly return ``None``.
 - You must not create ``Keyed`` contracts by any other means other than exercising the ``Generate`` choice.
 - The ``Generate`` choice as shown above will not abort the command if the contract with the given key already exists, it will just return the existing contract.
   However, this is easy to change.
 - This approach relies on a particular internal behavior of Canton (as discussed below).
   While we don't expect the behavior to change, we do not currently make strong guarantees that it will not change.
-- If the participant is connected to multiple sync domains, the approach will fail in future versions of Canton.
-  To be future-proof, you should only use it in settings when your participant is connected to a single sync domain.
+- If the participant is connected to multiple sync domains in future versions of Canton, the ``Generator`` contract will not guarantee uniqueness, as explained below.
+  To be future-proof, you should only use the ``Generator`` approach in settings when your participant is connected to a single sync domain.
 
 A usage example script is below.
 
@@ -293,6 +293,11 @@ With this in mind, since the ``Generate`` choice is consuming, if you issue two 
 Thus, all accepted commands will be evaluated sequentially by the Ledger API server.
 As the server writes the results of accepted commands to its database atomically, the ``Keyed`` contract created by one command that uses ``Generate`` will either be visible to the following command that uses ``Generate``, or it will have been archived by some other, unrelated command in between.
 
+If the participant is connected to multiple sync domains, the ``Generator`` contract can be reassigned between those sync domains.
+Around such reassignments, it can happen that the Ledger API server already starts processing a command on the target sync domain before it has completely processed everything prior to the reassignment on the source sync domain.
+So the processing on the target sync domain does not necessarily see all key ``Keyed`` contracts created by predecessors of the current ``Generator`` contract and therefore may create contracts with the same key multiple times.
+
+
 Setting: Single Maintainer, Multiple Participants
 +++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -301,7 +306,7 @@ Ensuring uniqueness with multiple participants is more complicated, and adds mor
 When there is a single maintainer hosted on multiple participant nodes,
 the ``Generator`` approach works only under the following additional restriction:
 
-- The ``Generator`` contract is never used with explicit disclosure.
+- The ``Generator`` contract is never used with explicit disclosure for the following reasons:
 
 The correctness argument is now more complicated than in the single-participant setting:
 Since the ``Generate`` choice is consuming and there is at most one ``Generator`` contract at any time,
@@ -329,11 +334,11 @@ Caveats:
 
 - Before creating a contract with the key ``k`` for the first time, your application must create the matching ``KeyState`` contract with ``allocated`` set to ``False``.
   Such a contract must be created at most once.
-  Most likely, you will want to choose a "primary" participant on which you create such contracts.
-- ``Keyed`` contracts must never be created or archived directly,
-  as this would break the synchronization with the corresponding ``KeyState`` contract.
+  In most cases, you should choose a "primary" participant on which you create such contracts.
+- With a small number of exceptions, ``Keyed`` contracts must never be created or archived directly;
+  this would break the synchronization with the corresponding ``KeyState`` contract.
   Instead, you must use the ``Allocate`` and ``Deallocate`` choices on the ``KeyState`` contract.
-  The only exceptions are the following:
+  The following exceptions are fine because Daml transactions execute atomically:
   
   * A consuming choices on the ``Keyed`` contract that immediately recreate a ``Keyed`` contract with the same key.
     
@@ -352,7 +357,7 @@ A usage example script is below.
    :start-after: BEGIN_EX_STATE
    :end-before: END_EX_STATE
 
-The ``KeyState`` approach also works in the singe maintainer, single participant setting.
+The ``KeyState`` approach also works in the single maintainer, single participant setting.
 
 An alternative to this approach, if you want to use a consuming choice ``ch`` on the ``Keyed`` template that doesn't recreate key, is to record the contract ID of the ``KeyState`` contract in the ``Keyed`` contract.
 You can then call ``Deallocate`` from ``ch``, but you must first modify ``Deallocate`` to not perform a ``lookupByKey``.
