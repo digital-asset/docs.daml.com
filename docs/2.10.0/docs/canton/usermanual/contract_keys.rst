@@ -278,7 +278,7 @@ Caveats to keep in mind are:
   However, this is easy to change.
 - This approach relies on a particular internal behavior of Canton (as discussed below).
   While we don't expect the behavior to change, we do not currently make strong guarantees that it will not change.
-- If the participant is connected to multiple sync domains in future versions of Canton, the ``Generator`` contract will not guarantee uniqueness, as explained below.
+- If the participant is connected to multiple sync domains in future versions of Canton, the ``Generator`` contract cannot guarantee uniqueness, as explained below.
   To be future-proof, you should only use the ``Generator`` approach in settings when your participant is connected to a single sync domain.
 
 A usage example script is below.
@@ -295,7 +295,7 @@ As the server writes the results of accepted commands to its database atomically
 
 If the participant is connected to multiple sync domains, the ``Generator`` contract can be reassigned between those sync domains.
 Around such reassignments, it can happen that the Ledger API server already starts processing a command on the target sync domain before it has completely processed everything prior to the reassignment on the source sync domain.
-So the processing on the target sync domain does not necessarily see all key ``Keyed`` contracts created by predecessors of the current ``Generator`` contract and therefore may create contracts with the same key multiple times.
+The processing on the target sync domain does not necessarily see all key ``Keyed`` contracts created by predecessors of the current ``Generator`` contract, and therefore may create contracts with the same key multiple times.
 
 
 Setting: Single Maintainer, Multiple Participants
