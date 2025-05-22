@@ -381,7 +381,7 @@ procedure described in :ref:`here <upgrade-overview>`.
 In this version of SCU, the following functionality has not yet been
 implemented, but may be implemented in future releases.
 
-- A LF 1.17 templates cannot implement A LF 1.15 interfaces.
+- A LF 1.17 templates cannot implement a LF 1.15 interface.
 
 - Retroactive interface instances are not compatible with SCU
   upgrades.  SCU allows instances to be changed in an
