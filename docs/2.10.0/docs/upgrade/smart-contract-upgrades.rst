@@ -373,17 +373,23 @@ data transformations that cannot be made using SCU upgrades:
 These restrictions are required to give a simple model of runtime
 upgrades, avoiding ambiguity and non-obvious side effects. If you
 require any of these types of changes, you may need to consider a
-redeployment with downtime, either using the approach suggested in :ref:`Rolling out backwards-incompatible changes <backwards-incompatible-changes>`
-or using the existing upgrade procedure described in :ref:`here <upgrade-overview>`.
+redeployment with downtime, either using the approach suggested in
+:ref:`Rolling out backwards-incompatible changes
+<backwards-incompatible-changes>` or using the existing upgrade
+procedure described in :ref:`here <upgrade-overview>`.
 
-In this version of SCU, the following functionality has not yet
-been implemented, but may be implemented in future releases.
+In this version of SCU, the following functionality has not yet been
+implemented, but may be implemented in future releases.
 
--  Retroactive interface instances are not compatible with SCU upgrades.
-   SCU allows instances to be changed in an upgrade. However, a new interface
-   instance cannot be added to a template in an upgrade; it requires an offline migration.
+- A LF 1.17 templates cannot implement a LF 1.15 interface.
 
--  Daml Script does not support SCU or LF1.17, you must use Daml Script LTS.
+- Retroactive interface instances are not compatible with SCU
+  upgrades.  SCU allows instances to be changed in an
+  upgrade. However, a new interface instance cannot be added to a
+  template in an upgrade; it requires an offline migration.
+
+- Daml Script does not support SCU or LF1.17, you must use Daml Script
+  LTS.
 
 There are further limitations with respect to managing the packages on a running ledger:
 
