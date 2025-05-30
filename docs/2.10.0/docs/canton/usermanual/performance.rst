@@ -506,10 +506,10 @@ If you submit a ledger API command (which can have multiple Daml commands), then
 
 Just putting all Daml commands into a single batch command does not help, as you might still create lots of views.
 
-Strategy for Protocol Version 6
+Strategy for Protocol Version 7
 +++++++++++++++++++++++++++++++
 
-Starting from protocol version 6, Canton creates a view for every action node in the transaction tree if the
+Starting from protocol version 7, Canton creates a view for every action node in the transaction tree if the
 **participants that host their informees are not a subset of their parent view's informee participants**.
 A view's informee participants are all the participants that must be informed about the view.
 Therefore, to reduce the number of views, you should try to reduce either the number of times the set of informees grows
@@ -599,7 +599,7 @@ For protocol versions 5 and lower, Canton creates a view for every action node i
 or confirming parties change between the node and its parent. Therefore, in order to minimize the number of views,
 minimize the number of changes of informees and confirming parties.
 
-When compared with the decomposition strategy for protocol version 6, this view decomposition is more granular,
+When compared with the decomposition strategy for protocol version 7, this view decomposition is more granular,
 with more views created, and thus less performant, since the condition to merge an action node in a view
 is more restricted. In this case, we only consider the lists of informees and confirming parties and any change
 to these lists spawns a new view.
