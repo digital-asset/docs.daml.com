@@ -192,7 +192,7 @@ Error Codes
 
 The Ethereum Sequencer application auto-detects many common configuration and deployment issues and logs them
 as warnings or errors with :ref:`error codes <error_codes>`. If you see such a warning or error, please refer to
-the :ref:`respective error code explanation and resolution <3. ethereumerrors_canton_error_codes>`.
+the :ref:`respective error code explanation and resolution <4. ethereumerrors_canton_error_codes>`.
 
 
 TLS Configuration
