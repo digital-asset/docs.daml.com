@@ -35,7 +35,7 @@ Introduction
 ^^^^^^^^^^^^
 
 The demo Ethereum deployment is available by downloading `this file <https://digitalasset.jfrog.io/ui/native/canton-drivers/com/digitalasset/canton/drivers/canton-drivers/2.10.1/canton-drivers-2.10.1.tar.gz>`_
-which includes the example.   Unpackthis file and then ``cd`` into ``examples/e03-ethereum-sequencer``.
+which includes the example. Unpack this file and then ``cd`` into ``examples/e03-ethereum-sequencer``.
 
 The script ``./run.sh`` from the folder ``examples``
 will create a new Besu testnet for the demo deployment and then start the demo.
