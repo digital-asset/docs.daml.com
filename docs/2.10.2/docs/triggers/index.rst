@@ -137,9 +137,14 @@ Like ``Scenario`` or ``Update``, you can use ``do`` notation and
 ``getTime`` with ``TriggerA``.
 
 We can specify the templates and interfaces that our trigger will operate
-on. In our case, we will simply specify ``AllInDar`` which means that
-the trigger will receive events for all template and interface types defined in the
-DAR.
+on. In this case, we specify ``AllTemplates`` (previously this option was called
+``AllInDar``) which means that the trigger will receive events for all template
+and interface types defined in all DAR files known to the service.
+
+.. note::
+
+   Avoid using ``AllTemplates`` or ``AllInDar`` in production. Register instead
+   specific templates using ``RegisteredTemplate`` option.
 
 It is also possible to specify an explicit list of templates and interfaces. For example,
 to only receive events for the ``Message`` template, one would write:
