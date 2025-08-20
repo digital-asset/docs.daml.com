@@ -37,7 +37,7 @@ Table of built-in primitive types
    * - ``BigNumeric``
      - large fixed point decimal numbers
      - ``1.0``
-     - ``BigNumeric`` values are rational numbers with up to ``2^16`` decimal digits. They can have up to ``2^15`` digits before the decimal point, and up to ``2^15`` digits after the decimal point.
+     - ``BigNumeric`` values are rational numbers with up to ``2^16`` decimal digits. They can have up to ``2^15`` digits before the decimal point, and up to ``2^15`` digits after the decimal point. This type was deprecated in 2.9.1 and removed in 3.x.
    * - ``Text``
      - strings
      - ``"hello"``
