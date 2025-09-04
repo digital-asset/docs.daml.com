@@ -1130,6 +1130,23 @@ Keyset pagination is a scaleable and efficient method to use. This is a techniqu
      ORDER BY the_key
      LIMIT page_size
 
+A common requirement is to display contracts on a webpage globally ordered by ledger processing sequence such that
+stable pagination can be implemented if necessary. PQS guarantees that:
+
+* `tx_ix` values are monotonically increasing among themselves
+
+* `event_pk` are only guaranteed to be monotonically increasing if they are part of the same transaction
+
+To that extent, as an example, stable-order pagination of created contracts can be achieved by utilising ``(created_at_ix, create_event_pk)`` combination:
+
+.. code:: text
+
+   SELECT contract_id, created_at_ix, create_event_pk, payload
+   FROM creates('test:Test.User:User')
+   WHERE ((created_at_ix, create_event_pk)) > ((<prev_page_last_entry_tx_ix_value>, <prev_page_last_entry_event_pk_value>))
+   ORDER BY created_at_ix, create_event_pk
+   LIMIT <desired_page_size>;
+
 psql Tips
 ^^^^^^^^^
 
