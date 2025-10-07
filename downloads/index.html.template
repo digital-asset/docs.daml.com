@@ -9,7 +9,7 @@
   <body>
   <div id="navbar">
     <div class="left">
-      <img src="https://docs.daml.com/_static/images/Daml_Logo_Blue.svg">
+      <img src="https://docs.daml.com/_static/images/daml-canton-logo.png">
       <span>Downloads</span>
     </div>
     <div class=right>
