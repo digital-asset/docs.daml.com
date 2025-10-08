@@ -1,6 +1,0 @@
-{
-  "daml": "2.8.0-snapshot.20231118.12382.0.v86cb8054",
-  "canton": "2.9.0-snapshot.20231219.11655.0.v11e7e1e8",
-  "daml_finance": "1.4.0",
-  "canton_drivers": "0.1.9"
-}
