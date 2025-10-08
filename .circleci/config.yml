@@ -92,14 +92,8 @@ jobs:
            touch /tmp/workspace/.keep
 
            for v in $(ls docs); do
-               sha=$(git log -n1 --format=%H docs/$v)
-               if ([ "$(curl -s https://docs.daml.com/$v/sha)" = "$sha" ] && [ "$v" != "$root" ]) \
-                 || ([ "$v" == "$root" ] && [ "$(curl -s https://docs.daml.com/sha)" == "$sha" ]); then
-                   echo "$v is up-to-date, nothing to do."
-               else
-                 docs/$v/bin/build
-                 mv docs/$v/workdir/target/html-$v.tar.gz /tmp/workspace
-               fi
+             docs/$v/bin/build
+             mv docs/$v/workdir/target/html-$v.tar.gz /tmp/workspace
            done
            downloads/bin/build
            mv downloads/out /tmp/workspace/downloads
