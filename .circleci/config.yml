@@ -152,10 +152,10 @@ jobs:
              cd docs
              for v in *; do
                  sha=$(git log -n1 --format=%H $v)
-                 if ([ "$(curl -s https://docs.daml.com/$v/sha)" = "$sha" ] && [ "$v" != "$root" ]) \
-                  || ([ "$v" == "$root" ] && [ "$(curl -s https://docs.daml.com/sha)" == "$sha" ]); then
-                     echo "$v is up-to-date, nothing to do."
-                 else
+                 # if ([ "$(curl -s https://docs.daml.com/$v/sha)" = "$sha" ] && [ "$v" != "$root" ]) \
+                 #  || ([ "$v" == "$root" ] && [ "$(curl -s https://docs.daml.com/sha)" == "$sha" ]); then
+                 #     echo "$v is up-to-date, nothing to do."
+                 # else
                      echo "updating $v to $sha."
                      upload=$(mktemp -d)
                      tar xf /tmp/workspace/html-$v.tar.gz -C $upload --strip-components=1
@@ -163,7 +163,7 @@ jobs:
                      aws s3 rm s3://docs-daml-com/$v --recursive --region us-east-1
                      aws s3 cp $upload s3://docs-daml-com/$v --recursive --acl public-read --region us-east-1 --no-progress
                      aws cloudfront create-invalidation --distribution-id E1U753I56ERH55 --paths "/$v/*"
-                 fi
+                 # fi
              done
              cd ..
              bin/check-root $root
