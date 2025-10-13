@@ -152,19 +152,15 @@ jobs:
              cd docs
              for v in *; do
                  sha=$(git log -n1 --format=%H $v)
-                 # if ([ "$(curl -s https://docs.daml.com/$v/sha)" = "$sha" ] && [ "$v" != "$root" ]) \
-                 #  || ([ "$v" == "$root" ] && [ "$(curl -s https://docs.daml.com/sha)" == "$sha" ]); then
-                 #     echo "$v is up-to-date, nothing to do."
-                 # else
-                     echo "updating $v to $sha."
-                     upload=$(mktemp -d)
-                     tar xf /tmp/workspace/html-$v.tar.gz -C $upload --strip-components=1
-                     echo $sha > $upload/sha
-                     aws s3 rm s3://docs-daml-com/$v --recursive --region us-east-1
-                     aws s3 cp $upload s3://docs-daml-com/$v --recursive --acl public-read --region us-east-1 --no-progress
-                     aws cloudfront create-invalidation --distribution-id E1U753I56ERH55 --paths "/$v/*"
-                 # fi
+                 echo "updating $v to $sha."
+                 upload=$(mktemp -d)
+                 tar xf /tmp/workspace/html-$v.tar.gz -C $upload --strip-components=1
+                 echo $sha > $upload/sha
+                 aws s3 rm s3://docs-daml-com/$v --recursive --region us-east-1
+                 aws s3 cp $upload s3://docs-daml-com/$v --recursive --acl public-read --region us-east-1 --no-progress
+                 aws cloudfront create-invalidation --distribution-id E1U753I56ERH55 --paths "/$v/*"
              done
+
              cd ..
              bin/check-root $root
              sha=$(git log -n1 --format=%H docs/$root)
@@ -173,39 +169,26 @@ jobs:
              make_dropdown > $upload/versions.json
              make_hidden > $upload/snapshots.json
              make_robots > $upload/robots.txt
-             if [ "$(curl -s https://docs.daml.com/sha)" = "$sha" ]; then
-                 echo "root is up-to-date ($root, $sha)."
-                 for f in snapshots versions; do
-                     tmp=$(mktemp)
-                     curl -s https://docs.daml.com/$f.json > $tmp
-                     if ! diff $upload/$f.json $tmp > /dev/null; then
-                         echo "Updating $f.json."
-                         aws s3 cp $upload/$f.json s3://docs-daml-com/$f.json --acl public-read --region us-east-1 --no-progress
-                         aws cloudfront create-invalidation --distribution-id E1U753I56ERH55 --paths "/$f.json"
-                     else
-                         echo "$f.json is up-to-date."
-                     fi
-                 done
-             else
-                 echo "updating root to $root (sha: $sha)"
-                 echo " -> creating local folder"
-                 tar xf /tmp/workspace/html-$root.tar.gz -C $upload --strip-components=1
-                 make_dropdown > $upload/versions.json # overridden by tarball contents
-                 echo -n $(cat root) > $upload/latest
-                 echo " -> removing old version"
-                 for f in $(aws s3 ls s3://docs-daml-com/ \
-                            | grep -oP '(?<=.{30} ).*' \
-                            | grep -v '^[0-9]' \
-                            | grep -v '^daml-driver-for-postgresql/$' \
-                            | grep -v '^draft/$' \
-                            | grep -v '^downloads/$'); do
-                     aws s3 rm s3://docs-daml-com/$f --recursive --region us-east-1
-                 done
-                 echo " -> pushing new version"
-                 aws s3 cp $upload s3://docs-daml-com/ --recursive --acl public-read --region us-east-1 --no-progress
-                 echo " -> invalidating cache"
-                 aws cloudfront create-invalidation --distribution-id E1U753I56ERH55 --paths "/*"
-             fi
+
+             echo "updating root to $root (sha: $sha)"
+             echo " -> creating local folder"
+             tar xf /tmp/workspace/html-$root.tar.gz -C $upload --strip-components=1
+             make_dropdown > $upload/versions.json # overridden by tarball contents
+             echo -n $(cat root) > $upload/latest
+             echo " -> removing old version"
+             for f in $(aws s3 ls s3://docs-daml-com/ \
+                       | grep -oP '(?<=.{30} ).*' \
+                       | grep -v '^[0-9]' \
+                       | grep -v '^daml-driver-for-postgresql/$' \
+                       | grep -v '^draft/$' \
+                       | grep -v '^downloads/$'); do
+                 aws s3 rm s3://docs-daml-com/$f --recursive --region us-east-1
+             done
+             echo " -> pushing new version"
+             aws s3 cp $upload s3://docs-daml-com/ --recursive --acl public-read --region us-east-1 --no-progress
+             echo " -> invalidating cache"
+             aws cloudfront create-invalidation --distribution-id E1U753I56ERH55 --paths "/*"
+
              (
                download_sha=$(git log -n1 --format=%H downloads)
                if [ "$(curl -s https://docs.daml.com/downloads/sha)" = "$download_sha" ]; then
