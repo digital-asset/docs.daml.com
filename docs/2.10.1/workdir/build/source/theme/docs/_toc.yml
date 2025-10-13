@@ -1,0 +1,10 @@
+root: index
+subtrees:
+- entries:
+  - url: "https://docs.daml.com/"
+    title: "Daml Documentation"
+
+- caption: "Home"
+  entries:
+
+  - file: templates

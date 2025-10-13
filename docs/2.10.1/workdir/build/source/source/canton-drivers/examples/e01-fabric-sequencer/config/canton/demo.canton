@@ -1,0 +1,23 @@
+import java.time.Duration
+
+nodes.local.start()
+
+myDomain.setup.bootstrap_domain(sequencers.all, mediators.all)
+
+println(s"Initialized local nodes: ${nodes.local.map(_.name).mkString(", ")}")
+
+println("Running demo script")
+
+participant1.domains.connect_local(sequencers.all(0))
+participant2.domains.connect_local(sequencers.all(1))
+
+utils.retry_until_true {
+  participant2.domains.active(myDomain)
+}
+
+val pingTime = participant1.health.ping(participant2, timeout = 30.seconds)
+println(s"participant1 pings participant2 in $pingTime")
+
+println("*"*30)
+println(s"Successfully initialized Canton-on-Fabric")
+println("*"*30)

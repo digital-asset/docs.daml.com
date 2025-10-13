@@ -1,0 +1,9 @@
+{
+  "network-configs": {
+    "sequencer-network": {
+      "name": "sequencer",
+      "profile": "./connection-profile/sequencer-network.json"
+    }
+  },
+  "license": "Apache-2.0"
+}

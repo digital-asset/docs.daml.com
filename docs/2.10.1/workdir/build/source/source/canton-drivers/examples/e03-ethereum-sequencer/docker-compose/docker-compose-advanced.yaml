@@ -1,0 +1,31 @@
+version: "3.0"
+services:
+  enterprise-canton-advanced:
+    image: ${CANTON_IMAGE:-digitalasset-canton-enterprise-docker.jfrog.io/canton-drivers}:${CANTON_VERSION:-2.10.1}
+    restart: on-failure
+    depends_on:
+      - besu-1
+      - besu-2
+      - besu-3
+      - besu-4
+    tty: true
+    expose:
+      - "3001"
+    environment:
+      - ETHEREUM_DEMO_DIR
+    volumes:
+      - $ETHEREUM_DEMO_DIR/canton-conf/advanced:/canton/advanced:ro
+      - $DATA_DIR:/canton/testnet-working:rw
+    command: >
+      -c /canton/advanced/config-example.conf
+      -c /canton/advanced/bip39-wallet.conf
+      -c /canton/advanced/utc-wallet.conf
+      -c /canton/advanced/tls.conf 
+      --bootstrap /canton/advanced/ping.canton
+      --no-tty
+    ports:
+      - "5011:5011"
+      - "5021:5021"
+      - "5012:5012"
+      - "5022:5022"
+      - "7001:7001"

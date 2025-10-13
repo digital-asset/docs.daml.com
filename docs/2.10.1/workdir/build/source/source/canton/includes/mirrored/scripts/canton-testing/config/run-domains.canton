@@ -1,0 +1,42 @@
+// Copyright (c) 2024 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+// SPDX-License-Identifier: Apache-2.0
+
+import com.digitalasset.canton.domain.Domain
+import com.digitalasset.canton.topology.MediatorId
+import com.digitalasset.canton.sequencing.client.RecordingConfig
+import java.nio.file.Path
+import java.time.{Duration => JDuration}
+
+sys.env.get("RECORDING_PREFIX") match {
+  case Some(prefix) =>
+    val path = Path.of(sys.env("RECORDINGS_DIR")).resolve(prefix)
+    Domain.recordSequencerInteractions.set {
+      case MediatorId(_) => RecordingConfig(path)
+    }
+  case None => // no recording
+}
+
+nodes.local.start()
+
+if (!da.health.initialized()) {
+  da.setup.bootstrap_domain(Seq(sequencer), Seq(mediator))
+}
+
+mediator.health.wait_for_initialized()
+sequencer.health.wait_for_initialized()
+
+utils.retry_until_true(timeout = 1.minute) {
+  mediator.health.status.successOption.exists(_.active)
+}
+
+// Increase domain timeouts to avoid rejections under high load.
+val myDomain = da
+// user-manual-entry-begin: BumpDomainTimeouts
+myDomain.service.update_dynamic_domain_parameters(
+  _.update(
+    participantResponseTimeout = 60.seconds,
+    mediatorReactionTimeout = 60.seconds
+  )
+)
+// user-manual-entry-end: BumpDomainTimeouts
+myDomain.service.set_max_request_size(2000000000)

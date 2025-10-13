@@ -1,0 +1,29 @@
+module ChatBot where
+
+import qualified Daml.Trigger as T
+import qualified User
+import qualified DA.List.Total as List
+import DA.Action (when)
+import DA.Optional (whenSome)
+
+autoReply : T.Trigger ()
+autoReply = T.Trigger
+  { initialize = pure ()
+  , updateState = \_ -> pure ()
+  , rule = \p -> do
+      message_contracts <- T.query @User.Message
+      let messages = map snd message_contracts
+      debug $ "Messages so far: " <> show (length messages)
+      let lastMessage = List.maximumOn (.receivedAt) messages
+      debug $ "Last message: " <> show lastMessage
+      whenSome lastMessage $ \m ->
+        when (m.receiver == p) $ do
+          users <- T.query @User.User
+          debug users
+          let isSender = (\user -> user.username == m.sender)
+          let replyTo = List.head $ filter (\(_, user) -> isSender user) users
+          whenSome replyTo $ \(sender, _) ->
+            T.dedupExercise sender (User.SendMessage p "Please, tell me more about that.")
+  , registeredTemplates = T.AllInDar
+  , heartbeat = None
+  }

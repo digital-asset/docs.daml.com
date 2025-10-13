@@ -1,0 +1,9 @@
+println("Beginning Sequencer contract deployment...")
+val (address, block, pathToConfigFile) = ethereumSequencer1.ethereum.deploy_sequencer_contract(Seq("ethereumSequencer1", "ethereumSequencer2"))
+println(s"Sequencer contract successfully deployed to contract address `$address` in block `$block`")
+pathToConfigFile match {
+  case None => println("expected pathToConfigFile to be defined"); sys.exit(1)
+  // this will print to stdout. we grab this line and pass it to the Canton binary when starting Canton to run `ping.canton`
+  // within `docker-compose.yaml`
+  case Some(path) => println(path)
+}

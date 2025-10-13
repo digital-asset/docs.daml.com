@@ -1,0 +1,46 @@
+#
+# Copyright 2022 Digital Asset (Switzerland) GmbH and/or its affiliates
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+version: "3"
+
+services:
+  pg.database1:
+    image: "postgres:13"
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=db
+
+  pg.database2:
+    image: "postgres:13"
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=db
+
+  canton:
+    image: ${CANTON_IMAGE:-digitalasset-canton-enterprise-docker.jfrog.io/canton-drivers}:${CANTON_VERSION:-2.10.1}
+    hostname: canton
+    tty: true
+    command: >
+      -c /etc/config/fabric-config-1.conf,/etc/config/fabric-config-2.conf,/etc/config/demo.conf 
+      --bootstrap /etc/config/demo.canton
+      --no-tty
+    volumes:
+      - ./config/canton:/etc/config:ro
+      - ./tmp/crypto-config:/etc/ledger-data/crypto-config:ro
+    ports:
+      - "3000:3000"
+      - "4000:4000"
+      - "3001:3001"
+      - "4001:4001"
+      - "7001:7001"
+      - "127.0.0.1:6011:5011"
+      - "127.0.0.1:6021:5021"
+      - "127.0.0.1:6012:5012"
+      - "127.0.0.1:6022:5022"
+    depends_on:
+      - peer0.org1.example.com
+      - peer0.org2.example.com

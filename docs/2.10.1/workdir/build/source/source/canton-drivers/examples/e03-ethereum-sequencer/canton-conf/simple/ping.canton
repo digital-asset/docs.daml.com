@@ -1,0 +1,38 @@
+import java.time.Duration
+
+import scala.concurrent.duration._
+import com.digitalasset.canton.config.RequireTypes.Port
+import com.digitalasset.canton.domain.sequencing.sequencer.EthereumAccount
+
+/**
+ * This is the code that will be initially executed on the Canton system upon startup.
+ * It connects participants to the domain and does a simple ping.
+ */
+
+println("Running demo script")
+
+nodes.local.start()
+
+println("Bootstrapping the domain")
+mydomain.setup.bootstrap_domain(sequencers.all, mediators.all)
+
+println("Connecting participants to the bootstrapped domain...")
+participant2.domains.connect_local(ethereumSequencer1)
+participant1.domains.connect_local(ethereumSequencer1)
+
+println("Checking that all participants see the domain as active...")
+
+utils.retry_until_true(60.seconds) {
+  participant1.domains.active(mydomain) && participant2.domains.active(mydomain)
+}
+
+println("Starting a ping between participant1 and participant2...")
+
+val pingTime = participant1.health.ping(participant2)
+
+println(s"participant1 pings participant2 in $pingTime")
+
+println("*"*30)
+println(s"Successfully initialized Canton-on-Ethereum")
+println("*"*30)
+

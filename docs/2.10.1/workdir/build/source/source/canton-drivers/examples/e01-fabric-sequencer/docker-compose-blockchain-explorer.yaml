@@ -1,0 +1,41 @@
+# SPDX-License-Identifier: Apache-2.0
+version: "3"
+
+services:
+  explorerdb.mynetwork.com:
+    image: hyperledger/explorer-db:1.1.2
+    container_name: explorerdb.mynetwork.com
+    hostname: explorerdb.mynetwork.com
+    environment:
+      - DATABASE_DATABASE=fabricexplorer
+      - DATABASE_USERNAME=hppoc
+      - DATABASE_PASSWORD=password
+    healthcheck:
+      test: "pg_isready -h localhost -p 5432 -q -U postgres"
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  explorer.mynetwork.com:
+    image: hyperledger/explorer:1.1.2
+    container_name: explorer.mynetwork.com
+    hostname: explorer.mynetwork.com
+    environment:
+      - DATABASE_HOST=explorerdb.mynetwork.com
+      - DATABASE_DATABASE=fabricexplorer
+      - DATABASE_USERNAME=hppoc
+      - DATABASE_PASSWD=password
+      - LOG_LEVEL_APP=debug
+      - LOG_LEVEL_DB=debug
+      - LOG_LEVEL_CONSOLE=info
+      - LOG_CONSOLE_STDOUT=true
+      - DISCOVERY_AS_LOCALHOST=false
+    volumes:
+      - ./config/explorer/config.json:/opt/explorer/app/platform/fabric/config.json
+      - ./config/explorer/connection-profile:/opt/explorer/app/platform/fabric/connection-profile
+      - ./tmp/crypto-config:/tmp/crypto:ro
+    command: sh -c "sleep 5 && node /opt/explorer/main.js && tail -f /dev/null"
+    ports:
+      - 8080:8080
+    depends_on:
+      - explorerdb.mynetwork.com
