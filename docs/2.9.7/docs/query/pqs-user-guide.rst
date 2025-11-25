@@ -92,6 +92,62 @@ To run PQS you need the following:
 -  Any access tokens or TLS certificates required by the above.
 -  PQS ``.jar`` or Docker image
 
+Download
+~~~~~~~~
+
+================ ====================================================
+Source            Docker Image Location
+================ ====================================================
+Browse UI         `<https://console.cloud.google.com/artifacts/docker/da-images/europe/public/docker%2Fparticipant-query-store>`__
+Docker Registry   ``europe-docker.pkg.dev/da-images/public/docker/participant-query-store:<version-tag>``
+================ ====================================================
+
+Daml platform support
+^^^^^^^^^^^^^^^^^^^^^
+
+PQS is built and tested against multiple Daml SDK targets. Each Daml SDK target generates it's own ``.jar`` file.
+These binaries are present in the published Docker images.
+
+If an operator wants to run PQS against a particular version target,
+they will need to set the container's ``workdir``
+(`explained here <https://docs.docker.com/reference/cli/docker/container/run/#workdir>`__) at runtime to the desired Daml SDK target.
+
+The supported target directories are:
+
+*  ``/daml2``
+
+*  ``/daml3.3``
+
+*  ``/daml3.4`` << default
+
+Please note that the preceeding ``/`` is required as the target is the path to the ``scribe.jar`` file.
+An example of selecting the ``/daml2`` target:
+
+.. code:: text
+
+   docker run -it --workdir /daml2 europe-docker.pkg.dev/da-images/public/docker/participant-query-store:0.6.13 --version
+   Picked up JAVA_TOOL_OPTIONS: -javaagent:/open-telemetry.jar
+   scribe, version: v0.6.13
+   daml-sdk.version: 2.10.2
+   postgres-document.schema: 021
+
+Alternatively
+set the ``working_dir`` parameter to ``/daml2`` in a ``docker-compose.yml`` file (e.g., ``working_dir: /daml2``).
+
+Compatibility
+^^^^^^^^^^^^^
+
+PQS is tested for compatibility with multiple versions of dependencies, as follows:
+
+======================== ========================
+Dependency               Versions
+======================== ========================
+Canton Participant Node  2.8, 2.9, 2.10, 3.3, 3.4
+Java Runtime (Temurin)   17, 21
+PostgreSQL               13, 14, 15, 16, 17
+======================== ========================
+
+
 Running PQS
 ~~~~~~~~~~~
 
@@ -789,7 +845,7 @@ Under this scope, the following `table functions <https://www.postgresql.org/doc
 The ``name`` identifier can be used with or without the package specified:
 
 -  Fully qualified: ``<package>:<module>:<template|interface|choice>``
--  Partially qualified: ``<module>:<template|interface|choice>``\ 
+-  Partially qualified: ``<module>:<template|interface|choice>``\
 
 ..
 
@@ -1267,10 +1323,10 @@ Full example:
        --pipeline-oauth-cafile ca.crt \
        --pipeline-oauth-endpoint https://my-auth-server/token
 
-   03:32:02.407 I [zio-fiber-75] com.digitalasset.scribe.appversion.package:14 scribe, version: v0.0.1-main+3892  
+   03:32:02.407 I [zio-fiber-75] com.digitalasset.scribe.appversion.package:14 scribe, version: v0.0.1-main+3892
    03:32:02.671 I [zio-fiber-98] com.digitalasset.scribe.configuration.package:43 Applied configuration:
    [...]
-   03:32:03.592 I [zio-fiber-90] com.digitalasset.auth.TokenService:76 Initialised with tokenEndpoint=https://my-auth-server/token and clientId=my_client_id  
+   03:32:03.592 I [zio-fiber-90] com.digitalasset.auth.TokenService:76 Initialised with tokenEndpoint=https://my-auth-server/token and clientId=my_client_id
    [...]
 
 Audience-Based Token
