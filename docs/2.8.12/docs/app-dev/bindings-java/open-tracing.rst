@@ -53,7 +53,7 @@ To use the OpenTelemetry libraries, add the following **Maven** dependencies to 
 
 .. remoteliteralinclude:: https://raw.githubusercontent.com/digital-asset/ex-java-bindings-with-opentelemetry/master/pom.xml
    :language: xml
-   :lines: 33-52
+   :lines: 28-47
 
 .. note::
     Replace the version number in each dependency with the version you want to use. To find available versions, check the `Maven Central Repository <https://search.maven.org/artifact/io.opentelemetry/opentelemetry-api>`__.
