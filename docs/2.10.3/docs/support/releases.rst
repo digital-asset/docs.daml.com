@@ -22,13 +22,12 @@ Daml's "public API" is laid out in the :doc:`overview`.
 Cadence
 *******
 
-Regular, weekly snapshot releases are made every Wednesday, with additional snapshots produced as needed. These releases contain Daml Components, both from the `daml repository <https://github.com/digital-asset/daml>`_ as well as some others.
+The 2.10.x product line is now an LTS (Long Term Support) release.
 
-The decision to perform a Minor version release is based on the content or scope of the payload of that release.  The intent is to release a Minor version once a quarter but this may change based on the customer demand for new, key features.  
+An LTS release focuses on long term stability and may forgo feature enhancements.
 
-No more than one major version is released every six months, barring exceptional circumstances.
-
-Individual Daml drivers follow their own release cadence, using already released Integration Components as a dependency.
+LTS releases are only guaranteed to have Critical or High issues fixed.  Lower priority fixes are possible but not mandatory.
+Please see the section `LTS FAQ <https://blog.digitalasset.com/developers/release-notes/2.10.0#anchor-LTS-FAQ>`_  for more information.
 
 .. _support_duration:
 
