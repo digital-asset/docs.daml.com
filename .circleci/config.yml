@@ -143,9 +143,7 @@ jobs:
              )
              make_robots() (
                  echo "User-agent: *"
-                 echo "Allow: /"
-                 echo ""
-                 echo "Sitemap: https://docs.daml.com/sitemap.xml"
+                 echo "Disallow: /"
              )
 
              root=$(cat root)
