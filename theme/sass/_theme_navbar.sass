@@ -5,6 +5,41 @@
     img
         max-height: 30px
 
+.deprecation-banner
+    width: auto
+    box-sizing: border-box
+    margin: -53px -47px 48px
+    background: #fff3cd
+    border-bottom: 1px solid #ffcc66
+    color: #272727
+    font-family: $base-font-family
+
+    .deprecation-banner-content
+        width: 100%
+        box-sizing: border-box
+        padding: 12px 47px
+        display: flex
+        align-items: center
+        justify-content: center
+        gap: 8px 12px
+        flex-wrap: wrap
+        text-align: center
+        font-size: 15px
+        line-height: 1.4
+
+    .deprecation-banner-message
+        font-weight: $weight-body
+
+    .deprecation-banner-link
+        color: #272727
+        font-weight: $weight-bold
+        text-decoration: underline
+        text-underline-offset: 0.2em
+
+        &:hover,
+        &:focus
+            color: #0d33a0
+
 .navbar
     display: flex
     height: 65px
@@ -73,6 +108,12 @@
                     transition-duration: 10ms
 
 +media($tablet)
+    .deprecation-banner
+        margin: -25px -25px 32px
+
+        .deprecation-banner-content
+            padding: 12px 25px
+
     .navbar
         padding-left: 65px
         h1
