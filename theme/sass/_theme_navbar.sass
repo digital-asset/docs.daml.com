@@ -6,10 +6,11 @@
         max-height: 30px
 
 .deprecation-banner
-    width: auto
+    width: 100%
     box-sizing: border-box
-    margin: -53px -47px 48px
+    margin: 0
     background: #fff3cd
+    border-top: 1px solid #ffcc66
     border-bottom: 1px solid #ffcc66
     color: #272727
     font-family: $base-font-family
@@ -109,8 +110,6 @@
 
 +media($tablet)
     .deprecation-banner
-        margin: -25px -25px 32px
-
         .deprecation-banner-content
             padding: 12px 25px
 
@@ -121,6 +120,11 @@
             max-width: 141px
 
 +media($mobile)
+    .deprecation-banner
+        .deprecation-banner-content
+            padding: 10px 16px
+            font-size: 14px
+
     .wy-nav-content-wrap
         .navbar
             .navbar-menu
